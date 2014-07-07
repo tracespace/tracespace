@@ -1,0 +1,38 @@
+* {
+  font-family: helvetica, arial, sans-serif;
+}
+
+h1, h2, h3, h4 {
+  margin-top: 0.5em;
+  margin-bottom: 0.25em;
+}
+
+h3, h4 {
+  text-align: center;
+}
+
+.test, .test-container {
+  display: inline-block;
+  margin-left: 0.25em;
+  margin-right: 0.25em;
+  vertical-align: top;
+}
+
+.test-item {
+  vertical-align: top;
+}
+
+.render svg {
+  border: 1px blue dashed;
+}
+
+.test {
+  margin-bottom: 0.5em;
+  padding: 0.25em;
+  border: 1px black solid;
+}
+
+code {
+  font-family: monospace;
+  font-size: 8pt;
+}

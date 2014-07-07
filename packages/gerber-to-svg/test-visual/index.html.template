@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+  <h1> gerber-to-svg <small>visual test suite</small></h1>
+
+  <div class="tests">
+    <% Object.keys(suite).forEach(function(category) { %>
+    <div class="category">
+      <h2><%- category %></h2>
+
+      <% suite[category].forEach(function(test) { %>
+      <div class="test">
+        <h3 class="test-name"><%- test.name %></h3>
+
+        <div class="test-container">
+          <h4> gerber </h4>
+          <pre><code><%- test.gerber %></code></pre>
+        </div>
+
+        <div class="test-container">
+          <div class="test-item render">
+            <h4> render </h4>
+            <%= test.render %>
+          </div>
+
+          <div class="test-item expected">
+            <h4> expected </h4>
+            <%= test.expected %>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+
+    </div>
+    <% }) %>
+  </div>
+</body>
+</html>

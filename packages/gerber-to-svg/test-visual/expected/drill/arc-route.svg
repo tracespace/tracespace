@@ -1,0 +1,19 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  stroke-width="0"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  width="1.5in" height="0.75in" viewBox="0 0 1500 750"
+  version="1.1">
+
+  <g stroke="#963" stroke-width="250" fill="none">
+    <path
+      d="M125 625
+        A250 250 0 0 1 375 375
+        A250 250 0 0 0 625 125
+        M875 625
+        A250 250 0 0 1 1125 375
+        A250 250 0 0 0 1375 125"/>
+  </g>
+</svg>
