@@ -1,0 +1,79 @@
+{
+  "name": "pcb-stackup-core",
+  "version": "1.0.0",
+  "description": "Creates PCB stackup (top and bottom view) SVG renders from gerber-to-svg converters",
+  "main": "lib/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "lint": "eslint lib/*.js test/*.js integration/*.js example/*.js",
+    "test": "istanbul cover _mocha",
+    "posttest": "npm run lint",
+    "test:watch": "mocha --reporter dot --watch",
+    "pretest:integration": "browserify integration/client.js > integration/public/bundle.js",
+    "test:integration": "node integration/server.js",
+    "test:browser": "zuul --local -- ./test/*_test.js",
+    "test:sauce": "zuul -- ./test/*_test.js",
+    "ci": "npm test && if [ \"${TEST_BROWSERS}\" = \"true\" ]; then npm run ci:browser; fi",
+    "ci:browser": "if [ \"${TRAVIS_PULL_REQUEST}\" = \"false\" ]; then npm run test:sauce; fi",
+    "postci": "coveralls < ./coverage/lcov.info",
+    "example": "node example/clockblock.js"
+  },
+  "precommit": [
+    "lint"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tracespace/pcb-stackup-core.git"
+  },
+  "keywords": [
+    "pcb",
+    "gerber",
+    "svg",
+    "gerber-to-svg",
+    "tracespace",
+    "circuit",
+    "hardware"
+  ],
+  "contributors": [
+    "Mike Cousins <mike@cousins.io> (http://cousins.io/)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tracespace/pcb-stackup-core/issues"
+  },
+  "homepage": "https://github.com/tracespace/pcb-stackup-core",
+  "peerDependencies": {
+    "gerber-to-svg": "^2.0.0",
+    "whats-that-gerber": "^2.0.0"
+  },
+  "devDependencies": {
+    "async": "^1.5.2",
+    "browserify": "^13.0.0",
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.9",
+    "domify": "^1.4.0",
+    "eslint": "^2.9.0",
+    "gerber-to-svg": "^2.0.0",
+    "hapi": "^13.4.1",
+    "inert": "^4.0.0",
+    "istanbul": "^0.4.3",
+    "lodash.omit": "^4.2.1",
+    "lodash.template": "^4.2.4",
+    "mocha": "^2.4.5",
+    "proxyquire": "^1.7.4",
+    "proxyquire-universal": "^1.0.8",
+    "proxyquireify": "^3.2.0",
+    "shortid": "^2.2.6",
+    "sinon": "^1.17.4",
+    "sinon-chai": "^2.8.0",
+    "whats-that-gerber": "^2.0.0",
+    "xhr": "^2.2.0",
+    "zuul": "^3.10.1"
+  },
+  "dependencies": {
+    "lodash.isstring": "^4.0.1",
+    "xml-element-string": "^1.0.0"
+  }
+}
