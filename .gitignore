@@ -1,0 +1,17 @@
+# ignore npm plz
+node_modules
+
+# ignore compiled application files
+client/templates/lib
+public/index.html
+public/client.css
+public/client.js
+
+# ignore compiled server files
+server/lib
+
+# ignore ssl certs
+server/ssl
+
+# ignore coverage reports
+coverage
