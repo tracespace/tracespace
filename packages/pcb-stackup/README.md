@@ -10,7 +10,7 @@ Starter template for a web project using my (current) preferred stuff. All depen
 ## stack and such
 
 * [AmpersandJS](https://ampersandjs.com/)
-[Hapi](http://hapijs.com/)
+* [Hapi](http://hapijs.com/)
 * [Jade](http://jade-lang.com/)
 
 ## styling
@@ -24,8 +24,5 @@ Starter template for a web project using my (current) preferred stuff. All depen
 
 * [Mocha](http://mochajs.org/)
 * [Chai](http://chaijs.com/)
-* [Zuul](https://github.com/defunctzombie/zuul)
-[Sauce Labs](https://saucelabs.com/)
 * [Istanbul](https://github.com/gotwarlost/istanbul)
-[Travis](https://travis-ci.org/)
-[Coveralls](https://coveralls.io/)
+* [Zuul](https://github.com/defunctzombie/zuul)
