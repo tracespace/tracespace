@@ -61,7 +61,7 @@
         "level": "error"
     },
     "no_implicit_braces": {
-        "level": "true",
+        "level": "error",
         "strict": true
     },
     "no_implicit_parens": {
