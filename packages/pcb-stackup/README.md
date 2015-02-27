@@ -1,6 +1,6 @@
 # appstrappy
 
-Starter template for a web project using my (current) preferred stack and tools. All dependencies managed by [npm](https://www.npmjs.com/).
+Starter template for a web project using my (current) preferred stuff. All dependencies managed by [npm](https://www.npmjs.com/).
 
 ## tools
 
@@ -12,6 +12,9 @@ Starter template for a web project using my (current) preferred stack and tools.
 * [AmpersandJS](https://ampersandjs.com/)
 [Hapi](http://hapijs.com/)
 * [Jade](http://jade-lang.com/)
+
+## styling
+
 * [Stylus](http://learnboost.github.io/stylus/)
 * [Jeet](http://jeet.gs/)
 * [Rupture](http://jenius.github.io/rupture/)
