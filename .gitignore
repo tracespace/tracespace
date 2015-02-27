@@ -7,6 +7,10 @@ public/index.html
 public/client.css
 public/client.js
 
+# ignore fonts and vendor files
+public/fonts
+public/vendor
+
 # ignore compiled server files
 server/lib
 
