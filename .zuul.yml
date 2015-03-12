@@ -10,6 +10,7 @@ browsers:
     version: latest
 browserify:
   - transform: coffeeify
+  - ignore: mocha-jsdom
   - options:
       extensions:
         - .coffee
