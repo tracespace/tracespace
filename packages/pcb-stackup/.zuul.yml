@@ -11,6 +11,7 @@ browsers:
 browserify:
   - transform: coffeeify
   - transform: brfs
+  - plugin: proxyquire-universal
   - ignore: mocha-jsdom
   - options:
       extensions:
