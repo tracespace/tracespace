@@ -2,7 +2,34 @@
 # takes an array of path objects and attempts to rearrange them in a way that
 # yields a single path comprised of manifold loops. if no valid rearrangment is
 # found, it will return the original array
+gatherPoints = require './gather-points'
+traversePoints = require './traverse-points'
 
-#boardShape = ->
+# combine two paths' data arrays
+# should only be used on paths with the same strokewidth
+combinePaths = (src, target) ->
+  src.path.d = src.path.d.concat target.path.d
 
-module.exports = {}#boardShape
+boardShape = (paths) ->
+  # coombine paths with the same stroke-width
+  pathHash = {}
+  while paths.length
+    p = paths.pop()
+    tool = p.path['stroke-width']
+    if pathHash[tool]?
+      combinePaths pathHash[tool], p
+    else
+      pathHash[tool] = p
+
+  # loop through the path hash and gather manifold flags
+  manifolds = []
+  for key, p of pathHash
+    traversal = traversePoints gatherPoints p.path.d
+    p.path.d = traversal.path
+    manifolds.push traversal.manifold
+    paths.push p
+
+  # return the manifolds array
+  manifolds
+
+module.exports = boardShape

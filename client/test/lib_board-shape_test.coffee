@@ -9,6 +9,7 @@ traversePoints = require '../src/lib/board-shape/traverse-points'
 describe 'client-lib-boardShape', ->
 
   describe 'Point class', ->
+
     it 'should take in a location coordinate', ->
       pt = new Point 1, 2
       expect(pt.x).to.equal 1
@@ -146,22 +147,116 @@ describe 'client-lib-boardShape', ->
 
   describe 'traverse points function', ->
 
-    it 'should return an array', ->
+    it 'should return an object with a manifold flag and a path data array', ->
       result = traversePoints()
-      expect(result).to.be.an.instanceOf Array
+      expect(result).to.have.keys ['manifold', 'path']
+      expect(result.path).to.be.an.instanceOf Array
 
     it 'should reorder points to be adjacent', ->
       points = gatherPoints [
         'M', 0, 0, 'L', 1, 0, 'M', 1, 1, 'L', 1, 0, 'M', 0, 0, 'L', 1, 1
       ]
-      result = traversePoints points
+      result = traversePoints(points).path
       expect(result).to.eql ['M', 0, 0, 'L', 1, 1, 'L', 1, 0, 'Z']
 
     it 'should work with arcs', ->
       points = gatherPoints [
         'M', 0, 0, 'A', 1, 1, 0, 0, 1, 1, 1, 'M', 0, 0, 'A', 1, 1, 0, 0, 0, 1, 1
       ]
-      result = traversePoints points
+      result = traversePoints(points).path
       expect(result).to.eql [
         'M', 0, 0, 'A', 1, 1, 0, 0, 0, 1, 1, 'A', 1, 1, 0, 0, 0, 0, 0
       ]
+
+    describe 'manifold detection', ->
+
+      it 'should set manifold to false when the path has incomplete loops', ->
+        points = gatherPoints ['M', 0, 0, 'L', 1, 1]
+        traversal = traversePoints points
+        expect(traversal.manifold).to.be.false
+
+      it 'should set manifold to true when the path is only complete loops', ->
+        points = gatherPoints [
+          'M', 0, 0, 'L', 1, 0, 'L', 1, 1, 'M', 0, 0, 'L', 1, 1
+        ]
+        traversal = traversePoints points
+        expect(traversal.manifold).to.be.true
+
+      it 'should say an empty path is not manifold', ->
+        points = []
+        traversal = traversePoints points
+        expect(traversal.manifold).to.be.false
+
+
+  describe 'boardShape function', ->
+
+    it 'should rearrange an array of a single path object', ->
+      paths = [{
+        path: {
+          'stroke-width': 5
+          d: ['M', 0, 0, 'L', 1, 0, 'L', 1, 1, 'M', 0, 0, 'L', 1, 1]
+        }
+      }]
+      boardShape paths
+      expect(paths[0].path.d).to.eql ['M', 0, 0, 'L', 1, 1, 'L', 1, 0, 'Z']
+
+    it 'should rearrange an array of path objects', ->
+      paths = [
+        {
+          path: {
+            'stroke-width': 5
+            d: ['M', 0, 0, 'L', 1, 0, 'L', 1, 1, 'M', 0, 0, 'L', 1, 1]
+          }
+        }
+        {
+          path: {
+            'stroke-width': 10
+            d: ['M', 1, 1, 'L', 2, 1, 'L', 2, 2, 'M', 1, 1, 'L', 2, 2]
+          }
+        }
+      ]
+      boardShape paths
+      expect(paths[0].path.d).to.eql ['M', 0, 0, 'L', 1, 1, 'L', 1, 0, 'Z']
+      expect(paths[1].path.d).to.eql ['M', 1, 1, 'L', 2, 2, 'L', 2, 1, 'Z']
+
+    it 'should combine paths with the same tool into one path', ->
+      paths = [
+        {
+          path: {
+            'stroke-width': 5
+            d: ['M', 0, 0, 'L', 1, 0, 'L', 1, 1]
+          }
+        }
+        {
+          path: {
+            'stroke-width': 5
+            d: ['M', 0, 0, 'L', 1, 1]
+          }
+        }
+      ]
+      boardShape paths
+      expect(paths).to.have.length 1
+      expect(paths[0].path.d).to.eql ['M', 0, 0, 'L', 1, 0, 'L', 1, 1, 'Z']
+
+    it 'should return a manifold array indicating which paths are manifold', ->
+      paths = [
+        {
+          path: {
+            'stroke-width': 5
+            d: ['M', 0, 0, 'L', 1, 0, 'L', 1, 1, 'M', 0, 0, 'L', 1, 1]
+          }
+        }
+        {
+          path: {
+            'stroke-width': 10
+            d: ['M', 1, 1, 'L', 2, 1]
+          }
+        }
+      ]
+      manifolds = boardShape paths
+      tool5 = find paths, (p) -> p.path['stroke-width'] is 5
+      tool10 = find paths, (p) -> p.path['stroke-width'] is 10
+      index5 = paths.indexOf tool5
+      index10 = paths.indexOf tool10
+      expect(manifolds[index5]).to.be.true
+      expect(manifolds[index10]).to.be.false

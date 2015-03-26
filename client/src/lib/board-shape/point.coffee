@@ -7,11 +7,11 @@ class Point
 
   # assert that a point is adjacent to another point
   addEdgeTo: (point, radius, largeArc, sweep) ->
-    @addToAdjacent point, radius, largeArc, sweep
-    point.addToAdjacent this, radius, largeArc, (if sweep is 1 then 0 else 1)
+    @addToEdges point, radius, largeArc, sweep
+    point.addToEdges this, radius, largeArc, (if sweep is 1 then 0 else 1)
 
   # add a object to the adjacent array provided it is not already in there
-  addToAdjacent: (point, r, lg, s) ->
+  addToEdges: (point, r, lg, s) ->
     edgeObj = {point: point}
     if r?
       edgeObj.radius = r
