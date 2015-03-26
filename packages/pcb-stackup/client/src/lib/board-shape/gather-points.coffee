@@ -35,7 +35,7 @@ gatherPoints = (data) ->
       # also, if it's a move, update the current subpath start in case of 'Z'
       firstPoint = nextPoint
     else
-      lastPoint.adjacentTo nextPoint, radius, largeArc, sweep
+      lastPoint.addEdgeTo nextPoint, radius, largeArc, sweep
     # get ready for the next go around
     lastPoint = nextPoint
 
