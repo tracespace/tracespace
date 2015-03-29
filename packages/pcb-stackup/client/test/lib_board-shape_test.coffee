@@ -156,17 +156,19 @@ describe 'client-lib-boardShape', ->
       points = gatherPoints [
         'M', 0, 0, 'L', 1, 0, 'M', 1, 1, 'L', 1, 0, 'M', 0, 0, 'L', 1, 1
       ]
-      result = traversePoints(points).path
-      expect(result).to.eql ['M', 0, 0, 'L', 1, 1, 'L', 1, 0, 'Z']
+      result = traversePoints points
+      expect(result.path).to.eql ['M', 0, 0, 'L', 1, 1, 'L', 1, 0, 'Z']
+      expect(result.manifold).to.be.true
 
     it 'should work with arcs', ->
       points = gatherPoints [
         'M', 0, 0, 'A', 1, 1, 0, 0, 1, 1, 1, 'M', 0, 0, 'A', 1, 1, 0, 0, 0, 1, 1
       ]
-      result = traversePoints(points).path
-      expect(result).to.eql [
+      result = traversePoints points
+      expect(result.path).to.eql [
         'M', 0, 0, 'A', 1, 1, 0, 0, 0, 1, 1, 'A', 1, 1, 0, 0, 0, 0, 0
       ]
+      expect(result.manifold).to.be.true
 
     describe 'manifold detection', ->
 
