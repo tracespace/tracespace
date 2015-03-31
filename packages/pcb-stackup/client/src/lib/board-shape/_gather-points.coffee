@@ -1,6 +1,6 @@
 # function to gather the points of a path's d array
 find = require 'lodash.find'
-Point = require './point'
+Point = require './_point'
 
 gatherPoints = (data) ->
   # get the first point in the path, start the points array, and set up the loop

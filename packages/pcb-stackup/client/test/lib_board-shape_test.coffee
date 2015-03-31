@@ -2,9 +2,9 @@
 expect = require('chai').expect
 find = require 'lodash.find'
 boardShape = require '../src/lib/board-shape'
-Point = require '../src/lib/board-shape/point'
-gatherPoints = require '../src/lib/board-shape/gather-points'
-traversePoints = require '../src/lib/board-shape/traverse-points'
+Point = require '../src/lib/board-shape/_point'
+gatherPoints = require '../src/lib/board-shape/_gather-points'
+traversePoints = require '../src/lib/board-shape/_traverse-points'
 
 describe 'client-lib-boardShape', ->
 
