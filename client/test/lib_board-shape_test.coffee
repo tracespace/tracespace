@@ -218,8 +218,10 @@ describe 'client-lib-boardShape', ->
         }
       ]
       boardShape paths
-      expect(paths[0].path.d).to.eql ['M', 0, 0, 'L', 1, 1, 'L', 1, 0, 'Z']
-      expect(paths[1].path.d).to.eql ['M', 1, 1, 'L', 2, 2, 'L', 2, 1, 'Z']
+      path5 = find paths, (p) -> p.path['stroke-width'] is 5
+      path10 = find paths, (p) -> p.path['stroke-width'] is 10
+      expect(path5.path.d).to.eql ['M', 0, 0, 'L', 1, 1, 'L', 1, 0, 'Z']
+      expect(path10.path.d).to.eql ['M', 1, 1, 'L', 2, 2, 'L', 2, 1, 'Z']
 
     it 'should combine paths with the same tool into one path', ->
       paths = [

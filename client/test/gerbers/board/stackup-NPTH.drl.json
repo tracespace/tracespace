@@ -1,0 +1,58 @@
+{
+  "svg": {
+    "xmlns": "http://www.w3.org/2000/svg",
+    "version": "1.1",
+    "xmlns:xlink": "http://www.w3.org/1999/xlink",
+    "width": "13.081mm",
+    "height": "5.461mm",
+    "viewBox": [
+      116649.5,
+      -91630.5,
+      13081,
+      5461
+    ],
+    "_": [
+      {
+        "defs": {
+          "_": [
+            {
+              "circle": {
+                "cx": 0,
+                "cy": 0,
+                "r": 190.5,
+                "id": "tool-T1-pad-1023"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "g": {
+          "_": [
+            {
+              "use": {
+                "x": 116840,
+                "y": -86360,
+                "xlink:href": "#tool-T1-pad-1023"
+              }
+            },
+            {
+              "use": {
+                "x": 129540,
+                "y": -91440,
+                "xlink:href": "#tool-T1-pad-1023"
+              }
+            }
+          ],
+          "fill": "currentColor",
+          "stroke": "currentColor",
+          "transform": "translate(0,-177800) scale(1,-1)"
+        }
+      }
+    ],
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    "stroke-width": 0,
+    "stroke": "#000"
+  }
+}
