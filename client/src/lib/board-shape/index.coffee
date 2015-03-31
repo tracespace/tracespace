@@ -2,8 +2,8 @@
 # takes an array of path objects and attempts to rearrange them in a way that
 # yields a single path comprised of manifold loops. if no valid rearrangment is
 # found, it will return the original array
-gatherPoints = require './gather-points'
-traversePoints = require './traverse-points'
+gatherPoints = require './_gather-points'
+traversePoints = require './_traverse-points'
 
 # combine two paths' data arrays
 # should only be used on paths with the same strokewidth

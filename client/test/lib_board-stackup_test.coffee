@@ -178,8 +178,3 @@ describe 'client-lib-boardStackup', ->
       expect(result.bottomDefs).to.include.members drlDefs1._
 
   describe 'boardStackup function', ->
-
-    it 'should return empty strings by default', ->
-      result = boardStackup()
-      expect(result.top).to.eql ''
-      expect(result.bottom).to.eql ''
