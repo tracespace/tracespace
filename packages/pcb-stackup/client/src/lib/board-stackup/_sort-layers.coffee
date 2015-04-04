@@ -2,41 +2,61 @@
 
 find = require 'lodash.find'
 result = require 'lodash.result'
+layerProps = require './_layer-props'
 
 TOP_LAYERS_RE = /^(t)|(out)/
 BOT_LAYERS_RE = /^(b)|(out)/
 DRL_LAYERS_RE = /^drl$/
 
+# get a more generic layer type
+genericType = (type) ->
+  if type isnt 'out' and type isnt 'drl' then type[1..] else type
+
 sortLayers = (layers, boardId) ->
-  topLayers = []
+  topLayers = {}
   topDefs = []
-  bottomLayers = []
+  bottomLayers = {}
   bottomDefs = []
-  drillLayer = {type: 'drl', id: "#{boardId}_drl", _: []}
+  drillLayerGroup = []
+  drillLayerProps = null
   for ly in layers
+    svg = ly.svg
+    children = svg.svg._
     type = ly.type
-    group = result find(ly.svg.svg._, 'g'), 'g'
-    defs = result find(ly.svg.svg._, 'defs'), 'defs', {_: []}
+    props = layerProps svg
+    gType = genericType type
+    group = result find(children, 'g'), 'g', {_: []}
+    defs = result find(children, 'defs'), 'defs', {_: []}
     # drill files are special because there might be more than one drill file
     # and they need to be consolidated
     if type is 'drl'
-      drillLayer._ = drillLayer._.concat group._
+      drillLayerGroup = drillLayerGroup.concat group._
       topDefs = topDefs.concat defs._
       bottomDefs = bottomDefs.concat defs._
+      if drillLayerProps?
+        drillLayerProps.bBox.add props.bBox
+      else
+        drillLayerProps = props
     # else let's go about our business assuming the layer is singular
     else
-      id = "#{boardId}_#{type}"
-      layer = {type: type, id: id, _: group._}
       if TOP_LAYERS_RE.test type
-        topLayers.push layer
+        topLayers[gType] = {
+          id: "#{boardId}-top-#{gType}", _: group._, props: props
+        }
         topDefs = topDefs.concat defs._
       if BOT_LAYERS_RE.test ly.type
-        bottomLayers.push layer
+        bottomLayers[gType] = {
+          id: "#{boardId}-bottom-#{gType}", _: group._, props: props
+        }
         bottomDefs = bottomDefs.concat defs._
 
   # after the loop drops out, push the consolidated drill to top and bottom
-  topLayers.push drillLayer
-  bottomLayers.push drillLayer
+  topLayers.drl = {
+    id: "#{boardId}-top-drl", _: drillLayerGroup, props: drillLayerProps
+  }
+  bottomLayers.drl = {
+    id: "#{boardId}-bottom-drl", _: drillLayerGroup, props: drillLayerProps
+  }
 
   # return
   {
