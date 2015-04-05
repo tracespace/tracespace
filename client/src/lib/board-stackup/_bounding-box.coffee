@@ -33,6 +33,15 @@ class BoundingBox
     # return self for chainability
     this
 
+  # shrink or grow the bounding box by a constant amount on all corners
+  offset: (amount) ->
+    @xMin -= amount
+    @yMin -= amount
+    @xMax += amount
+    @yMax += amount
+    # return self for chaining
+    this
+
   # returns the width of the bounding box
   width: ->
     if @xMin is Infinity or @xMax is -Infinity then 0 else @xMax - @xMin

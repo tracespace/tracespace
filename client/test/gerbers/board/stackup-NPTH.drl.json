@@ -20,7 +20,7 @@
                 "cx": 0,
                 "cy": 0,
                 "r": 190.5,
-                "id": "tool-T1-pad-1023"
+                "id": "tool-T1-pad-1020"
               }
             }
           ]
@@ -33,14 +33,14 @@
               "use": {
                 "x": 116840,
                 "y": -86360,
-                "xlink:href": "#tool-T1-pad-1023"
+                "xlink:href": "#tool-T1-pad-1020"
               }
             },
             {
               "use": {
                 "x": 129540,
                 "y": -91440,
-                "xlink:href": "#tool-T1-pad-1023"
+                "xlink:href": "#tool-T1-pad-1020"
               }
             }
           ],

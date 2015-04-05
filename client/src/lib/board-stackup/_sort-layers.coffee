@@ -12,7 +12,11 @@ DRL_LAYERS_RE = /^drl$/
 genericType = (type) ->
   if type isnt 'out' and type isnt 'drl' then type[1..] else type
 
-sortLayers = (layers, boardId) ->
+# gernate a layer id
+lyId = (id, side, type) -> "#{id}_#{side}-#{type}"
+
+# sort the layers into top and bottom
+sortLayers = (layers = [], board) ->
   topLayers = {}
   topDefs = []
   bottomLayers = {}
@@ -41,29 +45,32 @@ sortLayers = (layers, boardId) ->
     else
       if TOP_LAYERS_RE.test type
         topLayers[gType] = {
-          id: "#{boardId}-top-#{gType}", _: group._, props: props
+          id: lyId(board, 'top', gType), _: group._, props: props
         }
         topDefs = topDefs.concat defs._
       if BOT_LAYERS_RE.test ly.type
         bottomLayers[gType] = {
-          id: "#{boardId}-bottom-#{gType}", _: group._, props: props
+          id: lyId(board, 'bottom', gType), _: group._, props: props
         }
         bottomDefs = bottomDefs.concat defs._
 
   # after the loop drops out, push the consolidated drill to top and bottom
-  topLayers.drl = {
-    id: "#{boardId}-top-drl", _: drillLayerGroup, props: drillLayerProps
-  }
-  bottomLayers.drl = {
-    id: "#{boardId}-bottom-drl", _: drillLayerGroup, props: drillLayerProps
-  }
+  if drillLayerGroup.length
+    topLayers.drl = {
+      id: lyId board, 'top', 'drl'
+      _: drillLayerGroup
+      props: drillLayerProps
+    }
+    bottomLayers.drl = {
+      id: lyId board, 'bottom', 'drl'
+      _: drillLayerGroup
+      props: drillLayerProps
+    }
 
   # return
   {
-    topLayers: topLayers
-    topDefs: topDefs
-    bottomLayers: bottomLayers
-    bottomDefs: bottomDefs
+    top: {layers: topLayers, defs: topDefs}
+    bottom: {layers: bottomLayers, defs: bottomDefs}
   }
 
 module.exports = sortLayers
