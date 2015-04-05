@@ -1,10 +1,9 @@
 # stack layers into a full board
 
 BoundingBox = require './_bounding-box'
-boardShape = require '../board-shape'
 
 # stack a set of sorted layers
-stackLayers = (sortedLayers) ->
+stackLayers = (sortedLayers, boardId = '') ->
   defs = sortedLayers.defs
   layers = sortedLayers.layers
   bBox = new BoundingBox()
@@ -27,7 +26,7 @@ stackLayers = (sortedLayers) ->
   # assume that the first manifold path determines the size
   # if this isn't the case we could run into trouble so keep an eye on this
   if out?
-    manifoldFlags = boardShape out._
+    manifoldFlags = out.props.manifoldFlags
     firstManifoldIndex = manifoldFlags.indexOf true
     if firstManifoldIndex isnt -1
       # we've got us a manifold path
@@ -47,18 +46,26 @@ stackLayers = (sortedLayers) ->
         if manifoldFlags[index]
           mechMask.mask._.push {path: {'stroke-width': 0, d: p.path.d}}
         else
-          mechMask.mask._.push path
+          mechMask.mask._.push p
 
   # add the copper if it exists
   if cu?
     # if the outline wasn't added, add this layer's bBox to the board Bbox
-    unless manifoldOutline then bBox.add cu.props.bBox
+    unless manifoldOutline
+      bBox.add cu.props.bBox
+      # in the absence of a manifold outline, we'll use the copper layer for
+      # units and scale
+      # TODO: use the units and scale per layer to handle layer differences
+      scale = cu.props.scale
+      units = cu.props.units
     # copper layer gets used a couple times, so push it to defs
     defs.push {
       g: {id: cu.id, fill: 'currentColor', stroke: 'currentColor', _: cu._}
     }
     # push a use to group to get the copper in the image
-    group.push {use: {class: 'board-cu', 'xlink:href': "##{cu.id}"}}
+    group.push {
+      use: {class: "#{boardId}_board-cu", 'xlink:href': "##{cu.id}"}
+    }
 
   # soldermask, copper finish, and silkscreen will only be applied if the
   # soldermask exists
@@ -90,21 +97,24 @@ stackLayers = (sortedLayers) ->
     # create another mask that
     # create a group that holds the sm cover and ss
     smCover = bBox.rect()
-    smCover.rect.class = 'board-sm'
-    ssGroup = {
-      g: {
-        id: ss.id
-        class: 'board-ss'
-        fill: 'currentColor'
-        stroke: 'currentColor'
-        _: ss._
+    smCover.rect.class = "#{boardId}_board-sm"
+    smSsGroup = {g: {mask: "url(##{sm.id}_mask)", _: [smCover]}}
+    if ss?
+      ssGroup = {
+        g: {
+          id: ss.id
+          class: "#{boardId}_board-ss"
+          fill: 'currentColor'
+          stroke: 'currentColor'
+          _: ss._
+        }
       }
-    }
-    smSsGroup = {g: {mask: "url(##{sm.id}_mask)", _: [smCover, ssGroup]}}
+      smSsGroup.g._.push ssGroup
+
     # create an element for the copper finish
     cf = {
       use: {
-        class: 'board-cf'
+        class: "#{boardId}_board-cf"
         mask: "url(##{cfMask.mask.id})"
         'xlink:href': "##{sm.id}"
       }
@@ -126,7 +136,7 @@ stackLayers = (sortedLayers) ->
     group.push {
       g: {
         id: sp.id
-        class: 'board-sp'
+        class: "#{boardId}_board-sp"
         fill: 'currentColor'
         stroke: 'currentColor'
         _: sp._
@@ -139,7 +149,7 @@ stackLayers = (sortedLayers) ->
     group.push {
       g: {
         id: out.id
-        class: 'board-out'
+        class: "#{boardId}_board-out"
         fill: 'currentColor'
         stroke: 'currentColor'
         _: out._
@@ -160,7 +170,7 @@ stackLayers = (sortedLayers) ->
 
   # make sure the first element is a covering rect
   coverRect = bBox.rect()
-  coverRect.rect.class = 'board-fr4'
+  coverRect.rect.class = "#{boardId}_board-fr4"
   group = [coverRect].concat group
 
   # return the stack

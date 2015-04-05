@@ -3,6 +3,7 @@
 find = require 'lodash.find'
 result = require 'lodash.result'
 layerProps = require './_layer-props'
+boardShape = require '../board-shape'
 
 TOP_LAYERS_RE = /^(t)|(out)/
 BOT_LAYERS_RE = /^(b)|(out)/
@@ -31,6 +32,9 @@ sortLayers = (layers = [], board) ->
     gType = genericType type
     group = result find(children, 'g'), 'g', {_: []}
     defs = result find(children, 'defs'), 'defs', {_: []}
+    # outline file is special and needs some extra sorting
+    if type is 'out'
+      props.manifoldFlags = boardShape group._
     # drill files are special because there might be more than one drill file
     # and they need to be consolidated
     if type is 'drl'
@@ -68,9 +72,11 @@ sortLayers = (layers = [], board) ->
     }
 
   # return
-  {
-    top: {layers: topLayers, defs: topDefs}
-    bottom: {layers: bottomLayers, defs: bottomDefs}
-  }
+  sorted = {}
+  if Object.keys(topLayers).length
+    sorted.top = {layers: topLayers, defs: topDefs}
+  if Object.keys(bottomLayers).length
+    sorted.bottom = {layers: bottomLayers, defs: bottomDefs}
+  sorted
 
 module.exports = sortLayers
