@@ -6,6 +6,7 @@ boardStackup = require '../src/lib/board-stackup'
 BoundingBox = require '../src/lib/board-stackup/_bounding-box'
 layerProps = require '../src/lib/board-stackup/_layer-props'
 sortLayers = require '../src/lib/board-stackup/_sort-layers'
+stackLayers = require '../src/lib/board-stackup/_stack-layers'
 
 # test layers
 TEST_TCU = {type: 'tcu', svg: require './gerbers/board/stackup-F_Cu.json'}
@@ -17,6 +18,9 @@ TEST_BSS = {type: 'bss', svg: require './gerbers/board/stackup-B_SilkS.json'}
 TEST_TSP = {type: 'tsp', svg: require './gerbers/board/stackup-F_Paste.json'}
 TEST_BSP = {type: 'bsp', svg: require './gerbers/board/stackup-B_Paste.json'}
 TEST_OUT = {type: 'out', svg: require './gerbers/board/stackup-Edge_Cuts.json'}
+TEST_BAD_OUT = {
+  type: 'out', svg: require './gerbers/board/stackup-Bad_Edge_Cuts.json'
+}
 TEST_DRL = [
   {type: 'drl', svg: require './gerbers/board/stackup.drl.json'}
   {type: 'drl', svg: require './gerbers/board/stackup-NPTH.drl.json'}
@@ -88,6 +92,19 @@ describe 'client-lib-boardStackup', ->
       expect(box1.xMax).to.equal 11
       expect(box1.yMax).to.equal 12
 
+    it 'should be able to offset its size by a constant amount', ->
+      box = new BoundingBox [0, 0, 10, 10]
+      expect(box.offset -1).to.equal box
+      expect(box.xMin).to.equal 1
+      expect(box.yMin).to.equal 1
+      expect(box.xMax).to.equal 9
+      expect(box.yMax).to.equal 9
+      expect(box.offset 2).to.equal box
+      expect(box.xMin).to.equal -1
+      expect(box.yMin).to.equal -1
+      expect(box.xMax).to.equal 11
+      expect(box.yMax).to.equal 11
+
     it 'should be able to return a width and height', ->
       expect(box.width()).to.equal 0
       expect(box.height()).to.equal 0
@@ -139,8 +156,16 @@ describe 'client-lib-boardStackup', ->
       expect(res.bBox.yMax).to.eql 1000
 
   describe 'sortLayers helper function', ->
-    res = null
-    before -> res = sortLayers STACKUP_LAYERS, '000'
+    topLayers = null
+    bottomLayers = null
+    topDefs = null
+    bottomDefs = null
+    before ->
+      res = sortLayers STACKUP_LAYERS, '000'
+      topLayers = res.top.layers
+      topDefs = res.top.defs
+      bottomLayers = res.bottom.layers
+      bottomDefs = res.bottom.defs
 
     it 'should add tcu, tsm, tss, and tsp to topLayers and topDefs', ->
       tcuGroup = result find(TEST_TCU.svg.svg._, 'g'), 'g', {_: []}
@@ -151,22 +176,22 @@ describe 'client-lib-boardStackup', ->
       tsmDefs = result find(TEST_TSM.svg.svg._, 'defs'), 'defs', {_: []}
       tssDefs = result find(TEST_TSS.svg.svg._, 'defs'), 'defs', {_: []}
       tspDefs = result find(TEST_TSP.svg.svg._, 'defs'), 'defs', {_: []}
-      expect(res.topLayers).to.deep.have.property 'cu.id', '000-top-cu'
-      expect(res.topLayers).to.deep.have.property 'cu._'
+      expect(topLayers).to.deep.have.property 'cu.id', '000_top-cu'
+      expect(topLayers).to.deep.have.property 'cu._'
         .that.eqls tcuGroup._
-      expect(res.topLayers).to.deep.have.property 'sm.id', '000-top-sm'
-      expect(res.topLayers).to.deep.have.property 'sm._'
+      expect(topLayers).to.deep.have.property 'sm.id', '000_top-sm'
+      expect(topLayers).to.deep.have.property 'sm._'
         .that.eqls tsmGroup._
-      expect(res.topLayers).to.deep.have.property 'ss.id', '000-top-ss'
-      expect(res.topLayers).to.deep.have.property 'ss._'
+      expect(topLayers).to.deep.have.property 'ss.id', '000_top-ss'
+      expect(topLayers).to.deep.have.property 'ss._'
         .that.eqls tssGroup._
-      expect(res.topLayers).to.deep.have.property 'sp.id', '000-top-sp'
-      expect(res.topLayers).to.deep.have.property 'sp._'
+      expect(topLayers).to.deep.have.property 'sp.id', '000_top-sp'
+      expect(topLayers).to.deep.have.property 'sp._'
         .that.eqls tspGroup._
-      expect(res.topDefs).to.include.members tcuDefs._
-      expect(res.topDefs).to.include.members tsmDefs._
-      expect(res.topDefs).to.include.members tssDefs._
-      expect(res.topDefs).to.include.members tspDefs._
+      expect(topDefs).to.include.members tcuDefs._
+      expect(topDefs).to.include.members tsmDefs._
+      expect(topDefs).to.include.members tssDefs._
+      expect(topDefs).to.include.members tspDefs._
 
     it 'should add bcu, bsm, bss, and bsp to bottomLayers and bottomDefs', ->
       bcuGroup = result find(TEST_BCU.svg.svg._, 'g'), 'g', {_: []}
@@ -177,33 +202,33 @@ describe 'client-lib-boardStackup', ->
       bsmDefs = result find(TEST_BSM.svg.svg._, 'defs'), 'defs', {_: []}
       bssDefs = result find(TEST_BSS.svg.svg._, 'defs'), 'defs', {_: []}
       bspDefs = result find(TEST_BSP.svg.svg._, 'defs'), 'defs', {_: []}
-      expect(res.bottomLayers).to.deep.have.property 'cu.id', '000-bottom-cu'
-      expect(res.bottomLayers).to.deep.have.property 'cu._'
+      expect(bottomLayers).to.deep.have.property 'cu.id', '000_bottom-cu'
+      expect(bottomLayers).to.deep.have.property 'cu._'
         .that.eqls bcuGroup._
-      expect(res.bottomLayers).to.deep.have.property 'sm.id', '000-bottom-sm'
-      expect(res.bottomLayers).to.deep.have.property 'sm._'
+      expect(bottomLayers).to.deep.have.property 'sm.id', '000_bottom-sm'
+      expect(bottomLayers).to.deep.have.property 'sm._'
         .that.eqls bsmGroup._
-      expect(res.bottomLayers).to.deep.have.property 'ss.id', '000-bottom-ss'
-      expect(res.bottomLayers).to.deep.have.property 'ss._'
+      expect(bottomLayers).to.deep.have.property 'ss.id', '000_bottom-ss'
+      expect(bottomLayers).to.deep.have.property 'ss._'
         .that.eqls bssGroup._
-      expect(res.bottomLayers).to.deep.have.property 'sp.id', '000-bottom-sp'
-      expect(res.bottomLayers).to.deep.have.property 'sp._'
+      expect(bottomLayers).to.deep.have.property 'sp.id', '000_bottom-sp'
+      expect(bottomLayers).to.deep.have.property 'sp._'
         .that.eqls bspGroup._
-      expect(res.bottomDefs).to.include.members bcuDefs._
-      expect(res.bottomDefs).to.include.members bsmDefs._
-      expect(res.bottomDefs).to.include.members bssDefs._
-      expect(res.bottomDefs).to.include.members bspDefs._
+      expect(bottomDefs).to.include.members bcuDefs._
+      expect(bottomDefs).to.include.members bsmDefs._
+      expect(bottomDefs).to.include.members bssDefs._
+      expect(bottomDefs).to.include.members bspDefs._
 
     it 'should add out to both layers', ->
       outGroup = result find(TEST_OUT.svg.svg._, 'g'), 'g', {_: []}
       outDefs = result find(TEST_OUT.svg.svg._, 'defs'), 'defs', {_: []}
-      expect(res.topDefs).to.include.members outDefs._
-      expect(res.topLayers).to.have.deep.property 'out.id', '000-top-out'
-      expect(res.topLayers).to.have.deep.property 'out._'
+      expect(topDefs).to.include.members outDefs._
+      expect(topLayers).to.have.deep.property 'out.id', '000_top-out'
+      expect(topLayers).to.have.deep.property 'out._'
         .that.eqls outGroup._
-      expect(res.bottomDefs).to.include.members outDefs._
-      expect(res.bottomLayers).to.have.deep.property 'out.id', '000-bottom-out'
-      expect(res.bottomLayers).to.have.deep.property 'out._'
+      expect(bottomDefs).to.include.members outDefs._
+      expect(bottomLayers).to.have.deep.property 'out.id', '000_bottom-out'
+      expect(bottomLayers).to.have.deep.property 'out._'
         .that.eqls outGroup._
 
     it 'should consolidate drill files and add them to both layers', ->
@@ -212,44 +237,250 @@ describe 'client-lib-boardStackup', ->
       drlDefs0 = result find(TEST_DRL[0].svg.svg._, 'defs'), 'defs', {_: []}
       drlDefs1 = result find(TEST_DRL[1].svg.svg._, 'defs'), 'defs', {_: []}
 
-      expect(res.topLayers).to.have.property 'drl'
-        .that.has.property 'id', '000-top-drl'
-      expect(res.bottomLayers).to.have.deep.property 'drl'
-        .that.has.property 'id', '000-bottom-drl'
+      expect(topLayers).to.have.property 'drl'
+        .that.has.property 'id', '000_top-drl'
+      expect(bottomLayers).to.have.deep.property 'drl'
+        .that.has.property 'id', '000_bottom-drl'
 
-      topDrillGroup = res.topLayers.drl._
-      bottomDrillGroup = res.bottomLayers.drl._
+      topDrillGroup = topLayers.drl._
+      bottomDrillGroup = bottomLayers.drl._
       expect(topDrillGroup).to.equal bottomDrillGroup
       drillGroup = topDrillGroup
       expect(drillGroup).to.include.members drlGroup0._
       expect(drillGroup).to.include.members drlGroup1._
 
-      expect(res.topDefs).to.include.members drlDefs0._
-      expect(res.topDefs).to.include.members drlDefs1._
-      expect(res.bottomDefs).to.include.members drlDefs0._
-      expect(res.bottomDefs).to.include.members drlDefs1._
+      expect(topDefs).to.include.members drlDefs0._
+      expect(topDefs).to.include.members drlDefs1._
+      expect(bottomDefs).to.include.members drlDefs0._
+      expect(bottomDefs).to.include.members drlDefs1._
 
     it 'should gather the layer props of each layer', ->
-      expect(res.topLayers.cu.props).to.eql layerProps TEST_TCU.svg
-      expect(res.topLayers.sm.props).to.eql layerProps TEST_TSM.svg
-      expect(res.topLayers.ss.props).to.eql layerProps TEST_TSS.svg
-      expect(res.topLayers.sp.props).to.eql layerProps TEST_TSP.svg
-      expect(res.topLayers.out.props).to.eql layerProps TEST_OUT.svg
-      expect(res.bottomLayers.cu.props).to.eql layerProps TEST_BCU.svg
-      expect(res.bottomLayers.sm.props).to.eql layerProps TEST_BSM.svg
-      expect(res.bottomLayers.ss.props).to.eql layerProps TEST_BSS.svg
-      expect(res.bottomLayers.sp.props).to.eql layerProps TEST_BSP.svg
-      expect(res.bottomLayers.out.props).to.eql layerProps TEST_OUT.svg
+      expect(topLayers.cu.props).to.eql layerProps TEST_TCU.svg
+      expect(topLayers.sm.props).to.eql layerProps TEST_TSM.svg
+      expect(topLayers.ss.props).to.eql layerProps TEST_TSS.svg
+      expect(topLayers.sp.props).to.eql layerProps TEST_TSP.svg
+      expect(topLayers.out.props).to.eql layerProps TEST_OUT.svg
+      expect(bottomLayers.cu.props).to.eql layerProps TEST_BCU.svg
+      expect(bottomLayers.sm.props).to.eql layerProps TEST_BSM.svg
+      expect(bottomLayers.ss.props).to.eql layerProps TEST_BSS.svg
+      expect(bottomLayers.sp.props).to.eql layerProps TEST_BSP.svg
+      expect(bottomLayers.out.props).to.eql layerProps TEST_OUT.svg
 
     it 'should also handle the drill layer props', ->
       drlProps0 = layerProps TEST_DRL[0].svg
       drlProps1 = layerProps TEST_DRL[1].svg
       combinedBox = drlProps0.bBox.add drlProps1.bBox
-      expect(res.topLayers.drl.props.units).to.eql drlProps0.units
-      expect(res.topLayers.drl.props.units).to.eql drlProps1.units
-      expect(res.topLayers.drl.props.scale).to.eql drlProps0.scale
-      expect(res.topLayers.drl.props.scale).to.eql drlProps0.scale
-      expect(res.topLayers.drl.props.bBox).to.eql combinedBox
+      expect(topLayers.drl.props.units).to.eql drlProps0.units
+      expect(topLayers.drl.props.units).to.eql drlProps1.units
+      expect(topLayers.drl.props.scale).to.eql drlProps0.scale
+      expect(topLayers.drl.props.scale).to.eql drlProps0.scale
+      expect(topLayers.drl.props.bBox).to.eql combinedBox
 
-  describe 'boardStackup function', ->
-    
+    it "shouldn't push drill layers if they don't exist", ->
+      sorted = sortLayers()
+      expect(sorted.top.layers.drl).to.not.exist
+      expect(sorted.bottom.layers.drl).to.not.exist
+
+  describe 'stackLayers function', ->
+
+    describe 'stackup size', ->
+
+      it 'should determine the size of the stackup with the board outline', ->
+        sorted = sortLayers([TEST_OUT, TEST_TCU, TEST_TSM, TEST_TSS]).top
+        stack = stackLayers sorted
+        expect(stack.scale).to.equal 0.001
+        expect(stack.units).to.eql 'mm'
+        expect(stack.bBox.xMin).to.equal 115570
+        expect(stack.bBox.yMin).to.equal -92710
+        expect(stack.bBox.xMax).to.equal 130810
+        expect(stack.bBox.yMax).to.equal -85090
+
+      it 'should set the size according to layer total if no outline', ->
+        sorted = sortLayers([TEST_TCU, TEST_TSM, TEST_TSS]).top
+        stack = stackLayers sorted
+        totalBBox = new BoundingBox()
+          .add sorted.layers.cu.props.bBox
+          .add sorted.layers.sm.props.bBox
+          .add sorted.layers.ss.props.bBox
+        expect(stack.bBox).to.eql totalBBox
+
+      it 'should handle outlines with no manifold paths', ->
+        sorted = sortLayers([TEST_BAD_OUT, TEST_TCU, TEST_TSM, TEST_TSS]).top
+        stack = stackLayers sorted
+        totalBBox = new BoundingBox()
+          .add sorted.layers.cu.props.bBox
+          .add sorted.layers.sm.props.bBox
+          .add sorted.layers.ss.props.bBox
+          .add sorted.layers.out.props.bBox
+        expect(stack.bBox).to.eql totalBBox
+
+    it 'should add a covering box as the first element', ->
+      stack = stackLayers sortLayers([TEST_OUT]).top
+      coverRect = stack.group[0].rect
+      expect(coverRect.fill).to.eql 'currentColor'
+      expect(coverRect.x).to.equal 115570
+      expect(coverRect.y).to.equal -92710
+      expect(coverRect.width).to.equal 15240
+      expect(coverRect.height).to.equal 7620
+
+    it 'should add the copper layer to the stack', ->
+      stack = stackLayers sortLayers([TEST_TCU], '000').top
+      tcuGroup = result find(TEST_TCU.svg.svg._, 'g'), 'g', {_: []}
+      tcuDefs = result find(TEST_TCU.svg.svg._, 'defs'), 'defs', {_: []}
+
+      cuLayerDef = result find(stack.defs, (e) -> e.g?.id is '000_top-cu'), 'g'
+
+      expect(stack.defs).to.contain.members tcuDefs._
+      expect(stack.group[1]).to.eql {
+        use: {class: 'board-cu', 'xlink:href': '#000_top-cu'}
+      }
+
+      expect(cuLayerDef._).to.eql tcuGroup._
+      expect(cuLayerDef.id).to.eql '000_top-cu'
+      expect(cuLayerDef.fill).to.eql 'currentColor'
+      expect(cuLayerDef.stroke).to.eql 'currentColor'
+
+
+    it 'should add the soldermask, silkscreen, and finish to the stack', ->
+      sorted = sortLayers([TEST_TCU, TEST_TSM, TEST_TSS], '000').top
+      stack = stackLayers sorted
+
+      tsmGroup = result find(TEST_TSM.svg.svg._, 'g'), 'g', {_: []}
+      tsmDefs = result find(TEST_TSM.svg.svg._, 'defs'), 'defs', {_: []}
+      tssGroup = result find(TEST_TSS.svg.svg._, 'g'), 'g', {_: []}
+      tssDefs = result find(TEST_TSS.svg.svg._, 'defs'), 'defs', {_: []}
+
+      totalBBox = new BoundingBox()
+        .add(sorted.layers.cu.props.bBox)
+        .add(sorted.layers.sm.props.bBox)
+      bBoxRect = totalBBox.rect '#fff'
+      stackSm = stack.group[2].g._
+      stackSmDefs = stackSm[0].defs._
+      stackSmGroup = stackSmDefs[0].g
+      stackSmMask = stackSmDefs[1].mask
+      stackCfMask = stackSmDefs[2].mask
+      stackSmCoverRect = totalBBox.rect()
+      stackSmCoverRect.rect.class = 'board-sm'
+      stackSmSsGroup = stackSm[1].g
+      stackCf = stackSm[2]
+
+      expect(stack.defs).to.contain.members tsmDefs._
+      expect(stack.defs).to.contain.members tssDefs._
+
+      expect(stackSmGroup.id).to.eql sorted.layers.sm.id
+      expect(stackSmGroup.fill).to.eql 'currentColor'
+      expect(stackSmGroup.stroke).to.eql 'currentColor'
+      expect(stackSmGroup._).to.eql tsmGroup._
+
+      expect(stackSmMask.id).to.eql "#{sorted.layers.sm.id}_mask"
+      expect(stackSmMask.color).to.eql '#000'
+      expect(stackSmMask._[0]).to.eql bBoxRect
+      expect(stackSmMask._[1]).to.eql {
+        use: {'xlink:href': "##{sorted.layers.sm.id}"}
+      }
+
+      expect(stackCfMask.id).to.eql "#{sorted.layers.cu.id}_finish-mask"
+      expect(stackCfMask.color).to.eql '#fff'
+      expect(stackCfMask._[0]).to.eql {
+        use: {'xlink:href': "##{sorted.layers.cu.id}"}
+      }
+
+      expect(stackSmSsGroup.mask).to.eql "url(##{sorted.layers.sm.id}_mask)"
+      expect(stackSmSsGroup._[0]).to.eql stackSmCoverRect
+      expect(stackSmSsGroup._[1]).to.eql {
+        g: {
+          id: sorted.layers.ss.id
+          class: 'board-ss'
+          fill: 'currentColor'
+          stroke: 'currentColor'
+          _: sorted.layers.ss._
+        }
+      }
+
+      expect(stackCf).to.eql {
+        use: {
+          class: 'board-cf'
+          mask: "url(##{sorted.layers.cu.id}_finish-mask)"
+          'xlink:href': "##{sorted.layers.sm.id}"
+        }
+      }
+
+    it 'should add the solder paste to the stackup', ->
+      stack = stackLayers sortLayers([TEST_TCU, TEST_TSP], '000').top
+      tspGroup = result find(TEST_TSP.svg.svg._, 'g'), 'g', {_: []}
+      tspDefs = result find(TEST_TSP.svg.svg._, 'defs'), 'defs', {_: []}
+
+      expect(stack.group[2].g._).to.eql tspGroup._
+      expect(stack.group[2].g.id).to.eql '000_top-sp'
+      expect(stack.group[2].g.class).to.eql 'board-sp'
+      expect(stack.group[2].g.fill).to.eql 'currentColor'
+      expect(stack.group[2].g.stroke).to.eql 'currentColor'
+      expect(stack.defs).to.contain.members tspDefs._
+
+    describe 'board outline', ->
+
+      it 'should simply add to outline to the group if not manifold', ->
+        stack = stackLayers sortLayers([TEST_TCU, TEST_BAD_OUT], '000').top
+        outGroup = result find(TEST_BAD_OUT.svg.svg._, 'g'), 'g', {_: []}
+        outDefs = result find(TEST_BAD_OUT.svg.svg._, 'defs'), 'defs', {_: []}
+        expect(stack.defs).to.contain.members outDefs._
+        expect(stack.group[2].g._).to.eql outGroup._
+        expect(stack.group[2].g.id).to.eql '000_top-out'
+        expect(stack.group[2].g.class).to.eql 'board-out'
+        expect(stack.group[2].g.fill).to.eql 'currentColor'
+        expect(stack.group[2].g.stroke).to.eql 'currentColor'
+
+      it 'should add a mask to the defs if the outline is manifold', ->
+        stack = stackLayers sortLayers([TEST_TCU, TEST_OUT], '000').top
+        outGroup = result find(TEST_OUT.svg.svg._, 'g'), 'g', {_: []}
+        outDefs = result find(TEST_OUT.svg.svg._, 'defs'), 'defs', {_: []}
+        outMask = find stack.defs, (e) -> e.mask?.id is '000_top_mech-mask'
+        outMaskPaths = outMask.mask._
+        expect(outMask.mask.fill).to.eql '#fff'
+        expect(outMask.mask.stroke).to.eql '#fff'
+        expect(outMaskPaths[0]).to.eql {
+          path: {'stroke-width': 0, d: outGroup._[0].path.d}
+        }
+
+    describe 'drill hits', ->
+
+      it 'should add drill hits to the mech mask', ->
+        sorted = sortLayers([TEST_TCU, TEST_OUT, TEST_DRL[0]], '000').top
+        stack = stackLayers sorted
+        drlGroup = result find(TEST_DRL[0].svg.svg._, 'g'), 'g', {_: []}
+        drlDefs = result find(TEST_DRL[0].svg.svg._, 'defs'), 'defs', {_: []}
+        mechMask = find stack.defs, (e) -> e.mask?.id is '000_top_mech-mask'
+        drlHits = find mechMask.mask._, (e) -> e.g?.id is '000_top-drl'
+        expect(stack.defs).to.contain.members drlDefs._
+        expect(drlHits.g.fill).to.eql '#000'
+        expect(drlHits.g.stroke).to.eql '#000'
+        expect(drlHits.g._).to.eql drlGroup._
+
+      it 'should create the mech mask if no manifold outline', ->
+        sorted = sortLayers([TEST_TCU, TEST_DRL[0]], '000').top
+        stack = stackLayers sorted
+        mechMask = find stack.defs, (e) -> e.mask?.id is '000_top_mech-mask'
+        totalBBox = new BoundingBox()
+          .add sorted.layers.cu.props.bBox
+          .add sorted.layers.drl.props.bBox
+        expect(mechMask.mask._[0]).to.eql totalBBox.rect '#fff'
+        expect(stack.maskId).to.eql '000_top_mech-mask'
+
+  # describe 'boardStackup function', ->
+  #
+  #   it 'should have a top and a bottom with the necessary svg attributes', ->
+  #     stackups = boardStackup()
+  #     expect(stackups).to.have.keys ['top', 'bottom']
+  #     for side, obj of stackups
+  #       expect(obj.svg.xmlns).to.eql 'http://www.w3.org/2000/svg'
+  #       expect(obj.svg.version).to.eql '1.1'
+  #       expect(obj.svg['xmlns:xlink']).to.eql 'http://www.w3.org/1999/xlink'
+  #
+  #   it 'should default to an empty svg', ->
+  #     stackups = boardStackup()
+  #     top = stackups.top.svg
+  #     bottom = stackups.bottom.svg
+  #     expect(top.width).to.eql '0'
+  #     expect(top.height).to.eql '0'
+  #     expect(bottom.width).to.eql '0'
+  #     expect(bottom.height).to.eql '0'
