@@ -32,6 +32,8 @@ sortLayers = (layers = [], board) ->
     gType = genericType type
     group = result find(children, 'g'), 'g', {_: []}
     defs = result find(children, 'defs'), 'defs', {_: []}
+    # console.log "#{ly.type} defs:"
+    # console.log defs
     # outline file is special and needs some extra sorting
     if type is 'out'
       props.manifoldFlags = boardShape group._

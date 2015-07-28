@@ -166,12 +166,12 @@ stackLayers = (sortedLayers, boardId = '') ->
     mechMask.mask._.push drlGroup
 
   # push the mechanical mask to the defs
-  defs.push mechMask
+  if mechMask? then defs.push mechMask
 
   # make sure the first element is a covering rect
   coverRect = bBox.rect()
   coverRect.rect.class = "#{boardId}_board-fr4"
-  group = [coverRect].concat group
+  group.unshift coverRect
 
   # return the stack
   {

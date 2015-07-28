@@ -2,6 +2,7 @@
 expect = require('chai').expect
 find = require 'lodash.find'
 result = require 'lodash.result'
+cloneDeep = require 'lodash.clonedeep'
 boardStackup = require '../src/lib/board-stackup'
 BoundingBox = require '../src/lib/board-stackup/_bounding-box'
 layerProps = require '../src/lib/board-stackup/_layer-props'
@@ -437,59 +438,69 @@ describe 'client-lib-boardStackup', ->
       expect(stack.group[2].g.stroke).to.eql 'currentColor'
       expect(stack.defs).to.contain.members tspDefs._
 
-    describe 'board outline', ->
+    describe 'mechanical mask', ->
 
-      it 'should simply add to outline to the group if not manifold', ->
-        sorted = sortLayers([TEST_TCU, TEST_BAD_OUT], '000').top
-        stack = stackLayers sorted, '000'
-        outGroup = result find(TEST_BAD_OUT.svg.svg._, 'g'), 'g', {_: []}
-        outDefs = result find(TEST_BAD_OUT.svg.svg._, 'defs'), 'defs', {_: []}
-        expect(stack.defs).to.contain.members outDefs._
-        expect(stack.group[2].g._).to.eql outGroup._
-        expect(stack.group[2].g.id).to.eql '000_top-out'
-        expect(stack.group[2].g.class).to.eql '000_board-out'
-        expect(stack.group[2].g.fill).to.eql 'currentColor'
-        expect(stack.group[2].g.stroke).to.eql 'currentColor'
+      it 'should not have a mechanical mask without an outline or drill', ->
+        stack = stackLayers sortLayers([TEST_TCU], '000').top, '000'
+        tcuGroup = result find(TEST_TCU.svg.svg._, 'g'), 'g', {_: []}
+        tcuDefs = result find(TEST_TCU.svg.svg._, 'defs'), 'defs', {_: []}
 
-      it 'should add a mask to the defs if the outline is manifold', ->
-        stack = stackLayers sortLayers([TEST_TCU, TEST_OUT], '000').top, '000'
-        outGroup = result find(TEST_OUT.svg.svg._, 'g'), 'g', {_: []}
-        outDefs = result find(TEST_OUT.svg.svg._, 'defs'), 'defs', {_: []}
-        outMask = find stack.defs, (e) -> e.mask?.id is '000_top_mech-mask'
-        outMaskManifoldPath = find outMask.mask._, (e) ->
-          e.path?['stroke-width'] is 0
-        outMaskOpenPath = find outMask.mask._, (e) ->
-          e.path?['stroke-width'] is 100
-        expect(outMask.mask.fill).to.eql '#fff'
-        expect(outMask.mask.stroke).to.eql '#fff'
-        expect(outMaskManifoldPath).to.eql {
-          path: {'stroke-width': 0, d: outGroup._[1].path.d}
-        }
-        expect(outMaskOpenPath).to.eql outGroup._[0]
+        expect(stack.defs).to.have.length tcuDefs._.length + 1
+        expect(stack.maskId).to.be.null
 
-    describe 'drill hits', ->
+      describe 'board outline', ->
 
-      it 'should add drill hits to the mech mask', ->
-        sorted = sortLayers([TEST_TCU, TEST_OUT, TEST_DRL[0]], '000').top
-        stack = stackLayers sorted
-        drlGroup = result find(TEST_DRL[0].svg.svg._, 'g'), 'g', {_: []}
-        drlDefs = result find(TEST_DRL[0].svg.svg._, 'defs'), 'defs', {_: []}
-        mechMask = find stack.defs, (e) -> e.mask?.id is '000_top_mech-mask'
-        drlHits = find mechMask.mask._, (e) -> e.g?.id is '000_top-drl'
-        expect(stack.defs).to.contain.members drlDefs._
-        expect(drlHits.g.fill).to.eql '#000'
-        expect(drlHits.g.stroke).to.eql '#000'
-        expect(drlHits.g._).to.eql drlGroup._
+        it 'should simply add to outline to the group if not manifold', ->
+          sorted = sortLayers([TEST_TCU, TEST_BAD_OUT], '000').top
+          stack = stackLayers sorted, '000'
+          outGroup = result find(TEST_BAD_OUT.svg.svg._, 'g'), 'g', {_: []}
+          outDefs = result find(TEST_BAD_OUT.svg.svg._, 'defs'), 'defs', {_: []}
+          expect(stack.defs).to.contain.members outDefs._
+          expect(stack.group[2].g._).to.eql outGroup._
+          expect(stack.group[2].g.id).to.eql '000_top-out'
+          expect(stack.group[2].g.class).to.eql '000_board-out'
+          expect(stack.group[2].g.fill).to.eql 'currentColor'
+          expect(stack.group[2].g.stroke).to.eql 'currentColor'
 
-      it 'should create the mech mask if no manifold outline', ->
-        sorted = sortLayers([TEST_TCU, TEST_DRL[0]], '000').top
-        stack = stackLayers sorted, '000'
-        mechMask = find stack.defs, (e) -> e.mask?.id is '000_top_mech-mask'
-        totalBBox = new BoundingBox()
-          .add sorted.layers.cu.props.bBox
-          .add sorted.layers.drl.props.bBox
-        expect(mechMask.mask._[0]).to.eql totalBBox.rect '#fff'
-        expect(stack.maskId).to.eql '000_top_mech-mask'
+        it 'should add a mask to the defs if the outline is manifold', ->
+          stack = stackLayers sortLayers([TEST_TCU, TEST_OUT], '000').top, '000'
+          outGroup = result find(TEST_OUT.svg.svg._, 'g'), 'g', {_: []}
+          outDefs = result find(TEST_OUT.svg.svg._, 'defs'), 'defs', {_: []}
+          outMask = find stack.defs, (e) -> e.mask?.id is '000_top_mech-mask'
+          outMaskManifoldPath = find outMask.mask._, (e) ->
+            e.path?['stroke-width'] is 0
+          outMaskOpenPath = find outMask.mask._, (e) ->
+            e.path?['stroke-width'] is 100
+          expect(outMask.mask.fill).to.eql '#fff'
+          expect(outMask.mask.stroke).to.eql '#fff'
+          expect(outMaskManifoldPath).to.eql {
+            path: {'stroke-width': 0, d: outGroup._[1].path.d}
+          }
+          expect(outMaskOpenPath).to.eql outGroup._[0]
+
+      describe 'drill hits', ->
+
+        it 'should add drill hits to the mech mask', ->
+          sorted = sortLayers([TEST_TCU, TEST_OUT, TEST_DRL[0]], '000').top
+          stack = stackLayers sorted
+          drlGroup = result find(TEST_DRL[0].svg.svg._, 'g'), 'g', {_: []}
+          drlDefs = result find(TEST_DRL[0].svg.svg._, 'defs'), 'defs', {_: []}
+          mechMask = find stack.defs, (e) -> e.mask?.id is '000_top_mech-mask'
+          drlHits = find mechMask.mask._, (e) -> e.g?.id is '000_top-drl'
+          expect(stack.defs).to.contain.members drlDefs._
+          expect(drlHits.g.fill).to.eql '#000'
+          expect(drlHits.g.stroke).to.eql '#000'
+          expect(drlHits.g._).to.eql drlGroup._
+
+        it 'should create the mech mask if no manifold outline', ->
+          sorted = sortLayers([TEST_TCU, TEST_DRL[0]], '000').top
+          stack = stackLayers sorted, '000'
+          mechMask = find stack.defs, (e) -> e.mask?.id is '000_top_mech-mask'
+          totalBBox = new BoundingBox()
+            .add sorted.layers.cu.props.bBox
+            .add sorted.layers.drl.props.bBox
+          expect(mechMask.mask._[0]).to.eql totalBBox.rect '#fff'
+          expect(stack.maskId).to.eql '000_top_mech-mask'
 
   describe 'boardStackup function', ->
 
@@ -516,8 +527,8 @@ describe 'client-lib-boardStackup', ->
       expect(bottom.height).to.eql '0'
 
     it 'should stack the top and the bottom', ->
+      stackup = boardStackup cloneDeep(STACKUP_LAYERS), '000'
       sorted = sortLayers STACKUP_LAYERS, '000'
-      stackup = boardStackup STACKUP_LAYERS, '000'
       topStack = stackLayers sorted.top, '000'
       bottomStack = stackLayers sorted.bottom, '000'
 
