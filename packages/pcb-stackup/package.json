@@ -1,0 +1,54 @@
+{
+  "name": "tracespace-pcb-stackup",
+  "version": "0.0.1",
+  "description": "Creates PCB stackup (top and bottom view) SVG renders given SVG objects as output by gerber-to-svg",
+  "main": "lib/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "make test",
+    "lint": "make lint"
+  },
+  "precommit": [
+    "lint"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "github.com/tracespace/pcb-stackup"
+  },
+  "keywords": [
+    "pcb",
+    "gerber",
+    "svg",
+    "gerber-to-svg",
+    "tracespace",
+    "circuit",
+    "hardware"
+  ],
+  "author": "Mike Cousins <mike@cousins.io> (http://cousins.io/)",
+  "license": "MIT",
+  "peerDependencies": {
+    "gerber-to-svg": "^0.4.2"
+  },
+  "devDependencies": {
+    "brfs": "1.4.0",
+    "chai": "3.2.0",
+    "chokidar-cli": "0.2.1",
+    "coffee-coverage": "0.6.2",
+    "coffee-script": "1.9.3",
+    "coffeeify": "1.1.0",
+    "coffeelint": "1.10.1",
+    "istanbul": "0.3.15",
+    "lodash.clonedeep": "3.0.1",
+    "mocha": "2.2.5",
+    "phantomjs": "1.9.17",
+    "pre-commit": "1.0.10",
+    "zuul": "3.2.0"
+  },
+  "dependencies": {
+    "lodash.find": "3.2.1",
+    "lodash.remove": "3.1.0",
+    "lodash.result": "3.1.2"
+  }
+}

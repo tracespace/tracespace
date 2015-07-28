@@ -1,15 +1,13 @@
 # tests for the board shape function
 expect = require('chai').expect
 find = require 'lodash.find'
-boardShape = require '../src/lib/board-shape'
-Point = require '../src/lib/board-shape/_point'
-gatherPoints = require '../src/lib/board-shape/_gather-points'
-traversePoints = require '../src/lib/board-shape/_traverse-points'
+boardShape = require '../src/board-shape'
+Point = require '../src/board-shape/_point'
+gatherPoints = require '../src/board-shape/_gather-points'
+traversePoints = require '../src/board-shape/_traverse-points'
 
-describe 'client-lib-boardShape', ->
-
+describe 'board shape', ->
   describe 'Point class', ->
-
     it 'should take in a location coordinate', ->
       pt = new Point 1, 2
       expect(pt.x).to.equal 1
@@ -55,7 +53,6 @@ describe 'client-lib-boardShape', ->
       expect(pt4.edges[0].sweep).to.equal 0
 
     describe 'drawing to an adjacent point', ->
-
       it 'should return a path lineTo given a line segment', ->
         pt1 = new Point 0, 0
         pt2 = new Point 1, 1
@@ -146,7 +143,6 @@ describe 'client-lib-boardShape', ->
       expect(find pt3.edges, {point: pt2}).to.exist
 
   describe 'traverse points function', ->
-
     it 'should return an object with a manifold flag and a path data array', ->
       result = traversePoints()
       expect(result).to.have.keys ['manifold', 'path']
@@ -171,7 +167,6 @@ describe 'client-lib-boardShape', ->
       expect(result.manifold).to.be.true
 
     describe 'manifold detection', ->
-
       it 'should set manifold to false when the path has incomplete loops', ->
         points = gatherPoints ['M', 0, 0, 'L', 1, 1]
         traversal = traversePoints points
@@ -191,7 +186,6 @@ describe 'client-lib-boardShape', ->
 
 
   describe 'boardShape function', ->
-
     it 'should rearrange an array of a single path object', ->
       paths = [{
         path: {

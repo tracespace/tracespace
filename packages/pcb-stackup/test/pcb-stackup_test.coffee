@@ -3,11 +3,11 @@ expect = require('chai').expect
 find = require 'lodash.find'
 result = require 'lodash.result'
 cloneDeep = require 'lodash.clonedeep'
-boardStackup = require '../src/lib/board-stackup'
-BoundingBox = require '../src/lib/board-stackup/_bounding-box'
-layerProps = require '../src/lib/board-stackup/_layer-props'
-sortLayers = require '../src/lib/board-stackup/_sort-layers'
-stackLayers = require '../src/lib/board-stackup/_stack-layers'
+boardStackup = require '../src'
+BoundingBox = require '../src/_bounding-box'
+layerProps = require '../src/_layer-props'
+sortLayers = require '../src/_sort-layers'
+stackLayers = require '../src/_stack-layers'
 
 # test layers
 TEST_TCU = {type: 'tcu', svg: require './gerbers/board/stackup-F_Cu.json'}
@@ -40,8 +40,7 @@ STACKUP_LAYERS = [
   TEST_DRL[1]
 ]
 
-describe 'client-lib-boardStackup', ->
-
+describe 'pcb stackup', ->
   describe 'BoundingBox helper class', ->
     box = null
     beforeEach -> box = new BoundingBox()
@@ -293,9 +292,7 @@ describe 'client-lib-boardStackup', ->
       expect(sorted.bottom?.layers?.drl).to.not.exist
 
   describe 'stackLayers function', ->
-
     describe 'stackup size', ->
-
       it 'should determine the size of the stackup with the board outline', ->
         sorted = sortLayers(
           [TEST_OUT, TEST_TCU, TEST_TSM, TEST_TSS, TEST_TSP]
@@ -439,7 +436,6 @@ describe 'client-lib-boardStackup', ->
       expect(stack.defs).to.contain.members tspDefs._
 
     describe 'mechanical mask', ->
-
       it 'should not have a mechanical mask without an outline or drill', ->
         stack = stackLayers sortLayers([TEST_TCU], '000').top, '000'
         tcuGroup = result find(TEST_TCU.svg.svg._, 'g'), 'g', {_: []}
@@ -449,7 +445,6 @@ describe 'client-lib-boardStackup', ->
         expect(stack.maskId).to.be.null
 
       describe 'board outline', ->
-
         it 'should simply add to outline to the group if not manifold', ->
           sorted = sortLayers([TEST_TCU, TEST_BAD_OUT], '000').top
           stack = stackLayers sorted, '000'

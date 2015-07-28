@@ -1,6 +1,6 @@
 # test suite for identifying layer types
 expect = require('chai').expect
-LayerTypes = require '../src/lib/layer-types'
+LayerTypes = require '../src/layer-types'
 layers = LayerTypes.layers
 identify = LayerTypes.identify
 
@@ -75,7 +75,7 @@ ORCAD_STACKUP = {
 }
 
 
-describe 'client-lib-LayerTypes', ->
+describe 'layer types', ->
   describe 'layers object', ->
     it 'should have an object of all available layer types', ->
       expect(layers).to.have.keys [
