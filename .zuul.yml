@@ -8,11 +8,11 @@ browsers:
     version: latest
   - name: ie
     version: latest
+  - name: opera
+    version: latest
 browserify:
   - transform: coffeeify
   - transform: brfs
-  - plugin: proxyquire-universal
-  - ignore: mocha-jsdom
   - options:
       extensions:
         - .coffee

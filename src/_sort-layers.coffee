@@ -3,7 +3,7 @@
 find = require 'lodash.find'
 result = require 'lodash.result'
 layerProps = require './_layer-props'
-boardShape = require '../board-shape'
+boardShape = require './board-shape'
 
 TOP_LAYERS_RE = /^(t)|(out)/
 BOT_LAYERS_RE = /^(b)|(out)/
