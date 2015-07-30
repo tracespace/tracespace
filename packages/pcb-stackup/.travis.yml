@@ -1,0 +1,16 @@
+sudo: false
+language: node_js
+node_js:
+- '0.12'
+- '0.10'
+- iojs
+script: npm run-script travis
+deploy:
+  provider: npm
+  email: mike@cousins.io
+  on:
+    node: iojs
+    tags: true
+    all_branches: true
+  api_key:
+    secure: Ub9TdnUkapMFBK9kKfoEC7JGm1QRNvaggV2gbRAmAzZYJUwmbvvUqOBEDLpLEserqw0aCcv9Vmxlhv6gui1ZUT+5asiDu2P2I/QI9oLCwPzdk3pF8x/yv7aOQvW37oAtQ60futdN9WLTNY/tQ42xWckyMyCOFYicCI+VRj92yM6A0orS74UeNHIW22ssxn8r98cTkfOVDG+Ze+uL/qvmC1a0wsrd2qscSc9hLTO04UhBgqDulJFE0w2TArsArPW82McIqRiI1jhcjCqxVVfiiWpJiASvPUb2E7DK9WQ8yLOjDYjeMqLrjzKJlWSG5yZedoa2245Nd/gLUALf8YnhqeXL7UYIDbD1WtQNVdXZSrPux5D+oBH4M9By33NsXn8hgElr5UEm2oArTbpiophvmh1yGCjkQAOARBp9Ki6B/hb0YLQVyzF/vBkb/v1aiyiRPqBIE8A+cBggB5MqGkhvTAyV+rbqJ/Y/oFen0Q1NXxfDH6z0BsNgRSSJp/LK4wZnV6dHwGwb0zt6fjJTD7iWTMIqp+6RItkZrtu//Y8dMfJdA5vUYLkYZV4qSpaCgxB3RJBm1s+2lLgWxlvEQ5PnbsaGbS52zaBh7vKRHyuSQlhMxsCSjwIu697SK5rfn6pvGAW6XQrhAvLUcAoPTpC+sSaZanEWxaIhfwzfiQXuolE=
