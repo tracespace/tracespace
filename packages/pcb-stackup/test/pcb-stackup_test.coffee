@@ -445,7 +445,7 @@ describe 'pcb stackup', ->
         expect(stack.maskId).to.be.null
 
       describe 'board outline', ->
-        it 'should simply add to outline to the group if not manifold', ->
+        it 'should simply add the outline to the group if not manifold', ->
           sorted = sortLayers([TEST_TCU, TEST_BAD_OUT], '000').top
           stack = stackLayers sorted, '000'
           outGroup = result find(TEST_BAD_OUT.svg.svg._, 'g'), 'g', {_: []}

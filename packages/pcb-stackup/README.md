@@ -40,25 +40,20 @@ The function will output an object containing two keys: 'top' and 'bottom'. Both
 | Silkscreen        | ID + '_board-ss'  |
 | Solderpaste       | ID + '_board-sp'  |
 
-The classnames have the board ID prefixed so that, if you inline a stylesheet, the styles won't leak (as they are wont to do with inilne stylesheets) to other PCB renders on the page.
+The classnames have the board ID prefixed so that, if you inline a stylesheet, the styles won't leak (as they are wont to do with inline stylesheets) to other PCB renders on the page.
 
 ### layer types
 For each type of PCB layer, this module expects a three character abbreviation:
 
-| layer type         | abbreviation |
-|--------------------|--------------|
-| top copper         | tcu          |
-| bottom copper      | bcu          |
-| inner copper       | icu          |
-| top soldermask     | tsm          |
-| bottom soldermask  | bsm          |
-| top silkscreen     | tss          |
-| bottom silkscreen  | bss          |
-| top solderpaste    | tsp          |
-| bottom solderpaste | bsp          |
-| board outline      | out          |
-| drill hits         | drl          |
-| generic drawing    | drw          |
+| layer type                  | abbreviation    |
+|-----------------------------|-----------------|
+| top / inner / bottom copper | tcu / icu / bcu |
+| top / bottom soldermask     | tsm / bsm       |
+| top / bottom silkscreen     | tss / bss       |
+| top / bottom solderpaste    | tsp / bsp       |
+| board outline               | out             |
+| drill hits                  | drl             |
+| generic drawing             | drw             |
 
 As a convenience, this module contains a function to try to identify a layer type by its filename using common naming patterns from various EDA packages (Eagle, KiCad, Orcad, and Altium). For example:
 
@@ -106,7 +101,7 @@ fs.writeFileSync('path/to/bottom.svg', gerberToSvg(stackup.bottom));
 ```
 
 ## developing
-This module is written in CoffeeScript and uses make to manage building and testing.
+This module is written in CoffeeScript and uses Make to manage building and testing.
 
 * `$ make` - build the JavaScript
 * `$ make clean` - delete the JavaScript `lib` folder
@@ -118,4 +113,4 @@ This module is written in CoffeeScript and uses make to manage building and test
 * `$ make lint` - lint the source and tests
 
 ### contributing
-Please ensure all feature and bug-fix pull-requests include unit tests and pass linting.
+Please ensure all feature and bug-fix pull-requests include unit tests. There is a pre-commit hook that will automatically lint, compile, and add any changed lib files to the commit. Files in lib are source-controlled so you can `npm install` the module from GitHub.
