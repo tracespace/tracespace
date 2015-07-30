@@ -5,21 +5,19 @@
 [![David](https://img.shields.io/david/tracespace/pcb-stackup.svg?style=flat-square)](https://david-dm.org/tracespace/pcb-stackup)
 [![David](https://img.shields.io/david/dev/tracespace/pcb-stackup.svg?style=flat-square)](https://david-dm.org/tracespace/pcb-stackup#info=devDependencies)
 
-This module takes individual printed circuit board layers output by [gerber-to-svg](https://github.com/mcous/gerber-to-svg) and uses them to build SVG renders of what the manufactured PCB will look like from the top and the bottom.
+This module takes individual printed circuit board layers output by [gerber-to-svg](https://www.npmjs.com/package/gerber-to-svg) and uses them to build SVG renders of what the manufactured PCB will look like from the top and the bottom.
 
 Install with:
 
-``` shell
-$ npm install tracespace-pcb-stackup
 ```
-
-Used by [trace | space](https://tracespace.io).
+$ npm install pcb-stackup
+```
 
 ## usage
 This module is designed to work in Node or in the browser with Browserify.
 
 ``` javascript
-var pcbStackup = require('tracespace-pcb-stackup');
+var pcbStackup = require('pcb-stackup');
 var myBoardStackup = pcbStackup(layersArray, 'my-board');
 ```
 
@@ -64,7 +62,7 @@ For each type of PCB layer, this module expects a three character abbreviation:
 As a convenience, this module contains a function to try to identify a layer type by its filename using common naming patterns from various EDA packages (Eagle, KiCad, Orcad, and Altium). For example:
 
 ``` javascript
-var idLayer = require('tracespace-pcb-stackup/lib/layer-types').identify;
+var idLayer = require('pcb-stackup/lib/layer-types').identify;
 var filename = "some-project-F_Cu.gbr";
 var layerType = idLayer(filename);
 
@@ -75,8 +73,8 @@ console.log(layerType); // logs 'tcu'
 ``` javascript
 var fs = require('fs');
 var gerberToSvg = require('gerber-to-svg');
-var pcbStackup = require('tracespace-pcb-stackup');
-var idLayer = require('tracespace-pcb-stackup/lib/layer-types').identify;
+var pcbStackup = require('pcb-stackup');
+var idLayer = require('pcb-stackup/lib/layer-types').identify;
 
 var gerbersPaths = [
   'path/to/board-F_Cu.gbr',
