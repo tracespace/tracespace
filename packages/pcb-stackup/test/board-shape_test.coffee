@@ -142,6 +142,34 @@ describe 'board shape', ->
       expect(find pt2.edges, {point: pt3}).to.exist
       expect(find pt3.edges, {point: pt2}).to.exist
 
+    it 'should not confuse lines and arcs', ->
+      result = gatherPoints [
+        'M', -1, 0, 'L', 0, 0, 'A', 1, 1, 0, 0, 0, 1, 1, 'L', -1, 1, 'L', -1, 0
+      ]
+      pt0 = find result, {x: -1, y: 0}
+      pt1 = find result, {x: 0, y: 0}
+      pt2 = find result, {x: 1, y: 1}
+      pt3 = find result, {x: -1, y: 1}
+
+      pt0.edges.forEach (e) ->
+        expect(e.radius).to.not.exist
+
+      pt1.edges.forEach (e) ->
+        if e.point is pt2
+          expect(e.radius).to.exist
+        else
+          expect(e.radius).to.not.exist
+
+      pt2.edges.forEach (e) ->
+        if e.point is pt1
+          expect(e.radius).to.exist
+        else
+          expect(e.radius).to.not.exist
+
+      pt3.edges.forEach (e) ->
+        expect(e.radius).to.not.exist
+
+
   describe 'traverse points function', ->
     it 'should return an object with a manifold flag and a path data array', ->
       result = traversePoints()
@@ -183,6 +211,14 @@ describe 'board shape', ->
         points = []
         traversal = traversePoints points
         expect(traversal.manifold).to.be.false
+
+      it 'should say a path with two complete loops is manifold', ->
+        points = gatherPoints [
+          'M', 0, 0, 'L', 1, 0, 'L', 0, 1, 'Z',
+          'M', 2, 2, 'L', 3, 2, 'L', 2, 3, 'Z'
+        ]
+        traversal = traversePoints points
+        expect(traversal.manifold).to.be.true
 
 
   describe 'boardShape function', ->

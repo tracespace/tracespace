@@ -44,6 +44,7 @@ stackLayers = (sortedLayers, boardId = '') ->
       mechMask = {mask: {id: maskId, fill: '#fff', stroke: '#fff', _: []}}
       for p, index in out._
         if manifoldFlags[index]
+          mechMask.mask['fill-rule'] = 'evenodd'
           mechMask.mask._.push {path: {'stroke-width': 0, d: p.path.d}}
         else
           mechMask.mask._.push p
