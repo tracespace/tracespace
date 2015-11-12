@@ -467,6 +467,7 @@ describe 'pcb stackup', ->
           outMaskOpenPath = find outMask.mask._, (e) ->
             e.path?['stroke-width'] is 100
           expect(outMask.mask.fill).to.eql '#fff'
+          expect(outMask.mask['fill-rule']).to.eql 'evenodd'
           expect(outMask.mask.stroke).to.eql '#fff'
           expect(outMaskManifoldPath).to.eql {
             path: {'stroke-width': 0, d: outGroup._[1].path.d}

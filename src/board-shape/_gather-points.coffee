@@ -36,6 +36,11 @@ gatherPoints = (data) ->
       firstPoint = nextPoint
     else
       lastPoint.addEdgeTo nextPoint, radius, largeArc, sweep
+
+      # empty out the arc parameters
+      radius = null
+      largeArc = null
+      sweep = null
     # get ready for the next go around
     lastPoint = nextPoint
 
