@@ -3,13 +3,13 @@ language: node_js
 node_js:
 - '0.12'
 - '0.10'
-- iojs
+- node
 script: npm run-script travis
 deploy:
   provider: npm
   email: mike@cousins.io
   on:
-    node: iojs
+    node: node
     tags: true
     all_branches: true
   api_key:
