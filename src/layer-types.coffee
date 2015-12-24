@@ -38,10 +38,10 @@ layers = {
   }
   out: {
     title: 'board outline'
-    match: /(Edge_Cuts)|(\.((dim)|(mil)|(gko)|(drd)))/i}
+    match: /(Edge_Cuts)|(\.((dim)|(mil)|(gm\d)|(gko)|(fab)))/i}
   drl: {
     title: 'drill hits'
-    match: /\.((drl)|(xln)|(txt)|(tap))/i
+    match: /\.((drl)|(xln)|(txt)|(tap)|(drd))/i
   }
   drw: {
     title: 'gerber drawing'
