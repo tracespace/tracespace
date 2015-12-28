@@ -46,6 +46,20 @@ NEW_EAGLE_STACKUP = {
   drl: 'board.xln'
 }
 
+NEW_EAGLE_STACKUP_2 = {
+  tcu: 'board.top'
+  tsm: 'board.tsm'
+  tss: 'board.tsk'
+  tsp: 'board.tsp'
+  bcu: 'board.bot'
+  bsm: 'board.bsm'
+  bss: 'board.bsk'
+  bsp: 'board.bsp'
+  icu: 'board.ly3'
+  out: 'board.mil'
+  drl: 'board.drd'
+}
+
 ALTIUM_STACKUP = {
   tcu: 'board.gtl'
   tsm: 'board.gts'
@@ -60,6 +74,20 @@ ALTIUM_STACKUP = {
   drl: 'board.txt'
 }
 
+ALTIUM_STACKUP_2 = {
+  tcu: 'board.gtl'
+  tsm: 'board.gts'
+  tss: 'board.gto'
+  tsp: 'board.gtp'
+  bcu: 'board.gbl'
+  bsm: 'board.gbs'
+  bss: 'board.gbo'
+  bsp: 'board.gbp'
+  icu: 'board.g1'
+  out: 'board.gm3'
+  drl: 'board.txt'
+}
+
 ORCAD_STACKUP = {
   tcu: 'board.TOP'
   tsm: 'board.SMT'
@@ -70,7 +98,7 @@ ORCAD_STACKUP = {
   bss: 'board.SSB'
   bsp: 'board.SPB'
   icu: 'board.IN1'
-  out: 'board.DRD'
+  out: 'board.FAB'
   drl: 'board.TAP'
 }
 
@@ -124,8 +152,16 @@ describe 'layer types', ->
       for key, val of NEW_EAGLE_STACKUP
         expect(identify val).to.eql key
 
+    it 'should identify alternative new eagle file extensions', ->
+      for key, val of NEW_EAGLE_STACKUP_2
+        expect(identify val).to.eql key
+
     it 'should identify altium file extensions', ->
       for key, val of ALTIUM_STACKUP
+        expect(identify val).to.eql key
+
+    it 'should identify alternative altium file extensions', ->
+      for key, val of ALTIUM_STACKUP_2
         expect(identify val).to.eql key
 
     it 'should identify orcad file extensions', ->
