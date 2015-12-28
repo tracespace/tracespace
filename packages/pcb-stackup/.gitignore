@@ -1,5 +1,2 @@
-# ignore npm plz
 node_modules
-
-# ignore coverage reports
 coverage

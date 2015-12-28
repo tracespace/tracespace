@@ -1,4 +1,5 @@
 # pcb stackup
+
 [![npm](https://img.shields.io/npm/v/pcb-stackup.svg?style=flat-square)](https://www.npmjs.com/package/pcb-stackup)
 [![Travis](https://img.shields.io/travis/tracespace/pcb-stackup.svg?style=flat-square)](https://travis-ci.org/tracespace/pcb-stackup)
 [![Coveralls](https://img.shields.io/coveralls/tracespace/pcb-stackup.svg?style=flat-square)](https://coveralls.io/github/tracespace/pcb-stackup)
@@ -10,30 +11,38 @@ This module takes individual printed circuit board layers output by [gerber-to-s
 Install with:
 
 ```
-$ npm install pcb-stackup
+$ npm install --save pcb-stackup
 ```
 
 ## usage
-This module is designed to work in Node or in the browser with Browserify.
+
+This module is designed to work in Node or in the browser with Browserify or Webpack.
 
 ``` javascript
-var pcbStackup = require('pcb-stackup');
-var myBoardStackup = pcbStackup(layersArray, 'my-board');
+var pcbStackup = require('pcb-stackup')
+var myBoardStackup = pcbStackup(layersArray, options)
 ```
 
 ### input
-The pcbStackup function takes two parameters: an array of layer objects and a board ID. The board ID is a string that is prepended to various IDs and class-names. A layer object is an object with a layer type and the SVG object output from `gerber-to-svg`:
+
+The pcbStackup function takes two parameters: an array of layer objects and an options object. A layer object is an object with a layer type and the converter stream object output from `gerber-to-svg`. It is expected that the converters will have already fired their `end` events before being passed to `pcbStackup`.
 
 ``` javascript
 var topCopperLayer = {
   type: 'tcu',
-  svg: {svg: {...}}
-};
+  layer: FINISHED_GERBER_TO_SVG_CONVERTER
+}
 ```
 
-### output
-The function will output an object containing two keys: 'top' and 'bottom'. Both keys refer to an SVG object that can be run through `gerberToSvg` to obtain an SVG string of the top and bottom render, respectively. The SVG will be unstyled, but each component of the stackup has a class you can use to color it appropriately:
+#### options
 
+
+
+### output
+
+The function will output an object containing two keys: 'top' and 'bottom'. Each key will hold the SVG string of that side of the board's render.
+
+#### styling
 
 | component         | classname         |
 |-------------------|-------------------|
@@ -47,6 +56,7 @@ The function will output an object containing two keys: 'top' and 'bottom'. Both
 The classnames have the board ID prefixed so that, if you inline a stylesheet, the styles won't leak (as they are wont to do with inline stylesheets) to other PCB renders on the page.
 
 ### layer types
+
 For each type of PCB layer, this module expects a three character abbreviation:
 
 | layer type                  | abbreviation    |
@@ -62,21 +72,23 @@ For each type of PCB layer, this module expects a three character abbreviation:
 As a convenience, this module contains a function to try to identify a layer type by its filename using common naming patterns from various EDA packages (Eagle, KiCad, Orcad, and Altium). For example:
 
 ``` javascript
-var idLayer = require('pcb-stackup/lib/layer-types').identify;
-var filename = "some-project-F_Cu.gbr";
-var layerType = idLayer(filename);
+var idLayer = require('pcb-stackup/lib/layer-types').identify
+var filename = 'some-project-F_Cu.gbr'
+var layerType = idLayer(filename)
 
-console.log(layerType); // logs 'tcu'
+console.log(layerType) // logs 'tcu'
 ```
 
 ### stackup example
-``` javascript
-var fs = require('fs');
-var gerberToSvg = require('gerber-to-svg');
-var pcbStackup = require('pcb-stackup');
-var idLayer = require('pcb-stackup/lib/layer-types').identify;
 
-var gerbersPaths = [
+``` javascript
+var fs = require('fs')
+var async = require('async')
+var gerberToSvg = require('gerber-to-svg')
+var pcbStackup = require('pcb-stackup')
+var idLayer = require('pcb-stackup/lib/layer-types').identify
+
+var gerberPaths = [
   'path/to/board-F_Cu.gbr',
   'path/to/board-F_Mask.gbr',
   'path/to/board-F_SilkS.gbr',
@@ -87,34 +99,45 @@ var gerbersPaths = [
   'path/to/board-B_Paste.gbr',
   'path/to/board-Edge_Cuts.gbr',
   'path/to/board.drl'
-];
-var layers = [];
+]
 
-gerberPaths.forEach(function(filename) {
-  var gerberString = fs.readFileSync(filename, 'utf-8');
-  var layerType = idLayer(filename);
-  var options = {object: true, drill: (layerType === 'drl')};
-  var svgObj = gerberToSvg(gerberString, options);
+async.map(gerberPaths, function(filename, done) {
+  var gerber = fs.createReadStream(filename, 'utf-8')
+  var layerType = idLayer(filename)
+  var converter = gerberToSvg(gerber, filename, function(error, result)) {
+    if (error) {
+      console.warn(filename + ' failed to convert')
+      return done()
+    }
 
-  layers.push({type: layerType, svg: svgObj});
-});
+    done(null, {type: layerType, layer: converter})
+  }
+}, function(error, layers) {
+  if (error) {
+    return console.error('error mapping gerber file paths to array of converters')
+  }
 
-var stackup = pcbStackup(layers, 'my-board');
-fs.writeFileSync('path/to/top.svg', gerberToSvg(stackup.top));
-fs.writeFileSync('path/to/bottom.svg', gerberToSvg(stackup.bottom));
+  var stackup = pcbStackup(layers.filter(Boolean), 'my-board')
+  fs.writeFileSync('path/to/top.svg', stackup.top)
+  fs.writeFileSync('path/to/bottom.svg', stackup.bottom)
+})
 ```
 
-## developing
-This module is written in CoffeeScript and uses Make to manage building and testing.
+## developing and contributing
 
-* `$ make` - build the JavaScript
-* `$ make clean` - delete the JavaScript `lib` folder
-* `$ make watch` - watch the source and recompile on changes
-* `$ make test` - run the unit tests
-* `$ make test-watch` - run the unit tests and rerun on changes
-* `$ make test-phantom` - run the unit tests in PhantomJS
-* `$ make test-browsers` - run the unit tests on SauceLabs
-* `$ make lint` - lint the source and tests
+Clone and then `$ npm install`. Please accompany all PRs with applicable tests. Please test your code in browsers, as Travis CI cannot run browser tests for PRs.
 
-### contributing
-Please ensure all feature and bug-fix pull-requests include unit tests. There is a pre-commit hook that will automatically lint, compile, and add any changed lib files to the commit. Files in lib are source-controlled so you can `npm install` the module from GitHub.
+### testing
+
+This module uses [Mocha](http://mochajs.org/) and [Chai](http://chaijs.com/) for unit testing, [Istanbul](https://github.com/gotwarlost/istanbul) for coverage, and [ESLint](http://eslint.org/) for linting.
+
+* `$ npm test` - run the tests, calculate coverage, and lint
+* `$ npm run test:watch` - run the tests on code changes (does not lint nor cover)
+* `$ npm run lint` - lint the code (will be run as a pre-commit script)
+
+### browser testing
+
+Browser tests are run with [Zuul](https://github.com/defunctzombie/zuul) and [Sauce Labs](https://saucelabs.com/opensauce/).
+
+* `$ npm run test:browser` - run the unit tests in a local browser
+* `$ npm run test:sauce` - run the units tests in several browsers using Open Sauce (Sauce Labs account and local [.zuulrc](https://github.com/defunctzombie/zuul/wiki/Zuulrc) required)

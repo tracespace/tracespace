@@ -1,20 +1,24 @@
 {
   "name": "pcb-stackup",
   "version": "0.0.4",
-  "description": "Creates PCB stackup (top and bottom view) SVG renders given SVG objects as output by gerber-to-svg",
+  "description": "Creates PCB stackup (top and bottom view) SVG renders from gerber-to-svg converters",
   "main": "lib/index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "travis": "make test && ./node_modules/coveralls/bin/coveralls.js < ./coverage/lcov.info",
-    "lib": "make && git add lib",
-    "lint": "make lint",
-    "test": "make test"
+    "lint": "eslint lib/*.js test/*.js",
+    "test": "istanbul cover --include-all-sources _mocha",
+    "posttest": "npm run lint",
+    "test:watch": "mocha --reporter dot --watch",
+    "test:browser": "zuul --local -- ./test/*_test.js",
+    "test:sauce": "zuul -- ./test/*_test.js",
+    "ci": "npm test && if [ \"${TEST_BROWSERS}\" = \"true\" ]; then npm run ci:browser; fi",
+    "ci:browser": "if [ \"${TRAVIS_PULL_REQUEST}\" = \"false\" ]; then npm run test:sauce; fi",
+    "postci": "coveralls < ./coverage/lcov.info"
   },
   "precommit": [
-    "lint",
-    "lib"
+    "lint"
   ],
   "repository": {
     "type": "git",
@@ -32,27 +36,21 @@
   "author": "Mike Cousins <mike@cousins.io> (http://cousins.io/)",
   "license": "MIT",
   "peerDependencies": {
-    "gerber-to-svg": "^0.4.2"
+    "gerber-to-svg": "^1.0.0"
   },
   "devDependencies": {
     "brfs": "^1.4.1",
     "chai": "^3.2.0",
-    "chokidar-cli": "^1.1.1",
-    "coffee-coverage": "^0.7.0",
-    "coffee-script": "^1.10.0",
-    "coffeeify": "1.1.0",
-    "coffeelint": "^1.10.1",
     "coveralls": "^2.11.3",
+    "eslint": "^1.10.3",
     "istanbul": "^0.4.0",
     "lodash.clonedeep": "^3.0.2",
     "mocha": "^2.3.3",
-    "phantomjs": "^1.9.18",
-    "pre-commit": "^1.0.10",
-    "zuul": "3.7.2"
+    "zuul": "^3.8.0"
   },
   "dependencies": {
-    "lodash.find": "3.2.1",
-    "lodash.remove": "3.1.0",
-    "lodash.result": "3.1.2"
+    "lodash.find": "^3.2.1",
+    "lodash.remove": "^3.1.0",
+    "lodash.result": "^3.1.2"
   }
 }
