@@ -39,12 +39,12 @@
     "gerber-to-svg": "^1.0.0"
   },
   "devDependencies": {
-    "brfs": "^1.4.1",
     "chai": "^3.2.0",
     "coveralls": "^2.11.3",
     "eslint": "^1.10.3",
     "istanbul": "^0.4.0",
     "lodash.clonedeep": "^3.0.2",
+    "lodash.forin": "^3.0.2",
     "mocha": "^2.3.3",
     "zuul": "^3.8.0"
   },
