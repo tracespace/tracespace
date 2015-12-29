@@ -25,17 +25,20 @@ var myBoardStackup = pcbStackup(layersArray, options)
 
 ### input
 
-The pcbStackup function takes two parameters: an array of layer objects and an options object. A layer object is an object with a layer type and the converter stream object output from `gerber-to-svg`. It is expected that the converters will have already fired their `end` events before being passed to `pcbStackup`.
+The pcbStackup function takes two parameters: an array of layer objects and an options object. A layer object is an object with a `filename` key and a `layer` key, where `filename` is the filename of the Gerber file and `layer` is the converter object returned by `gerber-to-svg` for that Gerber file.
+
+It is expected that the converters will have already finished (which can be checked by listening for the converter's `end` event) before being passed to `pcbStackup`.
 
 ``` javascript
 var topCopperLayer = {
-  type: 'tcu',
+  filename: GERBER_FILENAME,
   layer: FINISHED_GERBER_TO_SVG_CONVERTER
 }
 ```
 
 #### options
 
+The second parameter of the pcbStackup function is an options object. The only required option is the `id` options. For ease, if no other options are being specified, the id string may be passed as the second parameter directly.
 
 
 ### output
@@ -57,7 +60,7 @@ The classnames have the board ID prefixed so that, if you inline a stylesheet, t
 
 ### layer types
 
-For each type of PCB layer, this module expects a three character abbreviation:
+The stackup can be made up of the following layer types:
 
 | layer type                  | abbreviation    |
 |-----------------------------|-----------------|
@@ -67,17 +70,7 @@ For each type of PCB layer, this module expects a three character abbreviation:
 | top / bottom solderpaste    | tsp / bsp       |
 | board outline               | out             |
 | drill hits                  | drl             |
-| generic drawing             | drw             |
-
-As a convenience, this module contains a function to try to identify a layer type by its filename using common naming patterns from various EDA packages (Eagle, KiCad, Orcad, and Altium). For example:
-
-``` javascript
-var idLayer = require('pcb-stackup/lib/layer-types').identify
-var filename = 'some-project-F_Cu.gbr'
-var layerType = idLayer(filename)
-
-console.log(layerType) // logs 'tcu'
-```
+| generic drawing (not used)  | drw             |
 
 ### stackup example
 
@@ -86,7 +79,6 @@ var fs = require('fs')
 var async = require('async')
 var gerberToSvg = require('gerber-to-svg')
 var pcbStackup = require('pcb-stackup')
-var idLayer = require('pcb-stackup/lib/layer-types').identify
 
 var gerberPaths = [
   'path/to/board-F_Cu.gbr',
@@ -103,14 +95,13 @@ var gerberPaths = [
 
 async.map(gerberPaths, function(filename, done) {
   var gerber = fs.createReadStream(filename, 'utf-8')
-  var layerType = idLayer(filename)
   var converter = gerberToSvg(gerber, filename, function(error, result)) {
     if (error) {
       console.warn(filename + ' failed to convert')
       return done()
     }
 
-    done(null, {type: layerType, layer: converter})
+    done(null, {filename: filename, layer: converter})
   }
 }, function(error, layers) {
   if (error) {
