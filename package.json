@@ -42,6 +42,7 @@
     "chai": "^3.2.0",
     "coveralls": "^2.11.3",
     "eslint": "^1.10.3",
+    "gerber-to-svg": "^1.0.0",
     "istanbul": "^0.4.0",
     "lodash.clonedeep": "^3.0.2",
     "lodash.forin": "^3.0.2",
