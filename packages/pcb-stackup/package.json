@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "lodash.find": "^3.2.1",
+    "lodash.findkey": "^3.0.1",
     "lodash.remove": "^3.1.0",
     "lodash.result": "^3.1.2"
   }
