@@ -8,3 +8,5 @@ browsers:
     version: -1..latest
   - name: ie
     version: -1..latest
+browserify:
+  - plugin: proxyquire-universal

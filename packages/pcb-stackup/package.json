@@ -47,12 +47,20 @@
     "lodash.clonedeep": "^3.0.2",
     "lodash.forin": "^3.0.2",
     "mocha": "^2.3.3",
+    "proxyquire": "^1.7.3",
+    "proxyquire-universal": "^1.0.8",
+    "proxyquireify": "^3.0.1",
+    "sinon": "^1.17.2",
+    "sinon-chai": "^2.8.0",
     "zuul": "^3.8.0"
   },
   "dependencies": {
-    "lodash.find": "^3.2.1",
+    "lodash.countby": "^3.1.1",
+    "lodash.defaults": "^3.1.2",
     "lodash.findkey": "^3.0.1",
-    "lodash.remove": "^3.1.0",
-    "lodash.result": "^3.1.2"
+    "lodash.isstring": "^3.0.1",
+    "lodash.mapvalues": "^3.0.1",
+    "lodash.reduce": "^3.1.2",
+    "lodash.values": "^3.0.0"
   }
 }
