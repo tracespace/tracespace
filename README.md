@@ -25,14 +25,14 @@ var myBoardStackup = pcbStackup(layersArray, options)
 
 ### input
 
-The pcbStackup function takes two parameters: an array of layer objects and an options object. A layer object is an object with a `filename` key and a `layer` key, where `filename` is the filename of the Gerber file and `layer` is the converter object returned by `gerber-to-svg` for that Gerber file.
+The pcbStackup function takes two parameters: an array of layer objects and an options object. A layer object is an object with a `filename` key and a `layer` key, where `filename` is the filename of the Gerber file and `converter` is the converter object returned by `gerber-to-svg` for that Gerber file.
 
 It is expected that the converters will have already finished (which can be checked by listening for the converter's `end` event) before being passed to `pcbStackup`.
 
 ``` javascript
 var topCopperLayer = {
   filename: GERBER_FILENAME,
-  layer: FINISHED_GERBER_TO_SVG_CONVERTER
+  converter: FINISHED_GERBER_TO_SVG_CONVERTER
 }
 ```
 
@@ -49,12 +49,12 @@ The function will output an object containing two keys: 'top' and 'bottom'. Each
 
 | component         | classname         |
 |-------------------|-------------------|
-| Substrate         | ID + '_board-fr4' |
-| Copper (masked)   | ID + '_board-cu'  |
-| Copper (finished) | ID + '_board-cf'  |
-| Soldermask        | ID + '_board-sm'  |
-| Silkscreen        | ID + '_board-ss'  |
-| Solderpaste       | ID + '_board-sp'  |
+| Substrate         | ID + '_fr4' |
+| Copper (masked)   | ID + '_cu'  |
+| Copper (finished) | ID + '_cf'  |
+| Soldermask        | ID + '_sm'  |
+| Silkscreen        | ID + '_ss'  |
+| Solderpaste       | ID + '_sp'  |
 
 The classnames have the board ID prefixed so that, if you inline a stylesheet, the styles won't leak (as they are wont to do with inline stylesheets) to other PCB renders on the page.
 
@@ -95,14 +95,14 @@ var gerberPaths = [
 
 async.map(gerberPaths, function(filename, done) {
   var gerber = fs.createReadStream(filename, 'utf-8')
-  var converter = gerberToSvg(gerber, filename, function(error, result)) {
+  var converter = gerberToSvg(gerber, filename, function(error, result) {
     if (error) {
       console.warn(filename + ' failed to convert')
       return done()
     }
 
-    done(null, {filename: filename, layer: converter})
-  }
+    done(null, {filename: filename, converter: converter})
+  })
 }, function(error, layers) {
   if (error) {
     return console.error('error mapping gerber file paths to array of converters')
