@@ -86,7 +86,7 @@ module.exports = [
       // bottom silkscreen
       {name: 'board.gbo', type: 'bss'},
       // bottom solderpaste
-        {name: 'board.gbp', type: 'bsp'},
+      {name: 'board.gbp', type: 'bsp'},
       // inner copper
       {name: 'board.g1', type: 'icu'},
       // outline
