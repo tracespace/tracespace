@@ -1,0 +1,33 @@
+{
+  "name": "whats-that-gerber",
+  "version": "1.0.0",
+  "description": "Guesses the PCB layer type given a filename of a Gerber or drill file",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint index.js test/*js",
+    "test": "mocha",
+    "posttest": "npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tracespace/whats-that-gerber.git"
+  },
+  "keywords": [
+    "pcb",
+    "gerber",
+    "svg",
+    "gerber-to-svg",
+    "hardware"
+  ],
+  "author": "Mike Cousins <mike@cousins.io> (http://cousins.io)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tracespace/whats-that-gerber/issues"
+  },
+  "homepage": "https://github.com/tracespace/whats-that-gerber#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^2.9.0",
+    "mocha": "^2.4.5"
+  }
+}
