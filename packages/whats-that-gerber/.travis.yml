@@ -1,0 +1,20 @@
+sudo: false
+language: node_js
+
+node_js:
+  - "0.10"
+  - "4"
+  - node
+
+script: npm test
+
+deploy:
+  provider: npm
+  email: mike@cousins.io
+  api_key:
+    secure: HnBJwo3XmG2fLwgonBTRKd90X+zqox8J60Y1Jfy8z0H7l7ff7HE8mX9n4zlmIDxGpAz/pczFo6KJ/exsXNBdkayKEGuwVMIEqCkot/f8vZ06L0i2druxb/DzhmXq1t6hGsuMRjjVfJa19a7XQVIfla0j2eulbp+gxTQ+2dWFPU6+2dpoT/C+o+Jo9tAW/0dhf+IpPUZbdKoxhe6LT1hc8hoCqWWJ7e6nsVMvh/kB7CL+2CSa2QiG4ega3oskVTNckTuQOovc6OzKN+oPhR30XA6N8UFPSzcs6bl4EMnMG6HIs2aQCXKcwxOZdFQOI1iKF2u0GNqti2Dg7WeQTdt1hkj4CPpd9vBukPjvCsMp+92+qomZRBd3rhTemAZJxrQ1QR/tq98zG4lLcQ2gYcohXFMshS+PHpOTmV+WQixPhhvHaxrzmh5H2CFCgYbjyCpTU+4OqAYJfADOUtB2X7wZa7P4ssIaDQq86Ci98KpZLews4ATowogJ/73TdLJflH8Q5sMFdy72eigzIlHZINt80YwAXpA1LDeBDX3UcEuMwaGvd8NvOj751990OZRTfFwxtIZkwnXluUn7DD5kdHfwk7OXwxi91T+WF+gGpvQYw1IAzrmWROjyPYx/WQCkh/pQe8u/EM7jzNwmVi/bsIiWqnslGEmwGA428x17ShK8yUU=
+  on:
+    node: node
+    tags: true
+    all_branches: true
+    repo: tracespace/whats-that-gerber
