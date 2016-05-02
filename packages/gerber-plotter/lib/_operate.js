@@ -21,6 +21,12 @@ var flash = function(coord, tool, region, plotter) {
     return boundingBox.new()
   }
 
+  // warn if tool was not defined
+  if (!tool) {
+    plotter._warn('flash with unknown tool ignored')
+    return boundingBox.new()
+  }
+
   // push the pad shape if needed
   if (!tool.flashed) {
     tool.flashed = true

@@ -1594,6 +1594,18 @@ describe('gerber plotter', function() {
       p.write({type: 'op', op: 'flash', coord: {x: 1, y: 1}})
     })
 
+    it('should warn if a non-existent tool is flashed', function(done) {
+      p.once('warning', function(w) {
+        expect(w.message).to.match(/unknown tool/)
+        done()
+      })
+
+      p.write({type: 'set', prop: 'units', value: 'in'})
+      p.write({type: 'set', prop: 'nota', value: 'A'})
+      p._tool = null
+      p.write({type: 'op', op: 'flash', coord: {x: 1, y: 1}})
+    })
+
     it('should warn and ignore interpolates with unstrokable tools', function(done) {
       var tool = {shape: 'circle', params: [2], hole: [1]}
 
