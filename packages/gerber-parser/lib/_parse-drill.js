@@ -13,8 +13,8 @@ var reALTIUM_HINT = /;FILE_FORMAT=(\d):(\d)/
 var reKI_HINT = /;FORMAT={(.):(.)\/ (absolute|.+)? \/ (metric|inch) \/.+(trailing|leading|decimal|keep)/
 
 var reUNITS = /(INCH|METRIC)(?:,([TL])Z)?/
-var reTOOL_DEF = /T0*(\d+)C([\d.]+)/
-var reTOOL_SET = /T0*(\d+)(?!C)/
+var reTOOL_DEF = /T0*(\d+)[\S]*C([\d.]+)/
+var reTOOL_SET = /T0*(\d+)(?![\S]*C)/
 var reCOORD = /((?:[XYIJA][+-]?[\d.]+){1,4})(?:G85((?:[XY][+-]?[\d.]+){1,2}))?/
 var reROUTE = /^G0([01235])/
 

@@ -221,14 +221,20 @@ describe('gerber parser with gerber files', function() {
 
     it('should ignore feedrate and spindle speed', function(done) {
       var expectedTools = [
-        {shape: 'circle', params: [0.01], hole: []}
+        {shape: 'circle', params: [0.01], hole: []},
+        {shape: 'circle', params: [0.02], hole: []},
+        {shape: 'circle', params: [0.03], hole: []}
       ]
       var expected = [
-        {type: 'tool', line: 1, code: '1', tool: expectedTools[0]}
+        {type: 'tool', line: 1, code: '1', tool: expectedTools[0]},
+        {type: 'tool', line: 2, code: '2', tool: expectedTools[1]},
+        {type: 'tool', line: 3, code: '3', tool: expectedTools[2]}
       ]
 
       expectResults(expected, done)
       p.write('T1C0.01F100S5\n')
+      p.write('T2F200S65C0.02\n')
+      p.write('T3S65F200C0.03\n')
     })
 
     it('should ignore leading zeros in tool name', function(done) {
@@ -256,9 +262,9 @@ describe('gerber parser with gerber files', function() {
     expectResults(expected, done)
     p.write('T1\n')
     p.write('T14\n')
-    p.write('T0005\n')
+    p.write('T0005B02\n')
     p.write('T0\n')
-    p.write('T000\n')
+    p.write('T000S04\n')
   })
 
   describe('parsing drill commands', function() {
