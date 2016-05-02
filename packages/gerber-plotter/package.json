@@ -1,6 +1,6 @@
 {
   "name": "gerber-plotter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Transform stream that takes objects from gerber-parser and emits PCB image objects",
   "main": "lib/index.js",
   "scripts": {
