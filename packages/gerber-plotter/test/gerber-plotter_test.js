@@ -1823,8 +1823,9 @@ describe('gerber plotter', function() {
 
   describe('outline mode', function() {
     var outPlotter
+    var tool
     beforeEach(function() {
-      var tool = {shape: 'circle', params: [2], hole: []}
+      tool = {shape: 'circle', params: [2], hole: []}
 
       outPlotter = plotter({plotAsOutline: true})
       outPlotter.write({type: 'set', prop: 'epsilon', value: 0.00000001})
@@ -1842,26 +1843,19 @@ describe('gerber plotter', function() {
       expect(outPlotter._box).to.eql([0, 0, 3, 3])
     })
 
-    it('should set the first tool used for a stroke to the outline tool', function(done) {
+    it('should set the tool to the first used tool and never change it', function() {
       var newTool = {shape: 'circle', params: [4], hole: []}
+      var newerTool = {shape: 'circle', params: [6], hole: []}
 
-      outPlotter.once('data', function(result) {
-        expect(result.width).to.equal(2)
-        outPlotter.write({type: 'op', op: 'int', coord: {x: 1, y: 3}})
-        outPlotter.write({type: 'op', op: 'int', coord: {x: 3, y: 3}})
-        outPlotter.write({type: 'op', op: 'int', coord: {x: 0, y: 0}})
-        outPlotter.write({type: 'set', prop: 'tool', value: '10'})
-
-        outPlotter.once('data', function(result) {
-          expect(result.width).to.equal(2)
-          done()
-        })
-      })
-
-      outPlotter.write({type: 'op', op: 'int', coord: {x: 1, y: 3}})
-      outPlotter.write({type: 'op', op: 'int', coord: {x: 3, y: 3}})
-      outPlotter.write({type: 'op', op: 'int', coord: {x: 0, y: 0}})
       outPlotter.write({type: 'tool', code: '11', tool: newTool})
+      expect(outPlotter._tool.code).to.equal('11')
+      outPlotter.write({type: 'set', prop: 'tool', value: '10'})
+      expect(outPlotter._tool.code).to.equal('10')
+      outPlotter.write({type: 'op', op: 'int', coord: {x: 1, y: 3}})
+      outPlotter.write({type: 'set', prop: 'tool', value: '11'})
+      expect(outPlotter._tool.code).to.equal('10')
+      outPlotter.write({type: 'tool', code: '12', tool: newerTool})
+      expect(outPlotter._tool.code).to.equal('10')
     })
   })
 })

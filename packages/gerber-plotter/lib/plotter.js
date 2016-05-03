@@ -77,11 +77,7 @@ Plotter.prototype._finishPath = function() {
     this._path = new PathGraph(this._optimizePaths)
 
     // check for outline tool
-    var tool = this._tool
-    if (this._plotAsOutline) {
-      this._outTool = this._outTool || tool
-      tool = this._outTool
-    }
+    var tool = (!this._plotAsOutline) ? this._tool : this._outTool
 
     if (!this._region && (tool.trace.length === 1)) {
       this.push({type: 'stroke', width: tool.trace[0], path: path})
@@ -172,6 +168,10 @@ Plotter.prototype._transform = function(chunk, encoding, done) {
       }
     }
 
+    if (this._plotAsOutline) {
+      this._outTool = this._tool
+    }
+
     var result = operate(
       op,
       coord,
@@ -215,7 +215,7 @@ Plotter.prototype._transform = function(chunk, encoding, done) {
       else if (!has(this._tools, value)) {
         this._warn('tool ' + value + ' is not defined')
       }
-      else {
+      else if (!this._outTool){
         this._finishPath()
         this._tool = this._tools[value]
       }
@@ -253,9 +253,11 @@ Plotter.prototype._transform = function(chunk, encoding, done) {
       }
     }
 
-    this._finishPath()
-    this._tools[code] = tool
-    this._tool = tool
+    if (!this._outTool) {
+      this._finishPath()
+      this._tools[code] = tool
+      this._tool = tool
+    }
   }
 
   // else macro command
