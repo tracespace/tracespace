@@ -86,13 +86,13 @@ console.log(stackup.bottom) // logs "<svg id="my-board_bottom"...</svg>"
 
 ### layers array
 
-The first parameter to the function is an array of layer objects. A layer object is an object with a `filename` key and a `converter` key, where `filename` is the filename of the Gerber file and `converter` is the converter object returned by `gerber-to-svg` for that Gerber file.
+The first parameter to the function is an array of layer objects. A layer object is an object with a `type` key and a `converter` key, where `type` is a Gerber filetype as output by [whats-that-gerber](https://www.npmjs.com/package/whats-that-gerber) and `converter` is the converter object returned by gerber-to-svg for that Gerber file.
 
 It is expected that the converters will have already finished before being passed to `pcbStackup`. This can be done by listening for the converter's `end` event or by using `gerber-to-svg` in callback mode, as shown in the example above.
 
 ``` javascript
 var topCopperLayer = {
-  filename: GERBER_FILENAME,
+  type: GERBER_FILE_TYPE,
   converter: FINISHED_GERBER_TO_SVG_CONVERTER
 }
 ```
@@ -121,7 +121,7 @@ This option is required and the function will throw if it is missing.
 
 #### color
 
-The color object allows the user to override the default styling of the stackup. It consists of layer identifiers as the keys and CSS colors as the values. Any to all layers may be overriden. The default color object is:
+The color object allows the user to override the default styling of the stackup. It consists of layer identifiers as the keys and CSS colors as the values. Any to all layers may be overridden. The default color object is:
 
 ``` javascript
 var DEFAULT_COLOR = {
@@ -161,9 +161,9 @@ out   | id + `_out` | `.my-board_out {color: #000;}`
 
 #### mask board shape with outline
 
-In constructing the stackup, a "mechanical mask" is constructed and applied to the final image to remove the image wherever there are drill hits. If the `maskWithOutline` option is passed as true, the stackup function will also add the board outline to this mechanical mask, effectively (but not literally) using the outline layer as a [clipping path](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/clipPath) for the final image.
+When constructing the stackup, a "mechanical mask" is built and applied to the final image to remove the image wherever there are drill hits. If the `maskWithOutline` option is passed as true, the stackup function will also add the board outline to this mechanical mask, effectively (but not literally) using the outline layer as a [clipping path](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/clipPath) for the final image.
 
-Currently, this is only guaranteed to work if the outline layer is one or more fully-enclosed loops and the tool width used to draw the outline remains constant.
+`maskWithOutline` works best if the outline layer is one or more fully-enclosed loops. If your board outline is not working, please open an issue to see if we can improve the masking process.
 
 ### layer types
 
