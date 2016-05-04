@@ -26,7 +26,12 @@ var readGerber = function(gerberFile, done) {
 }
 
 var renderGerber = function(gerberFile, done) {
-  gerberToSvg(fs.createReadStream(gerberFile), path.basename(gerberFile), done)
+  var renderOptions = {
+    id: path.basename(gerberFile),
+    optimizePaths: true
+  }
+  
+  gerberToSvg(fs.createReadStream(gerberFile), renderOptions, done)
 }
 
 var getExpected = function(dirname, basename, done) {
