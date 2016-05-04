@@ -57,8 +57,6 @@
     "hapi": "^13.3.0",
     "inert": "^3.2.0",
     "istanbul": "^0.4.3",
-    "lodash.clonedeep": "^4.3.2",
-    "lodash.forin": "^4.1.0",
     "lodash.omit": "^4.2.1",
     "lodash.template": "^4.2.4",
     "mocha": "^2.4.5",
@@ -76,7 +74,6 @@
     "lodash.assign": "^4.0.8",
     "lodash.countby": "^4.3.0",
     "lodash.defaults": "^4.0.1",
-    "lodash.findkey": "^4.3.0",
     "lodash.isstring": "^4.0.1",
     "lodash.mapvalues": "^4.3.0",
     "lodash.reduce": "^4.3.0"
