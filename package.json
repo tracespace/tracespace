@@ -59,6 +59,7 @@
     "istanbul": "^0.4.0",
     "lodash.clonedeep": "^3.0.2",
     "lodash.forin": "^3.0.2",
+    "lodash.omit": "^4.2.1",
     "lodash.template": "^3.6.2",
     "mocha": "^2.3.3",
     "proxyquire": "^1.7.3",
