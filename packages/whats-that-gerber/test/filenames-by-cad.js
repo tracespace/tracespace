@@ -62,6 +62,7 @@ module.exports = [
       // outline
       {name: 'board.DIM', type: 'out'},
       {name: 'board.mil', type: 'out'},
+      {name: 'board.gml', type: 'out'},
       // drill
       {name: 'board.TXT', type: 'drl'},
       {name: 'board.xln', type: 'drl'},
