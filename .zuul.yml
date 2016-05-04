@@ -1,18 +1,12 @@
 ui: mocha-bdd
 browsers:
   - name: chrome
-    version: latest
+    version: -1..latest
   - name: safari
-    version: latest
+    version: -1..latest
   - name: firefox
-    version: latest
+    version: -1..latest
   - name: ie
-    version: latest
-  - name: opera
-    version: latest
+    version: -1..latest
 browserify:
-  - transform: coffeeify
-  - transform: brfs
-  - options:
-      extensions:
-        - .coffee
+  - plugin: proxyquire-universal

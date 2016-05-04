@@ -1,2 +1,0 @@
-# treat compiled javascript files as binary
-lib/**/*.js binary

@@ -1,5 +1,4 @@
-# ignore npm plz
 node_modules
-
-# ignore coverage reports
 coverage
+integration/bundle.js
+example/*.svg

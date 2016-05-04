@@ -1,24 +1,31 @@
 {
   "name": "pcb-stackup",
   "version": "0.0.4",
-  "description": "Creates PCB stackup (top and bottom view) SVG renders given SVG objects as output by gerber-to-svg",
+  "description": "Creates PCB stackup (top and bottom view) SVG renders from gerber-to-svg converters",
   "main": "lib/index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "travis": "make test && ./node_modules/coveralls/bin/coveralls.js < ./coverage/lcov.info",
-    "lib": "make && git add lib",
-    "lint": "make lint",
-    "test": "make test"
+    "lint": "eslint lib/*.js test/*.js",
+    "test": "istanbul cover -x 'integration/*' -x 'example/*' --include-all-sources _mocha",
+    "posttest": "npm run lint",
+    "test:watch": "mocha --reporter dot --watch",
+    "pretest:integration": "browserify integration/client.js > integration/bundle.js",
+    "test:integration": "node integration/server.js",
+    "test:browser": "zuul --local -- ./test/*_test.js",
+    "test:sauce": "zuul -- ./test/*_test.js",
+    "ci": "npm test && if [ \"${TEST_BROWSERS}\" = \"true\" ]; then npm run ci:browser; fi",
+    "ci:browser": "if [ \"${TRAVIS_PULL_REQUEST}\" = \"false\" ]; then npm run test:sauce; fi",
+    "postci": "coveralls < ./coverage/lcov.info",
+    "example": "node example/clockblock.js"
   },
   "precommit": [
-    "lint",
-    "lib"
+    "lint"
   ],
   "repository": {
     "type": "git",
-    "url": "github.com/tracespace/pcb-stackup"
+    "url": "git://github.com/tracespace/pcb-stackup.git"
   },
   "keywords": [
     "pcb",
@@ -31,28 +38,44 @@
   ],
   "author": "Mike Cousins <mike@cousins.io> (http://cousins.io/)",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tracespace/pcb-stackup/issues"
+  },
+  "homepage": "https://github.com/tracespace/pcb-stackup",
   "peerDependencies": {
-    "gerber-to-svg": "^0.4.2"
+    "gerber-to-svg": "^1.0.0",
+    "whats-that-gerber": "^1.0.0"
   },
   "devDependencies": {
-    "brfs": "^1.4.1",
-    "chai": "^3.2.0",
-    "chokidar-cli": "^1.1.1",
-    "coffee-coverage": "^0.7.0",
-    "coffee-script": "^1.10.0",
-    "coffeeify": "1.1.0",
-    "coffeelint": "^1.10.1",
-    "coveralls": "^2.11.3",
-    "istanbul": "^0.4.0",
-    "lodash.clonedeep": "^3.0.2",
-    "mocha": "^2.3.3",
-    "phantomjs": "^1.9.18",
-    "pre-commit": "^1.0.10",
-    "zuul": "3.7.2"
+    "async": "^1.5.2",
+    "browserify": "^13.0.0",
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.9",
+    "domify": "^1.4.0",
+    "eslint": "^2.9.0",
+    "gerber-to-svg": "^1.0.0",
+    "hapi": "^13.3.0",
+    "inert": "^3.2.0",
+    "istanbul": "^0.4.3",
+    "lodash.omit": "^4.2.1",
+    "lodash.template": "^4.2.4",
+    "mocha": "^2.4.5",
+    "proxyquire": "^1.7.4",
+    "proxyquire-universal": "^1.0.8",
+    "proxyquireify": "^3.2.0",
+    "shortid": "^2.2.6",
+    "sinon": "^1.17.4",
+    "sinon-chai": "^2.8.0",
+    "whats-that-gerber": "^1.0.0",
+    "xhr": "^2.2.0",
+    "zuul": "^3.10.1"
   },
   "dependencies": {
-    "lodash.find": "3.2.1",
-    "lodash.remove": "3.1.0",
-    "lodash.result": "3.1.2"
+    "lodash.assign": "^4.0.8",
+    "lodash.countby": "^4.3.0",
+    "lodash.defaults": "^4.0.1",
+    "lodash.isstring": "^4.0.1",
+    "lodash.mapvalues": "^4.3.0",
+    "lodash.reduce": "^4.3.0"
   }
 }
