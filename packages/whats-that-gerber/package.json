@@ -1,6 +1,6 @@
 {
   "name": "whats-that-gerber",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Guesses the PCB layer type given a filename of a Gerber or drill file",
   "main": "index.js",
   "scripts": {
