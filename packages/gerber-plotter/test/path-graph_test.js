@@ -127,6 +127,13 @@ describe('path graphs', function() {
     expect(p.length).to.equal(3)
   })
 
+  it('should not allow duplicate line segments', function() {
+    p.add({type: 'line', start: [0, 0], end: [1, 0]})
+    p.add({type: 'line', start: [1, 0], end: [0, 0]})
+    p.add({type: 'line', start: [0, 0], end: [1, 0]})
+    expect(p.length).to.equal(1)
+  })
+
   it('should not optimize the path if passed a false during construction', function() {
     p = new PathGraph(false)
 
@@ -148,6 +155,22 @@ describe('path graphs', function() {
       {type: 'line', start: [0, 0], end: [0, -1]},
       {type: 'line', start: [1, 0], end: [1, 1]},
       {type: 'line', start: [-1, 0], end: [-1, -1]}
+    ])
+  })
+
+  it('should be able to fill gaps', function() {
+    p = new PathGraph(true, true)
+
+    p.add({type: 'line', start: [0, 0], end: [1, 0]})
+    p.add({type: 'line', start: [1.0001, 0], end: [1, 1]})
+    p.add({type: 'line', start: [1.0001, 1], end: [0, 1]})
+    p.add({type: 'line', start: [0, 1.0001], end: [0, 0]})
+
+    expect(p.traverse()).to.eql([
+      {type: 'line', start: [0, 0], end: [1, 0]},
+      {type: 'line', start: [1, 0], end: [1, 1]},
+      {type: 'line', start: [1, 1], end: [0, 1]},
+      {type: 'line', start: [0, 1], end: [0, 0]}
     ])
   })
 })

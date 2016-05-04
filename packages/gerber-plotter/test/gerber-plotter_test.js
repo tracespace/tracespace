@@ -1857,5 +1857,41 @@ describe('gerber plotter', function() {
       outPlotter.write({type: 'tool', code: '12', tool: newerTool})
       expect(outPlotter._tool.code).to.equal('10')
     })
+
+    it('should fill gaps in paths if in outline mode', function() {
+      expect(outPlotter._path._fillGaps).to.be.true
+      outPlotter.write({type: 'op', op: 'int', coord: {x: 1, y: 3}})
+      outPlotter._finishPath()
+      expect(outPlotter._path._fillGaps).to.be.true
+    })
+  })
+
+  describe('path optimization', function() {
+    var optimizedPlotter
+    var tool
+    beforeEach(function() {
+      tool = {shape: 'circle', params: [2], hole: []}
+
+      optimizedPlotter = plotter({optimizePaths: true})
+      optimizedPlotter.write({type: 'set', prop: 'epsilon', value: 0.00000001})
+      optimizedPlotter.write({type: 'set', prop: 'units', value: 'in'})
+      optimizedPlotter.write({type: 'set', prop: 'nota', value: 'A'})
+      optimizedPlotter.write({type: 'set', prop: 'mode', value: 'i'})
+      optimizedPlotter.write({type: 'tool', code: '10', tool: tool})
+    })
+
+    it('should set the path to optimize', function() {
+      expect(optimizedPlotter._path._optimize).to.be.true
+      optimizedPlotter.write({type: 'op', op: 'int', coord: {x: 1, y: 3}})
+      optimizedPlotter._finishPath()
+      expect(optimizedPlotter._path._optimize).to.be.true
+    })
+
+    it('should not optimize in region mode', function() {
+      optimizedPlotter.write({type: 'set', prop: 'region', value: true})
+      expect(optimizedPlotter._path._optimize).to.be.false
+      optimizedPlotter.write({type: 'set', prop: 'region', value: false})
+      expect(optimizedPlotter._path._optimize).to.be.true
+    })
   })
 })

@@ -6,8 +6,26 @@ var fill = require('lodash.fill')
 var find = require('lodash.find')
 var map = require('lodash.map')
 
-var pointsEqual = function(point, target) {
-  return ((point[0] === target[0]) && (point[1] === target[1]))
+var GAP = 0.00011
+
+var distance = function(point, target) {
+  return Math.sqrt(Math.pow(point[0] - target[0], 2) + Math.pow(point[1] - target[1], 2))
+}
+
+var pointsEqual = function(point, target, fillGaps) {
+  if (!fillGaps) {
+    return ((point[0] === target[0]) && (point[1] === target[1]))
+  }
+
+  return (distance(point, target) < GAP)
+}
+
+var lineSegmentsEqual = function(segment, target) {
+  return (
+    (segment.type === 'line') &&
+    (
+      (pointsEqual(segment.start, target.start) && pointsEqual(segment.end, target.end)) ||
+      (pointsEqual(segment.start, target.end) && pointsEqual(segment.end, target.start))))
 }
 
 var reverseSegment = function(segment) {
@@ -23,10 +41,11 @@ var reverseSegment = function(segment) {
   return reversed
 }
 
-var PathGraph = function(optimize) {
+var PathGraph = function(optimize, fillGaps) {
   this._points = []
   this._edges = []
   this._optimize = optimize
+  this._fillGaps = fillGaps
 
   this.length = 0
 }
@@ -34,29 +53,51 @@ var PathGraph = function(optimize) {
 PathGraph.prototype.add = function(newSeg) {
   var start
   var end
+  var fillGaps = this._fillGaps
 
   if (this._optimize) {
     start = find(this._points, function(point) {
-      return pointsEqual(point.position, newSeg.start)
+      return pointsEqual(point.position, newSeg.start, fillGaps)
     })
 
     end = find(this._points, function(point) {
-      return pointsEqual(point.position, newSeg.end)
+      return pointsEqual(point.position, newSeg.end, fillGaps)
     })
   }
+
+  var startAndEndExist = (start && end)
 
   if (!start) {
     start = {position: newSeg.start, edges: []}
     this._points.push(start)
+  }
+  else if (fillGaps) {
+    newSeg.start = start.position
   }
 
   if (!end) {
     end = {position: newSeg.end, edges: []}
     this._points.push(end)
   }
+  else if (fillGaps) {
+    newSeg.end = end.position
+  }
+
+  // if optimizing, do not allow duplicate line segments
+  if (startAndEndExist) {
+    var edges = this._edges
+    var existing = find(start.edges.concat(end.edges), function(edge) {
+      return lineSegmentsEqual(edges[edge].segment, newSeg)
+    })
+
+    if (existing != null) {
+      return
+    }
+  }
 
   var newEdgeIndex = this._edges.length
   var edge = {segment: newSeg, start: start, end: end}
+
   this._edges.push(edge)
   this.length++
 

@@ -63,7 +63,7 @@ var Plotter = function(
   this._mode = null
   this._arc = null
   this._region = false
-  this._path = new PathGraph(this._optimizePaths)
+  this._path = new PathGraph(this._optimizePaths, this._plotAsOutline)
   this._epsilon = null
   this._lastOp = null
   this._stepRep = []
@@ -71,11 +71,11 @@ var Plotter = function(
 
 inherits(Plotter, Transform)
 
-Plotter.prototype._finishPath = function() {
-  if (this._path.length) {
-    var path = this._path.traverse()
-    this._path = new PathGraph(this._optimizePaths)
+Plotter.prototype._finishPath = function(doNotOptimize) {
+  var path = this._path.traverse()
+  this._path = new PathGraph(((!doNotOptimize) && this._optimizePaths), this._plotAsOutline)
 
+  if (path.length) {
     // check for outline tool
     var tool = (!this._plotAsOutline) ? this._tool : this._outTool
 
@@ -195,7 +195,7 @@ Plotter.prototype._transform = function(chunk, encoding, done) {
 
     // if region change, finish the path
     if (prop === 'region') {
-      this._finishPath()
+      this._finishPath(value)
       this._region = value
     }
 
