@@ -2,6 +2,7 @@
 'use strict'
 
 var expect = require('chai').expect
+var omit = require('lodash.omit')
 
 var stackLayers = require('../lib/stack-layers')
 
@@ -45,11 +46,19 @@ describe('stack layers function', function() {
       ].join(''))
     })
 
-    it('should add viewBoxes, taking units into account', function() {
+    it('should add viewBoxes if no outline, taking units into account', function() {
+      var drillConverters = omit(fakeMechConverters, 'out')
+      var result = stackLayers('id', 'top', fakeConverters, drillConverters)
+
+      expect(result.units).to.equal('in')
+      expect(result.box).to.eql([-10, -10, 1020, 1210])
+    })
+
+    it('should use outline viewbox if present', function() {
       var result = stackLayers('id', 'top', fakeConverters, fakeMechConverters)
 
       expect(result.units).to.equal('in')
-      expect(result.box).to.eql([-50, -50, 1100, 1250])
+      expect(result.box).to.eql([-50, -50, 1100, 1100])
     })
 
     it('should have no units by default, but count units when present', function() {
@@ -113,7 +122,7 @@ describe('stack layers function', function() {
 
       expect(result.defs).to.contain([
         '<mask id="id_top_mech-mask" fill="#000" stroke="#000">',
-        '<rect x="-50" y="-50" width="1100" height="1250" fill="#fff"/>',
+        '<rect x="-50" y="-50" width="1100" height="1100" fill="#fff"/>',
         '<use xlink:href="#id_top_drl1"/>',
         '<use xlink:href="#id_top_drl2"/>',
         '</mask>'
@@ -154,7 +163,7 @@ describe('stack layers function', function() {
     it('should start with a fr4 rectangle the size of the box', function() {
       var result = stackLayers('id', 'top', fakeConverters, fakeMechConverters)
       var fr4 = [
-        '<rect x="-50" y="-50" width="1100" height="1250"',
+        '<rect x="-50" y="-50" width="1100" height="1100"',
         'class="id_fr4"',
         'fill="currentColor"/>'
       ].join(' ')
