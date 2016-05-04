@@ -4,7 +4,6 @@
 var isString = require('lodash.isstring')
 var reduce = require('lodash.reduce')
 
-var identifyLayer = require('./layer-types').identify
 var sortLayers = require('./sort-layers')
 var stackLayers = require('./stack-layers')
 var boardStyle = require('./_board-style')
@@ -59,10 +58,7 @@ var parseOptions = function(options) {
 
 module.exports = function pcbStackup(layers, opts) {
   var options = parseOptions(opts)
-  var layersWithType = layers.map(function(layer) {
-    return {converter: layer.converter, type: identifyLayer(layer.filename)}
-  })
-  var sorted = sortLayers(layersWithType)
+  var sorted = sortLayers(layers)
   var id = options.id
 
   return reduce(SIDES, function(result, side) {

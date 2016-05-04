@@ -1,9 +1,9 @@
 // stack layers function (where the magic happens)
 'use strict'
 
+var assign = require('lodash.assign')
 var reduce = require('lodash.reduce')
 var countBy = require('lodash.countby')
-var values = require('lodash.values')
 var mapValues = require('lodash.mapvalues')
 
 var wrapLayer = require('./wrap-layer')
@@ -41,15 +41,12 @@ module.exports = function stackLayers(id, side, converters, mechs, useOutlineInM
   var idPrefix = id + '_' + side + '_'
 
   // decide what units we're using
-  var allConverters = values(converters).concat(values(mechs))
+  var allConverters = assign({}, converters, mechs)
   var unitsCount = countBy(allConverters, 'units')
-  var units
-  if (allConverters.length === 0) {
-    units = ''
-  }
-  else {
-    units = ((unitsCount.in || 0) > (unitsCount.mm || 0)) ? 'in' : 'mm'
-  }
+  var units = (allConverters.length !== 0)
+    ? (((unitsCount.in || 0) > (unitsCount.mm || 0)) ? 'in' : 'mm')
+    : ''
+
   var switchUnitsScale = (units === 'in') ? (1 / 25.4) : 25.4
 
   var getScale = function(converter) {
@@ -57,11 +54,16 @@ module.exports = function stackLayers(id, side, converters, mechs, useOutlineInM
   }
 
   // gather defs and viewboxes from all converters
-  var defsAndBox = reduce(allConverters, function(result, converter) {
+  var defsAndBox = reduce(allConverters, function(result, converter, type) {
     var scale = getScale(converter)
 
-    result.box = viewBox.addScaled(result.box, converter.viewBox, scale)
+    // only combine viewboxes if there's no outline layer, otherwise use outline
+    if (!mechs.out || (mechs.out && type === 'out')) {
+      result.box = viewBox.addScaled(result.box, converter.viewBox, scale)
+    }
+
     result.defs += converter.defs
+
     return result
   }, {defs: '', box: viewBox.new()})
 

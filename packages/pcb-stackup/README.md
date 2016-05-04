@@ -19,7 +19,9 @@ $ npm install --save pcb-stackup
 ``` javascript
 var fs = require('fs')
 var async = require('async')
+var shortId = require('shortid')
 var gerberToSvg = require('gerber-to-svg')
+var whatsThatGerber = require('whats-that-gerber')
 var pcbStackup = require('pcb-stackup')
 
 var gerberPaths = [
@@ -38,13 +40,19 @@ var gerberPaths = [
 // asynchronously map a gerber filename to a layer object expected by pcbStackup
 var mapFilenameToLayerObject = function(filename, done) {
   var gerber = fs.createReadStream(filename, 'utf-8')
-  var converter = gerberToSvg(gerber, filename, function(error, result) {
+  var type = whatsThatGerber(filename)
+  var converterOptions = {
+    id: shortId.generate(),
+    plotAsOutline: type.id === 'out'
+  }
+
+  var converter = gerberToSvg(gerber, converterOptions, function(error, result) {
     if (error) {
       console.warn(filename + ' failed to convert')
       return done()
     }
 
-    done(null, {filename: filename, converter: converter})
+    done(null, {type: type, converter: converter})
   })
 }
 

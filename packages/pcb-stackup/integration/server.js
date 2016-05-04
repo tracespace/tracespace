@@ -9,6 +9,7 @@ var hapi = require('hapi')
 var inert = require('inert')
 var async = require('async')
 var gerberToSvg = require('gerber-to-svg')
+var whatsThatGerber = require('whats-that-gerber')
 
 var pcbStackup = require('../lib/index')
 
@@ -21,11 +22,17 @@ server.register(inert, function() {})
 // asynchronously map a gerber filename to a layer object expected by pcbStackup
 var mapGerberToLayerObject = function(layer, done) {
   var filename = path.join(__dirname, layer.path)
+  var type = whatsThatGerber(filename)
   var gerber = fs.createReadStream(filename, 'utf8')
   var id = layer.id
+  var converterOptions = {
+    id: id,
+    plotAsOutline: (type.id === 'out')
+  }
 
   console.log('converting: ' + id)
-  var converter = gerberToSvg(gerber, id, function(error) {
+
+  var converter = gerberToSvg(gerber, converterOptions, function(error) {
     console.log('conversion done for: ' + layer.id)
 
     if (error) {
@@ -33,7 +40,7 @@ var mapGerberToLayerObject = function(layer, done) {
       return done()
     }
 
-    done(null, {filename: filename, converter: converter})
+    done(null, {type: type, converter: converter})
   })
 
   converter.on('warning', function(warning) {

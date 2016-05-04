@@ -5,7 +5,7 @@ module.exports = function sortLayers(layers) {
   var drillCount = 1
   return layers.reduce(function(result, layer) {
     var converter = layer.converter
-    var type = layer.type
+    var type = layer.type.id
     var side = type[0]
     var subtype = type.slice(1)
 

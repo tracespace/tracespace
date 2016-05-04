@@ -131,38 +131,24 @@ describe('pcb stackup function', function() {
     expect(result.bottom).to.contain(expectedStyle('bottom'))
   })
 
-  it('map the filenames to IDs and send them to sort layers', function() {
+  it('should pass the layers to sort layers', function() {
     var files = [
-      {filename: 'board-F_Cu.gbr', converter: converter()},
-      {filename: 'board-F_Mask.gbr', converter: converter()},
-      {filename: 'board-F_SilkS.gbr', converter: converter()},
-      {filename: 'board-F_Paste.gbr', converter: converter()},
-      {filename: 'board-B_Cu.gbr', converter: converter()},
-      {filename: 'board-B_Mask.gbr', converter: converter()},
-      {filename: 'board-B_SilkS.gbr', converter: converter()},
-      {filename: 'board-B_Paste.gbr', converter: converter()},
-      {filename: 'board-In1_Cu.gbr', converter: converter()},
-      {filename: 'board-Edge_Cuts.gbr', converter: converter()},
-      {filename: 'board.drl', converter: converter()}
-    ]
-
-    var expected = [
-      {type: 'tcu', converter: converter()},
-      {type: 'tsm', converter: converter()},
-      {type: 'tss', converter: converter()},
-      {type: 'tsp', converter: converter()},
-      {type: 'bcu', converter: converter()},
-      {type: 'bsm', converter: converter()},
-      {type: 'bss', converter: converter()},
-      {type: 'bsp', converter: converter()},
-      {type: 'icu', converter: converter()},
-      {type: 'out', converter: converter()},
-      {type: 'drl', converter: converter()}
+      {type: {id: 'tcu'}, converter: converter()},
+      {type: {id: 'tsm'}, converter: converter()},
+      {type: {id: 'tss'}, converter: converter()},
+      {type: {id: 'tsp'}, converter: converter()},
+      {type: {id: 'bcu'}, converter: converter()},
+      {type: {id: 'bsm'}, converter: converter()},
+      {type: {id: 'bss'}, converter: converter()},
+      {type: {id: 'bsp'}, converter: converter()},
+      {type: {id: 'icu'}, converter: converter()},
+      {type: {id: 'out'}, converter: converter()},
+      {type: {id: 'drl'}, converter: converter()}
     ]
 
     pcbStackup(files, 'this-id')
     var sorted = sortLayersSpy.returnValues[0]
-    expect(sortLayersSpy).to.have.been.calledWith(expected)
+    expect(sortLayersSpy).to.have.been.calledWith(files)
     expect(stackLayersStub).to.have.been.calledWith(
       'this-id',
       'top',
