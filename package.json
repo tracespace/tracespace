@@ -8,7 +8,7 @@
   },
   "scripts": {
     "lint": "eslint lib/*.js test/*.js",
-    "test": "istanbul cover --include-all-sources _mocha",
+    "test": "istanbul cover -x 'integration/*' --include-all-sources _mocha",
     "posttest": "npm run lint",
     "test:watch": "mocha --reporter dot --watch",
     "pretest:integration": "browserify integration/client.js > integration/bundle.js",
@@ -17,14 +17,15 @@
     "test:sauce": "zuul -- ./test/*_test.js",
     "ci": "npm test && if [ \"${TEST_BROWSERS}\" = \"true\" ]; then npm run ci:browser; fi",
     "ci:browser": "if [ \"${TRAVIS_PULL_REQUEST}\" = \"false\" ]; then npm run test:sauce; fi",
-    "postci": "coveralls < ./coverage/lcov.info"
+    "postci": "coveralls < ./coverage/lcov.info",
+    "example": "node example/clockblock.js"
   },
   "precommit": [
     "lint"
   ],
   "repository": {
     "type": "git",
-    "url": "github.com/tracespace/pcb-stackup"
+    "url": "git://github.com/tracespace/pcb-stackup.git"
   },
   "keywords": [
     "pcb",
@@ -37,12 +38,16 @@
   ],
   "author": "Mike Cousins <mike@cousins.io> (http://cousins.io/)",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tracespace/pcb-stackup/issues"
+  },
+  "homepage": "https://github.com/tracespace/pcb-stackup",
   "peerDependencies": {
-    "gerber-to-svg": "^1.0.0"
+    "gerber-to-svg": "^1.0.0",
+    "whats-that-gerber": "^1.0.0"
   },
   "devDependencies": {
     "async": "^1.5.1",
-    "brfs": "^1.4.2",
     "browserify": "^12.0.1",
     "chai": "^3.2.0",
     "coveralls": "^2.11.3",
@@ -59,20 +64,20 @@
     "proxyquire": "^1.7.3",
     "proxyquire-universal": "^1.0.8",
     "proxyquireify": "^3.0.1",
+    "shortid": "^2.2.6",
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0",
-    "vision": "^4.0.1",
-    "walk": "^2.3.9",
+    "whats-that-gerber": "^1.0.0",
     "xhr": "^2.2.0",
     "zuul": "^3.8.0"
   },
   "dependencies": {
+    "lodash.assign": "^4.0.8",
     "lodash.countby": "^3.1.1",
     "lodash.defaults": "^3.1.2",
     "lodash.findkey": "^3.0.1",
     "lodash.isstring": "^3.0.1",
     "lodash.mapvalues": "^3.0.1",
-    "lodash.reduce": "^3.1.2",
-    "lodash.values": "^3.0.0"
+    "lodash.reduce": "^3.1.2"
   }
 }

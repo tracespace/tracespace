@@ -15,10 +15,10 @@ describe('sort layers function', function() {
 
   it('should add top layers to the top object', function() {
     var layers = [
-      {type: 'tcu', converter: {}},
-      {type: 'tsm', converter: {}},
-      {type: 'tss', converter: {}},
-      {type: 'tsp', converter: {}}
+      {type: {id: 'tcu'}, converter: {}},
+      {type: {id: 'tsm'}, converter: {}},
+      {type: {id: 'tss'}, converter: {}},
+      {type: {id: 'tsp'}, converter: {}}
     ]
 
     var result = sortLayers(layers)
@@ -33,10 +33,10 @@ describe('sort layers function', function() {
 
   it('should add bottom layers to the bottom object', function() {
     var layers = [
-      {type: 'bcu', converter: {}},
-      {type: 'bsm', converter: {}},
-      {type: 'bss', converter: {}},
-      {type: 'bsp', converter: {}}
+      {type: {id: 'bcu'}, converter: {}},
+      {type: {id: 'bsm'}, converter: {}},
+      {type: {id: 'bss'}, converter: {}},
+      {type: {id: 'bsp'}, converter: {}}
     ]
 
     var result = sortLayers(layers)
@@ -51,9 +51,9 @@ describe('sort layers function', function() {
 
   it('should add mechanical layers to the mech object', function() {
     var layers = [
-      {type: 'out', converter: {}},
-      {type: 'drl', converter: {defs: 'drl1'}},
-      {type: 'drl', converter: {defs: 'drl2'}}
+      {type: {id: 'out'}, converter: {}},
+      {type: {id: 'drl'}, converter: {defs: 'drl1'}},
+      {type: {id: 'drl'}, converter: {defs: 'drl2'}}
     ]
 
     var result = sortLayers(layers)
@@ -67,9 +67,9 @@ describe('sort layers function', function() {
 
   it('should ignore everything else', function() {
     var layers = [
-      {type: 'drw', layer: {}},
-      {type: 'drw', layer: {}},
-      {type: 'drw', layer: {}}
+      {type: {id: 'drw'}, layer: {}},
+      {type: {id: 'drw'}, layer: {}},
+      {type: {id: 'drw'}, layer: {}}
     ]
 
     var result = sortLayers(layers)

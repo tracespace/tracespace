@@ -7,7 +7,7 @@ var domify = require('domify')
 
 var boardTemplate = template([
   '<div class="board">',
-  '<h3><%= name %></h3>',
+  '<h3><%= name %><small> outline mask: <%= mask %></small></h3>',
   '<div class="side">',
   '<h4>top</h4>',
   '<div data-hook="top"> loading </div>',
@@ -77,6 +77,19 @@ var BOARDS = [
       {id: 'core-out', path: 'boards/core/core.MIL'},
       {id: 'core-drl', path: 'boards/core/core.TXT'}
     ]
+  },
+  {
+    name: 'arduino-uno',
+    maskWithOutline: true,
+    layers: [
+      {id: 'arduino-uno-tcu', path: 'boards/arduino-uno/arduino-uno.cmp'},
+      {id: 'arduino-uno-tsm', path: 'boards/arduino-uno/arduino-uno.stc'},
+      {id: 'arduino-uno-tss', path: 'boards/arduino-uno/arduino-uno.plc'},
+      {id: 'arduino-uno-bcu', path: 'boards/arduino-uno/arduino-uno.sol'},
+      {id: 'arduino-uno-bsm', path: 'boards/arduino-uno/arduino-uno.sts'},
+      {id: 'arduino-uno-out', path: 'boards/arduino-uno/arduino-uno.gko'},
+      {id: 'arduino-uno-drl', path: 'boards/arduino-uno/arduino-uno.drd'}
+    ]
   }
 ]
 
@@ -84,7 +97,8 @@ var boardsContainer = document.getElementById('boards')
 
 BOARDS.forEach(function(board) {
   var name = board.name
-  var boardContainer = domify(boardTemplate({name: name}))
+  var mask = board.maskWithOutline
+  var boardContainer = domify(boardTemplate({name: name, mask: mask}))
   var topContainer = boardContainer.querySelector('[data-hook=top]')
   var bottomContainer = boardContainer.querySelector('[data-hook=bottom]')
   boardsContainer.appendChild(boardContainer)
