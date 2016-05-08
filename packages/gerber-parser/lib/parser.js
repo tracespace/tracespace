@@ -1,6 +1,7 @@
 // generic file parser for gerber and drill files
 'use strict'
 
+var StringDecoder = require('string_decoder').StringDecoder
 var inherits = require('inherits')
 var Transform = require('readable-stream').Transform
 
@@ -14,9 +15,10 @@ var drillMode = require('./_drill-mode')
 var LIMIT = 65535
 
 var Parser = function(places, zero, filetype) {
-  Transform.call(this, {decodeStrings: false, readableObjectMode: true})
+  Transform.call(this, {readableObjectMode: true})
 
   // parser properties
+  this._decoder = new StringDecoder('utf8')
   this._stash = ''
   this._index = 0
   this._drillMode = drillMode.DRILL
@@ -47,6 +49,9 @@ Parser.prototype._process = function(chunk, filetype) {
 
 Parser.prototype._transform = function(chunk, encoding, done) {
   var filetype = this.format.filetype
+
+  // decode buffer to string
+  chunk = this._decoder.write(chunk)
 
   // determine filetype within 65535 characters
   if (!filetype) {

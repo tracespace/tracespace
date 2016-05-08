@@ -105,12 +105,13 @@ describe('gerber parser', function() {
       })
 
       it('should error if unknown after 65535 characters', function(done) {
-        this.timeout(1000)
-        p.once('error', function(err) {
-          expect(err.message).to.match(/determine filetype/)
+        this.timeout(2000)
+        p.once('error', function(error) {
+          expect(error.message).to.match(/determine filetype/)
           done()
         })
-        p.write(repeat(';', 10000000))
+
+        p.write(repeat(';', 65536))
       })
 
       it('should stash chunks if it cannot make a determination', function() {
