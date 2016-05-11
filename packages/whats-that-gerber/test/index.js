@@ -8,7 +8,7 @@ var filenamesByCad = require('./filenames-by-cad')
 describe('whats-that-gerber', function() {
   it('should default to a gerber drawing', function() {
     var result = whatsThatGerber('foobar')
-    expect(result).to.eql({id: 'drw', name: 'gerber drawing'})
+    expect(result).to.equal('drw')
   })
 
   filenamesByCad.forEach(function(cadSet) {
@@ -18,7 +18,7 @@ describe('whats-that-gerber', function() {
     it('should identify ' + cad + ' files', function() {
       files.forEach(function(file) {
         var result = whatsThatGerber(file.name)
-        expect(result.id).to.equal(file.type)
+        expect(result).to.equal(file.type)
       })
     })
   })

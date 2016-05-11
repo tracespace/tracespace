@@ -17,7 +17,8 @@
     "gerber",
     "svg",
     "gerber-to-svg",
-    "hardware"
+    "hardware",
+    "circuit"
   ],
   "author": "Mike Cousins <mike@cousins.io> (http://cousins.io)",
   "license": "ISC",

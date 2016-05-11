@@ -12,27 +12,36 @@ Identify the probable PCB layer type of a Gerber or drill file by its filename.
 ``` javascript
 var whatsThatGerber = require('whats-that-gerber')
 
-console.log(whatsThatGerber('my-board-F_Cu.gbr'))
-
-// logs:
-// {id: 'tcu', name: 'top copper'}
+var filename = 'my-board-F_Cu.gbr'
+var layerType = whatsThatGerber(filename)           // 'tcu'
+var layerName = whatsThatGerber.fullName(layerType) // 'top copper'
 ```
 
-### layer types
+### layer types and names
 
-layer type         | id  | output
--------------------|-----|-------------------------------------------
-gerber drawing     | drw | `{id: 'drw', name: 'gerber drawing'}`
-top copper         | tcu | `{id: 'tcu', name: 'top copper'}`
-top soldermask     | tsm | `{id: 'tsm', name: 'top soldermask'}`
-top silkscreen     | tss | `{id: 'tss', name: 'top silkscreen'}`
-top solderpaste    | tsp | `{id: 'tsp', name: 'top solderpaste'}`
-bottom copper      | bcu | `{id: 'bcu', name: 'bottom copper'}`
-bottom soldermask  | bsm | `{id: 'bsm', name: 'bottom soldermask'}`
-bottom silkscreen  | bss | `{id: 'bss', name: 'bottom silkscreen'}`
-bottom solderpaste | bsp | `{id: 'bsp', name: 'bottom solderpaste'}`
-board outline      | out | `{id: 'out', name: 'board outline'}`
-drill hits         | drl | `{id: 'drl', name: 'drill hits'}`
+type | full name (en)        
+-----|--------------------
+drw  | gerber drawing      
+tcu  | top copper          
+tsm  | top soldermask      
+tss  | top silkscreen      
+tsp  | top solderpaste     
+bcu  | bottom copper       
+bsm  | bottom soldermask   
+bss  | bottom silkscreen   
+bsp  | bottom solderpaste  
+out  | board outline       
+drl  | drill hits           
+
+### full name locales
+
+The full name method takes a locale string as its second parameter, which defaults to 'en':
+
+``` javascript
+var fullName = whatsThatGerber.fullName('tcu', 'en')
+```
+
+Currently, no other locales are supported (because I don't know any!); contributions are greatly appreciated. If the type or locale is unrecognized, the result will be an empty string. Locale additions will be considered patch-level updates.
 
 ### supported cad programs
 

@@ -2,72 +2,107 @@
 
 var layerTypes = [
   {
-    id: 'drw',
-    name: 'gerber drawing'
-  },
-  {
     id: 'tcu',
-    name: 'top copper',
+    name: {
+      en: 'top copper'
+    },
     match: /(F_Cu)|(\.((cmp)|(top)|(gtl)))/i
   },
   {
     id: 'tsm',
-    name: 'top soldermask',
+    name: {
+      en: 'top soldermask'
+    },
     match: /(F_Mask)|(\.((stc)|(tsm)|(gts)|(smt)))/i
   },
   {
     id: 'tss',
-    name: 'top silkscreen',
+    name: {
+      en: 'top silkscreen'
+    },
     match: /(F_SilkS)|(\.((plc)|(tsk)|(gto)|(sst)))/i
   },
   {
     id: 'tsp',
-    name: 'top solderpaste',
+    name: {
+      en: 'top solderpaste'
+    },
     match: /(F_Paste)|(\.((crc)|(tsp)|(gtp)|(spt)))/i
   },
   {
     id: 'bcu',
-    name: 'bottom copper',
+    name: {
+      en: 'bottom copper'
+    },
     match: /(B_Cu)|(\.((sol)|(bot)|(gbl)))/i
   },
   {
     id: 'bsm',
-    name: 'bottom soldermask',
+    name: {
+      en: 'bottom soldermask'
+    },
     match: /(B_Mask)|(\.((sts)|(bsm)|(gbs)|(smb)))/i
   },
   {
     id: 'bss',
-    name: 'bottom silkscreen',
+    name: {
+      en: 'bottom silkscreen'
+    },
     match: /(B_SilkS)|(\.((pls)|(bsk)|(gbo)|(ssb)))/i
   },
   {
     id: 'bsp',
-    name: 'bottom solderpaste',
+    name: {
+      en: 'bottom solderpaste'
+    },
     match: /(B_Paste)|(\.((crs)|(bsp)|(gbp)|(spb)))/i
   },
   {
     id: 'icu',
-    name: 'inner copper',
+    name: {
+      en: 'inner copper'
+    },
     match: /(In\d+_Cu)|(\.((ly)|(g)|(in))\d+)/i
   },
   {
     id: 'out',
-    name: 'board outline',
+    name: {
+      en: 'board outline'
+    },
     match: /(Edge_Cuts)|(\.((dim)|(mil)|(gm[l\d])|(gko)|(fab)))/i
   },
   {
     id: 'drl',
-    name: 'drill hits',
+    name: {
+      en: 'drill hits'
+    },
     match: /\.((drl)|(xln)|(txt)|(tap)|(drd))/i
+  },
+  {
+    id: 'drw',
+    name: {
+      en: 'gerber drawing'
+    },
+    match: /.*/
   }
 ]
 
 module.exports = function whatsThatGerber(filename) {
-  return layerTypes.reduce(function(result, type) {
-    if (type.match.test(filename)) {
-      return {id: type.id, name: type.name}
-    }
+  return layerTypes.find(function(type) {
+    return type.match.test(filename)
+  }).id
+}
 
-    return result
+module.exports.fullName = function whatsThatGerberTypeName(typeId, locale) {
+  var type = layerTypes.find(function(type) {
+    return type.id === typeId
   })
+
+  locale = locale || 'en'
+
+  if (!type || !type.name[locale]) {
+    return ''
+  }
+
+  return type.name[locale]
 }
