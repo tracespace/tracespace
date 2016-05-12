@@ -13,35 +13,43 @@ Identify the probable PCB layer type of a Gerber or drill file by its filename.
 var whatsThatGerber = require('whats-that-gerber')
 
 var filename = 'my-board-F_Cu.gbr'
-var layerType = whatsThatGerber(filename)           // 'tcu'
-var layerName = whatsThatGerber.fullName(layerType) // 'top copper'
+var layerType = whatsThatGerber(filename)              // 'tcu'
+var layerName = whatsThatGerber.getFullName(layerType) // 'top copper'
 ```
 
 ### layer types and names
 
-type | full name (en)        
+There are 12 available layer types. You can get an array of all types with:
+
+``` javascript
+var whatsThatGerber = require('whats-that-gerber')
+var allLayerTypes = whatsThatGerber.getAllTypes() // ['drw', 'tcu', ...]
+```
+
+type | full name (en)     
 -----|--------------------
-drw  | gerber drawing      
-tcu  | top copper          
-tsm  | top soldermask      
-tss  | top silkscreen      
-tsp  | top solderpaste     
-bcu  | bottom copper       
-bsm  | bottom soldermask   
-bss  | bottom silkscreen   
-bsp  | bottom solderpaste  
-out  | board outline       
-drl  | drill hits           
+drw  | gerber drawing     
+tcu  | top copper         
+tsm  | top soldermask     
+tss  | top silkscreen     
+tsp  | top solderpaste    
+bcu  | bottom copper      
+bsm  | bottom soldermask  
+bss  | bottom silkscreen  
+bsp  | bottom solderpaste
+icu  | inner copper       
+out  | board outline      
+drl  | drill hits         
 
 ### full name locales
 
 The full name method takes a locale string as its second parameter, which defaults to 'en':
 
 ``` javascript
-var fullName = whatsThatGerber.fullName('tcu', 'en')
+var fullName = whatsThatGerber.getFullName('tcu', 'en')
 ```
 
-Currently, no other locales are supported (because I don't know any!); contributions are greatly appreciated. If the type or locale is unrecognized, the result will be an empty string. Locale additions will be considered patch-level updates.
+Currently, no other locales are supported (because I don't know any!); contributions are greatly appreciated. If the type or locale is unrecognized, the result will be an empty string. Locale additions will be considered patch-level upgrades.
 
 ### supported cad programs
 

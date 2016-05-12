@@ -95,7 +95,13 @@ module.exports = function whatsThatGerber(filename) {
   }).id
 }
 
-module.exports.fullName = function whatsThatGerberTypeName(typeId, locale) {
+module.exports.getAllTypes = function() {
+  return layerTypes.map(function(type) {
+    return type.id
+  })
+}
+
+module.exports.getFullName = function whatsThatGerberTypeName(typeId, locale) {
   var type = find(layerTypes, function(type) {
     return type.id === typeId
   })
