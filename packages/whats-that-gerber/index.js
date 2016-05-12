@@ -1,5 +1,7 @@
 'use strict'
 
+var find = require('lodash.find')
+
 var layerTypes = [
   {
     id: 'tcu',
@@ -88,13 +90,13 @@ var layerTypes = [
 ]
 
 module.exports = function whatsThatGerber(filename) {
-  return layerTypes.find(function(type) {
+  return find(layerTypes, function(type) {
     return type.match.test(filename)
   }).id
 }
 
 module.exports.fullName = function whatsThatGerberTypeName(typeId, locale) {
-  var type = layerTypes.find(function(type) {
+  var type = find(layerTypes, function(type) {
     return type.id === typeId
   })
 
