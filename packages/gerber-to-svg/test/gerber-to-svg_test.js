@@ -11,6 +11,8 @@ var assign = require('lodash.assign')
 var expect = chai.expect
 chai.use(sinonChai)
 
+var render = require('../lib/_render')
+
 var parserStub = sinon.stub()
 var plotterStub = sinon.stub()
 var converterStub = sinon.stub()
@@ -89,14 +91,13 @@ describe('gerber to svg', function() {
   })
 
   it('should pipe a stream input into the parser and listen for errors', function() {
-    var input = {pipe: sinon.spy(), setEncoding: sinon.spy(), once: sinon.spy()}
+    var input = {pipe: sinon.spy(), setEncoding: sinon.spy()}
     gerberToSvg(input, 'test-id')
 
     expect(input.pipe).to.have.been.calledWith(fakeParser)
     expect(fakeParser.pipe).to.have.been.calledWith(fakePlotter)
     expect(fakePlotter.pipe).to.have.been.calledWith(fakeConverter)
     expect(input.setEncoding).to.have.been.calledWith('utf8')
-    expect(input.once).to.have.been.calledWith('error')
   })
 
   it('should write string input into the parser', function(done) {
@@ -217,6 +218,46 @@ describe('gerber to svg', function() {
 
     parser.emit('end')
     expect(converter.filetype).to.equal('foobar')
+  })
+
+  it('should expose the render function used by the converter', function() {
+    var fakeConverter = {
+      defs: 'the',
+      layer: 'other',
+      viewBox: [0, 1, 2, 3],
+      width: 'I',
+      height: 'must',
+      units: 'have'
+    }
+    var expected = render(fakeConverter)
+
+    expect(gerberToSvg.render(fakeConverter)).to.equal(expected)
+  })
+
+  it('shoud have a clone method that clones the public properties of a converter', function() {
+    var converter = {
+      parser: 'hello',
+      plotter: 'from',
+      defs: 'the',
+      layer: 'other',
+      viewBox: 'side',
+      width: 'I',
+      height: 'must',
+      units: 'have',
+      _foo: 'called',
+      _bar: 'a',
+      _baz: 'thousand',
+      _qux: 'times'
+    }
+
+    expect(gerberToSvg.clone(converter)).to.eql({
+      defs: 'the',
+      layer: 'other',
+      viewBox: 'side',
+      width: 'I',
+      height: 'must',
+      units: 'have'
+    })
   })
 
   describe('parser and plotter options', function() {

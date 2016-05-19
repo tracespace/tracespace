@@ -11,6 +11,8 @@ var reduceShapeArray = require('./_reduce-shape')
 var flashPad = require('./_flash-pad')
 var createPath = require('./_create-path')
 var util = require('./_util')
+var render = require('./_render')
+
 var shift = util.shift
 var xmlNode = util.xmlNode
 var maskLayer = util.maskLayer
@@ -81,45 +83,11 @@ PlotterToSvg.prototype._transform = function(chunk, encoding, done) {
 }
 
 PlotterToSvg.prototype._flush = function(done) {
-  var result = xmlNode('svg', false, {
-    id: this._id,
-    class: this._className,
-    xmlns: 'http://www.w3.org/2000/svg',
-    version: 1.1,
-    'xmlns:xlink': 'http://www.w3.org/1999/xlink',
-    'stroke-linecap': 'round',
-    'stroke-linejoin': 'round',
-    'stroke-width': 0,
-    'fill-rule': 'evenodd',
-    color: this._color,
-    width: this.width + this.units,
-    height: this.height + this.units,
-    viewBox: this.viewBox.join(' ')
-  })
-
   // shut off step repeat finish any in-progress clear layer and/or repeat
   this._handleNewRepeat([])
 
-  // add the defs
-  if (this.defs) {
-    result += '<defs>' + this.defs + '</defs>'
-  }
+  this.push(render(this, this._id, this._className, this._color))
 
-  // add the layer
-  if (this.layer) {
-    var yTranslate = this.viewBox[3] + 2 * this.viewBox[1]
-    var transform = 'translate(0,' + yTranslate + ') scale(1,-1)'
-
-    result += xmlNode('g', false, {
-      transform: transform,
-      fill: 'currentColor',
-      stroke: 'currentColor'
-    })
-    result += this.layer + '</g>'
-  }
-
-  result += '</svg>'
-  this.push(result)
   done()
 }
 

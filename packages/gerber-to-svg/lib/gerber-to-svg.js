@@ -2,10 +2,12 @@
 'use strict'
 
 var isString = require('lodash.isstring')
+var pick = require('lodash.pick')
 var gerberParser = require('gerber-parser')
 var gerberPlotter = require('gerber-plotter')
 
 var PlotterToSvg = require('./plotter-to-svg')
+var render = require('./_render')
 
 var parseOptions = function(options) {
   var optionsIsString = isString(options)
@@ -45,7 +47,7 @@ var parseOptions = function(options) {
   return opts
 }
 
-var gerberToSvg = function(gerber, options, done) {
+module.exports = function gerberConverterFactory(gerber, options, done) {
   var opts = parseOptions(options)
   var callbackMode = (done != null)
 
@@ -75,9 +77,6 @@ var gerberToSvg = function(gerber, options, done) {
   })
 
   if (gerber.pipe) {
-    gerber.once('error', function handleStreamError(e) {
-      converter.emit('error', e)
-    })
     gerber.setEncoding('utf8')
     gerber.pipe(parser)
   }
@@ -118,4 +117,8 @@ var gerberToSvg = function(gerber, options, done) {
   return converter
 }
 
-module.exports = gerberToSvg
+module.exports.render = render
+
+module.exports.clone = function cloneConverter(converter) {
+  return pick(converter, ['defs', 'layer', 'viewBox', 'width', 'height', 'units'])
+}

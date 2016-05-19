@@ -7,6 +7,32 @@ var gerberToSvg = require('gerber-to-svg')
 var converter = gerberToSvg(input, options, [callback])
 ```
 
+<!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [input](#input)
+- [streaming API](#streaming-api)
+- [callback API](#callback-api)
+- [static methods](#static-methods)
+	- [clone](#clone)
+	- [render](#render)
+- [events](#events)
+- [output](#output)
+- [options](#options)
+	- [id option](#id-option)
+	- [class option](#class-option)
+	- [color option](#color-option)
+	- [pretty option](#pretty-option)
+	- [parsing and plotting options](#parsing-and-plotting-options)
+- [public properties](#public-properties)
+	- [parser and plotter](#parser-and-plotter)
+	- [defs](#defs)
+	- [layer](#layer)
+	- [viewBox](#viewbox)
+	- [width and height](#width-and-height)
+	- [units](#units)
+
+<!-- /TOC -->
+
 ## input
 
 The function can either take a utf8 encoded string or a utf8 encoded readable-stream. For example:
@@ -61,6 +87,38 @@ fs.readFile('/path/to/file.gbr', {encoding: 'utf8'}, function(fsError, gerberStr
     console.log(svg)
   })
 })
+```
+
+## static methods
+
+The factory function also includes several static methods for working with the converter objects.
+
+### clone
+
+Clones the public properties of a converter (expect for `parser` and `plotter`) to a simple object for storage and/or caching.
+
+`gerberToSvg.clone(converter)`
+
+``` javascript
+var gerberToSvg = require('gerber-to-svg')
+var converter = gerberToSvg(input, options, function(error, result) {
+  var converterClone = gerberToSvg.clone(converter)
+  storeSomehow(converterClone)
+})
+```
+
+### render
+
+Returns the SVG string from a completed converter or a clone of a completed converter.
+
+`gerberToSvg.render(converter, [id], [className], [color])`
+
+``` javascript
+var gerberToSvg = require('gerber-to-svg')
+var converter = getConverterCloneSomehow()
+var id = 'my-cool-id'
+
+var svgString = gerberToSvg.render(converter, id)
 ```
 
 ## events
