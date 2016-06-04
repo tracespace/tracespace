@@ -6,9 +6,11 @@ var expect = require('chai').expect
 var easyStackup = require('../lib/easy-stackup')
 
 describe('easy-stackup function', function() {
-  it('should return a promise', function() {
-    var result = easyStackup([])
-    expect(result).to.have.property('then')
-    expect(result.then).to.be.a('function')
+  it('should accept and call node style callback', function(done) {
+    easyStackup([], function(error, success) {
+      expect(error).to.not.be.ok
+      expect(success).to.be.ok
+      done()
+    })
   })
 })
