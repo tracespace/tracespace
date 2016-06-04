@@ -76,6 +76,8 @@
     "lodash.defaults": "^4.0.1",
     "lodash.isstring": "^4.0.1",
     "lodash.mapvalues": "^4.3.0",
-    "lodash.reduce": "^4.3.0"
+    "lodash.reduce": "^4.3.0",
+    "shortid": "^2.2.6",
+    "whats-that-gerber": "github:tracespace/whats-that-gerber#simplify-return"
   }
 }
