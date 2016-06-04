@@ -24,4 +24,12 @@ describe('easy-stackup function', function() {
     expect(easyStackup.bind(easyStackup, [])).to.throw(TypeError)
     expect(easyStackup.bind(easyStackup, [], {})).to.throw(TypeError)
   })
+  it('should accept a layer with a gerber string and filename', function(done) {
+    var layers = [{gerber:'', filename:''}]
+    easyStackup(layers, function(error, success) {
+      expect(error).to.not.be.ok
+      expect(success).to.be.ok
+      done()
+    })
+  })
 })
