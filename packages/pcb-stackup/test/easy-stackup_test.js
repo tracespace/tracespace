@@ -5,6 +5,8 @@ var expect = require('chai').expect
 
 var easyStackup = require('../lib/easy-stackup')
 
+var emptyGerber = 'G04 empty gerber*\nM02*\n'
+
 describe('easy-stackup function', function() {
   it('should accept and call node style callback', function(done) {
     easyStackup([], function(error, stackup) {
@@ -25,7 +27,7 @@ describe('easy-stackup function', function() {
     expect(easyStackup.bind(easyStackup, [], {})).to.throw(TypeError)
   })
   it('should accept a layer with a gerber string and filename', function(done) {
-    var layers = [{gerber:'', filename:''}]
+    var layers = [{gerber:emptyGerber, filename:''}]
     easyStackup(layers, function(error, stackup) {
       expect(error).to.not.be.ok
       expect(stackup).to.be.ok
@@ -33,7 +35,7 @@ describe('easy-stackup function', function() {
     })
   })
   it('should accept a layer with a gerber string and layerType', function(done) {
-    var layers = [{gerber:'', layerType:'tcu'}]
+    var layers = [{gerber:emptyGerber, layerType:'tcu'}]
     easyStackup(layers, function(error, stackup) {
       expect(error).to.not.be.ok
       expect(stackup).to.be.ok
@@ -41,7 +43,7 @@ describe('easy-stackup function', function() {
     })
   })
   it('should error on an invalid layerType', function(done) {
-    var layers = [{gerber:'', filename: '', layerType:''}]
+    var layers = [{gerber:emptyGerber, filename: '', layerType:''}]
     easyStackup(layers, function(error, stackup) {
       expect(error).to.be.ok
       expect(stackup).to.not.be.ok
@@ -49,7 +51,7 @@ describe('easy-stackup function', function() {
     })
   })
   it('should callback with top, bottom and layer array', function(done) {
-    var layers = [{gerber:'', filename: '', layerType:''}]
+    var layers = [{gerber:emptyGerber, filename: '', layerType:''}]
     easyStackup(layers, function(error, stackup) {
       expect(error).to.not.be.ok
       expect(stackup).to.be.ok
