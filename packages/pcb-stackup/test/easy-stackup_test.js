@@ -51,6 +51,23 @@ describe('easy-stackup function', function() {
       done()
     })
   })
+  it('should not overwrite layer id', function(done) {
+    var layers = [{gerber:emptyGerber, layerType:'tcu', options:{id:'test-id'}}]
+    easyStackup(layers, function(error, stackup) {
+      expect(error).to.not.be.ok
+      expect(stackup.layers[0].options.id).to.equal('test-id')
+      done()
+    })
+  })
+  it('should not overwrite stackup id', function(done) {
+    var layers = [{gerber:emptyGerber, layerType:'tcu'}]
+    easyStackup(layers, {id: 'test-id'}, function(error, stackup) {
+      expect(error).to.not.be.ok
+      expect(stackup).to.be.ok
+      //TODO: test for actual id
+      done()
+    })
+  })
   it('should callback with top, bottom and layer array', function(done) {
     var layers = [{gerber:emptyGerber, filename: '', layerType:''}]
     easyStackup(layers, function(error, stackup) {
