@@ -6,14 +6,14 @@ var whatsThatGerber = require('whats-that-gerber')
 
 var pcbStackup = require('./index')
 
-module.exports = function(layers, optionsOrCallback, callback) {
+module.exports = function(layers, optionsOrCallback, done) {
   var options = {}
 
   if (typeof optionsOrCallback === 'object') {
     options = optionsOrCallback
   }
   else if (typeof optionsOrCallback === 'function') {
-    callback = optionsOrCallback
+    done = optionsOrCallback
   }
 
   if (!('id' in options)) {
@@ -24,7 +24,7 @@ module.exports = function(layers, optionsOrCallback, callback) {
   var stackupLayers = []
 
   var finishLayer = function() {
-    if (layerCount <= 1) {
+    if (--layerCount < 1) {
       var stackup = pcbStackup(stackupLayers, options)
 
       stackup.layers = stackupLayers.map(function(layer) {
@@ -34,44 +34,42 @@ module.exports = function(layers, optionsOrCallback, callback) {
           options: layer.options
         }
       })
-      callback(null, stackup)
+
+      return done(null, stackup)
     }
-    layerCount -= 1
   }
 
   if (layerCount === 0) {
-    finishLayer()
+    return finishLayer()
   }
-  else {
-    for (var i in layers) {
-      var layer = layers[i]
-      var layerType
-      var layerOptions = layer.options || {}
+  for (var i in layers) {
+    var layer = layers[i]
+    var layerType
+    var layerOptions = layer.options || {}
 
-      if ('layerType' in layer) {
-        layerType = layer.layerType
-      }
-      else if ('filename' in layer) {
-        layerType = whatsThatGerber(layer.filename)
-      }
-      else {
-        callback(new Error('No filename or layerType given for layer ' + i))
-      }
-
-      if (!('id' in layerOptions)) {
-        layerOptions.id = shortId.generate()
-      }
-      if (!('plotAsOutline' in layerOptions) ) {
-        layerOptions.plotAsOutline = layerType === 'out'
-      }
-
-      var converter = gerberToSvg(layer.gerber, layerOptions, finishLayer)
-
-      stackupLayers.push({
-        type: {id: layerType},
-        converter: converter,
-        options: layerOptions
-      })
+    if ('layerType' in layer) {
+      layerType = layer.layerType
     }
+    else if ('filename' in layer) {
+      layerType = whatsThatGerber(layer.filename)
+    }
+    else {
+      return done(new Error('No filename or layerType given for layer ' + i))
+    }
+
+    if (!('id' in layerOptions)) {
+      layerOptions.id = shortId.generate()
+    }
+    if (!('plotAsOutline' in layerOptions) ) {
+      layerOptions.plotAsOutline = layerType === 'out'
+    }
+
+    var converter = gerberToSvg(layer.gerber, layerOptions, finishLayer)
+
+    stackupLayers.push({
+      type: {id: layerType},
+      converter: converter,
+      options: layerOptions
+    })
   }
 }
