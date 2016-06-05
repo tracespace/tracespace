@@ -26,7 +26,9 @@ module.exports = function(layers, optionsOrCallback, callback) {
   var finishLayer = function() {
     if (layerCount <= 1) {
       var stackup = pcbStackup(stackupLayers, options)
-      stackup.layers = stackupLayers
+      stackup.layers = stackupLayers.map(function(layer) {
+        return {layerType: layer.type.id, gerber:layer.converter}
+      })
       callback(null, stackup)
     }
     layerCount -= 1
