@@ -53,7 +53,7 @@ module.exports = function(layers, optionsOrCallback, callback) {
         layerType = whatsThatGerber(layer.filename)
       }
       else {
-        callback('No filename or layerType given for layer ' + i)
+        callback(new Error('No filename or layerType given for layer ' + i))
       }
       if (!('id' in layerOptions)) {
         layerOptions.id = shortId.generate()

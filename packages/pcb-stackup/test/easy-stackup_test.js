@@ -46,6 +46,7 @@ describe('easy-stackup function', function() {
     var layers = [{gerber:emptyGerber}]
     easyStackup(layers, function(error, stackup) {
       expect(error).to.be.ok
+      expect(error).to.be.an.instanceOf(Error)
       expect(stackup).to.not.be.ok
       done()
     })
