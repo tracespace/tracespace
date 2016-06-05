@@ -80,4 +80,13 @@ describe('easy-stackup function', function() {
       done()
     })
   })
+  it('handles multiple layers', function(done) {
+    var layers = [{gerber:emptyGerber, layerType:'fcu'}, {gerber:emptyGerber, layerType:'tcu'}]
+    easyStackup(layers, function(error, stackup) {
+      expect(error).to.not.be.ok
+      expect(stackup).to.be.ok
+      expect(stackup.layers.length).to.equal(layers.length)
+      done()
+    })
+  })
 })
