@@ -42,14 +42,6 @@ describe('easy-stackup function', function() {
       done()
     })
   })
-  it('should error on an invalid layerType', function(done) {
-    var layers = [{gerber:emptyGerber, filename: '', layerType:''}]
-    easyStackup(layers, function(error, stackup) {
-      expect(error).to.be.ok
-      expect(stackup).to.not.be.ok
-      done()
-    })
-  })
   it('should callback with top, bottom and layer array', function(done) {
     var layers = [{gerber:emptyGerber, filename: '', layerType:''}]
     easyStackup(layers, function(error, stackup) {
