@@ -8,6 +8,7 @@ var sortLayers = require('../lib/sort-layers')
 describe('sort layers function', function() {
   it('should reduce layers into an object with keys top and bottom', function() {
     var result = sortLayers([])
+
     expect(result.top).to.exist
     expect(result.bottom).to.exist
     expect(result.mech).to.exist
@@ -22,9 +23,9 @@ describe('sort layers function', function() {
     ]
 
     var result = sortLayers(layers)
+
     expect(result.mech).to.be.empty
     expect(result.bottom).to.be.empty
-
     expect(result.top.cu).to.equal(layers[0].converter)
     expect(result.top.sm).to.equal(layers[1].converter)
     expect(result.top.ss).to.equal(layers[2].converter)
@@ -40,9 +41,9 @@ describe('sort layers function', function() {
     ]
 
     var result = sortLayers(layers)
+
     expect(result.mech).to.be.empty
     expect(result.top).to.be.empty
-
     expect(result.bottom.cu).to.equal(layers[0].converter)
     expect(result.bottom.sm).to.equal(layers[1].converter)
     expect(result.bottom.ss).to.equal(layers[2].converter)
@@ -57,9 +58,9 @@ describe('sort layers function', function() {
     ]
 
     var result = sortLayers(layers)
+
     expect(result.top).to.be.empty
     expect(result.bottom).to.be.empty
-
     expect(result.mech.out).to.equal(layers[0].converter)
     expect(result.mech.drl1).to.equal(layers[1].converter)
     expect(result.mech.drl2).to.equal(layers[2].converter)
@@ -73,6 +74,7 @@ describe('sort layers function', function() {
     ]
 
     var result = sortLayers(layers)
+
     expect(result.mech).to.be.empty
     expect(result.top).to.be.empty
     expect(result.bottom).to.be.empty
