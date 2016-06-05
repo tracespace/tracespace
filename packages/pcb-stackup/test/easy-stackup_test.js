@@ -131,10 +131,13 @@ describe('easy stackup function', function() {
       {gerber: emptyGerber, layerType: 'tcu'}
     ]
 
-    easyStackup(layers, function(error, stackup) {
+    easyStackup(layers, function(error, stackup1) {
       expect(error).to.not.be.ok
-      expect(stackup).to.be.ok
-      done()
+      easyStackup(stackup1.layers, function(error, stackup2) {
+        expect(error).to.not.be.ok
+        expect(stackup2).to.be.ok
+        done()
+      })
     })
   })
 
