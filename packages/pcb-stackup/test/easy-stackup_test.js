@@ -57,7 +57,7 @@ describe('easy-stackup function', function() {
       expect(stackup).to.be.ok
       expect(stackup).to.be.an('object')
       expect(stackup).to.have.all.keys('top', 'bottom', 'layers')
-      expect(stackup.layers).to.be.an.instanceOf('Array')
+      expect(stackup.layers).to.be.an.instanceOf(Array)
       done()
     })
   })
