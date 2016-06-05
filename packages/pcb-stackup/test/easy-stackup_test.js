@@ -113,7 +113,7 @@ describe('easy-stackup function', function() {
 
   it('handles multiple layers', function(done) {
     var layers = [
-      {gerber: emptyGerber, layerType: 'fcu'},
+      {gerber: emptyGerber, layerType: 'bcu'},
       {gerber: emptyGerber, layerType: 'tcu'}
     ]
 
@@ -127,7 +127,7 @@ describe('easy-stackup function', function() {
 
   it('can be passed back its own output', function(done) {
     var layers = [
-      {gerber: emptyGerber, layerType: 'fcu'},
+      {gerber: emptyGerber, layerType: 'bcu'},
       {gerber: emptyGerber, layerType: 'tcu'}
     ]
 
@@ -142,7 +142,7 @@ describe('easy-stackup function', function() {
   // style framework instead of single unit tests
   it('has deterministic top and bottom svgs if ids are given', function(done) {
     var layers = [
-      {gerber: emptyGerber, layerType: 'fcu', options: {id: 'a'}},
+      {gerber: emptyGerber, layerType: 'bcu', options: {id: 'a'}},
       {gerber: emptyGerber, layerType: 'tcu', options: {id: 'b'}}
     ]
 
@@ -160,7 +160,7 @@ describe('easy-stackup function', function() {
 
   it('has deterministic top and bottom svgs if ids are given and passed back its own output', function(done) {
     var layers = [
-      {gerber: emptyGerber, layerType: 'fcu', options: {id: 'a'}},
+      {gerber: emptyGerber, layerType: 'bcu', options: {id: 'a'}},
       {gerber: emptyGerber, layerType: 'tcu', options: {id: 'b'}}
     ]
 
