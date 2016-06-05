@@ -7,7 +7,7 @@ var easyStackup = require('../lib/easy-stackup')
 
 var emptyGerber = 'G04 empty gerber*\nM02*\n'
 
-describe('easy-stackup function', function() {
+describe('easy stackup function', function() {
   it('should accept and call node style callback', function(done) {
     easyStackup([], function(error, stackup) {
       expect(error).to.not.be.ok
