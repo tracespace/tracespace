@@ -7,6 +7,7 @@ var sinonChai = require('sinon-chai')
 var proxyquire = require('proxyquire')
 
 var expect = chai.expect
+
 chai.use(sinonChai)
 
 var sortLayersSpy = sinon.spy(require('../lib/sort-layers'))
@@ -47,13 +48,14 @@ describe('pcb stackup function', function() {
 
   it('should need an id as an option', function() {
     var result1 = pcbStackup([], 'foo')
+
     expect(result1.top).to.contain('id="foo_top"')
     expect(result1.bottom).to.contain('id="foo_bottom"')
 
     var result2 = pcbStackup([], {id: 'bar'})
+
     expect(result2.top).to.contain('id="bar_top"')
     expect(result2.bottom).to.contain('id="bar_bottom"')
-
     expect(function() {pcbStackup([])}).to.throw(/unique board ID/)
   })
 
@@ -75,10 +77,11 @@ describe('pcb stackup function', function() {
         'height="0">'
       ].join(' ')
     }
-    var svgEnd = '</svg>'
 
+    var svgEnd = '</svg>'
     var topStart = svgStart('top')
     var bottomStart = svgStart('bottom')
+
     expect(result.top.slice(0, topStart.length)).to.equal(topStart)
     expect(result.bottom.slice(0, bottomStart.length)).to.equal(bottomStart)
     expect(result.top.slice(-svgEnd.length)).to.equal(svgEnd)
@@ -147,7 +150,9 @@ describe('pcb stackup function', function() {
     ]
 
     pcbStackup(files, 'this-id')
+
     var sorted = sortLayersSpy.returnValues[0]
+
     expect(sortLayersSpy).to.have.been.calledWith(files)
     expect(stackLayersStub).to.have.been.calledWith(
       'this-id',

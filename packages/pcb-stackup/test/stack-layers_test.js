@@ -110,6 +110,7 @@ describe('stack layers function', function() {
     it('should wrap the mech layers and add them to the defs', function() {
       var result = stackLayers('id', 'top', fakeConverters, fakeMechConverters)
       var transform = 'transform="scale(0.03937007874015748,0.03937007874015748)"'
+
       expect(result.defs).to.contain([
         '<g id="id_top_drl1" ' + transform + '><drl-1/></g>',
         '<g id="id_top_drl2" ' + transform + '><drl-2/></g>',

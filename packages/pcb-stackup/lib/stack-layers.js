@@ -13,6 +13,7 @@ var useLayer = function(id, className, mask) {
   var colorAttr = (className) ? ('fill="currentColor" stroke="currentColor" ') : ''
   var classAttr = (className) ? ('class="' + className + '" ') : ''
   var maskAttr = (mask) ? ('mask="url(#' + mask + ')" ') : ''
+
   return '<use ' + classAttr + colorAttr + maskAttr + 'xlink:href="#' + id + '"/>'
 }
 
@@ -30,6 +31,7 @@ var mechMask = function(id, box, mechIds, useOutline) {
     if (type !== 'out') {
       result += useLayer(id)
     }
+
     return result
   }, mask)
 
@@ -76,12 +78,14 @@ module.exports = function stackLayers(id, side, converters, mechs, useOutlineInM
     var scale = getScale(converter)
 
     defs += wrapLayer(layerId, converter, scale)
+
     return layerId
   }
+
   var layerIds = mapValues(converters, mapConverterToWrappedLayer)
   var mechIds = mapValues(mechs, mapConverterToWrappedLayer)
-
   var mechMaskId = idPrefix + 'mech-mask'
+
   defs += mechMask(mechMaskId, box, mechIds, useOutlineInMask)
 
   // build the group starting with an fr4 rectangle the size of the viewbox
@@ -106,6 +110,7 @@ module.exports = function stackLayers(id, side, converters, mechs, useOutlineInM
   if (layerIds.sm) {
     // solder mask is... a mask, so mask it
     var smMaskId = idPrefix + 'sm-mask'
+
     defs += [
       '<mask id="' + smMaskId + '" fill="#000" stroke="#000">',
       viewBox.rect(box, '', '#fff'),

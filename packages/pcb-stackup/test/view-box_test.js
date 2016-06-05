@@ -8,6 +8,7 @@ var box = require('../lib/view-box')
 describe('view box helper functions', function() {
   it('should be able to create a new empty viewbox', function() {
     var result = box.new()
+
     expect(result).to.eql([])
   })
 
