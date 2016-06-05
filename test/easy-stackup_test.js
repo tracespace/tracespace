@@ -55,6 +55,9 @@ describe('easy-stackup function', function() {
     var layers = [{gerber:emptyGerber, layerType:'tcu', options:{id:'test-id'}}]
     easyStackup(layers, function(error, stackup) {
       expect(error).to.not.be.ok
+      expect(stackup).to.be.ok
+      expect(stackup.layers).to.be.ok
+      expect(stackup.layers.length).to.equal(1)
       expect(stackup.layers[0].options.id).to.equal('test-id')
       done()
     })
@@ -84,6 +87,7 @@ describe('easy-stackup function', function() {
     var layers = [{gerber:emptyGerber, layerType:'tcu', options:{plotAsOutline:true}}]
     easyStackup(layers, function(error, stackup) {
       expect(error).to.not.be.ok
+      expect(stackup).to.be.ok
       expect(stackup.layers[0].options.plotAsOutline).to.be.true
       done()
     })
