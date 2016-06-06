@@ -6,19 +6,19 @@ var whatsThatGerber = require('whats-that-gerber')
 
 var pcbStackup = require('./index')
 
-module.exports = function(layers, optionsOrCallback, done) {
-  var options = {}
-
-  if (typeof optionsOrCallback === 'object') {
-    options = optionsOrCallback
-  }
-  else if (typeof optionsOrCallback === 'function') {
-    done = optionsOrCallback
+module.exports = function(layers, options, done) {
+  if (typeof options === 'function') {
+    done = options
+    options = {}
   }
 
-  if (!('id' in options)) {
-    options.id = shortId.generate()
+  for (var i in layers) {
+    if (!(layers[i].filename || layers[i].layerType)) {
+      return done(new Error('No filename or layerType given for layer ' + i))
+    }
   }
+
+  options.id = options.id || shortId.generate()
 
   var layerCount = layers.length
   var stackupLayers = []
@@ -43,27 +43,12 @@ module.exports = function(layers, optionsOrCallback, done) {
     return finishLayer()
   }
 
-  for (var i in layers) {
-    var layer = layers[i]
-    var layerType
+  layers.forEach(function(layer) {
+    var layerType = layer.layerType || whatsThatGerber(layer.filename)
     var layerOptions = layer.options || {}
 
-    if ('layerType' in layer) {
-      layerType = layer.layerType
-    }
-    else if ('filename' in layer) {
-      layerType = whatsThatGerber(layer.filename)
-    }
-    else {
-      return done(new Error('No filename or layerType given for layer ' + i))
-    }
-
-    if (!('id' in layerOptions)) {
-      layerOptions.id = shortId.generate()
-    }
-    if (!('plotAsOutline' in layerOptions) ) {
-      layerOptions.plotAsOutline = layerType === 'out'
-    }
+    layerOptions.id = layerOptions.id || shortId.generate()
+    layerOptions.plotAsOutline = layerOptions.plotAsOutline || (layerType === 'out')
 
     var converter = gerberToSvg(layer.gerber, layerOptions, finishLayer)
 
@@ -72,5 +57,5 @@ module.exports = function(layers, optionsOrCallback, done) {
       converter: converter,
       options: layerOptions
     })
-  }
+  })
 }

@@ -30,7 +30,7 @@ describe('easy stackup function', function() {
   })
 
   it('should accept a layer with a gerber string and filename', function(done) {
-    var layers = [{gerber: emptyGerber, filename: ''}]
+    var layers = [{gerber: emptyGerber, filename: 'foo'}]
 
     easyStackup(layers, function(error, stackup) {
       expect(error).to.not.be.ok
@@ -85,7 +85,7 @@ describe('easy stackup function', function() {
   })
 
   it('should callback with top, bottom and layer array', function(done) {
-    var layers = [{gerber: emptyGerber, filename: '', layerType: ''}]
+    var layers = [{gerber: emptyGerber, filename: 'foo'}]
 
     easyStackup(layers, function(error, stackup) {
       expect(error).to.not.be.ok
