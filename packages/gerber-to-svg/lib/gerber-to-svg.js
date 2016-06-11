@@ -2,32 +2,44 @@
 'use strict'
 
 var isString = require('lodash.isstring')
-var pick = require('lodash.pick')
 var gerberParser = require('gerber-parser')
 var gerberPlotter = require('gerber-plotter')
 
 var PlotterToSvg = require('./plotter-to-svg')
-var render = require('./_render')
+var render = require('./render')
+var clone = require('./clone')
+var xmlElementString = require('./xml-element-string')
+
+var getAttributesFromOptions = function(options) {
+  if (!options) {
+    return {}
+  }
+
+  var attributes = options.attributes || {}
+
+  if (isString(options)) {
+    attributes.id = options
+  }
+  else if (options.id) {
+    attributes.id = options.id
+  }
+
+  return attributes
+}
 
 var parseOptions = function(options) {
-  var optionsIsString = isString(options)
-  if (options == null || (!optionsIsString && (options.id == null))) {
-    throw new Error('id required for gerber-to-svg')
-  }
+  var attributes = getAttributesFromOptions(options)
 
-  if (optionsIsString) {
-    return {svg: {id: options.replace('.', '-')}}
+  if (!attributes.id) {
+    throw new Error('Non-empty id required for gerber-to-svg')
   }
-
-  var id = options.id.replace('.', '-')
-  var className = options.class
-  var color = options.color
 
   var opts = {
     svg: {
-      id: id,
-      class: className,
-      color: color
+      attributes: attributes,
+      createElement: options.createElement || xmlElementString,
+      includeNamespace: (options.includeNamespace == null) ? true : options.includeNamespace,
+      objectMode: (options.objectMode == null) ? false : options.objectMode
     },
     parser: {
       places: options.places,
@@ -51,7 +63,12 @@ module.exports = function gerberConverterFactory(gerber, options, done) {
   var opts = parseOptions(options)
   var callbackMode = (done != null)
 
-  var converter = new PlotterToSvg(opts.svg.id, opts.svg.class, opts.svg.color)
+  var converter = new PlotterToSvg(
+    opts.svg.attributes,
+    opts.svg.createElement,
+    opts.svg.includeNamespace,
+    opts.svg.objectMode)
+
   var parser = gerberParser(opts.parser)
   var plotter = gerberPlotter(opts.plotter)
 
@@ -100,6 +117,7 @@ module.exports = function gerberConverterFactory(gerber, options, done) {
 
     converter.on('readable', function collectStreamData() {
       var data
+
       do {
         data = converter.read() || ''
         result += data
@@ -110,6 +128,7 @@ module.exports = function gerberConverterFactory(gerber, options, done) {
 
     converter.once('error', function(error) {
       converter.removeListener('end', finishConversion)
+
       return done(error)
     })
   }
@@ -118,7 +137,4 @@ module.exports = function gerberConverterFactory(gerber, options, done) {
 }
 
 module.exports.render = render
-
-module.exports.clone = function cloneConverter(converter) {
-  return pick(converter, ['defs', 'layer', 'viewBox', 'width', 'height', 'units'])
-}
+module.exports.clone = clone

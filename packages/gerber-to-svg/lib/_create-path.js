@@ -1,11 +1,8 @@
 // create a path from a fill or stroke object
 'use strict'
 
-var reduce = require('lodash.reduce')
-
 var util = require('./_util')
 var shift = util.shift
-var xmlNode = util.xmlNode
 
 var pointsEqual = function(point, target) {
   return ((point[0] === target[0]) && (point[1] === target[1]))
@@ -17,6 +14,7 @@ var move = function(start) {
 
 var line = function(lastCmd, end) {
   var cmd = (lastCmd === 'L' || lastCmd === 'M') ? '' : 'L '
+
   return (cmd + shift(end[0]) + ' ' + shift(end[1]))
 }
 
@@ -32,11 +30,13 @@ var arc = function(lastCmd, radius, sweep, dir, end, center) {
 
     var arc1 = arc(lastCmd, radius, Math.PI, dir, half, center)
     var arc2 = arc('A', radius, Math.PI, dir, end, center)
+
     return arc1 + ' ' + arc2
   }
 
-  radius = shift(radius)
   var result = (lastCmd === 'A') ? '' : 'A '
+
+  radius = shift(radius)
   result += radius + ' ' + radius + ' 0 '
   result += ((sweep > Math.PI) ? '1 ' : '0 ')
   result += ((dir === 'ccw') ? '1 ' : '0 ')
@@ -77,12 +77,14 @@ var reduceSegments = function(result, segment) {
   return result
 }
 
-var createPath = function(segments, width) {
-  var pathData = reduce(segments, reduceSegments, {last: [], data: ''}).data
-  var fill = (width != null) ? 'none' : null
-  width = (width != null) ? shift(width) : null
+module.exports = function createPath(segments, width, element) {
+  var pathData = segments.reduce(reduceSegments, {last: [], data: ''}).data
+  var attr = {d: pathData}
 
-  return xmlNode('path', true, {d: pathData, fill: fill, 'stroke-width': width})
+  if (width != null) {
+    attr.fill = 'none'
+    attr['stroke-width'] = shift(width)
+  }
+
+  return element('path', attr)
 }
-
-module.exports = createPath

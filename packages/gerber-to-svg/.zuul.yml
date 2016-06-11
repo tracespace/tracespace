@@ -8,5 +8,7 @@ browsers:
     version: -1..latest
   - name: ie
     version: -1..latest
+  - name: microsoftedge
+    version: latest
 browserify:
   - plugin: proxyquire-universal

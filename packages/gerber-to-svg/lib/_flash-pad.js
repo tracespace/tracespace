@@ -3,12 +3,9 @@
 
 var util = require('./_util')
 var shift = util.shift
-var xmlNode = util.xmlNode
 
-var flashPad = function(prefix, tool, x, y) {
+module.exports = function flashPad(prefix, tool, x, y, element) {
   var toolId = '#' + prefix + '_pad-' + tool
 
-  return xmlNode('use', true, {'xlink:href': toolId, x: shift(x), y: shift(y)})
+  return element('use', {'xlink:href': toolId, x: shift(x), y: shift(y)})
 }
-
-module.exports = flashPad

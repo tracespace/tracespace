@@ -10,6 +10,10 @@ var converter = gerberToSvg(input, options, [callback])
 <!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [input](#input)
+	- [options](#options)
+		- [id and attributes options](#id-and-attributes-options)
+		- [element options](#element-options)
+		- [parsing and plotting options](#parsing-and-plotting-options)
 - [streaming API](#streaming-api)
 - [callback API](#callback-api)
 - [static methods](#static-methods)
@@ -17,12 +21,6 @@ var converter = gerberToSvg(input, options, [callback])
 	- [render](#render)
 - [events](#events)
 - [output](#output)
-- [options](#options)
-	- [id option](#id-option)
-	- [class option](#class-option)
-	- [color option](#color-option)
-	- [pretty option](#pretty-option)
-	- [parsing and plotting options](#parsing-and-plotting-options)
 - [public properties](#public-properties)
 	- [parser and plotter](#parser-and-plotter)
 	- [defs](#defs)
@@ -50,6 +48,79 @@ fs.readFile('/path/to/file.gbr', function(error, gerberString) {
   var stringConverter = gerberToSvg(gerberString, 'my-gerber-file')
 })
 ```
+
+### options
+
+The function must be passed an options object or string. If passed a string, it will be used as the `options.attribute.id` value. You may also use `options.id` in place of `options.attributes.id`. An `id` must be defined. The following options are available:
+
+**svg options**
+
+key              | value    | default        
+-----------------|----------|--------------------------------------------------
+id               | String   | See below
+attributes       | Object   | See below
+createElement    | Function | [`xmlElementString`](./lib/xml-element-string)
+includeNamespace | Boolean  | `true`
+objectMode       | Boolean  | false
+
+**parsing and plotting options**
+
+key           | value               | default
+--------------|---------------------|------------------
+places        | [int, int]          | Parsed from file
+zero          | 'L' or 'T'          | Parsed from file
+filetype      | 'gerber' or 'drill' | Parsed from file
+units         | `mm` or `in`        | Parsed from file
+backupUnits   | `mm` or `in`        | 'in'
+nota          | `A` or `I`          | Parsed from file
+backupNota    | `A` or `I`          | 'A'
+optimizePaths | `true` or `false`   | `false`
+plotAsOutline | `true` or `false`   | `false`
+
+#### id and attributes options
+
+The `id` and `attributes` options are used to set additional attributes of the top-level SVG node. Either the `id` option or `attributes.id` is required. `id` should be unique to avoid display problems with multiple SVGs on the same page.
+
+Some good candidates for other attributes to specify are:
+
+* `color` - Fills and strokes are set to `currentColor`, so setting color will change the color of the entire layer
+* `width` and `height` - By default, the width and height will be the real world dimensions of the layer, but you may want to set them to `100%` for display purposes
+* `class` or `className` (depending on your `createElement` function) - self explanatory
+
+#### element options
+
+`createElement`, `includeNamespace` and `objectMode` allow you to generate renders in a different format than the default XML string. `createElement` is a [hyperscript-style](https://github.com/dominictarr/hyperscript) function that takes a tagName, attributes map, and children array:
+
+``` javascript
+var defaultCreateElement = require('gerber-to-svg/lib/xml-elements-string')
+
+var customCreateElement = function(tagName, attributes, children) {
+	// create an element somehow
+	return 🍩
+}
+```
+
+The `includeNamespace` attribute is complementary to the `createElement` function, and determines whether the `xmlns: 'http://www.w3.org/2000/svg'` attribute will be included in or omitted from the `attributes` parameter of `createElement`. In certain virtual-dom implementations, you will need to set `includeNamespace` to `false` to avoid problems with `document.createElementNS`.
+
+`objectMode` needs to be set according to whether `createElement` returns a string (`objectMode: false`) or anything else (`objectMode: true`). If `objectMode` is set to true, the converter stream will be in [object mode](https://nodejs.org/api/stream.html#stream_object_mode) and emit objects instead of buffers.
+
+#### parsing and plotting options
+
+These options are available in case you have an older or poorly formatted file that does not contain the necessary format information and does not conform to the assumptions this library makes in the absence of that information. Some knowledge of the Gerber and Excellon formats are helpful when trying to understand these options.
+
+For more information, please reference the API documentation of [gerber-parser](https://github.com/mcous/gerber-parser/blob/master/API.md) and [gerber-plotter](https://github.com/mcous/gerber-plotter/blob/master/API.md), as these options are passed directly to these modules.
+
+key           | description
+--------------|-----------------------------------------------------------------------------
+places        | The number of places before and after the decimal used in coordinates
+zero          | Leading or trailing zero suppression used in coordinates
+filetype      | Whether to parse the file as a Gerber file or as a NC drill (Excellon) file
+units         | Units of the file
+backupUnits   | Backup units only to be used if units cannot be parsed from the file
+nota          | Absolute or incremental coordinate notation
+backupNota    | Backup notation only to be used if the notation cannot be parsed
+optimizePaths | Optimize trace paths by rearranging to occur in physical order
+plotAsOutline | Optimize and correct paths to better render the layer as a board outline
 
 ## streaming API
 
@@ -101,24 +172,44 @@ Clones the public properties of a converter (expect for `parser` and `plotter`) 
 
 ``` javascript
 var gerberToSvg = require('gerber-to-svg')
+var cloneConverter = gerberToSvg.clone
+
+// or, for smaller builds
+var cloneConverter = require('gerber-to-svg/lib/clone')
+
 var converter = gerberToSvg(input, options, function(error, result) {
-  var converterClone = gerberToSvg.clone(converter)
+  var converterClone = cloneConverter(converter)
   storeSomehow(converterClone)
 })
 ```
 
 ### render
 
-Returns the SVG string from a completed converter or a clone of a completed converter.
+Returns the SVG from a completed converter or a clone of a completed `converter`.
 
-`gerberToSvg.render(converter, [id], [className], [color])`
+`gerberToSvg.render(converter, idOrAttributes, [createElement, includeNamespace])`
+
+* `converter` is the original gerber-to-svg converter or a clone of it
+* `idOrAttributes` is a string element id or an object of attributes
+  * If it is an object, an `id` field is required
+* `createElement` is an optional function to use to create elements
+	* Default: [`xml-element-string`](./lib/xml-element-string.js)
+  * If used, must be the same `createElement` used in the original conversion
+	* The API of `createElement` is [hyperscript style](https://github.com/dominictarr/hyperscript): (tag, attributes, children) => element
+	* Can be used to create a VDOM element rather than an SVG string
+* `includeNamespace` is an optional flag that determines whether the xmlns attribute is passed to `createElement` (defaults to `true`)
 
 ``` javascript
 var gerberToSvg = require('gerber-to-svg')
+var renderConverter = gerberToSvg.render
+
+// or, for smaller builds
+var renderConverter = require('gerber-to-svg/lib/render')
+
 var converter = getConverterCloneSomehow()
 var id = 'my-cool-id'
 
-var svgString = gerberToSvg.render(converter, id)
+var svgString = renderConverter(converter, id)
 ```
 
 ## events
@@ -181,62 +272,6 @@ The output will be a string of an SVG node with the following format:
 
 Note that units are scaled by 1000. This is to ensure proper rendering in Firefox, which has a slightly buggy SVG implementation.
 
-## options
-
-The function must be passed an options object or string. If passed a string, it will be used as the `id` option. If passed an object, the `id` key is required. The following options are available:
-
-**svg options**
-
-key    | value     | default        
--------|-----------|----------------
-id     | String    | N/A (required)
-class  | String    | undefined
-color  | CSS color | undefined
-
-**parsing and plotting options**
-
-key           | value               | default
---------------|---------------------|------------------
-places        | [int, int]          | Parsed from file
-zero          | 'L' or 'T'          | Parsed from file
-filetype      | 'gerber' or 'drill' | Parsed from file
-units         | `mm` or `in`        | Parsed from file
-backupUnits   | `mm` or `in`        | 'in'
-nota          | `A` or `I`          | Parsed from file
-backupNota    | `A` or `I`          | 'A'
-optimizePaths | `true` or `false`   | `false`
-plotAsOutline | `true` or `false`   | `false`
-
-### id option
-
-The `id` option is used as the id of the SVG node. It is also used to determine the prefix to the ids of internal nodes. If you are generating SVGs for multiple Gerber files for display on the same page, it is important that each conversion is passed a unique ID. If they are not unique, there may be id collisions between SVGs, and things could get weird. Any periods (`.`) in the id will be replaced with dashes (`-`).
-
-### class option
-
-The `class` option adds a class to the SVG node. Any periods (`.`) in the classname will be replaced with dashes (`-`).
-
-### color option
-
-The `color` option is a CSS color that will be used as the `fill` and `stroke` value of the image. The default value of 'currentColor' means the color will be defined by the CSS `color` property of the SVG.
-
-### pretty option
-
-If `pretty` is non-zero, the SVG string will be pretty-printed with tab-sizes equal to the number that was input.
-
-### parsing and plotting options
-
-These options are available in case you have an older or poorly formatted file that does not contain the necessary format information and does not conform to the assumptions this library makes in the absence of that information. Some knowledge of the Gerber and Excellon formats are helpful when trying to understand these options.
-
-key         | description
-------------|-----------------------------------------------------------------------------
-places      | The number of places before and after the decimal used in coordinates
-zero        | Leading or trailing zero suppression used in coordinates
-filetype    | Whether to parse the file as a Gerber file or as a NC drill (Excellon) file
-units       | Units of the file
-backupUnits | Backup units only to be used if units cannot be parsed from the file
-nota        | Absolute or incremental coordinate notation
-backupNota  | Backup notation only to be used if the notation cannot be parsed
-
 ## public properties
 
 The returned object also contains several public properties. Any properties not listed here should be considered private.
@@ -245,8 +280,8 @@ property | type
 ---------|--------------------------
 parser   | `gerber-parser` parser
 plotter  | `gerber-plotter` plotter
-defs     | String
-layer    | String
+defs     | Array
+layer    | Array
 viewBox  | Array
 width    | String
 height   | String
@@ -258,11 +293,11 @@ The parser and plotter properties are both transform streams used in the convers
 
 ### defs
 
-The interior (innerText) of the `defs` node of the SVG. This is where pad shapes and clear layers will be defined.
+An array of the interior elements of the `defs` node of the SVG. This is where pad shapes and clear layers will be defined.
 
 ### layer
 
-The interior of the top-level `g` node of the SVG. This is where regions, strokes, and flashes of dark layers will be. If there are clear layers, there may be nested `g` nodes with `mask` attributes inside `layer`. If no image was produces, this property will be falsey.
+An array of the interior elements of the top-level `g` node of the SVG. This is where regions, strokes, and flashes of dark layers will be. If there are clear layers, there may be nested `g` nodes with `mask` attributes inside `layer`. If no image was produces, this array will be empty.
 
 ### viewBox
 
