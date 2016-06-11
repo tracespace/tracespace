@@ -1,13 +1,11 @@
 // parse a macro expression and return a function that takes mods
 'use strict'
 
-var partial = require('lodash.partial')
-
 var reOP = /[+\-\/xX()]/
 var reNUMBER = /[$\d.]+/
 var reTOKEN = new RegExp([reOP.source, reNUMBER.source].join('|'), 'g')
 
-var parseMacroExpression = function(parser, expr) {
+module.exports = function parseMacroExpression(parser, expr) {
   // tokenize the expression
   var tokens = expr.match(reTOKEN)
 
@@ -90,7 +88,7 @@ var parseMacroExpression = function(parser, expr) {
   }
 
   // return the evaluation function bound to the parsed expression tree
-  return partial(evaluate, tree)
+  return function(mods) {
+    return evaluate(tree, mods)
+  }
 }
-
-module.exports = parseMacroExpression

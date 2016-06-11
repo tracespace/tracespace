@@ -1,19 +1,12 @@
 // function to parse a macro block into a primitive object
 'use strict'
 
-var map = require('lodash.map')
-var clone = require('lodash.clone')
-var set = require('lodash.set')
-var partial = require('lodash.partial')
-
 var parseMacroExpr = require('./_parse-macro-expression')
 
 var reNUM = /^-?[\d.]+$/
 var reVAR_DEF = /^(\$[\d+])=(.+)/
 
 var parseMacroBlock = function(parser, block) {
-  var parseExpr = partial(parseMacroExpr, parser)
-
   // check first for a comment
   if (block[0] === '0') {
     return {type: 'comment'}
@@ -24,10 +17,12 @@ var parseMacroBlock = function(parser, block) {
     var varDefMatch = block.match(reVAR_DEF)
     var varName = varDefMatch[1]
     var varExpr = varDefMatch[2]
-    var evaluate = parseExpr(varExpr)
+    var evaluate = parseMacroExpr(parser, varExpr)
 
     var setMods = function(mods) {
-      return set(clone(mods), varName, evaluate(mods))
+      mods[varName] = evaluate(mods)
+
+      return mods
     }
     return {type: 'variable', set: setMods}
   }
@@ -37,10 +32,10 @@ var parseMacroBlock = function(parser, block) {
     if (reNUM.test(m)) {
       return Number(m)
     }
-    return parseExpr(m)
+    return parseMacroExpr(parser, m)
   }
 
-  var mods = map(block.split(','), modVal)
+  var mods = block.split(',').map(modVal)
   var code = mods[0]
   var exp = mods[1]
 
@@ -105,7 +100,7 @@ var parseMacroBlock = function(parser, block) {
     return {
       type: 'outline',
       exp: exp,
-      points: map(mods.slice(3, -1), Number),
+      points: mods.slice(3, -1).map(Number),
       rot: Number(mods[mods.length - 1])
     }
   }

@@ -2,9 +2,6 @@
 // takes a parser transform stream and a block string
 'use strict'
 
-var map = require('lodash.map')
-var partial = require('lodash.partial')
-
 var commands = require('./_commands')
 var normalize = require('./normalize-coord')
 var parseCoord = require('./parse-coord')
@@ -79,7 +76,7 @@ var parseToolDef = function(parser, block) {
     }
   }
   else {
-    val = map(toolArgs, Number)
+    val = toolArgs.map(Number)
   }
 
   var hole = []
@@ -100,7 +97,9 @@ var parseMacroDef = function(parser, block) {
   var macroMatch = block.match(reMACRO)
   var name = macroMatch[1]
   var blockMatch = (macroMatch[2].length) ? macroMatch[2].split('*') : []
-  var blocks = map(blockMatch, partial(parseMacroBlock, parser))
+  var blocks = blockMatch.map(function(block) {
+    return parseMacroBlock(parser, block)
+  })
 
   return parser._push(commands.macro(name, blocks))
 }

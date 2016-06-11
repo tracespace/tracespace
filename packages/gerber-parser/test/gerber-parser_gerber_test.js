@@ -612,7 +612,6 @@ describe('gerber parser with gerber files', function() {
             var newMods = v.set(mods)
             expect(v.type).to.equal('variable')
             expect(newMods).to.eql(expected.shift())
-            expect(newMods).to.not.equal(mods)
           })
 
           done()
