@@ -1,6 +1,19 @@
 'use strict'
 
-var find = require('lodash.find')
+// TODO: replace with Array.find once 0.10 support can be dropped
+// https://github.com/nodejs/LTS#lts-schedule
+var find = function(collection, predicate) {
+  var i
+  var element
+
+  for (i = 0; i < collection.length; i++) {
+    element = collection[i]
+
+    if (predicate(element)) {
+      return element
+    }
+  }
+}
 
 var layerTypes = [
   {
