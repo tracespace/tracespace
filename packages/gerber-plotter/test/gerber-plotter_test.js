@@ -2,7 +2,6 @@
 'use strict'
 
 var expect = require('chai').expect
-var forEach = require('lodash.foreach')
 
 var plotter = require('../lib')
 var boundingBox = require('../lib/_box')
@@ -1670,7 +1669,7 @@ describe('gerber plotter', function() {
       p.write({type: 'tool', code: '11', tool: tool1})
       p.write({type: 'tool', code: '10', tool: tool0})
 
-      forEach(path, function(path) {
+      path.forEach(function(path) {
         p._path.add(path)
       })
     })

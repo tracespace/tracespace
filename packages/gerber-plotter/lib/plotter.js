@@ -3,9 +3,6 @@
 
 var Transform = require('readable-stream').Transform
 var inherits = require('inherits')
-var has = require('lodash.has')
-var mapValues = require('lodash.mapvalues')
-var clone = require('lodash.clone')
 
 var PathGraph = require('./path-graph')
 var warning = require('./_warning')
@@ -135,16 +132,21 @@ Plotter.prototype._transform = function(chunk, encoding, done) {
     if (this.nota === 'I') {
       var _this = this
 
-      coord = mapValues(coord, function(value, key) {
+      coord = Object.keys(coord).reduce(function(result, key) {
+        var value = coord[key]
+
         if (key === 'x') {
-          return (_this._pos[0] + value)
+          result[key] = _this._pos[0] + value
         }
-        if (key === 'y') {
-          return (_this._pos[1] + value)
+        else if (key === 'y') {
+          result[key] = _this._pos[1] + value
+        }
+        else {
+          result[key] = value
         }
 
-        return value
-      })
+        return result
+      }, {})
     }
 
     if (op === 'last') {
@@ -212,7 +214,7 @@ Plotter.prototype._transform = function(chunk, encoding, done) {
       if (this._region) {
         this._warn('cannot change tool while region mode is on')
       }
-      else if (!has(this._tools, value)) {
+      else if (!this._tools[value]) {
         this._warn('tool ' + value + ' is not defined')
       }
       else if (!this._outTool){
@@ -276,7 +278,7 @@ Plotter.prototype._transform = function(chunk, encoding, done) {
       this.push({
         type: 'polarity',
         polarity: (levelValue === 'C') ? 'clear' : 'dark',
-        box: clone(this._box)
+        box: this._box.slice(0)
       })
     }
     else {
@@ -289,7 +291,11 @@ Plotter.prototype._transform = function(chunk, encoding, done) {
       }
       this._stepRep = offsets
 
-      this.push({type: 'repeat', offsets: clone(this._stepRep), box: clone(this._box)})
+      this.push({
+        type: 'repeat',
+        offsets: this._stepRep.slice(0),
+        box: this._box.slice(0)
+      })
     }
   }
 

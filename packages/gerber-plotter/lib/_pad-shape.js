@@ -1,12 +1,8 @@
 // returns a pad shape array given a tool definition
 'use strict'
 
-var reduce = require('lodash.reduce')
-var transform = require('lodash.transform')
-var mapValues = require('lodash.mapvalues')
 var isFunction = require('lodash.isfunction')
 var isFinite = require('lodash.isfinite')
-var clone = require('lodash.clone')
 
 var boundingBox = require('./_box')
 
@@ -84,7 +80,7 @@ var vect = function(x1, y1, x2, y2, width, rot) {
   points.push([roundToPrecision(x2 - sin), roundToPrecision(y2 + cos)])
   points.push([roundToPrecision(x1 - sin), roundToPrecision(y1 + cos)])
 
-  var box = reduce(points, function(result, p) {
+  var box = points.reduce(function(result, p) {
     return boundingBox.addPoint(result, p)
   }, boundingBox.new())
 
@@ -226,24 +222,31 @@ var runMacro = function(mods, blocks) {
   var emptyMacro = {shape: [], box: boundingBox.new()}
   var exposure = 1
 
-  return transform(blocks, function(result, block) {
+  blocks = blocks || []
+
+  return blocks.reduce(function(result, block) {
     var shapeAndBox
 
     if (block.type !== 'variable' && block.type !== 'comment') {
-      block = mapValues(block, function(value) {
+      block = Object.keys(block).reduce(function(result, key) {
+        var value = block[key]
+
         if (isFunction(value)) {
-          return value(mods)
+          result[key] = value(mods)
+        }
+        else {
+          result[key] = value
         }
 
-        return value
-      })
+        return result
+      }, {})
     }
 
     if ((block.exp != null) && (block.exp !== exposure)) {
       result.shape.push({
         type: 'layer',
         polarity: (block.exp === 1) ? 'dark' : 'clear',
-        box: clone(result.box)
+        box: result.box.slice(0)
       })
       exposure = block.exp
     }
@@ -299,21 +302,24 @@ var runMacro = function(mods, blocks) {
 
       case 'variable':
         mods = block.set(mods)
-        return true
+        return result
 
       default:
-        return true
+        return result
     }
 
     result.shape = result.shape.concat(shapeAndBox.shape)
+
     // only change the box if the exposure is creating an image
     if (exposure === 1) {
       result.box = boundingBox.add(result.box, shapeAndBox.box)
     }
+
+    return result
   }, emptyMacro)
 }
 
-var padShape = function(tool, macros) {
+module.exports = function padShape(tool, macros) {
   var shape = []
   var box = boundingBox.new()
   var toolShape = tool.shape
@@ -340,9 +346,12 @@ var padShape = function(tool, macros) {
   // else we got a macro
   // run the macro and return
   else {
-    var mods = transform(params, function(result, val, index) {
+    var mods = params.reduce(function(result, val, index) {
       result['$' + (index + 1)] = val
-    })
+
+      return result
+    }, {})
+
     return runMacro(mods, macros[toolShape])
   }
 
@@ -360,5 +369,3 @@ var padShape = function(tool, macros) {
 
   return {shape: shape, box: box}
 }
-
-module.exports = padShape

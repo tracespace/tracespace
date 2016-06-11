@@ -48,19 +48,9 @@
   },
   "dependencies": {
     "inherits": "^2.0.1",
-    "lodash.clone": "^4.3.2",
     "lodash.fill": "^3.3.4",
-    "lodash.filter": "^4.3.0",
-    "lodash.find": "^4.3.0",
-    "lodash.foreach": "^4.2.0",
-    "lodash.foreachright": "^4.1.0",
-    "lodash.has": "^4.3.1",
     "lodash.isfinite": "^3.3.1",
     "lodash.isfunction": "^3.0.6",
-    "lodash.map": "^4.3.0",
-    "lodash.mapvalues": "^4.3.0",
-    "lodash.reduce": "^4.3.0",
-    "lodash.transform": "^4.3.0",
     "readable-stream": "^2.1.2"
   }
 }

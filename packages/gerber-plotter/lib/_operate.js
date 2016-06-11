@@ -1,10 +1,6 @@
 // operate the plotter
 'use strict'
 
-var filter = require('lodash.filter')
-var reduce = require('lodash.reduce')
-var forEach = require('lodash.foreach')
-
 var boundingBox = require('./_box')
 
 var HALF_PI = Math.PI / 2
@@ -140,7 +136,7 @@ var arcBox = function(cenAndAngles, r, region, tool, dir) {
     points.push([center[0], center[1] - r])
   }
 
-  return reduce(points, function(result, m) {
+  return points.reduce(function(result, m) {
     if (!region) {
       var mBox = boundingBox.translate(tool.box, m)
       return boundingBox.add(result, mBox)
@@ -223,7 +219,7 @@ var drawArc = function(
     validCenters = arcCenterFromRadius(start, end, mode, epsilon, offset[2])
   }
   else if (arc === 's') {
-    validCenters = filter(candidates, function(c) {
+    validCenters = candidates.filter(function(c) {
       var startDist = Math.sqrt(Math.pow(c[0] - start[0], 2) + Math.pow(c[1] - start[1], 2))
       var endDist = Math.sqrt(Math.pow(c[0] - end[0], 2) + Math.pow(c[1] - end[1], 2))
 
@@ -343,7 +339,7 @@ var interpolateRect = function(start, end, tool, pathGraph, plotter) {
       [sXMax, sYMax])
   }
 
-  forEach(points, function(p, i) {
+  points.forEach(function(p, i) {
     var j = (i < (points.length - 1)) ? i + 1 : 0
     pathGraph.add({type: 'line', start: p, end: points[j]})
   })

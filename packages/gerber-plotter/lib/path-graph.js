@@ -1,12 +1,22 @@
 // utilities to create a graph of path segments and traverse that graph
 'use strict'
 
-var forEachRight = require('lodash.foreachright')
 var fill = require('lodash.fill')
-var find = require('lodash.find')
-var map = require('lodash.map')
 
 var GAP = 0.00011
+
+var find = function(collection, condition) {
+  var element
+  var i
+
+  for (i = 0; i < collection.length; i++) {
+    element = collection[i]
+
+    if (condition(element)) {
+      return element
+    }
+  }
+}
 
 var distance = function(point, target) {
   return Math.sqrt(Math.pow(point[0] - target[0], 2) + Math.pow(point[1] - target[1], 2))
@@ -63,6 +73,10 @@ PathGraph.prototype.add = function(newSeg) {
     end = find(this._points, function(point) {
       return pointsEqual(point.position, newSeg.end, fillGaps)
     })
+
+    end = find(this._points, function(point) {
+      return pointsEqual(point.position, newSeg.end, fillGaps)
+    })
   }
 
   var startAndEndExist = (start && end)
@@ -107,7 +121,9 @@ PathGraph.prototype.add = function(newSeg) {
 
 PathGraph.prototype.traverse = function() {
   if (!this._optimize) {
-    return map(this._edges, 'segment')
+    return this._edges.map(function(edge) {
+      return edge.segment
+    })
   }
 
   var walked = fill(Array(this._edges.length), false)
@@ -143,7 +159,7 @@ PathGraph.prototype.traverse = function() {
         }
 
         // add non-walked adjacent nodes to the discovered stack
-        forEachRight(lastEnd.edges, function(seg) {
+        lastEnd.edges.reverse().forEach(function(seg) {
           if (!walked[seg]) {
             discovered.push(seg)
           }
