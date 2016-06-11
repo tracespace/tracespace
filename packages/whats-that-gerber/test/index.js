@@ -23,11 +23,13 @@ var typeNames = {
 describe('whats-that-gerber', function() {
   it('should default to a gerber drawing', function() {
     var result = whatsThatGerber('foobar')
+
     expect(result).to.equal('drw')
   })
 
   it('should have a list of all layer types', function() {
     var allTypes = whatsThatGerber.getAllTypes()
+
     expect(allTypes).to.have.lengthOf(12)
     expect(allTypes).to.contain(
       'drw',
@@ -62,6 +64,7 @@ describe('whats-that-gerber', function() {
     it('should identify ' + cad + ' files', function() {
       files.forEach(function(file) {
         var result = whatsThatGerber(file.name)
+
         expect(result).to.equal(file.type)
       })
     })
