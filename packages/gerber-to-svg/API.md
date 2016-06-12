@@ -59,7 +59,7 @@ key              | value    | default
 -----------------|----------|--------------------------------------------------
 id               | String   | See below
 attributes       | Object   | See below
-createElement    | Function | [`xmlElementString`](./lib/xml-element-string)
+createElement    | Function | [`xml-element-string`](https://github.com/tracespace/xml-element-string)
 includeNamespace | Boolean  | `true`
 objectMode       | Boolean  | false
 
@@ -89,10 +89,10 @@ Some good candidates for other attributes to specify are:
 
 #### element options
 
-`createElement`, `includeNamespace` and `objectMode` allow you to generate renders in a different format than the default XML string. `createElement` is a [hyperscript-style](https://github.com/dominictarr/hyperscript) function that takes a tagName, attributes map, and children array:
+`createElement`, `includeNamespace` and `objectMode` allow you to generate renders in a different format than the default XML string. `createElement` is a [hyperscript-style](https://github.com/dominictarr/hyperscript) function that takes a tagName, attributes map, and children array. The default createElement function is provided by [`xml-element-string`](https://github.com/tracespace/xml-element-string).
 
 ``` javascript
-var defaultCreateElement = require('gerber-to-svg/lib/xml-elements-string')
+var defaultCreateElement = require('xml-element-string')
 
 var customCreateElement = function(tagName, attributes, children) {
 	// create an element somehow
@@ -193,7 +193,7 @@ Returns the SVG from a completed converter or a clone of a completed `converter`
 * `idOrAttributes` is a string element id or an object of attributes
   * If it is an object, an `id` field is required
 * `createElement` is an optional function to use to create elements
-	* Default: [`xml-element-string`](./lib/xml-element-string.js)
+	* Default: [`xml-element-string`](https://github.com/tracespace/xml-element-string)
   * If used, must be the same `createElement` used in the original conversion
 	* The API of `createElement` is [hyperscript style](https://github.com/dominictarr/hyperscript): (tag, attributes, children) => element
 	* Can be used to create a VDOM element rather than an SVG string

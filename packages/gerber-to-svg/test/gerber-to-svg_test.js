@@ -4,6 +4,7 @@
 var events = require('events')
 var proxyquire = require('proxyquire')
 var assign = require('lodash.assign')
+var xmlElementString = require('xml-element-string')
 var sinon = require('sinon')
 var chai = require('chai')
 var sinonChai = require('sinon-chai')
@@ -11,19 +12,19 @@ var expect = chai.expect
 
 chai.use(sinonChai)
 
-var render = require('../lib/render')
-var clone = require('../lib/clone')
-
 var parserStub = sinon.stub()
 var plotterStub = sinon.stub()
 var converterStub = sinon.stub()
-var xmlElementSpy = sinon.spy(require('../lib/xml-element-string'))
+var xmlElementSpy = sinon.spy(xmlElementString)
 var gerberToSvg = proxyquire('../lib/gerber-to-svg', {
   'gerber-parser': parserStub,
   'gerber-plotter': plotterStub,
-  './plotter-to-svg': converterStub,
-  './xml-element-string': xmlElementSpy
+  'xml-element-string': xmlElementSpy,
+  './plotter-to-svg': converterStub
 })
+
+var render = require('../lib/render')
+var clone = require('../lib/clone')
 
 describe('gerber to svg', function() {
   var fakeParser

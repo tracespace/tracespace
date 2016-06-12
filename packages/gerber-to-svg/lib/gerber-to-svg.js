@@ -4,11 +4,11 @@
 var isString = require('lodash.isstring')
 var gerberParser = require('gerber-parser')
 var gerberPlotter = require('gerber-plotter')
+var xmlElementString = require('xml-element-string')
 
 var PlotterToSvg = require('./plotter-to-svg')
 var render = require('./render')
 var clone = require('./clone')
-var xmlElementString = require('./xml-element-string')
 
 var getAttributesFromOptions = function(options) {
   if (!options) {

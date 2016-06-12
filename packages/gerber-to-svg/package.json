@@ -77,6 +77,7 @@
     "minimist": "^1.1.0",
     "mkdirp": "^0.5.1",
     "readable-stream": "^2.1.2",
+    "xml-element-string": "^1.0.0",
     "xmlovely": "^1.0.0"
   }
 }

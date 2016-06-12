@@ -5,12 +5,12 @@ var assign = require('lodash.assign')
 var sinon = require('sinon')
 var chai = require('chai')
 var sinonChai = require('sinon-chai')
+var xmlElement = require('xml-element-string')
 var expect = chai.expect
 
 chai.use(sinonChai)
 
 var PlotterToSvg = require('../lib/plotter-to-svg')
-var xmlElement = require('../lib/xml-element-string')
 
 var HALF_PI = Math.PI / 2
 

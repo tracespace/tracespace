@@ -1,7 +1,7 @@
 // render a completed PlotterToSvg object
 'use strict'
 
-var xmlElementString = require('./xml-element-string')
+var xmlElementString = require('xml-element-string')
 
 module.exports = function(converter, attr, createElement, includeNamespace) {
   var element = createElement || xmlElementString
