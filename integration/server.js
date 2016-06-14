@@ -7,55 +7,22 @@ var fs = require('fs')
 var path = require('path')
 var hapi = require('hapi')
 var inert = require('inert')
-var async = require('async')
-var gerberToSvg = require('gerber-to-svg')
-var whatsThatGerber = require('whats-that-gerber')
 
-var pcbStackup = require('../lib/index')
+var pcbStackup = require('../index')
 
 var PORT = 8001
 
 var server = new hapi.Server()
+
 server.connection({port: PORT})
 server.register(inert, function() {})
-
-// asynchronously map a gerber filename to a layer object expected by pcbStackup
-var mapGerberToLayerObject = function(layer, done) {
-  var filename = path.join(__dirname, layer.path)
-  var type = whatsThatGerber(filename)
-  var gerber = fs.createReadStream(filename, 'utf8')
-  var id = layer.id
-  var converterOptions = {
-    id: id,
-    plotAsOutline: (type.id === 'out')
-  }
-
-  console.log('converting: ' + id)
-
-  var converter = gerberToSvg(gerber, converterOptions, function(error) {
-    console.log('conversion done for: ' + layer.id)
-
-    if (error) {
-      console.warn(filename + ' failed to convert')
-      return done()
-    }
-
-    done(null, {type: type, converter: converter})
-  })
-
-  converter.on('warning', function(warning) {
-    var msg = warning.message
-    var line = warning.line
-    console.warn('warning from ' + id + ' at ' + line + ': ' + msg)
-  })
-}
 
 server.route({
   method: 'GET',
   path: '/{param*}',
   handler: {
     directory: {
-      path: __dirname,
+      path: path.join(__dirname, '/public'),
       redirectToSlash: true,
       index: true
     }
@@ -67,17 +34,24 @@ server.route({
   path: '/stackup',
   handler: function(request, reply) {
     var name = request.payload.name
-    var layers = request.payload.layers
-    var maskWithOutline = request.payload.maskWithOutline
+    var options = {
+      maskWithOutline: request.payload.maskWithOutline
+    }
+    var layers = request.payload.layers.map(function(layer) {
+      var filename = path.join(__dirname, layer.path)
+      var gerber = fs.createReadStream(filename)
+
+      return {gerber: gerber, filename: filename}
+    })
 
     console.log('building stackup for: ' + name)
-    async.map(layers, mapGerberToLayerObject, function(error, results) {
+    pcbStackup(layers, options, function(error, stackup) {
       if (error) {
         return reply(error)
       }
 
-      console.log('building stackup for: ' + name)
-      reply(pcbStackup(results, {id: name, maskWithOutline: maskWithOutline}))
+      console.log('stackup done for: ' + name)
+      reply(null, stackup)
     })
   }
 })

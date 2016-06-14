@@ -1,21 +1,37 @@
-// simpler API main function
+// pcb-stackup main
 'use strict'
+
 var gerberToSvg = require('gerber-to-svg')
 var shortId = require('shortid')
 var whatsThatGerber = require('whats-that-gerber')
+var createStackup = require('pcb-stackup-core')
 
-var pcbStackup = require('./index')
+var getInvalidLayers = function(layers) {
+  var isValid = function(layer) {
+    return layer.filename || layer.layerType
+  }
 
-module.exports = function(layers, options, done) {
+  return layers.reduce(function(result, layer, i) {
+    if (!isValid(layer)) {
+      result.push(i)
+    }
+
+    return result
+  }, [])
+}
+
+module.exports = function pcbStackup(layers, options, done) {
   if (typeof options === 'function') {
     done = options
     options = {}
   }
 
-  for (var i in layers) {
-    if (!(layers[i].filename || layers[i].layerType)) {
-      return done(new Error('No filename or layerType given for layer ' + i))
-    }
+  var invalidLayers = getInvalidLayers(layers)
+
+  if (invalidLayers.length) {
+    var msg = 'No filename or layerType given for layer(s): ' + invalidLayers.join(', ')
+
+    return done(new Error(msg))
   }
 
   options.id = options.id || shortId.generate()
@@ -25,11 +41,11 @@ module.exports = function(layers, options, done) {
 
   var finishLayer = function() {
     if (--layerCount < 1) {
-      var stackup = pcbStackup(stackupLayers, options)
+      var stackup = createStackup(stackupLayers, options)
 
       stackup.layers = stackupLayers.map(function(layer) {
         return {
-          layerType: layer.type.id,
+          layerType: layer.type,
           gerber: layer.converter,
           options: layer.options
         }
@@ -53,7 +69,7 @@ module.exports = function(layers, options, done) {
     var converter = gerberToSvg(layer.gerber, layerOptions, finishLayer)
 
     stackupLayers.push({
-      type: {id: layerType},
+      type: layerType,
       converter: converter,
       options: layerOptions
     })

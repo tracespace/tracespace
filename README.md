@@ -8,7 +8,7 @@
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/pcb-stackup.svg)](https://saucelabs.com/u/pcb-stackup)
 
-This module takes individual printed circuit board layer converters output by [gerber-to-svg](https://www.npmjs.com/package/gerber-to-svg) and uses them to build SVG renders of what the manufactured PCB will look like from the top and the bottom.
+Generate beautiful, precise SVG renders of printed circuit boards given a set of Gerber and drill files. Powered by [gerber-to-svg](https://github.com/mcous/gerber-to-svg) and [pcb-stackup-core](https://github.com/tracespace/pcb-stackup-core).
 
 Install with:
 
@@ -18,62 +18,17 @@ $ npm install --save pcb-stackup
 
 ## example
 
-``` javascript
-var fs = require('fs')
-var async = require('async')
-var shortId = require('shortid')
-var gerberToSvg = require('gerber-to-svg')
-var whatsThatGerber = require('whats-that-gerber')
-var pcbStackup = require('pcb-stackup')
+![arduino-uno-top](https://cloud.githubusercontent.com/assets/2963448/16046141/5bfba2d2-3219-11e6-8131-92c769218d62.png)
 
-var gerberPaths = [
-  'path/to/board-F_Cu.gbr',
-  'path/to/board-F_Mask.gbr',
-  'path/to/board-F_SilkS.gbr',
-  'path/to/board-F_Paste.gbr',
-  'path/to/board-B_Cu.gbr',
-  'path/to/board-B_Mask.gbr',
-  'path/to/board-B_SilkS.gbr',
-  'path/to/board-B_Paste.gbr',
-  'path/to/board-Edge_Cuts.gbr',
-  'path/to/board.drl'
-]
+1. `$ git clone tracespace/pcb-stackup`
+2. `$ cd pcb-stackup && npm install`
+3. `$ npm run example`
 
-// asynchronously map a gerber filename to a layer object expected by pcbStackup
-var mapFilenameToLayerObject = function(filename, done) {
-  var gerber = fs.createReadStream(filename, 'utf-8')
-  var type = whatsThatGerber(filename)
-  var converterOptions = {
-    id: shortId.generate(),
-    plotAsOutline: type.id === 'out'
-  }
-
-  var converter = gerberToSvg(gerber, converterOptions, function(error, result) {
-    if (error) {
-      console.warn(filename + ' failed to convert')
-      return done()
-    }
-
-    done(null, {type: type, converter: converter})
-  })
-}
-
-// pass an array of layer objects to pcbStackup and write the stackup results
-var handleLayers = function(error, layers) {
-  if (error) {
-    return console.error('error mapping gerber file paths to array of converters')
-  }
-
-  var stackup = pcbStackup(layers.filter(Boolean), 'my-board')
-  fs.writeFileSync('path/to/top.svg', stackup.top)
-  fs.writeFileSync('path/to/bottom.svg', stackup.bottom)
-}
-
-// map the gerber files to layer objects, then pass them to pcbStackup
-async.map(gerberPaths, mapFilenameToLayerObject, handleLayers)
-```
+[The example script](./example/arduino.js) builds a render of the [Arduino Uno](https://www.arduino.cc/en/Main/ArduinoBoardUno) PCB. Arduino Uno design files copyright by Arduino and shared under the terms of a Creative Commons Attribution Share-Alike license (https://www.arduino.cc/en/Main/FAQ).
 
 ## usage
+
+** TODO: update usage information**
 
 This module is designed to work in Node or in the browser with Browserify or Webpack. The  function takes two parameters: an array of layer objects and an options object. It returns an object with a `top` key and a `bottom` key, each of which contain the SVG string for that side of the board.
 
@@ -82,11 +37,13 @@ var pcbStackup = require('pcb-stackup')
 var options = {id: 'my-board'}
 var stackup = pcbStackup(layersArray, options)
 
-console.log(stackup.top) // logs "<svg id="my-board_top"...</svg>"
-console.log(stackup.bottom) // logs "<svg id="my-board_bottom"...</svg>"
+console.log(stackup.top.svg) // logs "<svg id="my-board_top"...</svg>"
+console.log(stackup.bottom.svg) // logs "<svg id="my-board_bottom"...</svg>"
 ```
 
 ### layers array
+
+** TODO: update layers information**
 
 The first parameter to the function is an array of layer objects. A layer object is an object with a `type` key and a `converter` key, where `type` is a Gerber filetype as output by [whats-that-gerber](https://www.npmjs.com/package/whats-that-gerber) and `converter` is the converter object returned by gerber-to-svg for that Gerber file.
 
@@ -100,6 +57,8 @@ var topCopperLayer = {
 ```
 
 ### options
+
+** TODO: update options information**
 
 The second parameter of the pcbStackup function is an options object. The only required option is the `id` options. For ease, if no other options are being specified, the id string may be passed as the second parameter directly.
 
