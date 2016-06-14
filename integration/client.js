@@ -66,16 +66,16 @@ var BOARDS = [
     name: 'core',
     maskWithOutline: true,
     layers: [
-      {id: 'core-tcu', path: 'boards/core/core.GTL'},
-      {id: 'core-tsm', path: 'boards/core/core.GTS'},
-      {id: 'core-tss', path: 'boards/core/core.GTO'},
-      {id: 'core-tsp', path: 'boards/core/core.GTP'},
-      {id: 'core-bcu', path: 'boards/core/core.GBL'},
-      {id: 'core-bsm', path: 'boards/core/core.GBS'},
-      {id: 'core-bss', path: 'boards/core/core.GBO'},
-      {id: 'core-bsp', path: 'boards/core/core.GBP'},
-      {id: 'core-out', path: 'boards/core/core.MIL'},
-      {id: 'core-drl', path: 'boards/core/core.TXT'}
+      {type: 'tcu', path: 'boards/core/core.GTL'},
+      {type: 'tsm', path: 'boards/core/core.GTS'},
+      {type: 'tss', path: 'boards/core/core.GTO'},
+      {type: 'tsp', path: 'boards/core/core.GTP'},
+      {type: 'bcu', path: 'boards/core/core.GBL'},
+      {type: 'bsm', path: 'boards/core/core.GBS'},
+      {type: 'bss', path: 'boards/core/core.GBO'},
+      {type: 'bsp', path: 'boards/core/core.GBP'},
+      {type: 'out', path: 'boards/core/core.MIL'},
+      {type: 'drl', path: 'boards/core/core.TXT'}
     ]
   },
   {
