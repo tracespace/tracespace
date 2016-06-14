@@ -41,7 +41,7 @@ server.route({
       var filename = path.join(__dirname, layer.path)
       var gerber = fs.createReadStream(filename)
 
-      return {gerber: gerber, filename: filename}
+      return {gerber: gerber, filename: filename, layerType: layer.type, options: layer.options}
     })
 
     console.log('building stackup for: ' + name)
