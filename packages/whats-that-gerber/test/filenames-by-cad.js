@@ -70,7 +70,7 @@ module.exports = [
     ]
   },
   {
-    cad: 'alitum',
+    cad: 'altium',
     files: [
       // top copper
       {name: 'board.gtl', type: 'tcu'},
