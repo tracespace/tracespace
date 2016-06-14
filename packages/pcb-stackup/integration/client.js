@@ -24,42 +24,42 @@ var BOARDS = [
     name: 'clockblock',
     maskWithOutline: true,
     layers: [
-      {id: 'clockblock-tcu', path: 'boards/clockblock/clockblock-F_Cu.gbr'},
-      {id: 'clockblock-tsm', path: 'boards/clockblock/clockblock-F_Mask.gbr'},
-      {id: 'clockblock-tss', path: 'boards/clockblock/clockblock-F_SilkS.gbr'},
-      {id: 'clockblock-tsp', path: 'boards/clockblock/clockblock-F_Paste.gbr'},
-      {id: 'clockblock-bcu', path: 'boards/clockblock/clockblock-B_Cu.gbr'},
-      {id: 'clockblock-bsm', path: 'boards/clockblock/clockblock-B_Mask.gbr'},
-      {id: 'clockblock-bss', path: 'boards/clockblock/clockblock-B_SilkS.gbr'},
-      {id: 'clockblock-out', path: 'boards/clockblock/clockblock-Edge_Cuts.gbr'},
-      {id: 'clockblock-drl1', path: 'boards/clockblock/clockblock-NPTH.drl'},
-      {id: 'clockblock-drl2', path: 'boards/clockblock/clockblock.drl'}
+      {path: 'boards/clockblock/clockblock-F_Cu.gbr'},
+      {path: 'boards/clockblock/clockblock-F_Mask.gbr'},
+      {path: 'boards/clockblock/clockblock-F_SilkS.gbr'},
+      {path: 'boards/clockblock/clockblock-F_Paste.gbr'},
+      {path: 'boards/clockblock/clockblock-B_Cu.gbr'},
+      {path: 'boards/clockblock/clockblock-B_Mask.gbr'},
+      {path: 'boards/clockblock/clockblock-B_SilkS.gbr'},
+      {path: 'boards/clockblock/clockblock-Edge_Cuts.gbr'},
+      {path: 'boards/clockblock/clockblock-NPTH.drl'},
+      {path: 'boards/clockblock/clockblock.drl'}
     ]
   },
   {
     name: 'mchck',
-    maskWithOutline: false,
+    maskWithOutline: true,
     layers: [
-      {id: 'mchck-tcu', path: 'boards/mchck/mchck-F_Cu.pho'},
-      {id: 'mchck-tsm', path: 'boards/mchck/mchck-F_Mask.pho'},
-      {id: 'mchck-tss', path: 'boards/mchck/mchck-F_SilkS.pho'},
-      {id: 'mchck-bcu', path: 'boards/mchck/mchck-B_Cu.pho'},
-      {id: 'mchck-bsm', path: 'boards/mchck/mchck-B_Mask.pho'},
-      {id: 'mchck-bss', path: 'boards/mchck/mchck-B_SilkS.pho'},
-      {id: 'mchck-out', path: 'boards/mchck/mchck-Edge_Cuts.pho'},
-      {id: 'mchck-drl', path: 'boards/mchck/mchck.drl'}
+      {path: 'boards/mchck/mchck-F_Cu.pho'},
+      {path: 'boards/mchck/mchck-F_Mask.pho'},
+      {path: 'boards/mchck/mchck-F_SilkS.pho'},
+      {path: 'boards/mchck/mchck-B_Cu.pho'},
+      {path: 'boards/mchck/mchck-B_Mask.pho'},
+      {path: 'boards/mchck/mchck-B_SilkS.pho'},
+      {path: 'boards/mchck/mchck-Edge_Cuts.pho'},
+      {path: 'boards/mchck/mchck.drl'}
     ]
   },
   {
     name: 'freeduino',
-    maskWithOutline: false,
+    maskWithOutline: true,
     layers: [
-      {id: 'freeduino-tcu', path: 'boards/freeduino/freeduino.cmp'},
-      {id: 'freeduino-tsm', path: 'boards/freeduino/freeduino.stc'},
-      {id: 'freeduino-tss', path: 'boards/freeduino/freeduino.plc'},
-      {id: 'freeduino-bcu', path: 'boards/freeduino/freeduino.sol'},
-      {id: 'freeduino-bsm', path: 'boards/freeduino/freeduino.sts'},
-      {id: 'freeduino-drl', path: 'boards/freeduino/freeduino.drd'}
+      {path: 'boards/freeduino/freeduino.cmp'},
+      {path: 'boards/freeduino/freeduino.stc'},
+      {path: 'boards/freeduino/freeduino.plc'},
+      {path: 'boards/freeduino/freeduino.sol'},
+      {path: 'boards/freeduino/freeduino.sts'},
+      {path: 'boards/freeduino/freeduino.drd'}
     ]
   },
   {
@@ -82,13 +82,13 @@ var BOARDS = [
     name: 'arduino-uno',
     maskWithOutline: true,
     layers: [
-      {id: 'arduino-uno-tcu', path: 'boards/arduino-uno/arduino-uno.cmp'},
-      {id: 'arduino-uno-tsm', path: 'boards/arduino-uno/arduino-uno.stc'},
-      {id: 'arduino-uno-tss', path: 'boards/arduino-uno/arduino-uno.plc'},
-      {id: 'arduino-uno-bcu', path: 'boards/arduino-uno/arduino-uno.sol'},
-      {id: 'arduino-uno-bsm', path: 'boards/arduino-uno/arduino-uno.sts'},
-      {id: 'arduino-uno-out', path: 'boards/arduino-uno/arduino-uno.gko'},
-      {id: 'arduino-uno-drl', path: 'boards/arduino-uno/arduino-uno.drd'}
+      {path: 'boards/arduino-uno/arduino-uno.cmp'},
+      {path: 'boards/arduino-uno/arduino-uno.stc'},
+      {path: 'boards/arduino-uno/arduino-uno.plc'},
+      {path: 'boards/arduino-uno/arduino-uno.sol'},
+      {path: 'boards/arduino-uno/arduino-uno.sts'},
+      {path: 'boards/arduino-uno/arduino-uno.gko'},
+      {path: 'boards/arduino-uno/arduino-uno.drd'}
     ]
   }
 ]
@@ -101,6 +101,7 @@ BOARDS.forEach(function(board) {
   var boardContainer = domify(boardTemplate({name: name, mask: mask}))
   var topContainer = boardContainer.querySelector('[data-hook=top]')
   var bottomContainer = boardContainer.querySelector('[data-hook=bottom]')
+
   boardsContainer.appendChild(boardContainer)
 
   xhr.post({
@@ -117,8 +118,8 @@ BOARDS.forEach(function(board) {
       console.error('Recived status code: ' + response.statusCode)
     }
     else {
-      top =  body.top
-      bottom = body.bottom
+      top =  body.top.svg
+      bottom = body.bottom.svg
     }
 
     topContainer.innerHTML = top

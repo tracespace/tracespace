@@ -1,4 +1,4 @@
 node_modules
 coverage
-integration/bundle.js
+integration/public/bundle.js
 example/*.svg
