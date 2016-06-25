@@ -1,6 +1,6 @@
 {
   "name": "gerber-parser",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A PCB Gerber/drill-file parser implemented as a Node transform-stream",
   "main": "lib/index.js",
   "scripts": {
