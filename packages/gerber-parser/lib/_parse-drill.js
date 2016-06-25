@@ -20,63 +20,77 @@ var reROUTE = /^G0([01235])/
 
 var setUnits = function(parser, units) {
   var format = (units === 'in') ? [2, 4] : [3, 3]
-  if (parser.format.places.length === 0) {
+  if (!parser.format.places) {
     parser.format.places = format
   }
   return parser._push(commands.set('units', units))
+}
+
+var parseCommentForFormatHints = function(parser, block) {
+  var result = {}
+
+  if (reKI_HINT.test(block)) {
+    var kicadMatch = block.match(reKI_HINT)
+    var leading = Number(kicadMatch[1])
+    var trailing = Number(kicadMatch[2])
+    var absolute = kicadMatch[3]
+    var unitSet = kicadMatch[4]
+    var suppressionSet = kicadMatch[5]
+
+    // set format if we got numbers
+    if (numIsFinite(leading) && numIsFinite(trailing)) {
+      result.places = [leading, trailing]
+    }
+
+    // send backup notation
+    if (absolute === 'absolute') {
+      parser._push(commands.set('backupNota', 'A'))
+    }
+    else {
+      parser._push(commands.set('backupNota', 'I'))
+    }
+
+    // send units
+    if (unitSet === 'metric') {
+      parser._push(commands.set('backupUnits', 'mm'))
+    }
+    else {
+      parser._push(commands.set('backupUnits', 'in'))
+    }
+
+    // set zero suppression
+    if (suppressionSet === 'leading' || suppressionSet === 'keep') {
+      result.zero = 'L'
+    }
+    else if (suppressionSet === 'trailing') {
+      result.zero = 'T'
+    }
+    else {
+      result.zero = 'D'
+    }
+  }
+
+  // check for altium format hints if the format is not already set
+  else if (reALTIUM_HINT.test(block)) {
+    var altiumMatch = block.match(reALTIUM_HINT)
+
+    result.places = [Number(altiumMatch[1]), Number(altiumMatch[2])]
+  }
+
+  return result
 }
 
 var parse = function(parser, block) {
   // parse comments for formatting hints and ignore the rest
   if (block[0] === ';') {
     // check for kicad format hints
-    if (reKI_HINT.test(block)) {
-      var kicadMatch = block.match(reKI_HINT)
-      var leading = Number(kicadMatch[1])
-      var trailing = Number(kicadMatch[2])
-      var absolute = kicadMatch[3]
-      var unitSet = kicadMatch[4]
-      var suppressionSet = kicadMatch[5]
+    var formatHints = parseCommentForFormatHints(parser, block)
 
-      // set format if we got numbers
-      if (numIsFinite(leading) && numIsFinite(trailing)) {
-        parser.format.places = [leading, trailing]
+    Object.keys(formatHints).forEach(function(key) {
+      if (!parser.format[key]) {
+        parser.format[key] = formatHints[key]
       }
-
-      // send backup notation
-      if (absolute === 'absolute') {
-        parser._push(commands.set('backupNota', 'A'))
-      }
-      else {
-        parser._push(commands.set('backupNota', 'I'))
-      }
-
-      // send units
-      if (unitSet === 'metric') {
-        parser._push(commands.set('backupUnits', 'mm'))
-      }
-      else {
-        parser._push(commands.set('backupUnits', 'in'))
-      }
-
-      // set zero suppression
-      if (suppressionSet === 'leading' || suppressionSet === 'keep') {
-        parser.format.zero = 'L'
-      }
-      else if (suppressionSet === 'trailing') {
-        parser.format.zero = 'T'
-      }
-      else {
-        parser.format.zero = 'D'
-      }
-    }
-
-    // check for altium format hints
-    else if (reALTIUM_HINT.test(block)) {
-      var altiumMatch = block.match(reALTIUM_HINT)
-
-      parser.format.places = [Number(altiumMatch[1]), Number(altiumMatch[2])]
-    }
+    })
 
     return
   }
@@ -106,7 +120,7 @@ var parse = function(parser, block) {
       parser._warn('zero suppression missing; assuming trailing suppression')
     }
 
-    if (!parser.format.places.length) {
+    if (!parser.format.places) {
       parser.format.places = [2, 4]
       parser._warn('places format missing; assuming [2, 4]')
     }

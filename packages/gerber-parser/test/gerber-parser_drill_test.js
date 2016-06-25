@@ -69,7 +69,7 @@ describe('gerber parser with gerber files', function() {
           p = pFactory()
           p.write(';FORMAT={-:-/ absolute / inch / decimal}\n')
           expect(p.format.zero).to.equal('D')
-          expect(p.format.places).to.eql([])
+          expect(p.format.places).to.be.falsey
 
           p = pFactory()
           p.write(';FORMAT={3:3/ absolute / metric / keep zeros}\n')
@@ -96,6 +96,15 @@ describe('gerber parser with gerber files', function() {
           p.write(';FILE_FORMAT=4:4\n')
           expect(p.format.places).to.eql([4, 4])
         })
+      })
+
+      it('should not overrite user set format with format hints', function() {
+        p.format.places = [2, 3]
+        p.format.zero = 'T'
+
+        p.write(';FORMAT={3:3/ absolute / metric / keep zeros}\n')
+        expect(p.format.places).to.eql([2, 3])
+        expect(p.format.zero).to.equal('T')
       })
     })
   })

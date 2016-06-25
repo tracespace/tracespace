@@ -146,7 +146,7 @@ var parse = function(parser, block) {
     var format = parser.format
 
     format.zero = format.zero || zero
-    if (!format.places.length) {
+    if (!format.places) {
       format.places = [leading, trailing]
     }
 
@@ -159,7 +159,7 @@ var parse = function(parser, block) {
       parser._warn('trailing zero suppression has been deprecated')
     }
 
-    var epsilon = 1.5 * Math.pow(10, -parser.format.places[1])
+    var epsilon = 1.5 * Math.pow(10, -format.places[1])
     parser._push(commands.set('nota', nota))
     parser._push(commands.set('epsilon', epsilon))
     return

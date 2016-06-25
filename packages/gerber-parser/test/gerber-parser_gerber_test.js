@@ -232,9 +232,9 @@ describe('gerber parser with gerber files', function() {
       expectResults(expected, done)
       // clear places format between writes to simulate new parsers
       p.write(format1)
-      p.format.places = []
+      p.format.places = null
       p.write(format2)
-      p.format.places = []
+      p.format.places = null
       p.write(format3)
     })
 

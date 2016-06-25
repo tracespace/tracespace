@@ -35,7 +35,7 @@ var verifyFiletype = function(f) {
 module.exports = function(options) {
   options = options || {}
 
-  var places = (options.places) ? verifyPlaces(options.places) : []
+  var places = (options.places) ? verifyPlaces(options.places) : null
   var zero = (options.zero) ? verifyZero(options.zero) : null
   var filetype = (options.filetype) ? verifyFiletype(options.filetype) : null
 
