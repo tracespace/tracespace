@@ -45,8 +45,11 @@ module.exports = [
       {name: 'board-Edge.Cuts.gbr', type: 'out'},
       {name: 'board-Edge.Cuts.gm1', type: 'out'},
       // drill
-      {name: 'board.drl', type: 'drl'},
-      {name: 'board-NPTH.drl', type: 'drl'}
+      {name: 'board.drl',      type: 'drl'},
+      {name: 'board-NPTH.drl', type: 'drl'},
+      // drawing
+      {name: 'board-top.pos',    type: 'drw'},
+      {name: 'board-bottom.pos', type: 'drw'}
     ]
   },
   {
