@@ -8,7 +8,10 @@
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/pcb-stackup.svg)](https://saucelabs.com/u/pcb-stackup)
 
-Generate beautiful, precise SVG renders of printed circuit boards given a set of Gerber and drill files. Powered by [gerber-to-svg](https://github.com/mcous/gerber-to-svg) and [pcb-stackup-core](https://github.com/tracespace/pcb-stackup-core).
+Generate beautiful, precise SVG renders of printed circuit boards given a set
+of Gerber and drill files. Powered by
+[gerber-to-svg](https://github.com/mcous/gerber-to-svg) and
+[pcb-stackup-core](https://github.com/tracespace/pcb-stackup-core).
 
 Install with:
 
@@ -24,13 +27,19 @@ $ npm install --save pcb-stackup
 2. `$ cd pcb-stackup && npm install`
 3. `$ npm run example`
 
-[The example script](./example/arduino.js) builds a render of the [Arduino Uno](https://www.arduino.cc/en/Main/ArduinoBoardUno) PCB. Arduino Uno design files copyright by Arduino and shared under the terms of a Creative Commons Attribution Share-Alike license (https://www.arduino.cc/en/Main/FAQ).
+[The example script](./example/arduino.js) builds a render of the [Arduino
+Uno](https://www.arduino.cc/en/Main/ArduinoBoardUno) PCB. Arduino Uno design
+files copyright by Arduino and shared under the terms of a Creative Commons
+Attribution Share-Alike license (https://www.arduino.cc/en/Main/FAQ).
 
 ## usage
 
-** TODO: update usage information**
+** TODO: update usage information **
 
-This module is designed to work in Node or in the browser with Browserify or Webpack. The  function takes two parameters: an array of layer objects and an options object. It returns an object with a `top` key and a `bottom` key, each of which contain the SVG string for that side of the board.
+This module is designed to work in Node or in the browser with Browserify or
+Webpack. The  function takes two parameters: an array of layer objects and an
+options object. It returns an object with a `top` key and a `bottom` key, each
+of which contain the SVG string for that side of the board.
 
 ``` javascript
 var pcbStackup = require('pcb-stackup')
@@ -43,11 +52,19 @@ console.log(stackup.bottom.svg) // logs "<svg id="my-board_bottom"...</svg>"
 
 ### layers array
 
-** TODO: update layers information**
+** TODO: update layers information **
 
-The first parameter to the function is an array of layer objects. A layer object is an object with a `type` key and a `converter` key, where `type` is a Gerber filetype as output by [whats-that-gerber](https://www.npmjs.com/package/whats-that-gerber) and `converter` is the converter object returned by gerber-to-svg for that Gerber file.
+The first parameter to the function is an array of layer objects. A layer
+object is an object with a `type` key and a `converter` key, where `type` is a
+Gerber filetype as output by
+[whats-that-gerber](https://www.npmjs.com/package/whats-that-gerber) and
+`converter` is the converter object returned by gerber-to-svg for that Gerber
+file.
 
-It is expected that the converters will have already finished before being passed to `pcbStackup`. This can be done by listening for the converter's `end` event or by using `gerber-to-svg` in callback mode, as shown in the example above.
+It is expected that the converters will have already finished before being
+passed to `pcbStackup`. This can be done by listening for the converter's `end`
+event or by using `gerber-to-svg` in callback mode, as shown in the example
+above.
 
 ``` javascript
 var topCopperLayer = {
@@ -58,9 +75,11 @@ var topCopperLayer = {
 
 ### options
 
-** TODO: update options information**
+** TODO: update options information **
 
-The second parameter of the pcbStackup function is an options object. The only required option is the `id` options. For ease, if no other options are being specified, the id string may be passed as the second parameter directly.
+The second parameter of the pcbStackup function is an options object. The only
+required option is the `id` options. For ease, if no other options are being
+specified, the id string may be passed as the second parameter directly.
 
 ``` javascript
 // stackup 1 and 2 are equivalent
@@ -76,13 +95,18 @@ maskWithOutline | false     | Use the board outline layer as a mask for the boar
 
 #### id
 
-The board ID is a string that is prefixed to `id` and `class` attributes of the internal nodes to the SVG documents. The IDs of any two stackups that may appear on the same web-page must be unique to avoid id collisions and potentially weird styling issues.
+The board ID is a string that is prefixed to `id` and `class` attributes of the
+internal nodes to the SVG documents. The IDs of any two stackups that may
+appear on the same web-page must be unique to avoid id collisions and
+potentially weird styling issues.
 
 This option is required and the function will throw if it is missing.
 
 #### color
 
-The color object allows the user to override the default styling of the stackup. It consists of layer identifiers as the keys and CSS colors as the values. Any to all layers may be overridden. The default color object is:
+The color object allows the user to override the default styling of the
+stackup. It consists of layer identifiers as the keys and CSS colors as the
+values. Any to all layers may be overridden. The default color object is:
 
 ``` javascript
 var DEFAULT_COLOR = {
@@ -108,7 +132,10 @@ ss    | Silkscreen
 sp    | Solderpaste
 out   | Board outline
 
-If a value is falsey (e.g. an empty string), the layer will not be added to the style node. This is useful if you want to add styles with an external stylesheet. If applying colors with an external stylesheet, use the following classnames and specify the `color` attribute:
+If a value is falsey (e.g. an empty string), the layer will not be added to the
+style node. This is useful if you want to add styles with an external
+stylesheet. If applying colors with an external stylesheet, use the following
+classnames and specify the `color` attribute:
 
 layer | classname   | example (id = 'my-board')
 ------|-------------|-------------------------------------------------
@@ -141,11 +168,15 @@ drill hits               | drl
 
 ## developing and contributing
 
-Clone and then `$ npm install`. Please accompany all PRs with applicable tests. Please test your code in browsers, as Travis CI cannot run browser tests for PRs.
+Clone and then `$ npm install`. Please accompany all PRs with applicable tests.
+Please test your code in browsers, as Travis CI cannot run browser tests for
+PRs.
 
 ### unit testing
 
-This module uses [Mocha](http://mochajs.org/) and [Chai](http://chaijs.com/) for unit testing, [Istanbul](https://github.com/gotwarlost/istanbul) for coverage, and [ESLint](http://eslint.org/) for linting.
+This module uses [Mocha](http://mochajs.org/) and [Chai](http://chaijs.com/)
+for unit testing, [Istanbul](https://github.com/gotwarlost/istanbul) for
+coverage, and [ESLint](http://eslint.org/) for linting.
 
 * `$ npm test` - run the tests, calculate coverage, and lint
 * `$ npm run test:watch` - run the tests on code changes (does not lint nor cover)
@@ -153,7 +184,9 @@ This module uses [Mocha](http://mochajs.org/) and [Chai](http://chaijs.com/) for
 
 ### integration testing
 
-The integration tests run the example code on a variety of gerber files to ensure proper interfacing with `gerber-to-svg` and proper rendering of different stackups.
+The integration tests run the example code on a variety of gerber files to
+ensure proper interfacing with `gerber-to-svg` and proper rendering of
+different stackups.
 
 1. `$ npm run test:integration`
 2. Open http://localhost:8001 in a browser
@@ -163,4 +196,5 @@ The integration tests run the example code on a variety of gerber files to ensur
 Browser tests are run with [Zuul](https://github.com/defunctzombie/zuul) and [Sauce Labs](https://saucelabs.com/opensauce/).
 
 * `$ npm run test:browser` - run the unit tests in a local browser
-* `$ npm run test:sauce` - run the units tests in several browsers using Open Sauce (Sauce Labs account and local [.zuulrc](https://github.com/defunctzombie/zuul/wiki/Zuulrc) required)
+* `$ npm run test:sauce` - run the units tests in several browsers using Open Sauce (Sauce Labs account and local
+[.zuulrc](https://github.com/defunctzombie/zuul/wiki/Zuulrc) required)
