@@ -21,70 +21,70 @@ var layerTypes = [
     name: {
       en: 'top copper'
     },
-    match: /((F_Cu)|(top\.))|(\.((cmp)|(top$)|(gtl)))/i
+    match: /((F.Cu)|(top\.))|(\.((cmp)|(top$)|(gtl)))/i
   },
   {
     id: 'tsm',
     name: {
       en: 'top soldermask'
     },
-    match: /((F_Mask)|(topmask))|(\.((stc)|(tsm)|(gts)|(smt)))/i
+    match: /((F.Mask)|(topmask))|(\.((stc)|(tsm)|(gts)|(smt)))/i
   },
   {
     id: 'tss',
     name: {
       en: 'top silkscreen'
     },
-    match: /((F_SilkS)|(topsilk))|(\.((plc)|(tsk)|(gto)|(sst)))/i
+    match: /((F.SilkS)|(topsilk))|(\.((plc)|(tsk)|(gto)|(sst)))/i
   },
   {
     id: 'tsp',
     name: {
       en: 'top solderpaste'
     },
-    match: /((F_Paste)|(toppaste))|(\.((crc)|(tsp)|(gtp)|(spt)))/i
+    match: /((F.Paste)|(toppaste))|(\.((crc)|(tsp)|(gtp)|(spt)))/i
   },
   {
     id: 'bcu',
     name: {
       en: 'bottom copper'
     },
-    match: /(B_Cu|bottom\.)|(\.((sol)|(bot$)|(gbl)))/i
+    match: /(B.Cu|bottom\.)|(\.((sol)|(bot$)|(gbl)))/i
   },
   {
     id: 'bsm',
     name: {
       en: 'bottom soldermask'
     },
-    match: /(B_Mask|bottommask\.)|(\.((sts)|(bsm)|(gbs)|(smb)))/i
+    match: /(B.Mask|bottommask\.)|(\.((sts)|(bsm)|(gbs)|(smb)))/i
   },
   {
     id: 'bss',
     name: {
       en: 'bottom silkscreen'
     },
-    match: /((B_SilkS)|(bottomsilk\.))|(\.((pls)|(bsk)|(gbo)|(ssb)))/i
+    match: /((B.SilkS)|(bottomsilk\.))|(\.((pls)|(bsk)|(gbo)|(ssb)))/i
   },
   {
     id: 'bsp',
     name: {
       en: 'bottom solderpaste'
     },
-    match: /(B_Paste)|(\.((crs)|(bsp)|(gbp)|(spb)))/i
+    match: /(B.Paste)|(\.((crs)|(bsp)|(gbp)|(spb)))/i
   },
   {
     id: 'icu',
     name: {
       en: 'inner copper'
     },
-    match: /(In\d+_Cu)|(\.((ly)|(g)|(in))\d+)/i
+    match: /(In\d+.Cu)|(\.((ly)|(g)|(in))\d+)/i
   },
   {
     id: 'out',
     name: {
       en: 'board outline'
     },
-    match: /((Edge_Cuts)|(outline))|(\.((dim)|(mil)|(gm[l\d])|(gko)|(fab$)))/i
+    match: /((Edge.Cuts)|(outline))|(\.((dim)|(mil)|(gm[l\d])|(gko)|(fab$)))/i
   },
   {
     id: 'drl',

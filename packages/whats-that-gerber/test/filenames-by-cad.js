@@ -7,24 +7,34 @@ module.exports = [
     files: [
       // top copper
       {name: 'board-F_Cu.gbr', type: 'tcu'},
+      {name: 'board-F.Cu.gbr', type: 'tcu'},
       // top soldermask
       {name: 'board-F_Mask.gbr', type: 'tsm'},
+      {name: 'board-F.Mask.gbr', type: 'tsm'},
       // top silkscreen
       {name: 'board-F_SilkS.gbr', type: 'tss'},
+      {name: 'board-F.SilkS.gbr', type: 'tss'},
       // top solderpaste
       {name: 'board-F_Paste.gbr', type: 'tsp'},
+      {name: 'board-F.Paste.gbr', type: 'tsp'},
       // bottom copper
       {name: 'board-B_Cu.gbr', type: 'bcu'},
+      {name: 'board-B.Cu.gbr', type: 'bcu'},
       // bottom soldermask
       {name: 'board-B_Mask.gbr', type: 'bsm'},
+      {name: 'board-B.Mask.gbr', type: 'bsm'},
       // bottom silkscreen
       {name: 'board-B_SilkS.gbr', type: 'bss'},
+      {name: 'board-B.SilkS.gbr', type: 'bss'},
       // bottom paste
       {name: 'board-B_Paste.gbr', type: 'bsp'},
+      {name: 'board-B.Paste.gbr', type: 'bsp'},
       // inner copper
       {name: 'board-In1_Cu.gbr', type: 'icu'},
+      {name: 'board-In1.Cu.gbr', type: 'icu'},
       // outline
       {name: 'board-Edge_Cuts.gbr', type: 'out'},
+      {name: 'board-Edge.Cuts.gbr', type: 'out'},
       // drill
       {name: 'board.drl', type: 'drl'}
     ]
