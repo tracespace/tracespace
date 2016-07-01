@@ -37,8 +37,9 @@ module.exports = [
       {name: 'board-B.Paste.gbr', type: 'bsp'},
       {name: 'board-B.Paste.gbp', type: 'bsp'},
       // inner copper
-      {name: 'board-In1_Cu.gbr', type: 'icu'},
-      {name: 'board-In1.Cu.gbr', type: 'icu'},
+      {name: 'board-In1_Cu.gbr',    type: 'icu'},
+      {name: 'board-Inner1.Cu.gbr', type: 'icu'},
+      {name: 'board-Inner1.Cu.g3',  type: 'icu'},
       // outline
       {name: 'board-Edge_Cuts.gbr', type: 'out'},
       {name: 'board-Edge.Cuts.gbr', type: 'out'},
