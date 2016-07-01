@@ -23,7 +23,7 @@ $ npm install --save pcb-stackup
 
 ![arduino-uno-top](https://cloud.githubusercontent.com/assets/2963448/16046141/5bfba2d2-3219-11e6-8131-92c769218d62.png)
 
-1. `$ git clone tracespace/pcb-stackup`
+1. `$ git clone https://github.com/tracespace/pcb-stackup`
 2. `$ cd pcb-stackup && npm install`
 3. `$ npm run example`
 
@@ -34,20 +34,42 @@ Attribution Share-Alike license (https://www.arduino.cc/en/Main/FAQ).
 
 ## usage
 
-** TODO: update usage information **
-
 This module is designed to work in Node or in the browser with Browserify or
-Webpack. The  function takes two parameters: an array of layer objects and an
-options object. It returns an object with a `top` key and a `bottom` key, each
-of which contain the SVG string for that side of the board.
+Webpack. The  function takes three parameters: an array of layer objects an
+optional settings object and a callback function.
+
 
 ``` javascript
 var pcbStackup = require('pcb-stackup')
-var options = {id: 'my-board'}
-var stackup = pcbStackup(layersArray, options)
+var fs = require('fs')
 
-console.log(stackup.top.svg) // logs "<svg id="my-board_top"...</svg>"
-console.log(stackup.bottom.svg) // logs "<svg id="my-board_bottom"...</svg>"
+var fileNames = [
+  'board-F.Cu.gtl',
+  'board-F.Mask.gts',
+  'board-F.SilkS.gto',
+  'board-F.Paste.gtp',
+  'board-B.Cu.gbl',
+  'board-B.Mask.gbs',
+  'board-B.SilkS.gbo',
+  'board-B.Paste.gbp',
+  'board-Edge.Cuts.gm1',
+  'board.drl',
+  'board-NPTH.drl'
+]
+
+var layers = fileNames.map(function (path) {
+  return {gerber: fs.createReadStream(path), filename: path}
+})
+
+pcbStackup(layers, function (error, stackup) {
+  if (error) {
+    throw error
+  }
+
+  console.log(stackup.top.svg) // logs "<svg ... </svg>"
+  console.log(stackup.bottom.svg) // logs "<svg ... </svg>"
+})
+
 ```
 
 ### layers array
