@@ -59,6 +59,7 @@ We should be able to identify files output by the following programs:
 * Eagle
 * Altium
 * Orcad
+* gEDA PCB
 
 ## contributing
 

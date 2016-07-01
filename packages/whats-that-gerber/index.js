@@ -21,49 +21,49 @@ var layerTypes = [
     name: {
       en: 'top copper'
     },
-    match: /(F_Cu)|(\.((cmp)|(top)|(gtl)))/i
+    match: /((F_Cu)|(top\.))|(\.((cmp)|(top$)|(gtl)))/i
   },
   {
     id: 'tsm',
     name: {
       en: 'top soldermask'
     },
-    match: /(F_Mask)|(\.((stc)|(tsm)|(gts)|(smt)))/i
+    match: /((F_Mask)|(topmask))|(\.((stc)|(tsm)|(gts)|(smt)))/i
   },
   {
     id: 'tss',
     name: {
       en: 'top silkscreen'
     },
-    match: /(F_SilkS)|(\.((plc)|(tsk)|(gto)|(sst)))/i
+    match: /((F_SilkS)|(topsilk))|(\.((plc)|(tsk)|(gto)|(sst)))/i
   },
   {
     id: 'tsp',
     name: {
       en: 'top solderpaste'
     },
-    match: /(F_Paste)|(\.((crc)|(tsp)|(gtp)|(spt)))/i
+    match: /((F_Paste)|(toppaste))|(\.((crc)|(tsp)|(gtp)|(spt)))/i
   },
   {
     id: 'bcu',
     name: {
       en: 'bottom copper'
     },
-    match: /(B_Cu)|(\.((sol)|(bot)|(gbl)))/i
+    match: /(B_Cu|bottom\.)|(\.((sol)|(bot$)|(gbl)))/i
   },
   {
     id: 'bsm',
     name: {
       en: 'bottom soldermask'
     },
-    match: /(B_Mask)|(\.((sts)|(bsm)|(gbs)|(smb)))/i
+    match: /(B_Mask|bottommask\.)|(\.((sts)|(bsm)|(gbs)|(smb)))/i
   },
   {
     id: 'bss',
     name: {
       en: 'bottom silkscreen'
     },
-    match: /(B_SilkS)|(\.((pls)|(bsk)|(gbo)|(ssb)))/i
+    match: /((B_SilkS)|(bottomsilk\.))|(\.((pls)|(bsk)|(gbo)|(ssb)))/i
   },
   {
     id: 'bsp',
@@ -84,14 +84,14 @@ var layerTypes = [
     name: {
       en: 'board outline'
     },
-    match: /(Edge_Cuts)|(\.((dim)|(mil)|(gm[l\d])|(gko)|(fab)))/i
+    match: /((Edge_Cuts)|(outline))|(\.((dim)|(mil)|(gm[l\d])|(gko)|(fab$)))/i
   },
   {
     id: 'drl',
     name: {
       en: 'drill hits'
     },
-    match: /\.((drl)|(xln)|(txt)|(tap)|(drd))/i
+    match: /\.((fab\.gbr)|(cnc)|(drl)|(xln)|(txt)|(tap)|(drd))/i
   },
   {
     id: 'drw',
