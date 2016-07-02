@@ -30,7 +30,8 @@
     "newline-before-return": 2,
     "no-else-return": 2,
     "no-unexpected-multiline": 2,
-    "eol-last": 2
+    "eol-last": 2,
+    "valid-jsdoc": 2
   },
   "env": {
     "node": true,
