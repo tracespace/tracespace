@@ -3,7 +3,7 @@
 [![npm](https://img.shields.io/npm/v/whats-that-gerber.svg?maxAge=2592000?style=flat-square)](https://www.npmjs.com/package/whats-that-gerber)
 [![Travis](https://img.shields.io/travis/tracespace/whats-that-gerber.svg?maxAge=2592000?style=flat-square)](https://travis-ci.org/tracespace/whats-that-gerber)
 [![David](https://img.shields.io/david/tracespace/whats-that-gerber.svg?maxAge=2592000?style=flat-square)](https://david-dm.org/tracespace/whats-that-gerber)
-[![David devDependencies](https://img.shields.io/david/dev/tracespace/whats-that-gerber.svg?maxAge=2592000?style=flat-square)](https://david-dm.org/tracespace/pcb-stackup#info=devDependencies)
+[![David devDependencies](https://img.shields.io/david/dev/tracespace/whats-that-gerber.svg?maxAge=2592000?style=flat-square)](https://david-dm.org/tracespace/whats-that-gerber#info=devDependencies)
 
 Identify the probable PCB layer type of a Gerber or drill file by its filename.
 
