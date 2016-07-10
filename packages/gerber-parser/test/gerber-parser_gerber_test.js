@@ -260,6 +260,20 @@ describe('gerber parser with gerber files', function() {
       p.write('G90*\n')
       p.write('G91*\n')
     })
+
+    it('should warn but still set format if there are extra characters', function(done) {
+      var format = '%FSLAN2X34Y34*%\n'
+
+      p.once('warning', function(w) {
+        expect(w.line).to.equal(0)
+        expect(w.message).to.match(/unknown characters/)
+        expect(p.format.zero).to.equal('L')
+        expect(p.format.places).to.eql([3, 4])
+        done()
+      })
+
+      p.write(format)
+    })
   })
 
   describe('new level commands (SR/LP parameters)', function() {

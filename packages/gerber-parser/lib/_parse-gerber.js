@@ -25,7 +25,7 @@ var reCOORD = /^(?:G0*[123])?((?:[XYIJ][+-]?\d+){1,4})(?:D0*[123])?$/
 // parameter code matchers
 var reUNITS = /^%MO(IN|MM)/
 // format spec regexp courtesy @summivox
-var reFORMAT = /^%FS([LT]?)([AI]?)X([0-7])([0-7])Y\3\4/
+var reFORMAT = /^%FS([LT]?)([AI]?)(.*)X([0-7])([0-7])Y\4\5/
 var rePOLARITY = /^%LP([CD])/
 var reSTEP_REP = /^%SR(?:X(\d+)Y(\d+)I([\d.]+)J([\d.]+))?/
 var reTOOL_DEF = /^%ADD0*(\d{2,})([A-Za-z_]\w*)(?:,((?:X?[\d.]+)*))?/
@@ -141,8 +141,9 @@ var parse = function(parser, block) {
     var formatMatch = block.match(reFORMAT)
     var zero = formatMatch[1]
     var nota = formatMatch[2]
-    var leading = Number(formatMatch[3])
-    var trailing = Number(formatMatch[4])
+    var unknown = formatMatch[3]
+    var leading = Number(formatMatch[4])
+    var trailing = Number(formatMatch[5])
     var format = parser.format
 
     format.zero = format.zero || zero
@@ -157,6 +158,11 @@ var parse = function(parser, block) {
     }
     else if (format.zero === 'T') {
       parser._warn('trailing zero suppression has been deprecated')
+    }
+
+    // warn if there were unknown characters in the format spec
+    if (unknown) {
+      parser._warn('unknown characters "' + unknown + '" in "' + block + '" were ignored')
     }
 
     var epsilon = 1.5 * Math.pow(10, -format.places[1])
