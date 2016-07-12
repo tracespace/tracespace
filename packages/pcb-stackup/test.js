@@ -142,6 +142,37 @@ describe('easy stackup function', function() {
     })
   })
 
+  it('sets the createElement option', function(done) {
+    var layers = [
+      {gerber: emptyGerber, layerType: 'bcu'},
+      {gerber: emptyGerber, layerType: 'tcu'}
+    ]
+    var options = {createElement: function() {return 1}}
+
+    pcbStackup(layers, options, function(error, stackup) {
+      expect(error).to.not.exist
+      expect(stackup.layers[0].gerber['_element']()).to.equal(1)
+      expect(stackup.layers[1].gerber['_element']()).to.equal(1)
+      done()
+    })
+  })
+
+  it('sets overrides the createElement option', function(done) {
+    var layers = [
+      {gerber: emptyGerber, layerType: 'bcu'},
+      {gerber: emptyGerber, layerType: 'tcu', options: {createElement: function() {return 2}}}
+    ]
+    var options = {createElement: function() {return 1}}
+
+    pcbStackup(layers, options, function(error, stackup) {
+      expect(error).to.not.exist
+      expect(stackup.layers[0].gerber['_element']()).to.equal(1)
+      expect(stackup.layers[1].gerber['_element']()).to.equal(1)
+      done()
+    })
+  })
+
+
   // TODO: these determinism tests should really be property based using a quickcheck
   // style framework instead of single unit tests
   // NOTE: (mc) Perhaps instead of these tests, we should check that we're passing
