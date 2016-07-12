@@ -36,6 +36,13 @@ var pcbStackup = function(layers, options, done) {
 
   options.id = options.id || shortId.generate()
 
+  if (options.createElement != null) {
+    layers.forEach(function(layer) {
+      layer.options = layer.options || {}
+      layer.options.createElement = options.createElement
+    })
+  }
+
   var layerCount = layers.length
   var stackupLayers = []
 
