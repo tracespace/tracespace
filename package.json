@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint *.js integration/*.js example/*.js",
-    "test": "istanbul cover _mocha",
+    "test": "istanbul cover -x test.js _mocha",
     "posttest": "npm run lint",
     "test:watch": "mocha --reporter dot --watch",
     "pretest:integration": "browserify integration/client.js > integration/public/bundle.js",
