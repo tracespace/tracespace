@@ -1,12 +1,12 @@
 <a name="pcbStackup"></a>
 
-## pcbStackup(layers, [options], done)
+## pcbStackup(layers, [options], done) : <code>function</code>
 The pcb-stackup converter function.
 
 | Param     | Type                                       | Default                               | Description                                                                                                                                                                                                 |
 | --------- | ------------------------------------------ | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------                                                                                |
 | layers    | <code>[array.&lt;Layer&gt;](#Layer)</code> |                                       | Array of layer objects                                                                                                                                                                                      |
-| [options] | <code>object</code>                        | <code>{id: shortId.generate()}</code> | Optional options, see [pcb-stackup-core-docs](https://github.com/tracespace/pcb-stackup-core/blob/master/README.md#options). Setting createElement will override that setting in the gerber-to-svg options. |
+| [options] | <code>object</code>                        | <code>{id: shortId.generate()}</code> | Optional options, see [pcb-stackup-core docs](https://github.com/tracespace/pcb-stackup-core/blob/master/README.md#options). Setting createElement will override that setting in the gerber-to-svg options. |
 | done      | <code>[Done](#Done)</code>                 |                                       | Callback function.                                                                                                                                                                                          |
 
 <a name="Layer"></a>
@@ -23,7 +23,7 @@ The pcb-stackup converter function.
 
 <a name="Done"></a>
 
-## Done : <code>function</code>
+## Done(error, stackup) : <code>function</code>
 
 | Param   | Type                             | Description                    |
 | ------- | -------------------------------- | ------------------------------ |
