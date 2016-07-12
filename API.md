@@ -3,11 +3,11 @@
 ## pcbStackup(layers, [options], done)
 The pcb-stackup converter function.
 
-| Param     | Type                                       | Default                               | Description                                                                                                                  |
-| --------- | ------------------------------------------ | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| layers    | <code>[array.&lt;Layer&gt;](#Layer)</code> |                                       | Array of layer objects                                                                                                       |
-| [options] | <code>object</code>                        | <code>{id: shortId.generate()}</code> | Optional options, see [pcb-stackup-core-docs](https://github.com/tracespace/pcb-stackup-core/blob/master/README.md#options). |
-| done      | <code>[Done](#Done)</code>                 |                                       | Callback function.                                                                                                           |
+| Param     | Type                                       | Default                               | Description                                                                                                                                                                                                 |
+| --------- | ------------------------------------------ | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------                                                                                |
+| layers    | <code>[array.&lt;Layer&gt;](#Layer)</code> |                                       | Array of layer objects                                                                                                                                                                                      |
+| [options] | <code>object</code>                        | <code>{id: shortId.generate()}</code> | Optional options, see [pcb-stackup-core-docs](https://github.com/tracespace/pcb-stackup-core/blob/master/README.md#options). Setting createElement will override that setting in the gerber-to-svg options. |
+| done      | <code>[Done](#Done)</code>                 |                                       | Callback function.                                                                                                                                                                                          |
 
 <a name="Layer"></a>
 
