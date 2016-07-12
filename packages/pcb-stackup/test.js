@@ -157,7 +157,7 @@ describe('easy stackup function', function() {
     })
   })
 
-  it('sets overrides the createElement option', function(done) {
+  it('sets and overrides the createElement option', function(done) {
     var layers = [
       {gerber: emptyGerber, layerType: 'bcu'},
       {gerber: emptyGerber, layerType: 'tcu', options: {createElement: function() {return 2}}}
