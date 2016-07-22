@@ -8,7 +8,7 @@
     "test": "istanbul cover -x test.js _mocha",
     "posttest": "npm run lint",
     "test:watch": "mocha --reporter dot --watch",
-    "pretest:integration": "browserify integration/client.js > integration/public/bundle.js",
+    "pretest:integration": "node integration/list-boards.js && browserify integration/client.js > integration/public/bundle.js",
     "test:integration": "node integration/server.js",
     "test:browser": "zuul --local -- ./test.js",
     "test:sauce": "zuul -- ./test.js",
