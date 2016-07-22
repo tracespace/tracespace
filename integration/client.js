@@ -4,6 +4,7 @@
 var xhr = require('xhr')
 var template = require('lodash.template')
 var domify = require('domify')
+var BOARDS = require('./boards.json')
 
 var boardTemplate = template([
   '<div class="board">',
@@ -20,80 +21,6 @@ var boardTemplate = template([
   '</div>',
   '</div>'
 ].join(''))
-
-var BOARDS = [
-  {
-    name: 'clockblock',
-    maskWithOutline: true,
-    layers: [
-      {path: 'boards/clockblock/clockblock-F_Cu.gbr'},
-      {path: 'boards/clockblock/clockblock-F_Mask.gbr'},
-      {path: 'boards/clockblock/clockblock-F_SilkS.gbr'},
-      {path: 'boards/clockblock/clockblock-F_Paste.gbr'},
-      {path: 'boards/clockblock/clockblock-B_Cu.gbr'},
-      {path: 'boards/clockblock/clockblock-B_Mask.gbr'},
-      {path: 'boards/clockblock/clockblock-B_SilkS.gbr'},
-      {path: 'boards/clockblock/clockblock-Edge_Cuts.gbr'},
-      {path: 'boards/clockblock/clockblock-NPTH.drl'},
-      {path: 'boards/clockblock/clockblock.drl'}
-    ]
-  },
-  {
-    name: 'mchck',
-    maskWithOutline: true,
-    layers: [
-      {path: 'boards/mchck/mchck-F_Cu.pho'},
-      {path: 'boards/mchck/mchck-F_Mask.pho'},
-      {path: 'boards/mchck/mchck-F_SilkS.pho'},
-      {path: 'boards/mchck/mchck-B_Cu.pho'},
-      {path: 'boards/mchck/mchck-B_Mask.pho'},
-      {path: 'boards/mchck/mchck-B_SilkS.pho'},
-      {path: 'boards/mchck/mchck-Edge_Cuts.pho'},
-      {path: 'boards/mchck/mchck.drl'}
-    ]
-  },
-  {
-    name: 'freeduino',
-    maskWithOutline: true,
-    layers: [
-      {path: 'boards/freeduino/freeduino.cmp'},
-      {path: 'boards/freeduino/freeduino.stc'},
-      {path: 'boards/freeduino/freeduino.plc'},
-      {path: 'boards/freeduino/freeduino.sol'},
-      {path: 'boards/freeduino/freeduino.sts'},
-      {path: 'boards/freeduino/freeduino.drd'}
-    ]
-  },
-  {
-    name: 'core',
-    maskWithOutline: true,
-    layers: [
-      {type: 'tcu', path: 'boards/core/core.GTL'},
-      {type: 'tsm', path: 'boards/core/core.GTS'},
-      {type: 'tss', path: 'boards/core/core.GTO'},
-      {type: 'tsp', path: 'boards/core/core.GTP'},
-      {type: 'bcu', path: 'boards/core/core.GBL'},
-      {type: 'bsm', path: 'boards/core/core.GBS'},
-      {type: 'bss', path: 'boards/core/core.GBO'},
-      {type: 'bsp', path: 'boards/core/core.GBP'},
-      {type: 'out', path: 'boards/core/core.MIL'},
-      {type: 'drl', path: 'boards/core/core.TXT'}
-    ]
-  },
-  {
-    name: 'arduino-uno',
-    maskWithOutline: true,
-    layers: [
-      {path: 'boards/arduino-uno/arduino-uno.cmp'},
-      {path: 'boards/arduino-uno/arduino-uno.stc'},
-      {path: 'boards/arduino-uno/arduino-uno.plc'},
-      {path: 'boards/arduino-uno/arduino-uno.sol'},
-      {path: 'boards/arduino-uno/arduino-uno.sts'},
-      {path: 'boards/arduino-uno/arduino-uno.gko'},
-      {path: 'boards/arduino-uno/arduino-uno.drd'}
-    ]
-  }
-]
 
 var boardsContainer = document.getElementById('boards')
 

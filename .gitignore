@@ -1,4 +1,5 @@
 node_modules
 coverage
 integration/public/bundle.js
+integration/boards.json
 example/*.svg
