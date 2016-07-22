@@ -16,7 +16,6 @@ boardFolders.forEach(function(board) {
     if (error) {
       throw error
     }
-    files = files.filter(function(file) {return !/LICENSE/.test(file)})
     BOARDS.push({
       name: board,
       maskWithOutline: true,
