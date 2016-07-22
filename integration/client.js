@@ -11,10 +11,12 @@ var boardTemplate = template([
   '<div class="side">',
   '<h4>top</h4>',
   '<div data-hook="top"> loading </div>',
+  '<div class="save_top"> </div>',
   '</div>',
   '<div class="side">',
   '<h4>bottom</h4>',
   '<div data-hook="bottom"> loading </div>',
+  '<div class="save_bottom"> </div>',
   '</div>',
   '</div>'
 ].join(''))
@@ -115,14 +117,31 @@ BOARDS.forEach(function(board) {
       console.error(error.message)
     }
     else if (response.statusCode !== 200) {
-      console.error('Recived status code: ' + response.statusCode)
+      console.error('Received status code: ' + response.statusCode)
     }
     else {
       top =  body.top.svg
       bottom = body.bottom.svg
     }
 
+
     topContainer.innerHTML = top
     bottomContainer.innerHTML = bottom
+
+    var a_top = document.createElement('a')
+    var a_bottom = document.createElement('a')
+    a_top.href = 'data:image/svg+xml;base64,' + window.btoa(top)
+    a_bottom.href = 'data:image/svg+xml;base64,' + window.btoa(bottom)
+    a_top.innerText = 'save to file'
+    a_bottom.innerText = 'save to file'
+    a_top.hrefLang='image/svg+xml'
+    a_bottom.hrefLang='image/svg+xml'
+    a_top.download = name + '_top.svg'
+    a_bottom.download = name + '_bottom.svg'
+    var a_container_top = boardContainer.querySelector('.save_top')
+    var a_container_bottom = boardContainer.querySelector('.save_bottom')
+    a_container_top.appendChild(a_top)
+    a_container_bottom.appendChild(a_bottom)
+
   })
 })
