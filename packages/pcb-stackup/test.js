@@ -17,7 +17,7 @@ describe('easy stackup function', function() {
   })
 
   it('should accept options as the second argument', function(done) {
-    pcbStackup([], {}, function(error, stackup) {
+    pcbStackup([], {maskWithOutline: false}, function(error, stackup) {
       expect(error).to.not.exist
       expect(stackup).to.exist
       done()
