@@ -27,7 +27,7 @@ var boardsContainer = document.getElementById('boards')
 
 BOARDS.forEach(function(board) {
   var name = board.name
-  var mask = board.maskWithOutline
+  var mask = board.options.maskWithOutline
   var boardContainer = domify(boardTemplate({name: name, mask: mask}))
   var topContainer = boardContainer.querySelector('[data-hook=top]')
   var bottomContainer = boardContainer.querySelector('[data-hook=bottom]')
