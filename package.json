@@ -8,7 +8,7 @@
     "test": "istanbul cover -x test.js _mocha",
     "posttest": "npm run lint",
     "test:watch": "mocha --reporter dot --watch",
-    "pretest:integration": "browserify integration/client.js > integration/public/bundle.js",
+    "pretest:integration": "node integration/list-boards.js && browserify integration/client.js > integration/public/bundle.js",
     "test:integration": "node integration/server.js",
     "test:browser": "zuul --local -- ./test.js",
     "test:sauce": "zuul -- ./test.js",
@@ -45,6 +45,7 @@
     "coveralls": "^2.11.9",
     "domify": "^1.4.0",
     "eslint": "^2.9.0",
+    "glob": "^7.0.5",
     "hapi": "^13.3.0",
     "inert": "^4.0.0",
     "istanbul": "^0.4.3",
@@ -59,7 +60,7 @@
     "zuul": "^3.10.1"
   },
   "dependencies": {
-    "gerber-to-svg": "^2.0.1",
+    "gerber-to-svg": "^2.1.0",
     "pcb-stackup-core": "^1.0.0",
     "shortid": "^2.2.6",
     "whats-that-gerber": "^2.0.1"
