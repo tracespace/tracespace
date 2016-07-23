@@ -35,13 +35,13 @@ The pcb-stackup converter function.
 ## Stackup : `object`
 **Properties**
 
-| Name       | Type                      | Description                                                                  |
-| ---        | ---                       | ---                                                                          |
-| top        | `object`                  | The top view SVG object, see [pcb-stackup-core docs][5] for full details.    |
-| top.svg    | `string`                  | The top SVG string.                                                          |
-| bottom     | `object`                  | The bottom view SVG object, see [pcb-stackup-core docs][6] for full details. |
-| bottom.svg | `string`                  | The bottom SVG string.                                                       |
-| layers     | `[Array.<Layer>](#Layer)` | A cache of the processed layers that can be passed back to pcbStackup.       |
+| Name       | Type                      | Description                                                                           |
+| ---        | ---                       | ---                                                                                   |
+| top        | `object`                  | The top view SVG object, see [pcb-stackup-core docs][5] for full details.             |
+| top.svg    | `string`                  | The top SVG string.                                                                   |
+| bottom     | `object`                  | The bottom view SVG object, see [pcb-stackup-core docs][6] for full details.          |
+| bottom.svg | `string`                  | The bottom SVG string.                                                                |
+| layers     | `[Array.<Layer>](#Layer)` | A cache of the processed layers that can be passed back to [pcbStackup](#pcbStackup). |
 
 [1]: https://github.com/tracespace/pcb-stackup-core/blob/master/README.md#options
 [2]: https://nodejs.org/api/stream.html#stream_readable_streams
