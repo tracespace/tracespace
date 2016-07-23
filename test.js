@@ -157,7 +157,7 @@ describe('easy stackup function', function() {
     })
   })
 
-  it('sets and overrides the createElement option', function(done) {
+  it('overrides the createElement option', function(done) {
     var layers = [
       {gerber: emptyGerber, layerType: 'bcu'},
       {gerber: emptyGerber, layerType: 'tcu', options: {createElement: function() {return 2}}}
@@ -169,6 +169,26 @@ describe('easy stackup function', function() {
       expect(stackup.layers[0].gerber['_element']()).to.equal(1)
       expect(stackup.layers[1].gerber['_element']()).to.equal(1)
       done()
+    })
+  })
+
+  it('sets threshold for filling outline gaps', function(done) {
+    var layers = [
+      {gerber: emptyGerber, layerType: 'out'}
+    ]
+
+    var options = {outlineGapFill: 2}
+
+    pcbStackup(layers, options, function(error, stackup) {
+      var options = {outlineGapFill: 3}
+
+      expect(error).to.not.exist
+      expect(stackup.layers[0].options.plotAsOutline).to.equal(2)
+      pcbStackup(stackup.layers, options, function(error, stackup) {
+        expect(error).to.not.exist
+        expect(stackup.layers[0].options.plotAsOutline).to.equal(3)
+        done()
+      })
     })
   })
 
