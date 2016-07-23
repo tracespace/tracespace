@@ -7,17 +7,29 @@ var whatsThatGerber = require('whats-that-gerber')
 var createStackup = require('pcb-stackup-core')
 
 var getInvalidLayers = function(layers) {
-  var isValid = function(layer) {
+  var hasNameOrType = function(layer) {
     return layer.filename || layer.layerType
+  }
+  var validTypes = whatsThatGerber.getAllTypes()
+  var hasValidType = function(layer) {
+    if (layer.layerType == null) {
+      return true
+    }
+
+    return validTypes.indexOf(layer.layerType) >= 0
   }
 
   return layers.reduce(function(result, layer, i) {
-    if (!isValid(layer)) {
-      result.push(i)
+    if (!hasNameOrType(layer)) {
+      result.argErrors.push(i)
+    }
+
+    if (!hasValidType(layer)) {
+      result.layerTypeErrors.push(i + ': "' + layer.layerType + '"')
     }
 
     return result
-  }, [])
+  }, {argErrors: [], layerTypeErrors: []} )
 }
 
 var pcbStackup = function(layers, options, done) {
@@ -27,9 +39,16 @@ var pcbStackup = function(layers, options, done) {
   }
 
   var invalidLayers = getInvalidLayers(layers)
+  var msg
 
-  if (invalidLayers.length) {
-    var msg = 'No filename or layerType given for layer(s): ' + invalidLayers.join(', ')
+  if (invalidLayers.argErrors.length) {
+    msg = 'No filename or layerType given for layer(s): ' + invalidLayers.argErrors.join(', ')
+
+    return done(new Error(msg))
+  }
+
+  if (invalidLayers.layerTypeErrors.length) {
+    msg = 'Invalid layer type given for layer(s): ' + invalidLayers.layerTypeErrors.join(', ')
 
     return done(new Error(msg))
   }

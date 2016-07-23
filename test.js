@@ -60,6 +60,17 @@ describe('easy stackup function', function() {
     })
   })
 
+  it('should error when invalid layer type is given', function(done) {
+    var layers = [{gerber: emptyGerber, layerType: 'wrong'}]
+
+    pcbStackup(layers, function(error, stackup) {
+      expect(error).to.be.ok
+      expect(error).to.be.an.instanceOf(Error)
+      expect(stackup).to.not.exist
+      done()
+    })
+  })
+
   it('should not overwrite layer id', function(done) {
     var layers = [{gerber: emptyGerber, layerType: 'tcu', options: {id: 'test-id'}}]
 
