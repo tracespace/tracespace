@@ -36,6 +36,10 @@ var pcbStackup = function(layers, options, done) {
 
   options.id = options.id || shortId.generate()
 
+  if (options.maskWithOutline == null) {
+    options.maskWithOutline = true
+  }
+
   if (options.createElement != null) {
     layers.forEach(function(layer) {
       layer.options = layer.options || {}
