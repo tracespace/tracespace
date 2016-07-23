@@ -4,6 +4,7 @@
 var xhr = require('xhr')
 var template = require('lodash.template')
 var domify = require('domify')
+
 var BOARDS = require('./boards.json')
 
 var boardTemplate = template([
