@@ -5,9 +5,9 @@ The pcb-stackup converter function.
 
 | Param     | Type                      | Default                                           | Description                                                                                                                      |
 | ---       | ---                       | ---                                               | ---                                                                                                                              |
-| layers    | `[array.<Layer>](#Layer)` |                                                   | Array of layer objects                                                                                                           |
+| layers    | [`array.<Layer>`](#Layer) |                                                   | Array of layer objects                                                                                                           |
 | [options] | `object`                  | `{id: shortId.generate(), maskWithOutline: true}` | Optional options, see [pcb-stackup-core docs][1]. Setting createElement will override that setting in the gerber-to-svg options. |
-| done      | `[Done](#Done)`           |                                                   | Callback function.                                                                                                               |
+| done      | [`Done`](#Done)           |                                                   | Callback function.                                                                                                               |
 
 <a name="Layer"></a>
 
@@ -28,7 +28,7 @@ The pcb-stackup converter function.
 | Param   | Type                  | Description                    |
 | ---     | ---                   | ---                            |
 | error   | `Error`               | Error if something goes wrong. |
-| stackup | `[Stackup](#Stackup)` | The stackup data.              |
+| stackup | [`Stackup`](#Stackup) | The stackup data.              |
 
 <a name="Stackup"></a>
 
@@ -41,7 +41,7 @@ The pcb-stackup converter function.
 | top.svg    | `string`                  | The top SVG string.                                                                   |
 | bottom     | `object`                  | The bottom view SVG object, see [pcb-stackup-core docs][6] for full details.          |
 | bottom.svg | `string`                  | The bottom SVG string.                                                                |
-| layers     | `[Array.<Layer>](#Layer)` | A cache of the processed layers that can be passed back to [pcbStackup](#pcbStackup). |
+| layers     | [`Array.<Layer>`](#Layer) | A cache of the processed layers that can be passed back to [pcbStackup](#pcbStackup). |
 
 [1]: https://github.com/tracespace/pcb-stackup-core/blob/master/README.md#options
 [2]: https://nodejs.org/api/stream.html#stream_readable_streams
