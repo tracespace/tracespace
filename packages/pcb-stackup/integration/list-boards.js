@@ -1,9 +1,10 @@
 'use strict'
 var fs = require('fs')
+var glob = require('glob')
 var path = require('path')
 
 var BOARDS = []
-var boardFolders = fs.readdirSync(path.join(__dirname, 'boards'))
+var boardFolders = glob.sync(path.join(__dirname, 'boards', '*/'))
 var count = boardFolders.length
 
 var done = function() {
@@ -12,28 +13,28 @@ var done = function() {
   }
 }
 
-boardFolders.forEach(function(board) {
-  fs.readdir(path.join(__dirname, 'boards', board), function(board, error, files) {
+boardFolders.forEach(function(dir) {
+  glob(path.join(dir, '*'), {}, function(dir, error, files) {
     if (error) {
       throw error
     }
 
-    var dir = path.join('boards', board)
+    var board = path.basename(dir)
     var options = {}
-    var optionsExists = files.findIndex(function(file) {return file === 'options.json'}) >= 0
+    var optionsExists = files.findIndex(function(f) {return path.basename(f) === 'options.json'}) >= 0
 
     if (optionsExists) {
-      options = require(path.join(__dirname, dir, 'options.json'))
+      options = require(path.join(dir, 'options.json'))
     }
 
     var layers = files.map(function(file) {
       var layerOptions
 
       if (options != null && options.layers != null) {
-        layerOptions = options.layers[file]
+        layerOptions = options.layers[path.basename(file)]
       }
 
-      return {path: path.join(dir, file), options: layerOptions}
+      return {path: file, options: layerOptions}
     })
 
     if (options != null) {
@@ -47,5 +48,5 @@ boardFolders.forEach(function(board) {
     })
 
     return done()
-  }.bind(null, board))
+  }.bind(null, dir))
 })
