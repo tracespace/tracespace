@@ -75,7 +75,11 @@ var pcbStackup = function(layers, options, done) {
     var layerOptions = layer.options || {}
 
     layerOptions.id = layerOptions.id || shortId.generate()
-    layerOptions.plotAsOutline = layerOptions.plotAsOutline || (layerType === 'out')
+    layerOptions.plotAsOutline = layerOptions.plotAsOutline || (layerType === 'out' )
+
+    if (options.outlineGapFill != null && layerOptions.plotAsOutline) {
+      layerOptions.plotAsOutline = options.outlineGapFill
+    }
 
     var converter = gerberToSvg(layer.gerber, layerOptions, finishLayer)
 
