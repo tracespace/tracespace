@@ -34,14 +34,17 @@ server.route({
   path: '/stackup',
   handler: function(request, reply) {
     var name = request.payload.name
-    var options = {
-      maskWithOutline: request.payload.maskWithOutline
-    }
+    var options = request.payload.options
     var layers = request.payload.layers.map(function(layer) {
       var filename = path.join(__dirname, layer.path)
       var gerber = fs.createReadStream(filename)
+      var layerType
 
-      return {gerber: gerber, filename: filename, layerType: layer.type, options: layer.options}
+      if (layer.options != null) {
+        layerType = layer.options.layerType
+      }
+
+      return {gerber: gerber, filename: filename, layerType: layerType, options: layer.options}
     })
 
     console.log('building stackup for: ' + name)
