@@ -21,7 +21,7 @@ var layers = gerberPaths.map(function(gerberPath) {
   return {filename: filename, gerber: gerber}
 })
 
-pcbStackup(layers, {maskWithOutline: true}, function(error, stackup) {
+pcbStackup(layers, function(error, stackup) {
   if (error) {
     throw error
   }
