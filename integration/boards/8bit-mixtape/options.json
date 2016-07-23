@@ -1,5 +1,6 @@
 {
+  "outlineGapFill": 0.011,
   "layers": {
-    "mixtape.GML": {"plotAsOutline": 0.011}
+    "mixtape.TXT": {"zero": "L"}
   }
 }
