@@ -75,7 +75,7 @@ backupUnits   | `mm` or `in`        | 'in'
 nota          | `A` or `I`          | Parsed from file
 backupNota    | `A` or `I`          | 'A'
 optimizePaths | `true` or `false`   | `false`
-plotAsOutline | `true` or `false`   | `false`
+plotAsOutline | Boolean or Number   | `false`
 
 #### id and attributes options
 
@@ -119,8 +119,8 @@ units         | Units of the file
 backupUnits   | Backup units only to be used if units cannot be parsed from the file
 nota          | Absolute or incremental coordinate notation
 backupNota    | Backup notation only to be used if the notation cannot be parsed
-optimizePaths | Optimize trace paths by rearranging to occur in physical order
-plotAsOutline | Optimize and correct paths to better render the layer as a board outline
+optimizePaths | Rearrange trace paths to occur in physical order
+plotAsOutline | Optimize paths and fill gaps smaller than 0.00011 (or specified number) in layer units
 
 ## streaming API
 

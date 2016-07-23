@@ -7,7 +7,7 @@
     "gerber2svg": "bin/gerber2svg"
   },
   "scripts": {
-    "lint": "eslint lib/*.js test/*.js",
+    "lint": "eslint bin/* lib/*.js test/*.js",
     "test": "istanbul cover -x 'test-visual/*' --include-all-sources _mocha",
     "posttest": "npm run lint",
     "test:watch": "mocha --reporter dot --watch",
@@ -70,7 +70,7 @@
     "chalk": "^1.1.1",
     "escape-html": "^1.0.3",
     "gerber-parser": "^1.0.0",
-    "gerber-plotter": "^1.0.0",
+    "gerber-plotter": "^1.1.0",
     "inherits": "^2.0.1",
     "lodash.isfinite": "^3.2.0",
     "lodash.isstring": "^4.0.1",

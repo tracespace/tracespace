@@ -21,29 +21,40 @@ var BANNER = [
   '  gerber2svg [options] -- gerber_files',
   '',
   'examples:',
-  '  `$ gerber2svg gerber.gbr` - convert gerber.gbr and output to stdout',
-  '  `$ gerber2svg -o out gerber.gbr` - convert and output to out/gerber.svg',
-  '  `$ gerber2svg -o out -a gerber.gbr` - output to out/gerber.gbr.svg',
+  '  convert gerber.gbr and output to stdout',
+  '    $ gerber2svg gerber.gbr',
+  '  convert and output to out/gerber.svg',
+  '    $ gerber2svg --out out -- gerber.gb',
+  '  output to out/gerber.gbr.svg',
+  '    $ gerber2svg --out out --append-ext --  gerber.gbr',
+  '  plot edge-cuts.gbr as an outline',
+  '    $ gerber2svg --plot-as-outline -- edge-cuts.gbr',
+  '  plot edge-cuts-with-big-gaps.gbr and fill gaps smaller than 0.011',
+  '    $ gerber2svg --plot-as-outline 0.011 -- edge-cuts-with-big-gaps.gbr',
   ''
 ].join('\n')
 
 var OPTIONS = [
-  ['o', 'out', '        specify an output directory'],
-  ['q', 'quiet', '      do not print warnings and messages'],
-  ['p', 'pretty', '     indent output with this length tabs (2 if unspecified)'],
-  ['c', 'color', '      use this color instead of "currentColor" for fills and strokes'],
-  ['f', 'format', "     override coordinate format with '[INT,DEC]'"],
-  ['z', 'zero', "       override zero suppression with 'L' or 'T'"],
-  ['u', 'units', "      set backup units to 'mm' or 'in'"],
-  ['n', 'notation', "   set backup absolute/incremental notation with 'A' or 'I'"],
-  ['a', 'append-ext', ' append .svg rather than replacing the existing extension'],
-  ['v', 'version', '    display version information'],
-  ['h', 'help', '       display this help text']
+  ['o', 'out', '             specify an output directory'],
+  ['q', 'quiet', '           do not print warnings and messages'],
+  ['p', 'pretty', '          indent output with this length tabs (2 if unspecified)'],
+  ['c', 'color', '           give the layer this color (defaults to "currentColor")'],
+  ['a', 'append-ext', '      append .svg rather than replacing the existing extension'],
+  ['f', 'format', "          override coordinate decimal places format with '[INT,DEC]'"],
+  ['z', 'zero', "            override zero suppression with 'L' or 'T'"],
+  ['u', 'units', "           set backup units to 'mm' or 'in'"],
+  ['n', 'notation', "        set backup absolute/incremental notation with 'A' or 'I'"],
+  ['z', 'optimize-paths', '  rearrange trace paths by to occur in physical order'],
+  ['b', 'plot-as-outline', ' optimize paths and fill gaps smaller than 0.00011 (or specified number) in layer units'],
+  ['v', 'version', '         display version information'],
+  ['h', 'help', '            display this help text']
 ]
+
 var STRING_OPTS  = ['out', 'color', 'format', 'zero', 'units', 'notation']
-var BOOLEAN_OPTS = ['quiet', 'append-ext', 'version', 'help']
+var BOOLEAN_OPTS = ['quiet', 'append-ext', 'optimize-paths', 'version', 'help']
 var ALIAS_OPTS = OPTIONS.reduce(function(alias, opt) {
   alias[opt[0]] = opt[1]
+
   return alias
 }, {})
 
@@ -99,13 +110,17 @@ var info = function(string) {
 }
 
 var getOpts = function(id) {
-  var opts = {id: id}
+  var opts = {
+    id: id,
+    optimizePaths: argv['optimize-paths']
+  }
+
   if (argv.color) {
     opts.color = argv.color
   }
 
   if (argv.format) {
-    opts.format = JSON.parse(argv.format)
+    opts.places = JSON.parse(argv.format)
   }
 
   if (argv.zero) {
@@ -120,6 +135,16 @@ var getOpts = function(id) {
     opts.backupNota = argv.notation
   }
 
+  switch (argv['plot-as-outline']) {
+    case true:
+    case 'true':
+      opts.plotAsOutline = true
+      break
+
+    default:
+      opts.plotAsOutline = Number(argv['plot-as-outline']) || false
+  }
+
   return opts
 }
 
@@ -132,8 +157,10 @@ var convert = function(err) {
     var out = process.stdout
     var ext = (!argv.a) ? path.extname(gerberFile) : ''
     var base = path.basename(gerberFile, ext)
+
     if (argv.out) {
       var outFile = path.join(path.join(argv.out, base + '.svg'))
+
       out = fs.createWriteStream(outFile)
       out.on('finish', function() {
         info(gerberFile + ' converterted to ' + outFile)
@@ -143,6 +170,7 @@ var convert = function(err) {
     if (argv.pretty) {
       var indent = (argv.pretty === true) ? 2 : argv.pretty
       var originalOut = out
+
       out = xmlovely(indent)
       out.pipe(originalOut)
     }
@@ -163,4 +191,5 @@ var convert = function(err) {
 if (argv.out) {
   return mkdir(argv.out, convert)
 }
+
 convert()
