@@ -76,7 +76,8 @@ pcbStackup(layers, function (error, stackup) {
 See [the API documentation](./API.md).
 
 If your board doesn't appear at all or looks weirdly distorted try rendering it
-with the options `{maskWithOutline: false}`.
+with the options `{maskWithOutline: false}` or filling in gaps in the outline
+with e.g. `{outlineGapFill: 0.011}`.
 
 ## developing and contributing
 
