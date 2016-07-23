@@ -1,44 +1,44 @@
 <a name="pcbStackup"></a>
 
-## pcbStackup(layers, [options], done) : <code>function</code>
+## pcbStackup(layers, [options], done) : `function`
 The pcb-stackup converter function.
 
-| Param     | Type                                       | Default                               | Description                                                                                                                                                                                                 |
-| --------- | ------------------------------------------ | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------                                                                                |
-| layers    | <code>[array.&lt;Layer&gt;](#Layer)</code> |                                       | Array of layer objects                                                                                                                                                                                      |
-| [options] | <code>object</code>                        | <code>{id: shortId.generate(), maskWithOutline: true}</code> | Optional options, see [pcb-stackup-core docs](https://github.com/tracespace/pcb-stackup-core/blob/master/README.md#options). Setting createElement will override that setting in the gerber-to-svg options. |
-| done      | <code>[Done](#Done)</code>                 |                                       | Callback function.                                                                                                                                                                                          |
+| Param     | Type                      | Default                                           | Description                                                                                                                                                                                                 |
+| ---       | ---                       | ---                                               | ---                                                                                                                                                                                                         |
+| layers    | `[array.<Layer>](#Layer)` |                                                   | Array of layer objects                                                                                                                                                                                      |
+| [options] | `object`                  | `{id: shortId.generate(), maskWithOutline: true}` | Optional options, see [pcb-stackup-core docs](https://github.com/tracespace/pcb-stackup-core/blob/master/README.md#options). Setting createElement will override that setting in the gerber-to-svg options. |
+| done      | `[Done](#Done)`           |                                                   | Callback function.                                                                                                                                                                                          |
 
 <a name="Layer"></a>
 
-## Layer : <code>object</code>
+## Layer : `object`
 **Properties**
 
-| Name      | Type                                                          | Default                               | Description                                                                                                                                |
-| --------- | ------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| gerber    | <code>string</code> &#124; <code>NodeJS.ReadableStream</code> |                                       | The gerber data as a string or [ReadableStream](https://nodejs.org/api/stream.html#stream_readable_streams)                                |
-| filename  | <code>string</code>                                           |                                       | The filename so we can try and identify the type of the layer. You either have to provide this or the layerType.                           |
-| layerType | <code>string</code>                                           |                                       | The layer type, a [valid layer type](https://github.com/tracespace/whats-that-gerber#layer-types-and-names) as given by whats-that-gerber. |
-| options   | <code>object</code>                                           | <code>{id: shortId.generate()}</code> | [gerber-to-svg options](https://github.com/mcous/gerber-to-svg/blob/master/API.md#options)                                                 |
+| Name      | Type                                    | Default                    | Description                                                                                                                                |
+| ---       | ---                                     | ---                        | ---                                                                                                                                        |
+| gerber    | `string` &#124; `NodeJS.ReadableStream` |                            | The gerber data as a string or [ReadableStream](https://nodejs.org/api/stream.html#stream_readable_streams)                                |
+| filename  | `string`                                |                            | The filename so we can try and identify the type of the layer. You either have to provide this or the layerType.                           |
+| layerType | `string`                                |                            | The layer type, a [valid layer type](https://github.com/tracespace/whats-that-gerber#layer-types-and-names) as given by whats-that-gerber. |
+| options   | `object`                                | `{id: shortId.generate()}` | [gerber-to-svg options](https://github.com/mcous/gerber-to-svg/blob/master/API.md#options)                                                 |
 
 <a name="Done"></a>
 
-## Done(error, stackup) : <code>function</code>
+## Done(error, stackup) : `function`
 
-| Param   | Type                             | Description                    |
-| ------- | -------------------------------- | ------------------------------ |
-| error   | <code>Error</code>               | Error if something goes wrong. |
-| stackup | <code>[Stackup](#Stackup)</code> | The stackup data.              |
+| Param   | Type                  | Description                    |
+| ---     | ---                   | ---                            |
+| error   | `Error`               | Error if something goes wrong. |
+| stackup | `[Stackup](#Stackup)` | The stackup data.              |
 
 <a name="Stackup"></a>
 
-## Stackup : <code>object</code>
+## Stackup : `object`
 **Properties**
 
-| Name       | Type                                       | Description                                                                                                                                           |
-| ---------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| top        | <code>object</code>                        | The top view SVG object, see [pcb-stackup-core docs](https://github.com/tracespace/pcb-stackup-core/blob/master/README.md#usage) for full details.    |
-| top.svg    | <code>string</code>                        | The top SVG string.                                                                                                                                   |
-| bottom     | <code>object</code>                        | The bottom view SVG object, see [pcb-stackup-core docs](https://github.com/tracespace/pcb-stackup-core/blob/master/README.md#usage) for full details. |
-| bottom.svg | <code>string</code>                        | The bottom SVG string.                                                                                                                                |
-| layers     | <code>[Array.&lt;Layer&gt;](#Layer)</code> | A cache of the processed layers that can be passed back to pcbStackup.                                                                                |
+| Name       | Type                      | Description                                                                                                                                           |
+| ---        | ---                       | ---                                                                                                                                                   |
+| top        | `object`                  | The top view SVG object, see [pcb-stackup-core docs](https://github.com/tracespace/pcb-stackup-core/blob/master/README.md#usage) for full details.    |
+| top.svg    | `string`                  | The top SVG string.                                                                                                                                   |
+| bottom     | `object`                  | The bottom view SVG object, see [pcb-stackup-core docs](https://github.com/tracespace/pcb-stackup-core/blob/master/README.md#usage) for full details. |
+| bottom.svg | `string`                  | The bottom SVG string.                                                                                                                                |
+| layers     | `[Array.<Layer>](#Layer)` | A cache of the processed layers that can be passed back to pcbStackup.                                                                                |
