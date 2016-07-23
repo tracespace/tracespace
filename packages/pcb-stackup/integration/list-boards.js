@@ -16,10 +16,28 @@ boardFolders.forEach(function(board) {
     if (error) {
       throw error
     }
+
+    var dir = 'boards/' + board + '/'
+
+    var options = {}
+    var optionsExists = files.findIndex(function(file) {file === 'options.json'}) >= 0
+
+    if (optionsExists) {
+      options = require(__dirname + '/' + dir + 'options.json')
+    }
+
+    var layers = files.map(function(file) {
+      var layerOptions
+      if (options != null) {
+        layerOptions = options.layers
+      }
+      return {path: dir + file, options: layerOptions}
+    })
+
     BOARDS.push({
       name: board,
       maskWithOutline: true,
-      layers: files.map(function(file) {return {path: 'boards/' + board + '/' + file}})
+      layers: layers
     })
 
     return done()
