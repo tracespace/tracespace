@@ -1,5 +1,6 @@
 'use strict'
 var fs = require('fs')
+var path = require('path')
 
 var BOARDS = []
 var boardFolders = fs.readdirSync(__dirname + '/boards')
@@ -20,7 +21,7 @@ boardFolders.forEach(function(board) {
     var dir = 'boards/' + board + '/'
 
     var options = {}
-    var optionsExists = files.findIndex(function(file) {file === 'options.json'}) >= 0
+    var optionsExists = files.findIndex(function(file) {return file === 'options.json'}) >= 0
 
     if (optionsExists) {
       options = require(__dirname + '/' + dir + 'options.json')
@@ -28,15 +29,19 @@ boardFolders.forEach(function(board) {
 
     var layers = files.map(function(file) {
       var layerOptions
-      if (options != null) {
-        layerOptions = options.layers
+      if (options != null && options.layers != null) {
+        layerOptions = options.layers[file]
       }
       return {path: dir + file, options: layerOptions}
     })
 
+    if (options != null) {
+      delete options.layers
+    }
+
     BOARDS.push({
       name: board,
-      maskWithOutline: true,
+      options: options,
       layers: layers
     })
 
