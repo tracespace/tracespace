@@ -69,7 +69,7 @@ describe('gerber parser with gerber files', function() {
           p = pFactory()
           p.write(';FORMAT={-:-/ absolute / inch / decimal}\n')
           expect(p.format.zero).to.equal('D')
-          expect(p.format.places).to.be.falsey
+          expect(p.format.places).to.not.be.ok
 
           p = pFactory()
           p.write(';FORMAT={3:3/ absolute / metric / keep zeros}\n')

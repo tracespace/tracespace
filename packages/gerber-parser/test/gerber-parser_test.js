@@ -55,13 +55,13 @@ describe('gerber parser', function() {
     it('should not throw with null/undefined options', function() {
       var p
       expect(function() {p = parser({places: null})}).to.not.throw()
-      expect(p.format.places).to.be.falsey
+      expect(p.format.places).to.not.be.ok
 
       expect(function() {p = parser({filetype: undefined})}).to.not.throw()
-      expect(p.format.filetype).to.be.falsey
+      expect(p.format.filetype).to.not.be.ok
 
       expect(function() {p = parser({zero: null})}).to.not.throw()
-      expect(p.format.zero).to.be.falsey
+      expect(p.format.zero).to.be.not.be.ok
     })
   })
 
