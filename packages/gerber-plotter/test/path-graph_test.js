@@ -173,4 +173,20 @@ describe('path graphs', function() {
       {type: 'line', start: [0, 1], end: [0, 0]}
     ])
   })
+
+  it('should be able to fill gaps with a specified gap distance', function() {
+    p = new PathGraph(true, 0.0011)
+
+    p.add({type: 'line', start: [0, 0], end: [1, 0]})
+    p.add({type: 'line', start: [1.001, 0], end: [1, 1]})
+    p.add({type: 'line', start: [1.001, 1], end: [0, 1]})
+    p.add({type: 'line', start: [0, 1.001], end: [0, 0]})
+
+    expect(p.traverse()).to.eql([
+      {type: 'line', start: [0, 0], end: [1, 0]},
+      {type: 'line', start: [1, 0], end: [1, 1]},
+      {type: 'line', start: [1, 1], end: [0, 1]},
+      {type: 'line', start: [0, 1], end: [0, 0]}
+    ])
+  })
 })

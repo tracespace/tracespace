@@ -24,14 +24,14 @@ var plotter = gerberPlotter(options)
 
 The available options are:
 
-key             | value        | default | description
-----------------|--------------|---------|---------------------------------------------------------
-`units`         | `mm` or `in` | N/A     | PCB units
-`backupUnits`   | `mm` or `in` | `in`    | Backup units in case units are missing
-`nota`          | `A` or `I`   | N/A     | Absolute or incremental coordinate notation
-`backupNota`    | `A` or `I`   | `A`     | Backup notation in case notation is missing
-`optimizePaths` | Boolean      | `false` | Optimize order of paths in strokes and regions
-`plotAsOutline` | Boolean      | `false` | Treat layer as an outline by combining all tools for paths
+key             | value          | default | description
+----------------|----------------|---------|------------------------------------------------
+`units`         | `mm` or `in`   | N/A     | PCB units
+`backupUnits`   | `mm` or `in`   | `in`    | Backup units in case units are missing
+`nota`          | `A` or `I`     | N/A     | Absolute or incremental coordinate notation
+`backupNota`    | `A` or `I`     | `A`     | Backup notation in case notation is missing
+`optimizePaths` | Boolean        | `false` | Optimize order of paths in strokes and regions
+`plotAsOutline` | Boolean/Number | `false` | Adjust paths to better represent an outline
 
 #### units and backup units options
 
@@ -51,14 +51,16 @@ Setting this option to `false` will speed up plotting at the expense of ensuring
 
 #### plot as outline option
 
-This option is off by default. When `plotAsOutline` is true, the plotter will take several actions:
+This option is off by default. When `plotAsOutline` is true or a number, the plotter will take several actions:
 
   * The `optimizePaths` option will be forced to true
   * All stroke tools will be merged into one tool (the first tool in the file used for a stroke)
   * The bounding box of the file will be determined by the center of the outline instead of the outside of the line
-  * Gaps smaller than about 0.00015 in/mm will be filled in
+  * Gaps between segments will be filled in
+    * If `plotAsOutline` is true, the maximum gap size will be 0.00011 in layer units
+    * If a number, that number will be used as the maximum gap size
 
-This option exists to take an image representing an outline layer and optimize it to get at the board information the layer represents. Sometimes, outline layers will (accidentally) use different tools for the same line or introduce small gaps in the outline. `plotAsOutline` will attempt to fix details like that.
+This option exists to take an image representing an outline layer and optimize it to get at the board information the layer represents. Sometimes, outline layers will (accidentally) use different tools for the same line or introduce small gaps in the outline. `plotAsOutline` will attempt to fix those details.
 
 ## public properties
 

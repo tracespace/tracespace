@@ -1858,10 +1858,16 @@ describe('gerber plotter', function() {
     })
 
     it('should fill gaps in paths if in outline mode', function() {
-      expect(outPlotter._path._fillGaps).to.be.true
+      expect(outPlotter._path._fillGaps).to.be.truthy
       outPlotter.write({type: 'op', op: 'int', coord: {x: 1, y: 3}})
       outPlotter._finishPath()
-      expect(outPlotter._path._fillGaps).to.be.true
+      expect(outPlotter._path._fillGaps).to.be.truthy
+    })
+
+    it('should be able to set a custom max gap size', function() {
+      outPlotter = plotter({plotAsOutline: 0.0011})
+
+      expect(outPlotter._path._fillGaps).to.equal(0.0011)
     })
   })
 
