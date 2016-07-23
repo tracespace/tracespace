@@ -64,3 +64,4 @@ The pcb-stackup converter function.
 [4]: https://github.com/mcous/gerber-to-svg/blob/master/API.md#options
 [5]: https://github.com/tracespace/pcb-stackup-core/blob/master/README.md#usage
 [6]: https://github.com/tracespace/pcb-stackup-core/blob/master/README.md#usage
+[7]: https://github.com/dylang/shortid
