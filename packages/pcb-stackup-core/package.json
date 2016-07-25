@@ -1,6 +1,6 @@
 {
   "name": "pcb-stackup-core",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Creates PCB stackup (top and bottom view) SVG renders from gerber-to-svg converters",
   "main": "lib/index.js",
   "directories": {
