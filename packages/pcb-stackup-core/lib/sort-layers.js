@@ -2,28 +2,33 @@
 'use strict'
 
 module.exports = function sortLayers(layers) {
-  var drillCount = 1
-
   return layers.reduce(function(result, layer) {
-    var converter = layer.converter
     var type = layer.type
     var side = type[0]
     var subtype = type.slice(1)
+    var externalId = layer.externalId
 
     if (type === 'drl') {
-      result.mech['drl' + drillCount] = converter
-      drillCount++
+      result.drills.push(layer)
     }
     else if (type === 'out') {
-      result.mech.out = converter
+      result.outline = layer
     }
-    else if (side === 't') {
-      result.top[subtype] = converter
-    }
-    else if (side === 'b') {
-      result.bottom[subtype] = converter
+    else {
+      layer = {type: subtype, converter: layer.converter}
+
+      if (externalId) {
+        layer.externalId = externalId
+      }
+
+      if (side === 't') {
+        result.top.push(layer)
+      }
+      else if (side === 'b') {
+        result.bottom.push(layer)
+      }
     }
 
     return result
-  }, {top: {}, bottom: {}, mech: {}})
+  }, {top: [], bottom: [], drills: [], outline: null})
 }

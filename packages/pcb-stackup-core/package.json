@@ -59,7 +59,6 @@
     "hapi": "^13.4.1",
     "inert": "^4.0.0",
     "istanbul": "^0.4.3",
-    "lodash.omit": "^4.2.1",
     "lodash.template": "^4.2.4",
     "mocha": "^2.4.5",
     "proxyquire": "^1.7.4",
@@ -74,6 +73,7 @@
   },
   "dependencies": {
     "lodash.isstring": "^4.0.1",
+    "viewbox": "^1.0.0",
     "xml-element-string": "^1.0.0"
   }
 }

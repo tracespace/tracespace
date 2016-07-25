@@ -41,4 +41,14 @@ describe('wrap layer function', function() {
     expect(element).to.be.calledWith('g', expected, ['SOME_STUFF'])
     expect(result).to.equal(element.returnValues[0])
   })
+
+  it('should be able to use a tag other than <g>', function() {
+    var layer = {layer: ['SOME_STUFF']}
+    var element = sinon.spy(xmlElementString)
+    var result = wrapLayer(element, 'id', layer, 1, 'clipPath')
+    var expected = {id: 'id'}
+
+    expect(element).to.be.calledWith('clipPath', expected, ['SOME_STUFF'])
+    expect(result).to.equal(element.returnValues[0])
+  })
 })

@@ -79,6 +79,24 @@ var topCopperLayer = {
 }
 ```
 
+#### using externally defined layers
+
+In building the stackup, each converter's `<defs>` contents (`converter.defs`) are pushed to the `<defs>` node of each side render. The main `<g>` contents (`converter.layer`) are wrapped in a `<g>`, given an id, and also placed in the defs. The layers are then used in a board render's main `<g>` via `<use>`.
+
+If you will be displaying the individual layers in the same page as the board renders, you may want to store these `<defs>` in a different, shared SVG document. You could do this manually, without the use of `pcb-stackup-core`, the same way the stackup function does it (as described above), except using the shared SVG document's `<defs>`.
+
+You can tell the stackup function that a layer is stored externally by giving it a layer with an `externalId` attribute. This should be set to the `id` attribute of the layer's external `<g>`. This will prevent the stackup function from pushing the converters defs to the stackup image defs node.
+
+``` javascript
+var sharedLayer = {
+  type: GERBER_FILE_TYPE,
+  converter: FINISHED_GERBER_TO_SVG_CONVERTER,
+  externalId: ID_OF_THE_EXTERNALLY_STORED_LAYER_GROUP
+}
+```
+
+Please note that when using the `maskWithOutline` option as described below, the `externalId` of the outline layer will not be used, as a new `<clipPath>` element must be constructed.
+
 ### options
 
 The second parameter of the pcb-stackup-core function is an options object. The only required option is the `id` options. For ease, if no other options are being specified, the id string may be passed as the second parameter directly.
@@ -96,6 +114,7 @@ color            | see below | Colors to apply to the board render by layer type
 maskWithOutline  | `false`   | Use the board outline layer as a mask for the board shape
 createElement    | see below | Function used to create the XML element nodes
 includeNamespace | `true`    | Whether or not to include the `xmlns` attribute in the top level SVG node
+attributes       | `{}`      | Map of additional attributes (e.g. `class`) to apply to the SVG nodes
 
 #### id
 
@@ -145,14 +164,14 @@ out   | id + `_out` | `.my-board_out {color: #000;}`
 
 #### mask board shape with outline
 
-When constructing the stackup, a "mechanical mask" is built and applied to the final image to remove the image wherever there are drill hits. If the `maskWithOutline` option is passed as true, the stackup function will _also_ add the board outline to this mechanical mask, effectively (but not literally) using the outline layer as a [clipping path](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/clipPath) and removing areas outside the outline from the final image.
+When constructing the stackup, a `<mask>` of all the drill layers is built and applied to the final image to remove the image wherever there are drill hits. If the `maskWithOutline` option is passed as true, the stackup function will _also_ create a `<clipPath>` with the contents of any included outline layers, and use that to remove any part of the image that falls outside of the board outline.
 
 setting           | result
 ------------------|-------------------------------------------------
 `false` (default) | Board shape is a rectangle that fits all layers
 `true`            | Board shape is the shape of the outline layer
 
-`maskWithOutline` works by taking the `<path>`s of the outline layer and setting their `fill` attributes. To work, the outline layer must be one or more fully-enclosed loops. If it isn't, setting `maskWithOutline` to true will likely result in the final image being incorrect (or non-existent), because the `<path>`s won't fill in properly.
+To work, the outline layer must be one or more fully-enclosed loops. If it isn't, setting `maskWithOutline` to true will likely result in the final image being incorrect (or non-existent), because the `<path>`s won't clip the image properly. See the [MDN's documentation of `<clipPath>`](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/clipPath) for more details.
 
 To improve your chances of a board outline layer working for `maskWithOutline`, make sure you set the `plotAsOutline` [option of gerber-to-svg](https://github.com/mcous/gerber-to-svg/blob/master/API.md#options) to `true` when converting the outline gerber. If the board outline still doesn't work, please open an issue to see if we can improve the masking process.
 
@@ -163,6 +182,19 @@ Both gerber-to-svg and pcb-stackup-core take a `createElement` function as an op
 If you choose to use this option, the function you pass into pcb-stackup-core __must__ be the same one you passed into gerber-to-svg.
 
 The `includeNamespace` option specifies whether or not to include the `xmlns` attribute in the top level SVG node. Some VDOM implementations get angry when you pass the `xmlns` attribute, so you may need to set it to `false`.
+
+#### attributes
+
+If you want to add more attributes to the SVG nodes than are there by default, this is where you do it. For example, to add some classes:
+
+``` javascript
+var stackup = pcbStackupCore(layers, {
+  id: 'board-id',
+  attributes: {
+    class: 'w-100 h-100'
+  }
+})
+```
 
 ### layer types
 

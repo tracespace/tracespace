@@ -62,7 +62,7 @@ describe('pcb stackup function', function() {
     expect(function() {pcbStackupCore([])}).to.throw(/unique board ID/)
   })
 
-  it('should have a eateElement option that defaults to xml-element-string', function() {
+  it('should have a createElement option that defaults to xml-element-string', function() {
     var customElement = function() {
       return 'foo'
     }
@@ -86,6 +86,7 @@ describe('pcb stackup function', function() {
         'stroke-linejoin': 'round',
         'stroke-width': 0,
         'fill-rule': 'evenodd',
+        'clip-rule': 'evenodd',
         viewBox: '0 0 0 0',
         width: '0',
         height: '0'
@@ -133,30 +134,6 @@ describe('pcb stackup function', function() {
     expect(result.bottom.svg).to.contain(styleSpy.returnValues[0])
   })
 
-  it('should override the outline fill and stroke if used as a mask', function() {
-    var result = pcbStackupCore([], {id: 'foobar', maskWithOutline: true})
-    var expectedStyle = function(side) {
-      return '/* <![CDATA[ */' + [
-        '.foobar_fr4 {color: #666;}',
-        '.foobar_cu {color: #ccc;}',
-        '.foobar_cf {color: #c93;}',
-        '.foobar_sm {color: rgba(00, 66, 00, 0.75);}',
-        '.foobar_ss {color: #fff;}',
-        '.foobar_sp {color: #999;}',
-        '.foobar_out {color: #000;}',
-        '#foobar_' + side + '_out path {fill: #fff; stroke-width: 0;}'
-      ].join('\n') + '/* ]]> */'
-    }
-
-    var topStyleSpy = element.withArgs('style', {}, [expectedStyle('top')])
-    var bottomStyleSpy = element.withArgs('style', {}, [expectedStyle('bottom')])
-
-    expect(topStyleSpy).to.be.calledOnce
-    expect(bottomStyleSpy).to.be.calledOnce
-    expect(result.top.svg).to.contain(topStyleSpy.returnValues[0])
-    expect(result.bottom.svg).to.contain(bottomStyleSpy.returnValues[0])
-  })
-
   it('should pass the layers to sort layers', function() {
     var files = [
       {type: 'tcu', converter: converter()},
@@ -182,13 +159,15 @@ describe('pcb stackup function', function() {
       'this-id',
       'top',
       sorted.top,
-      sorted.mech)
+      sorted.drills,
+      sorted.outline)
     expect(stackLayersStub).to.have.been.calledWith(
       element,
       'this-id',
       'bottom',
       sorted.bottom,
-      sorted.mech)
+      sorted.drills,
+      sorted.outline)
   })
 
   it('should use stack to build result, add mech mask, flip as needed', function() {
@@ -278,9 +257,52 @@ describe('pcb stackup function', function() {
     })
   })
 
+  it('should add a clip path if stackLayers returns a outline clip id', function() {
+    stackLayersStub.withArgs(element, 'foobar', 'top').returns({
+      box: [0, 0, 1000, 1000],
+      units: 'mm',
+      layer: ['<top-group/>'],
+      defs: ['<top-defs/>'],
+      mechMaskId: 'foobar_top_mech-mask',
+      outClipId: 'foobar_top_out'
+    })
+    stackLayersStub.withArgs(element, 'foobar', 'bottom').returns({
+      box: [250, 250, 500, 500],
+      units: 'in',
+      layer: ['<bottom-group/>'],
+      defs: ['<bottom-defs/>'],
+      mechMaskId: 'foobar_bottom_mech-mask',
+      outClipId: 'foobar_bottom_out'
+    })
+
+    pcbStackupCore([], {id: 'foobar', maskWithOutline: true})
+
+    expect(element).to.be.calledWith(
+      'g',
+      {
+        mask: 'url(#foobar_top_mech-mask)',
+        'clip-path': 'url(#foobar_top_out)'
+      },
+      ['<top-group/>'])
+    expect(element).to.be.calledWith(
+      'g',
+      {
+        transform: 'translate(1000,0) scale(-1,1)',
+        mask: 'url(#foobar_bottom_mech-mask)',
+        'clip-path': 'url(#foobar_bottom_out)'
+      },
+      ['<bottom-group/>'])
+  })
+
   it('should not put xmlns attr in nodes if includeNamespace is false', function() {
     pcbStackupCore([], {id: 'foo', includeNamespace: false})
 
     expect(element).to.not.be.calledWith('svg', sinon.match.has('xmlns'))
+  })
+
+  it('should allow arbitrary stuff in the attributes', function() {
+    pcbStackupCore([], {id: 'foo', attributes: {bar: 'baz'}})
+
+    expect(element).to.be.calledWith('svg', sinon.match.has('bar', 'baz'))
   })
 })

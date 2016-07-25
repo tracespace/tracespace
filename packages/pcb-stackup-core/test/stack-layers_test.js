@@ -1,11 +1,9 @@
 // test suite for stack layers function
 'use strict'
 
-var omit = require('lodash.omit')
 var chai = require('chai')
 var sinon = require('sinon')
 var sinonChai = require('sinon-chai')
-var xmlElementString = require('xml-element-string')
 var expect = chai.expect
 
 chai.use(sinonChai)
@@ -13,7 +11,7 @@ chai.use(sinonChai)
 var expectXmlNodes = require('./expect-xml-nodes')
 var stackLayers = require('../lib/stack-layers')
 
-var makeFakeConverter = function(defs, layer, viewBox, units) {
+var converter = function(defs, layer, viewBox, units) {
   return {
     defs: defs,
     layer: layer,
@@ -24,83 +22,91 @@ var makeFakeConverter = function(defs, layer, viewBox, units) {
   }
 }
 
-var fakeLayers = {
-  cu: makeFakeConverter(['<cu-defs/>'], ['<cu/>'], [0, 0, 1000, 1000], 'in'),
-  sm: makeFakeConverter(['<sm-defs/>'], ['<sm/>'], [-10, -10, 1020, 1020], 'in'),
-  ss: makeFakeConverter(['<ss-defs/>'], ['<ss/>'], [10, 10, 980, 980], 'in'),
-  sp: makeFakeConverter(['<sp-defs/>'], ['<sp/>'], [100, 100, 800, 800], 'in')
+var layers = [
+  {type: 'cu', converter: converter(['<cu-d/>'], ['<cu/>'], [0, 0, 1000, 1000], 'in')},
+  {type: 'sm', converter: converter(['<sm-d/>'], ['<sm/>'], [-10, -10, 1020, 1020], 'in')},
+  {type: 'ss', converter: converter(['<ss-d/>'], ['<ss/>'], [10, 10, 980, 980], 'in')},
+  {type: 'sp', converter: converter(['<sp-d/>'], ['<sp/>'], [100, 100, 800, 800], 'in')}
+]
+
+var drills = [
+  {type: 'drl', converter: converter(['<drl-1/>'], ['<drl1/>'], [0, 0, 25400, 30480], 'mm')},
+  {type: 'drl', converter: converter(['<drl-2/>'], ['<drl2/>'], [0, 0, 25400, 25400], 'mm')}
+]
+
+var outline = {
+  type: 'out',
+  converter: converter(['<out-d/>'], ['<out/>'], [-50, -50, 1100, 1100], 'in')
 }
 
-var fakeMechs = {
-  drl1: makeFakeConverter(['<drl-1-defs/>'], ['<drl-1/>'], [0, 0, 24500, 30480], 'mm'),
-  drl2: makeFakeConverter(['<drl-2-defs/>'], ['<drl-2/>'], [0, 0, 24500, 24500], 'mm'),
-  out: makeFakeConverter(['<out-defs/>'], ['<out/>'], [-50, -50, 1100, 1100], 'in')
-}
 
 describe('stack layers function', function() {
   var element
 
   beforeEach(function() {
-    element = sinon.spy(xmlElementString)
+    element = sinon.spy(function(tag, attributes, children) {
+      return {tag: tag, attributes: attributes, children: children}
+    })
   })
 
   describe('building the defs and viewbox', function() {
     it('should add all layer defs to defs', function() {
-      var result = stackLayers(element, 'id', 'top', fakeLayers, fakeMechs)
+      var result = stackLayers(element, 'id', 'top', layers, drills, outline)
 
-      expect(result.defs.slice(0, 7)).to.eql([
-        '<cu-defs/>',
-        '<sm-defs/>',
-        '<ss-defs/>',
-        '<sp-defs/>',
-        '<drl-1-defs/>',
-        '<drl-2-defs/>',
-        '<out-defs/>'
+      expect(result.defs).to.include.members([
+        '<cu-d/>',
+        '<sm-d/>',
+        '<ss-d/>',
+        '<sp-d/>',
+        '<drl-1/>',
+        '<drl-2/>',
+        '<out-d/>'
       ])
     })
 
-    it('should add viewBoxes if no outline, taking units into account', function() {
-      var drillConverters = omit(fakeMechs, 'out')
-      var result = stackLayers(element, 'id', 'top', fakeLayers, drillConverters)
+    it('should add viewBoxes taking units into account', function() {
+      var result = stackLayers(element, 'id', 'top', layers, drills)
 
       expect(result.units).to.equal('in')
       expect(result.box).to.eql([-10, -10, 1020, 1210])
     })
 
-    it('should use outline viewbox if present', function() {
-      var result = stackLayers(element, 'id', 'top', fakeLayers, fakeMechs)
+    it('should use the outline layer viewBox if present', function() {
+      var result = stackLayers(element, 'id', 'top', layers, drills, outline)
 
       expect(result.units).to.equal('in')
       expect(result.box).to.eql([-50, -50, 1100, 1100])
     })
 
-    it('should have no units by default, but count units when present', function() {
-      var resultNoUnits = stackLayers(element, 'id', 'top', {}, {})
 
-      var allIn = {
-        'cu': makeFakeConverter('', '', [], 'in'),
-        'sm': makeFakeConverter('', '', [], 'in'),
-        'ss': makeFakeConverter('', '', [], 'in')
-      }
-      var allMm = {
-        'cu': makeFakeConverter('', '', [], 'mm'),
-        'sm': makeFakeConverter('', '', [], 'mm'),
-        'ss': makeFakeConverter('', '', [], 'mm')
-      }
-      var moreIn = {
-        'cu': makeFakeConverter('', '', [], 'in'),
-        'sm': makeFakeConverter('', '', [], 'in'),
-        'ss': makeFakeConverter('', '', [], 'mm')
-      }
-      var moreMm = {
-        'cu': makeFakeConverter('', '', [], 'in'),
-        'sm': makeFakeConverter('', '', [], 'mm'),
-        'ss': makeFakeConverter('', '', [], 'mm')
-      }
-      var resultAllIn = stackLayers(element, 'id', 'top', allIn, {})
-      var resultAllMm = stackLayers(element, 'id', 'top', allMm, {})
-      var resultMoreIn = stackLayers(element, 'id', 'top', moreIn, {})
-      var resultMoreMm = stackLayers(element, 'id', 'top', moreMm, {})
+    it('should have no units by default, but count units when present', function() {
+      var resultNoUnits = stackLayers(element, 'id', 'top', [], [])
+
+      var allIn = [
+        {type: 'cu', converter: converter([], [], [], 'in')},
+        {type: 'sm', converter: converter([], [], [], 'in')},
+        {type: 'ss', converter: converter([], [], [], 'in')}
+      ]
+      var allMm = [
+        {type: 'cu', converter: converter([], [], [], 'mm')},
+        {type: 'sm', converter: converter([], [], [], 'mm')},
+        {type: 'ss', converter: converter([], [], [], 'mm')}
+      ]
+      var moreIn = [
+        {type: 'cu', converter: converter([], [], [], 'in')},
+        {type: 'sm', converter: converter([], [], [], 'in')},
+        {type: 'ss', converter: converter([], [], [], 'mm')}
+      ]
+      var moreMm = [
+        {type: 'cu', converter: converter([], [], [], 'in')},
+        {type: 'sm', converter: converter([], [], [], 'mm')},
+        {type: 'ss', converter: converter([], [], [], 'mm')}
+      ]
+
+      var resultAllIn = stackLayers(element, 'id', 'top', allIn, [])
+      var resultAllMm = stackLayers(element, 'id', 'top', allMm, [])
+      var resultMoreIn = stackLayers(element, 'id', 'top', moreIn, [])
+      var resultMoreMm = stackLayers(element, 'id', 'top', moreMm, [])
 
       expect(resultNoUnits.units).to.equal('')
       expect(resultAllIn.units).to.equal('in')
@@ -110,7 +116,7 @@ describe('stack layers function', function() {
     })
 
     it('should wrap the layers and add them to the defs', function() {
-      var result = stackLayers(element, 'id', 'top', fakeLayers, fakeMechs)
+      var result = stackLayers(element, 'id', 'top', layers, drills)
       var values = element.returnValues
 
       expect(element).to.be.calledWith('g', {id: 'id_top_cu'}, ['<cu/>'])
@@ -121,7 +127,7 @@ describe('stack layers function', function() {
     })
 
     it('should wrap the mech layers and add them to the defs', function() {
-      var result = stackLayers(element, 'id', 'top', fakeLayers, fakeMechs)
+      var result = stackLayers(element, 'id', 'top', layers, drills, outline)
       var values = element.returnValues
       var transform = 'scale(0.03937007874015748,0.03937007874015748)'
       var expected = [
@@ -130,14 +136,77 @@ describe('stack layers function', function() {
         {id: 'id_top_out'}
       ]
 
-      expect(element).to.be.calledWith('g', expected[0], ['<drl-1/>'])
-      expect(element).to.be.calledWith('g', expected[1], ['<drl-2/>'])
+      expect(element).to.be.calledWith('g', expected[0], ['<drl1/>'])
+      expect(element).to.be.calledWith('g', expected[1], ['<drl2/>'])
       expect(element).to.be.calledWith('g', expected[2], ['<out/>'])
       expect(result.defs).to.include.members(values.slice(4, 7))
     })
 
+    it('should use a clip path instead of a group for the outline if masking', function() {
+      var result = stackLayers(element, 'id', 'top', layers, drills, outline, true)
+      var values = expectXmlNodes(element, [
+        {
+          tag: 'clipPath',
+          attr: {id: 'id_top_out'},
+          children: ['<out/>']
+        }
+      ])
+
+      expect(result.defs).to.contain(values[0])
+      expect(element).to.not.be.calledWith('g', {id: 'id_top_out'}, ['<out/>'])
+    })
+
+    it('should not add layers with externalId to defs', function() {
+      layers[0].externalId = 'foo'
+      drills[0].externalId = 'bar'
+      outline.externalId = 'baz'
+
+      var result = stackLayers(element, 'id', 'top', layers, drills, outline)
+
+      delete layers[0].externalId
+      delete drills[0].externalId
+      delete outline.externalId
+
+      expect(result.defs).to.not.include.members(layers[0].converter.defs)
+      expect(result.defs).to.not.include.members(drills[0].converter.defs)
+      expect(result.defs).to.not.include.members(outline.converter.defs)
+      expect(element).to.not.be.calledWith(
+        'g',
+        sinon.match.object,
+        layers[0].converter.layer)
+      expect(element).to.not.be.calledWith(
+        'g',
+        sinon.match.object,
+        drills[0].converter.layer)
+      expect(element).to.not.be.calledWith(
+        'g',
+        sinon.match.object,
+        outline.converter.layer)
+
+      expect(result.box).to.eql([-50, -50, 1100, 1100])
+    })
+
+    it('should add outline to defs even if it has externalId if masking', function() {
+      var out = {
+        type: 'out',
+        externalId: 'foo',
+        converter: converter(['<out-d/>'], ['<out/>'], [-50, -50, 1100, 1100], 'in')
+      }
+      var result = stackLayers(element, 'id', 'top', layers, drills, out, true)
+      var values = expectXmlNodes(element, [
+        {
+          tag: 'clipPath',
+          attr: {id: 'id_top_out'},
+          children: ['<out/>']
+        }
+      ])
+
+      expect(result.defs).to.contain(values[0])
+      expect(element).to.not.be.calledWith('g', {id: 'id_top_out'}, ['<out/>'])
+    })
+
     it('should add a mech mask to the defs', function() {
-      var result = stackLayers(element, 'id', 'top', fakeLayers, fakeMechs)
+      var result = stackLayers(element, 'id', 'top', layers, drills, outline)
       var values = expectXmlNodes(element, [
         {tag: 'rect', attr: {x: -50, y: -50, width: 1100, height: 1100, fill: '#fff'}},
         {tag: 'use', attr: {'xlink:href': '#id_top_drl1'}},
@@ -152,29 +221,8 @@ describe('stack layers function', function() {
       expect(result.defs).to.contain(values[3])
     })
 
-    it('should include the outline in the mech mask if told to', function() {
-      var result = stackLayers(element, 'id', 'top', fakeLayers, fakeMechs, true)
-      var values = expectXmlNodes(element, [
-        {tag: 'use', attr: {'xlink:href': '#id_top_out'}},
-        {tag: 'use', attr: {'xlink:href': '#id_top_drl1'}},
-        {tag: 'use', attr: {'xlink:href': '#id_top_drl2'}},
-        {
-          tag: 'mask',
-          attr: {id: 'id_top_mech-mask', fill: '#000', stroke: '#000'},
-          children: [0, 1, 2]
-        }
-      ])
-
-      expect(result.defs).to.contain(values[3])
-    })
-
     it('should handle being told to use the outline when it is missing', function() {
-      var noOutFakeMechs = {
-        drl1: makeFakeConverter(['<drl-1/>'], ['<drl-1/>'], [0, 0, 24500, 30480], 'mm'),
-        drl2: makeFakeConverter(['<drl-2/>'], ['<drl-2/>'], [0, 0, 24500, 24500], 'mm')
-      }
-
-      var result = stackLayers(element, 'id', 'top', fakeLayers, noOutFakeMechs, true)
+      var result = stackLayers(element, 'id', 'top', layers, drills, null, true)
       var values = expectXmlNodes(element, [
         {tag: 'rect', attr: {x: -10, y: -10, width: 1020, height: 1210, fill: '#fff'}},
         {tag: 'use', attr: {'xlink:href': '#id_top_drl1'}},
@@ -192,7 +240,7 @@ describe('stack layers function', function() {
 
   describe('building the main group', function() {
     it('should start with a fr4 rectangle the size of the box', function() {
-      var result = stackLayers(element, 'id', 'top', fakeLayers, fakeMechs)
+      var result = stackLayers(element, 'id', 'top', layers, drills, outline)
       var values = expectXmlNodes(element, [{
         tag: 'rect',
         attr: {
@@ -209,10 +257,10 @@ describe('stack layers function', function() {
     })
 
     it('should add copper and copper finish if there is a copper layer', function() {
-      var converters = {
-        cu: makeFakeConverter(['<cu-defs/>'], ['<cu/>'], [0, 0, 1000, 1000], 'in')
-      }
-      var result = stackLayers(element, 'id', 'top', converters, {})
+      var converters = [
+        {type: 'cu', converter: converter([], [], [0, 0, 1000, 1000], 'in')}
+      ]
+      var result = stackLayers(element, 'id', 'top', converters, [])
       var values = expectXmlNodes(element, [
         {tag: 'rect', attr: {x: 0, y: 0, width: 1000, height: 1000}},
         {
@@ -246,11 +294,11 @@ describe('stack layers function', function() {
     })
 
     it('should use the soldermask to mask the copper finish if it exists', function() {
-      var converters = {
-        cu: makeFakeConverter(['<cu-defs/>'], ['<cu/>'], [0, 0, 1000, 1000], 'in'),
-        sm: makeFakeConverter(['<sm-defs/>'], ['<sm/>'], [-10, -10, 1020, 1020], 'in')
-      }
-      var result = stackLayers(element, 'id', 'top', converters, {})
+      var converters = [
+        {type: 'cu', converter: converter([], [], [0, 0, 1000, 1000], 'in')},
+        {type: 'sm', converter: converter([], [], [-10, -10, 1020, 1020], 'in')}
+      ]
+      var result = stackLayers(element, 'id', 'top', converters, [])
       var values = expectXmlNodes(element, [
         {tag: 'use', attr: {'xlink:href': '#id_top_sm'}},
         {
@@ -264,10 +312,10 @@ describe('stack layers function', function() {
     })
 
     it('should add the soldermask', function() {
-      var converters = {
-        sm: makeFakeConverter(['<sm-defs/>'], ['<sm/>'], [0, 0, 500, 500], 'in')
-      }
-      var result = stackLayers(element, 'id', 'top', converters, {})
+      var converters = [
+        {type: 'sm', converter: converter([], [], [0, 0, 500, 500], 'in')}
+      ]
+      var result = stackLayers(element, 'id', 'top', converters, [])
       var values = expectXmlNodes(element, [
         {tag: 'rect', attr: {x: 0, y: 0, width: 500, height: 500, fill: '#fff'}},
         {tag: 'use', attr: {'xlink:href': '#id_top_sm'}},
@@ -287,11 +335,11 @@ describe('stack layers function', function() {
     })
 
     it('should add silkscreen when there is a mask and a silk', function() {
-      var converters = {
-        sm: makeFakeConverter(['<sm-defs/>'], ['<sm/>'], [0, 0, 500, 500], 'in'),
-        ss: makeFakeConverter(['<ss-defs/>'], ['<ss/>'], [10, 10, 480, 480], 'in')
-      }
-      var result = stackLayers(element, 'id', 'top', converters, {})
+      var converters = [
+        {type: 'sm', converter: converter([], [], [0, 0, 500, 500], 'in')},
+        {type: 'ss', converter: converter([], [], [10, 10, 480, 480], 'in')}
+      ]
+      var result = stackLayers(element, 'id', 'top', converters, [])
       var values = expectXmlNodes(element, [
         {
           tag: 'rect',
@@ -313,10 +361,10 @@ describe('stack layers function', function() {
     })
 
     it('should add solderpaste', function() {
-      var converters = {
-        sp: makeFakeConverter(['<sp-defs/>'], ['<sp/>'], [0, 0, 500, 500], 'in')
-      }
-      var result = stackLayers(element, 'id', 'top', converters, {})
+      var converters = [
+        {type: 'sp', converter: converter([], [], [0, 0, 500, 500], 'in')}
+      ]
+      var result = stackLayers(element, 'id', 'top', converters, [])
       var values = expectXmlNodes(element, [
         {
           tag: 'use',
@@ -333,13 +381,19 @@ describe('stack layers function', function() {
     })
 
     it('should return the id of the mechanical mask', function() {
-      var result = stackLayers(element, 'id', 'top', fakeLayers, fakeMechs)
+      var result = stackLayers(element, 'id', 'top', layers, drills)
 
       expect(result.mechMaskId).to.equal('id_top_mech-mask')
     })
 
-    it('should add the outline as a line if not used in the mech mask', function() {
-      var result = stackLayers(element, 'id', 'top', fakeLayers, fakeMechs)
+    it('should return the id of the outline clip path', function() {
+      var result = stackLayers(element, 'id', 'top', layers, drills, outline, true)
+
+      expect(result.outClipId).to.equal('id_top_out')
+    })
+
+    it('should add the outline to the normal layer if not used to clip', function() {
+      var result = stackLayers(element, 'id', 'top', layers, drills, outline)
       var values = expectXmlNodes(element, [
         {
           tag: 'use',
@@ -356,7 +410,7 @@ describe('stack layers function', function() {
     })
 
     it('should not add the outline if used in the mech mask', function() {
-      stackLayers(element, 'id', 'top', fakeLayers, fakeMechs, true)
+      stackLayers(element, 'id', 'top', layers, drills, outline, true)
 
       expect(element).to.not.be.calledWith('use', {
         'xlink:href': '#id_top_out',
@@ -364,6 +418,27 @@ describe('stack layers function', function() {
         fill: 'currentColor',
         stroke: 'currentColor'
       })
+    })
+
+    it('should use external ids for uses if given', function() {
+      layers[0].externalId = 'foo'
+      drills[0].externalId = 'bar'
+
+      stackLayers(element, 'id', 'top', layers, drills)
+
+      delete layers[0].externalId
+      delete drills[0].externalId
+
+      expect(element).to.be.calledWith('use', sinon.match.has('xlink:href', '#foo'))
+      expect(element).to.be.calledWith('use', sinon.match.has('xlink:href', '#bar'))
+
+      expect(element).to.not.be.calledWith(
+        'use',
+        sinon.match.has('xlink:href', '#id_top_cu'))
+
+      expect(element).to.not.be.calledWith(
+        'use',
+        sinon.match.has('xlink:href', '#id_top_drl2'))
     })
   })
 })

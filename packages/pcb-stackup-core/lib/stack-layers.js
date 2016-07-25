@@ -1,8 +1,21 @@
 // stack layers function (where the magic happens)
 'use strict'
 
-var wrapLayer = require('./wrap-layer')
-var viewBox = require('./view-box')
+var viewbox = require('viewbox')
+
+var gatherLayers = require('./_gather-layers')
+
+var findLayerId = function(layers, type) {
+  var layer
+  var i
+
+  for (i = 0; i < layers.length; i++) {
+    layer = layers[i]
+    if (layer.type === type) {
+      return layer.id
+    }
+  }
+}
 
 var useLayer = function(element, id, className, mask) {
   var attr = {'xlink:href': '#' + id}
@@ -20,159 +33,106 @@ var useLayer = function(element, id, className, mask) {
   return element('use', attr)
 }
 
-var mechMask = function(element, id, box, mechIds, useOutline) {
-  var mask = []
-  var maskAttr = {id: id, fill: '#000', stroke: '#000'}
+var createRect = function(element, box, fill, className) {
+  var attr = viewbox.rect(box)
 
-  if (useOutline && mechIds.out) {
-    mask.push(useLayer(element, mechIds.out))
-  }
-  else {
-    mask.push(viewBox.rect(element, box, '', '#fff'))
+  if (fill) {
+    attr.fill = fill
   }
 
-  mask = Object.keys(mechIds).reduce(function(result, type) {
-    var id = mechIds[type]
+  if (className) {
+    attr.class = className
+  }
 
-    if (type !== 'out') {
-      result.push(useLayer(element, id))
-    }
-
-    return result
-  }, mask)
-
-  return element('mask', maskAttr, mask)
+  return element('rect', attr)
 }
 
-module.exports = function(element, id, side, converters, mechs, maskWithOutline) {
+var mechMask = function(element, id, box, drills) {
+  var maskAttr = {id: id, fill: '#000', stroke: '#000'}
+  var children = drills.map(function(layer) {
+    return useLayer(element, layer.id)
+  })
+
+  children.unshift(createRect(element, box, '#fff'))
+
+  return element('mask', maskAttr, children)
+}
+
+module.exports = function(element, id, side, layers, drills, outline, useOutline) {
   var classPrefix = id + '_'
   var idPrefix = id + '_' + side + '_'
-
-  // decide what units we're using
-  var converterTypes = Object.keys(converters)
-  var mechTypes = Object.keys(mechs)
-  var allConverters = {}
-  var allConverterTypes = []
-  var collectAllConverters = function(types, convertersByType) {
-    types.forEach(function(type) {
-      allConverters[type] = convertersByType[type]
-      allConverterTypes.push(type)
-    })
-  }
-
-  collectAllConverters(converterTypes, converters)
-  collectAllConverters(mechTypes, mechs)
-
-  var unitsCount = allConverterTypes.reduce(function(result, type) {
-    var units = allConverters[type].units
-
-    result[units] = (result[units] || 0) + 1
-
-    return result
-  }, {in: 0, mm: 0})
-
-  var units = (allConverterTypes.length !== 0)
-    ? (((unitsCount.in) > (unitsCount.mm)) ? 'in' : 'mm')
-    : ''
-
-  var switchUnitsScale = (units === 'in') ? (1 / 25.4) : 25.4
-
-  var getScale = function(converter) {
-    return (converter.units === units) ? 1 : switchUnitsScale
-  }
-
-  // gather defs and viewboxes from all converters
-  var defsAndBox = allConverterTypes.reduce(function(result, type) {
-    var converter = allConverters[type]
-    var scale = getScale(converter)
-
-    // only combine viewboxes if there's no outline layer, otherwise use outline
-    if (!mechs.out || (mechs.out && type === 'out')) {
-      result.box = viewBox.addScaled(result.box, converter.viewBox, scale)
-    }
-
-    result.defs = result.defs.concat(converter.defs)
-
-    return result
-  }, {defs: [], box: viewBox.new()})
-
-  var defs = defsAndBox.defs
-  var box = defsAndBox.box
-
-  // wrap all layers in layers and add them to defs
-  var mapConvertersToIds = function(types, convertersByType) {
-    return types.reduce(function(result, type) {
-      var converter = convertersByType[type]
-      var layerId = idPrefix + type
-      var scale = getScale(converter)
-
-      defs.push(wrapLayer(element, layerId, converter, scale))
-      result[type] = layerId
-
-      return result
-    }, {})
-  }
-
-  var layerIds = mapConvertersToIds(converterTypes, converters)
-  var mechIds = mapConvertersToIds(mechTypes, mechs)
   var mechMaskId = idPrefix + 'mech-mask'
 
-  defs.push(mechMask(element, mechMaskId, box, mechIds, maskWithOutline))
+  var layerProps = gatherLayers(element, idPrefix, layers, drills, outline, useOutline)
+  var defs = layerProps.defs
+  var box = layerProps.box
+  var units = layerProps.units
+
+  layers = layerProps.layerIds
+  drills = layerProps.drillIds
+
+  defs.push(mechMask(element, mechMaskId, box, drills))
 
   // build the layer starting with an fr4 rectangle the size of the viewbox
-  var layer = [viewBox.rect(element, box, classPrefix + 'fr4', 'currentColor')]
+  var layer = [createRect(element, box, 'currentColor', classPrefix + 'fr4')]
+  var cuLayerId = findLayerId(layers, 'cu')
+  var smLayerId = findLayerId(layers, 'sm')
+  var ssLayerId = findLayerId(layers, 'ss')
+  var spLayerId = findLayerId(layers, 'sp')
+  var outLayerId = layerProps.outlineId
 
   // add copper and copper finish
-  if (layerIds.cu) {
+  if (cuLayerId) {
     var cfMaskId = idPrefix + 'cf-mask'
     var cfMaskAttr = {id: cfMaskId, fill: '#fff', stroke: '#fff'}
-    var cfMaskShape = (layerIds.sm)
-      ? [useLayer(element, layerIds.sm)]
-      : [viewBox.rect(element, box)]
+    var cfMaskShape = smLayerId
+      ? [useLayer(element, smLayerId)]
+      : [createRect(element, box)]
 
     defs.push(element('mask', cfMaskAttr, cfMaskShape))
-    layer.push(useLayer(element, layerIds.cu, classPrefix + 'cu'))
-    layer.push(useLayer(element, layerIds.cu, classPrefix + 'cf', cfMaskId))
+    layer.push(useLayer(element, cuLayerId, classPrefix + 'cu'))
+    layer.push(useLayer(element, cuLayerId, classPrefix + 'cf', cfMaskId))
   }
 
   // add soldermask and silkscreen
   // silkscreen will not be added if no soldermask, because that's how it works in RL
-  if (layerIds.sm) {
+  if (smLayerId) {
     // solder mask is... a mask, so mask it
     var smMaskId = idPrefix + 'sm-mask'
     var smMaskAttr = {id: smMaskId, fill: '#000', stroke: '#000'}
     var smMaskShape = [
-      viewBox.rect(element, box, '', '#fff'),
-      useLayer(element, layerIds.sm)
+      createRect(element, box, '#fff'),
+      useLayer(element, smLayerId)
     ]
 
     defs.push(element('mask', smMaskAttr, smMaskShape))
 
     // add the layer that gets masked
     var smGroupAttr = {mask: 'url(#' + smMaskId + ')'}
-    var smGroupShape = [viewBox.rect(element, box, classPrefix + 'sm', 'currentColor')]
+    var smGroupShape = [createRect(element, box, 'currentColor', classPrefix + 'sm')]
 
-    if (layerIds.ss) {
-      smGroupShape.push(useLayer(element, layerIds.ss, classPrefix + 'ss'))
+    if (ssLayerId) {
+      smGroupShape.push(useLayer(element, ssLayerId, classPrefix + 'ss'))
     }
 
     layer.push(element('g', smGroupAttr, smGroupShape))
   }
 
   // add solderpaste
-  if (layerIds.sp) {
-    layer.push(useLayer(element, layerIds.sp, classPrefix + 'sp'))
+  if (spLayerId) {
+    layer.push(useLayer(element, spLayerId, classPrefix + 'sp'))
   }
 
   // add board outline if necessary
-  if (mechs.out && !maskWithOutline) {
-    layer.push(useLayer(element, mechIds.out, classPrefix + 'out'))
+  if (outLayerId && !useOutline) {
+    layer.push(useLayer(element, outLayerId, classPrefix + 'out'))
   }
 
   return {
     defs: defs,
     layer: layer,
     mechMaskId: mechMaskId,
+    outClipId: (outLayerId && useOutline) ? outLayerId : null,
     box: box,
     units: units
   }

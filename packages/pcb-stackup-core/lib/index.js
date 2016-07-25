@@ -10,7 +10,7 @@ var boardStyle = require('./_board-style')
 
 var SIDES = ['top', 'bottom']
 
-var svgAttributes = function(id, side, box, units, includeNamespace) {
+var svgAttributes = function(id, side, box, units, includeNs, attributes) {
   var width = (box[2] / 1000) + units
   var height = (box[3] / 1000) + units
 
@@ -22,20 +22,30 @@ var svgAttributes = function(id, side, box, units, includeNamespace) {
     'stroke-linejoin': 'round',
     'stroke-width': 0,
     'fill-rule': 'evenodd',
+    'clip-rule': 'evenodd',
     viewBox: box.join(' '),
     width: width,
     height: height
   }
 
-  if (includeNamespace || includeNamespace == null) {
+  if (includeNs || includeNs == null) {
     attr.xmlns = 'http://www.w3.org/2000/svg'
   }
+
+  Object.keys(attributes).forEach(function(key) {
+    attr[key] = attributes[key]
+  })
 
   return attr
 }
 
-var groupAttributes = function(box, side, mechMaskId) {
+var groupAttributes = function(box, side, mechMaskId, outClipId) {
   var attr = {mask: 'url(#' + mechMaskId + ')'}
+
+  if (outClipId) {
+    attr['clip-path'] = 'url(#' + outClipId + ')'
+  }
+
 
   // flip the bottom render in the x
   if (side === 'bottom') {
@@ -70,23 +80,40 @@ module.exports = function pcbStackupCore(layers, opts) {
   var sorted = sortLayers(layers)
   var id = options.id
   var color = options.color
+  var attributes = options.attributes || {}
   var maskWithOutline = options.maskWithOutline
   var element = options.createElement || xmlElementString
   var includeNamespace = options.includeNamespace
 
   return SIDES.reduce(function(result, side) {
-    var style = boardStyle(element, id + '_', side, color, maskWithOutline)
-    var stack = stackLayers(element, id, side, sorted[side], sorted.mech, maskWithOutline)
+    var style = boardStyle(element, id + '_', side, color)
+    var stack = stackLayers(
+      element,
+      id,
+      side,
+      sorted[side],
+      sorted.drills,
+      sorted.outline,
+      maskWithOutline)
 
     var units = stack.units
     var mechMaskId = stack.mechMaskId
+    var outClipId = stack.outClipId
     var box = (stack.box.length === 4) ? stack.box : [0, 0, 0, 0]
     var defs = [style].concat(stack.defs)
-    var layer = [element('g', groupAttributes(box, side, mechMaskId), stack.layer)]
+    var layer = [
+      element('g', groupAttributes(box, side, mechMaskId, outClipId), stack.layer)
+    ]
 
     var defsNode = element('defs', {}, defs)
     var layerNode = element('g', layerAttributes(box), layer)
-    var svgAttr = svgAttributes(id, side, box, units, includeNamespace)
+    var svgAttr = svgAttributes(
+      id,
+      side,
+      box,
+      units,
+      includeNamespace,
+      attributes)
 
     result[side] = {
       svg: element('svg', svgAttr, [defsNode, layerNode]),

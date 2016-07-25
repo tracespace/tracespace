@@ -1,7 +1,7 @@
 // wrap a layer in a group given the layer's converter object
 'use strict'
 
-module.exports = function wrapLayer(element, id, converter, scale) {
+module.exports = function wrapLayer(element, id, converter, scale, tag) {
   var layer = converter.layer
   var attr = {id: id}
 
@@ -9,5 +9,5 @@ module.exports = function wrapLayer(element, id, converter, scale) {
     attr.transform = 'scale(' + scale + ',' + scale + ')'
   }
 
-  return element('g', attr, layer)
+  return element(tag || 'g', attr, layer)
 }
