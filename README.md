@@ -19,6 +19,11 @@ Install with:
 $ npm install --save pcb-stackup
 ```
 
+## sites using this
+
+- [viewer.tracespace.io](http://viewer.tracespace.io) - A Gerber viewer that lets you inspect the individual layers as well as the board preview
+- [kitnic.it](https://kitnic.it) - An electronics project sharing site with links to easily buy the required parts
+
 ## example
 
 ![arduino-uno-top](https://cloud.githubusercontent.com/assets/2963448/16046141/5bfba2d2-3219-11e6-8131-92c769218d62.png)
