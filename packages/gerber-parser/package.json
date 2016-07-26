@@ -4,15 +4,18 @@
   "description": "A PCB Gerber/drill-file parser implemented as a Node transform-stream",
   "main": "lib/index.js",
   "scripts": {
-    "lint": "eslint lib/*.js test/*.js",
-    "test": "istanbul cover --include-all-sources _mocha",
+    "lint": "eslint 'lib/*.js' 'test/*.js'",
+    "test": "nyc mocha",
     "posttest": "npm run lint",
     "test:watch": "mocha --reporter dot --timeout 500ms --watch",
     "test:browser": "zuul --local -- ./test/*_test.js",
     "test:sauce": "zuul -- ./test/*_test.js",
+    "coverage": "nyc report",
+    "coverage:html": "nyc report --reporter=html",
+    "coverage:ci": "nyc report --reporter=text-lcov | coveralls",
     "ci": "npm test && if [ \"${TEST_BROWSERS}\" = \"true\" ]; then npm run ci:browser; fi",
     "ci:browser": "if [ \"${TRAVIS_PULL_REQUEST}\" = \"false\" ]; then npm run test:sauce; fi",
-    "postci": "coveralls < ./coverage/lcov.info"
+    "postci": "npm run coverage:ci"
   },
   "repository": {
     "type": "git",
@@ -45,11 +48,11 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "coveralls": "^2.11.9",
-    "eslint": "^2.9.0",
-    "istanbul": "^0.4.3",
+    "eslint": "^2.13.1",
     "lodash.partial": "^4.1.4",
     "lodash.repeat": "^4.0.2",
     "mocha": "^2.4.5",
+    "nyc": "^7.1.0",
     "zuul": "^3.10.1"
   }
 }
