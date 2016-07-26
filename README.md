@@ -1,5 +1,7 @@
 # pcb stackup
 
+[![GitHub stars](https://img.shields.io/github/stars/tracespace/pcb-stackup.svg?style=flat-square&label=%E2%AD%90&maxAge=2592000)](https://github.com/tracespace/pcb-stackup)
+[![GitHub issues](https://img.shields.io/github/issues/tracespace/pcb-stackup.svg?style=flat-square&maxAge=2592000)](https://github.com/tracespace/pcb-stackup/issues)
 [![npm](https://img.shields.io/npm/v/pcb-stackup.svg?style=flat-square)](https://www.npmjs.com/package/pcb-stackup)
 [![Travis](https://img.shields.io/travis/tracespace/pcb-stackup/master.svg?style=flat-square)](https://travis-ci.org/tracespace/pcb-stackup)
 [![Coveralls](https://img.shields.io/coveralls/tracespace/pcb-stackup.svg?style=flat-square)](https://coveralls.io/github/tracespace/pcb-stackup)
@@ -26,7 +28,8 @@ $ npm install --save pcb-stackup
 
 ## example
 
-![arduino-uno-top](https://cloud.githubusercontent.com/assets/2963448/16046141/5bfba2d2-3219-11e6-8131-92c769218d62.png)
+![arduino-uno-top](https://tracespace.github.io/pcb-stackup/example/arduino-top.svg)
+![arduino-uno-bottom](https://tracespace.github.io/pcb-stackup/example/arduino-bottom.svg)
 
 1. `$ git clone https://github.com/tracespace/pcb-stackup`
 2. `$ cd pcb-stackup && npm install`
