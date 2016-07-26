@@ -28,8 +28,8 @@ var reUNITS = /^%MO(IN|MM)/
 var reFORMAT = /^%FS([LT]?)([AI]?)(.*)X([0-7])([0-7])Y\4\5/
 var rePOLARITY = /^%LP([CD])/
 var reSTEP_REP = /^%SR(?:X(\d+)Y(\d+)I([\d.]+)J([\d.]+))?/
-var reTOOL_DEF = /^%ADD0*(\d{2,})([A-Za-z_]\w*)(?:,((?:X?[\d.]+)*))?/
-var reMACRO = /^%AM([A-Za-z_]\w*)\*?(.*)/
+var reTOOL_DEF = /^%ADD0*(\d{2,})([A-Za-z_\$][\w\-\.]*)(?:,((?:X?[\d.]+)*))?/
+var reMACRO = /^%AM([A-Za-z_\$][\w\-\.]*)\*?(.*)/
 
 var parseToolDef = function(parser, block) {
   var format = {places: parser.format.places}
@@ -96,6 +96,9 @@ var parseToolDef = function(parser, block) {
 var parseMacroDef = function(parser, block) {
   var macroMatch = block.match(reMACRO)
   var name = macroMatch[1]
+  if (name.match(/\-/)) {
+    parser._warn('hyphens in macro name are illegal: ' + name )
+  }
   var blockMatch = (macroMatch[2].length) ? macroMatch[2].split('*') : []
   var blocks = blockMatch.map(function(block) {
     return parseMacroBlock(parser, block)

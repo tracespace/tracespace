@@ -425,12 +425,28 @@ describe('gerber parser with gerber files', function() {
     it('should parse the name of the macro properly', function(done) {
       var expected = [
         {type: 'macro', line: 0, name: 'NAME1', blocks: []},
-        {type: 'macro', line: 1, name: 'CRAZY8', blocks: []}
+        {type: 'macro', line: 1, name: 'CRAZY8', blocks: []},
+        {type: 'macro', line: 2, name: 'NAME-1', blocks: []},
+        {type: 'macro', line: 3, name: 'Name1.0', blocks: []},
+        {type: 'macro', line: 4, name: '$Name1', blocks: []}
       ]
 
       expectResults(expected, done)
       p.write('%AMNAME1*%\n')
       p.write('%AMCRAZY8*%\n')
+      p.write('%AMNAME-1*%\n')
+      p.write('%AMName1.0*%\n')
+      p.write('%AM$Name1*%\n')
+    })
+
+    it('should warn that hyphens in macro names are invalid', function(done) {
+      p.once('warning', function(w) {
+        expect(w.line).to.equal(0)
+        expect(w.message).to.match(/hyphen/)
+        done()
+      })
+
+      p.write('%AMNAME-1*%\n')
     })
 
     describe('primitive blocks', function() {
