@@ -12,3 +12,7 @@ browsers:
     version: latest
 browserify:
   - plugin: proxyquire-universal
+concurrency: 4
+tunnel:
+  type: ngrok
+  bind_tls: true
