@@ -80,14 +80,20 @@ module.exports = function(element, idPrefix, layers, drills, outline, maskWithOu
   var outlineId
 
   // add the outline to defs if it's not defined externally or if we're using it to clip
-  if (outline && (!outline.externalId || maskWithOutline)) {
-    outlineId = getUniqueId(outline.type)
-    defs.push(wrapLayer(
-      element,
-      outlineId,
-      outline.converter,
-      getScale(units, outline.converter.units),
-      maskWithOutline ? 'clipPath' : 'g'))
+  if (outline) {
+    if (outline.externalId && !maskWithOutline) {
+      outlineId = outline.externalId
+    }
+    else {
+      outlineId = getUniqueId(outline.type)
+
+      defs.push(wrapLayer(
+        element,
+        outlineId,
+        outline.converter,
+        getScale(units, outline.converter.units),
+        maskWithOutline ? 'clipPath' : 'g'))
+    }
   }
 
   return {

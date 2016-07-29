@@ -440,5 +440,26 @@ describe('stack layers function', function() {
         'use',
         sinon.match.has('xlink:href', '#id_top_drl2'))
     })
+
+    it('should use external drill id for use if not masking', function() {
+      outline.externalId = 'baz'
+
+      var result = stackLayers(element, 'id', 'top', layers, drills, outline)
+      var values = expectXmlNodes(element, [
+        {
+          tag: 'use',
+          attr: {
+            'xlink:href': '#baz',
+            class: 'id_out',
+            fill: 'currentColor',
+            stroke: 'currentColor'
+          }
+        }
+      ])
+
+      delete outline.externalId
+
+      expect(result.layer.slice(-1)).to.eql(values)      
+    })
   })
 })
