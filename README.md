@@ -25,6 +25,7 @@ $ npm install --save pcb-stackup
 
 - [viewer.tracespace.io](http://viewer.tracespace.io) - A Gerber viewer that lets you inspect the individual layers as well as the board preview
 - [kitnic.it](https://kitnic.it) - An electronics project sharing site with links to easily buy the required parts
+- [OpenHardware.io](https://www.openhardware.io) - The place to share and discuss open source hardware. Enables authors to sell and manufacture their boards.
 
 ## example
 
