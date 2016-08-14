@@ -1,12 +1,12 @@
 # pcb stackup
 
-[![GitHub stars](https://img.shields.io/github/stars/tracespace/pcb-stackup.svg?style=flat-square&label=%E2%AD%90&maxAge=2592000)](https://github.com/tracespace/pcb-stackup)
-[![GitHub issues](https://img.shields.io/github/issues/tracespace/pcb-stackup.svg?style=flat-square&maxAge=2592000)](https://github.com/tracespace/pcb-stackup/issues)
-[![npm](https://img.shields.io/npm/v/pcb-stackup.svg?style=flat-square)](https://www.npmjs.com/package/pcb-stackup)
-[![Travis](https://img.shields.io/travis/tracespace/pcb-stackup/master.svg?style=flat-square)](https://travis-ci.org/tracespace/pcb-stackup)
-[![Coveralls](https://img.shields.io/coveralls/tracespace/pcb-stackup.svg?style=flat-square)](https://coveralls.io/github/tracespace/pcb-stackup)
-[![David](https://img.shields.io/david/tracespace/pcb-stackup.svg?style=flat-square)](https://david-dm.org/tracespace/pcb-stackup)
-[![David](https://img.shields.io/david/dev/tracespace/pcb-stackup.svg?style=flat-square)](https://david-dm.org/tracespace/pcb-stackup#info=devDependencies)
+[![GitHub stars](https://img.shields.io/github/stars/tracespace/pcb-stackup.svg?style=flat-square&label=%E2%AD%90&maxAge=86400)](https://github.com/tracespace/pcb-stackup)
+[![GitHub issues](https://img.shields.io/github/issues/tracespace/pcb-stackup.svg?style=flat-square&maxAge=86400)](https://github.com/tracespace/pcb-stackup/issues)
+[![npm](https://img.shields.io/npm/v/pcb-stackup.svg?style=flat-square&maxAge=86400)](https://www.npmjs.com/package/pcb-stackup)
+[![Travis](https://img.shields.io/travis/tracespace/pcb-stackup/master.svg?style=flat-square&maxAge=86400)](https://travis-ci.org/tracespace/pcb-stackup)
+[![codecov](https://img.shields.io/codecov/c/github/tracespace/pcb-stackup.svg?style=flat-square&maxAge=86400)](https://codecov.io/gh/tracespace/pcb-stackup)
+[![David](https://img.shields.io/david/tracespace/pcb-stackup.svg?style=flat-square&maxAge=86400)](https://david-dm.org/tracespace/pcb-stackup)
+[![David](https://img.shields.io/david/dev/tracespace/pcb-stackup.svg?style=flat-square&maxAge=86400)](https://david-dm.org/tracespace/pcb-stackup#info=devDependencies)
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/pcb-stackup.svg)](https://saucelabs.com/u/pcb-stackup)
 
