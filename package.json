@@ -14,7 +14,7 @@
     "test:sauce": "zuul -- ./test.js",
     "coverage": "nyc report",
     "coverage:html": "nyc report --reporter=html",
-    "coverage:ci": "nyc report --reporter=text-lcov | coveralls",
+    "coverage:ci": "nyc report --reporter=lcov > coverage.lcov && codecov",
     "ci": "npm test && if [ \"${TEST_BROWSERS}\" = \"true\" ]; then npm run ci:browser; fi",
     "ci:browser": "if [ \"${TRAVIS_PULL_REQUEST}\" = \"false\" ]; then npm run test:sauce; fi",
     "postci": "npm run coverage:ci",
@@ -45,7 +45,7 @@
   "devDependencies": {
     "browserify": "^13.0.0",
     "chai": "^3.5.0",
-    "coveralls": "^2.11.9",
+    "codecov": "^1.0.1",
     "domify": "^1.4.0",
     "eslint": "^2.9.0",
     "glob": "^7.0.5",
