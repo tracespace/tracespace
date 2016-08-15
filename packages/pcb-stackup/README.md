@@ -7,6 +7,8 @@
 [![codecov](https://img.shields.io/codecov/c/github/tracespace/pcb-stackup.svg?style=flat-square&maxAge=86400)](https://codecov.io/gh/tracespace/pcb-stackup)
 [![David](https://img.shields.io/david/tracespace/pcb-stackup.svg?style=flat-square&maxAge=86400)](https://david-dm.org/tracespace/pcb-stackup)
 [![David](https://img.shields.io/david/dev/tracespace/pcb-stackup.svg?style=flat-square&maxAge=86400)](https://david-dm.org/tracespace/pcb-stackup#info=devDependencies)
+[![Gitter](https://img.shields.io/gitter/room/tracespace/pcb-stackup.js.svg?style=flat-square&?maxAge=2592000)](https://gitter.im/tracespace/pcb-stackup)
+[![Badges](https://img.shields.io/badge/badges-9-ff69b4.svg?style=flat-square)](http://shields.io/)
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/pcb-stackup.svg)](https://saucelabs.com/u/pcb-stackup)
 
