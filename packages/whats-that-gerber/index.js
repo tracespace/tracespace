@@ -21,70 +21,70 @@ var layerTypes = [
     name: {
       en: 'top copper'
     },
-    match: /((F.Cu)|(top\.gbr))|(\.((cmp)|(top$)|(gtl)))/i
+    match: /((F.Cu)|(top\.gbr))|(\.((cmp)|(top$)|(gtl)))|(\.toplayer\.ger)/i
   },
   {
     id: 'tsm',
     name: {
       en: 'top soldermask'
     },
-    match: /((F.Mask)|(topmask))|(\.((stc)|(tsm)|(gts)|(smt)))/i
+    match: /((F.Mask)|(topmask))|(\.((stc)|(tsm)|(gts)|(smt)))|(\.topsoldermask\.ger)/i
   },
   {
     id: 'tss',
     name: {
       en: 'top silkscreen'
     },
-    match: /((F.SilkS)|(topsilk))|(\.((plc)|(tsk)|(gto)|(sst)))/i
+    match: /((F.SilkS)|(topsilk))|(\.((plc)|(tsk)|(gto)|(sst)))|(\.topsilkscreen\.ger)/i
   },
   {
     id: 'tsp',
     name: {
       en: 'top solderpaste'
     },
-    match: /((F.Paste)|(toppaste))|(\.((crc)|(tsp)|(gtp)|(spt)))/i
+    match: /((F.Paste)|(toppaste))|(\.((crc)|(tsp)|(gtp)|(spt)))|(\.tcream\.ger)/i
   },
   {
     id: 'bcu',
     name: {
       en: 'bottom copper'
     },
-    match: /(B.Cu|bottom\.gbr)|(\.((sol)|(bot$)|(gbl)))/i
+    match: /(B.Cu|bottom\.gbr)|(\.((sol)|(bot$)|(gbl)))|(\.bottomlayer\.ger)/i
   },
   {
     id: 'bsm',
     name: {
       en: 'bottom soldermask'
     },
-    match: /(B.Mask|bottommask\.)|(\.((sts)|(bsm)|(gbs)|(smb)))/i
+    match: /(B.Mask|bottommask\.)|(\.((sts)|(bsm)|(gbs)|(smb)))|(\.bottomsoldermask\.ger)/i
   },
   {
     id: 'bss',
     name: {
       en: 'bottom silkscreen'
     },
-    match: /((B.SilkS)|(bottomsilk\.))|(\.((pls)|(bsk)|(gbo)|(ssb)))/i
+    match: /((B.SilkS)|(bottomsilk\.))|(\.((pls)|(bsk)|(gbo)|(ssb)))|(\.bottomsilkscreen\.ger)/i
   },
   {
     id: 'bsp',
     name: {
       en: 'bottom solderpaste'
     },
-    match: /(B.Paste)|(\.((crs)|(bsp)|(gbp)|(spb)))/i
+    match: /(B.Paste)|(\.((crs)|(bsp)|(gbp)|(spb)))|(\.bcream\.ger)/i
   },
   {
     id: 'icu',
     name: {
       en: 'inner copper'
     },
-    match: /(In(ner)?\d+.Cu)|(\.((ly)|(g)|(in))\d+)/i
+    match: /(In(ner)?\d+.Cu)|(\.((ly)|(g)|(in))\d+)|(\.internalplane\d+\.ger)/i
   },
   {
     id: 'out',
     name: {
       en: 'board outline'
     },
-    match: /((Edge.Cuts)|(outline))|(\.((dim)|(mil)|(gm[l\d])|(gko)|(fab$)))/i
+    match: /((Edge.Cuts)|(outline))|(\.((dim)|(mil)|(gm[l\d])|(gko)|(fab$)))|(\.boardoutline\.ger)/i
   },
   {
     id: 'drl',

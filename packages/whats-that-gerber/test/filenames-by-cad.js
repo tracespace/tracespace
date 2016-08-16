@@ -161,5 +161,22 @@ module.exports = [
       {name: 'board.toppaste.gbr',     type: 'tsp'},
       {name: 'board.topsilk.gbr',      type: 'tss'}
     ]
+  },
+  {
+    cad: 'eagle-oshpark',
+    files: [
+      {name: 'board-name.boardoutline.ger',     type: 'out'},
+      {name: 'board-name.bottomlayer.ger',      type: 'bcu'},
+      {name: 'board-name.bottomsilkscreen.ger', type: 'bss'},
+      {name: 'board-name.bottomsoldermask.ger', type: 'bsm'},
+      {name: 'board-name.bcream.ger',           type: 'bsp'},
+      {name: 'board-name.drills.xln',           type: 'drl'},
+      {name: 'board-name.internalplane1.ger',   type: 'icu'},
+      {name: 'board-name.internalplane2.ger',   type: 'icu'},
+      {name: 'board-name.toplayer.ger',         type: 'tcu'},
+      {name: 'board-name.topsilkscreen.ger',    type: 'tss'},
+      {name: 'board-name.topsoldermask.ger',    type: 'tsm'},
+      {name: 'board-name.tcream.ger',           type: 'tsp'}
+    ]
   }
 ]
