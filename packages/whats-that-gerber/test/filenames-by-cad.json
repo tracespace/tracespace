@@ -1,0 +1,134 @@
+[
+  {
+    "cad": "kicad",
+    "files": [
+      { "name": "board-F_Cu.gbr",      "type": "tcu" },
+      { "name": "board-F.Cu.gbr",      "type": "tcu" },
+      { "name": "board-F.Cu.gtl",      "type": "tcu" },
+      { "name": "board-F_Mask.gbr",    "type": "tsm" },
+      { "name": "board-F.Mask.gbr",    "type": "tsm" },
+      { "name": "board-F.Mask.gts",    "type": "tsm" },
+      { "name": "board-F_SilkS.gbr",   "type": "tss" },
+      { "name": "board-F.SilkS.gbr",   "type": "tss" },
+      { "name": "board-F.SilkS.gto",   "type": "tss" },
+      { "name": "board-F_Paste.gbr",   "type": "tsp" },
+      { "name": "board-F.Paste.gbr",   "type": "tsp" },
+      { "name": "board-F.Paste.gtp",   "type": "tsp" },
+      { "name": "board-B_Cu.gbr",      "type": "bcu" },
+      { "name": "board-B.Cu.gbr",      "type": "bcu" },
+      { "name": "board-B_Mask.gbr",    "type": "bsm" },
+      { "name": "board-B.Mask.gbr",    "type": "bsm" },
+      { "name": "board-B.Mask.gbs",    "type": "bsm" },
+      { "name": "board-B_SilkS.gbr",   "type": "bss" },
+      { "name": "board-B.SilkS.gbr",   "type": "bss" },
+      { "name": "board-B.SilkS.gbo",   "type": "bss" },
+      { "name": "board-B_Paste.gbr",   "type": "bsp" },
+      { "name": "board-B.Paste.gbr",   "type": "bsp" },
+      { "name": "board-B.Paste.gbp",   "type": "bsp" },
+      { "name": "board-In1_Cu.gbr",    "type": "icu" },
+      { "name": "board-Inner1.Cu.gbr", "type": "icu" },
+      { "name": "board-Inner1.Cu.g3",  "type": "icu" },
+      { "name": "board-Edge_Cuts.gbr", "type": "out" },
+      { "name": "board-Edge.Cuts.gbr", "type": "out" },
+      { "name": "board-Edge.Cuts.gm1", "type": "out" },
+      { "name": "board.drl",           "type": "drl" },
+      { "name": "board-NPTH.drl",      "type": "drl" },
+      { "name": "board-top.pos",       "type": "drw" },
+      { "name": "board-bottom.pos",    "type": "drw" }
+    ]
+  },
+  {
+    "cad": "eagle",
+    "files": [
+      { "name": "board.CMP", "type": "tcu" },
+      { "name": "board.top", "type": "tcu" },
+      { "name": "board.STC", "type": "tsm" },
+      { "name": "board.tsm", "type": "tsm" },
+      { "name": "board.PLC", "type": "tss" },
+      { "name": "board.tsk", "type": "tss" },
+      { "name": "board.CRC", "type": "tsp" },
+      { "name": "board.tsp", "type": "tsp" },
+      { "name": "board.SOL", "type": "bcu" },
+      { "name": "board.bot", "type": "bcu" },
+      { "name": "board.STS", "type": "bsm" },
+      { "name": "board.bsm", "type": "bsm" },
+      { "name": "board.PLS", "type": "bss" },
+      { "name": "board.bsk", "type": "bss" },
+      { "name": "board.CRS", "type": "bsp" },
+      { "name": "board.bsp", "type": "bsp" },
+      { "name": "board.LY2", "type": "icu" },
+      { "name": "board.ly3", "type": "icu" },
+      { "name": "board.DIM", "type": "out" },
+      { "name": "board.mil", "type": "out" },
+      { "name": "board.gml", "type": "out" },
+      { "name": "board.TXT", "type": "drl" },
+      { "name": "board.xln", "type": "drl" },
+      { "name": "board.drd", "type": "drl" }
+    ]
+  },
+  {
+    "cad": "altium",
+    "files": [
+      { "name": "board.gtl", "type": "tcu" },
+      { "name": "board.gts", "type": "tsm" },
+      { "name": "board.gto", "type": "tss" },
+      { "name": "board.gtp", "type": "tsp" },
+      { "name": "board.gbl", "type": "bcu" },
+      { "name": "board.gbs", "type": "bsm" },
+      { "name": "board.gbo", "type": "bss" },
+      { "name": "board.gbp", "type": "bsp" },
+      { "name": "board.g1",  "type": "icu" },
+      { "name": "board.gm3", "type": "out" },
+      { "name": "board.gko", "type": "out" },
+      { "name": "board.txt", "type": "drl" }
+    ]
+  },
+  {
+    "cad": "orcad",
+    "files": [
+      { "name": "board.TOP", "type": "tcu" },
+      { "name": "board.SMT", "type": "tsm" },
+      { "name": "board.SST", "type": "tss" },
+      { "name": "board.SPT", "type": "tsp" },
+      { "name": "board.BOT", "type": "bcu" },
+      { "name": "board.SMB", "type": "bsm" },
+      { "name": "board.SSB", "type": "bss" },
+      { "name": "board.SPB", "type": "bsp" },
+      { "name": "board.IN1", "type": "icu" },
+      { "name": "board.FAB", "type": "out" },
+      { "name": "board.TAP", "type": "drl" }
+    ]
+  },
+  {
+    "cad": "geda-pcb",
+    "files": [
+      { "name": "board.bottom.gbr",       "type": "bcu" },
+      { "name": "board.bottommask.gbr",   "type": "bsm" },
+      { "name": "board.bottomsilk.gbr",   "type": "bss" },
+      { "name": "board.fab.gbr",          "type": "drl" },
+      { "name": "board.plated-drill.cnc", "type": "drl" },
+      { "name": "board.outline.gbr",      "type": "out" },
+      { "name": "board.top.gbr",          "type": "tcu" },
+      { "name": "board.topmask.gbr",      "type": "tsm" },
+      { "name": "board.toppaste.gbr",     "type": "tsp" },
+      { "name": "board.topsilk.gbr",      "type": "tss" }
+    ]
+  },
+  {
+    "cad": "eagle-oshpark",
+    "files": [
+      {"name": "board-name.boardoutline.ger",     "type": "out"},
+      {"name": "board-name.bottomlayer.ger",      "type": "bcu"},
+      {"name": "board-name.bottomsilkscreen.ger", "type": "bss"},
+      {"name": "board-name.bottomsoldermask.ger", "type": "bsm"},
+      {"name": "board-name.bcream.ger",           "type": "bsp"},
+      {"name": "board-name.drills.xln",           "type": "drl"},
+      {"name": "board-name.internalplane1.ger",   "type": "icu"},
+      {"name": "board-name.internalplane2.ger",   "type": "icu"},
+      {"name": "board-name.toplayer.ger",         "type": "tcu"},
+      {"name": "board-name.topsilkscreen.ger",    "type": "tss"},
+      {"name": "board-name.topsoldermask.ger",    "type": "tsm"},
+      {"name": "board-name.tcream.ger",           "type": "tsp"}
+    ]
+  }
+]
