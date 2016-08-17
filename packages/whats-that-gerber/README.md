@@ -42,6 +42,21 @@ icu  | inner copper
 out  | board outline      
 drl  | drill hits         
 
+#### checking if a layer type is valid
+
+You can check if any given string is a valid layer type with:
+
+``` js
+var whatsThatGerber = require('whats-that-gerber')
+var isValidType = whatsThatGerber.isValidType
+
+var type1 = 'tsm'
+var type2 = 'hello'
+
+console.log(isValidType(type1)) // true
+console.log(isValidType(type2)) // false
+```
+
 ### full name locales
 
 The full name method takes a locale string as its second parameter, which defaults to 'en':

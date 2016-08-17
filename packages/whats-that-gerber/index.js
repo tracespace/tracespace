@@ -114,6 +114,12 @@ module.exports.getAllTypes = function() {
   })
 }
 
+module.exports.isValidType = function(type) {
+  return layerTypes.some(function(layerType) {
+    return layerType.id === type
+  })
+}
+
 module.exports.getFullName = function whatsThatGerberTypeName(typeId, locale) {
   var type = find(layerTypes, function(type) {
     return type.id === typeId

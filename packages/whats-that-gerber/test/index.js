@@ -46,6 +46,22 @@ describe('whats-that-gerber', function() {
       'drl')
   })
 
+  it('should know which types are valid', function() {
+    var allTypes = whatsThatGerber.getAllTypes()
+
+    allTypes.forEach(function(type) {
+      expect(whatsThatGerber.isValidType(type)).to.be.true
+    })
+  })
+
+  it('should know which types are invalid', function() {
+    var invalidTypes = ['foo', 'bar', 'baz', 'quux']
+
+    invalidTypes.forEach(function(type) {
+      expect(whatsThatGerber.isValidType(type)).to.be.false
+    })
+  })
+
   it('should have full names for all layer types', function() {
     whatsThatGerber.getAllTypes().forEach(function(type) {
       expect(whatsThatGerber.getFullName(type)).to.equal(typeNames[type])
