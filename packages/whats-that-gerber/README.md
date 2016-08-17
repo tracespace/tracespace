@@ -68,4 +68,4 @@ We should be able to identify files output by the following programs:
 2. `$ npm install`
 3. `$ npm test`
 
-If adding / modifying a filetype matcher, please remember to add / modify an example filename in [test/filenames-by-cad.js](test/filenames-by-cad.js).
+If adding / modifying a filetype matcher, please remember to add / modify an example filename in [test/filenames-by-cad.js](test/filenames-by-cad.json).
