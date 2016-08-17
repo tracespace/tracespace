@@ -4,8 +4,10 @@
   "description": "Guesses the PCB layer type given a filename of a Gerber or drill file",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint index.js test/*js",
-    "test": "istanbul cover _mocha",
+    "lint": "eslint index.js 'test/*js'",
+    "test": "nyc mocha",
+    "test:watch": "mocha --watch --reporter=dot",
+    "coverage": "nyc report",
     "posttest": "npm run lint"
   },
   "repository": {
@@ -20,7 +22,10 @@
     "hardware",
     "circuit"
   ],
-  "author": "Mike Cousins <mike@cousins.io> (http://cousins.io)",
+  "contributors": [
+    "Mike Cousins <mike@cousins.io> (http://cousins.io)",
+    "Kaspar Emanuel <kaspar@monostable.co.uk> (http://monostable.co.uk)"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/tracespace/whats-that-gerber/issues"
@@ -29,8 +34,8 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "eslint": "^2.9.0",
-    "istanbul": "^0.4.3",
-    "mocha": "^3.0.2"
+    "mocha": "^3.0.2",
+    "nyc": "^8.1.0"
   },
   "dependencies": {}
 }
