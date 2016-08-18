@@ -67,6 +67,6 @@
     "gerber-to-svg": "^2.1.0",
     "pcb-stackup-core": "^2.0.1",
     "shortid": "^2.2.6",
-    "whats-that-gerber": "^2.0.1"
+    "whats-that-gerber": "^2.1.0"
   }
 }
