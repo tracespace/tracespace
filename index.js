@@ -10,13 +10,12 @@ var getInvalidLayers = function(layers) {
   var hasNameOrType = function(layer) {
     return layer.filename || layer.layerType
   }
-  var validTypes = whatsThatGerber.getAllTypes()
   var hasValidType = function(layer) {
     if (layer.layerType == null) {
       return true
     }
 
-    return validTypes.indexOf(layer.layerType) >= 0
+    return whatsThatGerber.isValidType(layer.layerType)
   }
 
   return layers.reduce(function(result, layer, i) {
