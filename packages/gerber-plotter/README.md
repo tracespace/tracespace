@@ -1,14 +1,12 @@
 # gerber plotter
 
-[![npm](https://img.shields.io/npm/v/gerber-plotter.svg?style=flat-square)](https://www.npmjs.com/package/gerber-plotter)
-[![Travis](https://img.shields.io/travis/mcous/gerber-plotter.svg?style=flat-square)](https://travis-ci.org/mcous/gerber-plotter)
-[![Coveralls](https://img.shields.io/coveralls/mcous/gerber-plotter.svg?style=flat-square)](https://coveralls.io/github/mcous/gerber-plotter)
-[![David](https://img.shields.io/david/mcous/gerber-plotter.svg?style=flat-square)](https://david-dm.org/mcous/gerber-plotter)
-[![David](https://img.shields.io/david/dev/mcous/gerber-plotter.svg?style=flat-square)](https://david-dm.org/mcous/gerber-plotter#info=devDependencies)
+[![npm](https://img.shields.io/npm/v/gerber-plotter.svg?style=flat-square&maxAge=86400)](https://www.npmjs.com/package/gerber-plotter)
+[![Travis](https://img.shields.io/travis/mcous/gerber-plotter.svg?style=flat-square&maxAge=86400)](https://travis-ci.org/mcous/gerber-plotter)
+[![Coveralls](https://img.shields.io/coveralls/mcous/gerber-plotter.svg?style=flat-square&maxAge=86400)](https://coveralls.io/github/mcous/gerber-plotter)
+[![David](https://img.shields.io/david/mcous/gerber-plotter.svg?style=flat-square&maxAge=86400)](https://david-dm.org/mcous/gerber-plotter)
+[![David](https://img.shields.io/david/dev/mcous/gerber-plotter.svg?style=flat-square&maxAge=86400)](https://david-dm.org/mcous/gerber-plotter?type=dev)
 
-**Work in progress.**
-
-A printed circuit board Gerber and drill file plotter. Implemented as a Node transform stream that plotter command objects (for example, those output by [mcous/gerber-parser](https://github.com/mcous/gerber-parser)) and output PCB image objects.
+A printed circuit board Gerber and drill file plotter. Implemented as a Node transform stream that consumes plotter command objects (for example, those output by [mcous/gerber-parser](https://github.com/mcous/gerber-parser)) and outputs PCB image objects.
 
 ## how to
 
