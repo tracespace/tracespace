@@ -74,13 +74,9 @@ var pcbStackup = function(layers, options, done) {
       var stackup = createStackup(stackupLayers, options)
 
       stackup.layers = stackupLayers.map(function(layer) {
-        var converter = layer.converter
-
-        converter.options = layer.options
-
         return {
           layerType: layer.type,
-          converter: converter,
+          converter: layer.converter,
           options: layer.options
         }
       })
@@ -104,7 +100,15 @@ var pcbStackup = function(layers, options, done) {
       layerOptions.plotAsOutline = options.outlineGapFill
     }
 
-    var converter = layer.converter || gerberToSvg(layer.gerber, layerOptions, finishLayer)
+    var usePreConverted = layer.gerber == null
+    var converter
+
+    if (usePreConverted) {
+      converter = layer.converter
+    }
+    else {
+      converter = gerberToSvg(layer.gerber, layerOptions, finishLayer)
+    }
 
     stackupLayers.push({
       type: layerType,
@@ -112,7 +116,7 @@ var pcbStackup = function(layers, options, done) {
       options: layerOptions
     })
 
-    if (layer.converter) {
+    if (usePreConverted) {
       finishLayer()
     }
 
