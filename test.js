@@ -2,6 +2,7 @@
 'use strict'
 var fs = require('fs')
 var path = require('path')
+var cloneConverter = require('gerber-to-svg').clone
 
 var expect = require('chai').expect
 
@@ -248,6 +249,38 @@ describe('easy stackup function', function() {
         expect(error).to.not.exist
         expect(stackup2.top).to.deep.equal(stackup1.top)
         expect(stackup2.bottom).to.deep.equal(stackup1.bottom)
+        done()
+      })
+    })
+  })
+
+  it('lets you replace gerber in layer cache', function(done) {
+    var exampleGerber1 = fs.readFileSync(path.join(__dirname, 'integration/boards/arduino-uno/arduino-uno.plc'))
+    var exampleGerber2 = fs.readFileSync(path.join(__dirname, 'integration/boards/arduino-uno/arduino-uno.gko'))
+    var layers = [
+      {gerber: exampleGerber1, layerType: 'bcu', options: {id: 'a'}},
+      {gerber: exampleGerber2, layerType: 'tcu', options: {id: 'b'}}
+    ]
+
+    pcbStackup(layers, {id: 'c'}, function(error, stackup1) {
+      expect(error).to.not.exist
+      expect(stackup1).to.exist
+      expect(stackup1.layers[0].layerType).to.equal('bcu')
+      expect(stackup1.layers[1].layerType).to.equal('tcu')
+      stackup1.layers[0].layerType = 'tcu'
+      stackup1.layers[0].options =  {id: 'b'}
+      stackup1.layers[0].gerber = exampleGerber2
+
+      pcbStackup(stackup1.layers, {id: 'c'}, function(error, stackup2) {
+        expect(error).to.not.exist
+
+        var comparableLayers = stackup2.layers.map(function(layer) {
+          layer.converter = cloneConverter(layer.converter)
+
+          return layer
+        })
+
+        expect(comparableLayers[0]).to.deep.equal(comparableLayers[1])
         done()
       })
     })
