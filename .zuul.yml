@@ -12,6 +12,7 @@ browsers:
     version: latest
 browserify:
   - plugin: proxyquire-universal
+  - transform: brfs
 concurrency: 4
 tunnel:
   type: ngrok

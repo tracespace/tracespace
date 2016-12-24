@@ -1,5 +1,7 @@
 // test suite for simpler API
 'use strict'
+var fs = require('fs')
+var path = require('path')
 
 var expect = require('chai').expect
 
@@ -209,9 +211,12 @@ describe('easy stackup function', function() {
   // NOTE: (mc) Perhaps instead of these tests, we should check that we're passing
   // the correct things to gerber-to-svg, whats-that-gerber, and pcb-stackup-core?
   it('has deterministic top and bottom svgs if ids are given', function(done) {
+    var exampleGerber1 = fs.readFileSync(path.join(__dirname, 'integration/boards/arduino-uno/arduino-uno.plc'))
+    var exampleGerber2 = fs.readFileSync(path.join(__dirname, 'integration/boards/arduino-uno/arduino-uno.gko'))
+
     var layers = [
-      {gerber: emptyGerber, layerType: 'bcu', options: {id: 'a'}},
-      {gerber: emptyGerber, layerType: 'tcu', options: {id: 'b'}}
+      {gerber: exampleGerber1, layerType: 'bcu', options: {id: 'a'}},
+      {gerber: exampleGerber2, layerType: 'tcu', options: {id: 'b'}}
     ]
 
     pcbStackup(layers, {id: 'c'}, function(error, stackup1) {
@@ -221,16 +226,18 @@ describe('easy stackup function', function() {
       pcbStackup(layers, {id: 'c'}, function(error, stackup2) {
         expect(error).to.not.exist
         expect(stackup2.top).to.deep.equal(stackup1.top)
-        expect(stackup2.bottom).to.deep.equal(stackup2.bottom)
+        expect(stackup2.bottom).to.deep.equal(stackup1.bottom)
         done()
       })
     })
   })
 
   it('has deterministic top and bottom svgs if ids are given and passed back its own output', function(done) {
+    var exampleGerber1 = fs.readFileSync(path.join(__dirname, 'integration/boards/arduino-uno/arduino-uno.plc'))
+    var exampleGerber2 = fs.readFileSync(path.join(__dirname, 'integration/boards/arduino-uno/arduino-uno.gko'))
     var layers = [
-      {gerber: emptyGerber, layerType: 'bcu', options: {id: 'a'}},
-      {gerber: emptyGerber, layerType: 'tcu', options: {id: 'b'}}
+      {gerber: exampleGerber1, layerType: 'bcu', options: {id: 'a'}},
+      {gerber: exampleGerber2, layerType: 'tcu', options: {id: 'b'}}
     ]
 
     pcbStackup(layers, {id: 'c'}, function(error, stackup1) {
@@ -240,7 +247,7 @@ describe('easy stackup function', function() {
       pcbStackup(stackup1.layers, {id: 'c'}, function(error, stackup2) {
         expect(error).to.not.exist
         expect(stackup2.top).to.deep.equal(stackup1.top)
-        expect(stackup2.bottom).to.deep.equal(stackup2.bottom)
+        expect(stackup2.bottom).to.deep.equal(stackup1.bottom)
         done()
       })
     })
