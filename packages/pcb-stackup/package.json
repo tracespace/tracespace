@@ -43,6 +43,7 @@
   },
   "homepage": "https://github.com/tracespace/pcb-stackup",
   "devDependencies": {
+    "brfs": "^1.4.3",
     "browserify": "^13.0.0",
     "chai": "^3.5.0",
     "codecov": "^1.0.1",
