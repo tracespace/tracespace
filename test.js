@@ -106,7 +106,7 @@ describe('easy stackup function', function() {
       expect(stackup).to.be.an('object')
       expect(stackup).to.have.all.keys('top', 'bottom', 'layers')
       expect(stackup.layers).to.be.an.instanceOf(Array)
-      expect(stackup.layers[0]).to.have.all.keys('layerType', 'gerber', 'options')
+      expect(stackup.layers[0]).to.have.all.keys('layerType', 'converter', 'options')
       done()
     })
   })
@@ -164,8 +164,8 @@ describe('easy stackup function', function() {
 
     pcbStackup(layers, options, function(error, stackup) {
       expect(error).to.not.exist
-      expect(stackup.layers[0].gerber['_element']()).to.equal(1)
-      expect(stackup.layers[1].gerber['_element']()).to.equal(1)
+      expect(stackup.layers[0].converter['_element']()).to.equal(1)
+      expect(stackup.layers[1].converter['_element']()).to.equal(1)
       done()
     })
   })
@@ -179,8 +179,8 @@ describe('easy stackup function', function() {
 
     pcbStackup(layers, options, function(error, stackup) {
       expect(error).to.not.exist
-      expect(stackup.layers[0].gerber['_element']()).to.equal(1)
-      expect(stackup.layers[1].gerber['_element']()).to.equal(1)
+      expect(stackup.layers[0].converter['_element']()).to.equal(1)
+      expect(stackup.layers[1].converter['_element']()).to.equal(1)
       done()
     })
   })
