@@ -211,10 +211,11 @@ describe('easy stackup function', function() {
   // style framework instead of single unit tests
   // NOTE: (mc) Perhaps instead of these tests, we should check that we're passing
   // the correct things to gerber-to-svg, whats-that-gerber, and pcb-stackup-core?
-  it('has deterministic top and bottom svgs if ids are given', function(done) {
-    var exampleGerber1 = fs.readFileSync(path.join(__dirname, 'integration/boards/arduino-uno/arduino-uno.plc'))
-    var exampleGerber2 = fs.readFileSync(path.join(__dirname, 'integration/boards/arduino-uno/arduino-uno.gko'))
 
+  var exampleGerber1 = fs.readFileSync(path.join(__dirname, 'integration/boards/arduino-uno/arduino-uno.plc'))
+  var exampleGerber2 = fs.readFileSync(path.join(__dirname, 'integration/boards/arduino-uno/arduino-uno.gko'))
+
+  it('has deterministic top and bottom svgs if ids are given', function(done) {
     var layers = [
       {gerber: exampleGerber1, layerType: 'bcu', options: {id: 'a'}},
       {gerber: exampleGerber2, layerType: 'tcu', options: {id: 'b'}}
@@ -234,8 +235,6 @@ describe('easy stackup function', function() {
   })
 
   it('has deterministic top and bottom svgs if ids are given and passed back its own output', function(done) {
-    var exampleGerber1 = fs.readFileSync(path.join(__dirname, 'integration/boards/arduino-uno/arduino-uno.plc'))
-    var exampleGerber2 = fs.readFileSync(path.join(__dirname, 'integration/boards/arduino-uno/arduino-uno.gko'))
     var layers = [
       {gerber: exampleGerber1, layerType: 'bcu', options: {id: 'a'}},
       {gerber: exampleGerber2, layerType: 'tcu', options: {id: 'b'}}
@@ -255,8 +254,6 @@ describe('easy stackup function', function() {
   })
 
   it('lets you replace gerber in layer cache', function(done) {
-    var exampleGerber1 = fs.readFileSync(path.join(__dirname, 'integration/boards/arduino-uno/arduino-uno.plc'))
-    var exampleGerber2 = fs.readFileSync(path.join(__dirname, 'integration/boards/arduino-uno/arduino-uno.gko'))
     var layers = [
       {gerber: exampleGerber1, layerType: 'bcu', options: {id: 'a'}},
       {gerber: exampleGerber2, layerType: 'tcu', options: {id: 'b'}}
