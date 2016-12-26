@@ -73,13 +73,7 @@ var pcbStackup = function(layers, options, done) {
     if (--layerCount < 1) {
       var stackup = createStackup(stackupLayers, options)
 
-      stackup.layers = stackupLayers.map(function(layer) {
-        return {
-          type: layer.type,
-          converter: layer.converter,
-          options: layer.options
-        }
-      })
+      stackup.layers = stackupLayers
 
       return done(null, stackup)
     }
