@@ -42,8 +42,8 @@ describe('easy stackup function', function() {
     })
   })
 
-  it('should accept a layer with a gerber string and layerType', function(done) {
-    var layers = [{gerber: emptyGerber, layerType: 'tcu'}]
+  it('should accept a layer with a gerber string and type', function(done) {
+    var layers = [{gerber: emptyGerber, type: 'tcu'}]
 
     pcbStackup(layers, function(error, stackup) {
       expect(error).to.not.exist
@@ -52,7 +52,7 @@ describe('easy stackup function', function() {
     })
   })
 
-  it('should error if no filename or layerType is given', function(done) {
+  it('should error if no filename or type is given', function(done) {
     var layers = [{gerber: emptyGerber}]
 
     pcbStackup(layers, function(error, stackup) {
@@ -64,7 +64,7 @@ describe('easy stackup function', function() {
   })
 
   it('should error when invalid layer type is given', function(done) {
-    var layers = [{gerber: emptyGerber, layerType: 'wrong'}]
+    var layers = [{gerber: emptyGerber, type: 'wrong'}]
 
     pcbStackup(layers, function(error, stackup) {
       expect(error).to.be.ok
@@ -75,7 +75,7 @@ describe('easy stackup function', function() {
   })
 
   it('should not overwrite layer id', function(done) {
-    var layers = [{gerber: emptyGerber, layerType: 'tcu', options: {id: 'test-id'}}]
+    var layers = [{gerber: emptyGerber, type: 'tcu', options: {id: 'test-id'}}]
 
     pcbStackup(layers, function(error, stackup) {
       expect(error).to.not.exist
@@ -88,7 +88,7 @@ describe('easy stackup function', function() {
   })
 
   it('should not overwrite stackup id', function(done) {
-    var layers = [{gerber: emptyGerber, layerType: 'tcu'}]
+    var layers = [{gerber: emptyGerber, type: 'tcu'}]
 
     pcbStackup(layers, {id: 'test-id'}, function(error, stackup) {
       expect(error).to.not.exist
@@ -107,14 +107,14 @@ describe('easy stackup function', function() {
       expect(stackup).to.be.an('object')
       expect(stackup).to.have.all.keys('top', 'bottom', 'layers')
       expect(stackup.layers).to.be.an.instanceOf(Array)
-      expect(stackup.layers[0]).to.have.all.keys('layerType', 'converter', 'options')
+      expect(stackup.layers[0]).to.have.all.keys('type', 'converter', 'options')
       done()
     })
   })
 
   it('respects plotAsOutline option', function(done) {
     var layers = [
-      {gerber: emptyGerber, layerType: 'tcu', options: {plotAsOutline: true}}
+      {gerber: emptyGerber, type: 'tcu', options: {plotAsOutline: true}}
     ]
 
     pcbStackup(layers, function(error, stackup) {
@@ -127,8 +127,8 @@ describe('easy stackup function', function() {
 
   it('handles multiple layers', function(done) {
     var layers = [
-      {gerber: emptyGerber, layerType: 'bcu'},
-      {gerber: emptyGerber, layerType: 'tcu'}
+      {gerber: emptyGerber, type: 'bcu'},
+      {gerber: emptyGerber, type: 'tcu'}
     ]
 
     pcbStackup(layers, function(error, stackup) {
@@ -141,8 +141,8 @@ describe('easy stackup function', function() {
 
   it('can be passed back its own output', function(done) {
     var layers = [
-      {gerber: emptyGerber, layerType: 'bcu'},
-      {gerber: emptyGerber, layerType: 'tcu'}
+      {gerber: emptyGerber, type: 'bcu'},
+      {gerber: emptyGerber, type: 'tcu'}
     ]
 
     pcbStackup(layers, function(error, stackup1) {
@@ -158,8 +158,8 @@ describe('easy stackup function', function() {
 
   it('sets the createElement option', function(done) {
     var layers = [
-      {gerber: emptyGerber, layerType: 'bcu'},
-      {gerber: emptyGerber, layerType: 'tcu'}
+      {gerber: emptyGerber, type: 'bcu'},
+      {gerber: emptyGerber, type: 'tcu'}
     ]
     var options = {createElement: function() {return 1}}
 
@@ -173,8 +173,8 @@ describe('easy stackup function', function() {
 
   it('overrides the createElement option', function(done) {
     var layers = [
-      {gerber: emptyGerber, layerType: 'bcu'},
-      {gerber: emptyGerber, layerType: 'tcu', options: {createElement: function() {return 2}}}
+      {gerber: emptyGerber, type: 'bcu'},
+      {gerber: emptyGerber, type: 'tcu', options: {createElement: function() {return 2}}}
     ]
     var options = {createElement: function() {return 1}}
 
@@ -188,7 +188,7 @@ describe('easy stackup function', function() {
 
   it('sets threshold for filling outline gaps', function(done) {
     var layers = [
-      {gerber: emptyGerber, layerType: 'out'}
+      {gerber: emptyGerber, type: 'out'}
     ]
 
     var options = {outlineGapFill: 2}
@@ -217,8 +217,8 @@ describe('easy stackup function', function() {
 
   it('has deterministic top and bottom svgs if ids are given', function(done) {
     var layers = [
-      {gerber: exampleGerber1, layerType: 'bcu', options: {id: 'a'}},
-      {gerber: exampleGerber2, layerType: 'tcu', options: {id: 'b'}}
+      {gerber: exampleGerber1, type: 'bcu', options: {id: 'a'}},
+      {gerber: exampleGerber2, type: 'tcu', options: {id: 'b'}}
     ]
 
     pcbStackup(layers, {id: 'c'}, function(error, stackup1) {
@@ -236,8 +236,8 @@ describe('easy stackup function', function() {
 
   it('has deterministic top and bottom svgs if ids are given and passed back its own output', function(done) {
     var layers = [
-      {gerber: exampleGerber1, layerType: 'bcu', options: {id: 'a'}},
-      {gerber: exampleGerber2, layerType: 'tcu', options: {id: 'b'}}
+      {gerber: exampleGerber1, type: 'bcu', options: {id: 'a'}},
+      {gerber: exampleGerber2, type: 'tcu', options: {id: 'b'}}
     ]
 
     pcbStackup(layers, {id: 'c'}, function(error, stackup1) {
@@ -255,16 +255,16 @@ describe('easy stackup function', function() {
 
   it('lets you replace gerber in layer cache', function(done) {
     var layers = [
-      {gerber: exampleGerber1, layerType: 'bcu', options: {id: 'a'}},
-      {gerber: exampleGerber2, layerType: 'tcu', options: {id: 'b'}}
+      {gerber: exampleGerber1, type: 'bcu', options: {id: 'a'}},
+      {gerber: exampleGerber2, type: 'tcu', options: {id: 'b'}}
     ]
 
     pcbStackup(layers, {id: 'c'}, function(error, stackup1) {
       expect(error).to.not.exist
       expect(stackup1).to.exist
-      expect(stackup1.layers[0].layerType).to.equal('bcu')
-      expect(stackup1.layers[1].layerType).to.equal('tcu')
-      stackup1.layers[0].layerType = 'tcu'
+      expect(stackup1.layers[0].type).to.equal('bcu')
+      expect(stackup1.layers[1].type).to.equal('tcu')
+      stackup1.layers[0].type = 'tcu'
       stackup1.layers[0].options =  {id: 'b'}
       stackup1.layers[0].gerber = exampleGerber2
 

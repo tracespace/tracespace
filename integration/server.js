@@ -37,13 +37,13 @@ server.route({
     var options = request.payload.options
     var layers = request.payload.layers.map(function(layer) {
       var gerber = fs.createReadStream(layer.path)
-      var layerType
+      var type
 
       if (layer.options != null) {
-        layerType = layer.options.layerType
+        type = layer.options.type
       }
 
-      return {gerber: gerber, filename: path.basename(layer.path), layerType: layerType, options: layer.options}
+      return {gerber: gerber, filename: path.basename(layer.path), type: type, options: layer.options}
     })
 
     console.log('building stackup for: ' + name)
