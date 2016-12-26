@@ -8,14 +8,14 @@ var createStackup = require('pcb-stackup-core')
 
 var getInvalidLayers = function(layers) {
   var hasNameOrType = function(layer) {
-    return layer.filename || layer.layerType
+    return layer.filename || layer.type
   }
   var hasValidType = function(layer) {
-    if (layer.layerType == null) {
+    if (layer.type == null) {
       return true
     }
 
-    return whatsThatGerber.isValidType(layer.layerType)
+    return whatsThatGerber.isValidType(layer.type)
   }
 
   return layers.reduce(function(result, layer, i) {
@@ -24,11 +24,11 @@ var getInvalidLayers = function(layers) {
     }
 
     if (!hasValidType(layer)) {
-      result.layerTypeErrors.push(i + ': "' + layer.layerType + '"')
+      result.typeErrors.push(i + ': "' + layer.type + '"')
     }
 
     return result
-  }, {argErrors: [], layerTypeErrors: []} )
+  }, {argErrors: [], typeErrors: []} )
 }
 
 
@@ -42,13 +42,13 @@ var pcbStackup = function(layers, options, done) {
   var msg
 
   if (invalidLayers.argErrors.length) {
-    msg = 'No filename or layerType given for layer(s): ' + invalidLayers.argErrors.join(', ')
+    msg = 'No filename or type given for layer(s): ' + invalidLayers.argErrors.join(', ')
 
     return done(new Error(msg))
   }
 
-  if (invalidLayers.layerTypeErrors.length) {
-    msg = 'Invalid layer type given for layer(s): ' + invalidLayers.layerTypeErrors.join(', ')
+  if (invalidLayers.typeErrors.length) {
+    msg = 'Invalid layer type given for layer(s): ' + invalidLayers.typeErrors.join(', ')
 
     return done(new Error(msg))
   }
@@ -75,7 +75,7 @@ var pcbStackup = function(layers, options, done) {
 
       stackup.layers = stackupLayers.map(function(layer) {
         return {
-          layerType: layer.type,
+          type: layer.type,
           converter: layer.converter,
           options: layer.options
         }
@@ -90,7 +90,7 @@ var pcbStackup = function(layers, options, done) {
   }
 
   layers.forEach(function(layer) {
-    var layerType = layer.layerType || whatsThatGerber(layer.filename)
+    var layerType = layer.type || whatsThatGerber(layer.filename)
     var layerOptions = layer.options || {}
 
     layerOptions.id = layerOptions.id || shortId.generate()
