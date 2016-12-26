@@ -14,12 +14,13 @@ The pcb-stackup converter function.
 ## Layer : `object`
 **Properties**
 
-| Name      | Type                                    | Default                    | Description                                                                                                      |
-| ---       | ---                                     | ---                        | ---                                                                                                              |
-| gerber    | `string` &#124; `NodeJS.ReadableStream` |                            | The gerber data as a string or [ReadableStream][2]                                                               |
-| filename  | `string`                                |                            | The filename so we can try and identify the type of the layer. You either have to provide this or the layerType. |
-| layerType | `string`                                |                            | The layer type, a [valid layer type][3] as given by whats-that-gerber.                                           |
-| options   | `object`                                | `{id: shortId.generate()}` | [gerber-to-svg options][4]                                                                                       |
+| Name      | Type                                    | Default                    | Description                                                                                                                                                                                                                                                                             |
+| ---       | ---                                     | ---                        | ---                                                                                                                                                                                                                                                                                     |
+| gerber    | `string` &#124; `NodeJS.ReadableStream` |                            | The gerber data as a string or [ReadableStream][2]                                                                                                                                                                                                                                      |
+| filename  | `string`                                |                            | The filename so we can try and identify the type of the layer. You either have to provide this or the layerType.                                                                                                                                                                        |
+| layerType | `string`                                |                            | The layer type, a [valid layer type][3] as given by whats-that-gerber.                                                                                                                                                                                                                  |
+| options   | `object`                                | `{id: shortId.generate()}` | [gerber-to-svg options][4]                                                                                                                                                                                                                                                              |
+| converter | [`gerber-to-svg converter stream`][8]   |                            | A converter stream returned from [gerber-to-svg][4]. The converter is added in the layers cache to avoid re-converting gerbers. When no gerber property is present the converter is used and new options won't be applied to the conversion (but the layer type will still be applied). |
 
 <a name="Options"></a>
 
@@ -65,3 +66,4 @@ The pcb-stackup converter function.
 [5]: https://github.com/tracespace/pcb-stackup-core/blob/master/README.md#usage
 [6]: https://github.com/tracespace/pcb-stackup-core/blob/master/README.md#usage
 [7]: https://github.com/dylang/shortid
+[8]: https://github.com/mcous/gerber-to-svg/blob/master/API.md#streaming-api
