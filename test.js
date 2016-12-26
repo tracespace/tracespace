@@ -1,5 +1,8 @@
 // test suite for simpler API
 'use strict'
+var fs = require('fs')
+var path = require('path')
+var cloneConverter = require('gerber-to-svg').clone
 
 var expect = require('chai').expect
 
@@ -104,7 +107,7 @@ describe('easy stackup function', function() {
       expect(stackup).to.be.an('object')
       expect(stackup).to.have.all.keys('top', 'bottom', 'layers')
       expect(stackup.layers).to.be.an.instanceOf(Array)
-      expect(stackup.layers[0]).to.have.all.keys('layerType', 'gerber', 'options')
+      expect(stackup.layers[0]).to.have.all.keys('layerType', 'converter', 'options')
       done()
     })
   })
@@ -162,8 +165,8 @@ describe('easy stackup function', function() {
 
     pcbStackup(layers, options, function(error, stackup) {
       expect(error).to.not.exist
-      expect(stackup.layers[0].gerber['_element']()).to.equal(1)
-      expect(stackup.layers[1].gerber['_element']()).to.equal(1)
+      expect(stackup.layers[0].converter['_element']()).to.equal(1)
+      expect(stackup.layers[1].converter['_element']()).to.equal(1)
       done()
     })
   })
@@ -177,8 +180,8 @@ describe('easy stackup function', function() {
 
     pcbStackup(layers, options, function(error, stackup) {
       expect(error).to.not.exist
-      expect(stackup.layers[0].gerber['_element']()).to.equal(1)
-      expect(stackup.layers[1].gerber['_element']()).to.equal(1)
+      expect(stackup.layers[0].converter['_element']()).to.equal(1)
+      expect(stackup.layers[1].converter['_element']()).to.equal(1)
       done()
     })
   })
@@ -208,10 +211,14 @@ describe('easy stackup function', function() {
   // style framework instead of single unit tests
   // NOTE: (mc) Perhaps instead of these tests, we should check that we're passing
   // the correct things to gerber-to-svg, whats-that-gerber, and pcb-stackup-core?
+
+  var exampleGerber1 = fs.readFileSync(path.join(__dirname, 'integration/boards/arduino-uno/arduino-uno.plc'))
+  var exampleGerber2 = fs.readFileSync(path.join(__dirname, 'integration/boards/arduino-uno/arduino-uno.gko'))
+
   it('has deterministic top and bottom svgs if ids are given', function(done) {
     var layers = [
-      {gerber: emptyGerber, layerType: 'bcu', options: {id: 'a'}},
-      {gerber: emptyGerber, layerType: 'tcu', options: {id: 'b'}}
+      {gerber: exampleGerber1, layerType: 'bcu', options: {id: 'a'}},
+      {gerber: exampleGerber2, layerType: 'tcu', options: {id: 'b'}}
     ]
 
     pcbStackup(layers, {id: 'c'}, function(error, stackup1) {
@@ -221,7 +228,7 @@ describe('easy stackup function', function() {
       pcbStackup(layers, {id: 'c'}, function(error, stackup2) {
         expect(error).to.not.exist
         expect(stackup2.top).to.deep.equal(stackup1.top)
-        expect(stackup2.bottom).to.deep.equal(stackup2.bottom)
+        expect(stackup2.bottom).to.deep.equal(stackup1.bottom)
         done()
       })
     })
@@ -229,8 +236,8 @@ describe('easy stackup function', function() {
 
   it('has deterministic top and bottom svgs if ids are given and passed back its own output', function(done) {
     var layers = [
-      {gerber: emptyGerber, layerType: 'bcu', options: {id: 'a'}},
-      {gerber: emptyGerber, layerType: 'tcu', options: {id: 'b'}}
+      {gerber: exampleGerber1, layerType: 'bcu', options: {id: 'a'}},
+      {gerber: exampleGerber2, layerType: 'tcu', options: {id: 'b'}}
     ]
 
     pcbStackup(layers, {id: 'c'}, function(error, stackup1) {
@@ -240,7 +247,37 @@ describe('easy stackup function', function() {
       pcbStackup(stackup1.layers, {id: 'c'}, function(error, stackup2) {
         expect(error).to.not.exist
         expect(stackup2.top).to.deep.equal(stackup1.top)
-        expect(stackup2.bottom).to.deep.equal(stackup2.bottom)
+        expect(stackup2.bottom).to.deep.equal(stackup1.bottom)
+        done()
+      })
+    })
+  })
+
+  it('lets you replace gerber in layer cache', function(done) {
+    var layers = [
+      {gerber: exampleGerber1, layerType: 'bcu', options: {id: 'a'}},
+      {gerber: exampleGerber2, layerType: 'tcu', options: {id: 'b'}}
+    ]
+
+    pcbStackup(layers, {id: 'c'}, function(error, stackup1) {
+      expect(error).to.not.exist
+      expect(stackup1).to.exist
+      expect(stackup1.layers[0].layerType).to.equal('bcu')
+      expect(stackup1.layers[1].layerType).to.equal('tcu')
+      stackup1.layers[0].layerType = 'tcu'
+      stackup1.layers[0].options =  {id: 'b'}
+      stackup1.layers[0].gerber = exampleGerber2
+
+      pcbStackup(stackup1.layers, {id: 'c'}, function(error, stackup2) {
+        expect(error).to.not.exist
+
+        var comparableLayers = stackup2.layers.map(function(layer) {
+          layer.converter = cloneConverter(layer.converter)
+
+          return layer
+        })
+
+        expect(comparableLayers[0]).to.deep.equal(comparableLayers[1])
         done()
       })
     })

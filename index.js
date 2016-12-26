@@ -31,6 +31,7 @@ var getInvalidLayers = function(layers) {
   }, {argErrors: [], layerTypeErrors: []} )
 }
 
+
 var pcbStackup = function(layers, options, done) {
   if (typeof options === 'function') {
     done = options
@@ -75,7 +76,7 @@ var pcbStackup = function(layers, options, done) {
       stackup.layers = stackupLayers.map(function(layer) {
         return {
           layerType: layer.type,
-          gerber: layer.converter,
+          converter: layer.converter,
           options: layer.options
         }
       })
@@ -99,13 +100,26 @@ var pcbStackup = function(layers, options, done) {
       layerOptions.plotAsOutline = options.outlineGapFill
     }
 
-    var converter = gerberToSvg(layer.gerber, layerOptions, finishLayer)
+    var usePreConverted = layer.gerber == null
+    var converter
+
+    if (usePreConverted) {
+      converter = layer.converter
+    }
+    else {
+      converter = gerberToSvg(layer.gerber, layerOptions, finishLayer)
+    }
 
     stackupLayers.push({
       type: layerType,
       converter: converter,
       options: layerOptions
     })
+
+    if (usePreConverted) {
+      finishLayer()
+    }
+
   })
 }
 
