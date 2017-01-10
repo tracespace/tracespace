@@ -1,5 +1,6 @@
 // function to generate a board style node
 'use strict'
+var colorString = require('color-string')
 
 module.exports = function boardStyle(element, prefix, side, layerColors) {
   var colors = {
@@ -19,6 +20,17 @@ module.exports = function boardStyle(element, prefix, side, layerColors) {
   var colorClass = function(layer) {
     var style = 'color: ' + colors[layer] + ';'
 
+    // convert rgba to hex and opacity for inkscape compatibility
+    if (/rgba/.test(colors[layer])) {
+      var rgba = colorString.get.rgb(colors[layer])
+
+      if (rgba) {
+        var hex = colorString.to.hex(rgba)
+
+        style = 'color: ' + hex + '; opacity: ' + rgba[3] + ';'
+      }
+    }
+
     return '.' + prefix + layer + ' {' + style + '}'
   }
 
@@ -32,7 +44,7 @@ module.exports = function boardStyle(element, prefix, side, layerColors) {
     colorClass('out')
   ]
 
-  var stylesString = '/* <![CDATA[ */' + styles.join('\n') + '/* ]]> */'
+  var stylesString = styles.join('\n')
 
   return element('style', {}, [stylesString])
 }

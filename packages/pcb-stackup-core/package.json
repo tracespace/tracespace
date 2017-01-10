@@ -73,6 +73,7 @@
     "zuul-ngrok": "^4.0.0"
   },
   "dependencies": {
+    "color-string": "^1.4.0",
     "lodash.isstring": "^4.0.1",
     "viewbox": "^1.0.0",
     "xml-element-string": "^1.0.0"
