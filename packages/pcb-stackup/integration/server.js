@@ -15,7 +15,7 @@ var PORT = 8001
 var server = new hapi.Server()
 
 server.connection({port: PORT})
-server.register(inert, function() {})
+server.register(inert, function () {})
 
 server.route({
   method: 'GET',
@@ -32,10 +32,10 @@ server.route({
 server.route({
   method: 'POST',
   path: '/stackup',
-  handler: function(request, reply) {
+  handler: function (request, reply) {
     var name = request.payload.name
     var options = request.payload.options
-    var layers = request.payload.layers.map(function(layer) {
+    var layers = request.payload.layers.map(function (layer) {
       var gerber = fs.createReadStream(layer.path)
       var type
 
@@ -47,7 +47,7 @@ server.route({
     })
 
     console.log('building stackup for: ' + name)
-    pcbStackup(layers, options, function(error, stackup) {
+    pcbStackup(layers, options, function (error, stackup) {
       if (error) {
         return reply(error)
       }
@@ -58,7 +58,7 @@ server.route({
   }
 })
 
-server.start(function(error) {
+server.start(function (error) {
   if (error) {
     throw error
   }

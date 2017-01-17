@@ -25,7 +25,7 @@ var boardTemplate = template([
 
 var boardsContainer = document.getElementById('boards')
 
-BOARDS.forEach(function(board) {
+BOARDS.forEach(function (board) {
   var name = board.name
   var boardContainer = domify(boardTemplate({name: name}))
   var topContainer = boardContainer.querySelector('[data-hook=top]')
@@ -36,34 +36,30 @@ BOARDS.forEach(function(board) {
   xhr.post({
     uri: '/stackup',
     json: board
-  }, function(error, response, body) {
+  }, function (error, response, body) {
     var top = 'failed'
     var bottom = 'failed'
 
     if (error) {
       console.error(error.message)
-    }
-    else if (response.statusCode !== 200) {
+    } else if (response.statusCode !== 200) {
       console.error('Received status code: ' + response.statusCode)
-    }
-    else {
-      top =  body.top.svg
+    } else {
+      top = body.top.svg
       bottom = body.bottom.svg
     }
-
 
     topContainer.innerHTML = top
     bottomContainer.innerHTML = bottom
 
-    var a_top = boardContainer.querySelector('a.save_top')
-    var a_bottom = boardContainer.querySelector('a.save_bottom')
+    var aTop = boardContainer.querySelector('a.save_top')
+    var aBottom = boardContainer.querySelector('a.save_bottom')
 
-    a_top.href += window.btoa(top)
-    a_bottom.href += window.btoa(bottom)
-    a_top.download = name + '_top.svg'
-    a_bottom.download = name + '_bottom.svg'
-    a_top.style = 'visibility:visible'
-    a_bottom.style = 'visibility:visible'
-
+    aTop.href += window.btoa(top)
+    aBottom.href += window.btoa(bottom)
+    aTop.download = name + '_top.svg'
+    aBottom.download = name + '_bottom.svg'
+    aTop.style = 'visibility:visible'
+    aBottom.style = 'visibility:visible'
   })
 })
