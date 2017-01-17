@@ -6,11 +6,11 @@ var shortId = require('shortid')
 var whatsThatGerber = require('whats-that-gerber')
 var createStackup = require('pcb-stackup-core')
 
-var getInvalidLayers = function(layers) {
-  var hasNameOrType = function(layer) {
+var getInvalidLayers = function (layers) {
+  var hasNameOrType = function (layer) {
     return layer.filename || layer.type
   }
-  var hasValidType = function(layer) {
+  var hasValidType = function (layer) {
     if (layer.type == null) {
       return true
     }
@@ -18,7 +18,7 @@ var getInvalidLayers = function(layers) {
     return whatsThatGerber.isValidType(layer.type)
   }
 
-  return layers.reduce(function(result, layer, i) {
+  return layers.reduce(function (result, layer, i) {
     if (!hasNameOrType(layer)) {
       result.argErrors.push(i)
     }
@@ -28,11 +28,10 @@ var getInvalidLayers = function(layers) {
     }
 
     return result
-  }, {argErrors: [], typeErrors: []} )
+  }, {argErrors: [], typeErrors: []})
 }
 
-
-var pcbStackup = function(layers, options, done) {
+var pcbStackup = function (layers, options, done) {
   if (typeof options === 'function') {
     done = options
     options = {}
@@ -60,7 +59,7 @@ var pcbStackup = function(layers, options, done) {
   }
 
   if (options.createElement != null) {
-    layers.forEach(function(layer) {
+    layers.forEach(function (layer) {
       layer.options = layer.options || {}
       layer.options.createElement = options.createElement
     })
@@ -69,7 +68,7 @@ var pcbStackup = function(layers, options, done) {
   var layerCount = layers.length
   var stackupLayers = []
 
-  var finishLayer = function() {
+  var finishLayer = function () {
     if (--layerCount < 1) {
       var stackup = createStackup(stackupLayers, options)
 
@@ -83,12 +82,12 @@ var pcbStackup = function(layers, options, done) {
     return finishLayer()
   }
 
-  layers.forEach(function(layer) {
+  layers.forEach(function (layer) {
     var layerType = layer.type || whatsThatGerber(layer.filename)
     var layerOptions = layer.options || {}
 
     layerOptions.id = layerOptions.id || shortId.generate()
-    layerOptions.plotAsOutline = layerOptions.plotAsOutline || (layerType === 'out' )
+    layerOptions.plotAsOutline = layerOptions.plotAsOutline || (layerType === 'out')
 
     if (options.outlineGapFill != null && layerOptions.plotAsOutline) {
       layerOptions.plotAsOutline = options.outlineGapFill
@@ -99,8 +98,7 @@ var pcbStackup = function(layers, options, done) {
 
     if (usePreConverted) {
       converter = layer.converter
-    }
-    else {
+    } else {
       converter = gerberToSvg(layer.gerber, layerOptions, finishLayer)
     }
 
@@ -113,7 +111,6 @@ var pcbStackup = function(layers, options, done) {
     if (usePreConverted) {
       finishLayer()
     }
-
   })
 }
 
