@@ -2,7 +2,7 @@
 'use strict'
 var colorString = require('color-string')
 
-module.exports = function boardStyle(element, prefix, side, layerColors) {
+module.exports = function boardStyle (element, prefix, side, layerColors) {
   var colors = {
     fr4: '#666',
     cu: '#ccc',
@@ -13,11 +13,11 @@ module.exports = function boardStyle(element, prefix, side, layerColors) {
     out: '#000'
   }
 
-  Object.keys(layerColors || {}).forEach(function(type) {
+  Object.keys(layerColors || {}).forEach(function (type) {
     colors[type] = layerColors[type]
   })
 
-  var colorClass = function(layer) {
+  var colorClass = function (layer) {
     var style = 'color: ' + colors[layer] + ';'
 
     // convert rgba to hex and opacity for inkscape compatibility

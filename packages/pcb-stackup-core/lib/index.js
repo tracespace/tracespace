@@ -10,7 +10,7 @@ var boardStyle = require('./_board-style')
 
 var SIDES = ['top', 'bottom']
 
-var svgAttributes = function(id, side, box, units, includeNs, attributes) {
+var svgAttributes = function (id, side, box, units, includeNs, attributes) {
   var width = (box[2] / 1000) + units
   var height = (box[3] / 1000) + units
 
@@ -32,20 +32,19 @@ var svgAttributes = function(id, side, box, units, includeNs, attributes) {
     attr.xmlns = 'http://www.w3.org/2000/svg'
   }
 
-  Object.keys(attributes).forEach(function(key) {
+  Object.keys(attributes).forEach(function (key) {
     attr[key] = attributes[key]
   })
 
   return attr
 }
 
-var groupAttributes = function(box, side, mechMaskId, outClipId) {
+var groupAttributes = function (box, side, mechMaskId, outClipId) {
   var attr = {mask: 'url(#' + mechMaskId + ')'}
 
   if (outClipId) {
     attr['clip-path'] = 'url(#' + outClipId + ')'
   }
-
 
   // flip the bottom render in the x
   if (side === 'bottom') {
@@ -57,13 +56,13 @@ var groupAttributes = function(box, side, mechMaskId, outClipId) {
   return attr
 }
 
-var layerAttributes = function(box) {
+var layerAttributes = function (box) {
   var yTranslate = box[3] + 2 * box[1]
 
   return {transform: 'translate(0,' + yTranslate + ') scale(1,-1)'}
 }
 
-var parseOptions = function(options) {
+var parseOptions = function (options) {
   if (isString(options)) {
     return {id: options}
   }
@@ -75,7 +74,7 @@ var parseOptions = function(options) {
   return options
 }
 
-module.exports = function pcbStackupCore(layers, opts) {
+module.exports = function pcbStackupCore (layers, opts) {
   var options = parseOptions(opts)
   var sorted = sortLayers(layers)
   var id = options.id
@@ -85,7 +84,7 @@ module.exports = function pcbStackupCore(layers, opts) {
   var element = options.createElement || xmlElementString
   var includeNamespace = options.includeNamespace
 
-  return SIDES.reduce(function(result, side) {
+  return SIDES.reduce(function (result, side) {
     var style = boardStyle(element, id + '_', side, color)
     var stack = stackLayers(
       element,

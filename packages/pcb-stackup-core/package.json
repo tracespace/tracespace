@@ -7,7 +7,10 @@
     "test": "test"
   },
   "scripts": {
-    "lint": "eslint lib/*.js test/*.js integration/*.js example/*.js",
+    "lint": "standard lib/*.js example/*.js integration/*.js && npm run lint:test",
+    "lint:test": "standard --global beforeEach --global it --global describe test/*.js",
+    "fix": "standard --fix lib/*.js example/*.js integration/*.js && npm run fix:test",
+    "fix:test": "standard --fix --global beforeEach --global it --global describe test/*.js",
     "test": "nyc mocha",
     "posttest": "npm run lint",
     "test:watch": "mocha --reporter dot --watch",
@@ -54,7 +57,6 @@
     "chai": "^3.5.0",
     "coveralls": "^2.11.9",
     "domify": "^1.4.0",
-    "eslint": "^2.9.0",
     "gerber-to-svg": "^2.0.0",
     "hapi": "^13.4.1",
     "inert": "^4.0.0",
@@ -67,6 +69,7 @@
     "shortid": "^2.2.6",
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0",
+    "standard": "^8.6.0",
     "whats-that-gerber": "^2.0.0",
     "xhr": "^2.2.0",
     "zuul": "^3.10.1",

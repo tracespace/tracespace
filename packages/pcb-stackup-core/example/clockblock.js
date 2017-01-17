@@ -22,7 +22,7 @@ var gerberPaths = [
 ]
 
 // pcb-stackup-core takes an array of layer objects
-var buildStackup = function(layers) {
+var buildStackup = function (layers) {
   var stackupOptions = {
     // stackup needs a unique to avoid collisions with other stackup renders
     id: shortId.generate(),
@@ -51,7 +51,7 @@ var buildStackup = function(layers) {
 }
 
 // turn the gerber file paths into the layer objects pcb-stackup-core needs
-var gerbers = gerberPaths.map(function(gerberPath) {
+var gerbers = gerberPaths.map(function (gerberPath) {
   var filename = path.join(__dirname, gerberPath)
 
   // we'll need a readable stream to pass into gerber-to-svg
@@ -74,13 +74,13 @@ var gerbers = gerberPaths.map(function(gerberPath) {
 // collect the results of the conversion and call buildStackup when we're ready
 var layersRemaining = gerberPaths.length
 var finishedLayers = []
-var handleLayerDone = function() {
+var handleLayerDone = function () {
   if (--layersRemaining < 1) {
     buildStackup(finishedLayers)
   }
 }
 
-gerbers.forEach(function(gerberFile) {
+gerbers.forEach(function (gerberFile) {
   var file = gerberFile.file
   var type = gerberFile.type
   var options = {
@@ -92,12 +92,11 @@ gerbers.forEach(function(gerberFile) {
   }
 
   // convert the layer with a callback so we can check when everything's finished
-  var converter = gerberToSvg(file, options, function(error, result) {
+  var converter = gerberToSvg(file, options, function (error, result) {
     if (error) {
       // probably do something with this error in real life
       void error
-    }
-    else {
+    } else {
       // notice that pcb-stackup-core needs the converter object, not the result
       // of the stream; it uses properties of the converter to generate the stackup
       finishedLayers.push({type: type, converter: converter})

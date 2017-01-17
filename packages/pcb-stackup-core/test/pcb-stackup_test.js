@@ -21,7 +21,7 @@ var pcbStackupCore = proxyquire('../lib', {
   './stack-layers': stackLayersStub
 })
 
-var converter = function() {
+var converter = function () {
   return {
     defs: '',
     layer: '',
@@ -42,8 +42,8 @@ var EXPECTED_DEFAULT_STYLE = [
   '.foobar_out {color: #000;}'
 ].join('\n')
 
-describe('pcb stackup function', function() {
-  beforeEach(function() {
+describe('pcb stackup function', function () {
+  beforeEach(function () {
     element.reset()
     sortLayersSpy.reset()
     stackLayersStub.reset()
@@ -56,14 +56,14 @@ describe('pcb stackup function', function() {
     })
   })
 
-  it('should need an id as an option', function() {
-    expect(function() {pcbStackupCore([], 'foo')}).to.not.throw
-    expect(function() {pcbStackupCore([], {id: 'bar'})}).to.not.throw
-    expect(function() {pcbStackupCore([])}).to.throw(/unique board ID/)
+  it('should need an id as an option', function () {
+    expect(function () { pcbStackupCore([], 'foo') }).to.not.throw
+    expect(function () { pcbStackupCore([], {id: 'bar'}) }).to.not.throw
+    expect(function () { pcbStackupCore([]) }).to.throw(/unique board ID/)
   })
 
-  it('should have a createElement option that defaults to xml-element-string', function() {
-    var customElement = function() {
+  it('should have a createElement option that defaults to xml-element-string', function () {
+    var customElement = function () {
       return 'foo'
     }
 
@@ -74,9 +74,9 @@ describe('pcb stackup function', function() {
     expect(stackLayersStub).to.be.calledWith(customElement)
   })
 
-  it('should return an SVG element with the propper attributes', function() {
+  it('should return an SVG element with the propper attributes', function () {
     var result = pcbStackupCore([], 'foobar')
-    var svgAttr = function(side) {
+    var svgAttr = function (side) {
       return {
         id: 'foobar_' + side,
         xmlns: 'http://www.w3.org/2000/svg',
@@ -102,7 +102,7 @@ describe('pcb stackup function', function() {
     expect(result.bottom.svg).to.equal(bottomElement.returnValues[0])
   })
 
-  it('should have a default color style', function() {
+  it('should have a default color style', function () {
     var result = pcbStackupCore([], 'foobar')
     var styleSpy = element.withArgs('style', {}, [EXPECTED_DEFAULT_STYLE])
 
@@ -111,7 +111,7 @@ describe('pcb stackup function', function() {
     expect(result.bottom.svg).to.contain(styleSpy.returnValues[0])
   })
 
-  it('should handle user input colors', function() {
+  it('should handle user input colors', function () {
     var options = {
       id: 'foobar',
       color: {cu: '#123', cf: '#456', sp: '#789'}
@@ -134,7 +134,7 @@ describe('pcb stackup function', function() {
     expect(result.bottom.svg).to.contain(styleSpy.returnValues[0])
   })
 
-  it('should pass the layers to sort layers', function() {
+  it('should pass the layers to sort layers', function () {
     var files = [
       {type: 'tcu', converter: converter()},
       {type: 'tsm', converter: converter()},
@@ -170,7 +170,7 @@ describe('pcb stackup function', function() {
       sorted.outline)
   })
 
-  it('should use stack to build result, add mech mask, flip as needed', function() {
+  it('should use stack to build result, add mech mask, flip as needed', function () {
     stackLayersStub.withArgs(element, 'foobar', 'top').returns({
       box: [0, 0, 1000, 1000],
       units: 'mm',
@@ -257,7 +257,7 @@ describe('pcb stackup function', function() {
     })
   })
 
-  it('should add a clip path if stackLayers returns a outline clip id', function() {
+  it('should add a clip path if stackLayers returns a outline clip id', function () {
     stackLayersStub.withArgs(element, 'foobar', 'top').returns({
       box: [0, 0, 1000, 1000],
       units: 'mm',
@@ -294,13 +294,13 @@ describe('pcb stackup function', function() {
       ['<bottom-group/>'])
   })
 
-  it('should not put xmlns attr in nodes if includeNamespace is false', function() {
+  it('should not put xmlns attr in nodes if includeNamespace is false', function () {
     pcbStackupCore([], {id: 'foo', includeNamespace: false})
 
     expect(element).to.not.be.calledWith('svg', sinon.match.has('xmlns'))
   })
 
-  it('should allow arbitrary stuff in the attributes', function() {
+  it('should allow arbitrary stuff in the attributes', function () {
     pcbStackupCore([], {id: 'foo', attributes: {bar: 'baz'}})
 
     expect(element).to.be.calledWith('svg', sinon.match.has('bar', 'baz'))

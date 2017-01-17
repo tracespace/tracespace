@@ -5,7 +5,7 @@ var viewbox = require('viewbox')
 
 var gatherLayers = require('./_gather-layers')
 
-var findLayerId = function(layers, type) {
+var findLayerId = function (layers, type) {
   var layer
   var i
 
@@ -17,7 +17,7 @@ var findLayerId = function(layers, type) {
   }
 }
 
-var useLayer = function(element, id, className, mask) {
+var useLayer = function (element, id, className, mask) {
   var attr = {'xlink:href': '#' + id}
 
   if (className) {
@@ -33,7 +33,7 @@ var useLayer = function(element, id, className, mask) {
   return element('use', attr)
 }
 
-var createRect = function(element, box, fill, className) {
+var createRect = function (element, box, fill, className) {
   var attr = viewbox.rect(box)
 
   if (fill) {
@@ -47,8 +47,8 @@ var createRect = function(element, box, fill, className) {
   return element('rect', attr)
 }
 
-var mechMask = function(element, id, box, drills) {
-  var children = drills.map(function(layer) {
+var mechMask = function (element, id, box, drills) {
+  var children = drills.map(function (layer) {
     return useLayer(element, layer.id)
   })
 
@@ -60,7 +60,7 @@ var mechMask = function(element, id, box, drills) {
   return element('mask', {id: id}, group)
 }
 
-module.exports = function(element, id, side, layers, drills, outline, useOutline) {
+module.exports = function (element, id, side, layers, drills, outline, useOutline) {
   var classPrefix = id + '_'
   var idPrefix = id + '_' + side + '_'
   var mechMaskId = idPrefix + 'mech-mask'
@@ -89,7 +89,7 @@ module.exports = function(element, id, side, layers, drills, outline, useOutline
     var cfMaskShape = smLayerId
       ? [useLayer(element, smLayerId)]
       : [createRect(element, box)]
-    var cfMaskGroupAttr =  {fill: '#fff', stroke: '#fff'}
+    var cfMaskGroupAttr = {fill: '#fff', stroke: '#fff'}
     var cfMaskGroup = [element('g', cfMaskGroupAttr, cfMaskShape)]
 
     defs.push(element('mask', {id: cfMaskId}, cfMaskGroup))

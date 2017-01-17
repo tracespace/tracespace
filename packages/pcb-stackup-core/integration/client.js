@@ -95,7 +95,7 @@ var BOARDS = [
 
 var boardsContainer = document.getElementById('boards')
 
-BOARDS.forEach(function(board) {
+BOARDS.forEach(function (board) {
   var name = board.name
   var mask = board.maskWithOutline
   var boardContainer = domify(boardTemplate({name: name, mask: mask}))
@@ -107,18 +107,16 @@ BOARDS.forEach(function(board) {
   xhr.post({
     uri: '/stackup',
     json: board
-  }, function(error, response, body) {
+  }, function (error, response, body) {
     var top = 'failed'
     var bottom = 'failed'
 
     if (error) {
       console.error(error.message)
-    }
-    else if (response.statusCode !== 200) {
+    } else if (response.statusCode !== 200) {
       console.error('Recived status code: ' + response.statusCode)
-    }
-    else {
-      top =  body.top.svg
+    } else {
+      top = body.top.svg
       bottom = body.bottom.svg
     }
 

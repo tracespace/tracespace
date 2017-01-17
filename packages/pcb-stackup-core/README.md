@@ -217,13 +217,14 @@ Clone and then `$ npm install`. Please accompany all PRs with applicable tests. 
 
 ### unit testing
 
-This module uses [Mocha](http://mochajs.org/) and [Chai](http://chaijs.com/) for unit testing, [nyc](https://github.com/istanbuljs/nyc) for coverage, and [ESLint](http://eslint.org/) for linting.
+This module uses [Mocha](http://mochajs.org/) and [Chai](http://chaijs.com/) for unit testing, [nyc](https://github.com/istanbuljs/nyc) for coverage, and [standard](http://standardjs.com) for linting.
 
 * `$ npm test` - run the tests, calculate coverage, and lint
 * `$ npm run test:watch` - run the tests on code changes (does not lint nor cover)
 * `$ npm run coverage` - print the coverage report of the last test run
 * `$ npm run coverage:html` - generate an html report for the last test run
 * `$ npm run lint` - lint the code
+* `$ npm run fix` - try and fix the linting errors in the code
 
 ### integration testing
 

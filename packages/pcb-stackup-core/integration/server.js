@@ -18,10 +18,10 @@ var PORT = 8001
 var server = new hapi.Server()
 
 server.connection({port: PORT})
-server.register(inert, function() {})
+server.register(inert, function () {})
 
 // asynchronously map a gerber filename to a layer object expected by pcbStackupCore
-var mapGerberToLayerObject = function(layer, done) {
+var mapGerberToLayerObject = function (layer, done) {
   var filename = path.join(__dirname, layer.path)
   var type = whatsThatGerber(filename)
   var gerber = fs.createReadStream(filename, 'utf8')
@@ -33,7 +33,7 @@ var mapGerberToLayerObject = function(layer, done) {
 
   console.log('converting: ' + id)
 
-  var converter = gerberToSvg(gerber, converterOptions, function(error) {
+  var converter = gerberToSvg(gerber, converterOptions, function (error) {
     console.log('conversion done for: ' + layer.id)
 
     if (error) {
@@ -45,7 +45,7 @@ var mapGerberToLayerObject = function(layer, done) {
     done(null, {type: type, converter: converter})
   })
 
-  converter.on('warning', function(warning) {
+  converter.on('warning', function (warning) {
     var msg = warning.message
     var line = warning.line
 
@@ -68,13 +68,13 @@ server.route({
 server.route({
   method: 'POST',
   path: '/stackup',
-  handler: function(request, reply) {
+  handler: function (request, reply) {
     var name = request.payload.name
     var layers = request.payload.layers
     var maskWithOutline = request.payload.maskWithOutline
 
     console.log('building stackup for: ' + name)
-    async.map(layers, mapGerberToLayerObject, function(error, results) {
+    async.map(layers, mapGerberToLayerObject, function (error, results) {
       if (error) {
         return reply(error)
       }
@@ -85,7 +85,7 @@ server.route({
   }
 })
 
-server.start(function(error) {
+server.start(function (error) {
   if (error) {
     throw error
   }

@@ -5,7 +5,7 @@ var viewbox = require('viewbox')
 
 var wrapLayer = require('./wrap-layer')
 
-var getScale = function(units, layerUnits) {
+var getScale = function (units, layerUnits) {
   var scale = units === 'in'
     ? 1 / 25.4
     : 25.4
@@ -17,7 +17,7 @@ var getScale = function(units, layerUnits) {
   return result
 }
 
-module.exports = function(element, idPrefix, layers, drills, outline, maskWithOutline) {
+module.exports = function (element, idPrefix, layers, drills, outline, maskWithOutline) {
   var defs = []
   var layerIds = []
   var drillIds = []
@@ -26,7 +26,7 @@ module.exports = function(element, idPrefix, layers, drills, outline, maskWithOu
   var allLayers = layers.concat(drills, outline || [])
 
   var drillCount = 0
-  var getUniqueId = function(type) {
+  var getUniqueId = function (type) {
     var idSuffix = (type !== 'drl')
       ? ''
       : ++drillCount
@@ -34,15 +34,14 @@ module.exports = function(element, idPrefix, layers, drills, outline, maskWithOu
     return idPrefix + type + idSuffix
   }
 
-  allLayers.forEach(function(layer) {
+  allLayers.forEach(function (layer) {
     if (!layer.externalId) {
       defs = defs.concat(defs, layer.converter.defs)
     }
 
     if (layer.converter.units === 'mm') {
       unitsCount.mm++
-    }
-    else {
+    } else {
       unitsCount.in++
     }
   })
@@ -52,7 +51,7 @@ module.exports = function(element, idPrefix, layers, drills, outline, maskWithOu
   }
 
   var viewboxLayers = (outline) ? [outline] : allLayers
-  var box = viewboxLayers.reduce(function(result, layer) {
+  var box = viewboxLayers.reduce(function (result, layer) {
     var nextBox = layer.converter.viewBox
 
     nextBox = viewbox.scale(nextBox, getScale(units, layer.converter.units))
@@ -60,8 +59,8 @@ module.exports = function(element, idPrefix, layers, drills, outline, maskWithOu
     return viewbox.add(result, nextBox)
   }, viewbox.create())
 
-  var wrapConverterLayer = function(collection) {
-    return function(layer) {
+  var wrapConverterLayer = function (collection) {
+    return function (layer) {
       var id = layer.externalId
       var converter = layer.converter
 
@@ -83,8 +82,7 @@ module.exports = function(element, idPrefix, layers, drills, outline, maskWithOu
   if (outline) {
     if (outline.externalId && !maskWithOutline) {
       outlineId = outline.externalId
-    }
-    else {
+    } else {
       outlineId = getUniqueId(outline.type)
 
       defs.push(wrapLayer(

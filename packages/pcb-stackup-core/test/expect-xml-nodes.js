@@ -9,16 +9,16 @@ chai.use(sinonChai)
 
 // element is a sinon spy, expectations is an array of expectations of {tag, attr, children}
 // children is an array of indices of return values from expectations
-module.exports = function expectXmlNodes(element, expectations) {
+module.exports = function expectXmlNodes (element, expectations) {
   var returnValues = []
 
-  expectations.forEach(function(expectation) {
+  expectations.forEach(function (expectation) {
     var tag = expectation.tag
     var attr = expectation.attr
     var children = expectation.children
 
     if (children) {
-      children = children.map(function(index) {
+      children = children.map(function (index) {
         if (typeof index === 'number') {
           return returnValues[index]
         }
@@ -32,8 +32,7 @@ module.exports = function expectXmlNodes(element, expectations) {
     if (!children) {
       spy = element.withArgs(tag, attr)
       expect(element).to.be.calledWith(tag, attr)
-    }
-    else {
+    } else {
       spy = element.withArgs(tag, attr, children)
       expect(element).to.be.calledWith(tag, attr, children)
     }

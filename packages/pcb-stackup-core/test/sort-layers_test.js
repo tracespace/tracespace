@@ -5,8 +5,8 @@ var expect = require('chai').expect
 
 var sortLayers = require('../lib/sort-layers')
 
-describe('sort layers function', function() {
-  it('should reduce layers into an object with keys top and bottom', function() {
+describe('sort layers function', function () {
+  it('should reduce layers into an object with keys top and bottom', function () {
     var result = sortLayers([])
 
     expect(result.top).to.eql([])
@@ -15,7 +15,7 @@ describe('sort layers function', function() {
     expect(result.outline).to.be.null
   })
 
-  it('should add top layers to the top array', function() {
+  it('should add top layers to the top array', function () {
     var layers = [
       {type: 'tcu', converter: {}},
       {type: 'tsm', converter: {}},
@@ -36,7 +36,7 @@ describe('sort layers function', function() {
     ])
   })
 
-  it('should add bottom layers to the bottom array', function() {
+  it('should add bottom layers to the bottom array', function () {
     var layers = [
       {type: 'bcu', converter: {}},
       {type: 'bsm', converter: {}},
@@ -57,7 +57,7 @@ describe('sort layers function', function() {
     ])
   })
 
-  it('should add mechanical layers to the mech array', function() {
+  it('should add mechanical layers to the mech array', function () {
     var layers = [
       {type: 'out', converter: {}},
       {type: 'drl', converter: {defs: 'drl1'}},
@@ -75,7 +75,7 @@ describe('sort layers function', function() {
     ])
   })
 
-  it('should ignore everything else', function() {
+  it('should ignore everything else', function () {
     var layers = [
       {type: 'drw', converter: {}},
       {type: 'drw', converter: {}},
@@ -90,7 +90,7 @@ describe('sort layers function', function() {
     expect(result.outline).to.be.null
   })
 
-  it('should include the externalId field of layers', function() {
+  it('should include the externalId field of layers', function () {
     var layers = [
       {type: 'tcu', externalId: 'foo', converter: {foo: 'foo'}},
       {type: 'bsm', externalId: 'bar', converter: {bar: 'bar'}},
