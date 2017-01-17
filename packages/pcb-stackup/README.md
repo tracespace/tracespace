@@ -100,7 +100,7 @@ PRs.
 
 This module uses [Mocha](http://mochajs.org/) and [Chai](http://chaijs.com/)
 for unit testing, [nyc](https://github.com/istanbuljs/nyc) for
-coverage, and [ESLint](http://eslint.org/) for linting.
+coverage, and [standard](http://standardjs.com) for linting.
 
 * `$ npm test` - run the tests, calculate coverage, and lint
 * `$ npm run test:watch` - run the tests on code changes (does not lint nor cover)
