@@ -4,7 +4,10 @@
   "description": "Creates PCB stackup (top and bottom view) SVG renders from gerber-to-svg converters",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint '*.js' 'integration/*.js' 'example/*.js'",
+    "lint": "standard index.js example/*.js integration/*.js && npm run lint:test",
+    "lint:test": "standard --global beforeEach --global it --global describe test.js",
+    "fix": "standard --fix index.js example/*.js integration/*.js && npm run fix:test",
+    "fix:test": "standard --fix --global beforeEach --global it --global describe test.js",
     "test": "nyc mocha",
     "posttest": "npm run lint",
     "test:watch": "mocha --reporter dot --watch",
@@ -48,7 +51,6 @@
     "chai": "^3.5.0",
     "codecov": "^1.0.1",
     "domify": "^1.4.0",
-    "eslint": "^2.9.0",
     "glob": "^7.0.5",
     "hapi": "^13.3.0",
     "inert": "^4.0.0",
@@ -60,6 +62,7 @@
     "proxyquireify": "^3.2.0",
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0",
+    "standard": "^8.6.0",
     "xhr": "^2.2.0",
     "zuul": "^3.10.1",
     "zuul-ngrok": "^4.0.0"

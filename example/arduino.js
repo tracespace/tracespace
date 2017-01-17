@@ -14,14 +14,14 @@ var gerberPaths = [
   '../integration/boards/arduino-uno/arduino-uno.sts'
 ]
 
-var layers = gerberPaths.map(function(gerberPath) {
+var layers = gerberPaths.map(function (gerberPath) {
   var filename = path.join(__dirname, gerberPath)
   var gerber = fs.createReadStream(filename)
 
   return {filename: filename, gerber: gerber}
 })
 
-pcbStackup(layers, function(error, stackup) {
+pcbStackup(layers, function (error, stackup) {
   if (error) {
     throw error
   }
