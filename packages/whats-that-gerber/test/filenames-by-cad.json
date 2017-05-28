@@ -63,6 +63,7 @@
       { "name": "board.gml", "type": "out" },
       { "name": "board.TXT", "type": "drl" },
       { "name": "board.xln", "type": "drl" },
+      { "name": "board.exc", "type": "drl" },
       { "name": "board.drd", "type": "drl" }
     ]
   },
