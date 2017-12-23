@@ -56,7 +56,7 @@ var getNext = function(type, chunk, start) {
     blockFound = (splitFound && ((!paramStarted) || paramFound))
   }
 
-  var block = (blockFound) ? found.join('') : ''
+  var block = (blockFound) ? found.join('').trim() : ''
   var rem = (!blockFound) ? found.join('') : ''
   return {lines: lines, read: read, block: block, rem: rem}
 }

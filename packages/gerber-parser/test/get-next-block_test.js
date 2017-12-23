@@ -64,6 +64,19 @@ describe('get next block', function() {
       expect(res1.lines).to.equal(0)
       expect(res2.lines).to.equal(1)
     })
+
+    it('should trim whitespace between blocks', function() {
+      var chunk = 'G04 hello*  \n%FSLAX24Y24*%\n'
+      var res1 = getNext(chunk, 0)
+      var res2 = getNext(chunk, res1.read)
+
+      expect(res1.block).to.equal('G04 hello')
+      expect(res2.block).to.equal('%FSLAX24Y24')
+      expect(res1.read).to.equal(10)
+      expect(res2.read).to.equal(16)
+      expect(res1.lines).to.equal(0)
+      expect(res2.lines).to.equal(1)
+    })
   })
 
   describe('from drill files', function() {
