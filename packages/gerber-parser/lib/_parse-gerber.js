@@ -233,7 +233,7 @@ var parse = function(parser, block) {
     if (opMatch || coordMatch) {
       var opCode = (opMatch) ? opMatch[1] : ''
       var coordString = (coordMatch) ? coordMatch[1] : ''
-      var coord = parseCoord(coordString, parser.format)
+      var coord = parseCoord.parse(coordString, parser.format)
 
       var op = 'last'
       if (opCode === '1') {

@@ -51,6 +51,7 @@ describe('gerber parser with gerber files', function() {
       p.write(';T1C0.015\n')
       p.write(';T1\n')
       p.write(';X0016Y0158\n')
+      p.end()
       setTimeout(done, 1)
     })
 
@@ -58,21 +59,25 @@ describe('gerber parser with gerber files', function() {
       describe('kicad', function() {
         it('should set format and suppresion if included', function() {
           p.write(';FORMAT={3:3/ absolute / metric / suppress trailing zeros}\n')
+          p.end()
           expect(p.format.zero).to.equal('T')
           expect(p.format.places).to.eql([3, 3])
 
           p = pFactory()
           p.write(';FORMAT={2:4/ absolute / inch / suppress leading zeros}\n')
+          p.end()
           expect(p.format.zero).to.equal('L')
           expect(p.format.places).to.eql([2, 4])
 
           p = pFactory()
           p.write(';FORMAT={-:-/ absolute / inch / decimal}\n')
+          p.end()
           expect(p.format.zero).to.equal('D')
           expect(p.format.places).to.not.be.ok
 
           p = pFactory()
           p.write(';FORMAT={3:3/ absolute / metric / keep zeros}\n')
+          p.end()
           expect(p.format.zero).to.equal('L')
           expect(p.format.places).to.eql([3, 3])
         })
@@ -88,12 +93,14 @@ describe('gerber parser with gerber files', function() {
           expectResults(expected, done)
           p.write(';FORMAT={3:3/ absolute / metric / suppress trailing zeros}\n')
           p.write(';FORMAT={2:4/ incremental / inch / suppress leading zeros}\n')
+          p.end()
         })
       })
 
       describe('altium', function() {
         it('should set format', function() {
           p.write(';FILE_FORMAT=4:4\n')
+          p.end()
           expect(p.format.places).to.eql([4, 4])
         })
       })
@@ -118,6 +125,7 @@ describe('gerber parser with gerber files', function() {
     expectResults(expected, done)
     p.write('M00\n')
     p.write('M30\n')
+    p.end()
   })
 
   it('should set notation with G90 and G91', function(done) {
@@ -129,6 +137,7 @@ describe('gerber parser with gerber files', function() {
     expectResults(expected, done)
     p.write('G90\n')
     p.write('G91\n')
+    p.end()
   })
 
   describe('parsing unit set', function() {
@@ -145,6 +154,7 @@ describe('gerber parser with gerber files', function() {
       p.write('METRIC\n')
       p.write('INCH,TZ\n')
       p.write('METRIC,LZ\n')
+      p.end()
     })
 
     it('should set units with M71 and M72', function(done) {
@@ -156,22 +166,27 @@ describe('gerber parser with gerber files', function() {
       expectResults(expected, done)
       p.write('M72\n')
       p.write('M71\n')
+      p.end()
     })
 
     it('should set places format when the units are set', function() {
       p.write('M71\n')
+      p.end()
       expect(p.format.places).to.eql([3, 3])
 
       p = pFactory()
       p.write('M72\n')
+      p.end()
       expect(p.format.places).to.eql([2, 4])
 
       p = pFactory()
       p.write('METRIC\n')
+      p.end()
       expect(p.format.places).to.eql([3, 3])
 
       p = pFactory()
       p.write('INCH\n')
+      p.end()
       expect(p.format.places).to.eql([2, 4])
     })
 
@@ -192,10 +207,12 @@ describe('gerber parser with gerber files', function() {
   describe('setting zero suppression', function() {
     it('should set zero suppression if included with units', function() {
       p.write('INCH,TZ\n')
+      p.end()
       expect(p.format.zero).to.equal('L')
 
       p = pFactory()
       p.write('METRIC,LZ\n')
+      p.end()
       expect(p.format.zero).to.equal('T')
     })
 
@@ -226,6 +243,7 @@ describe('gerber parser with gerber files', function() {
       expectResults(expected, done)
       p.write('T1C0.015\n')
       p.write('T13C0.142\n')
+      p.end()
     })
 
     it('should ignore feedrate and spindle speed', function(done) {
@@ -244,6 +262,7 @@ describe('gerber parser with gerber files', function() {
       p.write('T1C0.01F100S5\n')
       p.write('T2F200S65C0.02\n')
       p.write('T3S65F200C0.03\n')
+      p.end()
     })
 
     it('should ignore leading zeros in tool name', function(done) {
@@ -256,6 +275,7 @@ describe('gerber parser with gerber files', function() {
 
       expectResults(expected, done)
       p.write('T0023C0.015\n')
+      p.end()
     })
   })
 
@@ -274,6 +294,7 @@ describe('gerber parser with gerber files', function() {
     p.write('T0005B02\n')
     p.write('T0\n')
     p.write('T000S04\n')
+    p.end()
   })
 
   describe('parsing drill commands', function() {
@@ -356,6 +377,7 @@ describe('gerber parser with gerber files', function() {
       expectResults(expected, done)
       p.write('T01X01Y01\n')
       p.write('X01Y01T01\n')
+      p.end()
     })
 
     it('should warn / assume trailing if missing', function(done) {
@@ -367,6 +389,19 @@ describe('gerber parser with gerber files', function() {
       })
 
       p.write('X1Y1\n')
+      p.end()
+    })
+
+    it('should warn / assume trailing if undetectable after 1000 coordinates', function(done) {
+      p.format.places = [2, 4]
+      p.once('warning', function(w) {
+        expect(w.message).to.match(/assuming trailing/)
+        expect(p.format.zero).to.equal('T')
+        done()
+      })
+      for (var i = 0; i <= 1000; i++) {
+        p.write('X1Y1\n')
+      }
     })
 
     it('should warn / assume [2, 4] places if missing', function(done) {
@@ -378,6 +413,17 @@ describe('gerber parser with gerber files', function() {
       })
 
       p.write('X1Y1\n')
+      p.end()
+    })
+
+    it('should warn / detect leading if possible', function(done) {
+      p.format.places = [2, 4]
+      p.once('warning', function(w) {
+        expect(w.message).to.match(/detected leading/)
+        expect(p.format.zero).to.equal('L')
+        done()
+      })
+      p.write('X7550Y14000\n')
     })
   })
 
@@ -422,6 +468,7 @@ describe('gerber parser with gerber files', function() {
       expectResults(expected, done)
       p.write('G00X012Y345\n')
       p.write('G00X067Y890\n')
+      p.end()
     })
 
     it('should handle linear routing', function(done) {
@@ -437,6 +484,7 @@ describe('gerber parser with gerber files', function() {
       p.write('G00X100Y100\n')
       p.write('G01X200Y200\n')
       p.write('X300Y300\n')
+      p.end()
     })
 
     describe('arc routing', function() {
@@ -457,6 +505,7 @@ describe('gerber parser with gerber files', function() {
         p.write('G00X100Y100\n')
         p.write('G02X200Y200I050J050\n')
         p.write('X300Y300I050J050\n')
+        p.end()
       })
 
       it('should handle ccw arc routing with offsets', function(done) {
@@ -476,6 +525,7 @@ describe('gerber parser with gerber files', function() {
         p.write('G00X100Y100\n')
         p.write('G03X200Y200I050J050\n')
         p.write('X300Y300I050J050\n')
+        p.end()
       })
 
       it('should handle cw arc routing with radius', function(done) {
@@ -495,6 +545,7 @@ describe('gerber parser with gerber files', function() {
         p.write('G00X100Y100\n')
         p.write('G02X200Y200A100\n')
         p.write('X300Y300A100\n')
+        p.end()
       })
 
       it('should handle ccw arc routing with radius', function(done) {
@@ -514,6 +565,7 @@ describe('gerber parser with gerber files', function() {
         p.write('G00X100Y100\n')
         p.write('G03X200Y200A100\n')
         p.write('X300Y300A100\n')
+        p.end()
       })
     })
   })

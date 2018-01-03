@@ -41,7 +41,7 @@ Parser.prototype._process = function(chunk, filetype) {
         parseGerber(this, next.block)
       }
       else {
-        parseDrill(this, next.block)
+        parseDrill.parse(this, next.block)
       }
     }
   }
@@ -80,8 +80,18 @@ Parser.prototype._transform = function(chunk, encoding, done) {
   done()
 }
 
+Parser.prototype._flush = function(done) {
+  if (this.format.filetype === 'drill') {
+    parseDrill.flush(this)
+  }
+
+  return done && done()
+}
+
 Parser.prototype._push = function(data) {
-  data.line = this.line
+  if (data.line === -1) {
+    data.line = this.line
+  }
 
   var pushTarget = (!this._syncResult) ? this : this._syncResult
   pushTarget.push(data)
@@ -96,6 +106,7 @@ Parser.prototype.parseSync = function(file) {
   this.format.filetype = filetype
   this._syncResult = []
   this._process(file, filetype)
+  this._flush()
 
   return this._syncResult
 }

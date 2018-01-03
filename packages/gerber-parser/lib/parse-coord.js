@@ -6,6 +6,8 @@
 // convert to normalized number
 var normalize = require('./normalize-coord')
 
+var RE_TRAILING = /[XY]0\d+/
+var RE_LEADING = /[XY]\d+0(?=\D|$)/
 var MATCH = [
   {coord: 'x', test: /X([+-]?[\d\.]+)/},
   {coord: 'y', test: /Y([+-]?[\d\.]+)/},
@@ -37,4 +39,16 @@ var parse = function(coord, format) {
   return parsed
 }
 
-module.exports = parse
+var detectZero = function(coord) {
+  if (RE_LEADING.test(coord)) {
+    return 'L'
+  }
+
+  if (RE_TRAILING.test(coord)) {
+    return 'T'
+  }
+
+  return null
+}
+
+module.exports = {parse: parse, detectZero: detectZero}
