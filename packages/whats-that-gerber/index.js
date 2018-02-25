@@ -84,7 +84,7 @@ var layerTypes = [
     name: {
       en: 'board outline'
     },
-    match: /((Edge.Cuts)|(outline))|(\.((dim$)|(mil$)|(gm[l\d]$)|(gko$)|(fab$)))|(\.boardoutline\.ger$)/i
+    match: /(Edge.Cuts)|(\.((dim$)|(mil$)|(gm[l\d]$)|(gko$)|(fab$)))|(\.boardoutline\.ger$)|(\.outline\.gbr$)/i
   },
   {
     id: 'drl',
