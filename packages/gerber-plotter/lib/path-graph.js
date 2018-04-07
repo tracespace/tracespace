@@ -5,7 +5,7 @@ var fill = require('lodash.fill')
 
 var MAX_GAP = 0.00011
 
-var find = function(collection, condition) {
+var find = function (collection, condition) {
   var element
   var i
 
@@ -18,11 +18,11 @@ var find = function(collection, condition) {
   }
 }
 
-var distance = function(point, target) {
+var distance = function (point, target) {
   return Math.sqrt(Math.pow(point[0] - target[0], 2) + Math.pow(point[1] - target[1], 2))
 }
 
-var pointsEqual = function(point, target, fillGaps) {
+var pointsEqual = function (point, target, fillGaps) {
   if (!fillGaps) {
     return ((point[0] === target[0]) && (point[1] === target[1]))
   }
@@ -30,7 +30,7 @@ var pointsEqual = function(point, target, fillGaps) {
   return (distance(point, target) < fillGaps)
 }
 
-var lineSegmentsEqual = function(segment, target) {
+var lineSegmentsEqual = function (segment, target) {
   return (
     (segment.type === 'line') &&
     (
@@ -38,7 +38,7 @@ var lineSegmentsEqual = function(segment, target) {
       (pointsEqual(segment.start, target.end) && pointsEqual(segment.end, target.start))))
 }
 
-var reverseSegment = function(segment) {
+var reverseSegment = function (segment) {
   var reversed = {type: segment.type, start: segment.end, end: segment.start}
 
   if (segment.type === 'arc') {
@@ -51,7 +51,7 @@ var reverseSegment = function(segment) {
   return reversed
 }
 
-var PathGraph = function(optimize, fillGaps) {
+var PathGraph = function (optimize, fillGaps) {
   this._points = []
   this._edges = []
   this._optimize = optimize
@@ -62,21 +62,21 @@ var PathGraph = function(optimize, fillGaps) {
   this.length = 0
 }
 
-PathGraph.prototype.add = function(newSeg) {
+PathGraph.prototype.add = function (newSeg) {
   var start
   var end
   var fillGaps = this._fillGaps
 
   if (this._optimize) {
-    start = find(this._points, function(point) {
+    start = find(this._points, function (point) {
       return pointsEqual(point.position, newSeg.start, fillGaps)
     })
 
-    end = find(this._points, function(point) {
+    end = find(this._points, function (point) {
       return pointsEqual(point.position, newSeg.end, fillGaps)
     })
 
-    end = find(this._points, function(point) {
+    end = find(this._points, function (point) {
       return pointsEqual(point.position, newSeg.end, fillGaps)
     })
   }
@@ -86,23 +86,21 @@ PathGraph.prototype.add = function(newSeg) {
   if (!start) {
     start = {position: newSeg.start, edges: []}
     this._points.push(start)
-  }
-  else if (fillGaps) {
+  } else if (fillGaps) {
     newSeg.start = start.position
   }
 
   if (!end) {
     end = {position: newSeg.end, edges: []}
     this._points.push(end)
-  }
-  else if (fillGaps) {
+  } else if (fillGaps) {
     newSeg.end = end.position
   }
 
   // if optimizing, do not allow duplicate line segments
   if (startAndEndExist) {
     var edges = this._edges
-    var existing = find(start.edges.concat(end.edges), function(edge) {
+    var existing = find(start.edges.concat(end.edges), function (edge) {
       return lineSegmentsEqual(edges[edge].segment, newSeg)
     })
 
@@ -121,9 +119,9 @@ PathGraph.prototype.add = function(newSeg) {
   start.edges.push(newEdgeIndex)
 }
 
-PathGraph.prototype.traverse = function() {
+PathGraph.prototype.traverse = function () {
   if (!this._optimize) {
-    return this._edges.map(function(edge) {
+    return this._edges.map(function (edge) {
       return edge.segment
     })
   }
@@ -154,14 +152,13 @@ PathGraph.prototype.traverse = function() {
         if (pointsEqual(lastEnd.position, currentEnd.position)) {
           currentSegment = reverseSegment(currentEdge.segment)
           lastEnd = currentEdge.start
-        }
-        else {
+        } else {
           currentSegment = currentEdge.segment
           lastEnd = currentEdge.end
         }
 
         // add non-walked adjacent nodes to the discovered stack
-        lastEnd.edges.reverse().forEach(function(seg) {
+        lastEnd.edges.reverse().forEach(function (seg) {
           if (!walked[seg]) {
             discovered.push(seg)
           }

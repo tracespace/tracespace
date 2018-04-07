@@ -1,13 +1,14 @@
 sudo: false
 language: node_js
 node_js:
-  - "0.10"
   - "4"
+  - "6"
+  - "8"
   - node
 matrix:
   include:
     - node_js: node
-      env: TEST_BROWSERS=true
+      env: TEST_BROWSERS=false
 script: npm run-script ci
 deploy:
   provider: npm

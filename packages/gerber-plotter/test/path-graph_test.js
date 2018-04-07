@@ -1,20 +1,21 @@
+/* eslint-env mocha */
 'use strict'
 
 var expect = require('chai').expect
 
 var PathGraph = require('../lib/path-graph')
 
-describe('path graphs', function() {
+describe('path graphs', function () {
   var p
-  beforeEach(function() {
+  beforeEach(function () {
     p = new PathGraph(true)
   })
 
-  it('should be able to traverse', function() {
+  it('should be able to traverse', function () {
     expect(p.traverse()).to.eql([])
   })
 
-  it('should be able to add to and traverse a path graph', function() {
+  it('should be able to add to and traverse a path graph', function () {
     p.add({type: 'line', start: [0, 0], end: [1, 0]})
     p.add({type: 'line', start: [1, 0], end: [1, 1]})
     p.add({type: 'line', start: [1, 1], end: [0, 1]})
@@ -28,7 +29,7 @@ describe('path graphs', function() {
     ])
   })
 
-  it('should reverse line segments during traversal', function() {
+  it('should reverse line segments during traversal', function () {
     p.add({type: 'line', start: [0, 0], end: [1, 1]})
     p.add({type: 'line', start: [1, 0], end: [1, 1]})
 
@@ -38,7 +39,7 @@ describe('path graphs', function() {
     ])
   })
 
-  it('should traverse multiple trees', function() {
+  it('should traverse multiple trees', function () {
     p.add({type: 'line', start: [0, 0], end: [1, 1]})
     p.add({type: 'line', start: [1, 1], end: [1, 2]})
     p.add({type: 'line', start: [2, 2], end: [3, 3]})
@@ -52,7 +53,7 @@ describe('path graphs', function() {
     ])
   })
 
-  it('should traverse the graph depth first', function() {
+  it('should traverse the graph depth first', function () {
     p.add({type: 'line', start: [0, 0], end: [1, 0]})
     p.add({type: 'line', start: [0, 0], end: [-1, 0]})
     p.add({type: 'line', start: [0, 1], end: [1, 1]})
@@ -74,7 +75,7 @@ describe('path graphs', function() {
     ])
   })
 
-  it('should reverse arc segments during traversal', function() {
+  it('should reverse arc segments during traversal', function () {
     var HALF_PI = Math.PI / 2
     p.add({type: 'line', start: [0, 0], end: [1, 0]})
     p.add({
@@ -119,7 +120,7 @@ describe('path graphs', function() {
     ])
   })
 
-  it('should have a length property', function() {
+  it('should have a length property', function () {
     expect(p.length).to.equal(0)
     p.add({type: 'line', start: [0, 0], end: [1, 0]})
     p.add({type: 'line', start: [0, 0], end: [-1, 0]})
@@ -127,14 +128,14 @@ describe('path graphs', function() {
     expect(p.length).to.equal(3)
   })
 
-  it('should not allow duplicate line segments', function() {
+  it('should not allow duplicate line segments', function () {
     p.add({type: 'line', start: [0, 0], end: [1, 0]})
     p.add({type: 'line', start: [1, 0], end: [0, 0]})
     p.add({type: 'line', start: [0, 0], end: [1, 0]})
     expect(p.length).to.equal(1)
   })
 
-  it('should not optimize the path if passed a false during construction', function() {
+  it('should not optimize the path if passed a false during construction', function () {
     p = new PathGraph(false)
 
     p.add({type: 'line', start: [0, 0], end: [1, 0]})
@@ -158,7 +159,7 @@ describe('path graphs', function() {
     ])
   })
 
-  it('should be able to fill gaps', function() {
+  it('should be able to fill gaps', function () {
     p = new PathGraph(true, true)
 
     p.add({type: 'line', start: [0, 0], end: [1, 0]})
@@ -174,7 +175,7 @@ describe('path graphs', function() {
     ])
   })
 
-  it('should be able to fill gaps with a specified gap distance', function() {
+  it('should be able to fill gaps with a specified gap distance', function () {
     p = new PathGraph(true, 0.0011)
 
     p.add({type: 'line', start: [0, 0], end: [1, 0]})

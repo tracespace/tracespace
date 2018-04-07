@@ -10,7 +10,7 @@ var padShape = require('./_pad-shape')
 var operate = require('./_operate')
 var boundingBox = require('./_box')
 
-var isFormatKey = function(key) {
+var isFormatKey = function (key) {
   return (
     key === 'units' ||
     key === 'backupUnits' ||
@@ -18,14 +18,13 @@ var isFormatKey = function(key) {
     key === 'backupNota')
 }
 
-var Plotter = function(
+var Plotter = function (
   units,
   backupUnits,
   nota,
   backupNota,
   optimizePaths,
   plotAsOutline) {
-
   Transform.call(this, {
     readableObjectMode: true,
     writableObjectMode: true
@@ -41,8 +40,8 @@ var Plotter = function(
   this._formatLock = {
     units: (units != null),
     backupUnits: (backupUnits != null),
-    nota:  (nota != null),
-    backupNota:  (backupNota != null)
+    nota: (nota != null),
+    backupNota: (backupNota != null)
   }
 
   // plotting options
@@ -68,7 +67,7 @@ var Plotter = function(
 
 inherits(Plotter, Transform)
 
-Plotter.prototype._finishPath = function(doNotOptimize) {
+Plotter.prototype._finishPath = function (doNotOptimize) {
   var path = this._path.traverse()
   this._path = new PathGraph(((!doNotOptimize) && this._optimizePaths), this._plotAsOutline)
 
@@ -78,41 +77,39 @@ Plotter.prototype._finishPath = function(doNotOptimize) {
 
     if (!this._region && (tool.trace.length === 1)) {
       this.push({type: 'stroke', width: tool.trace[0], path: path})
-    }
-    else {
+    } else {
       this.push({type: 'fill', path: path})
     }
   }
 }
 
-Plotter.prototype._warn = function(message) {
+Plotter.prototype._warn = function (message) {
   this.emit('warning', warning(message, this._line))
 }
 
-Plotter.prototype._checkFormat = function() {
+Plotter.prototype._checkFormat = function () {
   if (!this.format.units) {
     this.format.units = this.format.backupUnits
     this._warn('units not set; using backup units: ' + this.format.units)
   }
 
-  if(!this.format.nota) {
+  if (!this.format.nota) {
     this.format.nota = this.format.backupNota
     this._warn('notation not set; using backup notation: ' + this.format.nota)
   }
 }
 
-Plotter.prototype._updateBox = function(box) {
+Plotter.prototype._updateBox = function (box) {
   var stepRepLen = this._stepRep.length
   if (!stepRepLen) {
     this._box = boundingBox.add(this._box, box)
-  }
-  else {
+  } else {
     var repeatBox = boundingBox.repeat(box, this._stepRep[stepRepLen - 1])
     this._box = boundingBox.add(this._box, repeatBox)
   }
 }
 
-Plotter.prototype._transform = function(chunk, encoding, done) {
+Plotter.prototype._transform = function (chunk, encoding, done) {
   var type = chunk.type
   this._line = chunk.line
 
@@ -132,16 +129,14 @@ Plotter.prototype._transform = function(chunk, encoding, done) {
     if (this.nota === 'I') {
       var _this = this
 
-      coord = Object.keys(coord).reduce(function(result, key) {
+      coord = Object.keys(coord).reduce(function (result, key) {
         var value = coord[key]
 
         if (key === 'x') {
           result[key] = _this._pos[0] + value
-        }
-        else if (key === 'y') {
+        } else if (key === 'y') {
           result[key] = _this._pos[1] + value
-        }
-        else {
+        } else {
           result[key] = value
         }
 
@@ -164,7 +159,6 @@ Plotter.prototype._transform = function(chunk, encoding, done) {
         (this._arc == null) &&
         (this._mode.slice(-2) === 'cw') &&
         !coord.a) {
-
         this._warn('quadrant mode unspecified; assuming single quadrant')
         this._arc = 's'
       }
@@ -189,9 +183,7 @@ Plotter.prototype._transform = function(chunk, encoding, done) {
     this._lastOp = op
     this._pos = result.pos
     this._updateBox(result.box)
-  }
-
-  else if (type === 'set') {
+  } else if (type === 'set') {
     var prop = chunk.prop
     var value = chunk.value
 
@@ -199,38 +191,28 @@ Plotter.prototype._transform = function(chunk, encoding, done) {
     if (prop === 'region') {
       this._finishPath(value)
       this._region = value
-    }
-
-    // else we might need to set the format
-    else if (isFormatKey(prop) && !this._formatLock[prop]) {
+    } else if (isFormatKey(prop) && !this._formatLock[prop]) {
+      // else we might need to set the format
       this.format[prop] = value
       if (prop === 'units' || prop === 'nota') {
         this._formatLock[prop] = true
       }
-    }
-
-    // else if we're dealing with a tool change, finish the path and change
-    else if (prop === 'tool') {
+    } else if (prop === 'tool') {
+      // else if we're dealing with a tool change, finish the path and change
       if (this._region) {
         this._warn('cannot change tool while region mode is on')
-      }
-      else if (!this._tools[value]) {
+      } else if (!this._tools[value]) {
         this._warn('tool ' + value + ' is not defined')
-      }
-      else if (!this._outTool){
+      } else if (!this._outTool) {
         this._finishPath()
         this._tool = this._tools[value]
       }
-    }
-
-    // else set interpolation or arc mode
-    else {
+    } else {
+      // else set interpolation or arc mode
       this['_' + prop] = value
     }
-  }
-
-  // else tool commands
-  else if (type === 'tool') {
+  } else if (type === 'tool') {
+    // else tool commands
     var code = chunk.code
     var toolDef = chunk.tool
 
@@ -260,15 +242,9 @@ Plotter.prototype._transform = function(chunk, encoding, done) {
       this._tools[code] = tool
       this._tool = tool
     }
-  }
-
-  // else macro command
-  else if (type === 'macro') {
+  } else if (type === 'macro') {
     this._macros[chunk.name] = chunk.blocks
-  }
-
-  // else layer command
-  else if (type === 'level') {
+  } else if (type === 'level') {
     var level = chunk.level
     var levelValue = chunk.value
 
@@ -280,8 +256,7 @@ Plotter.prototype._transform = function(chunk, encoding, done) {
         polarity: (levelValue === 'C') ? 'clear' : 'dark',
         box: this._box.slice(0)
       })
-    }
-    else {
+    } else {
       // calculate new offsets
       var offsets = []
       for (var x = 0; x < levelValue.x; x++) {
@@ -297,17 +272,14 @@ Plotter.prototype._transform = function(chunk, encoding, done) {
         box: this._box.slice(0)
       })
     }
-  }
-
-  // else done command
-  else if (type === 'done') {
+  } else if (type === 'done') {
     this._done = true
   }
 
   return done()
 }
 
-Plotter.prototype._flush = function(done) {
+Plotter.prototype._flush = function (done) {
   this._finishPath()
 
   this.push({type: 'size', box: this._box, units: this.format.units})

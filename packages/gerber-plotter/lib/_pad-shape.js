@@ -6,7 +6,7 @@ var isFinite = require('lodash.isfinite')
 
 var boundingBox = require('./_box')
 
-var roundToPrecision = function(number) {
+var roundToPrecision = function (number) {
   var rounded = Math.round(number * 100000000) / 100000000
   // remove -0 for ease
   if (rounded === 0) {
@@ -15,11 +15,11 @@ var roundToPrecision = function(number) {
   return rounded
 }
 
-var degreesToRadians = function(degrees) {
+var degreesToRadians = function (degrees) {
   return degrees * Math.PI / 180
 }
 
-var rotatePointAboutOrigin = function(point, rot) {
+var rotatePointAboutOrigin = function (point, rot) {
   rot = degreesToRadians(rot)
   var sin = Math.sin(rot)
   var cos = Math.cos(rot)
@@ -32,7 +32,7 @@ var rotatePointAboutOrigin = function(point, rot) {
   ]
 }
 
-var circle = function(dia, cx, cy, rot) {
+var circle = function (dia, cx, cy, rot) {
   var r = dia / 2
   cx = cx || 0
   cy = cy || 0
@@ -50,7 +50,7 @@ var circle = function(dia, cx, cy, rot) {
   }
 }
 
-var vect = function(x1, y1, x2, y2, width, rot) {
+var vect = function (x1, y1, x2, y2, width, rot) {
   // rotate the endpoints if necessary
   if (rot) {
     var start = rotatePointAboutOrigin([x1, y1], rot)
@@ -68,8 +68,7 @@ var vect = function(x1, y1, x2, y2, width, rot) {
   if (isFinite(m)) {
     sin *= m / Math.sqrt(1 + Math.pow(m, 2))
     cos *= 1 / Math.sqrt(1 + Math.pow(m, 2))
-  }
-  else {
+  } else {
     cos = 0
   }
 
@@ -80,7 +79,7 @@ var vect = function(x1, y1, x2, y2, width, rot) {
   points.push([roundToPrecision(x2 - sin), roundToPrecision(y2 + cos)])
   points.push([roundToPrecision(x1 - sin), roundToPrecision(y1 + cos)])
 
-  var box = points.reduce(function(result, p) {
+  var box = points.reduce(function (result, p) {
     return boundingBox.addPoint(result, p)
   }, boundingBox.new())
 
@@ -90,7 +89,7 @@ var vect = function(x1, y1, x2, y2, width, rot) {
   }
 }
 
-var rect = function(width, height, r, cx, cy, rot) {
+var rect = function (width, height, r, cx, cy, rot) {
   cx = cx || 0
   cy = cy || 0
   r = r || 0
@@ -114,11 +113,11 @@ var rect = function(width, height, r, cx, cy, rot) {
   }
 }
 
-var outlinePolygon = function(flatPoints, rot) {
+var outlinePolygon = function (flatPoints, rot) {
   var points = []
   var box = boundingBox.new()
   var point
-  for(var i = 0; i < (flatPoints.length - 2); i += 2) {
+  for (var i = 0; i < (flatPoints.length - 2); i += 2) {
     point = [flatPoints[i], flatPoints[i + 1]]
     if (rot) {
       point = rotatePointAboutOrigin(point, rot)
@@ -134,7 +133,7 @@ var outlinePolygon = function(flatPoints, rot) {
   }
 }
 
-var regularPolygon = function(dia, nPoints, rot, cx, cy) {
+var regularPolygon = function (dia, nPoints, rot, cx, cy) {
   cx = cx || 0
   cy = cy || 0
 
@@ -163,11 +162,11 @@ var regularPolygon = function(dia, nPoints, rot, cx, cy) {
 }
 
 // just returns a ring object, does not return a box
-var ring = function(cx, cy, r, width) {
+var ring = function (cx, cy, r, width) {
   return {type: 'ring', cx: cx, cy: cy, r: r, width: width}
 }
 
-var moire = function(dia, ringThx, ringGap, maxRings, crossThx, crossLen, cx, cy, rot) {
+var moire = function (dia, ringThx, ringGap, maxRings, crossThx, crossLen, cx, cy, rot) {
   var r = dia / 2
   var shape = []
   var box = boundingBox.addCircle(boundingBox.new(), r, cx, cy)
@@ -197,7 +196,7 @@ var moire = function(dia, ringThx, ringGap, maxRings, crossThx, crossLen, cx, cy
   return {shape: shape, box: box}
 }
 
-var thermal = function(cx, cy, outerDia, innerDia, gap, rot) {
+var thermal = function (cx, cy, outerDia, innerDia, gap, rot) {
   var side = roundToPrecision((outerDia - gap) / 2)
   var offset = roundToPrecision((outerDia + gap) / 4)
   var width = roundToPrecision((outerDia - innerDia) / 2)
@@ -218,23 +217,22 @@ var thermal = function(cx, cy, outerDia, innerDia, gap, rot) {
   }
 }
 
-var runMacro = function(mods, blocks) {
+var runMacro = function (mods, blocks) {
   var emptyMacro = {shape: [], box: boundingBox.new()}
   var exposure = 1
 
   blocks = blocks || []
 
-  return blocks.reduce(function(result, block) {
+  return blocks.reduce(function (result, block) {
     var shapeAndBox
 
     if (block.type !== 'variable' && block.type !== 'comment') {
-      block = Object.keys(block).reduce(function(result, key) {
+      block = Object.keys(block).reduce(function (result, key) {
         var value = block[key]
 
         if (isFunction(value)) {
           result[key] = value(mods)
-        }
-        else {
+        } else {
           result[key] = value
         }
 
@@ -319,7 +317,7 @@ var runMacro = function(mods, blocks) {
   }, emptyMacro)
 }
 
-module.exports = function padShape(tool, macros) {
+module.exports = function padShape (tool, macros) {
   var shape = []
   var box = boundingBox.new()
   var toolShape = tool.shape
@@ -329,24 +327,15 @@ module.exports = function padShape(tool, macros) {
 
   if (toolShape === 'circle') {
     shapeAndBox = circle(params[0])
-  }
-
-  else if (toolShape === 'rect') {
+  } else if (toolShape === 'rect') {
     shapeAndBox = rect(params[0], params[1])
-  }
-
-  else if (toolShape === 'obround') {
+  } else if (toolShape === 'obround') {
     shapeAndBox = rect(params[0], params[1], (Math.min(params[0], params[1]) / 2))
-  }
-
-  else if (toolShape === 'poly') {
+  } else if (toolShape === 'poly') {
     shapeAndBox = regularPolygon(params[0], params[1], params[2])
-  }
-
-  // else we got a macro
-  // run the macro and return
-  else {
-    var mods = params.reduce(function(result, val, index) {
+  } else {
+    // else we got a macro, so run the macro and return
+    var mods = params.reduce(function (result, val, index) {
       result['$' + (index + 1)] = val
 
       return result
@@ -360,9 +349,9 @@ module.exports = function padShape(tool, macros) {
   box = boundingBox.add(box, shapeAndBox.box)
 
   if (tool.hole.length) {
-    holeShape = (tool.hole.length === 1) ?
-      circle(tool.hole[0]).shape :
-      rect(tool.hole[0], tool.hole[1]).shape
+    holeShape = (tool.hole.length === 1)
+      ? circle(tool.hole[0]).shape
+      : rect(tool.hole[0], tool.hole[1]).shape
 
     shape.push({type: 'layer', polarity: 'clear', box: box}, holeShape)
   }
