@@ -10,6 +10,8 @@ var padShape = require('./_pad-shape')
 var operate = require('./_operate')
 var boundingBox = require('./_box')
 
+var MAX_GAP = 0.00011
+
 var isFormatKey = function (key) {
   return (
     key === 'units' ||
@@ -44,8 +46,15 @@ var Plotter = function (
     backupNota: (backupNota != null)
   }
 
-  // plotting options
-  this._plotAsOutline = plotAsOutline
+  this._plotAsOutline = (plotAsOutline === true)
+    ? MAX_GAP
+    : plotAsOutline
+
+  // plotAsOutline parameter is always in mm
+  if ((units || this.format.backupUnits) === 'in') {
+    this._plotAsOutline = this._plotAsOutline / 25.4
+  }
+
   this._optimizePaths = optimizePaths || plotAsOutline
 
   this._line = 0

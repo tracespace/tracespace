@@ -3,8 +3,6 @@
 
 var fill = require('lodash.fill')
 
-var MAX_GAP = 0.00011
-
 var find = function (collection, condition) {
   var element
   var i
@@ -55,10 +53,7 @@ var PathGraph = function (optimize, fillGaps) {
   this._points = []
   this._edges = []
   this._optimize = optimize
-  this._fillGaps = (fillGaps === true)
-    ? MAX_GAP
-    : fillGaps
-
+  this._fillGaps = fillGaps
   this.length = 0
 }
 
