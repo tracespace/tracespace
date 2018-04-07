@@ -76,6 +76,7 @@ We should be able to identify files output by the following programs:
 * Altium
 * Orcad
 * gEDA PCB
+* Proteus
 
 ## contributing
 

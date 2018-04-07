@@ -21,21 +21,21 @@ var layerTypes = [
     name: {
       en: 'top copper'
     },
-    match: /((F.Cu)|(top\.gbr$))|(\.((cmp$)|(top$)|(gtl$)))|(\.toplayer\.ger$)/i
+    match: /((F.Cu)|(top\.gbr$))|(\.((cmp$)|(top$)|(gtl$)))|(\.toplayer\.ger$)|(top copper\.txt$)/i
   },
   {
     id: 'tsm',
     name: {
       en: 'top soldermask'
     },
-    match: /((F.Mask)|(topmask))|(\.((stc$)|(tsm$)|(gts$)|(smt$)))|(\.topsoldermask\.ger$)/i
+    match: /((F.Mask)|(topmask))|(\.((stc$)|(tsm$)|(gts$)|(smt$)))|(\.topsoldermask\.ger$)|(top solder resist\.txt$)/i
   },
   {
     id: 'tss',
     name: {
       en: 'top silkscreen'
     },
-    match: /((F.SilkS)|(topsilk))|(\.((plc$)|(tsk$)|(gto$)|(sst$)))|(\.topsilkscreen\.ger$)/i
+    match: /((F.SilkS)|(topsilk))|(\.((plc$)|(tsk$)|(gto$)|(sst$)))|(\.topsilkscreen\.ger$)|(top silk screen\.txt$)/i
   },
   {
     id: 'tsp',
@@ -49,21 +49,21 @@ var layerTypes = [
     name: {
       en: 'bottom copper'
     },
-    match: /(B.Cu|bottom\.gbr$)|(\.((sol$)|(bot$)|(gbl$)))|(\.bottomlayer\.ger$)/i
+    match: /(B.Cu|bottom\.gbr$)|(\.((sol$)|(bot$)|(gbl$)))|(\.bottomlayer\.ger$)|(bottom copper\.txt$)/i
   },
   {
     id: 'bsm',
     name: {
       en: 'bottom soldermask'
     },
-    match: /(B.Mask|bottommask\.)|(\.((sts$)|(bsm$)|(gbs$)|(smb$)))|(\.bottomsoldermask\.ger$)/i
+    match: /(B.Mask|bottommask\.)|(\.((sts$)|(bsm$)|(gbs$)|(smb$)))|(\.bottomsoldermask\.ger$)|(bottom solder resist\.txt$)/i
   },
   {
     id: 'bss',
     name: {
       en: 'bottom silkscreen'
     },
-    match: /((B.SilkS)|(bottomsilk\.))|(\.((pls$)|(bsk$)|(gbo$)|(ssb$)))|(\.bottomsilkscreen\.ger$)/i
+    match: /((B.SilkS)|(bottomsilk\.))|(\.((pls$)|(bsk$)|(gbo$)|(ssb$)))|(\.bottomsilkscreen\.ger$)|(bottom silk screen\.txt$)/i
   },
   {
     id: 'bsp',
@@ -84,7 +84,7 @@ var layerTypes = [
     name: {
       en: 'board outline'
     },
-    match: /(Edge.Cuts)|(\.((dim$)|(mil$)|(gm[l\d]$)|(gko$)|(fab$)))|(\.boardoutline\.ger$)|(\.outline\.gbr$)/i
+    match: /(Edge.Cuts)|(\.((dim$)|(mil$)|(gm[l\d]$)|(gko$)|(fab$)))|(\.boardoutline\.ger$)|(\.outline\.gbr$)|(mechanical \d+\.txt$)/i
   },
   {
     id: 'drl',

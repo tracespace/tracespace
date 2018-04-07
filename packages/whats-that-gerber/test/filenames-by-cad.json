@@ -131,5 +131,18 @@
       {"name": "board-name.topsoldermask.ger",    "type": "tsm"},
       {"name": "board-name.tcream.ger",           "type": "tsp"}
     ]
+  },
+  {
+    "cad": "proteus",
+    "files": [
+      {"name": "board-name CADCAM Bottom Copper.TXT",        "type": "bcu"},
+      {"name": "board-name CADCAM Bottom Silk Screen.TXT",   "type": "bss"},
+      {"name": "board-name CADCAM Bottom Solder Resist.TXT", "type": "bsm"},
+      {"name": "board-name CADCAM Drill.TXT",                "type": "drl"},
+      {"name": "board-name CADCAM Mechanical 1.TXT",         "type": "out"},
+      {"name": "board-name CADCAM Top Copper.TXT",           "type": "tcu"},
+      {"name": "board-name CADCAM Top Silk Screen.TXT",      "type": "tss"},
+      {"name": "board-name CADCAM Top Solder Resist.TXT",    "type": "tsm"}
+    ]
   }
 ]
