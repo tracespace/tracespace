@@ -18,7 +18,6 @@ deploy:
   on:
     node: node
     tags: true
-    condition: $TEST_BROWSERS = true
     all_branches: true
 env:
   global:
