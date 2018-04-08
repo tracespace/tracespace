@@ -242,7 +242,7 @@ describe('gerber to svg', function() {
 
     var converter = gerberToSvg('G04 a gerber file*\n', 'gbr')
 
-    expect(converter.filetype).to.be.falsey
+    expect(converter.filetype).to.not.be.ok
 
     parser.emit('end')
     expect(converter.filetype).to.equal('foobar')
