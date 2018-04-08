@@ -55,7 +55,7 @@ The function must be passed an options object or string. If passed a string, it 
 
 **svg options**
 
-key              | value    | default        
+key              | value    | default
 -----------------|----------|--------------------------------------------------
 id               | String   | See below
 attributes       | Object   | See below
@@ -65,17 +65,17 @@ objectMode       | Boolean  | false
 
 **parsing and plotting options**
 
-key           | value               | default
---------------|---------------------|------------------
-places        | [int, int]          | Parsed from file
-zero          | 'L' or 'T'          | Parsed from file
-filetype      | 'gerber' or 'drill' | Parsed from file
-units         | `mm` or `in`        | Parsed from file
-backupUnits   | `mm` or `in`        | 'in'
-nota          | `A` or `I`          | Parsed from file
-backupNota    | `A` or `I`          | 'A'
-optimizePaths | `true` or `false`   | `false`
-plotAsOutline | Boolean or Number   | `false`
+key           | value                      | default
+--------------|----------------------------|------------------
+places        | [int, int]                 | Parsed from file
+zero          | 'L' or 'T'                 | Parsed from file
+filetype      | 'gerber' or 'drill'        | Parsed from file
+units         | `mm` or `in`               | Parsed from file
+backupUnits   | `mm` or `in`               | 'in'
+nota          | `A` or `I`                 | Parsed from file
+backupNota    | `A` or `I`                 | 'A'
+optimizePaths | `true` or `false`          | `false`
+plotAsOutline | Boolean or Number (in mm)  | `false`
 
 #### id and attributes options
 
@@ -120,7 +120,7 @@ backupUnits   | Backup units only to be used if units cannot be parsed from the 
 nota          | Absolute or incremental coordinate notation
 backupNota    | Backup notation only to be used if the notation cannot be parsed
 optimizePaths | Rearrange trace paths to occur in physical order
-plotAsOutline | Optimize paths and fill gaps smaller than 0.00011 (or specified number) in layer units
+plotAsOutline | Optimize paths and fill gaps smaller than 0.00011 (or specified number) in millimeters
 
 ## streaming API
 
