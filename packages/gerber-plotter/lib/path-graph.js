@@ -70,10 +70,6 @@ PathGraph.prototype.add = function (newSeg) {
     end = find(this._points, function (point) {
       return pointsEqual(point.position, newSeg.end, fillGaps)
     })
-
-    end = find(this._points, function (point) {
-      return pointsEqual(point.position, newSeg.end, fillGaps)
-    })
   }
 
   var startAndEndExist = (start && end)
