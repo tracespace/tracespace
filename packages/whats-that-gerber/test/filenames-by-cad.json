@@ -97,6 +97,7 @@
       { "name": "board.SPB", "type": "bsp" },
       { "name": "board.IN1", "type": "icu" },
       { "name": "board.FAB", "type": "out" },
+      { "name": "board.npt", "type": "drl" },
       { "name": "board.TAP", "type": "drl" }
     ]
   },

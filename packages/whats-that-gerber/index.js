@@ -91,7 +91,7 @@ var layerTypes = [
     name: {
       en: 'drill hits'
     },
-    match: /\.((fab\.gbr$)|(cnc$)|(drl$)|(xln$)|(txt$)|(tap$)|(drd$)|(exc$))/i
+    match: /\.((fab\.gbr$)|(cnc$)|(drl$)|(xln$)|(txt$)|(tap$)|(drd$)|(exc$)|(npt$))/i
   },
   {
     id: 'drw',
