@@ -53,6 +53,9 @@ describe('path graphs', function () {
     ])
   })
 
+  // depth first traversal is used so that when converted to an SVG path it
+  // retains its shape. see discussion:
+  // https://github.com/mcous/gerber-plotter/pull/13
   it('should traverse the graph depth first', function () {
     p.add({type: 'line', start: [0, 0], end: [1, 0]})
     p.add({type: 'line', start: [0, 0], end: [-1, 0]})
@@ -132,6 +135,7 @@ describe('path graphs', function () {
     p.add({type: 'line', start: [0, 0], end: [1, 0]})
     p.add({type: 'line', start: [1, 0], end: [0, 0]})
     p.add({type: 'line', start: [0, 0], end: [1, 0]})
+    p.traverse()
     expect(p.length).to.equal(1)
   })
 
@@ -160,12 +164,12 @@ describe('path graphs', function () {
   })
 
   it('should be able to fill gaps', function () {
-    p = new PathGraph(true, true)
+    p = new PathGraph(true, 0.00011)
 
-    p.add({type: 'line', start: [0, 0], end: [1, 0]})
-    p.add({type: 'line', start: [1.0001, 0], end: [1, 1]})
-    p.add({type: 'line', start: [1.0001, 1], end: [0, 1]})
-    p.add({type: 'line', start: [0, 1.0001], end: [0, 0]})
+    p.add({type: 'line', start: [0, 0], end: [1.0001, 0]})
+    p.add({type: 'line', start: [1, 0], end: [1.0001, 1]})
+    p.add({type: 'line', start: [1, 1], end: [0, 1.0001]})
+    p.add({type: 'line', start: [0, 1], end: [0, 0]})
 
     expect(p.traverse()).to.eql([
       {type: 'line', start: [0, 0], end: [1, 0]},
@@ -178,16 +182,32 @@ describe('path graphs', function () {
   it('should be able to fill gaps with a specified gap distance', function () {
     p = new PathGraph(true, 0.0011)
 
-    p.add({type: 'line', start: [0, 0], end: [1, 0]})
-    p.add({type: 'line', start: [1.001, 0], end: [1, 1]})
-    p.add({type: 'line', start: [1.001, 1], end: [0, 1]})
-    p.add({type: 'line', start: [0, 1.001], end: [0, 0]})
+    p.add({type: 'line', start: [0, 0], end: [1.001, 0]})
+    p.add({type: 'line', start: [1, 0], end: [1.001, 1]})
+    p.add({type: 'line', start: [1, 1], end: [0, 1.001]})
+    p.add({type: 'line', start: [0, 1], end: [0, 0]})
 
     expect(p.traverse()).to.eql([
       {type: 'line', start: [0, 0], end: [1, 0]},
       {type: 'line', start: [1, 0], end: [1, 1]},
       {type: 'line', start: [1, 1], end: [0, 1]},
       {type: 'line', start: [0, 1], end: [0, 0]}
+    ])
+  })
+
+  it('should find the closest point when filling gaps', function () {
+    p = new PathGraph(true, 0.06)
+
+    p.add({type: 'line', start: [0, 0], end: [1, 0]})
+    p.add({type: 'line', start: [1.01, 0], end: [1.03, 0]})
+    p.add({type: 'line', start: [1.03, 0], end: [1.04, 0.01]})
+    p.add({type: 'line', start: [1.04, 0.01], end: [2, 2]})
+
+    expect(p.traverse()).to.eql([
+      {type: 'line', start: [0, 0], end: [1.01, 0]},
+      {type: 'line', start: [1.01, 0], end: [1.03, 0]},
+      {type: 'line', start: [1.03, 0], end: [1.04, 0.01]},
+      {type: 'line', start: [1.04, 0.01], end: [2, 2]}
     ])
   })
 })
