@@ -1,0 +1,54 @@
+{
+  "layers": [
+    {
+      "name": "core.GBL",
+      "format": "gerber",
+      "type": "bcu"
+    },
+    {
+      "name": "core.GBO",
+      "format": "gerber",
+      "type": "bss"
+    },
+    {
+      "name": "core.GBP",
+      "format": "gerber",
+      "type": "bsp"
+    },
+    {
+      "name": "core.GBS",
+      "format": "gerber",
+      "type": "bsm"
+    },
+    {
+      "name": "core.GTL",
+      "format": "gerber",
+      "type": "tcu"
+    },
+    {
+      "name": "core.GTO",
+      "format": "gerber",
+      "type": "tss"
+    },
+    {
+      "name": "core.GTP",
+      "format": "gerber",
+      "type": "tsp"
+    },
+    {
+      "name": "core.GTS",
+      "format": "gerber",
+      "type": "tsm"
+    },
+    {
+      "name": "core.MIL",
+      "format": "gerber",
+      "type": "out"
+    },
+    {
+      "name": "core.TXT",
+      "format": "drill",
+      "type": "drl"
+    }
+  ]
+}

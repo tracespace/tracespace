@@ -1,0 +1,39 @@
+{
+  "layers": [
+    {
+      "name": "arduino-uno.cmp",
+      "format": "gerber",
+      "type": "tcu"
+    },
+    {
+      "name": "arduino-uno.drd",
+      "format": "drill",
+      "type": "drl"
+    },
+    {
+      "name": "arduino-uno.gko",
+      "format": "gerber",
+      "type": "out"
+    },
+    {
+      "name": "arduino-uno.plc",
+      "format": "gerber",
+      "type": "tss"
+    },
+    {
+      "name": "arduino-uno.sol",
+      "format": "gerber",
+      "type": "bcu"
+    },
+    {
+      "name": "arduino-uno.stc",
+      "format": "gerber",
+      "type": "tsm"
+    },
+    {
+      "name": "arduino-uno.sts",
+      "format": "gerber",
+      "type": "bsm"
+    }
+  ]
+}

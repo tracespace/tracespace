@@ -1,0 +1,54 @@
+{
+  "layers": [
+    {
+      "name": "clockblock-B_Cu.gbr",
+      "format": "gerber",
+      "type": "bcu"
+    },
+    {
+      "name": "clockblock-B_Mask.gbr",
+      "format": "gerber",
+      "type": "bsm"
+    },
+    {
+      "name": "clockblock-B_SilkS.gbr",
+      "format": "gerber",
+      "type": "bss"
+    },
+    {
+      "name": "clockblock-Edge_Cuts.gbr",
+      "format": "gerber",
+      "type": "out"
+    },
+    {
+      "name": "clockblock-F_Cu.gbr",
+      "format": "gerber",
+      "type": "tcu"
+    },
+    {
+      "name": "clockblock-F_Mask.gbr",
+      "format": "gerber",
+      "type": "tsm"
+    },
+    {
+      "name": "clockblock-F_Paste.gbr",
+      "format": "gerber",
+      "type": "tsp"
+    },
+    {
+      "name": "clockblock-F_SilkS.gbr",
+      "format": "gerber",
+      "type": "tss"
+    },
+    {
+      "name": "clockblock-NPTH.drl",
+      "format": "drill",
+      "type": "drl"
+    },
+    {
+      "name": "clockblock.drl",
+      "format": "drill",
+      "type": "drl"
+    }
+  ]
+}

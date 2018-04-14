@@ -1,0 +1,21 @@
+<svg
+  version="1.1"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  stroke-width="0"
+  width="1.1in" height="1.1in" viewBox="0 0 1100 1100">
+
+  <defs>
+    <mask id="clear-with-moire-mask" fill="#000" stroke="#000">
+      <rect x="0" y="0" width="1100" height="1100" fill="#fff"/>
+      <circle cx="550" cy="550" r="230" fill="none" stroke-width="40"/>
+      <circle cx="550" cy="550" r="165" fill="none" stroke-width="40"/>
+      <rect x="275" y="545" width="550" height="10"/>
+      <rect x="545" y="275" width="10" height="550"/>
+    </mask>
+  </defs>
+
+  <g fill="#930" mask="url(#clear-with-moire-mask)">
+    <rect x="0" y="0" width="1100" height="1100"/>
+  </g>
+</svg>

@@ -15,6 +15,7 @@
     "lint": "eslint '**/*.js'",
     "format": "prettier-eslint --write '**/*.js'",
     "example": "lerna run example",
+    "prebump": "yarn run test || true",
     "bump": "lerna publish",
     "publish": "lerna exec -- 'node $LERNA_ROOT_PATH/scripts/publish.js'"
   },

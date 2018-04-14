@@ -81,27 +81,21 @@ yarn run lint
 
 ### publishing
 
-Packages are published to npm by the CI server. To push a release:
+Packages are published to npm by the CI server. To push a release, bump the version with the bump script
 
-1. Bump the version with the bump script
-    * Writes version to `package.json` in updated packages
-    * Generates / updates `CHANGELOG.md`
-    * Commits and tags the release
+* Runs all tests
+* Writes version to `package.json` in updated packages
+* Generates / updates `CHANGELOG.md`
+* Commits, tags, and pushes the release
 
-   ```shell
-   # by default, bump to the next pre-release with identifier "next"
-   yarn run bump
+```shell
+# by default, bump to the next prerelease with identifier "next"
+yarn run bump
 
-   # specify a bump level
-   # https://github.com/lerna/lerna#--cd-version
-   yarn run version --cd-version=${major|minor|patch|...}
-   ```
-
-2. Push to git to trigger the CI build
-
-   ```shell
-   git push --follow-tags
-   ```
+# specify a bump level
+# https://github.com/lerna/lerna#--cd-version
+yarn run version --cd-version=${major|minor|patch|premajor|preminor|prepatch|prerelease}
+```
 
 The release will be published to the `latest` npm tag for bare versions (e.g. `4.0.0`) and to `next` for pre-release versions (e.g. `4.0.0-next.0`).
 

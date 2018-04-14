@@ -1,0 +1,11 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  stroke-width="0"
+  width="1in" height="0.5in" viewBox="-250 -250 1000 500"
+  version="1.1">
+
+  <g fill="#96f">
+    <rect x="-250" y="-250" rx="250" ry="250" width="1000" height="500"/>
+  </g>
+</svg>

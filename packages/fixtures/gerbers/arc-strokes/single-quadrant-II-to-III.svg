@@ -1,0 +1,16 @@
+<svg
+  version="1.1"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  stroke-linecap="round"
+  width="0.65in" height="0.6216990566in"
+  viewBox="-546.6990566 -325 621.6990566 650">
+
+  <g fill="none" stroke="#FC0" stroke-width="150" transform="translate(-400,0)">
+    <path d="M 0 -250 A 471.6990566 471.6990566 0 0 0 0 250"/>
+  </g>
+
+  <g fill="none" stroke="#FC0" stroke-width="150">
+    <path d="M 0 250 A 471.6990566 471.6990566 0 0 1 0 -250"/>
+  </g>
+</svg>

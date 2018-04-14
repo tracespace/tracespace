@@ -1,0 +1,34 @@
+{
+  "layers": [
+    {
+      "name": "freeduino.cmp",
+      "format": "gerber",
+      "type": "tcu"
+    },
+    {
+      "name": "freeduino.drd",
+      "format": "drill",
+      "type": "drl"
+    },
+    {
+      "name": "freeduino.plc",
+      "format": "gerber",
+      "type": "tss"
+    },
+    {
+      "name": "freeduino.sol",
+      "format": "gerber",
+      "type": "bcu"
+    },
+    {
+      "name": "freeduino.stc",
+      "format": "gerber",
+      "type": "tsm"
+    },
+    {
+      "name": "freeduino.sts",
+      "format": "gerber",
+      "type": "bsm"
+    }
+  ]
+}

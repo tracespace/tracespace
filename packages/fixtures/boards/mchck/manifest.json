@@ -1,0 +1,44 @@
+{
+  "layers": [
+    {
+      "name": "mchck-B_Cu.pho",
+      "format": "gerber",
+      "type": "bcu"
+    },
+    {
+      "name": "mchck-B_Mask.pho",
+      "format": "gerber",
+      "type": "bsm"
+    },
+    {
+      "name": "mchck-B_SilkS.pho",
+      "format": "gerber",
+      "type": "bss"
+    },
+    {
+      "name": "mchck-Edge_Cuts.pho",
+      "format": "gerber",
+      "type": "out"
+    },
+    {
+      "name": "mchck-F_Cu.pho",
+      "format": "gerber",
+      "type": "tcu"
+    },
+    {
+      "name": "mchck-F_Mask.pho",
+      "format": "gerber",
+      "type": "tsm"
+    },
+    {
+      "name": "mchck-F_SilkS.pho",
+      "format": "gerber",
+      "type": "tss"
+    },
+    {
+      "name": "mchck.drl",
+      "format": "drill",
+      "type": "drl"
+    }
+  ]
+}

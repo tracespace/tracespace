@@ -1,0 +1,26 @@
+{
+  "name": "@tracespace/fixtures",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "4.0.0-next.0",
+  "description": "Test fixtures for tracespace projects",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tracespace/tracespace.git"
+  },
+  "contributors": [
+    "Mike Cousins <mike@cousins.io> (http://mike.cousins.io)",
+    "Kaspar Emanuel <kaspar@monostable.co.uk> (http://monostable.co.uk)",
+    "David Freitag <dvdfreitag@gmail.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "glob": "^7.1.2",
+    "into-stream": "^3.1.0",
+    "run-parallel": "^1.1.6",
+    "run-series": "^1.1.4",
+    "run-waterfall": "^1.1.3"
+  }
+}
