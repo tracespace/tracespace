@@ -6,8 +6,8 @@
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "_test": "mocha 'packages/**/*test.js'",
-    "test": "nyc yarn run _test",
+    "_test": "mocha  --timeout=5000 'packages/**/*test.js'",
+    "test": "cross-env INTEGRATION=1 nyc yarn run _test",
     "test:watch": "yarn run _test --watch --reporter=dot",
     "test:browser": "karma start",
     "posttest": "yarn run example && yarn run format && yarn run lint",
@@ -63,6 +63,7 @@
     "browserify": "^15.2.0",
     "chai": "^4.1.2",
     "codecov": "^3.0.0",
+    "cross-env": "^5.1.4",
     "cz-conventional-changelog": "^2.1.0",
     "debug": "^3.1.0",
     "eslint": "^4.15.0",

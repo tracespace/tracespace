@@ -1,0 +1,59 @@
+{
+  "skipSnapshot": true,
+  "options": {
+    "outlineGapFill": 0.011
+  },
+  "layers": [
+    {
+      "name": "mixtape.gbl",
+      "format": "gerber",
+      "type": "bcu"
+    },
+    {
+      "name": "mixtape.gbo",
+      "format": "gerber",
+      "type": "bss"
+    },
+    {
+      "name": "mixtape.gbp",
+      "format": "gerber",
+      "type": "bsp"
+    },
+    {
+      "name": "mixtape.gbs",
+      "format": "gerber",
+      "type": "bsm"
+    },
+    {
+      "name": "mixtape.gml",
+      "format": "gerber",
+      "type": "out"
+    },
+    {
+      "name": "mixtape.gtl",
+      "format": "gerber",
+      "type": "tcu"
+    },
+    {
+      "name": "mixtape.gto",
+      "format": "gerber",
+      "type": "tss"
+    },
+    {
+      "name": "mixtape.gtp",
+      "format": "gerber",
+      "type": "tsp"
+    },
+    {
+      "name": "mixtape.gts",
+      "format": "gerber",
+      "type": "tsm"
+    },
+    {
+      "name": "mixtape.txt",
+      "format": "drill",
+      "type": "drl",
+      "options": {"zero": "L"}
+    }
+  ]
+}

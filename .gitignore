@@ -4,3 +4,4 @@ coverage
 
 # artifacts
 bundle.*
+**/example/*.svg
