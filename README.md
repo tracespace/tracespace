@@ -7,8 +7,8 @@ tracespace is an open-source collection of tools to make looking at circuit boar
 ## tools
 
 * [tracespace viewer][viewer] - Online PCB viewer powered by `pcb-stackup`
-* [pcb-stackup][] - Create SVG renders of PCBs by stacking gerber-to-svg renders
-* [pcb-stackup-core][] - Layer stacking module for pcb-stackup
+* [pcb-stackup][] - Generate beautiful, precise SVG renders of PCBs from Gerber and drill files
+* [pcb-stackup-core][] - Stack gerber-to-svg layer renders to build PCB renders
 * [gerber-to-svg][] - Render Gerber and NC drill files as SVGs in Node and the browser
 * [gerber-parser][] - Streaming Gerber/drill file parser
 * [gerber-plotter][] - Streaming layer image plotter (consumer of `gerber-parser`)
@@ -45,10 +45,14 @@ git cz
 
 ```shell
 # run unit and integration tests tests with coverage and linting
+# set SNAPSHOT_UPDATE=1 to update integration test snapshots
 yarn run test
+SNAPSHOT_UPDATE=1 yarn run test
 
-# run unit and integration tests in watch mode (no coverage, no linting)
+# run unit tests in watch mode (no coverage, no linting)
+# set INTEGRATION=1 to also include integration tests
 yarn run test:watch
+INTEGRATION=1 yarn run test:watch
 
 # run unit tests in watch mode in Firefox and Chrome (using Karma)
 # will autolaunch Chrome and/or Firefox if they're installed
@@ -57,9 +61,9 @@ yarn run test:browser
 
 ### integration tests
 
-Automated integration tests consist of snapshot tests of SVG output, and are run automatically as part of `yarn run test`.
+Automated integration tests consist of [snapshot tests][snapshot-testing] of SVG output and are run automatically as part of `yarn run test`.
 
-`pcb-stackup-core` and `gerber-to-svg` also have integration test servers that serve a set of reference renders for manual visual inspection.
+`pcb-stackup`, `pcb-stackup-core`, and `gerber-to-svg` also have integration test servers that serve a set of reference renders for manual visual inspection.
 
 ```shell
 # run all integration test servers
@@ -111,3 +115,4 @@ The release will be published to the `latest` npm tag for bare versions (e.g. `4
 [lerna]: https://lernajs.io/
 [conventional-changelog]: https://github.com/conventional-changelog/conventional-changelog
 [commitizen]: https://commitizen.github.io/cz-cli/
+[snapshot-testing]: https://facebook.github.io/jest/docs/en/snapshot-testing.html

@@ -1,67 +1,56 @@
-// integration test server
-// expects a post request with an array of gerber files
-// responds with the stackup object
+// simple visual test server for pcb-stackup-core
 'use strict'
 
-var fs = require('fs')
-var path = require('path')
-var hapi = require('hapi')
-var inert = require('inert')
+const fs = require('fs')
+const path = require('path')
+const express = require('express')
+const runWaterfall = require('run-waterfall')
+const template = require('lodash/template')
+const debug = require('debug')('tracespace/pcb-stackup/integration')
 
-var pcbStackup = require('../index')
+const {getBoards} = require('@tracespace/fixtures')
+const getResults = require('./get-results')
+const pkg = require('../package.json')
 
-var PORT = 8001
+const PORT = 8000
+const TEMPLATE = path.join(__dirname, 'index.template.html')
 
-var server = new hapi.Server()
+const app = express()
 
-server.connection({port: PORT})
-server.register(inert, function () {})
-
-server.route({
-  method: 'GET',
-  path: '/{param*}',
-  handler: {
-    directory: {
-      path: path.join(__dirname, '/public'),
-      redirectToSlash: true,
-      index: true
+app.get('/', (request, response) => {
+  handleTestRun((error, result) => {
+    if (error) {
+      console.error(error)
+      return response.status(500).send({error: error.message})
     }
-  }
+
+    console.log('Boards rendered successfully')
+    response.send(result)
+  })
 })
 
-server.route({
-  method: 'POST',
-  path: '/stackup',
-  handler: function (request, reply) {
-    var name = request.payload.name
-    var options = request.payload.options
-    var layers = request.payload.layers.map(function (layer) {
-      var gerber = fs.createReadStream(layer.path)
-      var type
+app.listen(PORT, () => {
+  console.log(`pcb-stackup server listening at http://localhost:${PORT}`)
+})
 
-      if (layer.options != null) {
-        type = layer.options.type
+function handleTestRun (done) {
+  debug('Handling test run')
+
+  runWaterfall([getBoards, getResults, runTemplate], done)
+}
+
+function runTemplate (boards, done) {
+  runWaterfall(
+    [
+      next => fs.readFile(TEMPLATE, 'utf8', next),
+      (contents, next) => {
+        try {
+          next(null, template(contents)({boards, pkg}))
+        } catch (error) {
+          next(error)
+        }
       }
-
-      return {gerber: gerber, filename: path.basename(layer.path), type: type, options: layer.options}
-    })
-
-    console.log('building stackup for: ' + name)
-    pcbStackup(layers, options, function (error, stackup) {
-      if (error) {
-        return reply(error)
-      }
-
-      console.log('stackup done for: ' + name)
-      reply(null, stackup)
-    })
-  }
-})
-
-server.start(function (error) {
-  if (error) {
-    throw error
-  }
-
-  console.log('server running at: ' + server.info.uri)
-})
+    ],
+    done
+  )
+}

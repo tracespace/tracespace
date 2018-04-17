@@ -18,17 +18,20 @@ var getInvalidLayers = function (layers) {
     return whatsThatGerber.isValidType(layer.type)
   }
 
-  return layers.reduce(function (result, layer, i) {
-    if (!hasNameOrType(layer)) {
-      result.argErrors.push(i)
-    }
+  return layers.reduce(
+    function (result, layer, i) {
+      if (!hasNameOrType(layer)) {
+        result.argErrors.push(i)
+      }
 
-    if (!hasValidType(layer)) {
-      result.typeErrors.push(i + ': "' + layer.type + '"')
-    }
+      if (!hasValidType(layer)) {
+        result.typeErrors.push(i + ': "' + layer.type + '"')
+      }
 
-    return result
-  }, {argErrors: [], typeErrors: []})
+      return result
+    },
+    {argErrors: [], typeErrors: []}
+  )
 }
 
 var pcbStackup = function (layers, options, done) {
@@ -41,13 +44,17 @@ var pcbStackup = function (layers, options, done) {
   var msg
 
   if (invalidLayers.argErrors.length) {
-    msg = 'No filename or type given for layer(s): ' + invalidLayers.argErrors.join(', ')
+    msg =
+      'No filename or type given for layer(s): ' +
+      invalidLayers.argErrors.join(', ')
 
     return done(new Error(msg))
   }
 
   if (invalidLayers.typeErrors.length) {
-    msg = 'Invalid layer type given for layer(s): ' + invalidLayers.typeErrors.join(', ')
+    msg =
+      'Invalid layer type given for layer(s): ' +
+      invalidLayers.typeErrors.join(', ')
 
     return done(new Error(msg))
   }
@@ -87,7 +94,8 @@ var pcbStackup = function (layers, options, done) {
     var layerOptions = layer.options || {}
 
     layerOptions.id = layerOptions.id || shortId.generate()
-    layerOptions.plotAsOutline = layerOptions.plotAsOutline || (layerType === 'out')
+    layerOptions.plotAsOutline =
+      layerOptions.plotAsOutline || layerType === 'out'
 
     if (options.outlineGapFill != null && layerOptions.plotAsOutline) {
       layerOptions.plotAsOutline = options.outlineGapFill

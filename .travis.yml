@@ -7,8 +7,7 @@ node_js:
   - '8'
   - node
 
-# TODO(mc, 2018-04-13): remove true catchall testing code
-script: npm run test || true
+script: npm run test
 
 # use build stages with "test" and "deploy" stages
 # node_js versions above automatically added to "test" stage

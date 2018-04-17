@@ -1,6 +1,0 @@
-node_modules
-coverage
-.nyc_output
-integration/public/bundle.js
-integration/boards.json
-example/*.svg

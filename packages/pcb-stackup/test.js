@@ -1,28 +1,25 @@
 // test suite for simpler API
 'use strict'
-var fs = require('fs')
-var path = require('path')
-var cloneConverter = require('gerber-to-svg').clone
 
 var expect = require('chai').expect
-
-var pcbStackup = require('./index')
+var identity = require('lodash/identity')
+var pcbStackup = require('.')
 
 var emptyGerber = 'G04 empty gerber*\nM02*\n'
 
 describe('easy stackup function', function () {
   it('should accept and call node style callback', function (done) {
     pcbStackup([], function (error, stackup) {
-      expect(error).to.not.exist
-      expect(stackup).to.exist
+      expect(error).to.equal(null)
+      expect(stackup).to.satisfy(identity)
       done()
     })
   })
 
   it('should accept options as the second argument', function (done) {
     pcbStackup([], {maskWithOutline: false}, function (error, stackup) {
-      expect(error).to.not.exist
-      expect(stackup).to.exist
+      expect(error).to.equal(null)
+      expect(stackup).to.satisfy(identity)
       done()
     })
   })
@@ -36,8 +33,8 @@ describe('easy stackup function', function () {
     var layers = [{gerber: emptyGerber, filename: 'foo'}]
 
     pcbStackup(layers, function (error, stackup) {
-      expect(error).to.not.exist
-      expect(stackup).to.exist
+      expect(error).to.equal(null)
+      expect(stackup).to.satisfy(identity)
       done()
     })
   })
@@ -46,8 +43,8 @@ describe('easy stackup function', function () {
     var layers = [{gerber: emptyGerber, type: 'tcu'}]
 
     pcbStackup(layers, function (error, stackup) {
-      expect(error).to.not.exist
-      expect(stackup).to.exist
+      expect(error).to.equal(null)
+      expect(stackup).to.satisfy(identity)
       done()
     })
   })
@@ -56,9 +53,7 @@ describe('easy stackup function', function () {
     var layers = [{gerber: emptyGerber}]
 
     pcbStackup(layers, function (error, stackup) {
-      expect(error).to.be.ok
       expect(error).to.be.an.instanceOf(Error)
-      expect(stackup).to.not.exist
       done()
     })
   })
@@ -67,9 +62,7 @@ describe('easy stackup function', function () {
     var layers = [{gerber: emptyGerber, type: 'wrong'}]
 
     pcbStackup(layers, function (error, stackup) {
-      expect(error).to.be.ok
       expect(error).to.be.an.instanceOf(Error)
-      expect(stackup).to.not.exist
       done()
     })
   })
@@ -78,10 +71,9 @@ describe('easy stackup function', function () {
     var layers = [{gerber: emptyGerber, type: 'tcu', options: {id: 'test-id'}}]
 
     pcbStackup(layers, function (error, stackup) {
-      expect(error).to.not.exist
-      expect(stackup).to.exist
-      expect(stackup.layers).to.be.ok
-      expect(stackup.layers.length).to.equal(1)
+      expect(error).to.equal(null)
+      expect(stackup).to.satisfy(identity)
+      expect(stackup.layers).to.have.lengthOf(1)
       expect(stackup.layers[0].options.id).to.equal('test-id')
       done()
     })
@@ -91,8 +83,8 @@ describe('easy stackup function', function () {
     var layers = [{gerber: emptyGerber, type: 'tcu'}]
 
     pcbStackup(layers, {id: 'test-id'}, function (error, stackup) {
-      expect(error).to.not.exist
-      expect(stackup).to.exist
+      expect(error).to.equal(null)
+      expect(stackup).to.satisfy(identity)
       // TODO: test for actual id
       done()
     })
@@ -102,8 +94,8 @@ describe('easy stackup function', function () {
     var layers = [{gerber: emptyGerber, filename: 'foo'}]
 
     pcbStackup(layers, function (error, stackup) {
-      expect(error).to.not.exist
-      expect(stackup).to.exist
+      expect(error).to.equal(null)
+      expect(stackup).to.satisfy(identity)
       expect(stackup).to.be.an('object')
       expect(stackup).to.have.all.keys('top', 'bottom', 'layers')
       expect(stackup.layers).to.be.an.instanceOf(Array)
@@ -118,9 +110,9 @@ describe('easy stackup function', function () {
     ]
 
     pcbStackup(layers, function (error, stackup) {
-      expect(error).to.not.exist
-      expect(stackup).to.exist
-      expect(stackup.layers[0].options.plotAsOutline).to.be.true
+      expect(error).to.equal(null)
+      expect(stackup).to.satisfy(identity)
+      expect(stackup.layers[0].options.plotAsOutline).to.equal(true)
       done()
     })
   })
@@ -132,8 +124,8 @@ describe('easy stackup function', function () {
     ]
 
     pcbStackup(layers, function (error, stackup) {
-      expect(error).to.not.exist
-      expect(stackup).to.exist
+      expect(error).to.equal(null)
+      expect(stackup).to.satisfy(identity)
       expect(stackup.layers).to.have.lengthOf(layers.length)
       done()
     })
@@ -146,11 +138,11 @@ describe('easy stackup function', function () {
     ]
 
     pcbStackup(layers, function (error, stackup1) {
-      expect(error).to.not.exist
+      expect(error).to.equal(null)
 
       pcbStackup(stackup1.layers, function (error, stackup2) {
-        expect(error).to.not.exist
-        expect(stackup2).to.exist
+        expect(error).to.equal(null)
+        expect(stackup2).to.satisfy(identity)
         done()
       })
     })
@@ -161,10 +153,14 @@ describe('easy stackup function', function () {
       {gerber: emptyGerber, type: 'bcu'},
       {gerber: emptyGerber, type: 'tcu'}
     ]
-    var options = {createElement: function () { return 1 }}
+    var options = {
+      createElement: function () {
+        return 1
+      }
+    }
 
     pcbStackup(layers, options, function (error, stackup) {
-      expect(error).to.not.exist
+      expect(error).to.equal(null)
       expect(stackup.layers[0].converter['_element']()).to.equal(1)
       expect(stackup.layers[1].converter['_element']()).to.equal(1)
       done()
@@ -174,12 +170,24 @@ describe('easy stackup function', function () {
   it('overrides the createElement option', function (done) {
     var layers = [
       {gerber: emptyGerber, type: 'bcu'},
-      {gerber: emptyGerber, type: 'tcu', options: {createElement: function () { return 2 }}}
+      {
+        gerber: emptyGerber,
+        type: 'tcu',
+        options: {
+          createElement: function () {
+            return 2
+          }
+        }
+      }
     ]
-    var options = {createElement: function () { return 1 }}
+    var options = {
+      createElement: function () {
+        return 1
+      }
+    }
 
     pcbStackup(layers, options, function (error, stackup) {
-      expect(error).to.not.exist
+      expect(error).to.equal(null)
       expect(stackup.layers[0].converter['_element']()).to.equal(1)
       expect(stackup.layers[1].converter['_element']()).to.equal(1)
       done()
@@ -187,98 +195,54 @@ describe('easy stackup function', function () {
   })
 
   it('sets threshold for filling outline gaps', function (done) {
-    var layers = [
-      {gerber: emptyGerber, type: 'out'}
-    ]
+    var layers = [{gerber: emptyGerber, type: 'out'}]
 
     var options = {outlineGapFill: 2}
 
     pcbStackup(layers, options, function (error, stackup) {
       var options = {outlineGapFill: 3}
 
-      expect(error).to.not.exist
+      expect(error).to.equal(null)
       expect(stackup.layers[0].options.plotAsOutline).to.equal(2)
       pcbStackup(stackup.layers, options, function (error, stackup) {
-        expect(error).to.not.exist
+        expect(error).to.equal(null)
         expect(stackup.layers[0].options.plotAsOutline).to.equal(3)
         done()
       })
     })
   })
 
-  // TODO: these determinism tests should really be property based using a quickcheck
-  // style framework instead of single unit tests
-  // NOTE: (mc) Perhaps instead of these tests, we should check that we're passing
-  // the correct things to gerber-to-svg, whats-that-gerber, and pcb-stackup-core?
-
-  var exampleGerber1 = fs.readFileSync(path.join(__dirname, 'integration/boards/arduino-uno/arduino-uno.plc'))
-  var exampleGerber2 = fs.readFileSync(path.join(__dirname, 'integration/boards/arduino-uno/arduino-uno.gko'))
-
-  it('has deterministic top and bottom svgs if ids are given', function (done) {
-    var layers = [
-      {gerber: exampleGerber1, type: 'bcu', options: {id: 'a'}},
-      {gerber: exampleGerber2, type: 'tcu', options: {id: 'b'}}
-    ]
-
-    pcbStackup(layers, {id: 'c'}, function (error, stackup1) {
-      expect(error).to.not.exist
-      expect(stackup1).to.exist
-
-      pcbStackup(layers, {id: 'c'}, function (error, stackup2) {
-        expect(error).to.not.exist
-        expect(stackup2.top).to.deep.equal(stackup1.top)
-        expect(stackup2.bottom).to.deep.equal(stackup1.bottom)
-        done()
-      })
-    })
-  })
-
-  it('has deterministic top and bottom svgs if ids are given and passed back its own output', function (done) {
-    var layers = [
-      {gerber: exampleGerber1, type: 'bcu', options: {id: 'a'}},
-      {gerber: exampleGerber2, type: 'tcu', options: {id: 'b'}}
-    ]
-
-    pcbStackup(layers, {id: 'c'}, function (error, stackup1) {
-      expect(error).to.not.exist
-      expect(stackup1).to.exist
-
-      pcbStackup(stackup1.layers, {id: 'c'}, function (error, stackup2) {
-        expect(error).to.not.exist
-        expect(stackup2.top).to.deep.equal(stackup1.top)
-        expect(stackup2.bottom).to.deep.equal(stackup1.bottom)
-        done()
-      })
-    })
-  })
-
-  it('lets you replace gerber in layer cache', function (done) {
-    var layers = [
-      {gerber: exampleGerber1, type: 'bcu', options: {id: 'a'}},
-      {gerber: exampleGerber2, type: 'tcu', options: {id: 'b'}}
-    ]
-
-    pcbStackup(layers, {id: 'c'}, function (error, stackup1) {
-      expect(error).to.not.exist
-      expect(stackup1).to.exist
-      expect(stackup1.layers[0].type).to.equal('bcu')
-      expect(stackup1.layers[1].type).to.equal('tcu')
-      stackup1.layers[0].type = 'tcu'
-      stackup1.layers[0].options = {id: 'b'}
-      stackup1.layers[0].gerber = exampleGerber2
-
-      pcbStackup(stackup1.layers, {id: 'c'}, function (error, stackup2) {
-        expect(error).to.not.exist
-
-        var comparableLayers = stackup2.layers.map(function (layer) {
-          layer.converter = cloneConverter(layer.converter)
-
-          return layer
-        })
-
-        expect(comparableLayers[0]).to.deep.equal(comparableLayers[1])
-        done()
-      })
-    })
-  })
+  // TODO(mc, 2018-04-17): should tested with mocks instead
+  // it('lets you replace gerber in layer cache', function (done) {
+  //   var exampleGerber1 = arduino.layers.find(g => g.type === 'bcu').contents
+  //   var exampleGerber2 = arduino.layers.find(g => g.type === 'tcu').contents
+  //
+  //   var layers = [
+  //     {gerber: exampleGerber1, type: 'bcu', options: {id: 'a'}},
+  //     {gerber: exampleGerber2, type: 'tcu', options: {id: 'b'}}
+  //   ]
+  //
+  //   pcbStackup(layers, {id: 'c'}, function (error, stackup1) {
+  //     expect(error).to.equal(null)
+  //     expect(stackup1).to.satisfy(identity)
+  //     expect(stackup1.layers[0].type).to.equal('bcu')
+  //     expect(stackup1.layers[1].type).to.equal('tcu')
+  //     stackup1.layers[0].type = 'tcu'
+  //     stackup1.layers[0].options = {id: 'b'}
+  //     stackup1.layers[0].gerber = exampleGerber2
+  //
+  //     pcbStackup(stackup1.layers, {id: 'c'}, function (error, stackup2) {
+  //       expect(error).to.equal(null)
+  //
+  //       var comparableLayers = stackup2.layers.map(function (layer) {
+  //         layer.converter = cloneConverter(layer.converter)
+  //
+  //         return layer
+  //       })
+  //
+  //       expect(comparableLayers[0]).to.deep.equal(comparableLayers[1])
+  //       done()
+  //     })
+  //   })
+  // })
 })
