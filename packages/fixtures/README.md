@@ -49,7 +49,7 @@ Array<{
 For non-npm projects, this file is also available via [the unpkg CDN][unpkg]:
 
 ```shell
-https://unpkg.com/@tracespace/fixtures@4.0.0/cad-filenames.json
+curl https://unpkg.com/@tracespace/fixtures@${version}/gerber-filenames.json
 ```
 
 ### example boards

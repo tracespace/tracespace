@@ -16,7 +16,7 @@ tracespace is an open-source collection of tools to make looking at circuit boar
 
 ## contributing
 
-We'd could use your help maintaining and growing the tracespace ecosystem! Issues and pull requests are greatly appreciated.
+We could use your help maintaining and growing the tracespace ecosystem! Issues and pull requests are greatly appreciated.
 
 ### development setup
 
@@ -31,7 +31,7 @@ cd tracespace
 yarn
 ```
 
-This repository adheres to the [Conventional Changelog][conventional-changlog] commit specification for automatic changelog generation. We recommend installing [commitizen][commitizen] to ensure your commit messages are properly formatted:
+This repository adheres to the [Conventional Changelog][conventional-changelog] commit specification for automatic changelog generation. We recommend installing [commitizen][commitizen] to ensure your commit messages are properly formatted:
 
 ```shell
 yarn global add commitizen
@@ -94,7 +94,7 @@ yarn run bump
 
 # specify a bump level
 # https://github.com/lerna/lerna#--cd-version
-yarn run version --cd-version=${major|minor|patch|premajor|preminor|prepatch|prerelease}
+yarn run bump --cd-version=${major|minor|patch|premajor|preminor|prepatch|prerelease}
 ```
 
 The release will be published to the `latest` npm tag for bare versions (e.g. `4.0.0`) and to `next` for pre-release versions (e.g. `4.0.0-next.0`).
