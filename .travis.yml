@@ -31,7 +31,7 @@ jobs:
         skip_cleanup: true
         # deploy on tagged commits
         on:
-          repo: mcous/pcb-stackup
+          repo: tracespace/tracespace
           tags: true
           all_brances: true
 
