@@ -19,6 +19,8 @@ jobs:
     #   node_js: node
 
     - stage: deploy
+      # deploy if tag starts with v
+      if: tag =~ ^v
       node_js: node
       script: echo "deploying to npm if build is tagged"
       # set npm credentials for npm publish
