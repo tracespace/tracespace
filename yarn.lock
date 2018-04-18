@@ -7325,10 +7325,6 @@ wcwidth@^1.0.0:
   dependencies:
     defaults "^1.0.3"
 
-whats-that-gerber@^2.1.0:
-  version "2.1.1"
-  resolved "https://registry.npmjs.org/whats-that-gerber/-/whats-that-gerber-2.1.1.tgz#7e662f42757f988712880c1e4faf83fe38a585cc"
-
 when@^3.7.7:
   version "3.7.8"
   resolved "https://registry.yarnpkg.com/when/-/when-3.7.8.tgz#c7130b6a7ea04693e842cdc9e7a1f2aa39a39f82"
