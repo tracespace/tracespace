@@ -1,41 +1,28 @@
 {
   "name": "whats-that-gerber",
   "version": "3.0.0",
-  "description": "Guesses the PCB layer type given a filename of a Gerber or drill file",
+  "description": "Identify Gerber and drill files by filenamee",
   "main": "index.js",
-  "scripts": {
-    "lint": "eslint index.js 'test/*js'",
-    "test": "nyc mocha",
-    "test:watch": "mocha --watch --reporter=dot",
-    "coverage": "nyc report",
-    "posttest": "npm run lint"
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tracespace/whats-that-gerber.git"
+    "url": "git+https://github.com/tracespace/tracespace.git"
   },
   "keywords": [
     "pcb",
     "gerber",
-    "svg",
-    "gerber-to-svg",
+    "excellon",
+    "circuit",
     "hardware",
-    "circuit"
+    "electronics"
   ],
   "contributors": [
     "Mike Cousins <mike@cousins.io> (http://cousins.io)",
-    "Kaspar Emanuel <kaspar@monostable.co.uk> (http://monostable.co.uk)"
+    "Kaspar Emanuel <kaspar@monostable.co.uk> (http://monostable.co.uk)",
+    "David Freitag <dvdfreitag@gmail.com>"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tracespace/whats-that-gerber/issues"
+    "url": "https://github.com/tracespace/tracespace/issues"
   },
-  "homepage": "https://github.com/tracespace/whats-that-gerber#readme",
-  "devDependencies": {
-    "chai": "^3.5.0",
-    "eslint": "^2.9.0",
-    "mocha": "^3.0.2",
-    "nyc": "^8.1.0"
-  },
-  "dependencies": {}
+  "homepage": "https://github.com/tracespace/tracespace#readme"
 }
