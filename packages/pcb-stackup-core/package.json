@@ -1,6 +1,6 @@
 {
   "name": "pcb-stackup-core",
-  "version": "3.0.0",
+  "version": "4.0.0-next.4",
   "description": "Layer stacking core logic for pcb-stackup",
   "main": "lib/index.js",
   "scripts": {
