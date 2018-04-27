@@ -29,7 +29,7 @@ Arduino Uno design files used here under the terms of the [Creative Commons Attr
 ## as seen on
 
 * [viewer.tracespace.io](http://viewer.tracespace.io) - A Gerber viewer that lets you inspect the individual layers as well as the board preview
-* [kitnic.it](https://kitnic.it) - An electronics project sharing site with links to easily buy the required parts
+* [kitspace.org](https://kitspace.org) - An electronics project sharing site with links to easily buy the required parts
 * [OpenHardware.io](https://www.openhardware.io) - A social site around open source hardware. Enables authors to sell and manufacture their boards.
 
 ## usage
