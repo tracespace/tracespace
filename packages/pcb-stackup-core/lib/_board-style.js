@@ -25,7 +25,7 @@ module.exports = function boardStyle (element, prefix, side, layerColors) {
       var rgba = colorString.get.rgb(colors[layer])
 
       if (rgba) {
-        var hex = colorString.to.hex(rgba)
+        var hex = colorString.to.hex(rgba).slice(0, 7)
 
         style = 'color: ' + hex + '; opacity: ' + rgba[3] + ';'
       }

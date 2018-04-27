@@ -86,6 +86,7 @@ module.exports = function pcbStackupCore (layers, opts) {
 
   return SIDES.reduce(function (result, side) {
     var style = boardStyle(element, id + '_', side, color)
+
     var stack = stackLayers(
       element,
       id,
