@@ -1,10 +1,12 @@
 # pcb stackup core
 
+[![npm][npm-badge]][npm]
+
 > Stack gerber-to-svg layer renders to build PCB renders
 
-If you're looking for an easy way to generate beautiful SVG renders of printed circuit boards, check out the higher-level [pcb-stackup](https://github.com/tracespace/pcb-stackup) tool first.
+If you're looking for an easy way to generate beautiful SVG renders of printed circuit boards, check out the higher-level [pcb-stackup](../pcb-stackup) tool first.
 
-`pcb-stackup-core` is the low-level module that powers the rendering of `pcb-stackup`.  It takes individual printed circuit board layer converters as output by [gerber-to-svg](../gerber-to-svg) and identified as PCB layer types by [whats-that-gerber](https://www.npmjs.com/package/whats-that-gerber) and uses them to build SVG renders of what the manufactured PCB will look like from the top and the bottom.
+`pcb-stackup-core` is the low-level module that powers the rendering of `pcb-stackup`.  It takes individual printed circuit board layer converters as output by [gerber-to-svg](../gerber-to-svg) and identified as PCB layer types by [whats-that-gerber](../whats-that-gerber) and uses them to build SVG renders of what the manufactured PCB will look like from the top and the bottom.
 
 ## install
 
@@ -65,13 +67,13 @@ var stackup = pcbStackupCore(layersArray, options)
 // }
 ```
 
-`svg` is the SVG element (by default as an XML string). The rest of the properties all correspond to the [public properties of a gerber-to-svg converter](https://github.com/mcous/gerber-to-svg/blob/master/API.md#public-properties). `units` is a string value of 'in' or 'mm'. `viewBox` is the minimum x value, minimum y value, width, and height in thousandths of (1000x) `units`. `width` and `height` are the width and height in `units`. `defs` and `layer` are arrays of XML elements that are used as children of the `defs` node and the SVG's main `g` node.
+`svg` is the SVG element (by default as an XML string). The rest of the properties all correspond to the [public properties of a gerber-to-svg converter](../gerber-to-svg/API.md#public-properties). `units` is a string value of 'in' or 'mm'. `viewBox` is the minimum x value, minimum y value, width, and height in thousandths of (1000x) `units`. `width` and `height` are the width and height in `units`. `defs` and `layer` are arrays of XML elements that are used as children of the `defs` node and the SVG's main `g` node.
 
-Astute readers will notice this is the same interface as gerber-to-svg converters, and this means the [render](https://github.com/mcous/gerber-to-svg/blob/master/API.md#render) and [clone](https://github.com/mcous/gerber-to-svg/blob/master/API.md#clone) static methods of gerber-to-svg will also work on the pcb-stackup-core renders.
+Astute readers will notice this is the same interface as gerber-to-svg converters, and this means the [render](../gerber-to-svg/API.md#render) and [clone](../gerber-to-svg/API.md#clone) static methods of gerber-to-svg will also work on the pcb-stackup-core renders.
 
 ### layers array
 
-The first parameter to the function is an array of layer objects. A layer object is an object with a `type` key and a `converter` key, where `type` is a Gerber filetype string as output by [whats-that-gerber](https://www.npmjs.com/package/whats-that-gerber) and `converter` is the converter object returned by gerber-to-svg for that Gerber file (note: this is the actual return value of gerber-to-svg, not the value that is emitted by the stream or passed to the callback).
+The first parameter to the function is an array of layer objects. A layer object is an object with a `type` key and a `converter` key, where `type` is a Gerber filetype string as output by [whats-that-gerber](../whats-that-gerber) and `converter` is the converter object returned by gerber-to-svg for that Gerber file (note: this is the actual return value of gerber-to-svg, not the value that is emitted by the stream or passed to the callback).
 
 It is expected that the converters will have already finished before being passed to pcb-stackup-core. This can be done by listening for the converter's `end` event or by using gerber-to-svg in callback mode, as shown in the example.
 
@@ -176,11 +178,11 @@ When constructing the stackup, a `<mask>` of all the drill layers is built and a
 
 To work, the outline layer must be one or more fully-enclosed loops. If it isn't, setting `maskWithOutline` to true will likely result in the final image being incorrect (or non-existent), because the `<path>`s won't clip the image properly. See the [MDN's documentation of `<clipPath>`](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/clipPath) for more details.
 
-To improve your chances of a board outline layer working for `maskWithOutline`, make sure you set the `plotAsOutline` [option of gerber-to-svg](https://github.com/mcous/gerber-to-svg/blob/master/API.md#options) to `true` when converting the outline gerber. If the board outline still doesn't work, please open an issue to see if we can improve the masking process.
+To improve your chances of a board outline layer working for `maskWithOutline`, make sure you set the `plotAsOutline` [option of gerber-to-svg](..gerber-to-svg/API.md#options) to `true` when converting the outline gerber. If the board outline still doesn't work, please open an issue to see if we can improve the masking process.
 
 #### create element and include namespace
 
-Both gerber-to-svg and pcb-stackup-core take a `createElement` function as an option. It defaults to [xml-element-string](https://github.com/tracespace/xml-element-string), which outputs a string. However, any function that takes a tag name, attributes object, and children array may be used. For example, you could pass in [React.createElement](https://facebook.github.io/react/docs/top-level-api.html#react.createelement) and create virtual DOM nodes instead.
+Both gerber-to-svg and pcb-stackup-core take a `createElement` function as an option. It defaults to [xml-element-string](https://github.com/tracespace/xml-element-string), which outputs a string. However, any function that takes a tag name, attributes object, and children array may be used. For example, you could pass in [React.createElement][react-create-element] and create virtual DOM nodes instead.
 
 If you choose to use this option, the function you pass into pcb-stackup-core __must__ be the same one you passed into gerber-to-svg.
 
@@ -211,3 +213,8 @@ The stackup can be made up of the following layer types:
  top / bottom solderpaste | tsp / bsp
  board outline            | out
  drill hits               | drl
+
+
+[react-create-element]: https://reactjs.org/docs/react-api.html#createelement
+[npm]: https://www.npmjs.com/package/pcb-stackup-core
+[npm-badge]: https://img.shields.io/npm/v/pcb-stackup-core.svg?style=flat-square&maxAge=86400
