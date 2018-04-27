@@ -3035,23 +3035,6 @@ gerber-plotter@^1.1.0:
     lodash.isfunction "^3.0.6"
     readable-stream "^2.1.2"
 
-gerber-to-svg@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/gerber-to-svg/-/gerber-to-svg-2.1.0.tgz#f6c8635d90db53b8bc32135b23b63ba5377c3c15"
-  dependencies:
-    chalk "^1.1.1"
-    escape-html "^1.0.3"
-    gerber-parser "^1.0.0"
-    gerber-plotter "^1.1.0"
-    inherits "^2.0.1"
-    lodash.isfinite "^3.2.0"
-    lodash.isstring "^4.0.1"
-    minimist "^1.1.0"
-    mkdirp "^0.5.1"
-    readable-stream "^2.1.2"
-    xml-element-string "^1.0.0"
-    xmlovely "^1.0.0"
-
 get-caller-file@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"

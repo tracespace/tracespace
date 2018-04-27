@@ -1,29 +1,19 @@
 {
   "name": "gerber-to-svg",
   "version": "2.1.0",
-  "description": "Gerber and NC drill file to SVG converter",
+  "description": "Render Gerber and NC drill files as SVGs in Node and the browser",
   "main": "lib/gerber-to-svg.js",
   "bin": {
-    "gerber2svg": "bin/gerber2svg"
+    "gerber2svg": "bin/cli.js",
+    "gerber-to-svg": "bin/cli.js"
   },
   "scripts": {
-    "lint": "eslint bin/* lib/*.js test/*.js",
-    "test": "istanbul cover -x 'test-visual/*' --include-all-sources _mocha",
-    "posttest": "npm run lint",
-    "test:watch": "mocha --reporter dot --watch",
-    "test:visual": "node test-visual/server.js",
-    "test:browser": "zuul --local -- ./test/*_test.js",
-    "test:sauce": "zuul -- ./test/*_test.js",
-    "ci": "npm test && if [ \"${TEST_BROWSERS}\" = \"true\" ]; then npm run ci:browser; fi",
-    "ci:browser": "if [ \"${TRAVIS_PULL_REQUEST}\" = \"false\" ]; then npm run test:sauce; fi",
-    "postci": "coveralls < ./coverage/lcov.info"
+    "integration:server": "node integration/server",
+    "example": "node example"
   },
-  "precommit": [
-    "lint"
-  ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/tracespace/gerber-to-svg.git"
+    "url": "git://github.com/tracespace/tracespace.git"
   },
   "keywords": [
     "svg",
@@ -38,39 +28,20 @@
     "electrical",
     "maker"
   ],
-  "author": "Mike Cousins <mike@cousins.io> (http://cousins.io)",
+  "contributors": [
+    "Mike Cousins <mike@cousins.io> (http://mike.cousins.io/)",
+    "Kaspar Emanuel <kaspar@monostable.co.uk> (http://monostable.co.uk)"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mcous/gerber-to-svg/issues"
+    "url": "https://github.com/tracespace/tracespace/issues"
   },
-  "homepage": "https://github.com/mcous/gerber-to-svg",
-  "devDependencies": {
-    "async": "^2.6.0",
-    "chai": "^4.1.2",
-    "coveralls": "^3.0.0",
-    "eslint": "^4.19.1",
-    "glob": "^7.0.3",
-    "hapi": "^17.3.1",
-    "inert": "^5.1.0",
-    "istanbul": "^0.4.0",
-    "lodash.assign": "^4.0.8",
-    "lodash.groupby": "^4.3.0",
-    "lodash.partial": "^4.1.3",
-    "lodash.template": "^4.2.4",
-    "mocha": "^5.0.5",
-    "pre-commit": "^1.1.2",
-    "proxyquire": "^1.8.0",
-    "proxyquire-universal": "^1.0.8",
-    "proxyquireify": "^3.2.0",
-    "sinon": "^4.5.0",
-    "sinon-chai": "^3.0.0",
-    "zuul": "^3.7.2"
-  },
+  "homepage": "https://github.com/tracespace/tracespace#readme",
   "dependencies": {
-    "chalk": "^2.3.2",
+    "chalk": "^1.1.1",
     "escape-html": "^1.0.3",
-    "gerber-parser": "^1.1.0",
-    "gerber-plotter": "^2.0.0",
+    "gerber-parser": "^1.0.0",
+    "gerber-plotter": "^1.1.0",
     "inherits": "^2.0.1",
     "lodash.isfinite": "^3.2.0",
     "lodash.isstring": "^4.0.1",
