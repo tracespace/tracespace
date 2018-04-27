@@ -85,6 +85,8 @@ Array<{
     name: string,
     /** path to the layer's gerber / drill file */
     filepath: string,
+    /** basename of filepath */
+    filename: string,
     /** format of the file */
     format: 'gerber' | 'drill',
     /** whats-that-gerber type of the layer */
@@ -132,6 +134,22 @@ Array<{
     expected: string
   }>
 }>
+```
+
+### render suite server
+
+Work in progress
+
+```js
+const {server} = require('@tracespace/fixtures')
+
+const app = server('suite name', getResults)
+
+app.listen(9000, () => console.log('listening on http://localhost:9000'))
+
+function getResults (done) {
+  // get results somehow and pass them to done
+}
 ```
 
 [npm]: https://www.npmjs.com/package/@tracespace/fixtures

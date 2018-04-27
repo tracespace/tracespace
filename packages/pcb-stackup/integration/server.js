@@ -1,40 +1,20 @@
 // simple visual test server for pcb-stackup
 'use strict'
 
-const express = require('express')
 const runWaterfall = require('run-waterfall')
 const debug = require('debug')('tracespace/pcb-stackup/integration')
 
-const {getBoards, runTemplate} = require('@tracespace/fixtures')
+const {getBoards, server} = require('@tracespace/fixtures')
+const {name} = require('../package.json')
 const getResults = require('./get-results')
-const pkg = require('../package.json')
 
 const PORT = 8000
 
-const app = express()
-
-app.get('/', (request, response) => {
-  handleTestRun((error, result) => {
-    if (error) {
-      console.error(error)
-      return response.status(500).send({error: error.message})
-    }
-
-    console.log('Boards rendered successfully')
-    response.send(result)
-  })
+const app = server(name, function getPcbStackupResults (done) {
+  debug('Getting results')
+  runWaterfall([getBoards, getResults], done)
 })
 
 app.listen(PORT, () => {
-  console.log(`pcb-stackup server listening at http://localhost:${PORT}`)
+  console.log(`Listening at http://localhost:${PORT}`)
 })
-
-function handleTestRun (done) {
-  debug('Handling test run')
-
-  runWaterfall([getBoards, getResults, makeResponse], done)
-}
-
-function makeResponse (boards, done) {
-  runTemplate({boards, pkg}, done)
-}

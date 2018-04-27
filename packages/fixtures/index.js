@@ -5,8 +5,8 @@ const path = require('path')
 const glob = require('glob')
 const runParallel = require('run-parallel')
 const runWaterfall = require('run-waterfall')
-const template = require('lodash/template')
 
+const server = require('./server')
 const gerberFilenames = require('./gerber-filenames.json')
 
 const GLOB_BOARD_MANIFEST = path.join(__dirname, 'boards/**/manifest.json')
@@ -16,7 +16,7 @@ module.exports = {
   gerberFilenames,
   getBoards,
   getGerberSpecs,
-  runTemplate
+  server
 }
 
 function getBoards (done) {
@@ -59,19 +59,6 @@ getGerberSpecs.sync = function () {
   const specs = paths.map(filepath => readFile.sync(filepath, {}))
 
   return collectSpecs(specs)
-}
-
-function runTemplate (props, done) {
-  runWaterfall([
-    next => fs.readFile(TEMPLATE, 'utf8', next),
-    (contents, next) => {
-      try {
-        next(null, template(contents)(props))
-      } catch (error) {
-        next(error)
-      }
-    }
-  ])
 }
 
 function readManifest (manifestPath, done) {
@@ -138,8 +125,9 @@ function makeFileResult (filepath, props, contents) {
   const dirname = path.dirname(filepath)
   const category = path.basename(dirname)
   const extname = path.extname(filepath)
+  const filename = path.basename(filepath)
   const name = path.basename(filepath, extname)
-  const file = {category, filepath, name}
+  const file = {category, filepath, filename, name}
   const result =
     extname.toLowerCase() === '.json' ? JSON.parse(contents) : {contents}
 
