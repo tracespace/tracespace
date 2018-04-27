@@ -63,7 +63,7 @@ getGerberSpecs.sync = function () {
 
 function runTemplate (props, done) {
   runWaterfall([
-    (next) => fs.readFile(TEMPLATE, 'utf8', next),
+    next => fs.readFile(TEMPLATE, 'utf8', next),
     (contents, next) => {
       try {
         next(null, template(contents)(props))

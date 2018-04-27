@@ -6,18 +6,21 @@ var viewbox = require('viewbox')
 var wrapLayer = require('./wrap-layer')
 
 var getScale = function (units, layerUnits) {
-  var scale = units === 'in'
-    ? 1 / 25.4
-    : 25.4
+  var scale = units === 'in' ? 1 / 25.4 : 25.4
 
-  var result = units === layerUnits
-    ? 1
-    : scale
+  var result = units === layerUnits ? 1 : scale
 
   return result
 }
 
-module.exports = function (element, idPrefix, layers, drills, outline, maskWithOutline) {
+module.exports = function (
+  element,
+  idPrefix,
+  layers,
+  drills,
+  outline,
+  maskWithOutline
+) {
   var defs = []
   var layerIds = []
   var drillIds = []
@@ -27,9 +30,7 @@ module.exports = function (element, idPrefix, layers, drills, outline, maskWithO
 
   var drillCount = 0
   var getUniqueId = function (type) {
-    var idSuffix = (type !== 'drl')
-      ? ''
-      : ++drillCount
+    var idSuffix = type !== 'drl' ? '' : ++drillCount
 
     return idPrefix + type + idSuffix
   }
@@ -47,10 +48,10 @@ module.exports = function (element, idPrefix, layers, drills, outline, maskWithO
   })
 
   if (unitsCount.in + unitsCount.mm) {
-    units = (unitsCount.in > unitsCount.mm) ? 'in' : 'mm'
+    units = unitsCount.in > unitsCount.mm ? 'in' : 'mm'
   }
 
-  var viewboxLayers = (outline) ? [outline] : allLayers
+  var viewboxLayers = outline ? [outline] : allLayers
   var box = viewboxLayers.reduce(function (result, layer) {
     var nextBox = layer.converter.viewBox
 
@@ -66,7 +67,9 @@ module.exports = function (element, idPrefix, layers, drills, outline, maskWithO
 
       if (!id) {
         id = getUniqueId(layer.type)
-        defs.push(wrapLayer(element, id, converter, getScale(units, converter.units)))
+        defs.push(
+          wrapLayer(element, id, converter, getScale(units, converter.units))
+        )
       }
 
       collection.push({type: layer.type, id: id})
@@ -85,12 +88,15 @@ module.exports = function (element, idPrefix, layers, drills, outline, maskWithO
     } else {
       outlineId = getUniqueId(outline.type)
 
-      defs.push(wrapLayer(
-        element,
-        outlineId,
-        outline.converter,
-        getScale(units, outline.converter.units),
-        maskWithOutline ? 'clipPath' : 'g'))
+      defs.push(
+        wrapLayer(
+          element,
+          outlineId,
+          outline.converter,
+          getScale(units, outline.converter.units),
+          maskWithOutline ? 'clipPath' : 'g'
+        )
+      )
     }
   }
 

@@ -57,9 +57,15 @@ describe('pcb stackup function', function () {
   })
 
   it('should need an id as an option', function () {
-    expect(function () { pcbStackupCore([], 'foo') }).to.not.throw
-    expect(function () { pcbStackupCore([], {id: 'bar'}) }).to.not.throw
-    expect(function () { pcbStackupCore([]) }).to.throw(/unique board ID/)
+    expect(function () {
+      pcbStackupCore([], 'foo')
+    }).to.not.throw
+    expect(function () {
+      pcbStackupCore([], {id: 'bar'})
+    }).to.not.throw
+    expect(function () {
+      pcbStackupCore([])
+    }).to.throw(/unique board ID/)
   })
 
   it('should have a createElement option that defaults to xml-element-string', function () {
@@ -160,14 +166,16 @@ describe('pcb stackup function', function () {
       'top',
       sorted.top,
       sorted.drills,
-      sorted.outline)
+      sorted.outline
+    )
     expect(stackLayersStub).to.have.been.calledWith(
       element,
       'this-id',
       'bottom',
       sorted.bottom,
       sorted.drills,
-      sorted.outline)
+      sorted.outline
+    )
   })
 
   it('should use stack to build result, add mech mask, flip as needed', function () {
@@ -283,7 +291,8 @@ describe('pcb stackup function', function () {
         mask: 'url(#foobar_top_mech-mask)',
         'clip-path': 'url(#foobar_top_out)'
       },
-      ['<top-group/>'])
+      ['<top-group/>']
+    )
     expect(element).to.be.calledWith(
       'g',
       {
@@ -291,7 +300,8 @@ describe('pcb stackup function', function () {
         mask: 'url(#foobar_bottom_mech-mask)',
         'clip-path': 'url(#foobar_bottom_out)'
       },
-      ['<bottom-group/>'])
+      ['<bottom-group/>']
+    )
   })
 
   it('should not put xmlns attr in nodes if includeNamespace is false', function () {

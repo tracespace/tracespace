@@ -5,7 +5,7 @@ module.exports = function wrapLayer (element, id, converter, scale, tag) {
   var layer = converter.layer
   var attr = {id: id}
 
-  if (scale && (scale !== 1)) {
+  if (scale && scale !== 1) {
     attr.transform = 'scale(' + scale + ',' + scale + ')'
   }
 

@@ -11,8 +11,8 @@ var boardStyle = require('./_board-style')
 var SIDES = ['top', 'bottom']
 
 var svgAttributes = function (id, side, box, units, includeNs, attributes) {
-  var width = (box[2] / 1000) + units
-  var height = (box[3] / 1000) + units
+  var width = box[2] / 1000 + units
+  var height = box[3] / 1000 + units
 
   var attr = {
     id: id + '_' + side,
@@ -93,15 +93,20 @@ module.exports = function pcbStackupCore (layers, opts) {
       sorted[side],
       sorted.drills,
       sorted.outline,
-      maskWithOutline)
+      maskWithOutline
+    )
 
     var units = stack.units
     var mechMaskId = stack.mechMaskId
     var outClipId = stack.outClipId
-    var box = (stack.box.length === 4) ? stack.box : [0, 0, 0, 0]
+    var box = stack.box.length === 4 ? stack.box : [0, 0, 0, 0]
     var defs = [style].concat(stack.defs)
     var layer = [
-      element('g', groupAttributes(box, side, mechMaskId, outClipId), stack.layer)
+      element(
+        'g',
+        groupAttributes(box, side, mechMaskId, outClipId),
+        stack.layer
+      )
     ]
 
     var defsNode = element('defs', {}, defs)
@@ -112,7 +117,8 @@ module.exports = function pcbStackupCore (layers, opts) {
       box,
       units,
       includeNamespace,
-      attributes)
+      attributes
+    )
 
     result[side] = {
       svg: element('svg', svgAttr, [defsNode, layerNode]),

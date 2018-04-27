@@ -60,12 +60,27 @@ var mechMask = function (element, id, box, drills) {
   return element('mask', {id: id}, group)
 }
 
-module.exports = function (element, id, side, layers, drills, outline, useOutline) {
+module.exports = function (
+  element,
+  id,
+  side,
+  layers,
+  drills,
+  outline,
+  useOutline
+) {
   var classPrefix = id + '_'
   var idPrefix = id + '_' + side + '_'
   var mechMaskId = idPrefix + 'mech-mask'
 
-  var layerProps = gatherLayers(element, idPrefix, layers, drills, outline, useOutline)
+  var layerProps = gatherLayers(
+    element,
+    idPrefix,
+    layers,
+    drills,
+    outline,
+    useOutline
+  )
   var defs = layerProps.defs
   var box = layerProps.box
   var units = layerProps.units
@@ -113,7 +128,9 @@ module.exports = function (element, id, side, layers, drills, outline, useOutlin
 
     // add the layer that gets masked
     var smGroupAttr = {mask: 'url(#' + smMaskId + ')'}
-    var smGroupShape = [createRect(element, box, 'currentColor', classPrefix + 'sm')]
+    var smGroupShape = [
+      createRect(element, box, 'currentColor', classPrefix + 'sm')
+    ]
 
     if (ssLayerId) {
       smGroupShape.push(useLayer(element, ssLayerId, classPrefix + 'ss'))
@@ -136,7 +153,7 @@ module.exports = function (element, id, side, layers, drills, outline, useOutlin
     defs: defs,
     layer: layer,
     mechMaskId: mechMaskId,
-    outClipId: (outLayerId && useOutline) ? outLayerId : null,
+    outClipId: outLayerId && useOutline ? outLayerId : null,
     box: box,
     units: units
   }
