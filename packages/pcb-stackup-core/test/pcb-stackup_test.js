@@ -1,4 +1,5 @@
 // test suite for the main pcb stackup function
+// TODO(mc, 2018-01-16): refactor with testdouble and maybe assert
 'use strict'
 
 var sinon = require('sinon')
@@ -44,8 +45,8 @@ var EXPECTED_DEFAULT_STYLE = [
 
 describe('pcb stackup function', function () {
   beforeEach(function () {
-    element.reset()
-    sortLayersSpy.reset()
+    element.resetHistory()
+    sortLayersSpy.resetHistory()
     stackLayersStub.reset()
     stackLayersStub.returns({
       box: [],
@@ -59,10 +60,10 @@ describe('pcb stackup function', function () {
   it('should need an id as an option', function () {
     expect(function () {
       pcbStackupCore([], 'foo')
-    }).to.not.throw
+    }).to.not.throw()
     expect(function () {
       pcbStackupCore([], {id: 'bar'})
-    }).to.not.throw
+    }).to.not.throw()
     expect(function () {
       pcbStackupCore([])
     }).to.throw(/unique board ID/)
@@ -112,7 +113,7 @@ describe('pcb stackup function', function () {
     var result = pcbStackupCore([], 'foobar')
     var styleSpy = element.withArgs('style', {}, [EXPECTED_DEFAULT_STYLE])
 
-    expect(styleSpy).to.be.calledTwice
+    expect(styleSpy).to.have.callCount(2)
     expect(result.top.svg).to.contain(styleSpy.returnValues[0])
     expect(result.bottom.svg).to.contain(styleSpy.returnValues[0])
   })
@@ -135,7 +136,7 @@ describe('pcb stackup function', function () {
 
     var styleSpy = element.withArgs('style', {}, [expectedStyle])
 
-    expect(styleSpy).to.be.calledTwice
+    expect(styleSpy).to.have.callCount(2)
     expect(result.top.svg).to.contain(styleSpy.returnValues[0])
     expect(result.bottom.svg).to.contain(styleSpy.returnValues[0])
   })

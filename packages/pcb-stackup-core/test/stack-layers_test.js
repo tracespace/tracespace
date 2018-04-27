@@ -246,7 +246,11 @@ describe('stack layers function', function () {
         },
         {tag: 'use', attr: {'xlink:href': '#id_top_drl1'}},
         {tag: 'use', attr: {'xlink:href': '#id_top_drl2'}},
-        {tag: 'g', attr: {fill: '#000', stroke: '#000'}, children: [0, 1, 2]},
+        {
+          tag: 'g',
+          attr: {fill: '#000', stroke: '#000'},
+          children: [0, 1, 2]
+        },
         {
           tag: 'mask',
           attr: {id: 'id_top_mech-mask'},
@@ -266,7 +270,11 @@ describe('stack layers function', function () {
         },
         {tag: 'use', attr: {'xlink:href': '#id_top_drl1'}},
         {tag: 'use', attr: {'xlink:href': '#id_top_drl2'}},
-        {tag: 'g', attr: {fill: '#000', stroke: '#000'}, children: [0, 1, 2]},
+        {
+          tag: 'g',
+          attr: {fill: '#000', stroke: '#000'},
+          children: [0, 1, 2]
+        },
         {
           tag: 'mask',
           attr: {id: 'id_top_mech-mask'},

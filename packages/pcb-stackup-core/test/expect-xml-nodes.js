@@ -1,4 +1,5 @@
 // helper to expect an chain of element calls
+// TODO(mc, 2018-01-16): refactor with testdouble and assert
 'use strict'
 
 var chai = require('chai')

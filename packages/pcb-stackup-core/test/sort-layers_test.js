@@ -6,13 +6,13 @@ var expect = require('chai').expect
 var sortLayers = require('../lib/sort-layers')
 
 describe('sort layers function', function () {
-  it('should reduce layers into an object with keys top and bottom', function () {
+  it('should reduce layers into object keyed by layer type', function () {
     var result = sortLayers([])
 
     expect(result.top).to.eql([])
     expect(result.bottom).to.eql([])
     expect(result.drills).to.eql([])
-    expect(result.outline).to.be.null
+    expect(result.outline).to.equal(null)
   })
 
   it('should add top layers to the top array', function () {
@@ -25,9 +25,9 @@ describe('sort layers function', function () {
 
     var result = sortLayers(layers)
 
-    expect(result.bottom).to.be.empty
-    expect(result.drill).to.be.empty
-    expect(result.outline).to.be.null
+    expect(result.bottom).to.have.lengthOf(0)
+    expect(result.drills).to.have.lengthOf(0)
+    expect(result.outline).to.equal(null)
     expect(result.top).to.eql([
       {type: 'cu', converter: layers[0].converter},
       {type: 'sm', converter: layers[1].converter},
@@ -46,9 +46,9 @@ describe('sort layers function', function () {
 
     var result = sortLayers(layers)
 
-    expect(result.top).to.be.empty
-    expect(result.drills).to.be.empty
-    expect(result.outline).to.be.null
+    expect(result.top).to.have.lengthOf(0)
+    expect(result.drills).to.have.lengthOf(0)
+    expect(result.outline).to.equal(null)
     expect(result.bottom).to.eql([
       {type: 'cu', converter: layers[0].converter},
       {type: 'sm', converter: layers[1].converter},
@@ -66,9 +66,12 @@ describe('sort layers function', function () {
 
     var result = sortLayers(layers)
 
-    expect(result.top).to.be.empty
-    expect(result.bottom).to.be.empty
-    expect(result.outline).to.eql({type: 'out', converter: layers[0].converter})
+    expect(result.top).to.have.lengthOf(0)
+    expect(result.bottom).to.have.lengthOf(0)
+    expect(result.outline).to.eql({
+      type: 'out',
+      converter: layers[0].converter
+    })
     expect(result.drills).to.eql([
       {type: 'drl', converter: layers[1].converter},
       {type: 'drl', converter: layers[2].converter}
@@ -84,10 +87,10 @@ describe('sort layers function', function () {
 
     var result = sortLayers(layers)
 
-    expect(result.top).to.be.empty
-    expect(result.bottom).to.be.empty
-    expect(result.drills).to.be.empty
-    expect(result.outline).to.be.null
+    expect(result.top).to.have.lengthOf(0)
+    expect(result.bottom).to.have.lengthOf(0)
+    expect(result.drills).to.have.lengthOf(0)
+    expect(result.outline).to.equal(null)
   })
 
   it('should include the externalId field of layers', function () {
