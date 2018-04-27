@@ -4,7 +4,7 @@
   "description": "Generate beautiful, precise SVG renders of PCBs from Gerber and drill files",
   "main": "index.js",
   "scripts": {
-    "example": "node example/index.js",
+    "example": "node example",
     "integration:server": "node integration/server"
   },
   "repository": {

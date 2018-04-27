@@ -76,3 +76,8 @@ See [the API documentation](./API.md).
 If your board doesn't appear at all or looks weirdly distorted try rendering it
 with the options `{maskWithOutline: false}` or filling in gaps in the outline
 with e.g. `{outlineGapFill: 0.011}`.
+
+[![npm]()]()
+
+[npm]: https://www.npmjs.com/package/pcb-stackup
+[npm-badge]: https://img.shields.io/npm/v/pcb-stackup.svg?style=flat-square&maxAge=86400

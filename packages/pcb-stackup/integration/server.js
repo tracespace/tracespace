@@ -1,19 +1,15 @@
-// simple visual test server for pcb-stackup-core
+// simple visual test server for pcb-stackup
 'use strict'
 
-const fs = require('fs')
-const path = require('path')
 const express = require('express')
 const runWaterfall = require('run-waterfall')
-const template = require('lodash/template')
 const debug = require('debug')('tracespace/pcb-stackup/integration')
 
-const {getBoards} = require('@tracespace/fixtures')
+const {getBoards, runTemplate} = require('@tracespace/fixtures')
 const getResults = require('./get-results')
 const pkg = require('../package.json')
 
 const PORT = 8000
-const TEMPLATE = path.join(__dirname, 'index.template.html')
 
 const app = express()
 
@@ -36,21 +32,9 @@ app.listen(PORT, () => {
 function handleTestRun (done) {
   debug('Handling test run')
 
-  runWaterfall([getBoards, getResults, runTemplate], done)
+  runWaterfall([getBoards, getResults, makeResponse], done)
 }
 
-function runTemplate (boards, done) {
-  runWaterfall(
-    [
-      next => fs.readFile(TEMPLATE, 'utf8', next),
-      (contents, next) => {
-        try {
-          next(null, template(contents)({boards, pkg}))
-        } catch (error) {
-          next(error)
-        }
-      }
-    ],
-    done
-  )
+function makeResponse (boards, done) {
+  runTemplate({boards, pkg}, done)
 }

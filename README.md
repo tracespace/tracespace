@@ -8,7 +8,7 @@ tracespace is an open-source collection of tools to make looking at circuit boar
 
 * [tracespace viewer][viewer] - Online PCB viewer powered by `pcb-stackup`
 * [pcb-stackup][] - Generate beautiful, precise SVG renders of PCBs from Gerber and drill files
-* [pcb-stackup-core][] - Stack gerber-to-svg layer renders to build PCB renders
+* [pcb-stackup-core][] - Layer stacking core logic for pcb-stackup
 * [gerber-to-svg][] - Render Gerber and NC drill files as SVGs in Node and the browser
 * [gerber-parser][] - Streaming Gerber/drill file parser
 * [gerber-plotter][] - Streaming layer image plotter (consumer of `gerber-parser`)

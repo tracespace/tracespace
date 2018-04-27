@@ -1,4 +1,4 @@
-// pcb-stackup render snapshot tests
+// pcb-stackup-core render snapshot tests
 'use strict'
 
 const format = require('xml-formatter')
@@ -10,7 +10,7 @@ const getResults = require('./get-results')
 const SIDES = ['top', 'bottom']
 const BOARDS = getBoards.sync().filter(b => !b.skipSnapshot)
 
-describe(`pcb-stackup :: integration snapshots`, function () {
+describe(`pcb-stackup-core :: integration`, function () {
   let renderedBoards
 
   before(function (done) {

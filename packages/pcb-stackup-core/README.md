@@ -1,42 +1,43 @@
 # pcb stackup core
 
-[![npm](https://img.shields.io/npm/v/pcb-stackup-core.svg?style=flat-square)](https://www.npmjs.com/package/pcb-stackup-core)
-[![license](https://img.shields.io/github/license/tracespace/pcb-stackup-core.svg?maxAge=2592000&style=flat-square)](https://github.com/tracespace/pcb-stackup-core/blob/master/LICENSE)
-[![Travis](https://img.shields.io/travis/tracespace/pcb-stackup-core/master.svg?style=flat-square)](https://travis-ci.org/tracespace/pcb-stackup-core)
-[![Coveralls](https://img.shields.io/coveralls/tracespace/pcb-stackup-core/master.svg?style=flat-square)](https://coveralls.io/github/tracespace/pcb-stackup-core)
-[![David](https://img.shields.io/david/tracespace/pcb-stackup-core.svg?style=flat-square)](https://david-dm.org/tracespace/pcb-stackup-core)
-[![David](https://img.shields.io/david/dev/tracespace/pcb-stackup-core.svg?style=flat-square)](https://david-dm.org/tracespace/pcb-stackup-core#info=devDependencies)
-[![Badges](https://img.shields.io/badge/badges-7-ff69b4.svg?style=flat-square)](http://shields.io/)
+> Stack gerber-to-svg layer renders to build PCB renders
 
-If you're looking for an easy way to generate beautiful SVG renders of printed circuit boards, check out [pcb-stackup](https://github.com/tracespace/pcb-stackup) first.
+If you're looking for an easy way to generate beautiful SVG renders of printed circuit boards, check out the higher-level [pcb-stackup](https://github.com/tracespace/pcb-stackup) tool first.
 
-This is the low-level module that powers the rendering of pcb-stackup.  It takes individual printed circuit board layer converters as output by [gerber-to-svg](https://github.com/mcous/gerber-to-svg) and identified as PCB layer types by [whats-that-gerber](https://www.npmjs.com/package/whats-that-gerber) and uses them to build SVG renders of what the manufactured PCB will look like from the top and the bottom.
+`pcb-stackup-core` is the low-level module that powers the rendering of `pcb-stackup`.  It takes individual printed circuit board layer converters as output by [gerber-to-svg](../gerber-to-svg) and identified as PCB layer types by [whats-that-gerber](https://www.npmjs.com/package/whats-that-gerber) and uses them to build SVG renders of what the manufactured PCB will look like from the top and the bottom.
 
-Install with:
+## install
 
-```
-$ npm install --save pcb-stackup-core
+``` shell
+npm install --save pcb-stackup-core
+# or
+yarn add pcb-stackup-core
 ```
 
-gerber-to-svg and whats-that-gerber are peer dependencies, so you'll probably want them, too:
+`gerber-to-svg` and `whats-that-gerber` are peer dependencies, so you'll want them, too:
 
-```
-$ npm install --save gerber-to-svg whats-that-gerber
+```shell
+npm install --save gerber-to-svg whats-that-gerber
+# or
+yarn add gerber-to-svg whats-that-gerber
 ```
 
 ## example
 
-1. `$ git clone tracespace/pcb-stackup-core`
-2. `$ cd pcb-stackup-core && npm install`
-3. `$ npm run example`
+After you clone and set-up the repository as detailed in [development setup](../..#development-setup), you can run `pcb-stackup-core`'s [example script](./example/index.js) to render the top and bottom of an Arduino Uno PCB.
 
-[The example script](./example/clockblock.js) builds a render of the [clockblock](https://github.com/wileycousins/clockblock) PCB.
+```shell
+cd tracespace/packages/pcb-stackup-core
+yarn run example
+```
+
+Arduino Uno design files used here under the terms of the [Creative Commons Attribution Share-Alike license](https://www.arduino.cc/en/Main/FAQ).
 
 ## usage
 
 This module is designed to work in Node or in the browser with Browserify or Webpack. The  function takes two parameters: an array of layer objects and an options object. It returns an object with a `top` key and a `bottom` key, each of which contains the SVG element and various properties of the render.
 
-``` javascript
+```js
 var pcbStackupCore = require('pcb-stackup-core')
 var options = {id: 'my-board'}
 var stackup = pcbStackupCore(layersArray, options)
@@ -74,7 +75,7 @@ The first parameter to the function is an array of layer objects. A layer object
 
 It is expected that the converters will have already finished before being passed to pcb-stackup-core. This can be done by listening for the converter's `end` event or by using gerber-to-svg in callback mode, as shown in the example.
 
-``` javascript
+```js
 var topCopperLayer = {
   type: GERBER_FILE_TYPE,
   converter: FINISHED_GERBER_TO_SVG_CONVERTER
@@ -89,7 +90,7 @@ If you will be displaying the individual layers in the same page as the board re
 
 You can tell the stackup function that a layer is stored externally by giving it a layer with an `externalId` attribute. This should be set to the `id` attribute of the layer's external `<g>`. This will prevent the stackup function from pushing the converters defs to the stackup image defs node.
 
-``` javascript
+```js
 var sharedLayer = {
   type: GERBER_FILE_TYPE,
   converter: FINISHED_GERBER_TO_SVG_CONVERTER,
@@ -103,20 +104,20 @@ Please note that when using the `maskWithOutline` option as described below, the
 
 The second parameter of the pcb-stackup-core function is an options object. The only required option is the `id` options. For ease, if no other options are being specified, the id string may be passed as the second parameter directly.
 
-``` javascript
+```js
 // stackup 1 and 2 are equivalent
 var stackup1 = pcbStackupCore(layers, 'my-unique-board-id')
 var stackup2 = pcbStackupCore(layers, {id: 'my-unique-board-id'})
 ```
 
-key              | default   | description
------------------|-----------|-----------------------------------------------------------
-id               | N/A       | Unique board identifier (required)
-color            | see below | Colors to apply to the board render by layer type
-maskWithOutline  | `false`   | Use the board outline layer as a mask for the board shape
-createElement    | see below | Function used to create the XML element nodes
-includeNamespace | `true`    | Whether or not to include the `xmlns` attribute in the top level SVG node
-attributes       | `{}`      | Map of additional attributes (e.g. `class`) to apply to the SVG nodes
+ key              | default   | description
+----------------- | --------- | ----------------------------------------------------------
+ id               | N/A       | Unique board identifier (required)
+ color            | see below | Colors to apply to the board render by layer type
+ maskWithOutline  | `false`   | Use the board outline layer as a mask for the board shape
+ createElement    | see below | Function used to create the XML element nodes
+ includeNamespace | `true`    | Whether or not to include the `xmlns` attribute in the top level SVG node
+ attributes       | `{}`      | Map of additional attributes (e.g. `class`) to apply to the SVG nodes
 
 #### id
 
@@ -128,7 +129,7 @@ This option is required and the function will throw if it is missing.
 
 The color object allows the user to override the default styling of the stackup. It consists of layer identifiers as the keys and CSS colors as the values. Any to all layers may be overridden. The default color object is:
 
-``` javascript
+```js
 var DEFAULT_COLOR = {
   fr4: '#666',
   cu: '#ccc',
@@ -142,36 +143,36 @@ var DEFAULT_COLOR = {
 
 The keys represent the following layers:
 
-layer | component        
-------|------------------
-fr4   | Substrate
-cu    | Copper
-cf    | Copper (finished)
-sm    | Soldermask
-ss    | Silkscreen
-sp    | Solderpaste
-out   | Board outline
+ layer | component        
+------ | -----------------
+ fr4   | Substrate
+ cu    | Copper
+ cf    | Copper (finished)
+ sm    | Soldermask
+ ss    | Silkscreen
+ sp    | Solderpaste
+ out   | Board outline
 
 If a value is falsey (e.g. an empty string), the layer will not be added to the style node. This is useful if you want to add styles with an external stylesheet. If applying colors with an external stylesheet, use the following class-names and specify the `color` attribute:
 
-layer | classname   | example (id = 'my-board')
-------|-------------|-------------------------------------------------
-fr4   | id + `_fr4` | `.my-board_fr4 {color: #666;}`
-cu    | id + `_cu`  | `.my-board_cu {color: #ccc;}`
-cf    | id + `_cf`  | `.my-board_cf {color: #c93;}`
-sm    | id + `_sm`  | `.my-board_sm {color: #rgba(0, 66, 0, 0.75);}`
-ss    | id + `_ss`  | `.my-board_ss {color: #fff;}`
-sp    | id + `_sp`  | `.my-board_sp {color: #999;}`
-out   | id + `_out` | `.my-board_out {color: #000;}`
+ layer | classname   | example (id = 'my-board')
+------ | ----------- | -----------------------------------------------
+ fr4   | id + `_fr4` | `.my-board_fr4 {color: #666;}`
+ cu    | id + `_cu`  | `.my-board_cu {color: #ccc;}`
+ cf    | id + `_cf`  | `.my-board_cf {color: #c93;}`
+ sm    | id + `_sm`  | `.my-board_sm {color: #rgba(0, 66, 0, 0.75);}`
+ ss    | id + `_ss`  | `.my-board_ss {color: #fff;}`
+ sp    | id + `_sp`  | `.my-board_sp {color: #999;}`
+ out   | id + `_out` | `.my-board_out {color: #000;}`
 
 #### mask board shape with outline
 
 When constructing the stackup, a `<mask>` of all the drill layers is built and applied to the final image to remove the image wherever there are drill hits. If the `maskWithOutline` option is passed as true, the stackup function will _also_ create a `<clipPath>` with the contents of any included outline layers, and use that to remove any part of the image that falls outside of the board outline.
 
-setting           | result
-------------------|-------------------------------------------------
-`false` (default) | Board shape is a rectangle that fits all layers
-`true`            | Board shape is the shape of the outline layer
+ setting           | result
+------------------ | ------------------------------------------------
+ `false` (default) | Board shape is a rectangle that fits all layers
+ `true`            | Board shape is the shape of the outline layer
 
 To work, the outline layer must be one or more fully-enclosed loops. If it isn't, setting `maskWithOutline` to true will likely result in the final image being incorrect (or non-existent), because the `<path>`s won't clip the image properly. See the [MDN's documentation of `<clipPath>`](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/clipPath) for more details.
 
@@ -189,7 +190,7 @@ The `includeNamespace` option specifies whether or not to include the `xmlns` at
 
 If you want to add more attributes to the SVG nodes than are there by default, this is where you do it. For example, to add some classes:
 
-``` javascript
+```js
 var stackup = pcbStackupCore(layers, {
   id: 'board-id',
   attributes: {
@@ -202,40 +203,11 @@ var stackup = pcbStackupCore(layers, {
 
 The stackup can be made up of the following layer types:
 
-layer type               | abbreviation
--------------------------|--------------
-top / bottom copper      | tcu / bcu
-top / bottom soldermask  | tsm / bsm
-top / bottom silkscreen  | tss / bss
-top / bottom solderpaste | tsp / bsp
-board outline            | out      
-drill hits               | drl      
-
-## developing and contributing
-
-Clone and then `$ npm install`. Please accompany all PRs with applicable tests. Please test your code in browsers, as Travis CI cannot run browser tests for PRs.
-
-### unit testing
-
-This module uses [Mocha](http://mochajs.org/) and [Chai](http://chaijs.com/) for unit testing, [nyc](https://github.com/istanbuljs/nyc) for coverage, and [standard](http://standardjs.com) for linting.
-
-* `$ npm test` - run the tests, calculate coverage, and lint
-* `$ npm run test:watch` - run the tests on code changes (does not lint nor cover)
-* `$ npm run coverage` - print the coverage report of the last test run
-* `$ npm run coverage:html` - generate an html report for the last test run
-* `$ npm run lint` - lint the code
-* `$ npm run fix` - try and fix the linting errors in the code
-
-### integration testing
-
-The integration tests run the example code on a variety of gerber files to ensure proper interfacing with gerber-to-svg and proper rendering of different stackups.
-
-1. `$ npm run test:integration`
-2. Open http://localhost:8001 in a browser
-
-### browser testing
-
-Browser tests are run with [Zuul](https://github.com/defunctzombie/zuul) and [Sauce Labs](https://saucelabs.com/opensauce/) on the latest two versions of Chrome, Firefox, Safari, and Internet Explorer, as well as the latest version of Edge.
-
-* `$ npm run test:browser` - run the unit tests in a local browser
-* `$ npm run test:sauce` - run the units tests in several browsers using Sauce Labs (free [Open Sauce account](https://saucelabs.com/opensauce/), free [ngrok account](https://ngrok.com/), and local [.zuulrc](https://github.com/defunctzombie/zuul/wiki/Zuulrc) required)
+ layer type               | abbreviation
+------------------------- | -------------
+ top / bottom copper      | tcu / bcu
+ top / bottom soldermask  | tsm / bsm
+ top / bottom silkscreen  | tss / bss
+ top / bottom solderpaste | tsp / bsp
+ board outline            | out
+ drill hits               | drl

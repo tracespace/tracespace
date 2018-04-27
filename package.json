@@ -79,7 +79,7 @@
     "karma-chrome-launcher": "^2.2.0",
     "karma-firefox-launcher": "^1.1.0",
     "karma-mocha": "^1.3.0",
-    "lerna": "3.0.0-beta.17",
+    "lerna": "3.0.0-beta.18",
     "lodash": "^4.17.4",
     "mocha": "^5.0.0",
     "nyc": "^11.4.1",

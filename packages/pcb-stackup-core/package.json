@@ -1,79 +1,37 @@
 {
   "name": "pcb-stackup-core",
   "version": "3.0.0",
-  "description": "Creates PCB stackup (top and bottom view) SVG renders from gerber-to-svg converters",
+  "description": "Layer stacking core logic for pcb-stackup",
   "main": "lib/index.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
-    "lint": "standard lib/*.js example/*.js integration/*.js && npm run lint:test",
-    "lint:test": "standard --global beforeEach --global it --global describe test/*.js",
-    "fix": "standard --fix lib/*.js example/*.js integration/*.js && npm run fix:test",
-    "fix:test": "standard --fix --global beforeEach --global it --global describe test/*.js",
-    "test": "nyc mocha",
-    "posttest": "npm run lint",
-    "test:watch": "mocha --reporter dot --watch",
-    "pretest:integration": "browserify integration/client.js > integration/public/bundle.js",
-    "test:integration": "node integration/server.js",
-    "test:browser": "zuul --local -- ./test/*_test.js",
-    "test:sauce": "zuul -- ./test/*_test.js",
-    "coverage": "nyc report",
-    "coverage:html": "nyc report --reporter=html",
-    "coverage:ci": "nyc report --reporter=text-lcov | coveralls",
-    "ci": "npm test && if [ \"${TEST_BROWSERS}\" = \"true\" ]; then npm run ci:browser; fi",
-    "ci:browser": "if [ \"${TRAVIS_PULL_REQUEST}\" = \"false\" ]; then npm run test:sauce; fi",
-    "postci": "npm run coverage:ci",
-    "example": "node example/clockblock.js"
+    "example": "node example",
+    "integration:server": "node integration/server"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/tracespace/pcb-stackup-core.git"
+    "url": "git://github.com/tracespace/tracespace.git"
   },
   "keywords": [
     "pcb",
     "gerber",
+    "excellon",
     "svg",
-    "gerber-to-svg",
-    "tracespace",
     "circuit",
-    "hardware"
+    "hardware",
+    "electronics"
   ],
   "contributors": [
-    "Mike Cousins <mike@cousins.io> (http://cousins.io/)"
+    "Mike Cousins <mike@cousins.io> (http://cousins.io/)",
+    "Kaspar Emanuel <kaspar@monostable.co.uk> (http://monostable.co.uk)"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tracespace/pcb-stackup-core/issues"
+    "url": "https://github.com/tracespace/tracespace/issues"
   },
-  "homepage": "https://github.com/tracespace/pcb-stackup-core",
+  "homepage": "https://github.com/tracespace/tracespace",
   "peerDependencies": {
     "gerber-to-svg": "^2.0.0",
-    "whats-that-gerber": "^2.0.0"
-  },
-  "devDependencies": {
-    "async": "^2.1.4",
-    "browserify": "^13.0.0",
-    "chai": "^3.5.0",
-    "coveralls": "^2.11.9",
-    "domify": "^1.4.0",
-    "gerber-to-svg": "^2.0.0",
-    "hapi": "^16.1.0",
-    "inert": "^4.0.0",
-    "lodash.template": "^4.2.4",
-    "mocha": "^3.2.0",
-    "nyc": "^10.0.0",
-    "proxyquire": "^1.7.4",
-    "proxyquire-universal": "^1.0.8",
-    "proxyquireify": "^3.2.0",
-    "shortid": "^2.2.6",
-    "sinon": "^1.17.4",
-    "sinon-chai": "^2.8.0",
-    "standard": "^8.6.0",
-    "whats-that-gerber": "^2.0.0",
-    "xhr": "^2.2.0",
-    "zuul": "^3.10.1",
-    "zuul-ngrok": "^4.0.0"
+    "whats-that-gerber": "^4.0.0-next.3"
   },
   "dependencies": {
     "color-string": "^1.4.0",

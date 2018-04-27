@@ -1,94 +1,39 @@
-// integration test server
-// expects a post request with an array of gerber files
-// responds with the stackup object
+// simple visual test server for pcb-stackup-core
 'use strict'
 
-var fs = require('fs')
-var path = require('path')
-var hapi = require('hapi')
-var inert = require('inert')
-var async = require('async')
-var gerberToSvg = require('gerber-to-svg')
-var whatsThatGerber = require('whats-that-gerber')
+const express = require('express')
+const runWaterfall = require('run-waterfall')
+const debug = require('debug')('tracespace/pcb-stackup-core/integration')
 
-var pcbStackupCore = require('../lib/index')
+const {getBoards, runTemplate} = require('@tracespace/fixtures')
+const getResults = require('./get-results')
+const pkg = require('../package.json')
 
-var PORT = 8001
+const PORT = 8001
 
-var server = new hapi.Server()
+const app = express()
 
-server.connection({port: PORT})
-server.register(inert, function () {})
-
-// asynchronously map a gerber filename to a layer object expected by pcbStackupCore
-var mapGerberToLayerObject = function (layer, done) {
-  var filename = path.join(__dirname, layer.path)
-  var type = whatsThatGerber(filename)
-  var gerber = fs.createReadStream(filename, 'utf8')
-  var id = layer.id
-  var converterOptions = {
-    id: id,
-    plotAsOutline: (type === 'out')
-  }
-
-  console.log('converting: ' + id)
-
-  var converter = gerberToSvg(gerber, converterOptions, function (error) {
-    console.log('conversion done for: ' + layer.id)
-
+app.get('/', (request, response) => {
+  handleTestRun((error, result) => {
     if (error) {
-      console.warn(filename + ' failed to convert')
-
-      return done()
+      console.error(error)
+      return response.status(500).send({error: error.message})
     }
 
-    done(null, {type: type, converter: converter})
+    response.send(result)
   })
+})
 
-  converter.on('warning', function (warning) {
-    var msg = warning.message
-    var line = warning.line
+app.listen(PORT, () => {
+  console.log(`pcb-stackup-core server listening at http://localhost:${PORT}`)
+})
 
-    console.warn('warning from ' + id + ' at ' + line + ': ' + msg)
-  })
+function handleTestRun (done) {
+  debug('Handling test run')
+
+  runWaterfall([getBoards, getResults, makeResponse], done)
 }
 
-server.route({
-  method: 'GET',
-  path: '/{param*}',
-  handler: {
-    directory: {
-      path: path.join(__dirname, '/public'),
-      redirectToSlash: true,
-      index: true
-    }
-  }
-})
-
-server.route({
-  method: 'POST',
-  path: '/stackup',
-  handler: function (request, reply) {
-    var name = request.payload.name
-    var layers = request.payload.layers
-    var maskWithOutline = request.payload.maskWithOutline
-
-    console.log('building stackup for: ' + name)
-    async.map(layers, mapGerberToLayerObject, function (error, results) {
-      if (error) {
-        return reply(error)
-      }
-
-      console.log('building stackup for: ' + name)
-      reply(pcbStackupCore(results, {id: name, maskWithOutline: maskWithOutline}))
-    })
-  }
-})
-
-server.start(function (error) {
-  if (error) {
-    throw error
-  }
-
-  console.log('server running at: ' + server.info.uri)
-})
+function makeResponse (boards, done) {
+  runTemplate({boards, pkg}, done)
+}
