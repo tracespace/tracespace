@@ -1,14 +1,13 @@
-// runs gerber-to-svg on the gerber spec suite
+// runs pcb-stackup-core on the board fixtures
 'use strict'
 
-const path = require('path')
 const runParallel = require('run-parallel')
 const runWaterfall = require('run-waterfall')
 
 const gerberToSvg = require('gerber-to-svg')
 const whatsThatGerber = require('whats-that-gerber')
 
-const debug = require('debug')('tracespace:psc:test')
+const debug = require('debug')('tracespace/pcb-stackup-core/integration')
 const pcbStackupCore = require('..')
 
 module.exports = function getResults (boards, done) {
@@ -18,10 +17,15 @@ module.exports = function getResults (boards, done) {
 }
 
 function renderStackup (board, done) {
-  const options = {
-    id: board.name,
-    maskWithOutline: true
-  }
+  debug(`Render started for ${board.name}`)
+
+  const options = Object.assign(
+    {
+      id: `__${board.name}`,
+      maskWithOutline: true
+    },
+    board.options
+  )
 
   runWaterfall(
     [
@@ -33,6 +37,8 @@ function renderStackup (board, done) {
       (layers, next) => {
         try {
           const stackup = pcbStackupCore(layers, options)
+          debug(`Render finished for ${board.name}`)
+
           next(null, Object.assign({stackup}, board))
         } catch (error) {
           next(error)
@@ -44,12 +50,15 @@ function renderStackup (board, done) {
 }
 
 function renderLayer (layer, done) {
-  const {filepath, name, type: realType} = layer
+  const {filename, name, type: realType} = layer
   const type = whatsThatGerber(name)
-  const options = {
-    id: path.basename(filepath),
-    plotAsOutline: type === 'out'
-  }
+  const options = Object.assign(
+    {
+      id: `__${filename}`,
+      plotAsOutline: type === 'out'
+    },
+    layer.options
+  )
 
   if (type !== realType) {
     return done(
