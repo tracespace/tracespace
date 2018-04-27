@@ -6,6 +6,7 @@ const glob = require('glob')
 const runParallel = require('run-parallel')
 const runWaterfall = require('run-waterfall')
 
+const server = require('./server')
 const gerberFilenames = require('./gerber-filenames.json')
 
 const GLOB_BOARD_MANIFEST = path.join(__dirname, 'boards/**/manifest.json')
@@ -14,7 +15,8 @@ const GLOB_SPEC_GERBER = path.join(__dirname, 'gerbers/**/*.@(gbr|drl|svg)')
 module.exports = {
   gerberFilenames,
   getBoards,
-  getGerberSpecs
+  getGerberSpecs,
+  server
 }
 
 function getBoards (done) {
@@ -123,8 +125,9 @@ function makeFileResult (filepath, props, contents) {
   const dirname = path.dirname(filepath)
   const category = path.basename(dirname)
   const extname = path.extname(filepath)
+  const filename = path.basename(filepath)
   const name = path.basename(filepath, extname)
-  const file = {category, filepath, name}
+  const file = {category, filepath, filename, name}
   const result =
     extname.toLowerCase() === '.json' ? JSON.parse(contents) : {contents}
 

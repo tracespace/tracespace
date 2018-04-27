@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Open+Sans:400,700"
+  >
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/tachyons@4.9.0/css/tachyons.min.css"
+  >
+  <style>
+    .open-sans { font-family: 'Open Sans', sans-serif; }
+  </style>
+  <title><%- name %> - integration test suite</title>
+</head>
+<body class='w-100 pa5 open-sans bg-light-gray'>
+  <h1 class='f1 lh-title mt0 mb3 mr3 normal'>
+    <%- name %>
+  </h1>
+  <p class='f3 lh-title mv0'>
+    integration test suite
+  </p>
+
+  <% results.forEach((suite) => { %>
+  <section class='mt4'>
+    <h2 class='f2 mt0 mb3 normal'>
+      <%- suite.name %>
+    </h2>
+
+    <div class='pl4 bl bw2'>
+      <% ['top', 'bottom'].forEach((side) => { %>
+      <div class='dib mt2 mb3 mr3 v-top'>
+        <h3 class='f3 mt0 mb2 normal'>
+          <%- side %>
+        </h3>
+
+        <div class='mr3 tc'>
+          <%= suite.stackup[side].svg %>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </section>
+  <% }) %>
+</body>
+</html>

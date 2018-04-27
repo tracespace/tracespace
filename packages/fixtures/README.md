@@ -1,5 +1,7 @@
 # tracespace fixtures
 
+[![npm][npm-badge]][npm]
+
 > Test fixtures for tracespace projects
 
 This module is a collection of data, including real-world open-source Gerber and drill files, used to drive tests on tracespace projects. It's published to npm so that any tool can use this data.
@@ -54,7 +56,7 @@ curl https://unpkg.com/@tracespace/fixtures@${version}/gerber-filenames.json
 
 ### example boards
 
-`@tracespace/fixtures` has a collection of sample open-source PCB files to test rendering full circuit boards. This fixture is primarily used to test `pcb-stackup-core`.
+`@tracespace/fixtures` has a collection of sample open-source PCB files to test rendering full circuit boards. This fixture is primarily used to test `pcb-stackup` and `pcb-stackup-core`.
 
 ```js
 const {getBoards} = require('@tracespace/fixtures')
@@ -83,6 +85,8 @@ Array<{
     name: string,
     /** path to the layer's gerber / drill file */
     filepath: string,
+    /** basename of filepath */
+    filename: string,
     /** format of the file */
     format: 'gerber' | 'drill',
     /** whats-that-gerber type of the layer */
@@ -132,4 +136,22 @@ Array<{
 }>
 ```
 
+### render suite server
+
+Work in progress
+
+```js
+const {server} = require('@tracespace/fixtures')
+
+const app = server('suite name', getResults)
+
+app.listen(9000, () => console.log('listening on http://localhost:9000'))
+
+function getResults (done) {
+  // get results somehow and pass them to done
+}
+```
+
+[npm]: https://www.npmjs.com/package/@tracespace/fixtures
+[npm-badge]: https://img.shields.io/npm/v/@tracespace/fixtures.svg?style=flat-square&maxAge=86400
 [unpkg]: https://unpkg.com

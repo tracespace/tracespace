@@ -1,8 +1,5 @@
 {
   "skipSnapshot": true,
-  "options": {
-    "outlineGapFill": 0.011
-  },
   "layers": [
     {
       "name": "mixtape.gbl",
@@ -27,7 +24,10 @@
     {
       "name": "mixtape.gml",
       "format": "gerber",
-      "type": "out"
+      "type": "out",
+      "options": {
+        "plotAsOutline": 0.011
+      }
     },
     {
       "name": "mixtape.gtl",
