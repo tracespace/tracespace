@@ -6,10 +6,10 @@ node_js:
   - "4"
   - node
 
-matrix:
-  include:
-    - node_js: node
-      env: TEST_BROWSERS=true
+# matrix:
+#   include:
+#     - node_js: node
+#       env: TEST_BROWSERS=true
 
 script: npm run-script ci
 
@@ -21,7 +21,7 @@ deploy:
   on:
     node: node
     tags: true
-    condition: $TEST_BROWSERS = true
+    # condition: $TEST_BROWSERS = true
     all_branches: true
 
 env:
