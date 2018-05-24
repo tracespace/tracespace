@@ -19,7 +19,12 @@ var BLOCK_MODE_OFF = 0
 var BLOCK_MODE_DARK = 1
 var BLOCK_MODE_CLEAR = 2
 
-var PlotterToSvg = function(attributes, createElement, includeNamespace, objectMode) {
+var PlotterToSvg = function (
+  attributes,
+  createElement,
+  includeNamespace,
+  objectMode
+) {
   Transform.call(this, {
     writableObjectMode: true,
     readableObjectMode: objectMode
@@ -54,19 +59,19 @@ var PlotterToSvg = function(attributes, createElement, includeNamespace, objectM
 
 inherits(PlotterToSvg, Transform)
 
-PlotterToSvg.prototype._transform = function(chunk, encoding, done) {
+PlotterToSvg.prototype._transform = function (chunk, encoding, done) {
   switch (chunk.type) {
     case 'shape':
-      this.defs = this.defs.concat(reduceShapeArray(
-        this._id,
-        chunk.tool,
-        chunk.shape,
-        this._element))
+      this.defs = this.defs.concat(
+        reduceShapeArray(this._id, chunk.tool, chunk.shape, this._element)
+      )
 
       break
 
     case 'pad':
-      this._draw(flashPad(this._id, chunk.tool, chunk.x, chunk.y, this._element))
+      this._draw(
+        flashPad(this._id, chunk.tool, chunk.x, chunk.y, this._element)
+      )
       break
 
     case 'fill':
@@ -92,7 +97,7 @@ PlotterToSvg.prototype._transform = function(chunk, encoding, done) {
   done()
 }
 
-PlotterToSvg.prototype._flush = function(done) {
+PlotterToSvg.prototype._flush = function (done) {
   // shut off step repeat finish any in-progress clear layer and/or repeat
   this._handleNewRepeat([])
 
@@ -105,12 +110,13 @@ PlotterToSvg.prototype._flush = function(done) {
   done()
 }
 
-PlotterToSvg.prototype._finishBlockLayer = function() {
+PlotterToSvg.prototype._finishBlockLayer = function () {
   // if there's a block, wrap it up, give it an id, and repeat it
   if (this._block.length) {
     this._blockLayerCount++
 
-    var blockLayerId = this._id + '_block-' + this._blockCount + '-' + this._blockLayerCount
+    var blockLayerId =
+      this._id + '_block-' + this._blockCount + '-' + this._blockLayerCount
 
     this.defs.push(this._element('g', {id: blockLayerId}, this._block))
 
@@ -118,9 +124,11 @@ PlotterToSvg.prototype._finishBlockLayer = function() {
   }
 }
 
-PlotterToSvg.prototype._finishClearLayer = function() {
+PlotterToSvg.prototype._finishClearLayer = function () {
   if (this._maskId) {
-    this.defs.push(createMask(this._maskId, this._maskBox, this._mask, this._element))
+    this.defs.push(
+      createMask(this._maskId, this._maskBox, this._mask, this._element)
+    )
     this._maskId = ''
     this._maskBox = []
     this._mask = []
@@ -131,18 +139,17 @@ PlotterToSvg.prototype._finishClearLayer = function() {
   return false
 }
 
-PlotterToSvg.prototype._handleNewPolarity = function(polarity, box) {
+PlotterToSvg.prototype._handleNewPolarity = function (polarity, box) {
   if (this._blockMode) {
-    if ((this._blockLayerCount === 0) && !this._block.length) {
-      this._blockMode = (polarity === 'dark')
-        ? BLOCK_MODE_DARK
-        : BLOCK_MODE_CLEAR
+    if (this._blockLayerCount === 0 && !this._block.length) {
+      this._blockMode = polarity === 'dark' ? BLOCK_MODE_DARK : BLOCK_MODE_CLEAR
     }
 
     return this._finishBlockLayer()
   }
 
-  this._clearCount = (polarity === 'clear') ? this._clearCount + 1 : this._clearCount
+  this._clearCount =
+    polarity === 'clear' ? this._clearCount + 1 : this._clearCount
   var maskId = this._id + '_clear-' + this._clearCount
 
   // if clear polarity, wrap the layer and start a mask
@@ -150,15 +157,14 @@ PlotterToSvg.prototype._handleNewPolarity = function(polarity, box) {
     this.layer = [maskLayer(maskId, this.layer, this._element)]
     this._maskId = maskId
     this._maskBox = box.slice(0)
-  }
-  // else, finish the mask and add it to the defs
-  else {
+  } else {
+    // else, finish the mask and add it to the defs
     this._finishClearLayer(box)
   }
 }
 
-PlotterToSvg.prototype._handleNewRepeat = function(offsets, box) {
-  var endOfBlock = (offsets.length === 0)
+PlotterToSvg.prototype._handleNewRepeat = function (offsets, box) {
+  var endOfBlock = offsets.length === 0
 
   // finish any in progress clear layer and block layer
   var wasClear = this._finishClearLayer()
@@ -172,30 +178,30 @@ PlotterToSvg.prototype._handleNewRepeat = function(offsets, box) {
   var blockIdStart = this._id + '_block-' + this._blockCount + '-'
 
   // add dark layers to layer
-  this._offsets.forEach(function(offset) {
+  this._offsets.forEach(function (offset) {
     for (var i = blockMode; i <= blockLayers; i += 2) {
-      layer.push(element('use', {
-        'xlink:href': '#' + blockIdStart + i,
-        x: shift(offset[0]),
-        y: shift(offset[1])
-      }))
+      layer.push(
+        element('use', {
+          'xlink:href': '#' + blockIdStart + i,
+          x: shift(offset[0]),
+          y: shift(offset[1])
+        })
+      )
     }
   })
 
   // if there are clear layers in the block, mask the layer with them
-  if (blockLayers > (2 - blockMode)) {
+  if (blockLayers > 2 - blockMode) {
     var maskId = blockIdStart + 'clear'
 
     this.layer = [maskLayer(maskId, layer, this._element)]
     this._maskId = maskId
     this._maskBox = this._blockBox.slice(0)
-    this._mask = this._offsets.reduce(function(result, offset) {
+    this._mask = this._offsets.reduce(function (result, offset) {
       var isDark
 
       for (var i = 1; i <= blockLayers; i++) {
-        isDark = (blockMode === BLOCK_MODE_DARK)
-          ? ((i % 2) === 1)
-          : ((i % 2) === 0)
+        isDark = blockMode === BLOCK_MODE_DARK ? i % 2 === 1 : i % 2 === 0
 
         var attr = {
           'xlink:href': '#' + blockIdStart + i,
@@ -204,8 +210,7 @@ PlotterToSvg.prototype._handleNewRepeat = function(offsets, box) {
         }
 
         if (isDark) {
-          attr.fill = '#fff',
-          attr.stroke = '#fff'
+          ;(attr.fill = '#fff'), (attr.stroke = '#fff')
         }
 
         result.push(element('use', attr))
@@ -220,17 +225,16 @@ PlotterToSvg.prototype._handleNewRepeat = function(offsets, box) {
   // save the offsets
   this._offsets = offsets
   if (!endOfBlock) {
-    this._blockMode = (!wasClear) ? BLOCK_MODE_DARK : BLOCK_MODE_CLEAR
+    this._blockMode = !wasClear ? BLOCK_MODE_DARK : BLOCK_MODE_CLEAR
     this._blockCount++
     this._blockLayerCount = 0
     this._blockBox = box.every(isFinite) ? box : [0, 0, 0, 0]
-  }
-  else {
+  } else {
     this._blockMode = BLOCK_MODE_OFF
   }
 }
 
-PlotterToSvg.prototype._handleSize = function(box, units) {
+PlotterToSvg.prototype._handleSize = function (box, units) {
   if (box.every(isFinite)) {
     var x = shift(box[0])
     var y = shift(box[1])
@@ -238,22 +242,20 @@ PlotterToSvg.prototype._handleSize = function(box, units) {
     var height = shift(box[3] - box[1])
 
     this.viewBox = [x, y, width, height]
-    this.width = (width / 1000)
-    this.height = (height / 1000)
+    this.width = width / 1000
+    this.height = height / 1000
     this.units = units
   }
 }
 
-PlotterToSvg.prototype._draw = function(object) {
+PlotterToSvg.prototype._draw = function (object) {
   if (!this._blockMode) {
     if (!this._maskId) {
       this.layer.push(object)
-    }
-    else {
+    } else {
       this._mask.push(object)
     }
-  }
-  else {
+  } else {
     this._block.push(object)
   }
 }

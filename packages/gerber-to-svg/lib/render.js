@@ -3,11 +3,12 @@
 
 var xmlElementString = require('xml-element-string')
 
-module.exports = function(converter, attr, createElement, includeNamespace) {
+module.exports = function (converter, attr, createElement, includeNamespace) {
   var element = createElement || xmlElementString
-  var namespace = (includeNamespace == null || includeNamespace === true)
-    ? 'http://www.w3.org/2000/svg'
-    : null
+  var namespace =
+    includeNamespace == null || includeNamespace === true
+      ? 'http://www.w3.org/2000/svg'
+      : null
 
   var attributes = {
     xmlns: namespace,
@@ -22,7 +23,7 @@ module.exports = function(converter, attr, createElement, includeNamespace) {
     viewBox: converter.viewBox.join(' ')
   }
 
-  Object.keys(attr || {}).forEach(function(key) {
+  Object.keys(attr || {}).forEach(function (key) {
     var value = attr[key]
 
     if (value != null) {
@@ -40,11 +41,17 @@ module.exports = function(converter, attr, createElement, includeNamespace) {
     var yTranslate = converter.viewBox[3] + 2 * converter.viewBox[1]
     var transform = 'translate(0,' + yTranslate + ') scale(1,-1)'
 
-    children.push(element('g', {
-      transform: transform,
-      fill: 'currentColor',
-      stroke: 'currentColor'
-    }, converter.layer))
+    children.push(
+      element(
+        'g',
+        {
+          transform: transform,
+          fill: 'currentColor',
+          stroke: 'currentColor'
+        },
+        converter.layer
+      )
+    )
   }
 
   return element('svg', attributes, children)

@@ -31,26 +31,54 @@ var BANNER = [
   '    $ gerber2svg --plot-as-outline -- edge-cuts.gbr',
   '  plot edge-cuts-with-big-gaps.gbr and fill gaps smaller than 0.011',
   '    $ gerber2svg --plot-as-outline 0.011 -- edge-cuts-with-big-gaps.gbr',
-  ''
+  '',
 ].join('\n')
 
 var OPTIONS = [
   ['o', 'out', '             specify an output directory'],
   ['q', 'quiet', '           do not print warnings and messages'],
-  ['p', 'pretty', '          indent output with this length tabs (2 if unspecified)'],
-  ['c', 'color', '           give the layer this color (defaults to "currentColor")'],
-  ['a', 'append-ext', '      append .svg rather than replacing the existing extension'],
-  ['f', 'format', "          override coordinate decimal places format with '[INT,DEC]'"],
+  [
+    'p',
+    'pretty',
+    '          indent output with this length tabs (2 if unspecified)',
+  ],
+  [
+    'c',
+    'color',
+    '           give the layer this color (defaults to "currentColor")',
+  ],
+  [
+    'a',
+    'append-ext',
+    '      append .svg rather than replacing the existing extension',
+  ],
+  [
+    'f',
+    'format',
+    "          override coordinate decimal places format with '[INT,DEC]'",
+  ],
   ['z', 'zero', "            override zero suppression with 'L' or 'T'"],
   ['u', 'units', "           set backup units to 'mm' or 'in'"],
-  ['n', 'notation', "        set backup absolute/incremental notation with 'A' or 'I'"],
-  ['z', 'optimize-paths', '  rearrange trace paths by to occur in physical order'],
-  ['b', 'plot-as-outline', ' optimize paths and fill gaps smaller than 0.00011 (or specified number) in layer units'],
+  [
+    'n',
+    'notation',
+    "        set backup absolute/incremental notation with 'A' or 'I'",
+  ],
+  [
+    'z',
+    'optimize-paths',
+    '  rearrange trace paths by to occur in physical order',
+  ],
+  [
+    'b',
+    'plot-as-outline',
+    ' optimize paths and fill gaps smaller than 0.00011 (or specified number) in layer units',
+  ],
   ['v', 'version', '         display version information'],
-  ['h', 'help', '            display this help text']
+  ['h', 'help', '            display this help text'],
 ]
 
-var STRING_OPTS  = ['out', 'color', 'format', 'zero', 'units', 'notation']
+var STRING_OPTS = ['out', 'color', 'format', 'zero', 'units', 'notation']
 var BOOLEAN_OPTS = ['quiet', 'append-ext', 'optimize-paths', 'version', 'help']
 var ALIAS_OPTS = OPTIONS.reduce(function(alias, opt) {
   alias[opt[0]] = opt[1]
@@ -82,14 +110,14 @@ var argv = parseArgs(process.argv.slice(2), {
   alias: ALIAS_OPTS,
   string: STRING_OPTS,
   boolean: BOOLEAN_OPTS,
-  stopEarly: true
+  stopEarly: true,
 })
 
 if (argv.version) {
   return printVersion()
 }
 
-if (argv.help || (argv._.length === 0)) {
+if (argv.help || argv._.length === 0) {
   return printHelp()
 }
 
@@ -112,7 +140,7 @@ var info = function(string) {
 var getOpts = function(id) {
   var opts = {
     id: id,
-    optimizePaths: argv['optimize-paths']
+    optimizePaths: argv['optimize-paths'],
   }
 
   if (argv.color) {
@@ -155,7 +183,7 @@ var convert = function(err) {
 
   argv._.forEach(function processGerber(gerberFile) {
     var out = process.stdout
-    var ext = (!argv.a) ? path.extname(gerberFile) : ''
+    var ext = !argv.a ? path.extname(gerberFile) : ''
     var base = path.basename(gerberFile, ext)
 
     if (argv.out) {
@@ -168,7 +196,7 @@ var convert = function(err) {
     }
 
     if (argv.pretty) {
-      var indent = (argv.pretty === true) ? 2 : argv.pretty
+      var indent = argv.pretty === true ? 2 : argv.pretty
       var originalOut = out
 
       out = xmlovely(indent)

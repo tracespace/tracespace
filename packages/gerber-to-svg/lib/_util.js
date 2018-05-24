@@ -3,11 +3,11 @@
 
 // shift the decimal place to SVG coordinates (units * 1000)
 // also round to 7 decimal places
-var shift = function(number) {
+var shift = function (number) {
   return Math.round(10000000000 * number) / 10000000
 }
 
-var boundingRect = function(box, fill, element) {
+var boundingRect = function (box, fill, element) {
   return element('rect', {
     x: shift(box[0]),
     y: shift(box[1]),
@@ -17,13 +17,13 @@ var boundingRect = function(box, fill, element) {
   })
 }
 
-var maskLayer = function(maskId, layer, element) {
+var maskLayer = function (maskId, layer, element) {
   var maskUrl = 'url(#' + maskId + ')'
 
   return element('g', {mask: maskUrl}, layer)
 }
 
-var createMask = function(maskId, box, children, element) {
+var createMask = function (maskId, box, children, element) {
   children = [boundingRect(box, '#fff', element)].concat(children)
   var attributes = {id: maskId, fill: '#000', stroke: '#000'}
 
