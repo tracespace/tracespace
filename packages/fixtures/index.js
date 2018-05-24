@@ -109,19 +109,19 @@ function readFile (filepath, props, done) {
   runWaterfall(
     [
       next => fs.readFile(filepath, 'utf8', next),
-      (contents, next) => next(null, makeFileResult(filepath, props, contents))
+      (source, next) => next(null, makeFileResult(filepath, props, source))
     ],
     done
   )
 }
 
 readFile.sync = function readFileSync (filepath, props) {
-  const contents = fs.readFileSync(filepath, 'utf8')
+  const source = fs.readFileSync(filepath, 'utf8')
 
-  return makeFileResult(filepath, props, contents)
+  return makeFileResult(filepath, props, source)
 }
 
-function makeFileResult (filepath, props, contents) {
+function makeFileResult (filepath, props, source) {
   const dirname = path.dirname(filepath)
   const category = path.basename(dirname)
   const extname = path.extname(filepath)
@@ -129,7 +129,7 @@ function makeFileResult (filepath, props, contents) {
   const name = path.basename(filepath, extname)
   const file = {category, filepath, filename, name}
   const result =
-    extname.toLowerCase() === '.json' ? JSON.parse(contents) : {contents}
+    extname.toLowerCase() === '.json' ? JSON.parse(source) : {source}
 
   return Object.assign(file, result, props)
 }
@@ -140,7 +140,7 @@ function collectSpecs (gerberSpecs) {
       const {category, name} = spec
 
       if (path.extname(spec.filepath).toLowerCase() === '.svg') {
-        spec = {expected: spec.contents}
+        spec = {expected: spec.source}
       }
 
       if (!result.suitesByName[category]) {

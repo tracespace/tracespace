@@ -26,8 +26,8 @@ describe(`pcb-stackup :: integration snapshots`, function () {
   BOARDS.forEach((board, index) => {
     SIDES.forEach(side => {
       it(`renders ${board.name} ${side}`, function () {
-        const rendered = renderedBoards[index]
-        snapshot(format(rendered.stackup[side].svg).split('\n'))
+        const result = renderedBoards[index].specs.find(s => s.name === side)
+        snapshot(format(result.render).split('\n'))
       })
     })
   })

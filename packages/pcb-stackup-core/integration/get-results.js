@@ -11,9 +11,11 @@ const debug = require('debug')('tracespace/pcb-stackup-core/integration')
 const pcbStackupCore = require('..')
 
 module.exports = function getResults (boards, done) {
-  debug(`Rendering stackups for ${boards.length} boards`)
+  debug(`Rendering stackups from ${boards.length} boards`)
 
-  runParallel(boards.map(board => next => renderStackup(board, next)), done)
+  const tasks = boards.map(board => next => renderStackup(board, next))
+
+  runParallel(tasks, done)
 }
 
 function renderStackup (board, done) {
@@ -39,13 +41,25 @@ function renderStackup (board, done) {
           const stackup = pcbStackupCore(layers, options)
           debug(`Render finished for ${board.name}`)
 
-          next(null, Object.assign({stackup}, board))
+          next(null, makeBoardResult(board, stackup))
         } catch (error) {
           next(error)
         }
       }
     ],
     done
+  )
+}
+
+function makeBoardResult (board, stackup) {
+  return Object.assign(
+    {
+      specs: [
+        {name: 'top', render: stackup.top.svg},
+        {name: 'bottom', render: stackup.bottom.svg}
+      ]
+    },
+    board
   )
 }
 
@@ -66,7 +80,7 @@ function renderLayer (layer, done) {
     )
   }
 
-  const converter = gerberToSvg(layer.contents, options, error => {
+  const converter = gerberToSvg(layer.source, options, error => {
     if (error) return done(error)
 
     done(null, {converter, type})

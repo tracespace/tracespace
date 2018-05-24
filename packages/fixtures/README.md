@@ -138,7 +138,7 @@ Array<{
 
 ### render suite server
 
-Work in progress
+Simple server to display the results of a render test.
 
 ```js
 const {server} = require('@tracespace/fixtures')
@@ -150,6 +150,26 @@ app.listen(9000, () => console.log('listening on http://localhost:9000'))
 function getResults (done) {
   // get results somehow and pass them to done
 }
+```
+
+`getResults` should be a function that calls the `done` callback with:
+
+```js
+Array<{
+  /** name of the suite */
+  name: string,
+  /** array of spec results in the suite */
+  specs: Array<{
+    /** name of the spec */
+    name: string,
+    /** spec render to display (SVG) */
+    render: string,
+    /** optional comparison render (SVG) */
+    expected?: string,
+    /** optional test source to display */
+    source?: string,
+  }>
+}>
 ```
 
 [npm]: https://www.npmjs.com/package/@tracespace/fixtures
