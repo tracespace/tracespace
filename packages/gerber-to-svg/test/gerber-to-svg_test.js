@@ -72,13 +72,13 @@ describe('gerber to svg', function () {
     expect(converter1).to.equal(fakeConverter)
     expect(converter2).to.equal(fakeConverter)
 
-    expect(converterStub).to.have.been.always.calledWithNew
-    expect(converterStub).to.have.been.calledTwice
+    expect(converterStub.alwaysCalledWithNew()).to.equal(true)
+    expect(converterStub).to.have.callCount(2)
   })
 
   it('should gather readable data from the converter in callback mode', function (done) {
     gerberToSvg('foobar*\n', 'quz', function (error, result) {
-      expect(error).to.not.exist
+      expect(error == null).to.equal(true)
       expect(result).to.equal('<svg><foo/><bar/></svg>')
       done()
     })
@@ -112,7 +112,7 @@ describe('gerber to svg', function () {
 
     setTimeout(function () {
       expect(fakeParser.write).to.be.calledWith(input)
-      expect(fakeParser.end).to.have.been.calledOnce
+      expect(fakeParser.end).to.have.callCount(1)
       done()
     }, 10)
   })
@@ -250,7 +250,7 @@ describe('gerber to svg', function () {
 
     var converter = gerberToSvg('G04 a gerber file*\n', 'gbr')
 
-    expect(converter.filetype).to.not.be.ok
+    expect(converter.filetype == null).to.equal(true)
 
     parser.emit('end')
     expect(converter.filetype).to.equal('foobar')

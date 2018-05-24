@@ -83,7 +83,7 @@ describe('plotter to svg transform stream', function () {
   it('should be able to omit the namespace from attributes', function (done) {
     p = new PlotterToSvg({id: 'id'}, element, false)
     p.once('data', function () {
-      expect(element.firstCall.args[1].xmlns).to.not.exist
+      expect(element.firstCall.args[1].xmlns == null).to.equal(true)
       done()
     })
 
@@ -718,7 +718,7 @@ describe('plotter to svg transform stream', function () {
       var dark = {type: 'polarity', polarity: 'dark', box: [0, 0, 1, 1]}
 
       p.write(dark)
-      expect(element).to.not.be.called
+      expect(element).to.have.callCount(0)
       expect(p._mask).to.eql([])
       expect(p.defs).to.eql([])
       expect(p.layer).to.eql([])
@@ -1098,7 +1098,7 @@ describe('plotter to svg transform stream', function () {
       p.write({type: 'polarity', polarity: 'clear', box: [0, 0, 1, 1]})
       p.write({type: 'polarity', polarity: 'dark', box: [0, 0, 1, 1]})
 
-      expect(element).to.not.be.called
+      expect(element).to.have.callCount(0)
     })
 
     it('should handle Infinities in the box', function () {

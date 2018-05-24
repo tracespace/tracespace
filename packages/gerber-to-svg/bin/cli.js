@@ -31,7 +31,7 @@ var BANNER = [
   '    $ gerber2svg --plot-as-outline -- edge-cuts.gbr',
   '  plot edge-cuts-with-big-gaps.gbr and fill gaps smaller than 0.011',
   '    $ gerber2svg --plot-as-outline 0.011 -- edge-cuts-with-big-gaps.gbr',
-  '',
+  ''
 ].join('\n')
 
 var OPTIONS = [
@@ -40,67 +40,67 @@ var OPTIONS = [
   [
     'p',
     'pretty',
-    '          indent output with this length tabs (2 if unspecified)',
+    '          indent output with this length tabs (2 if unspecified)'
   ],
   [
     'c',
     'color',
-    '           give the layer this color (defaults to "currentColor")',
+    '           give the layer this color (defaults to "currentColor")'
   ],
   [
     'a',
     'append-ext',
-    '      append .svg rather than replacing the existing extension',
+    '      append .svg rather than replacing the existing extension'
   ],
   [
     'f',
     'format',
-    "          override coordinate decimal places format with '[INT,DEC]'",
+    "          override coordinate decimal places format with '[INT,DEC]'"
   ],
   ['z', 'zero', "            override zero suppression with 'L' or 'T'"],
   ['u', 'units', "           set backup units to 'mm' or 'in'"],
   [
     'n',
     'notation',
-    "        set backup absolute/incremental notation with 'A' or 'I'",
+    "        set backup absolute/incremental notation with 'A' or 'I'"
   ],
   [
     'z',
     'optimize-paths',
-    '  rearrange trace paths by to occur in physical order',
+    '  rearrange trace paths by to occur in physical order'
   ],
   [
     'b',
     'plot-as-outline',
-    ' optimize paths and fill gaps smaller than 0.00011 (or specified number) in layer units',
+    ' optimize paths and fill gaps smaller than 0.00011 (or specified number) in layer units'
   ],
   ['v', 'version', '         display version information'],
-  ['h', 'help', '            display this help text'],
+  ['h', 'help', '            display this help text']
 ]
 
 var STRING_OPTS = ['out', 'color', 'format', 'zero', 'units', 'notation']
 var BOOLEAN_OPTS = ['quiet', 'append-ext', 'optimize-paths', 'version', 'help']
-var ALIAS_OPTS = OPTIONS.reduce(function(alias, opt) {
+var ALIAS_OPTS = OPTIONS.reduce(function (alias, opt) {
   alias[opt[0]] = opt[1]
 
   return alias
 }, {})
 
-var printVersion = function() {
+var printVersion = function () {
   console.log('gerber2svg version', VERSION)
 }
 
-var printBanner = function() {
+var printBanner = function () {
   console.log(BANNER)
 }
 
-var printOptions = function() {
-  OPTIONS.forEach(function(opt) {
+var printOptions = function () {
+  OPTIONS.forEach(function (opt) {
     console.log('-' + opt[0] + ', --' + opt[1] + '  ' + opt[2])
   })
 }
 
-var printHelp = function() {
+var printHelp = function () {
   printVersion()
   printBanner()
   printOptions()
@@ -110,37 +110,39 @@ var argv = parseArgs(process.argv.slice(2), {
   alias: ALIAS_OPTS,
   string: STRING_OPTS,
   boolean: BOOLEAN_OPTS,
-  stopEarly: true,
+  stopEarly: true
 })
 
 if (argv.version) {
-  return printVersion()
+  printVersion()
+  process.exit()
 }
 
 if (argv.help || argv._.length === 0) {
-  return printHelp()
+  printHelp()
+  process.exit()
 }
 
-var error = function(string) {
+var error = function (string) {
   console.error(chalk.bold.red(string))
 }
 
-var warn = function(string) {
+var warn = function (string) {
   if (!argv.quiet) {
     console.warn(chalk.bold.yellow(string))
   }
 }
 
-var info = function(string) {
+var info = function (string) {
   if (!argv.quiet) {
     console.info(chalk.bold.white(string))
   }
 }
 
-var getOpts = function(id) {
+var getOpts = function (id) {
   var opts = {
     id: id,
-    optimizePaths: argv['optimize-paths'],
+    optimizePaths: argv['optimize-paths']
   }
 
   if (argv.color) {
@@ -176,12 +178,12 @@ var getOpts = function(id) {
   return opts
 }
 
-var convert = function(err) {
+var convert = function (err) {
   if (err) {
     return error(err.message)
   }
 
-  argv._.forEach(function processGerber(gerberFile) {
+  argv._.forEach(function processGerber (gerberFile) {
     var out = process.stdout
     var ext = !argv.a ? path.extname(gerberFile) : ''
     var base = path.basename(gerberFile, ext)
@@ -190,7 +192,7 @@ var convert = function(err) {
       var outFile = path.join(path.join(argv.out, base + '.svg'))
 
       out = fs.createWriteStream(outFile)
-      out.on('finish', function() {
+      out.on('finish', function () {
         info(gerberFile + ' converterted to ' + outFile)
       })
     }
@@ -206,7 +208,7 @@ var convert = function(err) {
     var gerberStream = fs.createReadStream(gerberFile)
     var converter = gerberToSvg(gerberStream, getOpts(base))
 
-    converter.on('warning', function(w) {
+    converter.on('warning', function (w) {
       warn('warning at line ' + w.line + ' - ' + w.message)
     })
 
@@ -217,7 +219,7 @@ var convert = function(err) {
 // create the outdir if necesary
 // convert the files either way
 if (argv.out) {
-  return mkdir(argv.out, convert)
+  mkdir(argv.out, convert)
+} else {
+  convert()
 }
-
-convert()

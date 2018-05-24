@@ -210,7 +210,8 @@ PlotterToSvg.prototype._handleNewRepeat = function (offsets, box) {
         }
 
         if (isDark) {
-          ;(attr.fill = '#fff'), (attr.stroke = '#fff')
+          attr.fill = '#fff'
+          attr.stroke = '#fff'
         }
 
         result.push(element('use', attr))
