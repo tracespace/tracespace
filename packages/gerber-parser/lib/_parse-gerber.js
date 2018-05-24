@@ -100,7 +100,7 @@ var parseMacroDef = function(parser, block) {
     parser._warn('hyphens in macro name are illegal: ' + name )
   }
   var blockMatch = (macroMatch[2].length) ? macroMatch[2].split('*') : []
-  var blocks = blockMatch.map(function(block) {
+  var blocks = blockMatch.filter(Boolean).map(function(block) {
     return parseMacroBlock(parser, block)
   })
 

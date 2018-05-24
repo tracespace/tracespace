@@ -625,6 +625,20 @@ describe('gerber parser with gerber files', function() {
         p.write('%AMCIRC1*\n')
         p.write('1,1,5,-1,-2.5*%\n')
       })
+
+      it('should ignore empty blocks', function(done) {
+        var expectedBlocks = [
+          {type: 'circle', exp: exp, dia: 5, cx: 1, cy: 2, rot: 0}
+        ]
+        var expected = [
+          {type: 'macro', line: 2, name: 'CIRC1', blocks: expectedBlocks}
+        ]
+
+        expectResults(expected, done)
+        p.write('%AMCIRC1*\n')
+        p.write('1,1,5,1,2*\n')
+        p.write('*%\n')
+      })
     })
 
     describe('variable set blocks', function() {
