@@ -3035,23 +3035,6 @@ gerber-plotter@^1.1.0:
     lodash.isfunction "^3.0.6"
     readable-stream "^2.1.2"
 
-gerber-to-svg@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/gerber-to-svg/-/gerber-to-svg-2.1.0.tgz#f6c8635d90db53b8bc32135b23b63ba5377c3c15"
-  dependencies:
-    chalk "^1.1.1"
-    escape-html "^1.0.3"
-    gerber-parser "^1.0.0"
-    gerber-plotter "^1.1.0"
-    inherits "^2.0.1"
-    lodash.isfinite "^3.2.0"
-    lodash.isstring "^4.0.1"
-    minimist "^1.1.0"
-    mkdirp "^0.5.1"
-    readable-stream "^2.1.2"
-    xml-element-string "^1.0.0"
-    xmlovely "^1.0.0"
-
 get-caller-file@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"
@@ -4340,6 +4323,10 @@ lodash.merge@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.0.tgz#69884ba144ac33fe699737a6086deffadd0f89c5"
 
+lodash.padend@^4.6.1:
+  version "4.6.1"
+  resolved "https://registry.npmjs.org/lodash.padend/-/lodash.padend-4.6.1.tgz#53ccba047d06e158d311f45da625f4e49e6f166e"
+
 lodash.padleft@^3.1.3:
   version "3.1.3"
   resolved "https://registry.npmjs.org/lodash.padleft/-/lodash.padleft-3.1.3.tgz#9d368e2c16e7e4f0f8ef08bc782c538c97b4bbd9"
@@ -4353,6 +4340,10 @@ lodash.padright@^3.1.3:
   dependencies:
     lodash._basetostring "^3.0.0"
     lodash._createpadding "^3.0.0"
+
+lodash.padstart@^4.6.1:
+  version "4.6.1"
+  resolved "https://registry.npmjs.org/lodash.padstart/-/lodash.padstart-4.6.1.tgz#d2e3eebff0d9d39ad50f5cbd1b52a7bce6bb611b"
 
 lodash.reduce@^4.3.0:
   version "4.6.0"
@@ -7461,6 +7452,12 @@ y18n@^3.2.1:
 yallist@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"
+
+yargs-parser@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.npmjs.org/yargs-parser/-/yargs-parser-10.0.0.tgz#c737c93de2567657750cb1f2c00be639fd19c994"
+  dependencies:
+    camelcase "^4.1.0"
 
 yargs-parser@^8.0.0, yargs-parser@^8.1.0:
   version "8.1.0"

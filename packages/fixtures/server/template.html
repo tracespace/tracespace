@@ -11,6 +11,8 @@
   >
   <style>
     .open-sans { font-family: 'Open Sans', sans-serif; }
+    .lh-none { line-height: 0; }
+    .render-outline:hover { outline: rgba(0, 0, 0, .3) dashed 0.25rem; }
   </style>
   <title><%- name %> - integration test suite</title>
 </head>
@@ -29,14 +31,47 @@
     </h2>
 
     <div class='pl4 bl bw2'>
-      <% ['top', 'bottom'].forEach((side) => { %>
-      <div class='dib mt2 mb3 mr3 v-top'>
+      <% suite.specs.forEach((spec) => { %>
+      <div class='dib mt2 mb3 mr3 pa4 v-top'>
         <h3 class='f3 mt0 mb2 normal'>
-          <%- side %>
+          <%- spec.name %>
         </h3>
 
-        <div class='mr3 tc'>
-          <%= suite.stackup[side].svg %>
+        <% if (spec.source) { %>
+        <div class='dib mr3'>
+          <h4 class='f4 lh-title mt0 mb2 normal'>
+            source
+          </h4>
+          <div class='near-white bg-mid-gray pv1 ph2 tl'>
+            <% spec.source.split("\n").filter(_ => _).forEach((line, i) => { %>
+              <code class='db f7 lh-copy tracked'>
+                <span class='dib w1 tr light-red'>
+                  <%- i + 1 %>
+                </span>
+                <%- line %>
+              </code>
+            <% }) %>
+          </div>
+        </div>
+        <% } %>
+
+        <div class='dib v-top mr3 tc'>
+          <% if (spec.source || spec.expected) { %>
+          <h4 class='f4 lh-title mt0 mb2 normal'>
+            render
+          </h4>
+          <% } %>
+
+          <div class='dib lh-none render-outline'>
+            <%= spec.render %>
+          </div>
+
+          <% if (spec.source) { %>
+            <h4 class='f4 lh-title mt3 mb2 normal'>
+              expected
+            </h4>
+            <%= spec.expected %>
+          <% } %>
         </div>
       </div>
       <% }) %>
