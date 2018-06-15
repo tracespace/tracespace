@@ -1,6 +1,6 @@
 {
   "name": "gerber-to-svg",
-  "version": "2.1.0",
+  "version": "4.0.0-next.5",
   "description": "Render Gerber and NC drill files as SVGs in Node and the browser",
   "main": "lib/gerber-to-svg.js",
   "bin": {
@@ -29,7 +29,7 @@
     "maker"
   ],
   "contributors": [
-    "Mike Cousins <mike@cousins.io> (http://mike.cousins.io/)",
+    "Mike Cousins <mike@cousins.io> (https://mike.cousins.io/)",
     "Kaspar Emanuel <kaspar@monostable.co.uk> (http://monostable.co.uk)"
   ],
   "license": "MIT",

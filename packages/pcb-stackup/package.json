@@ -1,6 +1,6 @@
 {
   "name": "pcb-stackup",
-  "version": "4.0.0-next.4",
+  "version": "4.0.0-next.5",
   "description": "Generate beautiful, precise SVG renders of PCBs from Gerber and drill files",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
     "electronics"
   ],
   "contributors": [
-    "Mike Cousins <mike@cousins.io> (http://mike.cousins.io/)",
+    "Mike Cousins <mike@cousins.io> (https://mike.cousins.io/)",
     "Kaspar Emanuel <kaspar@monostable.co.uk> (http://monostable.co.uk)"
   ],
   "license": "MIT",
@@ -32,8 +32,8 @@
   },
   "homepage": "https://github.com/tracespace/tracespace",
   "dependencies": {
-    "gerber-to-svg": "^2.1.0",
-    "pcb-stackup-core": "^4.0.0-next.4",
+    "gerber-to-svg": "^4.0.0-next.5",
+    "pcb-stackup-core": "^4.0.0-next.5",
     "shortid": "^2.2.6",
     "whats-that-gerber": "^4.0.0-next.4"
   }
