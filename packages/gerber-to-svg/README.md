@@ -48,8 +48,8 @@ See [the API documentation](./API.md) for full details.
  -o, --out             | output directory                            | string
  -q, --quiet           | do not print warnings and messages          | boolean
  -p, --pretty          | pretty print output                         | boolean, tab-size
- -c, --color           | SVG fill and stroke color                   | color
- -a, --append-ext      | append, rather than replace, .svg extension | boolean
+ -a, --attr            | SVG attributes (e.g. --attr.color=blue)     | {[string]: string}
+ -e, --append-ext      | append, rather than replace, .svg extension | boolean
  -f, --format          | coordinate decimal places format            | "$int,$dec"
  -z, --zero            | override zero suppression                   | "L", "T"
  -u, --units           | set backup units to                         | "mm", "in"

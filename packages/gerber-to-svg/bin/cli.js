@@ -3,9 +3,11 @@
 
 var fs = require('fs')
 var path = require('path')
-var mkdir = require('mkdirp')
-var parseArgs = require('minimist')
 var chalk = require('chalk')
+var parseArgs = require('yargs-parser')
+var mkdir = require('mkdirp')
+var padEnd = require('lodash.padend')
+var padStart = require('lodash.padstart')
 var xmlovely = require('xmlovely')
 
 var gerberToSvg = require('../lib/gerber-to-svg')
@@ -18,67 +20,53 @@ var BANNER = [
   'converts printed circuit board Gerber and drill files to SVG',
   '',
   'usage:',
-  '  gerber2svg [options] -- gerber_files',
+  '  gerber-to-svg [options] -- gerber_files',
   '',
   'examples:',
   '  convert gerber.gbr and output to stdout',
-  '    $ gerber2svg gerber.gbr',
+  '    $ gerber-to-svg gerber.gbr',
   '  convert and output to out/gerber.svg',
-  '    $ gerber2svg --out out -- gerber.gb',
+  '    $ gerber-to-svg --out=out -- gerber.gb',
   '  output to out/gerber.gbr.svg',
-  '    $ gerber2svg --out out --append-ext --  gerber.gbr',
+  '    $ gerber-to-svg --out=out --append-ext --  gerber.gbr',
   '  plot edge-cuts.gbr as an outline',
-  '    $ gerber2svg --plot-as-outline -- edge-cuts.gbr',
+  '    $ gerber-to-svg --plot-as-outline -- edge-cuts.gbr',
   '  plot edge-cuts-with-big-gaps.gbr and fill gaps smaller than 0.011',
-  '    $ gerber2svg --plot-as-outline 0.011 -- edge-cuts-with-big-gaps.gbr',
+  '    $ gerber-to-svg --plot-as-outline=0.011 -- edge-cuts-with-big-gaps.gbr',
+  '  specify attributes like color, height, and width',
+  '    $ gerber-to-svg --attr.color=blue --attr.width="100%" --attr.height="100%"',
   ''
 ].join('\n')
 
 var OPTIONS = [
-  ['o', 'out', '             specify an output directory'],
-  ['q', 'quiet', '           do not print warnings and messages'],
+  ['o', 'out', 'specify an output directory'],
+  ['q', 'quiet', 'do not print warnings and messages'],
+  ['p', 'pretty', 'indent output with this length tabs (2 if unspecified)'],
+  ['a', 'attr', 'SVG attributes to add or change (e.g. --attr.color=blue)'],
   [
-    'p',
-    'pretty',
-    '          indent output with this length tabs (2 if unspecified)'
-  ],
-  [
-    'c',
-    'color',
-    '           give the layer this color (defaults to "currentColor")'
-  ],
-  [
-    'a',
+    'e',
     'append-ext',
-    '      append .svg rather than replacing the existing extension'
+    'append .svg rather than replacing the existing extension'
   ],
+  ['f', 'format', "override coordinate decimal places format with '[INT,DEC]'"],
+  ['z', 'zero', "override zero suppression with 'L' or 'T'"],
+  ['u', 'units', "set backup units to 'mm' or 'in'"],
+  ['n', 'notation', "set backup absolute/incremental notation with 'A' or 'I'"],
   [
-    'f',
-    'format',
-    "          override coordinate decimal places format with '[INT,DEC]'"
-  ],
-  ['z', 'zero', "            override zero suppression with 'L' or 'T'"],
-  ['u', 'units', "           set backup units to 'mm' or 'in'"],
-  [
-    'n',
-    'notation',
-    "        set backup absolute/incremental notation with 'A' or 'I'"
-  ],
-  [
-    'z',
+    't',
     'optimize-paths',
-    '  rearrange trace paths by to occur in physical order'
+    'rearrange trace paths by to occur in physical order'
   ],
   [
     'b',
     'plot-as-outline',
-    ' optimize paths and fill gaps smaller than 0.00011 (or specified number) in layer units'
+    'fill gaps smaller than 0.00011 (or specified number) in layer units'
   ],
-  ['v', 'version', '         display version information'],
-  ['h', 'help', '            display this help text']
+  ['v', 'version', 'display version information'],
+  ['h', 'help', 'display this help text']
 ]
 
-var STRING_OPTS = ['out', 'color', 'format', 'zero', 'units', 'notation']
+var STRING_OPTS = ['out', 'format', 'zero', 'units', 'notation']
 var BOOLEAN_OPTS = ['quiet', 'append-ext', 'optimize-paths', 'version', 'help']
 var ALIAS_OPTS = OPTIONS.reduce(function (alias, opt) {
   alias[opt[0]] = opt[1]
@@ -95,8 +83,20 @@ var printBanner = function () {
 }
 
 var printOptions = function () {
+  var maxLength = OPTIONS.reduce(
+    function (result, opt) {
+      return {
+        longOpt: Math.max(result.longOpt, opt[1].length),
+        desc: Math.max(result.description, opt[2].length)
+      }
+    },
+    {longOpt: 0, desc: 0}
+  )
+
   OPTIONS.forEach(function (opt) {
-    console.log('-' + opt[0] + ', --' + opt[1] + '  ' + opt[2])
+    var longOpt = padEnd(opt[1], maxLength.longOpt)
+    var desc = padStart(opt[2], maxLength.desc)
+    console.log('-' + opt[0] + ', --' + longOpt + '  ' + desc)
   })
 }
 
@@ -145,8 +145,8 @@ var getOpts = function (id) {
     optimizePaths: argv['optimize-paths']
   }
 
-  if (argv.color) {
-    opts.color = argv.color
+  if (argv.attr) {
+    opts.attributes = argv.attr
   }
 
   if (argv.format) {
