@@ -42,12 +42,7 @@ var translate = function (box, delta) {
   var dx = delta[0]
   var dy = delta[1]
 
-  return [
-    box[0] + dx,
-    box[1] + dy,
-    box[2] + dx,
-    box[3] + dy
-  ]
+  return [box[0] + dx, box[1] + dy, box[2] + dx, box[3] + dy]
 }
 
 // get the overall box if box is repeated at [x, y]

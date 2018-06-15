@@ -17,7 +17,8 @@ var isFormatKey = function (key) {
     key === 'units' ||
     key === 'backupUnits' ||
     key === 'nota' ||
-    key === 'backupNota')
+    key === 'backupNota'
+  )
 }
 
 var Plotter = function (
@@ -26,7 +27,8 @@ var Plotter = function (
   nota,
   backupNota,
   optimizePaths,
-  plotAsOutline) {
+  plotAsOutline
+) {
   Transform.call(this, {
     readableObjectMode: true,
     writableObjectMode: true
@@ -40,15 +42,13 @@ var Plotter = function (
   }
 
   this._formatLock = {
-    units: (units != null),
-    backupUnits: (backupUnits != null),
-    nota: (nota != null),
-    backupNota: (backupNota != null)
+    units: units != null,
+    backupUnits: backupUnits != null,
+    nota: nota != null,
+    backupNota: backupNota != null
   }
 
-  this._plotAsOutline = (plotAsOutline === true)
-    ? MAX_GAP
-    : plotAsOutline
+  this._plotAsOutline = plotAsOutline === true ? MAX_GAP : plotAsOutline
 
   // plotAsOutline parameter is always in mm
   if ((units || this.format.backupUnits) === 'in') {
@@ -78,13 +78,16 @@ inherits(Plotter, Transform)
 
 Plotter.prototype._finishPath = function (doNotOptimize) {
   var path = this._path.traverse()
-  this._path = new PathGraph(((!doNotOptimize) && this._optimizePaths), this._plotAsOutline)
+  this._path = new PathGraph(
+    !doNotOptimize && this._optimizePaths,
+    this._plotAsOutline
+  )
 
   if (path.length) {
     // check for outline tool
-    var tool = (!this._plotAsOutline) ? this._tool : this._outTool
+    var tool = !this._plotAsOutline ? this._tool : this._outTool
 
-    if (!this._region && (tool.trace.length === 1)) {
+    if (!this._region && tool.trace.length === 1) {
       this.push({type: 'stroke', width: tool.trace[0], path: path})
     } else {
       this.push({type: 'fill', path: path})
@@ -164,10 +167,7 @@ Plotter.prototype._transform = function (chunk, encoding, done) {
         this._mode = 'i'
       }
 
-      if (
-        (this._arc == null) &&
-        (this._mode.slice(-2) === 'cw') &&
-        !coord.a) {
+      if (this._arc == null && this._mode.slice(-2) === 'cw' && !coord.a) {
         this._warn('quadrant mode unspecified; assuming single quadrant')
         this._arc = 's'
       }
@@ -184,10 +184,11 @@ Plotter.prototype._transform = function (chunk, encoding, done) {
       this._tool,
       this._mode,
       this._arc,
-      (this._region || this._plotAsOutline),
+      this._region || this._plotAsOutline,
       this._path,
       this._epsilon,
-      this)
+      this
+    )
 
     this._lastOp = op
     this._pos = result.pos
@@ -226,7 +227,9 @@ Plotter.prototype._transform = function (chunk, encoding, done) {
     var toolDef = chunk.tool
 
     if (this._tools[code]) {
-      this._warn('tool ' + code + ' is already defined; ignoring new definition')
+      this._warn(
+        'tool ' + code + ' is already defined; ignoring new definition'
+      )
 
       return done()
     }
@@ -262,7 +265,7 @@ Plotter.prototype._transform = function (chunk, encoding, done) {
     if (level === 'polarity') {
       this.push({
         type: 'polarity',
-        polarity: (levelValue === 'C') ? 'clear' : 'dark',
+        polarity: levelValue === 'C' ? 'clear' : 'dark',
         box: this._box.slice(0)
       })
     } else {

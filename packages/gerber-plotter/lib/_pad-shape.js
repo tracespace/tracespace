@@ -45,7 +45,7 @@ var circle = function (dia, cx, cy, rot) {
   }
 
   return {
-    shape: {type: 'circle', cx: cx, cy: cy, r: (dia / 2)},
+    shape: {type: 'circle', cx: cx, cy: cy, r: dia / 2},
     box: boundingBox.addCircle(boundingBox.new(), r, cx, cy)
   }
 }
@@ -117,7 +117,7 @@ var outlinePolygon = function (flatPoints, rot) {
   var points = []
   var box = boundingBox.new()
   var point
-  for (var i = 0; i < (flatPoints.length - 2); i += 2) {
+  for (var i = 0; i < flatPoints.length - 2; i += 2) {
     point = [flatPoints[i], flatPoints[i + 1]]
     if (rot) {
       point = rotatePointAboutOrigin(point, rot)
@@ -166,7 +166,17 @@ var ring = function (cx, cy, r, width) {
   return {type: 'ring', cx: cx, cy: cy, r: r, width: width}
 }
 
-var moire = function (dia, ringThx, ringGap, maxRings, crossThx, crossLen, cx, cy, rot) {
+var moire = function (
+  dia,
+  ringThx,
+  ringGap,
+  maxRings,
+  crossThx,
+  crossLen,
+  cx,
+  cy,
+  rot
+) {
   var r = dia / 2
   var shape = []
   var box = boundingBox.addCircle(boundingBox.new(), r, cx, cy)
@@ -174,14 +184,14 @@ var moire = function (dia, ringThx, ringGap, maxRings, crossThx, crossLen, cx, c
   var gapAndHalfThx = ringGap + halfThx
 
   // add rings
-  while ((r > ringThx) && (shape.length < maxRings)) {
+  while (r > ringThx && shape.length < maxRings) {
     r -= halfThx
     shape.push(ring(cx, cy, roundToPrecision(r), ringThx))
     r -= gapAndHalfThx
   }
 
   // add a circle if necessary
-  if ((r > 0) && (shape.length < maxRings)) {
+  if (r > 0 && shape.length < maxRings) {
     shape.push(circle(roundToPrecision(2 * r), cx, cy).shape)
   }
 
@@ -240,10 +250,10 @@ var runMacro = function (mods, blocks) {
       }, {})
     }
 
-    if ((block.exp != null) && (block.exp !== exposure)) {
+    if (block.exp != null && block.exp !== exposure) {
       result.shape.push({
         type: 'layer',
-        polarity: (block.exp === 1) ? 'dark' : 'clear',
+        polarity: block.exp === 1 ? 'dark' : 'clear',
         box: result.box.slice(0)
       })
       exposure = block.exp
@@ -256,11 +266,24 @@ var runMacro = function (mods, blocks) {
 
       case 'vect':
         shapeAndBox = vect(
-          block.x1, block.y1, block.x2, block.y2, block.width, block.rot)
+          block.x1,
+          block.y1,
+          block.x2,
+          block.y2,
+          block.width,
+          block.rot
+        )
         break
 
       case 'rect':
-        shapeAndBox = rect(block.width, block.height, 0, block.cx, block.cy, block.rot)
+        shapeAndBox = rect(
+          block.width,
+          block.height,
+          0,
+          block.cx,
+          block.cy,
+          block.rot
+        )
         break
 
       case 'rectLL':
@@ -277,7 +300,12 @@ var runMacro = function (mods, blocks) {
 
       case 'poly':
         shapeAndBox = regularPolygon(
-          block.dia, block.vertices, block.rot, block.cx, block.cy)
+          block.dia,
+          block.vertices,
+          block.rot,
+          block.cx,
+          block.cy
+        )
         break
 
       case 'moire':
@@ -290,12 +318,19 @@ var runMacro = function (mods, blocks) {
           block.crossLen,
           block.cx,
           block.cy,
-          block.rot)
+          block.rot
+        )
         break
 
       case 'thermal':
         shapeAndBox = thermal(
-          block.cx, block.cy, block.outerDia, block.innerDia, block.gap, block.rot)
+          block.cx,
+          block.cy,
+          block.outerDia,
+          block.innerDia,
+          block.gap,
+          block.rot
+        )
         break
 
       case 'variable':
@@ -330,7 +365,7 @@ module.exports = function padShape (tool, macros) {
   } else if (toolShape === 'rect') {
     shapeAndBox = rect(params[0], params[1])
   } else if (toolShape === 'obround') {
-    shapeAndBox = rect(params[0], params[1], (Math.min(params[0], params[1]) / 2))
+    shapeAndBox = rect(params[0], params[1], Math.min(params[0], params[1]) / 2)
   } else if (toolShape === 'poly') {
     shapeAndBox = regularPolygon(params[0], params[1], params[2])
   } else {
@@ -349,9 +384,10 @@ module.exports = function padShape (tool, macros) {
   box = boundingBox.add(box, shapeAndBox.box)
 
   if (tool.hole.length) {
-    holeShape = (tool.hole.length === 1)
-      ? circle(tool.hole[0]).shape
-      : rect(tool.hole[0], tool.hole[1]).shape
+    holeShape =
+      tool.hole.length === 1
+        ? circle(tool.hole[0]).shape
+        : rect(tool.hole[0], tool.hole[1]).shape
 
     shape.push({type: 'layer', polarity: 'clear', box: box}, holeShape)
   }

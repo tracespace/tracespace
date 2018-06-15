@@ -22,15 +22,13 @@ var verifyUnits = function (units) {
 module.exports = function plotterFactory (options) {
   options = options || {}
 
-  var units = (options.units) ? verifyUnits(options.units) : null
-  var backupUnits = (options.backupUnits)
+  var units = options.units ? verifyUnits(options.units) : null
+  var backupUnits = options.backupUnits
     ? verifyUnits(options.backupUnits)
     : null
 
-  var nota = (options.nota) ? verifyNota(options.nota) : null
-  var backupNota = (options.backupNota)
-    ? verifyNota(options.backupNota)
-    : null
+  var nota = options.nota ? verifyNota(options.nota) : null
+  var backupNota = options.backupNota ? verifyNota(options.backupNota) : null
 
   return new Plotter(
     units,
@@ -38,5 +36,6 @@ module.exports = function plotterFactory (options) {
     nota,
     backupNota,
     options.optimizePaths,
-    options.plotAsOutline)
+    options.plotAsOutline
+  )
 }

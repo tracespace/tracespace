@@ -49,9 +49,9 @@ var findCenterAndAngles = function (start, end, mode, arc, centers) {
     // in clockwise mode, ensure the start is greater than the end and check the sweep
     // do the opposite for counter-clockwise
     if (mode === 'cw') {
-      thetaStart = (thetaStart >= thetaEnd) ? thetaStart : (thetaStart + TWO_PI)
+      thetaStart = thetaStart >= thetaEnd ? thetaStart : thetaStart + TWO_PI
     } else {
-      thetaEnd = (thetaEnd >= thetaStart) ? thetaEnd : (thetaEnd + TWO_PI)
+      thetaEnd = thetaEnd >= thetaStart ? thetaEnd : thetaEnd + TWO_PI
     }
 
     sweep = Math.abs(thetaStart - thetaEnd)
@@ -72,10 +72,10 @@ var findCenterAndAngles = function (start, end, mode, arc, centers) {
   }
 
   // ensure the thetas are [0, TWO_PI)
-  thetaStart = (thetaStart >= 0) ? thetaStart : thetaStart + TWO_PI
-  thetaStart = (thetaStart < TWO_PI) ? thetaStart : thetaStart - TWO_PI
-  thetaEnd = (thetaEnd >= 0) ? thetaEnd : thetaEnd + TWO_PI
-  thetaEnd = (thetaEnd < TWO_PI) ? thetaEnd : thetaEnd - TWO_PI
+  thetaStart = thetaStart >= 0 ? thetaStart : thetaStart + TWO_PI
+  thetaStart = thetaStart < TWO_PI ? thetaStart : thetaStart - TWO_PI
+  thetaEnd = thetaEnd >= 0 ? thetaEnd : thetaEnd + TWO_PI
+  thetaEnd = thetaEnd < TWO_PI ? thetaEnd : thetaEnd - TWO_PI
 
   return {
     center: center,
@@ -107,28 +107,28 @@ var arcBox = function (cenAndAngles, r, region, tool, dir) {
   var points = [startPoint, endPoint]
 
   // check for sweep past 0 degrees
-  if ((start > end) || (sweep === TWO_PI)) {
+  if (start > end || sweep === TWO_PI) {
     points.push([center[0] + r, center[1]])
   }
 
   // rotate to check for sweep past 90 degrees
-  start = (start >= HALF_PI) ? (start - HALF_PI) : (start + THREE_HALF_PI)
-  end = (end >= HALF_PI) ? (end - HALF_PI) : (end + THREE_HALF_PI)
-  if ((start > end) || (sweep === TWO_PI)) {
+  start = start >= HALF_PI ? start - HALF_PI : start + THREE_HALF_PI
+  end = end >= HALF_PI ? end - HALF_PI : end + THREE_HALF_PI
+  if (start > end || sweep === TWO_PI) {
     points.push([center[0], center[1] + r])
   }
 
   // rotate again to check for sweep past 180 degrees
-  start = (start >= HALF_PI) ? (start - HALF_PI) : (start + THREE_HALF_PI)
-  end = (end >= HALF_PI) ? (end - HALF_PI) : (end + THREE_HALF_PI)
-  if ((start > end) || (sweep === TWO_PI)) {
+  start = start >= HALF_PI ? start - HALF_PI : start + THREE_HALF_PI
+  end = end >= HALF_PI ? end - HALF_PI : end + THREE_HALF_PI
+  if (start > end || sweep === TWO_PI) {
     points.push([center[0] - r, center[1]])
   }
 
   // rotate again to check for sweep past 270 degrees
-  start = (start >= HALF_PI) ? (start - HALF_PI) : (start + THREE_HALF_PI)
-  end = (end >= HALF_PI) ? (end - HALF_PI) : (end + THREE_HALF_PI)
-  if ((start > end) || (sweep === TWO_PI)) {
+  start = start >= HALF_PI ? start - HALF_PI : start + THREE_HALF_PI
+  end = end >= HALF_PI ? end - HALF_PI : end + THREE_HALF_PI
+  if (start > end || sweep === TWO_PI) {
     points.push([center[0], center[1] - r])
   }
 
@@ -143,28 +143,29 @@ var arcBox = function (cenAndAngles, r, region, tool, dir) {
 }
 
 var roundToZero = function (number, epsilon) {
-  return (number >= epsilon) ? number : 0
+  return number >= epsilon ? number : 0
 }
 
 // find the center of an arc given its endpoints and its radius
 // assume the arc is <= 180 degress
 // thank you this guy: http://math.stackexchange.com/a/87912
 var arcCenterFromRadius = function (start, end, mode, epsilon, radius) {
-  var sign = (mode === 'ccw') ? 1 : -1
+  var sign = mode === 'ccw' ? 1 : -1
   var xAve = (start[0] + end[0]) / 2
   var yAve = (start[1] + end[1]) / 2
   var deltaX = end[0] - start[1]
   var deltaY = end[1] - start[1]
   var distance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2))
   var halfDistance = distance / 2
-  var squareDifference = Math.sqrt(Math.pow(radius, 2) - Math.pow(halfDistance, 2))
+  var squareDifference = Math.sqrt(
+    Math.pow(radius, 2) - Math.pow(halfDistance, 2)
+  )
   var xOffset = -sign * deltaY * squareDifference / distance
   var yOffset = sign * deltaX * squareDifference / distance
 
-  return [[
-    roundToZero(xAve + xOffset, epsilon),
-    roundToZero(yAve + yOffset, epsilon)
-  ]]
+  return [
+    [roundToZero(xAve + xOffset, epsilon), roundToZero(yAve + yOffset, epsilon)]
+  ]
 }
 
 var drawArc = function (
@@ -177,9 +178,11 @@ var drawArc = function (
   region,
   epsilon,
   pathGraph,
-  plotter) {
+  plotter
+) {
   // get the radius of the arc from the offsets
-  var r = offset[2] || Math.sqrt(Math.pow(offset[0], 2) + Math.pow(offset[1], 2))
+  var r =
+    offset[2] || Math.sqrt(Math.pow(offset[0], 2) + Math.pow(offset[1], 2))
 
   // potential candidates for the arc center
   // in single quadrant mode, all offset signs are implicit, so we need to check a few
@@ -187,13 +190,13 @@ var drawArc = function (
   var xCandidates = []
   var yCandidates = []
 
-  if (offset[0] && (arc === 's')) {
+  if (offset[0] && arc === 's') {
     xCandidates.push(start[0] + offset[0], start[0] - offset[0])
   } else {
     xCandidates.push(start[0] + offset[0])
   }
 
-  if (offset[1] && (arc === 's')) {
+  if (offset[1] && arc === 's') {
     yCandidates.push(start[1] + offset[1], start[1] - offset[1])
   } else {
     yCandidates.push(start[1] + offset[1])
@@ -212,10 +215,16 @@ var drawArc = function (
     validCenters = arcCenterFromRadius(start, end, mode, epsilon, offset[2])
   } else if (arc === 's') {
     validCenters = candidates.filter(function (c) {
-      var startDist = Math.sqrt(Math.pow(c[0] - start[0], 2) + Math.pow(c[1] - start[1], 2))
-      var endDist = Math.sqrt(Math.pow(c[0] - end[0], 2) + Math.pow(c[1] - end[1], 2))
+      var startDist = Math.sqrt(
+        Math.pow(c[0] - start[0], 2) + Math.pow(c[1] - start[1], 2)
+      )
+      var endDist = Math.sqrt(
+        Math.pow(c[0] - end[0], 2) + Math.pow(c[1] - end[1], 2)
+      )
 
-      return ((Math.abs(startDist - r) <= epsilon) && (Math.abs(endDist - r) <= epsilon))
+      return (
+        Math.abs(startDist - r) <= epsilon && Math.abs(endDist - r) <= epsilon
+      )
     })
   } else {
     validCenters = candidates
@@ -224,7 +233,7 @@ var drawArc = function (
   var cenAndAngles = findCenterAndAngles(start, end, mode, arc, validCenters)
 
   // edge case: matching start and end in multi quadrant mode is a full circle
-  if ((arc === 'm') && (start[0] === end[0]) && (start[1] === end[1])) {
+  if (arc === 'm' && start[0] === end[0] && start[1] === end[1]) {
     cenAndAngles.sweep = TWO_PI
   }
 
@@ -283,7 +292,7 @@ var interpolateRect = function (start, end, tool, pathGraph, plotter) {
   // no movement
   if (start[0] === end[0] && start[1] === end[1]) {
     points.push([sXMin, sYMin], [sXMax, sYMin], [sXMax, sYMax], [sXMin, sYMax])
-  } else if ((theta >= 0 && theta < HALF_PI)) {
+  } else if (theta >= 0 && theta < HALF_PI) {
     // first quadrant move
     points.push(
       [sXMin, sYMin],
@@ -291,8 +300,9 @@ var interpolateRect = function (start, end, tool, pathGraph, plotter) {
       [eXMax, eYMin],
       [eXMax, eYMax],
       [eXMin, eYMax],
-      [sXMin, sYMax])
-  } else if ((theta >= HALF_PI && theta <= PI)) {
+      [sXMin, sYMax]
+    )
+  } else if (theta >= HALF_PI && theta <= PI) {
     // second quadrant move
     points.push(
       [sXMax, sYMin],
@@ -300,8 +310,9 @@ var interpolateRect = function (start, end, tool, pathGraph, plotter) {
       [eXMax, eYMax],
       [eXMin, eYMax],
       [eXMin, eYMin],
-      [sXMin, sYMin])
-  } else if ((theta >= -PI && theta < -HALF_PI)) {
+      [sXMin, sYMin]
+    )
+  } else if (theta >= -PI && theta < -HALF_PI) {
     // third quadrant move
     points.push(
       [sXMax, sYMax],
@@ -309,7 +320,8 @@ var interpolateRect = function (start, end, tool, pathGraph, plotter) {
       [eXMin, eYMax],
       [eXMin, eYMin],
       [eXMax, eYMin],
-      [sXMax, sYMin])
+      [sXMax, sYMin]
+    )
   } else {
     // fourth quadrant move
     points.push(
@@ -318,32 +330,47 @@ var interpolateRect = function (start, end, tool, pathGraph, plotter) {
       [eXMin, eYMin],
       [eXMax, eYMin],
       [eXMax, eYMax],
-      [sXMax, sYMax])
+      [sXMax, sYMax]
+    )
   }
 
   points.forEach(function (p, i) {
-    var j = (i < (points.length - 1)) ? i + 1 : 0
+    var j = i < points.length - 1 ? i + 1 : 0
     pathGraph.add({type: 'line', start: p, end: points[j]})
   })
 
   plotter._finishPath()
 
   return boundingBox.add(
-    boundingBox.translate(tool.box, start), boundingBox.translate(tool.box, end))
+    boundingBox.translate(tool.box, start),
+    boundingBox.translate(tool.box, end)
+  )
 }
 
 // interpolate operation
 // returns a bounding box for the operation
 var interpolate = function (
-  start, end, offset, tool, mode, arc, region, epsilon, pathGraph, plotter) {
-  if (!region && (tool.trace.length === 0)) {
-    plotter._warn('tool ' + tool.code + ' is not strokable; ignoring interpolate')
+  start,
+  end,
+  offset,
+  tool,
+  mode,
+  arc,
+  region,
+  epsilon,
+  pathGraph,
+  plotter
+) {
+  if (!region && tool.trace.length === 0) {
+    plotter._warn(
+      'tool ' + tool.code + ' is not strokable; ignoring interpolate'
+    )
     return boundingBox.new()
   }
 
   if (mode === 'i') {
     // add a line to the path normally if region mode is on or the tool is a circle
-    if (region || (tool.trace.length === 1)) {
+    if (region || tool.trace.length === 1) {
       return drawLine(start, end, tool, region, pathGraph)
     }
 
@@ -352,26 +379,47 @@ var interpolate = function (
   }
 
   // else, make sure we're allowed to be drawing an arc, then draw an arc
-  if ((tool.trace.length !== 1) && !region) {
+  if (tool.trace.length !== 1 && !region) {
     plotter._warn('cannot draw an arc with a non-circular tool')
     return boundingBox.new()
   }
 
-  return drawArc(start, end, offset, tool, mode, arc, region, epsilon, pathGraph, plotter)
+  return drawArc(
+    start,
+    end,
+    offset,
+    tool,
+    mode,
+    arc,
+    region,
+    epsilon,
+    pathGraph,
+    plotter
+  )
 }
 
 // takes the start point, the op type, the op coords, the tool, and the push function
 // returns the new plotter position
 var operate = function (
-  type, coord, start, tool, mode, arc, region, pathGraph, epsilon, plotter) {
+  type,
+  coord,
+  start,
+  tool,
+  mode,
+  arc,
+  region,
+  pathGraph,
+  epsilon,
+  plotter
+) {
   var end = [
-    ((coord.x != null) ? coord.x : start[0]),
-    ((coord.y != null) ? coord.y : start[1])
+    coord.x != null ? coord.x : start[0],
+    coord.y != null ? coord.y : start[1]
   ]
 
   var offset = [
-    ((coord.i != null) ? coord.i : 0),
-    ((coord.j != null) ? coord.j : 0),
+    coord.i != null ? coord.i : 0,
+    coord.j != null ? coord.j : 0,
     coord.a
   ]
 
@@ -383,7 +431,17 @@ var operate = function (
 
     case 'int':
       box = interpolate(
-        start, end, offset, tool, mode, arc, region, epsilon, pathGraph, plotter)
+        start,
+        end,
+        offset,
+        tool,
+        mode,
+        arc,
+        region,
+        epsilon,
+        pathGraph,
+        plotter
+      )
       break
 
     default:

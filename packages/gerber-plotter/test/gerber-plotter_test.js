@@ -16,7 +16,9 @@ describe('gerber plotter', function () {
   })
 
   it('should be an object stream', function () {
-    expect(function () { p.write({}) }).to.not.throw()
+    expect(function () {
+      p.write({})
+    }).to.not.throw()
   })
 
   describe('format options', function () {
@@ -26,7 +28,9 @@ describe('gerber plotter', function () {
       p = plotter({units: 'in'})
       expect(p.format.units).to.equal('in')
 
-      expect(function () { p = plotter({units: 'foo'}) }).to.throw(/units/)
+      expect(function () {
+        p = plotter({units: 'foo'})
+      }).to.throw(/units/)
     })
 
     it('should allow user to set backupUnits', function () {
@@ -46,7 +50,9 @@ describe('gerber plotter', function () {
       p = plotter({nota: 'I'})
       expect(p.format.nota).to.equal('I')
 
-      expect(function () { p = plotter({nota: 'foo'}) }).to.throw(/notation/)
+      expect(function () {
+        p = plotter({nota: 'foo'})
+      }).to.throw(/notation/)
     })
 
     it('should allow user to set backup notation', function () {
@@ -67,16 +73,24 @@ describe('gerber plotter', function () {
 
     it('should not throw with null/undefined options', function () {
       var p
-      expect(function () { p = plotter({units: null}) }).to.not.throw()
+      expect(function () {
+        p = plotter({units: null})
+      }).to.not.throw()
       expect(p.format.units === null).to.equal(true)
 
-      expect(function () { p = plotter({backupUnits: undefined}) }).to.not.throw()
+      expect(function () {
+        p = plotter({backupUnits: undefined})
+      }).to.not.throw()
       expect(p.format.backupUnits).to.equal('in')
 
-      expect(function () { p = plotter({nota: undefined}) }).to.not.throw()
+      expect(function () {
+        p = plotter({nota: undefined})
+      }).to.not.throw()
       expect(p.format.nota === null).to.equal(true)
 
-      expect(function () { p = plotter({backupNota: null}) }).to.not.throw()
+      expect(function () {
+        p = plotter({backupNota: null})
+      }).to.not.throw()
       expect(p.format.backupNota).to.equal('A')
     })
   })
@@ -378,12 +392,10 @@ describe('gerber plotter', function () {
 
         p.write({type: 'tool', code: '10', tool: poly0})
         expect(p._tool.pad).to.eql([
-          {type: 'poly',
-            points: [
-              [1, 0],
-              [-0.5, 0.8660254],
-              [-0.5, -0.8660254]
-            ]}
+          {
+            type: 'poly',
+            points: [[1, 0], [-0.5, 0.8660254], [-0.5, -0.8660254]]
+          }
         ])
 
         p.write({type: 'tool', code: '11', tool: poly1})
@@ -467,7 +479,11 @@ describe('gerber plotter', function () {
       it('should calculate a bounding box for a standard polygon', function () {
         var poly0 = {shape: 'poly', params: [5, 4, 0], hole: []}
         var poly1 = {shape: 'poly', params: [6, 8, 0], hole: [1]}
-        var poly2 = {shape: 'poly', params: [4 * Math.sqrt(2), 4, 45], hole: [1, 1]}
+        var poly2 = {
+          shape: 'poly',
+          params: [4 * Math.sqrt(2), 4, 45],
+          hole: [1, 1]
+        }
 
         p.write({type: 'tool', code: '10', tool: poly0})
         expect(p._tool.box).to.eql([-2.5, -2.5, 2.5, 2.5])
@@ -481,7 +497,11 @@ describe('gerber plotter', function () {
     describe('macro tool pads', function () {
       describe('primitives without rotation', function () {
         it('should ignore comment primitives', function () {
-          var macro = {type: 'macro', name: 'EMPTY', blocks: [{type: 'comment'}]}
+          var macro = {
+            type: 'macro',
+            name: 'EMPTY',
+            blocks: [{type: 'comment'}]
+          }
           var tool = {
             type: 'tool',
             code: '10',
@@ -511,7 +531,16 @@ describe('gerber plotter', function () {
 
         it('should be able to handle shape and box for vect primitives', function () {
           var blocks = [
-            {type: 'vect', exp: 1, width: 2, x1: 0, y1: 0, x2: 5, y2: 0, rot: 0},
+            {
+              type: 'vect',
+              exp: 1,
+              width: 2,
+              x1: 0,
+              y1: 0,
+              x2: 5,
+              y2: 0,
+              rot: 0
+            },
             {type: 'vect', exp: 1, width: 1, x1: 0, y1: 0, x2: 0, y2: 5, rot: 0}
           ]
           var macro = {type: 'macro', name: 'VECT', blocks: blocks}
@@ -602,27 +631,31 @@ describe('gerber plotter', function () {
 
           p.write(macro)
           p.write(tool)
-          expect(p._tool.pad).to.eql([{
-            type: 'poly',
-            points: [[4, 2], [3, 3], [2, 2], [3, 1]]
-          }])
+          expect(p._tool.pad).to.eql([
+            {
+              type: 'poly',
+              points: [[4, 2], [3, 3], [2, 2], [3, 1]]
+            }
+          ])
           expect(p._tool.box).to.eql([2, 1, 4, 3])
         })
 
         it('should handle moiré primitives with only rings', function () {
-          var blocks = [{
-            type: 'moire',
-            exp: 1,
-            cx: 2,
-            cy: 3,
-            dia: 4,
-            ringThx: 0.4,
-            ringGap: 0.2,
-            maxRings: 2,
-            crossThx: 0.1,
-            crossLen: 5,
-            rot: 0
-          }]
+          var blocks = [
+            {
+              type: 'moire',
+              exp: 1,
+              cx: 2,
+              cy: 3,
+              dia: 4,
+              ringThx: 0.4,
+              ringGap: 0.2,
+              maxRings: 2,
+              crossThx: 0.1,
+              crossLen: 5,
+              rot: 0
+            }
+          ]
           var macro = {type: 'macro', name: 'TARG', blocks: blocks}
           var tool = {
             type: 'tool',
@@ -642,19 +675,21 @@ describe('gerber plotter', function () {
         })
 
         it('should handle moirés with circle centers', function () {
-          var blocks = [{
-            type: 'moire',
-            exp: 1,
-            cx: 5,
-            cy: 5,
-            dia: 2.8,
-            ringThx: 0.5,
-            ringGap: 0.5,
-            maxRings: 2,
-            crossThx: 0.2,
-            crossLen: 2.5,
-            rot: 0
-          }]
+          var blocks = [
+            {
+              type: 'moire',
+              exp: 1,
+              cx: 5,
+              cy: 5,
+              dia: 2.8,
+              ringThx: 0.5,
+              ringGap: 0.5,
+              maxRings: 2,
+              crossThx: 0.2,
+              crossLen: 2.5,
+              rot: 0
+            }
+          ]
           var macro = {type: 'macro', name: 'TARG', blocks: blocks}
           var tool = {
             type: 'tool',
@@ -674,18 +709,24 @@ describe('gerber plotter', function () {
         })
 
         it('should handle thermals', function () {
-          var blocks = [{
-            type: 'thermal',
-            exp: 1,
-            cx: 1,
-            cy: 1,
-            outerDia: 7,
-            innerDia: 5,
-            gap: 1,
-            rot: 0
-          }]
+          var blocks = [
+            {
+              type: 'thermal',
+              exp: 1,
+              cx: 1,
+              cy: 1,
+              outerDia: 7,
+              innerDia: 5,
+              gap: 1,
+              rot: 0
+            }
+          ]
           var macro = {type: 'macro', name: 'THRM', blocks: blocks}
-          var tool = {type: 'tool', code: '10', tool: {shape: 'THRM', params: [], hole: []}}
+          var tool = {
+            type: 'tool',
+            code: '10',
+            tool: {shape: 'THRM', params: [], hole: []}
+          }
 
           p.write(macro)
           p.write(tool)
@@ -709,7 +750,11 @@ describe('gerber plotter', function () {
         it('should handle rotated circles', function () {
           var blocks = [{type: 'circle', exp: 1, dia: 4, cx: 0, cy: 4, rot: 90}]
           var macro = {type: 'macro', name: 'RCIRC', blocks: blocks}
-          var tool = {type: 'tool', code: '10', tool: {shape: 'RCIRC', params: [], hole: []}}
+          var tool = {
+            type: 'tool',
+            code: '10',
+            tool: {shape: 'RCIRC', params: [], hole: []}
+          }
 
           p.write(macro)
           p.write(tool)
@@ -719,10 +764,23 @@ describe('gerber plotter', function () {
 
         it('should handle rotated vects', function () {
           var blocks = [
-            {type: 'vect', exp: 1, width: 1, x1: 1, y1: 1, x2: 5, y2: 5, rot: 45}
+            {
+              type: 'vect',
+              exp: 1,
+              width: 1,
+              x1: 1,
+              y1: 1,
+              x2: 5,
+              y2: 5,
+              rot: 45
+            }
           ]
           var macro = {type: 'macro', name: 'RVECT', blocks: blocks}
-          var tool = {type: 'tool', code: '10', tool: {shape: 'RVECT', params: [], hole: []}}
+          var tool = {
+            type: 'tool',
+            code: '10',
+            tool: {shape: 'RVECT', params: [], hole: []}
+          }
 
           p.write(macro)
           p.write(tool)
@@ -746,7 +804,11 @@ describe('gerber plotter', function () {
             {type: 'rect', exp: 1, width: 4, height: 2, cx: 3, cy: 4, rot: -30}
           ]
           var macro = {type: 'macro', name: 'RRECT', blocks: blocks}
-          var tool = {type: 'tool', code: '10', tool: {shape: 'RRECT', params: [], hole: []}}
+          var tool = {
+            type: 'tool',
+            code: '10',
+            tool: {shape: 'RRECT', params: [], hole: []}
+          }
 
           p.write(macro)
           p.write(tool)
@@ -755,14 +817,19 @@ describe('gerber plotter', function () {
             {
               type: 'poly',
               points: [
-                [2.36602540, 2.09807622],
+                [2.3660254, 2.09807622],
                 [5.83012702, 0.09807622],
                 [6.83012702, 1.83012702],
-                [3.36602540, 3.83012702]
+                [3.3660254, 3.83012702]
               ]
             }
           ])
-          expect(p._tool.box).to.eql([2.36602540, 0.09807622, 6.83012702, 3.83012702])
+          expect(p._tool.box).to.eql([
+            2.3660254,
+            0.09807622,
+            6.83012702,
+            3.83012702
+          ])
         })
 
         it('should handle rotated lower-left rects', function () {
@@ -770,7 +837,11 @@ describe('gerber plotter', function () {
             {type: 'rectLL', exp: 1, width: 4, height: 2, x: 1, y: 3, rot: -30}
           ]
           var macro = {type: 'macro', name: 'LRECT', blocks: blocks}
-          var tool = {type: 'tool', code: '10', tool: {shape: 'LRECT', params: [], hole: []}}
+          var tool = {
+            type: 'tool',
+            code: '10',
+            tool: {shape: 'LRECT', params: [], hole: []}
+          }
 
           p.write(macro)
           p.write(tool)
@@ -779,30 +850,46 @@ describe('gerber plotter', function () {
             {
               type: 'poly',
               points: [
-                [2.36602540, 2.09807622],
+                [2.3660254, 2.09807622],
                 [5.83012702, 0.09807622],
                 [6.83012702, 1.83012702],
-                [3.36602540, 3.83012702]
+                [3.3660254, 3.83012702]
               ]
             }
           ])
-          expect(p._tool.box).to.eql([2.36602540, 0.09807622, 6.83012702, 3.83012702])
+          expect(p._tool.box).to.eql([
+            2.3660254,
+            0.09807622,
+            6.83012702,
+            3.83012702
+          ])
         })
 
         it('should handle rotated outline polygons', function () {
           var blocks = [
-            {type: 'outline', exp: 1, points: [0, 0, 1, 0, 1, 1, 0, 0], rot: 150}
+            {
+              type: 'outline',
+              exp: 1,
+              points: [0, 0, 1, 0, 1, 1, 0, 0],
+              rot: 150
+            }
           ]
           var macro = {type: 'macro', name: 'LRECT', blocks: blocks}
-          var tool = {type: 'tool', code: '10', tool: {shape: 'LRECT', params: [], hole: []}}
+          var tool = {
+            type: 'tool',
+            code: '10',
+            tool: {shape: 'LRECT', params: [], hole: []}
+          }
 
           p.write(macro)
           p.write(tool)
-          expect(p._tool.pad).to.eql([{
-            type: 'poly',
-            points: [[0, 0], [-0.86602540, 0.5], [-1.36602540, -0.36602540]]
-          }])
-          expect(p._tool.box).to.eql([-1.36602540, -0.36602540, 0, 0.5])
+          expect(p._tool.pad).to.eql([
+            {
+              type: 'poly',
+              points: [[0, 0], [-0.8660254, 0.5], [-1.3660254, -0.3660254]]
+            }
+          ])
+          expect(p._tool.box).to.eql([-1.3660254, -0.3660254, 0, 0.5])
         })
 
         it('should handle rotated regular polygons', function () {
@@ -811,71 +898,97 @@ describe('gerber plotter', function () {
             {type: 'poly', exp: 1, vertices: 4, cx: 0, cy: 0, dia: dia, rot: 45}
           ]
           var macro = {type: 'macro', name: 'POLY', blocks: blocks}
-          var tool = {type: 'tool', code: '10', tool: {shape: 'POLY', params: [], hole: []}}
+          var tool = {
+            type: 'tool',
+            code: '10',
+            tool: {shape: 'POLY', params: [], hole: []}
+          }
 
           p.write(macro)
           p.write(tool)
-          expect(p._tool.pad).to.eql([{
-            type: 'poly',
-            points: [[1, 1], [-1, 1], [-1, -1], [1, -1]]
-          }])
+          expect(p._tool.pad).to.eql([
+            {
+              type: 'poly',
+              points: [[1, 1], [-1, 1], [-1, -1], [1, -1]]
+            }
+          ])
           expect(p._tool.box).to.eql([-1, -1, 1, 1])
         })
 
         it('should handle rotated moires', function () {
-          var blocks = [{
-            type: 'moire',
-            exp: 1,
-            cx: 0,
-            cy: 0,
-            dia: 4,
-            ringThx: 0.4,
-            ringGap: 0.2,
-            maxRings: 2,
-            crossThx: 0.1,
-            crossLen: 5,
-            rot: -150
-          }]
+          var blocks = [
+            {
+              type: 'moire',
+              exp: 1,
+              cx: 0,
+              cy: 0,
+              dia: 4,
+              ringThx: 0.4,
+              ringGap: 0.2,
+              maxRings: 2,
+              crossThx: 0.1,
+              crossLen: 5,
+              rot: -150
+            }
+          ]
           var macro = {type: 'macro', name: 'TARG', blocks: blocks}
-          var tool = {type: 'tool', code: '10', tool: {shape: 'TARG', params: [], hole: []}}
+          var tool = {
+            type: 'tool',
+            code: '10',
+            tool: {shape: 'TARG', params: [], hole: []}
+          }
 
           p.write(macro)
           p.write(tool)
           expect(p._tool.pad).to.eql([
             {type: 'ring', cx: 0, cy: 0, r: 1.8, width: 0.4},
             {type: 'ring', cx: 0, cy: 0, r: 1.2, width: 0.4},
-            {type: 'poly',
+            {
+              type: 'poly',
               points: [
                 [2.19006351, 1.20669873],
                 [-2.14006351, -1.29330127],
                 [-2.19006351, -1.20669873],
                 [2.14006351, 1.29330127]
-              ]},
-            {type: 'poly',
+              ]
+            },
+            {
+              type: 'poly',
               points: [
                 [1.29330127, -2.14006351],
                 [1.20669873, -2.19006351],
                 [-1.29330127, 2.14006351],
                 [-1.20669873, 2.19006351]
-              ]}
+              ]
+            }
           ])
-          expect(p._tool.box).to.eql(
-            [-2.19006351, -2.19006351, 2.19006351, 2.19006351])
+          expect(p._tool.box).to.eql([
+            -2.19006351,
+            -2.19006351,
+            2.19006351,
+            2.19006351
+          ])
         })
 
         it('should handle rotated thermals', function () {
-          var blocks = [{
-            type: 'thermal',
-            exp: 1,
-            cx: 0,
-            cy: 0,
-            outerDia: 4,
-            innerDia: 3,
-            gap: 0.2,
-            rot: 45
-          }]
+          var blocks = [
+            {
+              type: 'thermal',
+              exp: 1,
+              cx: 0,
+              cy: 0,
+              outerDia: 4,
+              innerDia: 3,
+              gap: 0.2,
+              rot: 45
+            }
+          ]
           var macro = {type: 'macro', name: 'THRM', blocks: blocks}
-          var tool = {type: 'tool', code: '10', tool: {shape: 'THRM', params: [], hole: []}}
+          var tool = {
+            type: 'tool',
+            code: '10',
+            tool: {shape: 'THRM', params: [], hole: []}
+          }
 
           p.write(macro)
           p.write(tool)
@@ -883,34 +996,42 @@ describe('gerber plotter', function () {
             {
               type: 'clip',
               shape: [
-                {type: 'poly',
+                {
+                  type: 'poly',
                   points: [
                     [0, 0.14142136],
                     [1.34350288, 1.48492424],
                     [0, 2.82842712],
                     [-1.34350288, 1.48492424]
-                  ]},
-                {type: 'poly',
+                  ]
+                },
+                {
+                  type: 'poly',
                   points: [
                     [-1.48492424, -1.34350288],
                     [-0.14142136, 0],
                     [-1.48492424, 1.34350288],
                     [-2.82842712, 0]
-                  ]},
-                {type: 'poly',
+                  ]
+                },
+                {
+                  type: 'poly',
                   points: [
                     [0, -2.82842712],
                     [1.34350288, -1.48492424],
                     [0, -0.14142136],
                     [-1.34350288, -1.48492424]
-                  ]},
-                {type: 'poly',
+                  ]
+                },
+                {
+                  type: 'poly',
                   points: [
                     [1.48492424, -1.34350288],
                     [2.82842712, 0],
                     [1.48492424, 1.34350288],
                     [0.14142136, 0]
-                  ]}
+                  ]
+                }
               ],
               clip: {type: 'ring', cx: 0, cy: 0, r: 1.75, width: 0.5}
             }
@@ -920,14 +1041,24 @@ describe('gerber plotter', function () {
       })
 
       it('should handle modifiers and functional args', function () {
-        var blocks = [{
-          type: 'circle',
-          exp: 1,
-          dia: function (mods) { return mods.$1 },
-          cx: function (mods) { return mods.$2 },
-          cy: function (mods) { return mods.$3 },
-          rot: function (mods) { return mods.$4 }
-        }]
+        var blocks = [
+          {
+            type: 'circle',
+            exp: 1,
+            dia: function (mods) {
+              return mods.$1
+            },
+            cx: function (mods) {
+              return mods.$2
+            },
+            cy: function (mods) {
+              return mods.$3
+            },
+            rot: function (mods) {
+              return mods.$4
+            }
+          }
+        ]
         var mods = [4, 3, 2, 0]
         var macro = {type: 'macro', name: 'CIRC', blocks: blocks}
         var tool = {
@@ -952,9 +1083,15 @@ describe('gerber plotter', function () {
           {
             type: 'circle',
             exp: 1,
-            dia: function (mods) { return mods.$1 },
-            cx: function (mods) { return mods.$2 },
-            cy: function (mods) { return mods.$3 },
+            dia: function (mods) {
+              return mods.$1
+            },
+            cx: function (mods) {
+              return mods.$2
+            },
+            cy: function (mods) {
+              return mods.$3
+            },
             rot: 0
           }
         ]
@@ -1168,7 +1305,11 @@ describe('gerber plotter', function () {
           var arcs = p._path.traverse()
 
           // first arc
-          expect(arcs[0]).to.deep.include({type: 'arc', dir: 'cw', center: [1, -1.5]})
+          expect(arcs[0]).to.deep.include({
+            type: 'arc',
+            dir: 'cw',
+            center: [1, -1.5]
+          })
           expect(arcs[0].start.slice(0, 2)).to.eql([0, 0])
           expect(arcs[0].start[2]).to.be.closeTo(2.158799, EPSILON)
           expect(arcs[0].end.slice(0, 2)).to.eql([2, 0])
@@ -1177,7 +1318,11 @@ describe('gerber plotter', function () {
           expect(arcs[0].radius).to.be.closeTo(R, EPSILON)
 
           // second arc
-          expect(arcs[1]).to.deep.include({type: 'arc', dir: 'ccw', center: [3, 1.5]})
+          expect(arcs[1]).to.deep.include({
+            type: 'arc',
+            dir: 'ccw',
+            center: [3, 1.5]
+          })
           expect(arcs[1].start.slice(0, 2)).to.eql([2, 0])
           expect(arcs[1].start[2]).to.be.closeTo(4.124386, EPSILON)
           expect(arcs[1].end.slice(0, 2)).to.eql([4, 0])
@@ -1186,7 +1331,11 @@ describe('gerber plotter', function () {
           expect(arcs[1].radius).to.be.closeTo(R, EPSILON)
 
           // third arc
-          expect(arcs[2]).to.deep.include({type: 'arc', dir: 'cw', center: [2.5, -1]})
+          expect(arcs[2]).to.deep.include({
+            type: 'arc',
+            dir: 'cw',
+            center: [2.5, -1]
+          })
           expect(arcs[2].start.slice(0, 2)).to.eql([4, 0])
           expect(arcs[2].start[2]).to.be.closeTo(0.588002, EPSILON)
           expect(arcs[2].end.slice(0, 2)).to.eql([4, -2])
@@ -1195,7 +1344,11 @@ describe('gerber plotter', function () {
           expect(arcs[2].radius).to.be.closeTo(R, EPSILON)
 
           // fourth arc
-          expect(arcs[3]).to.deep.include({type: 'arc', dir: 'ccw', center: [2.5, -1]})
+          expect(arcs[3]).to.deep.include({
+            type: 'arc',
+            dir: 'ccw',
+            center: [2.5, -1]
+          })
           expect(arcs[3].start.slice(0, 2)).to.eql([4, -2])
           expect(arcs[3].start[2]).to.be.closeTo(5.695183, EPSILON)
           expect(arcs[3].end.slice(0, 2)).to.eql([4, 0])
@@ -1215,7 +1368,11 @@ describe('gerber plotter', function () {
           var arcs = p._path.traverse()
 
           // first arc
-          expect(arcs[0]).to.deep.include({type: 'arc', dir: 'cw', center: [1, -1.5]})
+          expect(arcs[0]).to.deep.include({
+            type: 'arc',
+            dir: 'cw',
+            center: [1, -1.5]
+          })
           expect(arcs[0].start.slice(0, 2)).to.eql([0, 0])
           expect(arcs[0].start[2]).to.be.closeTo(2.158799, EPSILON)
           expect(arcs[0].end.slice(0, 2)).to.eql([2, 0])
@@ -1224,7 +1381,11 @@ describe('gerber plotter', function () {
           expect(arcs[0].radius).to.be.closeTo(R, EPSILON)
 
           // second arc
-          expect(arcs[1]).to.deep.include({type: 'arc', dir: 'ccw', center: [3, 1.5]})
+          expect(arcs[1]).to.deep.include({
+            type: 'arc',
+            dir: 'ccw',
+            center: [3, 1.5]
+          })
           expect(arcs[1].start.slice(0, 2)).to.eql([2, 0])
           expect(arcs[1].start[2]).to.be.closeTo(4.124386, EPSILON)
           expect(arcs[1].end.slice(0, 2)).to.eql([4, 0])
@@ -1242,7 +1403,12 @@ describe('gerber plotter', function () {
           var arcs = p._path.traverse()
 
           // first arc
-          expect(arcs[0]).to.deep.include({type: 'arc', dir: 'cw', center: [2, 0], radius: 2})
+          expect(arcs[0]).to.deep.include({
+            type: 'arc',
+            dir: 'cw',
+            center: [2, 0],
+            radius: 2
+          })
           expect(arcs[0].start.slice(0, 2)).to.eql([0, 0])
           expect(arcs[0].start[2]).to.be.closeTo(3.141593, EPSILON)
           expect(arcs[0].end.slice(0, 2)).to.eql([2, 2])
@@ -1250,7 +1416,12 @@ describe('gerber plotter', function () {
           expect(arcs[0].sweep).to.be.closeTo(1.570796, EPSILON)
 
           // second arc
-          expect(arcs[1]).to.deep.include({type: 'arc', dir: 'ccw', center: [3, 2], radius: 1})
+          expect(arcs[1]).to.deep.include({
+            type: 'arc',
+            dir: 'ccw',
+            center: [3, 2],
+            radius: 1
+          })
           expect(arcs[1].start.slice(0, 2)).to.eql([2, 2])
           expect(arcs[1].start[2]).to.be.closeTo(3.141593, EPSILON)
           expect(arcs[1].end.slice(0, 2)).to.eql([4, 2])
@@ -1341,27 +1512,43 @@ describe('gerber plotter', function () {
             p.write({type: 'op', op: 'move', coord: {x: 0.5, y: 0.866}})
             p.write({type: 'set', prop: 'mode', value: 'cw'})
             p.write({type: 'set', prop: 'arc', value: 's'})
-            p.write({type: 'op', op: 'int', coord: {x: 0.866, y: 0.5, i: 0.5, j: 0.866}})
-            expect(p._box).to.eql([-0.5, -0.5, 1.8660, 1.8660])
+            p.write({
+              type: 'op',
+              op: 'int',
+              coord: {x: 0.866, y: 0.5, i: 0.5, j: 0.866}
+            })
+            expect(p._box).to.eql([-0.5, -0.5, 1.866, 1.866])
 
             p._box = boundingBox.new()
             p.write({type: 'set', prop: 'region', value: true})
             p.write({type: 'op', op: 'move', coord: {x: 0.5, y: 0.866}})
-            p.write({type: 'op', op: 'int', coord: {x: 0.866, y: 0.5, i: 0.5, j: 0.866}})
-            expect(p._box).to.eql([0.5, 0.5, 0.8660, 0.8660])
+            p.write({
+              type: 'op',
+              op: 'int',
+              coord: {x: 0.866, y: 0.5, i: 0.5, j: 0.866}
+            })
+            expect(p._box).to.eql([0.5, 0.5, 0.866, 0.866])
           })
 
           it('should should set the min x when arc sweeps past 180 deg', function () {
             p.write({type: 'op', op: 'move', coord: {x: -0.7071, y: -0.7071}})
             p.write({type: 'set', prop: 'mode', value: 'cw'})
             p.write({type: 'set', prop: 'arc', value: 's'})
-            p.write({type: 'op', op: 'int', coord: {x: -0.7071, y: 0.7071, i: 0.7071, j: 0.7071}})
+            p.write({
+              type: 'op',
+              op: 'int',
+              coord: {x: -0.7071, y: 0.7071, i: 0.7071, j: 0.7071}
+            })
             expect(p._box[0]).to.be.closeTo(-2, 0.00001)
 
             p._box = boundingBox.new()
             p.write({type: 'set', prop: 'region', value: true})
             p.write({type: 'op', op: 'move', coord: {x: -0.7071, y: -0.7071}})
-            p.write({type: 'op', op: 'int', coord: {x: -0.7071, y: 0.7071, i: 0.7071, j: 0.7071}})
+            p.write({
+              type: 'op',
+              op: 'int',
+              coord: {x: -0.7071, y: 0.7071, i: 0.7071, j: 0.7071}
+            })
             expect(p._box[0]).to.be.closeTo(-1, 0.00001)
           })
 
@@ -1369,13 +1556,21 @@ describe('gerber plotter', function () {
             p.write({type: 'op', op: 'move', coord: {x: -0.7071, y: -0.7071}})
             p.write({type: 'set', prop: 'mode', value: 'ccw'})
             p.write({type: 'set', prop: 'arc', value: 's'})
-            p.write({type: 'op', op: 'int', coord: {x: 0.7071, y: -0.7071, i: 0.7071, j: 0.7071}})
+            p.write({
+              type: 'op',
+              op: 'int',
+              coord: {x: 0.7071, y: -0.7071, i: 0.7071, j: 0.7071}
+            })
             expect(p._box[1]).to.be.closeTo(-2, 0.00001)
 
             p._box = boundingBox.new()
             p.write({type: 'set', prop: 'region', value: true})
             p.write({type: 'op', op: 'move', coord: {x: -0.7071, y: -0.7071}})
-            p.write({type: 'op', op: 'int', coord: {x: 0.7071, y: -0.7071, i: 0.7071, j: 0.7071}})
+            p.write({
+              type: 'op',
+              op: 'int',
+              coord: {x: 0.7071, y: -0.7071, i: 0.7071, j: 0.7071}
+            })
             expect(p._box[1]).to.be.closeTo(-1, 0.00001)
           })
 
@@ -1383,13 +1578,21 @@ describe('gerber plotter', function () {
             p.write({type: 'op', op: 'move', coord: {x: 0.7071, y: -0.7071}})
             p.write({type: 'set', prop: 'mode', value: 'ccw'})
             p.write({type: 'set', prop: 'arc', value: 's'})
-            p.write({type: 'op', op: 'int', coord: {x: 0.7071, y: 0.7071, i: 0.7071, j: 0.7071}})
+            p.write({
+              type: 'op',
+              op: 'int',
+              coord: {x: 0.7071, y: 0.7071, i: 0.7071, j: 0.7071}
+            })
             expect(p._box[2]).to.be.closeTo(2, 0.00001)
 
             p._box = boundingBox.new()
             p.write({type: 'set', prop: 'region', value: true})
             p.write({type: 'op', op: 'move', coord: {x: 0.7071, y: -0.7071}})
-            p.write({type: 'op', op: 'int', coord: {x: 0.7071, y: 0.7071, i: 0.7071, j: 0.7071}})
+            p.write({
+              type: 'op',
+              op: 'int',
+              coord: {x: 0.7071, y: 0.7071, i: 0.7071, j: 0.7071}
+            })
             expect(p._box[2]).to.be.closeTo(1, 0.00001)
           })
 
@@ -1397,13 +1600,21 @@ describe('gerber plotter', function () {
             p.write({type: 'op', op: 'move', coord: {x: -0.7071, y: 0.7071}})
             p.write({type: 'set', prop: 'mode', value: 'cw'})
             p.write({type: 'set', prop: 'arc', value: 's'})
-            p.write({type: 'op', op: 'int', coord: {x: 0.7071, y: 0.7071, i: 0.7071, j: 0.7071}})
+            p.write({
+              type: 'op',
+              op: 'int',
+              coord: {x: 0.7071, y: 0.7071, i: 0.7071, j: 0.7071}
+            })
             expect(p._box[3]).to.be.closeTo(2, 0.00001)
 
             p._box = boundingBox.new()
             p.write({type: 'set', prop: 'region', value: true})
             p.write({type: 'op', op: 'move', coord: {x: -0.7071, y: 0.7071}})
-            p.write({type: 'op', op: 'int', coord: {x: 0.7071, y: 0.7071, i: 0.7071, j: 0.7071}})
+            p.write({
+              type: 'op',
+              op: 'int',
+              coord: {x: 0.7071, y: 0.7071, i: 0.7071, j: 0.7071}
+            })
             expect(p._box[3]).to.be.closeTo(1, 0.00001)
           })
 
@@ -1551,7 +1762,9 @@ describe('gerber plotter', function () {
         p.write({type: 'op', op: 'int', coord: {x: 5, y: 5}})
 
         setTimeout(function () {
-          expect(p._path.traverse()).to.eql([{type: 'line', start: [0, 0], end: [5, 5]}])
+          expect(p._path.traverse()).to.eql([
+            {type: 'line', start: [0, 0], end: [5, 5]}
+          ])
           done()
         }, 10)
       })
@@ -1737,7 +1950,11 @@ describe('gerber plotter', function () {
         done()
       })
 
-      p.write({type: 'level', level: 'stepRep', value: {x: 5, y: 5, i: 2, j: 2}})
+      p.write({
+        type: 'level',
+        level: 'stepRep',
+        value: {x: 5, y: 5, i: 2, j: 2}
+      })
     })
 
     it('should end the path on stream end', function (done) {
@@ -1806,20 +2023,35 @@ describe('gerber plotter', function () {
         var result = p.read()
         expect(result).to.eql({
           type: 'repeat',
-          offsets: [[0, 0], [0, 2.2], [0, 4.4], [3.3, 0], [3.3, 2.2], [3.3, 4.4]],
+          offsets: [
+            [0, 0],
+            [0, 2.2],
+            [0, 4.4],
+            [3.3, 0],
+            [3.3, 2.2],
+            [3.3, 4.4]
+          ],
           box: [0, 0, 10, 10]
         })
         done()
       })
 
       p._box = [0, 0, 10, 10]
-      p.write({type: 'level', level: 'stepRep', value: {x: 2, y: 3, i: 3.3, j: 2.2}})
+      p.write({
+        type: 'level',
+        level: 'stepRep',
+        value: {x: 2, y: 3, i: 3.3, j: 2.2}
+      })
     })
 
     it('should update the box during a step repeat', function () {
       var tool = {shape: 'circle', params: [2], hole: []}
       p.write({type: 'tool', code: '10', tool: tool})
-      p.write({type: 'level', level: 'stepRep', value: {x: 2, y: 2, i: 3.5, j: -3}})
+      p.write({
+        type: 'level',
+        level: 'stepRep',
+        value: {x: 2, y: 2, i: 3.5, j: -3}
+      })
       p.write({type: 'op', op: 'flash', coord: {x: -3, y: 4}})
       expect(p._box).to.eql([-4, 0, 1.5, 5])
     })
