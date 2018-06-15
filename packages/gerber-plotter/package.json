@@ -1,22 +1,11 @@
 {
   "name": "gerber-plotter",
   "version": "2.0.0",
-  "description": "Transform stream that takes objects from gerber-parser and emits PCB image objects",
+  "description": "Streaming Gerber / NC drill layer image plotter",
   "main": "lib/index.js",
-  "scripts": {
-    "lint": "standard --verbose | snazzy",
-    "test": "istanbul cover --include-all-sources _mocha -- -t 500",
-    "posttest": "npm run lint",
-    "test:watch": "mocha -t 500 --reporter dot --watch",
-    "test:browser": "zuul --local -- ./test/*_test.js",
-    "test:sauce": "zuul -- ./test/*_test.js",
-    "ci": "npm test && if [ \"${TEST_BROWSERS}\" = \"true\" ]; then npm run ci:browser; fi",
-    "ci:browser": "if [ \"${TRAVIS_PULL_REQUEST}\" = \"false\" ]; then npm run test:sauce; fi",
-    "postci": "coveralls < ./coverage/lcov.info"
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mcous/gerber-plotter.git"
+    "url": "git+https://github.com/tracespace/tracespace.git"
   },
   "keywords": [
     "PCB",
@@ -29,21 +18,12 @@
     "hardware",
     "electronics"
   ],
-  "author": "Mike Cousins <mike@cousins.io> (http://cousins.io/)",
+  "author": "Mike Cousins <mike@cousins.io> (https://mike.cousins.io/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mcous/gerber-plotter/issues"
+    "url": "https://github.com/tracespace/tracespace/issues"
   },
-  "homepage": "https://github.com/mcous/gerber-plotter#readme",
-  "devDependencies": {
-    "chai": "^4.1.2",
-    "coveralls": "^3.0.0",
-    "istanbul": "^0.4.5",
-    "mocha": "^5.0.5",
-    "snazzy": "^7.1.1",
-    "standard": "^11.0.1",
-    "zuul": "^3.11.1"
-  },
+  "homepage": "https://github.com/tracespace/tracespace#readme",
   "peerDependencies": {
     "gerber-parser": "^1.1.0"
   },
