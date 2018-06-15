@@ -185,7 +185,7 @@ var convert = function (err) {
 
   argv._.forEach(function processGerber (gerberFile) {
     var out = process.stdout
-    var ext = !argv.a ? path.extname(gerberFile) : ''
+    var ext = !argv['append-ext'] ? path.extname(gerberFile) : ''
     var base = path.basename(gerberFile, ext)
 
     if (argv.out) {
