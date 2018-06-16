@@ -43,7 +43,10 @@
     {
       "name": "core.MIL",
       "format": "gerber",
-      "type": "out"
+      "type": "out",
+      "options": {
+        "plotAsOutline": 0.003
+      }
     },
     {
       "name": "core.TXT",

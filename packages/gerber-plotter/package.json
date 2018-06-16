@@ -1,0 +1,37 @@
+{
+  "name": "gerber-plotter",
+  "version": "2.0.0",
+  "description": "Streaming Gerber / NC drill layer image plotter",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tracespace/tracespace.git"
+  },
+  "keywords": [
+    "PCB",
+    "Gerber",
+    "drill",
+    "circuit",
+    "board",
+    "transform",
+    "stream",
+    "hardware",
+    "electronics"
+  ],
+  "author": "Mike Cousins <mike@cousins.io> (https://mike.cousins.io/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tracespace/tracespace/issues"
+  },
+  "homepage": "https://github.com/tracespace/tracespace#readme",
+  "peerDependencies": {
+    "gerber-parser": "^1.1.0"
+  },
+  "dependencies": {
+    "inherits": "^2.0.3",
+    "lodash.fill": "^3.4.0",
+    "lodash.isfinite": "^3.3.2",
+    "lodash.isfunction": "^3.0.9",
+    "readable-stream": "^2.3.6"
+  }
+}

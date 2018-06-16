@@ -26,7 +26,7 @@
       "format": "gerber",
       "type": "out",
       "options": {
-        "plotAsOutline": 0.011
+        "plotAsOutline": 0.2794
       }
     },
     {
