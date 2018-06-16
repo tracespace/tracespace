@@ -3,7 +3,7 @@
 
 var Transform = require('readable-stream').Transform
 var expect = require('chai').expect
-var repeat = require('lodash.repeat')
+var repeat = require('lodash/repeat')
 
 var parser = require('../lib')
 

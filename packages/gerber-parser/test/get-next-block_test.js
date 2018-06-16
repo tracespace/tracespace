@@ -2,7 +2,7 @@
 'use strict'
 
 var expect = require('chai').expect
-var partial = require('lodash.partial')
+var partial = require('lodash/partial')
 var getNextBlock = require('../lib/get-next-block')
 
 describe('get next block', function() {

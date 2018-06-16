@@ -3,7 +3,7 @@
 'use strict'
 
 var expect = require('chai').expect
-var partial = require('lodash.partial')
+var partial = require('lodash/partial')
 
 var parser = require('../lib')
 
