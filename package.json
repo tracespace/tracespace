@@ -6,7 +6,7 @@
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "_test": "mocha  --timeout=5000 'packages/**/*test.js'",
+    "_test": "mocha --timeout=5000 'packages/**/*test.js'",
     "test": "cross-env INTEGRATION=1 nyc yarn run _test",
     "test:watch": "yarn run _test --watch --reporter=dot",
     "test:browser": "karma start",

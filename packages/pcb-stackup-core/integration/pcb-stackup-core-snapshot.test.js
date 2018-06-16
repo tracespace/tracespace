@@ -11,24 +11,24 @@ const SIDES = ['top', 'bottom']
 const BOARDS = getBoards.sync().filter(b => !b.skipSnapshot)
 
 describe(`pcb-stackup-core :: integration`, function () {
-  let renderedBoards
-
-  before(function (done) {
+  before(function () {
     if (process.env.INTEGRATION !== '1') return this.skip()
-
-    getResults(BOARDS, (error, results) => {
-      if (error) return done(error)
-      renderedBoards = results
-      done()
-    })
   })
 
-  BOARDS.forEach((board, index) => {
-    SIDES.forEach(side => {
-      it(`renders ${board.name} ${side}`, function () {
-        const result = renderedBoards[index].specs.find(s => s.name === side)
-        snapshot(format(result.render).split('\n'))
+  BOARDS.forEach((board, index) => describe(board.name, function () {
+    let boardResults
+
+    before(function (done) {
+      getResults(board, (error, results) => {
+        if (error) return done(error)
+        boardResults = results
+        done()
       })
     })
-  })
+
+    SIDES.forEach(side => it(`renders ${side}`, function () {
+      const result = boardResults.specs.find(s => s.name === side)
+      snapshot(format(result.render).split('\n'))
+    }))
+  }))
 })

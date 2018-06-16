@@ -92,7 +92,7 @@ Array<{
     /** whats-that-gerber type of the layer */
     type: string,
     /** file contents (i.e. results of fs.readFile on filepath) */
-    contents: string
+    source: string
   }>
 }>
 ```
@@ -129,7 +129,7 @@ Array<{
     /** path to the spec's gerber / drill file */
     filepath: string,
     /** file contents (i.e. results of fs.readFile on filepath) */
-    contents: string,
+    source: string,
     /** SVG string of the expected render */
     expected: string
   }>
@@ -141,21 +141,28 @@ Array<{
 Simple server to display the results of a render test.
 
 ```js
-const {server} = require('@tracespace/fixtures')
+const {server, getGerberSpecs} = require('@tracespace/fixtures')
 
-const app = server('suite name', getResults)
+const app = server('suite name', getGerberSpecs, getSuiteResults)
 
 app.listen(9000, () => console.log('listening on http://localhost:9000'))
 
-function getResults (done) {
-  // get results somehow and pass them to done
+function getSuiteResults (suite, done) {
+  // get results of a single suite somehow and pass them to done
+  done(null, suiteResults)
 }
 ```
 
-`getResults` should be a function that calls the `done` callback with:
+`server` is a function that takes:
+
+1. `name` - A string name of the server
+2. `getSuites` - One of `getGerberSpecs` or `getBoards`
+3. `getSuiteResults` - An asynchronous function to render the results of one of the suites from `getSuites`
+
+`getSuiteResults` should call its `done` callback with:
 
 ```js
-Array<{
+{
   /** name of the suite */
   name: string,
   /** array of spec results in the suite */
@@ -169,7 +176,7 @@ Array<{
     /** optional test source to display */
     source?: string,
   }>
-}>
+}
 ```
 
 [npm]: https://www.npmjs.com/package/@tracespace/fixtures

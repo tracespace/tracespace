@@ -1,21 +1,12 @@
 // runs pcb-stackup on the board fixtures
 'use strict'
 
-const runParallel = require('run-parallel')
 const runWaterfall = require('run-waterfall')
 
 const debug = require('debug')('tracespace/pcb-stackup/integration')
 const pcbStackup = require('..')
 
-module.exports = function getResults (boards, done) {
-  debug(`Rendering stackups for ${boards.length} suites`)
-
-  const tasks = boards.map(board => next => renderSuite(board, next))
-
-  runParallel(tasks, done)
-}
-
-function renderSuite (board, done) {
+module.exports = function getBoardResults (board, done) {
   debug(`Render started for ${board.name}`)
 
   const options = Object.assign({id: `__${board.name}`}, board.options)

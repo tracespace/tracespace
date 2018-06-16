@@ -4,28 +4,34 @@
 const format = require('xml-formatter')
 const snapshot = require('snap-shot-it')
 
-const {getGerberSpecs} = require('@tracespace/fixtures')
+const {getGerberSpecs, getBoards} = require('@tracespace/fixtures')
 const getResults = require('./get-results')
 
-const SUITES = getGerberSpecs.sync()
+const SUITES = [
+  ...getGerberSpecs.sync(),
+  ...getBoards.sync().filter(b => !b.skipSnapshot)
+]
 
 describe(`gerber-to-svg :: integration`, function () {
-  let renderedSuites
-
-  before(function (done) {
-    getResults(SUITES, (error, results) => {
-      if (error) return done(error)
-      renderedSuites = results
-      done()
-    })
+  before(function () {
+    if (process.env.INTEGRATION !== '1') return this.skip()
   })
 
-  SUITES.forEach((suite, suiteIndex) => {
-    suite.specs.forEach((spec, specIndex) => {
-      it(`renders ${suite.name} :: ${spec.name}`, function () {
-        const result = renderedSuites[suiteIndex].specs[specIndex]
-        snapshot(format(result.render).split('\n'))
+  SUITES.forEach(suite => describe(suite.name, function () {
+    const specs = suite.specs || suite.layers
+    let suiteResults
+
+    before(function (done) {
+      getResults(suite, (error, results) => {
+        if (error) return done(error)
+        suiteResults = results
+        done()
       })
     })
-  })
+
+    specs.forEach((spec, i) => it(`renders ${spec.name}`, function () {
+      const result = suiteResults.specs[i]
+      snapshot(format(result.render).split('\n'))
+    }))
+  }))
 })

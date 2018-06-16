@@ -10,15 +10,7 @@ const whatsThatGerber = require('whats-that-gerber')
 const debug = require('debug')('tracespace/pcb-stackup-core/integration')
 const pcbStackupCore = require('..')
 
-module.exports = function getResults (boards, done) {
-  debug(`Rendering stackups from ${boards.length} boards`)
-
-  const tasks = boards.map(board => next => renderStackup(board, next))
-
-  runParallel(tasks, done)
-}
-
-function renderStackup (board, done) {
+module.exports = function getStackupResults (board, done) {
   debug(`Render started for ${board.name}`)
 
   const options = Object.assign(

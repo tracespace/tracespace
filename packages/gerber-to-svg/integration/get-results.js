@@ -8,18 +8,11 @@ const runWaterfall = require('run-waterfall')
 const debug = require('debug')('tracespace/gerber-to-svg/integration')
 const gerberToSvg = require('..')
 
-module.exports = function getResults (suites, done) {
-  debug(`Rendering specs from ${suites.length} suites`)
+module.exports = function getSuiteResults (suite, done) {
+  debug(`Rendering suite ${suite.name}`)
 
-  const tasks = suites.map(suite => next => renderSuite(suite, next))
-
-  runParallel(tasks, done)
-}
-
-function renderSuite (suite, done) {
-  debug(`Render started for ${suite.name}`)
-
-  const specTasks = suite.specs.map(spec => next => renderSpec(spec, next))
+  const specs = suite.specs || suite.layers
+  const specTasks = specs.map(spec => next => renderSpec(spec, next))
 
   runWaterfall(
     [
@@ -33,10 +26,10 @@ function renderSuite (suite, done) {
 function renderSpec (spec, done) {
   debug(`Rendering ${spec.category} - ${spec.name}`)
 
-  const renderOptions = {
+  const renderOptions = Object.assign({
     id: path.basename(spec.filepath),
-    optimizePaths: true
-  }
+    plotAsOutline: spec.type === 'out'
+  }, spec.options)
 
   runWaterfall(
     [

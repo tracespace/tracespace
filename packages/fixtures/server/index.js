@@ -3,13 +3,14 @@
 const fs = require('fs')
 const path = require('path')
 const express = require('express')
+const runParallel = require('run-parallel')
 const runWaterfall = require('run-waterfall')
 const template = require('lodash/template')
 const debug = require('debug')('tracespace/fixtures/server')
 
 const TEMPLATE = path.join(__dirname, './template.html')
 
-module.exports = function makeServer (name, getResults) {
+module.exports = function makeServer (name, getSuites, getSuiteResult) {
   const app = express()
 
   app.get('/', (request, response) => {
@@ -28,9 +29,15 @@ module.exports = function makeServer (name, getResults) {
   return app
 
   function handleTestRun (done) {
-    debug('Test run started')
+    runWaterfall([getSuites, getResults, makeResponse], done)
+  }
 
-    runWaterfall([getResults, makeResponse], done)
+  function getResults (suites, done) {
+    debug(`Rendering specs from ${suites.length} suites`)
+
+    const tasks = suites.map(suite => next => getSuiteResult(suite, next))
+
+    runParallel(tasks, done)
   }
 
   function makeResponse (results, done) {

@@ -1,4 +1,4 @@
-exports['pcb-stackup :: integration snapshots renders arduino-uno top 1'] = [
+exports['pcb-stackup :: integration snapshots arduino-uno renders top 1'] = [
   "<svg id=\"__arduino-uno_top\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" clip-rule=\"evenodd\" viewBox=\"845 970 2700 2100\" width=\"2.7in\" height=\"2.1in\" xmlns=\"http://www.w3.org/2000/svg\">",
   "    <defs>",
   "        <style>",
@@ -635,7 +635,7 @@ exports['pcb-stackup :: integration snapshots renders arduino-uno top 1'] = [
   "</svg>"
 ]
 
-exports['pcb-stackup :: integration snapshots renders arduino-uno bottom 1'] = [
+exports['pcb-stackup :: integration snapshots arduino-uno renders bottom 1'] = [
   "<svg id=\"__arduino-uno_bottom\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" clip-rule=\"evenodd\" viewBox=\"845 970 2700 2100\" width=\"2.7in\" height=\"2.1in\" xmlns=\"http://www.w3.org/2000/svg\">",
   "    <defs>",
   "        <style>",
@@ -1099,7 +1099,7 @@ exports['pcb-stackup :: integration snapshots renders arduino-uno bottom 1'] = [
   "</svg>"
 ]
 
-exports['pcb-stackup :: integration snapshots renders clockblock top 1'] = [
+exports['pcb-stackup :: integration snapshots clockblock renders top 1'] = [
   "<svg id=\"__clockblock_top\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" clip-rule=\"evenodd\" viewBox=\"0 0 4100 4200\" width=\"4.1in\" height=\"4.2in\" xmlns=\"http://www.w3.org/2000/svg\">",
   "    <defs>",
   "        <style>",
@@ -8109,7 +8109,7 @@ exports['pcb-stackup :: integration snapshots renders clockblock top 1'] = [
   "</svg>"
 ]
 
-exports['pcb-stackup :: integration snapshots renders clockblock bottom 1'] = [
+exports['pcb-stackup :: integration snapshots clockblock renders bottom 1'] = [
   "<svg id=\"__clockblock_bottom\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" clip-rule=\"evenodd\" viewBox=\"0 0 4100 4200\" width=\"4.1in\" height=\"4.2in\" xmlns=\"http://www.w3.org/2000/svg\">",
   "    <defs>",
   "        <style>",
@@ -9288,7 +9288,7 @@ exports['pcb-stackup :: integration snapshots renders clockblock bottom 1'] = [
   "</svg>"
 ]
 
-exports['pcb-stackup :: integration snapshots renders core top 1'] = [
+exports['pcb-stackup :: integration snapshots core renders top 1'] = [
   "<svg id=\"__core_top\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" clip-rule=\"evenodd\" viewBox=\"124.3 25.5 800 1400\" width=\"0.8in\" height=\"1.4in\" xmlns=\"http://www.w3.org/2000/svg\">",
   "    <defs>",
   "        <style>",
@@ -10656,7 +10656,7 @@ exports['pcb-stackup :: integration snapshots renders core top 1'] = [
   "</svg>"
 ]
 
-exports['pcb-stackup :: integration snapshots renders core bottom 1'] = [
+exports['pcb-stackup :: integration snapshots core renders bottom 1'] = [
   "<svg id=\"__core_bottom\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" clip-rule=\"evenodd\" viewBox=\"124.3 25.5 800 1400\" width=\"0.8in\" height=\"1.4in\" xmlns=\"http://www.w3.org/2000/svg\">",
   "    <defs>",
   "        <style>",
@@ -11907,7 +11907,7 @@ exports['pcb-stackup :: integration snapshots renders core bottom 1'] = [
   "</svg>"
 ]
 
-exports['pcb-stackup :: integration snapshots renders freeduino top 1'] = [
+exports['pcb-stackup :: integration snapshots freeduino renders top 1'] = [
   "<svg id=\"__freeduino_top\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" clip-rule=\"evenodd\" viewBox=\"50.2 220 2964.9 2104\" width=\"2.9649in\" height=\"2.104in\" xmlns=\"http://www.w3.org/2000/svg\">",
   "    <defs>",
   "        <style>",
@@ -12799,7 +12799,7 @@ exports['pcb-stackup :: integration snapshots renders freeduino top 1'] = [
   "</svg>"
 ]
 
-exports['pcb-stackup :: integration snapshots renders freeduino bottom 1'] = [
+exports['pcb-stackup :: integration snapshots freeduino renders bottom 1'] = [
   "<svg id=\"__freeduino_bottom\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" clip-rule=\"evenodd\" viewBox=\"317.4 232 2685.7 2080\" width=\"2.6856999999999998in\" height=\"2.08in\" xmlns=\"http://www.w3.org/2000/svg\">",
   "    <defs>",
   "        <style>",
@@ -13499,7 +13499,7 @@ exports['pcb-stackup :: integration snapshots renders freeduino bottom 1'] = [
   "</svg>"
 ]
 
-exports['pcb-stackup :: integration snapshots renders mchck top 1'] = [
+exports['pcb-stackup :: integration snapshots mchck renders top 1'] = [
   "<svg id=\"__mchck_top\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" clip-rule=\"evenodd\" viewBox=\"1530 -2370 1440 740\" width=\"1.44in\" height=\"0.74in\" xmlns=\"http://www.w3.org/2000/svg\">",
   "    <defs>",
   "        <style>",
@@ -14132,7 +14132,7 @@ exports['pcb-stackup :: integration snapshots renders mchck top 1'] = [
   "</svg>"
 ]
 
-exports['pcb-stackup :: integration snapshots renders mchck bottom 1'] = [
+exports['pcb-stackup :: integration snapshots mchck renders bottom 1'] = [
   "<svg id=\"__mchck_bottom\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" clip-rule=\"evenodd\" viewBox=\"1530 -2370 1440 740\" width=\"1.44in\" height=\"0.74in\" xmlns=\"http://www.w3.org/2000/svg\">",
   "    <defs>",
   "        <style>",
