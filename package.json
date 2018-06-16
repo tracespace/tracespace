@@ -63,6 +63,7 @@
     "browserify": "^15.2.0",
     "chai": "^4.1.2",
     "codecov": "^3.0.0",
+    "concat-stream": "^1.6.2",
     "cross-env": "^5.1.4",
     "cz-conventional-changelog": "^2.1.0",
     "debug": "^3.1.0",
@@ -96,6 +97,7 @@
     "sinon-chai": "^2.14.0",
     "snap-shot-it": "^4.0.1",
     "testdouble": "^3.3.1",
+    "to-readable-stream": "^1.0.0",
     "watchify": "^3.10.0",
     "xml-formatter": "^1.0.1"
   }
