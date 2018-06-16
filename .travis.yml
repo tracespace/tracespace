@@ -21,7 +21,7 @@ jobs:
       # deploy if tag starts with v
       if: tag =~ ^v
       node_js: node
-      script: echo "deploying to npm if build is tagged"
+      script: yarn run example
       # set npm credentials for npm publish
       before_deploy:
         - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > ~/.npmrc
