@@ -26,10 +26,13 @@ module.exports = function getSuiteResults (suite, done) {
 function renderSpec (spec, done) {
   debug(`Rendering ${spec.category} - ${spec.name}`)
 
-  const renderOptions = Object.assign({
-    id: path.basename(spec.filepath),
-    plotAsOutline: spec.type === 'out'
-  }, spec.options)
+  const renderOptions = Object.assign(
+    {
+      id: path.basename(spec.filepath),
+      plotAsOutline: spec.type === 'out'
+    },
+    spec.options
+  )
 
   runWaterfall(
     [

@@ -29,9 +29,12 @@ module.exports = function getSuiteResults (suite, done) {
 function renderSpec (spec, done) {
   debug(`Rendering ${spec.category} - ${spec.name}`)
 
-  const renderOptions = Object.assign({
-    plotAsOutline: spec.type === 'out'
-  }, spec.options)
+  const renderOptions = Object.assign(
+    {
+      plotAsOutline: spec.type === 'out'
+    },
+    spec.options
+  )
 
   let render
   const source = toReadable(spec.source)

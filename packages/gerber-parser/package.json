@@ -1,0 +1,34 @@
+{
+  "name": "gerber-parser",
+  "version": "1.1.1",
+  "description": "Streaming Gerber/drill file parser",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tracespace/tracespace.git"
+  },
+  "keywords": [
+    "PCB",
+    "Gerber",
+    "drill",
+    "circuit",
+    "board",
+    "transform",
+    "stream",
+    "hardware",
+    "electronics"
+  ],
+  "author": "Mike Cousins <mike@cousins.io> (https://mike.cousins.io/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tracespace/tracespace/issues"
+  },
+  "homepage": "https://github.com/tracespace/tracespace#readme",
+  "dependencies": {
+    "inherits": "^2.0.1",
+    "lodash.isfinite": "^3.3.1",
+    "lodash.padleft": "^3.1.3",
+    "lodash.padright": "^3.1.3",
+    "readable-stream": "^2.1.2"
+  }
+}
