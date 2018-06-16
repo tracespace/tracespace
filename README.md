@@ -56,12 +56,13 @@ INTEGRATION=1 yarn run test:watch
 
 # run unit tests in watch mode in Firefox and Chrome (using Karma)
 # will autolaunch Chrome and/or Firefox if they're installed
-yarn run test:browser
+# TODO: not yet implemented
+# yarn run test:browser
 ```
 
 ### integration tests
 
-Automated integration tests consist of [snapshot tests][snapshot-testing] of SVG output and are run automatically as part of `yarn run test`.
+Automated integration tests consist of [snapshot tests][snapshot-testing] of SVG and data outputs and are run automatically as part of `yarn run test`.
 
 `pcb-stackup`, `pcb-stackup-core`, and `gerber-to-svg` also have integration test servers that serve a set of reference renders for manual visual inspection.
 

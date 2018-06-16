@@ -1,6 +1,6 @@
 {
   "name": "gerber-plotter",
-  "version": "2.0.0",
+  "version": "4.0.0-next.7",
   "description": "Streaming Gerber / NC drill layer image plotter",
   "main": "lib/index.js",
   "repository": {

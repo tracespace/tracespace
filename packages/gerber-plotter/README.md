@@ -10,7 +10,7 @@ A printed circuit board Gerber and drill file plotter. Implemented as a Node tra
 
 ```shell
 npm install --save gerber-plotter
-// or
+# or
 yarn add gerber-plotter
 ```
 
@@ -18,7 +18,7 @@ yarn add gerber-plotter
 
 ```shell
 npm install --save gerber-parser
-// or
+# or
 yarn add gerber-parser
 ```
 
