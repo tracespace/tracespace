@@ -3,11 +3,10 @@
 
 const snapshot = require('snap-shot-it')
 
-const {getGerberSpecs, getBoards} = require('@tracespace/fixtures')
+const {getBoards} = require('@tracespace/fixtures')
 const getResults = require('./get-results')
 
 const SUITES = [
-  ...getGerberSpecs.sync(),
   ...getBoards.sync().filter(b => !b.skipSnapshot)
 ]
 
