@@ -1,6 +1,6 @@
 {
   "name": "gerber-to-svg",
-  "version": "4.0.0-next.7",
+  "version": "4.0.0-next.8",
   "description": "Render Gerber and NC drill files as SVGs in Node and the browser",
   "main": "lib/gerber-to-svg.js",
   "bin": {
@@ -40,8 +40,8 @@
   "dependencies": {
     "chalk": "^1.1.1",
     "escape-html": "^1.0.3",
-    "gerber-parser": "^1.1.1",
-    "gerber-plotter": "^4.0.0-next.7",
+    "gerber-parser": "^4.0.0-next.8",
+    "gerber-plotter": "^4.0.0-next.8",
     "inherits": "^2.0.1",
     "lodash.isfinite": "^3.2.0",
     "lodash.isstring": "^4.0.1",

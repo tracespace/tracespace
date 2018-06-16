@@ -1,6 +1,6 @@
 {
   "name": "gerber-plotter",
-  "version": "4.0.0-next.7",
+  "version": "4.0.0-next.8",
   "description": "Streaming Gerber / NC drill layer image plotter",
   "main": "lib/index.js",
   "repository": {
@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/tracespace/tracespace#readme",
   "peerDependencies": {
-    "gerber-parser": "^1.1.0"
+    "gerber-parser": "^4.0.0"
   },
   "dependencies": {
     "inherits": "^2.0.3",

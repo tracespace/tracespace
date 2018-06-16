@@ -1,6 +1,6 @@
 {
   "name": "pcb-stackup-core",
-  "version": "4.0.0-next.7",
+  "version": "4.0.0-next.8",
   "description": "Layer stacking core logic for pcb-stackup",
   "main": "lib/index.js",
   "scripts": {
@@ -30,8 +30,8 @@
   },
   "homepage": "https://github.com/tracespace/tracespace",
   "peerDependencies": {
-    "gerber-to-svg": "^4.0.0-next.7",
-    "whats-that-gerber": "^4.0.0-next.4"
+    "gerber-to-svg": "^4.0.0",
+    "whats-that-gerber": "^4.0.0"
   },
   "dependencies": {
     "color-string": "^1.4.0",
