@@ -5,23 +5,25 @@ var expect = require('chai').expect
 var partial = require('lodash/partial')
 var getNextBlock = require('../lib/get-next-block')
 
-describe('get next block', function() {
-  it ('should throw with a bad filetype', function() {
-    var bad = function() {getNextBlock('foo', '', 0)}
+describe('get next block', function () {
+  it('should throw with a bad filetype', function () {
+    var bad = function () {
+      getNextBlock('foo', '', 0)
+    }
     expect(bad).to.throw(/filetype/)
   })
 
-  describe('from gerber files', function() {
+  describe('from gerber files', function () {
     var getNext = partial(getNextBlock, 'gerber')
 
-    it('should split at *', function() {
+    it('should split at *', function () {
       var chunk = 'M02*'
       var result = getNext(chunk, 0)
 
       expect(result.block).to.equal('M02')
     })
 
-    it('should return characters read', function() {
+    it('should return characters read', function () {
       var chunk = 'G01*G02*G03*'
       var res1 = getNext(chunk, 0)
       var res2 = getNext(chunk, 4)
@@ -35,7 +37,7 @@ describe('get next block', function() {
       expect(res3.read).to.equal(4)
     })
 
-    it('should return newlines read', function() {
+    it('should return newlines read', function () {
       var chunk = 'G01*\nG02*\nG03*\n'
       var res1 = getNext(chunk, 0)
       var res2 = getNext(chunk, 4)
@@ -52,7 +54,7 @@ describe('get next block', function() {
       expect(res3.lines).to.equal(1)
     })
 
-    it('should skip the end percent of a param', function() {
+    it('should skip the end percent of a param', function () {
       var chunk = '%FSLAX24Y24*%\n%MOIN*%\n'
       var res1 = getNext(chunk, 0)
       var res2 = getNext(chunk, 13)
@@ -65,7 +67,7 @@ describe('get next block', function() {
       expect(res2.lines).to.equal(1)
     })
 
-    it('should trim whitespace between blocks', function() {
+    it('should trim whitespace between blocks', function () {
       var chunk = 'G04 hello*  \n%FSLAX24Y24*%\n'
       var res1 = getNext(chunk, 0)
       var res2 = getNext(chunk, res1.read)
@@ -79,10 +81,10 @@ describe('get next block', function() {
     })
   })
 
-  describe('from drill files', function() {
+  describe('from drill files', function () {
     var getNext = partial(getNextBlock, 'drill')
 
-    it('should split at newlines', function() {
+    it('should split at newlines', function () {
       var chunk = 'G90\nG05\nM72\nM30\n'
       var res1 = getNext(chunk, 0)
       var res2 = getNext(chunk, 4)

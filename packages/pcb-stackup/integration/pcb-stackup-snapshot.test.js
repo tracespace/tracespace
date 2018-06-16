@@ -15,20 +15,24 @@ describe(`pcb-stackup :: integration snapshots`, function () {
     if (process.env.INTEGRATION !== '1') return this.skip()
   })
 
-  BOARDS.forEach((board, index) => describe(board.name, function () {
-    let boardResults
+  BOARDS.forEach((board, index) =>
+    describe(board.name, function () {
+      let boardResults
 
-    before(function (done) {
-      getBoardResults(board, (error, results) => {
-        if (error) return done(error)
-        boardResults = results
-        done()
+      before(function (done) {
+        getBoardResults(board, (error, results) => {
+          if (error) return done(error)
+          boardResults = results
+          done()
+        })
       })
-    })
 
-    SIDES.forEach(side => it(`renders ${side}`, function () {
-      const result = boardResults.specs.find(s => s.name === side)
-      snapshot(format(result.render).split('\n'))
-    }))
-  }))
+      SIDES.forEach(side =>
+        it(`renders ${side}`, function () {
+          const result = boardResults.specs.find(s => s.name === side)
+          snapshot(format(result.render).split('\n'))
+        })
+      )
+    })
+  )
 })

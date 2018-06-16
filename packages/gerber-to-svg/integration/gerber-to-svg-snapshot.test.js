@@ -17,21 +17,25 @@ describe(`gerber-to-svg :: integration`, function () {
     if (process.env.INTEGRATION !== '1') return this.skip()
   })
 
-  SUITES.forEach(suite => describe(suite.name, function () {
-    const specs = suite.specs || suite.layers
-    let suiteResults
+  SUITES.forEach(suite =>
+    describe(suite.name, function () {
+      const specs = suite.specs || suite.layers
+      let suiteResults
 
-    before(function (done) {
-      getResults(suite, (error, results) => {
-        if (error) return done(error)
-        suiteResults = results
-        done()
+      before(function (done) {
+        getResults(suite, (error, results) => {
+          if (error) return done(error)
+          suiteResults = results
+          done()
+        })
       })
-    })
 
-    specs.forEach((spec, i) => it(`renders ${spec.name}`, function () {
-      const result = suiteResults.specs[i]
-      snapshot(format(result.render).split('\n'))
-    }))
-  }))
+      specs.forEach((spec, i) =>
+        it(`renders ${spec.name}`, function () {
+          const result = suiteResults.specs[i]
+          snapshot(format(result.render).split('\n'))
+        })
+      )
+    })
+  )
 })

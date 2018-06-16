@@ -7,5 +7,6 @@ const getBoardResults = require('./get-results')
 
 const PORT = 8000
 
-server(name, getBoards, getBoardResults)
-  .listen(PORT, () => console.log(`Listening at http://localhost:${PORT}`))
+server(name, getBoards, getBoardResults).listen(PORT, () =>
+  console.log(`Listening at http://localhost:${PORT}`)
+)

@@ -14,7 +14,7 @@ var drillMode = require('./_drill-mode')
 
 var LIMIT = 65535
 
-var Parser = function(places, zero, filetype) {
+var Parser = function (places, zero, filetype) {
   Transform.call(this, {readableObjectMode: true})
 
   // parser properties
@@ -29,7 +29,7 @@ var Parser = function(places, zero, filetype) {
 
 inherits(Parser, Transform)
 
-Parser.prototype._process = function(chunk, filetype) {
+Parser.prototype._process = function (chunk, filetype) {
   while (this._index < chunk.length) {
     var next = getNext(filetype, chunk, this._index)
     this._index += next.read
@@ -39,15 +39,14 @@ Parser.prototype._process = function(chunk, filetype) {
     if (next.block) {
       if (filetype === 'gerber') {
         parseGerber(this, next.block)
-      }
-      else {
+      } else {
         parseDrill.parse(this, next.block)
       }
     }
   }
 }
 
-Parser.prototype._transform = function(chunk, encoding, done) {
+Parser.prototype._transform = function (chunk, encoding, done) {
   var filetype = this.format.filetype
 
   // decode buffer to string
@@ -64,8 +63,7 @@ Parser.prototype._transform = function(chunk, encoding, done) {
       }
       this._stash += chunk
       return done()
-    }
-    else {
+    } else {
       this.format.filetype = filetype
       this._index = 0
     }
@@ -80,7 +78,7 @@ Parser.prototype._transform = function(chunk, encoding, done) {
   done()
 }
 
-Parser.prototype._flush = function(done) {
+Parser.prototype._flush = function (done) {
   if (this.format.filetype === 'drill') {
     parseDrill.flush(this)
   }
@@ -88,20 +86,20 @@ Parser.prototype._flush = function(done) {
   return done && done()
 }
 
-Parser.prototype._push = function(data) {
+Parser.prototype._push = function (data) {
   if (data.line === -1) {
     data.line = this.line
   }
 
-  var pushTarget = (!this._syncResult) ? this : this._syncResult
+  var pushTarget = !this._syncResult ? this : this._syncResult
   pushTarget.push(data)
 }
 
-Parser.prototype._warn = function(message) {
+Parser.prototype._warn = function (message) {
   this.emit('warning', warning(message, this.line))
 }
 
-Parser.prototype.parseSync = function(file) {
+Parser.prototype.parseSync = function (file) {
   var filetype = determineFiletype(file, this._index, 100 * LIMIT)
   this.format.filetype = filetype
   this._syncResult = []

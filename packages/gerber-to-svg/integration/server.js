@@ -7,5 +7,6 @@ const getSuiteResults = require('./get-results')
 
 const PORT = 8002
 
-server(name, getGerberSpecs, getSuiteResults)
-  .listen(PORT, () => console.log(`Listening at http://localhost:${PORT}`))
+server(name, getGerberSpecs, getSuiteResults).listen(PORT, () =>
+  console.log(`Listening at http://localhost:${PORT}`)
+)

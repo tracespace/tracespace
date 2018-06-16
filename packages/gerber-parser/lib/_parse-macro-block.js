@@ -3,23 +3,23 @@
 
 var parseMacroExpr = require('./_parse-macro-expression')
 
-var reNUM = /^-?[\d.]+$/
-var reVAR_DEF = /^(\$[\d+])=(.+)/
+var RE_NUM = /^-?[\d.]+$/
+var RE_VAR_DEF = /^(\$[\d+])=(.+)/
 
-var parseMacroBlock = function(parser, block) {
+var parseMacroBlock = function (parser, block) {
   // check first for a comment
   if (block[0] === '0') {
     return {type: 'comment'}
   }
 
   // variable definition
-  if (reVAR_DEF.test(block)) {
-    var varDefMatch = block.match(reVAR_DEF)
+  if (RE_VAR_DEF.test(block)) {
+    var varDefMatch = block.match(RE_VAR_DEF)
     var varName = varDefMatch[1]
     var varExpr = varDefMatch[2]
     var evaluate = parseMacroExpr(parser, varExpr)
 
-    var setMods = function(mods) {
+    var setMods = function (mods) {
       mods[varName] = evaluate(mods)
 
       return mods
@@ -28,8 +28,8 @@ var parseMacroBlock = function(parser, block) {
   }
 
   // map a primitive param to a number or, if an expression, a function
-  var modVal = function(m) {
-    if (reNUM.test(m)) {
+  var modVal = function (m) {
+    if (RE_NUM.test(m)) {
       return Number(m)
     }
     return parseMacroExpr(parser, m)
@@ -84,7 +84,9 @@ var parseMacroBlock = function(parser, block) {
   }
 
   if (code === 22) {
-    parser._warn('macro aperture lower-left rectangle primitives are deprecated')
+    parser._warn(
+      'macro aperture lower-left rectangle primitives are deprecated'
+    )
     return {
       type: 'rectLL',
       exp: exp,
@@ -146,9 +148,7 @@ var parseMacroBlock = function(parser, block) {
       gap: mods[5],
       rot: mods[6]
     }
-  }
-
-  else {
+  } else {
     parser._warn(code + ' is an unrecognized primitive for a macro aperture')
   }
 }
