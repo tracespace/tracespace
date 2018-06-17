@@ -1,7 +1,7 @@
 {
   "name": "pcb-stackup",
   "version": "4.0.0-next.8",
-  "description": "Generate beautiful, precise SVG renders of PCBs from Gerber and drill files",
+  "description": "Render PCBs as beautiful, precise SVGs from Gerber / NC drill files",
   "main": "index.js",
   "scripts": {
     "example": "node example",

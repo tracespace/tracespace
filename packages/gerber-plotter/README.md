@@ -3,8 +3,11 @@
 > Streaming Gerber / NC drill layer image plotter
 
 [![npm][npm-badge]][npm]
+[npm-badge]: https://img.shields.io/npm/v/gerber-plotter.svg?style=flat-square&maxAge=3600
 
 A printed circuit board Gerber and drill file plotter. Implemented as a Node transform stream that consumes objects output by [gerber-parser](../gerber-parser) and outputs PCB image objects.
+
+[npm]: https://www.npmjs.com/package/gerber-plotter
 
 ## install
 
@@ -51,11 +54,9 @@ fs
 
 To run this module in a browser, it should be bundled with a tool like [browserify][] or [webpack][].
 
+[browserify]: http://browserify.org/
+[webpack]: https://webpack.js.org/
+
 ## api
 
 See [API.md](./API.md)
-
-[npm-badge]: https://img.shields.io/npm/v/gerber-plotter.svg?style=flat-square&maxAge=86400
-[npm]: https://www.npmjs.com/package/gerber-plotter
-[browserify]: http://browserify.org/
-[webpack]: https://webpack.js.org/

@@ -6,11 +6,14 @@
 
 If you're looking for an easy way to generate beautiful SVG renders of printed circuit boards, check out the higher-level [pcb-stackup](../pcb-stackup) tool first.
 
-`pcb-stackup-core` is the low-level module that powers the rendering of `pcb-stackup`.  It takes individual printed circuit board layer converters as output by [gerber-to-svg](../gerber-to-svg) and identified as PCB layer types by [whats-that-gerber](../whats-that-gerber) and uses them to build SVG renders of what the manufactured PCB will look like from the top and the bottom.
+`pcb-stackup-core` is the low-level module that powers the rendering of `pcb-stackup`. It takes individual printed circuit board layer converters as output by [gerber-to-svg](../gerber-to-svg) and identified as PCB layer types by [whats-that-gerber](../whats-that-gerber) and uses them to build SVG renders of what the manufactured PCB will look like from the top and the bottom.
+
+[npm]: https://www.npmjs.com/package/pcb-stackup-core
+[npm-badge]: https://img.shields.io/npm/v/pcb-stackup-core.svg?style=flat-square&maxAge=3600
 
 ## install
 
-``` shell
+```shell
 npm install --save pcb-stackup-core
 # or
 yarn add pcb-stackup-core
@@ -37,7 +40,7 @@ Arduino Uno design files used here under the terms of the [Creative Commons Attr
 
 ## usage
 
-This module is designed to work in Node or in the browser with Browserify or Webpack. The  function takes two parameters: an array of layer objects and an options object. It returns an object with a `top` key and a `bottom` key, each of which contains the SVG element and various properties of the render.
+This module is designed to work in Node or in the browser with Browserify or Webpack. The function takes two parameters: an array of layer objects and an options object. It returns an object with a `top` key and a `bottom` key, each of which contains the SVG element and various properties of the render.
 
 ```js
 var pcbStackupCore = require('pcb-stackup-core')
@@ -112,14 +115,14 @@ var stackup1 = pcbStackupCore(layers, 'my-unique-board-id')
 var stackup2 = pcbStackupCore(layers, {id: 'my-unique-board-id'})
 ```
 
- key              | default   | description
------------------ | --------- | ----------------------------------------------------------
- id               | N/A       | Unique board identifier (required)
- color            | see below | Colors to apply to the board render by layer type
- maskWithOutline  | `false`   | Use the board outline layer as a mask for the board shape
- createElement    | see below | Function used to create the XML element nodes
- includeNamespace | `true`    | Whether or not to include the `xmlns` attribute in the top level SVG node
- attributes       | `{}`      | Map of additional attributes (e.g. `class`) to apply to the SVG nodes
+| key              | default   | description                                                               |
+| ---------------- | --------- | ------------------------------------------------------------------------- |
+| id               | N/A       | Unique board identifier (required)                                        |
+| color            | see below | Colors to apply to the board render by layer type                         |
+| maskWithOutline  | `false`   | Use the board outline layer as a mask for the board shape                 |
+| createElement    | see below | Function used to create the XML element nodes                             |
+| includeNamespace | `true`    | Whether or not to include the `xmlns` attribute in the top level SVG node |
+| attributes       | `{}`      | Map of additional attributes (e.g. `class`) to apply to the SVG nodes     |
 
 #### id
 
@@ -145,48 +148,53 @@ var DEFAULT_COLOR = {
 
 The keys represent the following layers:
 
- layer | component        
------- | -----------------
- fr4   | Substrate
- cu    | Copper
- cf    | Copper (finished)
- sm    | Soldermask
- ss    | Silkscreen
- sp    | Solderpaste
- out   | Board outline
+| layer | component         |
+| ----- | ----------------- |
+| fr4   | Substrate         |
+| cu    | Copper            |
+| cf    | Copper (finished) |
+| sm    | Soldermask        |
+| ss    | Silkscreen        |
+| sp    | Solderpaste       |
+| out   | Board outline     |
 
 If a value is falsey (e.g. an empty string), the layer will not be added to the style node. This is useful if you want to add styles with an external stylesheet. If applying colors with an external stylesheet, use the following class-names and specify the `color` attribute:
 
- layer | classname   | example (id = 'my-board')
------- | ----------- | -----------------------------------------------
- fr4   | id + `_fr4` | `.my-board_fr4 {color: #666;}`
- cu    | id + `_cu`  | `.my-board_cu {color: #ccc;}`
- cf    | id + `_cf`  | `.my-board_cf {color: #c93;}`
- sm    | id + `_sm`  | `.my-board_sm {color: #rgba(0, 66, 0, 0.75);}`
- ss    | id + `_ss`  | `.my-board_ss {color: #fff;}`
- sp    | id + `_sp`  | `.my-board_sp {color: #999;}`
- out   | id + `_out` | `.my-board_out {color: #000;}`
+| layer | classname   | example (id = 'my-board')                      |
+| ----- | ----------- | ---------------------------------------------- |
+| fr4   | id + `_fr4` | `.my-board_fr4 {color: #666;}`                 |
+| cu    | id + `_cu`  | `.my-board_cu {color: #ccc;}`                  |
+| cf    | id + `_cf`  | `.my-board_cf {color: #c93;}`                  |
+| sm    | id + `_sm`  | `.my-board_sm {color: #rgba(0, 66, 0, 0.75);}` |
+| ss    | id + `_ss`  | `.my-board_ss {color: #fff;}`                  |
+| sp    | id + `_sp`  | `.my-board_sp {color: #999;}`                  |
+| out   | id + `_out` | `.my-board_out {color: #000;}`                 |
 
 #### mask board shape with outline
 
 When constructing the stackup, a `<mask>` of all the drill layers is built and applied to the final image to remove the image wherever there are drill hits. If the `maskWithOutline` option is passed as true, the stackup function will _also_ create a `<clipPath>` with the contents of any included outline layers, and use that to remove any part of the image that falls outside of the board outline.
 
- setting           | result
------------------- | ------------------------------------------------
- `false` (default) | Board shape is a rectangle that fits all layers
- `true`            | Board shape is the shape of the outline layer
+| setting           | result                                          |
+| ----------------- | ----------------------------------------------- |
+| `false` (default) | Board shape is a rectangle that fits all layers |
+| `true`            | Board shape is the shape of the outline layer   |
 
-To work, the outline layer must be one or more fully-enclosed loops. If it isn't, setting `maskWithOutline` to true will likely result in the final image being incorrect (or non-existent), because the `<path>`s won't clip the image properly. See the [MDN's documentation of `<clipPath>`](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/clipPath) for more details.
+To work, the outline layer must be one or more fully-enclosed loops. If it isn't, setting `maskWithOutline` to true will likely result in the final image being incorrect (or non-existent), because the `<path>`s won't clip the image properly. See the [MDN's documentation of `<clipPath>`][clip-path] for more details.
 
 To improve your chances of a board outline layer working for `maskWithOutline`, make sure you set the `plotAsOutline` [option of gerber-to-svg](..gerber-to-svg/API.md#options) to `true` when converting the outline gerber. If the board outline still doesn't work, please open an issue to see if we can improve the masking process.
 
+[clip-path]: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/clipPath
+
 #### create element and include namespace
 
-Both gerber-to-svg and pcb-stackup-core take a `createElement` function as an option. It defaults to [xml-element-string](https://github.com/tracespace/xml-element-string), which outputs a string. However, any function that takes a tag name, attributes object, and children array may be used. For example, you could pass in [React.createElement][react-create-element] and create virtual DOM nodes instead.
+Both gerber-to-svg and pcb-stackup-core take a `createElement` function as an option. It defaults to [xml-element-string][], which outputs a string. However, any function that takes a tag name, attributes object, and children array may be used. For example, you could pass in [React.createElement][react-create-element] and create virtual DOM nodes instead.
 
-If you choose to use this option, the function you pass into pcb-stackup-core __must__ be the same one you passed into gerber-to-svg.
+If you choose to use this option, the function you pass into pcb-stackup-core **must** be the same one you passed into gerber-to-svg.
 
 The `includeNamespace` option specifies whether or not to include the `xmlns` attribute in the top level SVG node. Some VDOM implementations get angry when you pass the `xmlns` attribute, so you may need to set it to `false`.
+
+[xml-element-string]: https://github.com/tracespace/xml-element-string
+[react-create-element]: https://reactjs.org/docs/react-api.html#createelement
 
 #### attributes
 
@@ -205,16 +213,11 @@ var stackup = pcbStackupCore(layers, {
 
 The stackup can be made up of the following layer types:
 
- layer type               | abbreviation
-------------------------- | -------------
- top / bottom copper      | tcu / bcu
- top / bottom soldermask  | tsm / bsm
- top / bottom silkscreen  | tss / bss
- top / bottom solderpaste | tsp / bsp
- board outline            | out
- drill hits               | drl
-
-
-[react-create-element]: https://reactjs.org/docs/react-api.html#createelement
-[npm]: https://www.npmjs.com/package/pcb-stackup-core
-[npm-badge]: https://img.shields.io/npm/v/pcb-stackup-core.svg?style=flat-square&maxAge=86400
+| layer type               | abbreviation |
+| ------------------------ | ------------ |
+| top / bottom copper      | tcu / bcu    |
+| top / bottom soldermask  | tsm / bsm    |
+| top / bottom silkscreen  | tss / bss    |
+| top / bottom solderpaste | tsp / bsp    |
+| board outline            | out          |
+| drill hits               | drl          |
