@@ -139,6 +139,19 @@ describe('path graphs', function () {
     expect(p.length).to.equal(1)
   })
 
+  it('should not allow duplicate line segments but it should continue', function () {
+    p.add({type: 'line', start: [1, 0], end: [1, 2]})
+    p.add({type: 'line', start: [0, 0], end: [1, 0]})
+    p.add({type: 'line', start: [1, 0], end: [0, 0]})
+    p.add({type: 'line', start: [0, 0], end: [1, 0]})
+    p.add({type: 'line', start: [1, 0], end: [1, 2]})
+    p.add({type: 'line', start: [1, 2], end: [1, 3]})
+    p.add({type: 'line', start: [1, 3], end: [2, 3]})
+    p.add({type: 'line', start: [1, 3], end: [2, 3]})
+    p.traverse()
+    expect(p.length).to.equal(4)
+  })
+
   it('should not optimize the path if passed a false during construction', function () {
     p = new PathGraph(false)
 
