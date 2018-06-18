@@ -6,6 +6,9 @@
 
 A printed circuit board Gerber and drill file parser. Implemented as a Node transform stream that takes a Gerber text stream and emits objects to be consumed by some sort of PCB plotter.
 
+Part of the [tracespace][] collection of PCB visualization tools.
+
+[tracespace]: https://github.com/tracespace/tracespace
 [npm]: https://www.npmjs.com/package/gerber-parser
 [npm-badge]: https://img.shields.io/npm/v/gerber-parser.svg?style=flat-square&max-age=3600
 

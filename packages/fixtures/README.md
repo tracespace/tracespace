@@ -6,6 +6,9 @@
 
 This module is a collection of data, including real-world open-source Gerber and drill files, used to drive tests on tracespace projects. It's published to npm so that any tool can use this data.
 
+Part of the [tracespace][] collection of PCB visualization tools.
+
+[tracespace]: https://github.com/tracespace/tracespace
 [npm]: https://www.npmjs.com/package/@tracespace/fixtures
 [npm-badge]: https://img.shields.io/npm/v/@tracespace/fixtures.svg?style=flat-square&maxAge=3600
 

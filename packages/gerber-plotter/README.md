@@ -7,6 +7,9 @@
 
 A printed circuit board Gerber and drill file plotter. Implemented as a Node transform stream that consumes objects output by [gerber-parser](../gerber-parser) and outputs PCB image objects.
 
+Part of the [tracespace][] collection of PCB visualization tools.
+
+[tracespace]: https://github.com/tracespace/tracespace
 [npm]: https://www.npmjs.com/package/gerber-plotter
 
 ## install

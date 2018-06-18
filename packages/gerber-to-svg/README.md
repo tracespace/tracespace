@@ -6,6 +6,9 @@
 
 `gerber-to-svg` is a library and CLI tool for converting [Gerber][gerber] and [NC drill][nc-drill] files (manufacturing files for printed circuit boards) into [SVG][svg] files for the web.
 
+Part of the [tracespace][] collection of PCB visualization tools.
+
+[tracespace]: https://github.com/tracespace/tracespace
 [npm]: https://www.npmjs.com/package/gerber-to-svg
 [npm-badge]: https://img.shields.io/npm/v/gerber-to-svg.svg?style=flat-square&maxAge=86400
 [gerber]: https://en.wikipedia.org/wiki/Gerber_format

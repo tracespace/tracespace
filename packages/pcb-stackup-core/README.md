@@ -8,6 +8,9 @@ If you're looking for an easy way to generate beautiful SVG renders of printed c
 
 `pcb-stackup-core` is the low-level module that powers the rendering of `pcb-stackup`. It takes individual printed circuit board layer converters as output by [gerber-to-svg](../gerber-to-svg) and identified as PCB layer types by [whats-that-gerber](../whats-that-gerber) and uses them to build SVG renders of what the manufactured PCB will look like from the top and the bottom.
 
+Part of the [tracespace][] collection of PCB visualization tools.
+
+[tracespace]: https://github.com/tracespace/tracespace
 [npm]: https://www.npmjs.com/package/pcb-stackup-core
 [npm-badge]: https://img.shields.io/npm/v/pcb-stackup-core.svg?style=flat-square&maxAge=3600
 

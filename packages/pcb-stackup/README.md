@@ -4,6 +4,9 @@
 
 > Render PCBs as beautiful, precise SVGs from Gerber / NC drill files
 
+Part of the [tracespace][] collection of PCB visualization tools.
+
+[tracespace]: https://github.com/tracespace/tracespace
 [npm]: https://www.npmjs.com/package/pcb-stackup
 [npm-badge]: https://img.shields.io/npm/v/pcb-stackup.svg?style=flat-square&maxAge=3600
 

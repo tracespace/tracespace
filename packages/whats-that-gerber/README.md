@@ -6,6 +6,9 @@
 
 Have you got a bunch of Gerber files lying around without any idea what they're for? We've all been there. `whats-that-gerber` is here to help.
 
+Part of the [tracespace][] collection of PCB visualization tools.
+
+[tracespace]: https://github.com/tracespace/tracespace
 [npm]: https://www.npmjs.com/package/whats-that-gerber
 [npm-badge]: https://img.shields.io/npm/v/whats-that-gerber.svg?style=flat-square&maxAge=3600
 
