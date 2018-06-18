@@ -125,7 +125,7 @@ PathGraph.prototype._fillGapsAndOptimize = function () {
     })
 
     if (existing != null) {
-      return
+      continue
     }
 
     var newEdgeIndex = this._edges.length
