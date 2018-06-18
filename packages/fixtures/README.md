@@ -6,11 +6,17 @@
 
 This module is a collection of data, including real-world open-source Gerber and drill files, used to drive tests on tracespace projects. It's published to npm so that any tool can use this data.
 
+Part of the [tracespace][] collection of PCB visualization tools.
+
+[tracespace]: https://github.com/tracespace/tracespace
+[npm]: https://www.npmjs.com/package/@tracespace/fixtures
+[npm-badge]: https://img.shields.io/npm/v/@tracespace/fixtures.svg?style=flat-square&maxAge=3600
+
 ## install
 
 Please note: because this package is a collection of test fixtures, it may not follow semver and changes could be introduced in _any_ version bump that cause your tests to fail. **You should install an exact version.**
 
-``` shell
+```shell
 npm install --save-dev --exact @tracespace/fixtures
 # or
 yarn add --dev --exact @tracespace/fixtures
@@ -53,6 +59,8 @@ For non-npm projects, this file is also available via [the unpkg CDN][unpkg]:
 ```shell
 curl https://unpkg.com/@tracespace/fixtures@${version}/gerber-filenames.json
 ```
+
+[unpkg]: https://unpkg.com
 
 ### example boards
 
@@ -147,7 +155,7 @@ const app = server('suite name', getGerberSpecs, getSuiteResults)
 
 app.listen(9000, () => console.log('listening on http://localhost:9000'))
 
-function getSuiteResults (suite, done) {
+function getSuiteResults(suite, done) {
   // get results of a single suite somehow and pass them to done
   done(null, suiteResults)
 }
@@ -178,7 +186,3 @@ function getSuiteResults (suite, done) {
   }>
 }
 ```
-
-[npm]: https://www.npmjs.com/package/@tracespace/fixtures
-[npm-badge]: https://img.shields.io/npm/v/@tracespace/fixtures.svg?style=flat-square&maxAge=86400
-[unpkg]: https://unpkg.com

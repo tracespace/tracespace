@@ -6,6 +6,12 @@
 
 Have you got a bunch of Gerber files lying around without any idea what they're for? We've all been there. `whats-that-gerber` is here to help.
 
+Part of the [tracespace][] collection of PCB visualization tools.
+
+[tracespace]: https://github.com/tracespace/tracespace
+[npm]: https://www.npmjs.com/package/whats-that-gerber
+[npm-badge]: https://img.shields.io/npm/v/whats-that-gerber.svg?style=flat-square&maxAge=3600
+
 ## install
 
 ```shell
@@ -33,20 +39,20 @@ const whatsThatGerber = require('whats-that-gerber')
 const allLayerTypes = whatsThatGerber.getAllTypes() // ['drw', 'tcu', ...]
 ```
 
-| type | full name (en)     |
-| ---- | ------------------ |
-| drw  | gerber drawing     |
-| tcu  | top copper         |
-| tsm  | top soldermask     |
-| tss  | top silkscreen     |
-| tsp  | top solderpaste    |
-| bcu  | bottom copper      |
-| bsm  | bottom soldermask  |
-| bss  | bottom silkscreen  |
-| bsp  | bottom solderpaste |
-| icu  | inner copper       |
-| out  | board outline      |
-| drl  | drill hits         |
+| type | full name (en)                |
+| ---- | ----------------------------- |
+| drw  | gerber drawing (unknown type) |
+| tcu  | top copper                    |
+| tsm  | top soldermask                |
+| tss  | top silkscreen                |
+| tsp  | top solderpaste               |
+| bcu  | bottom copper                 |
+| bsm  | bottom soldermask             |
+| bss  | bottom silkscreen             |
+| bsp  | bottom solderpaste            |
+| icu  | inner copper                  |
+| out  | board outline                 |
+| drl  | drill hits                    |
 
 #### checking if a layer type is valid
 
@@ -85,9 +91,6 @@ We should be able to identify files output by the following programs:
 
 ## contributing
 
-Please read the [Contributing Section](../README.md#contributing) of the main README for development setup instructions!
+Please read the [Contributing Section](../README.md#contributing) of the main README for development setup instructions.
 
 If you're adding or modifying a filetype matcher, please remember to add or modify an example filename in [`@tracespace/fixtures/gerber-filenames.json`](../fixtures/gerber-filenames.json) to ensure your change is tested.
-
-[npm]: https://www.npmjs.com/package/whats-that-gerber
-[npm-badge]: https://img.shields.io/npm/v/whats-that-gerber.svg?style=flat-square&maxAge=86400
