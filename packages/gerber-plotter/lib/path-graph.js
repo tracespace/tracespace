@@ -124,20 +124,18 @@ PathGraph.prototype._fillGapsAndOptimize = function () {
       return lineSegmentsEqual(edge.segment, newSeg)
     })
 
-    if (existing != null) {
-      continue
+    if (!existing) {
+      var newEdgeIndex = this._edges.length
+      var edge = {segment: newSeg, start: start, end: end}
+
+      points[startIndex].edges.push(newEdgeIndex)
+      points[startIndex].position = edge.start.position
+      points[endIndex].edges.push(newEdgeIndex)
+      points[endIndex].position = edge.end.position
+
+      this._edges.push(edge)
+      this.length++
     }
-
-    var newEdgeIndex = this._edges.length
-    var edge = {segment: newSeg, start: start, end: end}
-
-    points[startIndex].edges.push(newEdgeIndex)
-    points[startIndex].position = edge.start.position
-    points[endIndex].edges.push(newEdgeIndex)
-    points[endIndex].position = edge.end.position
-
-    this._edges.push(edge)
-    this.length++
   }
 
   // consolidate all the connecting edges to prepare for a depth first
