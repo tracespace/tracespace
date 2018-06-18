@@ -14,7 +14,10 @@
     {
       "name": "BusPirate-v3.6a-SSOP.gko",
       "type": "out",
-      "format": "gerber"
+      "format": "gerber",
+      "options": {
+        "plotAsOutline": 1.27
+      }
     },
     {
       "name": "BusPirate-v3.6a-SSOP.plc",
