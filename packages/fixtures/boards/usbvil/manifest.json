@@ -1,0 +1,48 @@
+{
+  "skipSnapshot": false,
+  "layers": [
+    {
+      "name": "pic18f14k50.gbl",
+      "type": "bcu",
+      "format": "gerber"
+    },
+    {
+      "name": "pic18f14k50.gbo",
+      "type": "bss",
+      "format": "gerber"
+    },
+    {
+      "name": "pic18f14k50.gbs",
+      "type": "bsm",
+      "format": "gerber"
+    },
+    {
+      "name": "pic18f14k50.gko",
+      "type": "out",
+      "format": "gerber",
+      "options": {
+        "plotAsOutline": 1.27
+      }
+    },
+    {
+      "name": "pic18f14k50.gtl",
+      "type": "tcu",
+      "format": "gerber"
+    },
+    {
+      "name": "pic18f14k50.gto",
+      "type": "tss",
+      "format": "gerber"
+    },
+    {
+      "name": "pic18f14k50.gts",
+      "type": "tsm",
+      "format": "gerber"
+    },
+    {
+      "name": "pic18f14k50.txt",
+      "type": "drl",
+      "format": "drill"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "skipSnapshot": true,
+  "layers": [
+    {
+      "name": "BusPirate-v3.6a-SSOP.cmp",
+      "type": "tcu",
+      "format": "gerber"
+    },
+    {
+      "name": "BusPirate-v3.6a-SSOP.drd",
+      "type": "drl",
+      "format": "drill"
+    },
+    {
+      "name": "BusPirate-v3.6a-SSOP.gko",
+      "type": "out",
+      "format": "gerber",
+      "options": {
+        "plotAsOutline": 1.27
+      }
+    },
+    {
+      "name": "BusPirate-v3.6a-SSOP.plc",
+      "type": "tss",
+      "format": "gerber"
+    },
+    {
+      "name": "BusPirate-v3.6a-SSOP.pls",
+      "type": "bss",
+      "format": "gerber"
+    },
+    {
+      "name": "BusPirate-v3.6a-SSOP.sol",
+      "type": "bcu",
+      "format": "gerber"
+    },
+    {
+      "name": "BusPirate-v3.6a-SSOP.stc",
+      "type": "tsm",
+      "format": "gerber"
+    },
+    {
+      "name": "BusPirate-v3.6a-SSOP.sts",
+      "type": "bsm",
+      "format": "gerber"
+    }
+  ]
+}
