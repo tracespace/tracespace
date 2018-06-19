@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-//utility for creating manifest.json files for the test boards
+//utility for initialising a manifest.json file for a test boards folder
 
 const wtg = require('whats-that-gerber')
 const glob = require('glob')
@@ -8,7 +8,7 @@ const path = require('path')
 const folderPath = process.argv[2]
 
 if (typeof folderPath !== 'string') {
-  console.log('USAGE: ./make-manifest folder > folder/manifest.json')
+  console.error('USAGE: ./init-manifest folder > folder/manifest.json')
   process.exit(1)
 }
 
@@ -24,6 +24,6 @@ const layers = files.map(f => {
   return {name, type, format}
 })
 
-const manifest = {skipSnapshot: true, layers}
+const manifest = {skipSnapshot: false, layers}
 
 console.log(JSON.stringify(manifest, null, 2))
