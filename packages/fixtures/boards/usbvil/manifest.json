@@ -2,42 +2,42 @@
   "skipSnapshot": true,
   "layers": [
     {
-      "name": "PIC18F14K50.GBL",
+      "name": "pic18f14k50.gbl",
       "type": "bcu",
       "format": "gerber"
     },
     {
-      "name": "PIC18F14K50.GBO",
+      "name": "pic18f14k50.gbo",
       "type": "bss",
       "format": "gerber"
     },
     {
-      "name": "PIC18F14K50.GBS",
+      "name": "pic18f14k50.gbs",
       "type": "bsm",
       "format": "gerber"
     },
     {
-      "name": "PIC18F14K50.GKO",
+      "name": "pic18f14k50.gko",
       "type": "out",
       "format": "gerber"
     },
     {
-      "name": "PIC18F14K50.GTL",
+      "name": "pic18f14k50.gtl",
       "type": "tcu",
       "format": "gerber"
     },
     {
-      "name": "PIC18F14K50.GTO",
+      "name": "pic18f14k50.gto",
       "type": "tss",
       "format": "gerber"
     },
     {
-      "name": "PIC18F14K50.GTS",
+      "name": "pic18f14k50.gts",
       "type": "tsm",
       "format": "gerber"
     },
     {
-      "name": "PIC18F14K50.TXT",
+      "name": "pic18f14k50.txt",
       "type": "drl",
       "format": "drill"
     }
