@@ -1,5 +1,5 @@
 {
-  "skipSnapshot": true,
+  "skipSnapshot": false,
   "layers": [
     {
       "name": "pic18f14k50.gbl",
