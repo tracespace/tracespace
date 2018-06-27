@@ -79,6 +79,7 @@
       { "name": "board.gbo", "type": "bss" },
       { "name": "board.gbp", "type": "bsp" },
       { "name": "board.g1",  "type": "icu" },
+      { "name": "board.gp1", "type": "icu" },
       { "name": "board.gm3", "type": "out" },
       { "name": "board.gko", "type": "out" },
       { "name": "board.txt", "type": "drl" }

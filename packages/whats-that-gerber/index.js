@@ -77,7 +77,7 @@ var layerTypes = [
     name: {
       en: 'inner copper'
     },
-    match: /(In(ner)?\d+.Cu)|(\.((ly)|(g)|(in))\d+$)|(\.internalplane\d+\.ger$)/i
+    match: /(In(ner)?\d+.Cu)|(\.((ly)|(gp?)|(in))\d+$)|(\.internalplane\d+\.ger$)/i
   },
   {
     id: 'out',
