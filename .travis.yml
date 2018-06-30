@@ -7,7 +7,9 @@ node_js:
   - '8'
   - node
 
-script: npm run test
+script: yarn run ci
+
+after_success: yarn run ci:coverage
 
 # use build stages with "test" and "deploy" stages
 # node_js versions above automatically added to "test" stage
@@ -22,6 +24,7 @@ jobs:
       if: tag =~ ^v
       node_js: node
       script: yarn run example
+      after_success: skip
       # set npm credentials for npm publish
       before_deploy:
         - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > ~/.npmrc
