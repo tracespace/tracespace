@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="4.0.0-next.11"></a>
+# [4.0.0-next.11](https://github.com/tracespace/tracespace/compare/v4.0.0-next.10...v4.0.0-next.11) (2018-07-02)
+
+
+### Bug Fixes
+
+* **whats-that-gerber:** Improve Altium mech layer recognition ([#70](https://github.com/tracespace/tracespace/issues/70)) ([e48d03f](https://github.com/tracespace/tracespace/commit/e48d03f)), closes [#69](https://github.com/tracespace/tracespace/issues/69)
+
+
+
+
+
 <a name="4.0.0-next.10"></a>
 # [4.0.0-next.10](https://github.com/tracespace/tracespace/compare/v4.0.0-next.9...v4.0.0-next.10) (2018-06-27)
 

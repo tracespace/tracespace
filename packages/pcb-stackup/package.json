@@ -1,6 +1,6 @@
 {
   "name": "pcb-stackup",
-  "version": "4.0.0-next.10",
+  "version": "4.0.0-next.11",
   "description": "Render PCBs as beautiful, precise SVGs from Gerber / NC drill files",
   "main": "index.js",
   "scripts": {
@@ -35,6 +35,6 @@
     "gerber-to-svg": "^4.0.0-next.9",
     "pcb-stackup-core": "^4.0.0-next.9",
     "shortid": "^2.2.6",
-    "whats-that-gerber": "^4.0.0-next.10"
+    "whats-that-gerber": "^4.0.0-next.11"
   }
 }
