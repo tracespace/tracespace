@@ -70,19 +70,20 @@
   {
     "cad": "altium",
     "files": [
-      { "name": "board.gtl", "type": "tcu" },
-      { "name": "board.gts", "type": "tsm" },
-      { "name": "board.gto", "type": "tss" },
-      { "name": "board.gtp", "type": "tsp" },
-      { "name": "board.gbl", "type": "bcu" },
-      { "name": "board.gbs", "type": "bsm" },
-      { "name": "board.gbo", "type": "bss" },
-      { "name": "board.gbp", "type": "bsp" },
-      { "name": "board.g1",  "type": "icu" },
-      { "name": "board.gp1", "type": "icu" },
-      { "name": "board.gm3", "type": "out" },
-      { "name": "board.gko", "type": "out" },
-      { "name": "board.txt", "type": "drl" }
+      { "name": "board.gtl",  "type": "tcu" },
+      { "name": "board.gts",  "type": "tsm" },
+      { "name": "board.gto",  "type": "tss" },
+      { "name": "board.gtp",  "type": "tsp" },
+      { "name": "board.gbl",  "type": "bcu" },
+      { "name": "board.gbs",  "type": "bsm" },
+      { "name": "board.gbo",  "type": "bss" },
+      { "name": "board.gbp",  "type": "bsp" },
+      { "name": "board.g1",   "type": "icu" },
+      { "name": "board.gp1",  "type": "icu" },
+      { "name": "board.gm3",  "type": "out" },
+      { "name": "board.gm13", "type": "out" },
+      { "name": "board.gko",  "type": "out" },
+      { "name": "board.txt",  "type": "drl" }
     ]
   },
   {
