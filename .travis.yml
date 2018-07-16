@@ -23,7 +23,8 @@ jobs:
       # deploy if tag starts with v
       if: tag =~ ^v
       node_js: node
-      script: yarn run example
+      script: yarn run example && yarn run docs
+      after_success: echo "skipping coverage upload"
       # set npm credentials for npm publish
       before_deploy:
         - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > ~/.npmrc

@@ -27,6 +27,7 @@ tracespace is an open-source collection of tools to make looking at circuit boar
 [![gerber-parser][gerber-parser-badge]][gerber-parser] - Streaming Gerber/drill file parser  
 [![whats-that-gerber][whats-that-gerber-badge]][whats-that-gerber] - Identify Gerber and drill files by filename  
 [![@tracespace/fixtures][tracespace-fixtures-badge]][tracespace-fixtures] - Test fixtures for tracespace projects
+[![@tracespace/cli][tracespace-cli-badge]][tracespace-cli]
 
 [pcb-stackup]: ./packages/pcb-stackup
 [pcb-stackup-core]: ./packages/pcb-stackup-core
@@ -35,6 +36,7 @@ tracespace is an open-source collection of tools to make looking at circuit boar
 [gerber-parser]: ./packages/gerber-parser
 [whats-that-gerber]: ./packages/whats-that-gerber
 [tracespace-fixtures]: ./packages/fixtures
+[tracespace-fixtures]: ./packages/cli
 [pcb-stackup-badge]: https://img.shields.io/npm/v/pcb-stackup.svg?label=pcb-stackup&style=flat-square&maxAge=3600
 [pcb-stackup-core-badge]: https://img.shields.io/npm/v/pcb-stackup-core.svg?label=pcb-stackup-core&style=flat-square&maxAge=3600
 [gerber-to-svg-badge]: https://img.shields.io/npm/v/gerber-to-svg.svg?label=gerber-to-svg&style=flat-square&maxAge=3600
@@ -42,6 +44,7 @@ tracespace is an open-source collection of tools to make looking at circuit boar
 [gerber-parser-badge]: https://img.shields.io/npm/v/gerber-parser.svg?label=gerber-parser&style=flat-square&maxAge=3600
 [whats-that-gerber-badge]: https://img.shields.io/npm/v/whats-that-gerber.svg?label=whats-that-gerber&style=flat-square&maxAge=3600
 [tracespace-fixtures-badge]: https://img.shields.io/npm/v/@tracespace/fixtures.svg?label=@tracespace/fixtures&style=flat-square&maxAge=3600
+[tracespace-fixtures-badge]: https://img.shields.io/npm/v/@tracespace/cli.svg?label=@tracespace/cli&style=flat-square&maxAge=3600
 
 ## examples
 

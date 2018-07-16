@@ -15,6 +15,7 @@
     "integration:server": "lerna run integration:server --parallel",
     "lint": "eslint '**/*.js'",
     "format": "prettier-eslint --write '**/*.js'",
+    "docs": "lerna run docs",
     "example": "lerna run example",
     "prebump": "yarn run test",
     "bump": "lerna publish",
