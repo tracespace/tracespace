@@ -5,6 +5,7 @@ var gerberToSvg = require('gerber-to-svg')
 var shortId = require('shortid')
 var whatsThatGerber = require('whats-that-gerber')
 var createStackup = require('pcb-stackup-core')
+var extend = require('xtend')
 
 var getInvalidLayers = function (layers) {
   var hasNameOrType = function (layer) {
@@ -93,7 +94,7 @@ var pcbStackup = function (layers, options, done) {
 
   layers.forEach(function (layer) {
     var layerType = layer.type || whatsThatGerber(layer.filename)
-    var layerOptions = Object.assign({}, layer.options)
+    var layerOptions = extend(layer.options)
 
     layerOptions.id = layerOptions.id || shortId.generate()
     layerOptions.plotAsOutline =
