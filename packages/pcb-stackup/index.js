@@ -38,6 +38,8 @@ var pcbStackup = function (layers, options, done) {
   if (typeof options === 'function') {
     done = options
     options = {}
+  } else if (options == null) {
+    options = {}
   }
 
   var invalidLayers = getInvalidLayers(layers)
@@ -91,7 +93,7 @@ var pcbStackup = function (layers, options, done) {
 
   layers.forEach(function (layer) {
     var layerType = layer.type || whatsThatGerber(layer.filename)
-    var layerOptions = layer.options || {}
+    var layerOptions = Object.assign({}, layer.options)
 
     layerOptions.id = layerOptions.id || shortId.generate()
     layerOptions.plotAsOutline =
@@ -112,6 +114,7 @@ var pcbStackup = function (layers, options, done) {
 
     stackupLayers.push({
       type: layerType,
+      filename: layer.filename,
       converter: converter,
       options: layerOptions
     })
