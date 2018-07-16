@@ -21,56 +21,56 @@ var layerTypes = [
     name: {
       en: 'top copper'
     },
-    match: /((F.Cu)|(top\.gbr$))|(\.((cmp$)|(top$)|(gtl$)))|(\.toplayer\.ger$)|(top copper\.txt$)/i
+    match: /((F.Cu)|(copper_top)|(\.top\.gbr$))|(\.((cmp$)|(top$)|(gtl$)))|(\.toplayer\.ger$)|(top copper\.txt$)/i
   },
   {
     id: 'tsm',
     name: {
       en: 'top soldermask'
     },
-    match: /((F.Mask)|(topmask))|(\.((stc$)|(tsm$)|(gts$)|(smt$)))|(\.topsoldermask\.ger$)|(top solder resist\.txt$)/i
+    match: /((F.Mask)|(soldermask_top)|(topmask))|(\.((stc$)|(tsm$)|(gts$)|(smt$)))|(\.topsoldermask\.ger$)|(top solder resist\.txt$)/i
   },
   {
     id: 'tss',
     name: {
       en: 'top silkscreen'
     },
-    match: /((F.SilkS)|(topsilk))|(\.((plc$)|(tsk$)|(gto$)|(sst$)))|(\.topsilkscreen\.ger$)|(top silk screen\.txt$)/i
+    match: /((F.SilkS)|(silkscreen_top)|(topsilk))|(\.((plc$)|(tsk$)|(gto$)|(sst$)))|(\.topsilkscreen\.ger$)|(top silk screen\.txt$)/i
   },
   {
     id: 'tsp',
     name: {
       en: 'top solderpaste'
     },
-    match: /((F.Paste)|(toppaste))|(\.((crc$)|(tsp$)|(gtp$)|(spt$)))|(\.tcream\.ger$)/i
+    match: /((F.Paste)|(solderpaste_top)|(toppaste))|(\.((crc$)|(tsp$)|(gtp$)|(spt$)))|(\.tcream\.ger$)/i
   },
   {
     id: 'bcu',
     name: {
       en: 'bottom copper'
     },
-    match: /(B.Cu|bottom\.gbr$)|(\.((sol$)|(bot$)|(gbl$)))|(\.bottomlayer\.ger$)|(bottom copper\.txt$)/i
+    match: /(B.Cu|(copper_bottom)|\.bottom\.gbr$)|(\.((sol$)|(bot$)|(gbl$)))|(\.bottomlayer\.ger$)|(bottom copper\.txt$)/i
   },
   {
     id: 'bsm',
     name: {
       en: 'bottom soldermask'
     },
-    match: /(B.Mask|bottommask\.)|(\.((sts$)|(bsm$)|(gbs$)|(smb$)))|(\.bottomsoldermask\.ger$)|(bottom solder resist\.txt$)/i
+    match: /(B.Mask|(soldermask_bottom)|bottommask\.)|(\.((sts$)|(bsm$)|(gbs$)|(smb$)))|(\.bottomsoldermask\.ger$)|(bottom solder resist\.txt$)/i
   },
   {
     id: 'bss',
     name: {
       en: 'bottom silkscreen'
     },
-    match: /((B.SilkS)|(bottomsilk\.))|(\.((pls$)|(bsk$)|(gbo$)|(ssb$)))|(\.bottomsilkscreen\.ger$)|(bottom silk screen\.txt$)/i
+    match: /((B.SilkS)|(silkscreen_bottom)|(bottomsilk\.))|(\.((pls$)|(bsk$)|(gbo$)|(ssb$)))|(\.bottomsilkscreen\.ger$)|(bottom silk screen\.txt$)/i
   },
   {
     id: 'bsp',
     name: {
       en: 'bottom solderpaste'
     },
-    match: /(B.Paste)|(\.((crs$)|(bsp$)|(gbp$)|(spb$)))|(\.bcream\.ger$)/i
+    match: /(B.Paste)|(solderpaste_bottom)|(\.((crs$)|(bsp$)|(gbp$)|(spb$)))|(\.bcream\.ger$)/i
   },
   {
     id: 'icu',
@@ -84,7 +84,7 @@ var layerTypes = [
     name: {
       en: 'board outline'
     },
-    match: /(Edge.Cuts)|(\.((dim$)|(mil$)|(gm(l|\d{1,2})$)|(gko$)|(fab$)))|(\.boardoutline\.ger$)|(\.outline\.gbr$)|(mechanical \d+\.txt$)/i
+    match: /(Edge.Cuts)|(profile)|(\.((dim$)|(mil$)|(gm(l|\d{1,2})$)|(gko$)|(fab$)))|(\.boardoutline\.ger$)|(\.outline\.gbr$)|(mechanical \d+\.txt$)/i
   },
   {
     id: 'drl',
