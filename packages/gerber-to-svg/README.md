@@ -49,38 +49,13 @@ See [the API documentation](./API.md) for full details.
 
 ### command line
 
-`gerber-to-svg` also ships with a command-line utility.
+If you would like to use `gerber-to-svg` from the command line, check out [`@tracespace/cli`][tracespace-cli]
 
-1. `npm install -g gerber-to-svg` or `yarn global add gerber-to-svg`
-2. `gerber-to-svg [options] -- gerber_files`
-
-#### options
-
-| switch                | description                                 | type               |
-| --------------------- | ------------------------------------------- | ------------------ |
-| -o, --out             | output directory                            | string             |
-| -q, --quiet           | do not print warnings and messages          | boolean            |
-| -p, --pretty          | pretty print output                         | boolean, tab-size  |
-| -a, --attr            | SVG attributes (e.g. --attr.color=blue)     | {[string]: string} |
-| -e, --append-ext      | append, rather than replace, .svg extension | boolean            |
-| -f, --format          | coordinate decimal places format            | "$int,$dec"        |
-| -z, --zero            | override zero suppression                   | "L", "T"           |
-| -u, --units           | set backup units to                         | "mm", "in"         |
-| -n, --notation        | set backup absolute/incremental notation    | "A", "I"           |
-| -t, --optimize-paths  | optimize and deduplicate paths              | boolean            |
-| -b, --plot-as-outline | optimize paths and fill gaps                | boolean, max-gap   |
-| -v, --version         | display version information                 | boolean            |
-| -h, --help            | display this help text                      | boolean            |
-
-#### examples:
-
-* `gerber-to-svg gerber.gbr` - convert gerber.gbr and output to stdout
-* `gerber-to-svg -o out gerber.gbr` - convert and output to out/gerber.svg
-* `gerber-to-svg -o out -a gerber.gbr` - output to out/gerber.gbr.svg
+[tracespace-cli]: ../cli
 
 ## background
 
-Since Gerber is a vector image format, this library takes in a Gerber file and spits it out in a different vector format: SVG. This converter uses RS-274X and strives to be true to the [latest format specification](http://www.ucamco.com/downloads).
+Since Gerber is a vector image format, this library takes in a Gerber file and spits it out in a different vector format: SVG. This converter uses RS-274X and strives to be true to the [latest format specification][gerber-spec].
 
 Everywhere that is "dark" or "exposed" in the Gerber (think a copper trace or a line on the silkscreen) will be `currentColor` in the SVG. You can set this with the `color` CSS property or the `color` attribute in the SVG node itself.
 
@@ -89,3 +64,5 @@ Everywhere that is "clear" (anywhere that was never drawn on or was drawn on but
 The bounding box is carefully calculated as the file is being converted, so the `width` and `height` of the resulting SVG should be nearly (if not exactly) the real world size of the Gerber image. The SVG's `viewBox` is in 1000x Gerber units, so its `min-x` and `min-y` values can be used to align SVGs generated from different board layers.
 
 Excellon / NC drill files do not have a completely clearly defined spec, so drill file parsing is lenient in its attempt to generate an image. It should auto-detect when a drill file has been entered. You may need to override parsing settings (see [API.md](./API.md)) to get drill files to render properly if they do not adhere to certain assumptions. The library must make these assumptions because Excellon does not define commands for certain formatting decisions.
+
+[gerber-spec]: http://www.ucamco.com/downloads

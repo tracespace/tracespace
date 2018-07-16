@@ -4557,10 +4557,6 @@ lodash.merge@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.0.tgz#69884ba144ac33fe699737a6086deffadd0f89c5"
 
-lodash.padend@^4.6.1:
-  version "4.6.1"
-  resolved "https://registry.npmjs.org/lodash.padend/-/lodash.padend-4.6.1.tgz#53ccba047d06e158d311f45da625f4e49e6f166e"
-
 lodash.padleft@^3.1.3:
   version "3.1.3"
   resolved "https://registry.npmjs.org/lodash.padleft/-/lodash.padleft-3.1.3.tgz#9d368e2c16e7e4f0f8ef08bc782c538c97b4bbd9"
@@ -4575,23 +4571,11 @@ lodash.padright@^3.1.3:
     lodash._basetostring "^3.0.0"
     lodash._createpadding "^3.0.0"
 
-lodash.padstart@^4.6.1:
-  version "4.6.1"
-  resolved "https://registry.npmjs.org/lodash.padstart/-/lodash.padstart-4.6.1.tgz#d2e3eebff0d9d39ad50f5cbd1b52a7bce6bb611b"
-
-lodash.reduce@^4.3.0:
-  version "4.6.0"
-  resolved "https://registry.npmjs.org/lodash.reduce/-/lodash.reduce-4.6.0.tgz#f1ab6b839299ad48f784abbf476596f03b914d3b"
-
 lodash.repeat@^3.0.0:
   version "3.2.0"
   resolved "https://registry.npmjs.org/lodash.repeat/-/lodash.repeat-3.2.0.tgz#dc97e035dd315580342b434e8a068997395fde7b"
   dependencies:
     lodash._root "^3.0.0"
-
-lodash.repeat@^4.0.2:
-  version "4.1.0"
-  resolved "https://registry.npmjs.org/lodash.repeat/-/lodash.repeat-4.1.0.tgz#fc7de8131d8c8ac07e4b49f74ffe829d1f2bec44"
 
 lodash.template@^4.0.2:
   version "4.4.0"
@@ -7789,16 +7773,6 @@ xmlhttprequest-ssl@~1.5.4:
   version "1.5.5"
   resolved "https://registry.yarnpkg.com/xmlhttprequest-ssl/-/xmlhttprequest-ssl-1.5.5.tgz#c2876b06168aadc40e57d97e81191ac8f4398b3e"
 
-xmlovely@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/xmlovely/-/xmlovely-1.0.1.tgz#62e1d201267d5660a0981461c519c0d6799056e8"
-  dependencies:
-    inherits "^2.0.1"
-    lodash.isfinite "^3.3.1"
-    lodash.reduce "^4.3.0"
-    lodash.repeat "^4.0.2"
-    readable-stream "^2.1.2"
-
 xregexp@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/xregexp/-/xregexp-2.0.0.tgz#52a63e56ca0b84a7f3a5f3d61872f126ad7a5943"
@@ -7826,12 +7800,6 @@ y18n@^3.2.1:
 yallist@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"
-
-yargs-parser@^10.0.0:
-  version "10.0.0"
-  resolved "https://registry.npmjs.org/yargs-parser/-/yargs-parser-10.0.0.tgz#c737c93de2567657750cb1f2c00be639fd19c994"
-  dependencies:
-    camelcase "^4.1.0"
 
 yargs-parser@^10.1.0:
   version "10.1.0"
