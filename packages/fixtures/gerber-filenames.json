@@ -133,5 +133,20 @@
       {"name": "board-name.topsoldermask.ger",    "type": "tsm"},
       {"name": "board-name.tcream.ger",           "type": "tsp"}
     ]
+  },
+  {
+    "cad": "eagle-9+",
+    "files": [
+      {"name": "profile.gbr",             "type": "out"},
+      {"name": "drills.xln",              "type": "drl"},
+      {"name": "soldermask_top.gbr",      "type": "tsm"},
+      {"name": "silkscreen_top.gbr",      "type": "tss"},
+      {"name": "soldermask_bottom.gbr",   "type": "bsm"},
+      {"name": "copper_bottom.gbr",       "type": "bcu"},
+      {"name": "solderpaste_bottom.gbr",  "type": "bsp"},
+      {"name": "solderpaste_top.gbr",     "type": "tsp"},
+      {"name": "copper_top.gbr",          "type": "tcu"},
+      {"name": "silkscreen_bottom.gbr",   "type": "bss"}
+    ]
   }
 ]
