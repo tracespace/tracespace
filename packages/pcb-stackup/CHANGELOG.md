@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="4.0.0-next.12"></a>
+# [4.0.0-next.12](https://github.com/tracespace/tracespace/compare/v4.0.0-next.11...v4.0.0-next.12) (2018-07-17)
+
+
+### Bug Fixes
+
+* **pcb-stackup:** Do not mutate layer options and keep filename ([6cbecde](https://github.com/tracespace/tracespace/commit/6cbecde))
+
+
+
+
+
 <a name="4.0.0-next.11"></a>
 # [4.0.0-next.11](https://github.com/tracespace/tracespace/compare/v4.0.0-next.10...v4.0.0-next.11) (2018-07-02)
 
