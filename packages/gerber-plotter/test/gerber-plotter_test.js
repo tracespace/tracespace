@@ -541,7 +541,16 @@ describe('gerber plotter', function () {
               y2: 0,
               rot: 0
             },
-            {type: 'vect', exp: 1, width: 1, x1: 0, y1: 0, x2: 0, y2: 5, rot: 0}
+            {
+              type: 'vect',
+              exp: 1,
+              width: 1,
+              x1: 0,
+              y1: 0,
+              x2: 0,
+              y2: 5,
+              rot: 0
+            }
           ]
           var macro = {type: 'macro', name: 'VECT', blocks: blocks}
           var tool = {
@@ -895,7 +904,15 @@ describe('gerber plotter', function () {
         it('should handle rotated regular polygons', function () {
           var dia = 2 * Math.sqrt(2)
           var blocks = [
-            {type: 'poly', exp: 1, vertices: 4, cx: 0, cy: 0, dia: dia, rot: 45}
+            {
+              type: 'poly',
+              exp: 1,
+              vertices: 4,
+              cx: 0,
+              cy: 0,
+              dia: dia,
+              rot: 45
+            }
           ]
           var macro = {type: 'macro', name: 'POLY', blocks: blocks}
           var tool = {

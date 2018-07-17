@@ -488,7 +488,16 @@ describe('gerber parser with gerber files', function () {
             y2: 6,
             rot: 7
           },
-          {type: 'vect', exp: exp, width: 2, x1: 3, y1: 4, x2: 5, y2: 6, rot: 7}
+          {
+            type: 'vect',
+            exp: exp,
+            width: 2,
+            x1: 3,
+            y1: 4,
+            x2: 5,
+            y2: 6,
+            rot: 7
+          }
         ]
         var expected = [
           {type: 'macro', line: 2, name: 'VECT1', blocks: expectedBlocks}

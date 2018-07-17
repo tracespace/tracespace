@@ -11,6 +11,7 @@ var expect = chai.expect
 
 chai.use(sinonChai)
 
+var wtg = require('whats-that-gerber')
 var expectXmlNodes = require('./expect-xml-nodes')
 var sortLayersSpy = sinon.spy(require('../lib/sort-layers'))
 var stackLayersStub = sinon.stub()
@@ -143,17 +144,29 @@ describe('pcb stackup function', function () {
 
   it('should pass the layers to sort layers', function () {
     var files = [
-      {type: 'tcu', converter: converter()},
-      {type: 'tsm', converter: converter()},
-      {type: 'tss', converter: converter()},
-      {type: 'tsp', converter: converter()},
-      {type: 'bcu', converter: converter()},
-      {type: 'bsm', converter: converter()},
-      {type: 'bss', converter: converter()},
-      {type: 'bsp', converter: converter()},
-      {type: 'icu', converter: converter()},
-      {type: 'out', converter: converter()},
-      {type: 'drl', converter: converter()}
+      {side: wtg.SIDE_TOP, type: wtg.TYPE_COPPER, converter: converter()},
+      {side: wtg.SIDE_TOP, type: wtg.TYPE_SOLDERMASK, converter: converter()},
+      {side: wtg.SIDE_TOP, type: wtg.TYPE_SILKSCREEN, converter: converter()},
+      {side: wtg.SIDE_TOP, type: wtg.TYPE_SOLDERPASTE, converter: converter()},
+      {side: wtg.SIDE_BOTTOM, type: wtg.TYPE_COPPER, converter: converter()},
+      {
+        side: wtg.SIDE_BOTTOM,
+        type: wtg.TYPE_SOLDERMASK,
+        converter: converter()
+      },
+      {
+        side: wtg.SIDE_BOTTOM,
+        type: wtg.TYPE_SILKSCREEN,
+        converter: converter()
+      },
+      {
+        side: wtg.SIDE_BOTTOM,
+        type: wtg.TYPE_SOLDERPASTE,
+        converter: converter()
+      },
+      {side: wtg.SIDE_INNER, type: wtg.TYPE_COPPER, converter: converter()},
+      {side: wtg.SIDE_ALL, type: wtg.TYPE_OUTLINE, converter: converter()},
+      {side: wtg.SIDE_ALL, type: wtg.TYPE_DRILL, converter: converter()}
     ]
 
     pcbStackupCore(files, 'this-id')

@@ -3,47 +3,56 @@
     {
       "name": "core.GBL",
       "format": "gerber",
-      "type": "bcu"
+      "side": "bottom",
+      "type": "copper"
     },
     {
       "name": "core.GBO",
       "format": "gerber",
-      "type": "bss"
+      "side": "bottom",
+      "type": "silkscreen"
     },
     {
       "name": "core.GBP",
       "format": "gerber",
-      "type": "bsp"
+      "side": "bottom",
+      "type": "solderpaste"
     },
     {
       "name": "core.GBS",
       "format": "gerber",
-      "type": "bsm"
+      "side": "bottom",
+      "type": "soldermask"
     },
     {
       "name": "core.GTL",
       "format": "gerber",
-      "type": "tcu"
+      "side": "top",
+      "type": "copper"
     },
     {
       "name": "core.GTO",
       "format": "gerber",
-      "type": "tss"
+      "side": "top",
+      "type": "silkscreen"
     },
     {
       "name": "core.GTP",
       "format": "gerber",
-      "type": "tsp"
+      "side": "top",
+      "type": "solderpaste"
     },
     {
       "name": "core.GTS",
       "format": "gerber",
-      "type": "tsm"
+      "side": "top",
+      "type": "soldermask"
     },
     {
       "name": "core.MIL",
       "format": "gerber",
-      "type": "out",
+      "side": "all",
+      "type": "outline",
       "options": {
         "plotAsOutline": 0.003
       }
@@ -51,7 +60,8 @@
     {
       "name": "core.TXT",
       "format": "drill",
-      "type": "drl"
+      "side": "all",
+      "type": "drill"
     }
   ]
 }

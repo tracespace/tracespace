@@ -8,6 +8,7 @@ var expect = chai.expect
 
 chai.use(sinonChai)
 
+var wtg = require('whats-that-gerber')
 var expectXmlNodes = require('./expect-xml-nodes')
 var stackLayers = require('../lib/stack-layers')
 
@@ -24,36 +25,36 @@ var converter = function (defs, layer, viewBox, units) {
 
 var layers = [
   {
-    type: 'cu',
+    type: wtg.TYPE_COPPER,
     converter: converter(['<cu-d/>'], ['<cu/>'], [0, 0, 1000, 1000], 'in')
   },
   {
-    type: 'sm',
+    type: wtg.TYPE_SOLDERMASK,
     converter: converter(['<sm-d/>'], ['<sm/>'], [-10, -10, 1020, 1020], 'in')
   },
   {
-    type: 'ss',
+    type: wtg.TYPE_SILKSCREEN,
     converter: converter(['<ss-d/>'], ['<ss/>'], [10, 10, 980, 980], 'in')
   },
   {
-    type: 'sp',
+    type: wtg.TYPE_SOLDERPASTE,
     converter: converter(['<sp-d/>'], ['<sp/>'], [100, 100, 800, 800], 'in')
   }
 ]
 
 var drills = [
   {
-    type: 'drl',
+    type: wtg.TYPE_DRILL,
     converter: converter(['<drl-1/>'], ['<drl1/>'], [0, 0, 25400, 30480], 'mm')
   },
   {
-    type: 'drl',
+    type: wtg.TYPE_DRILL,
     converter: converter(['<drl-2/>'], ['<drl2/>'], [0, 0, 25400, 25400], 'mm')
   }
 ]
 
 var outline = {
-  type: 'out',
+  type: wtg.TYPE_OUTLINE,
   converter: converter(['<out-d/>'], ['<out/>'], [-50, -50, 1100, 1100], 'in')
 }
 
@@ -99,24 +100,24 @@ describe('stack layers function', function () {
       var resultNoUnits = stackLayers(element, 'id', 'top', [], [])
 
       var allIn = [
-        {type: 'cu', converter: converter([], [], [], 'in')},
-        {type: 'sm', converter: converter([], [], [], 'in')},
-        {type: 'ss', converter: converter([], [], [], 'in')}
+        {type: wtg.TYPE_COPPER, converter: converter([], [], [], 'in')},
+        {type: wtg.TYPE_SOLDERMASK, converter: converter([], [], [], 'in')},
+        {type: wtg.TYPE_SILKSCREEN, converter: converter([], [], [], 'in')}
       ]
       var allMm = [
-        {type: 'cu', converter: converter([], [], [], 'mm')},
-        {type: 'sm', converter: converter([], [], [], 'mm')},
-        {type: 'ss', converter: converter([], [], [], 'mm')}
+        {type: wtg.TYPE_COPPER, converter: converter([], [], [], 'mm')},
+        {type: wtg.TYPE_SOLDERMASK, converter: converter([], [], [], 'mm')},
+        {type: wtg.TYPE_SILKSCREEN, converter: converter([], [], [], 'mm')}
       ]
       var moreIn = [
-        {type: 'cu', converter: converter([], [], [], 'in')},
-        {type: 'sm', converter: converter([], [], [], 'in')},
-        {type: 'ss', converter: converter([], [], [], 'mm')}
+        {type: wtg.TYPE_COPPER, converter: converter([], [], [], 'in')},
+        {type: wtg.TYPE_SOLDERMASK, converter: converter([], [], [], 'in')},
+        {type: wtg.TYPE_SILKSCREEN, converter: converter([], [], [], 'mm')}
       ]
       var moreMm = [
-        {type: 'cu', converter: converter([], [], [], 'in')},
-        {type: 'sm', converter: converter([], [], [], 'mm')},
-        {type: 'ss', converter: converter([], [], [], 'mm')}
+        {type: wtg.TYPE_COPPER, converter: converter([], [], [], 'in')},
+        {type: wtg.TYPE_SOLDERMASK, converter: converter([], [], [], 'mm')},
+        {type: wtg.TYPE_SILKSCREEN, converter: converter([], [], [], 'mm')}
       ]
 
       var resultAllIn = stackLayers(element, 'id', 'top', allIn, [])
@@ -135,10 +136,16 @@ describe('stack layers function', function () {
       var result = stackLayers(element, 'id', 'top', layers, drills)
       var values = element.returnValues
 
-      expect(element).to.be.calledWith('g', {id: 'id_top_cu'}, ['<cu/>'])
-      expect(element).to.be.calledWith('g', {id: 'id_top_sm'}, ['<sm/>'])
-      expect(element).to.be.calledWith('g', {id: 'id_top_ss'}, ['<ss/>'])
-      expect(element).to.be.calledWith('g', {id: 'id_top_sp'}, ['<sp/>'])
+      expect(element).to.be.calledWith('g', {id: 'id_top_copper'}, ['<cu/>'])
+      expect(element).to.be.calledWith('g', {id: 'id_top_soldermask'}, [
+        '<sm/>'
+      ])
+      expect(element).to.be.calledWith('g', {id: 'id_top_silkscreen'}, [
+        '<ss/>'
+      ])
+      expect(element).to.be.calledWith('g', {id: 'id_top_solderpaste'}, [
+        '<sp/>'
+      ])
       expect(result.defs).to.include.members(values.slice(0, 4))
     })
 
@@ -147,9 +154,9 @@ describe('stack layers function', function () {
       var values = element.returnValues
       var transform = 'scale(0.03937007874015748,0.03937007874015748)'
       var expected = [
-        {id: 'id_top_drl1', transform: transform},
-        {id: 'id_top_drl2', transform: transform},
-        {id: 'id_top_out'}
+        {id: 'id_top_drill1', transform: transform},
+        {id: 'id_top_drill2', transform: transform},
+        {id: 'id_top_outline'}
       ]
 
       expect(element).to.be.calledWith('g', expected[0], ['<drl1/>'])
@@ -171,13 +178,15 @@ describe('stack layers function', function () {
       var values = expectXmlNodes(element, [
         {
           tag: 'clipPath',
-          attr: {id: 'id_top_out'},
+          attr: {id: 'id_top_outline'},
           children: ['<out/>']
         }
       ])
 
       expect(result.defs).to.contain(values[0])
-      expect(element).to.not.be.calledWith('g', {id: 'id_top_out'}, ['<out/>'])
+      expect(element).to.not.be.calledWith('g', {id: 'id_top_outline'}, [
+        '<out/>'
+      ])
     })
 
     it('should not add layers with externalId to defs', function () {
@@ -215,7 +224,7 @@ describe('stack layers function', function () {
 
     it('should add outline to defs even if it has externalId if masking', function () {
       var out = {
-        type: 'out',
+        type: wtg.TYPE_OUTLINE,
         externalId: 'foo',
         converter: converter(
           ['<out-d/>'],
@@ -228,13 +237,15 @@ describe('stack layers function', function () {
       var values = expectXmlNodes(element, [
         {
           tag: 'clipPath',
-          attr: {id: 'id_top_out'},
+          attr: {id: 'id_top_outline'},
           children: ['<out/>']
         }
       ])
 
       expect(result.defs).to.contain(values[0])
-      expect(element).to.not.be.calledWith('g', {id: 'id_top_out'}, ['<out/>'])
+      expect(element).to.not.be.calledWith('g', {id: 'id_top_outline'}, [
+        '<out/>'
+      ])
     })
 
     it('should add a mech mask to the defs', function () {
@@ -244,8 +255,8 @@ describe('stack layers function', function () {
           tag: 'rect',
           attr: {x: -50, y: -50, width: 1100, height: 1100, fill: '#fff'}
         },
-        {tag: 'use', attr: {'xlink:href': '#id_top_drl1'}},
-        {tag: 'use', attr: {'xlink:href': '#id_top_drl2'}},
+        {tag: 'use', attr: {'xlink:href': '#id_top_drill1'}},
+        {tag: 'use', attr: {'xlink:href': '#id_top_drill2'}},
         {
           tag: 'g',
           attr: {fill: '#000', stroke: '#000'},
@@ -268,8 +279,8 @@ describe('stack layers function', function () {
           tag: 'rect',
           attr: {x: -10, y: -10, width: 1020, height: 1210, fill: '#fff'}
         },
-        {tag: 'use', attr: {'xlink:href': '#id_top_drl1'}},
-        {tag: 'use', attr: {'xlink:href': '#id_top_drl2'}},
+        {tag: 'use', attr: {'xlink:href': '#id_top_drill1'}},
+        {tag: 'use', attr: {'xlink:href': '#id_top_drill2'}},
         {
           tag: 'g',
           attr: {fill: '#000', stroke: '#000'},
@@ -308,7 +319,10 @@ describe('stack layers function', function () {
 
     it('should add copper and copper finish if there is a copper layer', function () {
       var converters = [
-        {type: 'cu', converter: converter([], [], [0, 0, 1000, 1000], 'in')}
+        {
+          type: wtg.TYPE_COPPER,
+          converter: converter([], [], [0, 0, 1000, 1000], 'in')
+        }
       ]
       var result = stackLayers(element, 'id', 'top', converters, [])
       var values = expectXmlNodes(element, [
@@ -322,7 +336,7 @@ describe('stack layers function', function () {
         {
           tag: 'use',
           attr: {
-            'xlink:href': '#id_top_cu',
+            'xlink:href': '#id_top_copper',
             class: 'id_cu',
             fill: 'currentColor',
             stroke: 'currentColor'
@@ -331,7 +345,7 @@ describe('stack layers function', function () {
         {
           tag: 'use',
           attr: {
-            'xlink:href': '#id_top_cu',
+            'xlink:href': '#id_top_copper',
             mask: 'url(#id_top_cf-mask)',
             class: 'id_cf',
             fill: 'currentColor',
@@ -346,15 +360,18 @@ describe('stack layers function', function () {
 
     it('should use the soldermask to mask the copper finish if it exists', function () {
       var converters = [
-        {type: 'cu', converter: converter([], [], [0, 0, 1000, 1000], 'in')},
         {
-          type: 'sm',
+          type: wtg.TYPE_COPPER,
+          converter: converter([], [], [0, 0, 1000, 1000], 'in')
+        },
+        {
+          type: wtg.TYPE_SOLDERMASK,
           converter: converter([], [], [-10, -10, 1020, 1020], 'in')
         }
       ]
       var result = stackLayers(element, 'id', 'top', converters, [])
       var values = expectXmlNodes(element, [
-        {tag: 'use', attr: {'xlink:href': '#id_top_sm'}},
+        {tag: 'use', attr: {'xlink:href': '#id_top_soldermask'}},
         {tag: 'g', attr: {fill: '#fff', stroke: '#fff'}, children: [0]},
         {
           tag: 'mask',
@@ -368,7 +385,10 @@ describe('stack layers function', function () {
 
     it('should add the soldermask', function () {
       var converters = [
-        {type: 'sm', converter: converter([], [], [0, 0, 500, 500], 'in')}
+        {
+          type: wtg.TYPE_SOLDERMASK,
+          converter: converter([], [], [0, 0, 500, 500], 'in')
+        }
       ]
       var result = stackLayers(element, 'id', 'top', converters, [])
       var values = expectXmlNodes(element, [
@@ -376,7 +396,7 @@ describe('stack layers function', function () {
           tag: 'rect',
           attr: {x: 0, y: 0, width: 500, height: 500, fill: '#fff'}
         },
-        {tag: 'use', attr: {'xlink:href': '#id_top_sm'}},
+        {tag: 'use', attr: {'xlink:href': '#id_top_soldermask'}},
         {tag: 'g', attr: {fill: '#000', stroke: '#000'}, children: [0, 1]},
         {
           tag: 'mask',
@@ -403,8 +423,14 @@ describe('stack layers function', function () {
 
     it('should add silkscreen when there is a mask and a silk', function () {
       var converters = [
-        {type: 'sm', converter: converter([], [], [0, 0, 500, 500], 'in')},
-        {type: 'ss', converter: converter([], [], [10, 10, 480, 480], 'in')}
+        {
+          type: wtg.TYPE_SOLDERMASK,
+          converter: converter([], [], [0, 0, 500, 500], 'in')
+        },
+        {
+          type: wtg.TYPE_SILKSCREEN,
+          converter: converter([], [], [10, 10, 480, 480], 'in')
+        }
       ]
       var result = stackLayers(element, 'id', 'top', converters, [])
       var values = expectXmlNodes(element, [
@@ -422,7 +448,7 @@ describe('stack layers function', function () {
         {
           tag: 'use',
           attr: {
-            'xlink:href': '#id_top_ss',
+            'xlink:href': '#id_top_silkscreen',
             class: 'id_ss',
             fill: 'currentColor',
             stroke: 'currentColor'
@@ -436,14 +462,17 @@ describe('stack layers function', function () {
 
     it('should add solderpaste', function () {
       var converters = [
-        {type: 'sp', converter: converter([], [], [0, 0, 500, 500], 'in')}
+        {
+          type: wtg.TYPE_SOLDERPASTE,
+          converter: converter([], [], [0, 0, 500, 500], 'in')
+        }
       ]
       var result = stackLayers(element, 'id', 'top', converters, [])
       var values = expectXmlNodes(element, [
         {
           tag: 'use',
           attr: {
-            'xlink:href': '#id_top_sp',
+            'xlink:href': '#id_top_solderpaste',
             class: 'id_sp',
             fill: 'currentColor',
             stroke: 'currentColor'
@@ -471,7 +500,7 @@ describe('stack layers function', function () {
         true
       )
 
-      expect(result.outClipId).to.equal('id_top_out')
+      expect(result.outClipId).to.equal('id_top_outline')
     })
 
     it('should add the outline to the normal layer if not used to clip', function () {
@@ -480,7 +509,7 @@ describe('stack layers function', function () {
         {
           tag: 'use',
           attr: {
-            'xlink:href': '#id_top_out',
+            'xlink:href': '#id_top_outline',
             class: 'id_out',
             fill: 'currentColor',
             stroke: 'currentColor'
@@ -495,7 +524,7 @@ describe('stack layers function', function () {
       stackLayers(element, 'id', 'top', layers, drills, outline, true)
 
       expect(element).to.not.be.calledWith('use', {
-        'xlink:href': '#id_top_out',
+        'xlink:href': '#id_top_outline',
         class: 'id_out',
         fill: 'currentColor',
         stroke: 'currentColor'
@@ -522,12 +551,12 @@ describe('stack layers function', function () {
 
       expect(element).to.not.be.calledWith(
         'use',
-        sinon.match.has('xlink:href', '#id_top_cu')
+        sinon.match.has('xlink:href', '#id_top_copper')
       )
 
       expect(element).to.not.be.calledWith(
         'use',
-        sinon.match.has('xlink:href', '#id_top_drl2')
+        sinon.match.has('xlink:href', '#id_top_drill2')
       )
     })
 

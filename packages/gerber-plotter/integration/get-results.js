@@ -10,6 +10,7 @@ const toReadable = require('to-readable-stream')
 const debug = require('debug')('tracespace/gerber-plotter/integration')
 const gerberParser = require('gerber-parser')
 const gerberPlotter = require('gerber-plotter')
+const wtg = require('whats-that-gerber')
 
 module.exports = function getSuiteResults (suite, done) {
   debug(`Rendering suite ${suite.name}`)
@@ -31,7 +32,7 @@ function renderSpec (spec, done) {
 
   const renderOptions = Object.assign(
     {
-      plotAsOutline: spec.type === 'out'
+      plotAsOutline: spec.type === wtg.TYPE_OUTLINE
     },
     spec.options
   )

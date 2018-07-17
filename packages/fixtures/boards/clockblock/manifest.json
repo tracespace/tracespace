@@ -3,52 +3,63 @@
     {
       "name": "clockblock-B_Cu.gbr",
       "format": "gerber",
-      "type": "bcu"
+      "side": "bottom",
+      "type": "copper"
     },
     {
       "name": "clockblock-B_Mask.gbr",
       "format": "gerber",
-      "type": "bsm"
+      "side": "bottom",
+      "type": "soldermask"
     },
     {
       "name": "clockblock-B_SilkS.gbr",
       "format": "gerber",
-      "type": "bss"
+      "side": "bottom",
+      "type": "silkscreen"
     },
     {
       "name": "clockblock-Edge_Cuts.gbr",
       "format": "gerber",
-      "type": "out"
+      "side": "all",
+      "type": "outline"
     },
     {
       "name": "clockblock-F_Cu.gbr",
       "format": "gerber",
-      "type": "tcu"
+      "side": "top",
+
+      "type": "copper"
     },
     {
       "name": "clockblock-F_Mask.gbr",
       "format": "gerber",
-      "type": "tsm"
+      "side": "top",
+      "type": "soldermask"
     },
     {
       "name": "clockblock-F_Paste.gbr",
       "format": "gerber",
-      "type": "tsp"
+      "side": "top",
+      "type": "solderpaste"
     },
     {
       "name": "clockblock-F_SilkS.gbr",
       "format": "gerber",
-      "type": "tss"
+      "side": "top",
+      "type": "silkscreen"
     },
     {
       "name": "clockblock-NPTH.drl",
       "format": "drill",
-      "type": "drl"
+      "side": "all",
+      "type": "drill"
     },
     {
       "name": "clockblock.drl",
       "format": "drill",
-      "type": "drl"
+      "side": "all",
+      "type": "drill"
     }
   ]
 }

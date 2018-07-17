@@ -5,34 +5,18 @@ var extend = require('xtend')
 var xid = require('@tracespace/xml-id')
 var gerberToSvg = require('gerber-to-svg')
 var createStackup = require('pcb-stackup-core')
-var whatsThatGerber = require('whats-that-gerber')
+var wtg = require('whats-that-gerber')
 
-var getInvalidLayers = function (layers) {
-  var hasNameOrType = function (layer) {
-    return layer.filename || layer.type
-  }
-  var hasValidType = function (layer) {
-    if (layer.type == null) {
-      return true
-    }
+var getFilename = function (layer) {
+  return layer.filename
+}
 
-    return whatsThatGerber.isValidType(layer.type)
-  }
+var getValidationMessage = function (layer) {
+  var result = wtg.validate(layer)
 
-  return layers.reduce(
-    function (result, layer, i) {
-      if (!hasNameOrType(layer)) {
-        result.argErrors.push(i)
-      }
-
-      if (!hasValidType(layer)) {
-        result.typeErrors.push(i + ': "' + layer.type + '"')
-      }
-
-      return result
-    },
-    {argErrors: [], typeErrors: []}
-  )
+  if (layer.filename || result.valid) return ''
+  if (!layer.type) return 'is missing filename or side/type'
+  return 'has invalid side/type (' + layer.side + '/' + layer.type + ')'
 }
 
 var pcbStackup = function (layers, options, done) {
@@ -43,24 +27,15 @@ var pcbStackup = function (layers, options, done) {
     options = {}
   }
 
-  var invalidLayers = getInvalidLayers(layers)
-  var msg
+  var validationMessage = layers
+    .map(getValidationMessage)
+    .map(function (msg, i) {
+      return msg && 'layer ' + i + ' ' + msg
+    })
+    .filter(Boolean)
+    .join(', ')
 
-  if (invalidLayers.argErrors.length) {
-    msg =
-      'No filename or type given for layer(s): ' +
-      invalidLayers.argErrors.join(', ')
-
-    return done(new Error(msg))
-  }
-
-  if (invalidLayers.typeErrors.length) {
-    msg =
-      'Invalid layer type given for layer(s): ' +
-      invalidLayers.typeErrors.join(', ')
-
-    return done(new Error(msg))
-  }
+  if (validationMessage) return done(new Error(validationMessage))
 
   options.id = options.id || xid.random()
 
@@ -92,14 +67,18 @@ var pcbStackup = function (layers, options, done) {
     return finishLayer()
   }
 
+  var gerberIds = wtg(layers.map(getFilename))
+
   layers.forEach(function (layer) {
-    var layerType = layer.type || whatsThatGerber(layer.filename)
+    var gerberId = gerberIds[layer.filename]
+    var layerSide = layer.side || gerberId.side
+    var layerType = layer.type || gerberId.type
     var layerOptions = extend(layer.options)
 
     layerOptions.id = layerOptions.id || xid.random()
 
     layerOptions.plotAsOutline =
-      layerOptions.plotAsOutline || layerType === 'out'
+      layerOptions.plotAsOutline || layerType === wtg.TYPE_OUTLINE
 
     if (options.outlineGapFill != null && layerOptions.plotAsOutline) {
       layerOptions.plotAsOutline = options.outlineGapFill
@@ -115,6 +94,7 @@ var pcbStackup = function (layers, options, done) {
     }
 
     stackupLayers.push({
+      side: layerSide,
       type: layerType,
       filename: layer.filename,
       converter: converter,

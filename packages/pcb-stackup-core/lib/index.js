@@ -1,15 +1,15 @@
 // main pcb stackup function
 'use strict'
 
-var isString = require('lodash.isstring')
 var xmlElementString = require('xml-element-string')
+var wtg = require('whats-that-gerber')
 var xid = require('@tracespace/xml-id')
 
 var sortLayers = require('./sort-layers')
 var stackLayers = require('./stack-layers')
 var boardStyle = require('./_board-style')
 
-var SIDES = ['top', 'bottom']
+var SIDES = [wtg.SIDE_TOP, wtg.SIDE_BOTTOM]
 
 var svgAttributes = function (id, side, box, units, includeNs, attributes) {
   var width = box[2] / 1000 + units
@@ -48,7 +48,7 @@ var groupAttributes = function (box, side, mechMaskId, outClipId) {
   }
 
   // flip the bottom render in the x
-  if (side === 'bottom') {
+  if (side === wtg.SIDE_BOTTOM) {
     var xTranslate = box[2] + 2 * box[0]
 
     attr.transform = 'translate(' + xTranslate + ',0) scale(-1,1)'
@@ -64,7 +64,7 @@ var layerAttributes = function (box) {
 }
 
 var parseOptions = function (options) {
-  if (isString(options)) {
+  if (typeof options === 'string') {
     return {id: options}
   }
 

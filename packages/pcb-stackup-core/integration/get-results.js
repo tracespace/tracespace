@@ -13,6 +13,7 @@ const pcbStackupCore = require('..')
 module.exports = function getStackupResults (board, done) {
   debug(`Render started for ${board.name}`)
 
+  const {layers} = board
   const options = Object.assign(
     {
       id: `__${board.name}`,
@@ -21,11 +22,13 @@ module.exports = function getStackupResults (board, done) {
     board.options
   )
 
+  const layerTypes = whatsThatGerber(layers.map(l => l.name))
+
   runWaterfall(
     [
       next =>
         runParallel(
-          board.layers.map(layer => next => renderLayer(layer, next)),
+          layers.map(layer => next => renderLayer(layer, layerTypes, next)),
           next
         ),
       (layers, next) => {
@@ -55,13 +58,13 @@ function makeBoardResult (board, stackup) {
   )
 }
 
-function renderLayer (layer, done) {
-  const {filename, name, type: realType} = layer
-  const type = whatsThatGerber(name)
+function renderLayer (layer, layerTypes, done) {
+  const {filename, name, type: realType, side: realSide} = layer
+  const {type, side} = layerTypes[name]
   const options = Object.assign(
     {
       id: `__${filename}`,
-      plotAsOutline: type === 'out'
+      plotAsOutline: type === whatsThatGerber.TYPE_OUTLINE
     },
     layer.options
   )
@@ -72,9 +75,15 @@ function renderLayer (layer, done) {
     )
   }
 
+  if (side !== realSide) {
+    return done(
+      new Error(`${name} is side ${realSide}, but ${side} was inferred`)
+    )
+  }
+
   const converter = gerberToSvg(layer.source, options, error => {
     if (error) return done(error)
 
-    done(null, {converter, type})
+    done(null, {converter, type, side})
   })
 }

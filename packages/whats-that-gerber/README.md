@@ -22,62 +22,92 @@ yarn add whats-that-gerber
 
 ## usage
 
+Pass `whatsThatGerber` an array of filenames from a PCB, and it will give you back an object keyed by filename with the best guess it can make for the type and side of each file. If both `side` and `type` are `null`, the filename cannot be identified as a Gerber / drill file.
+
 ```js
 const whatsThatGerber = require('whats-that-gerber')
 
-const filename = 'my-board-F_Cu.gbr'
-const layerType = whatsThatGerber(filename) // 'tcu'
-const layerName = whatsThatGerber.getFullName(layerType) // 'top copper'
+const filenames = ['my-board-F_Cu.gbr', 'my-board-B_Cu.gbr', 'foo.bar']
+const typeByFilename = whatsThatGerber(filenames)
+// {
+//   'my-board-F_Cu.gbr': {type: 'copper', side: 'top'},
+//   'my-board-B_Cu.gbr': {type: 'copper', side: 'bottom'},
+//   'my-board-notes.gbr': {type: 'drawing', side: null},
+//   'foo.bar': {type: null, side: null},
+// }
 ```
 
 ### layer types and names
 
-There are 12 available layer types. You can get an array of all types with:
+There are 12 available layer types, were a type is an object of the format:
 
 ```js
-const whatsThatGerber = require('whats-that-gerber')
-const allLayerTypes = whatsThatGerber.getAllTypes() // ['drw', 'tcu', ...]
+{
+  side: 'top' | 'bottom' | 'inner' | 'all' | null,
+  type: 'copper' | 'soldermask' | 'silkscreen' | 'solderpaste' | 'drill' | 'outline' | 'drawing' | null,
+}
 ```
 
-| type | full name (en)                |
-| ---- | ----------------------------- |
-| drw  | gerber drawing (unknown type) |
-| tcu  | top copper                    |
-| tsm  | top soldermask                |
-| tss  | top silkscreen                |
-| tsp  | top solderpaste               |
-| bcu  | bottom copper                 |
-| bsm  | bottom soldermask             |
-| bss  | bottom silkscreen             |
-| bsp  | bottom solderpaste            |
-| icu  | inner copper                  |
-| out  | board outline                 |
-| drl  | drill hits                    |
+You can get an array of all types with:
+
+```js
+const {getAllLayers} = require('whats-that-gerber')
+const allLayers = getAllLayers()
+```
+
+| side       | type            |
+| ---------- | --------------- |
+| `'top'`    | `'copper'`      |
+| `'top'`    | `'soldermask'`  |
+| `'top'`    | `'silkscreen'`  |
+| `'top'`    | `'solderpaste'` |
+| `'bottom'` | `'copper'`      |
+| `'bottom'` | `'soldermask'`  |
+| `'bottom'` | `'silkscreen'`  |
+| `'bottom'` | `'solderpaste'` |
+| `'inner'`  | `'copper'`      |
+| `'all'`    | `'outline'`     |
+| `'all'`    | `'drill'`       |
+| `null`     | `'drawing'`     |
+
+#### constants
+
+Side and type constants are exported for your usage:
+
+```js
+const {
+  // layer types
+  TYPE_COPPER, // 'copper'
+  TYPE_SOLDERMASK, // 'soldermask'
+  TYPE_SILKSCREEN, // 'silkscreen'
+  TYPE_SOLDERPASTE, // 'solderpaste'
+  TYPE_DRILL, // 'drill'
+  TYPE_OUTLINE, // 'outline'
+  TYPE_DRAWING, // 'drawing'
+
+  // board sides
+  SIDE_TOP, // 'top'
+  SIDE_BOTTOM, // 'bottom'
+  SIDE_INNER, // 'inner'
+  SIDE_ALL // 'all'
+} = require('whats-that-gerber')
+```
 
 #### checking if a layer type is valid
 
 You can check if any given string is a valid layer type with:
 
 ```js
-const whatsThatGerber = require('whats-that-gerber')
-const isValidType = whatsThatGerber.isValidType
+const {validate} = require('whats-that-gerber')
 
-const type1 = 'tsm'
-const type2 = 'hello'
+const type1 = {side: 'top', type: 'copper'}
+const type2 = {side: 'foo', type: 'silkscreen'}
+const type3 = {side: 'bottom', type: 'bar'}
 
-console.log(isValidType(type1)) // true
-console.log(isValidType(type2)) // false
+console.log(validate(type1)) // {valid: true, side: 'top', type: 'copper'}
+console.log(validate(type2)) // {valid: false, side: null, type: 'silkscreen'}
+console.log(validate(type3)) // {valid: false, side: 'bottom', type: null}
 ```
-
-### full name locales
-
-The full name method takes a locale string as its second parameter, which defaults to 'en':
-
-```js
-const fullName = whatsThatGerber.getFullName('tcu', 'en')
-```
-
-Currently, no other locales are supported (because I don't know any!); contributions are greatly appreciated. If the type or locale is unrecognized, the result will be an empty string. Locale additions will be considered patch-level upgrades.
 
 ### supported cad programs
 

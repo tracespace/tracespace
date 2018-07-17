@@ -2,18 +2,11 @@
 'use strict'
 
 var viewbox = require('viewbox')
+var wtg = require('whats-that-gerber')
 
 var wrapLayer = require('./wrap-layer')
 
-var getScale = function (units, layerUnits) {
-  var scale = units === 'in' ? 1 / 25.4 : 25.4
-
-  var result = units === layerUnits ? 1 : scale
-
-  return result
-}
-
-module.exports = function (
+module.exports = function gatherLayers (
   element,
   idPrefix,
   layers,
@@ -30,7 +23,7 @@ module.exports = function (
 
   var drillCount = 0
   var getUniqueId = function (type) {
-    var idSuffix = type !== 'drl' ? '' : ++drillCount
+    var idSuffix = type !== wtg.TYPE_DRILL ? '' : ++drillCount
 
     return idPrefix + type + idSuffix
   }
@@ -108,4 +101,11 @@ module.exports = function (
     drillIds: drillIds,
     outlineId: outlineId
   }
+}
+
+function getScale (units, layerUnits) {
+  var scale = units === 'in' ? 1 / 25.4 : 25.4
+  var result = units === layerUnits ? 1 : scale
+
+  return result
 }

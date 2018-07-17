@@ -3,22 +3,26 @@
   "layers": [
     {
       "name": "pic18f14k50.gbl",
-      "type": "bcu",
+      "side": "bottom",
+      "type": "copper",
       "format": "gerber"
     },
     {
       "name": "pic18f14k50.gbo",
-      "type": "bss",
+      "side": "bottom",
+      "type": "silkscreen",
       "format": "gerber"
     },
     {
       "name": "pic18f14k50.gbs",
-      "type": "bsm",
+      "side": "bottom",
+      "type": "soldermask",
       "format": "gerber"
     },
     {
       "name": "pic18f14k50.gko",
-      "type": "out",
+      "side": "all",
+      "type": "outline",
       "format": "gerber",
       "options": {
         "plotAsOutline": 1.27
@@ -26,22 +30,26 @@
     },
     {
       "name": "pic18f14k50.gtl",
-      "type": "tcu",
+      "side": "top",
+      "type": "copper",
       "format": "gerber"
     },
     {
       "name": "pic18f14k50.gto",
-      "type": "tss",
+      "side": "top",
+      "type": "silkscreen",
       "format": "gerber"
     },
     {
       "name": "pic18f14k50.gts",
-      "type": "tsm",
+      "side": "top",
+      "type": "soldermask",
       "format": "gerber"
     },
     {
       "name": "pic18f14k50.txt",
-      "type": "drl",
+      "side": "all",
+      "type": "drill",
       "format": "drill"
     }
   ]

@@ -30,14 +30,13 @@
   },
   "homepage": "https://github.com/tracespace/tracespace",
   "peerDependencies": {
-    "gerber-to-svg": "^4.0.0",
-    "whats-that-gerber": "^4.0.0"
+    "gerber-to-svg": "^4.0.0"
   },
   "dependencies": {
     "@tracespace/xml-id": "^4.0.0-next.14",
     "color-string": "^1.4.0",
-    "lodash.isstring": "^4.0.1",
     "viewbox": "^1.0.0",
+    "whats-that-gerber": "^4.0.0-next.12",
     "xml-element-string": "^1.0.0"
   }
 }

@@ -3,82 +3,55 @@
 var assert = require('assert')
 
 var cadFilenames = require('@tracespace/fixtures/gerber-filenames.json')
-var whatsThatGerber = require('.')
+var wtg = require('.')
 
-var typeNames = {
-  drw: 'gerber drawing',
-  tcu: 'top copper',
-  tsm: 'top soldermask',
-  tss: 'top silkscreen',
-  tsp: 'top solderpaste',
-  bcu: 'bottom copper',
-  bsm: 'bottom soldermask',
-  bss: 'bottom silkscreen',
-  bsp: 'bottom solderpaste',
-  icu: 'inner copper',
-  out: 'board outline',
-  drl: 'drill hits'
-}
+var EXPECTED_LAYERS = [
+  {type: 'copper', side: 'top'},
+  {type: 'soldermask', side: 'top'},
+  {type: 'silkscreen', side: 'top'},
+  {type: 'solderpaste', side: 'top'},
+  {type: 'copper', side: 'bottom'},
+  {type: 'soldermask', side: 'bottom'},
+  {type: 'silkscreen', side: 'bottom'},
+  {type: 'solderpaste', side: 'bottom'},
+  {type: 'copper', side: 'inner'},
+  {type: 'outline', side: 'all'},
+  {type: 'drill', side: 'all'},
+  {type: 'drawing', side: null}
+]
 
 describe('whats-that-gerber', function () {
-  it('should default to a gerber drawing', function () {
-    var result = whatsThatGerber('foobar')
+  it('should default to null', function () {
+    var result = wtg('foobar')
 
-    assert.equal(result, 'drw')
+    assert.deepEqual(result, {foobar: {side: null, type: null}})
   })
 
   it('should have a list of all layer types', function () {
-    var EXPECTED_TYPES = Object.keys(typeNames)
-    var allTypes = whatsThatGerber.getAllTypes()
-
-    assert.equal(allTypes.length, 12)
-    allTypes.forEach(function (type) {
-      assert(
-        EXPECTED_TYPES.indexOf(type) !== -1,
-        'Expected ' + type + ' to be in ' + EXPECTED_TYPES.toString()
-      )
-    })
+    assert.deepEqual(wtg.getAllLayers(), EXPECTED_LAYERS)
   })
 
   it('should know which types are valid', function () {
-    var allTypes = whatsThatGerber.getAllTypes()
+    var allLayers = wtg.getAllLayers()
 
-    allTypes.forEach(function (type) {
-      assert(
-        whatsThatGerber.isValidType(type),
-        'Expected ' + type + ' to be a valid type'
-      )
+    allLayers.forEach(function (layer) {
+      var result = wtg.validate(layer)
+      assert.deepEqual(result, {
+        valid: true,
+        side: layer.side,
+        type: layer.type
+      })
     })
   })
 
   it('should know which types are invalid', function () {
-    var invalidTypes = ['foo', 'bar', 'baz', 'quux']
+    var invalidSide = wtg.validate({side: 'bop', type: 'copper'})
+    var invalidType = wtg.validate({side: 'top', type: 'topper'})
+    var invalidAll = wtg.validate({side: 'fizz', type: 'buzz'})
 
-    invalidTypes.forEach(function (type) {
-      assert.equal(
-        whatsThatGerber.isValidType(type),
-        false,
-        'Expected ' + type + ' to not be a valid type'
-      )
-    })
-  })
-
-  it('should have full names for all layer types', function () {
-    whatsThatGerber.getAllTypes().forEach(function (type) {
-      var name = whatsThatGerber.getFullName(type)
-      var expected = typeNames[type]
-
-      assert.equal(
-        name,
-        expected,
-        '[' + type + ' -> ' + name + '], expected [' + expected + ']'
-      )
-    })
-  })
-
-  it('should return empty full name for unknown types / locales', function () {
-    assert.equal(whatsThatGerber.getFullName('foo'), '')
-    assert.equal(whatsThatGerber.getFullName('tcu', 'bar'), '')
+    assert.deepEqual(invalidSide, {valid: false, side: null, type: 'copper'})
+    assert.deepEqual(invalidType, {valid: false, side: 'top', type: null})
+    assert.deepEqual(invalidAll, {valid: false, side: null, type: null})
   })
 
   cadFilenames.forEach(function (cadSet) {
@@ -86,13 +59,29 @@ describe('whats-that-gerber', function () {
     var files = cadSet.files
 
     it('should identify ' + cad + ' files', function () {
-      files.forEach(function (file) {
-        var result = whatsThatGerber(file.name)
+      var result = wtg(
+        files.map(function (file) {
+          return file.name
+        })
+      )
 
+      files.forEach(function (file) {
+        var fileResult = result[file.name]
+
+        assert(fileResult, `Expected ${file.name} to be recognized as a layer`)
         assert.equal(
-          result,
+          fileResult.side,
+          file.side,
+          `Expected ${file.name} side to be "${file.side}", got "${[
+            fileResult.side
+          ]}"`
+        )
+        assert.equal(
+          fileResult.type,
           file.type,
-          '[' + file.name + ' -> ' + result + '], expected [' + file.type + ']'
+          `Expected ${file.name} type to be "${file.type}", got "${
+            fileResult.type
+          }"`
         )
       })
     })

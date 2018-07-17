@@ -1,5 +1,6 @@
 'use strict'
 
+const assert = require('assert')
 const fs = require('fs')
 const path = require('path')
 const runParallel = require('run-parallel')
@@ -7,8 +8,8 @@ const runWaterfall = require('run-waterfall')
 
 const xid = require('@tracespace/xml-id')
 const gerberToSvg = require('gerber-to-svg')
-const whatsThatGerber = require('whats-that-gerber')
 const pcbStackupCore = require('pcb-stackup-core')
+const wtg = require('whats-that-gerber')
 
 const GERBERS_DIR = path.join(__dirname, '../../fixtures/boards/arduino-uno')
 
@@ -47,22 +48,28 @@ function renderStackupAndWrite (layers, done) {
 }
 
 function renderAllLayers (done) {
-  const tasks = GERBER_PATHS.map(file => next => renderLayer(file, next))
+  const layerTypes = wtg(GERBER_PATHS)
+  const tasks = GERBER_PATHS.map(file => next =>
+    renderLayer(file, layerTypes, next)
+  )
 
   runParallel(tasks, done)
 }
 
-function renderLayer (filename, done) {
+function renderLayer (filename, layerTypes, done) {
   const file = fs.createReadStream(filename)
-  const type = whatsThatGerber(filename)
+  const layer = layerTypes[filename]
+
+  assert(layer, `Expected ${filename} to be recognized as a gerber`)
+  const {side, type} = layer
 
   const options = {
     id: xid.random(),
-    plotAsOutline: type === 'out'
+    plotAsOutline: type === wtg.TYPE_OUTLINE
   }
 
   const converter = gerberToSvg(file, options, error => {
     if (error) return done(error)
-    done(null, {type, converter})
+    done(null, {side, type, converter})
   })
 }
