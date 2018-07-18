@@ -11,15 +11,13 @@ const SIDES = ['top', 'bottom']
 const BOARDS = getBoards.sync().filter(b => !b.skipSnapshot)
 
 describe(`pcb-stackup :: integration snapshots`, function () {
-  before(function () {
-    if (process.env.INTEGRATION !== '1') return this.skip()
-  })
-
   BOARDS.forEach((board, index) =>
     describe(board.name, function () {
       let boardResults
 
       before(function (done) {
+        if (process.env.INTEGRATION !== '1') return this.skip()
+
         getBoardResults(board, (error, results) => {
           if (error) return done(error)
           boardResults = results
