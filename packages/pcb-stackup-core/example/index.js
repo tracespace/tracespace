@@ -2,13 +2,13 @@
 
 const fs = require('fs')
 const path = require('path')
-const shortId = require('shortid')
 const runParallel = require('run-parallel')
 const runWaterfall = require('run-waterfall')
 
+const xid = require('@tracespace/xml-id')
 const gerberToSvg = require('gerber-to-svg')
 const whatsThatGerber = require('whats-that-gerber')
-const pcbStackupCore = require('..')
+const pcbStackupCore = require('pcb-stackup-core')
 
 const GERBERS_DIR = path.join(__dirname, '../../fixtures/boards/arduino-uno')
 
@@ -33,7 +33,7 @@ runWaterfall([renderAllLayers, renderStackupAndWrite], error => {
 
 function renderStackupAndWrite (layers, done) {
   const options = {
-    id: shortId.generate(),
+    id: xid.random(),
     maskWithOutline: true
   }
 
@@ -57,7 +57,7 @@ function renderLayer (filename, done) {
   const type = whatsThatGerber(filename)
 
   const options = {
-    id: shortId.generate(),
+    id: xid.random(),
     plotAsOutline: type === 'out'
   }
 

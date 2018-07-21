@@ -3,6 +3,7 @@
 
 var isString = require('lodash.isstring')
 var xmlElementString = require('xml-element-string')
+var xid = require('@tracespace/xml-id')
 
 var sortLayers = require('./sort-layers')
 var stackLayers = require('./stack-layers')
@@ -77,7 +78,7 @@ var parseOptions = function (options) {
 module.exports = function pcbStackupCore (layers, opts) {
   var options = parseOptions(opts)
   var sorted = sortLayers(layers)
-  var id = options.id
+  var id = xid.sanitize(options.id)
   var color = options.color
   var attributes = options.attributes || {}
   var maskWithOutline = options.maskWithOutline

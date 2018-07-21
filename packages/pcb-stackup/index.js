@@ -1,11 +1,11 @@
 // pcb-stackup main
 'use strict'
 
-var gerberToSvg = require('gerber-to-svg')
-var shortId = require('shortid')
-var whatsThatGerber = require('whats-that-gerber')
-var createStackup = require('pcb-stackup-core')
 var extend = require('xtend')
+var xid = require('@tracespace/xml-id')
+var gerberToSvg = require('gerber-to-svg')
+var createStackup = require('pcb-stackup-core')
+var whatsThatGerber = require('whats-that-gerber')
 
 var getInvalidLayers = function (layers) {
   var hasNameOrType = function (layer) {
@@ -62,7 +62,7 @@ var pcbStackup = function (layers, options, done) {
     return done(new Error(msg))
   }
 
-  options.id = options.id || shortId.generate()
+  options.id = options.id || xid.random()
 
   if (options.maskWithOutline == null) {
     options.maskWithOutline = true
@@ -96,7 +96,8 @@ var pcbStackup = function (layers, options, done) {
     var layerType = layer.type || whatsThatGerber(layer.filename)
     var layerOptions = extend(layer.options)
 
-    layerOptions.id = layerOptions.id || shortId.generate()
+    layerOptions.id = layerOptions.id || xid.random()
+
     layerOptions.plotAsOutline =
       layerOptions.plotAsOutline || layerType === 'out'
 
