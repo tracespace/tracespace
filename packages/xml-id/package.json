@@ -13,7 +13,9 @@
   "keywords": [
     "xml",
     "id",
-    "name"
+    "name",
+    "sanitize",
+    "random"
   ],
   "contributors": [
     "Mike Cousins <mike@cousins.io> (https://mike.cousins.io)"

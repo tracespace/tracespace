@@ -1,10 +1,11 @@
 <a name="pcbStackup"></a>
 
 ## pcbStackup(layers, [options], done) : `function`
+
 The pcb-stackup converter function.
 
 | Param     | Type                      | Description                                                                                                                      |
-| ---       | ---                       | ---                                                                                                                              |
+| --------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | layers    | [`array.<Layer>`](#Layer) | Array of layer objects                                                                                                           |
 | [options] | [`Options`](#Options)     | Optional options, see [pcb-stackup-core docs][1]. Setting createElement will override that setting in the gerber-to-svg options. |
 | done      | [`Done`](#Done)           | Callback function.                                                                                                               |
@@ -12,24 +13,26 @@ The pcb-stackup converter function.
 <a name="Layer"></a>
 
 ## Layer : `object`
+
 **Properties**
 
-| Name      | Type                                    | Default                    | Description                                                                                                                                                                                                                                                                             |
-| ---       | ---                                     | ---                        | ---                                                                                                                                                                                                                                                                                     |
-| gerber    | `string` &#124; `NodeJS.ReadableStream` |                            | The gerber data as a string or [ReadableStream][2]                                                                                                                                                                                                                                      |
-| filename  | `string`                                |                            | The filename so we can try and identify the type of the layer. You either have to provide this or the type.                                                                                                                                                                             |
-| type      | `string`                                |                            | The layer type, a [valid layer type][3] as given by whats-that-gerber.                                                                                                                                                                                                                  |
-| options   | `object`                                | `{id: shortId.generate()}` | [gerber-to-svg options][4]                                                                                                                                                                                                                                                              |
-| converter | [`gerber-to-svg converter stream`][6]   |                            | A converter stream returned from [gerber-to-svg][4]. The converter is added in the layers cache to avoid re-converting gerbers. When no gerber property is present the converter is used and new options won't be applied to the conversion (but the layer type will still be applied). |
+| Name      | Type                                    | Default              | Description                                                                                                                                                                                                                                                                             |
+| --------- | --------------------------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| gerber    | `string` &#124; `NodeJS.ReadableStream` |                      | The gerber data as a string or [ReadableStream][2]                                                                                                                                                                                                                                      |
+| filename  | `string`                                |                      | The filename so we can try and identify the type of the layer. You either have to provide this or the type.                                                                                                                                                                             |
+| type      | `string`                                |                      | The layer type, a [valid layer type][3] as given by whats-that-gerber.                                                                                                                                                                                                                  |
+| options   | `object`                                | `{id: xid.random()}` | [gerber-to-svg options][4]                                                                                                                                                                                                                                                              |
+| converter | [`gerber-to-svg converter stream`][6]   |                      | A converter stream returned from [gerber-to-svg][4]. The converter is added in the layers cache to avoid re-converting gerbers. When no gerber property is present the converter is used and new options won't be applied to the conversion (but the layer type will still be applied). |
 
 <a name="Options"></a>
 
 ## Options : `object`
+
 **Properties**
 
 | Name            | Type       | Default                        | Description                                                                                                             |
-| ---             | ---        | ---                            | ---                                                                                                                     |
-| id              | `string`   | `shortId.generate()`           | Unique board identifier, generated by [@tracespace/xml-id][7] for you by default                                                   |
+| --------------- | ---------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| id              | `string`   | `xid.random()`                 | Unique board identifier, generated by [@tracespace/xml-id][7] for you by default                                        |
 | color           | `object`   | [see pcb-stackup-core docs][1] | Colors to apply to the board render by layer type                                                                       |
 | outlineGapFill  | `number`   | 0.00011                        | Threshold value for filling in gaps in the board outline. Units are whatever units the outline layer Gerber file is in. |
 | maskWithOutline | `boolean`  | `true`                         | Use the board outline layer as a mask for the board shape                                                               |
@@ -42,17 +45,18 @@ The pcb-stackup converter function.
 ## Done(error, stackup) : `function`
 
 | Param   | Type                  | Description                    |
-| ---     | ---                   | ---                            |
+| ------- | --------------------- | ------------------------------ |
 | error   | `Error`               | Error if something goes wrong. |
 | stackup | [`Stackup`](#Stackup) | The stackup data.              |
 
 <a name="Stackup"></a>
 
 ## Stackup : `object`
+
 **Properties**
 
 | Name       | Type                      | Description                                                                           |
-| ---        | ---                       | ---                                                                                   |
+| ---------- | ------------------------- | ------------------------------------------------------------------------------------- |
 | top        | `object`                  | The top view SVG object, see [pcb-stackup-core docs][5] for full details.             |
 | top.svg    | `string`                  | The top SVG string.                                                                   |
 | bottom     | `object`                  | The bottom view SVG object, see [pcb-stackup-core docs][5] for full details.          |
