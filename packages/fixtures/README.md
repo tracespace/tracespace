@@ -17,7 +17,7 @@ Part of the [tracespace][] collection of PCB visualization tools.
 Please note: because this package is a collection of test fixtures, it may not follow semver and changes could be introduced in _any_ version bump that cause your tests to fail. **You should install an exact version.**
 
 ```shell
-npm install --save-dev --exact @tracespace/fixtures
+npm install --save-dev --save-exact @tracespace/fixtures
 # or
 yarn add --dev --exact @tracespace/fixtures
 ```

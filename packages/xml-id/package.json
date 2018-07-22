@@ -1,0 +1,24 @@
+{
+  "name": "@tracespace/xml-id",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "4.0.0-next.12",
+  "description": "XML ID utilities for tracespace projects",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tracespace/tracespace.git"
+  },
+  "keywords": [
+    "xml",
+    "id",
+    "name",
+    "sanitize",
+    "random"
+  ],
+  "contributors": [
+    "Mike Cousins <mike@cousins.io> (https://mike.cousins.io)"
+  ],
+  "license": "MIT"
+}

@@ -32,9 +32,9 @@
   },
   "homepage": "https://github.com/tracespace/tracespace",
   "dependencies": {
+    "@tracespace/xml-id": "^4.0.0-next.12",
     "gerber-to-svg": "^4.0.0-next.12",
     "pcb-stackup-core": "^4.0.0-next.9",
-    "shortid": "^2.2.6",
     "whats-that-gerber": "^4.0.0-next.12",
     "xtend": "^4.0.1"
   }

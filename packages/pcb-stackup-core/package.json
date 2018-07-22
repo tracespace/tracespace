@@ -34,6 +34,7 @@
     "whats-that-gerber": "^4.0.0"
   },
   "dependencies": {
+    "@tracespace/xml-id": "^4.0.0-next.12",
     "color-string": "^1.4.0",
     "lodash.isstring": "^4.0.1",
     "viewbox": "^1.0.0",
