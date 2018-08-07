@@ -80,7 +80,13 @@ var pcbStackup = function (layers, options, done) {
 
   var finishLayer = function () {
     if (--layerCount < 1) {
-      var stackup = createStackup(stackupLayers, options)
+      try {
+        var stackup = createStackup(stackupLayers, options)
+      } catch (e) {
+        if (e instanceof RangeError) {
+          return done(new Error('Too big to stackup.'))
+        }
+      }
 
       stackup.layers = stackupLayers
 
