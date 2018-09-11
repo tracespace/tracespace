@@ -148,5 +148,20 @@
       {"name": "copper_top.gbr",          "type": "tcu"},
       {"name": "silkscreen_bottom.gbr",   "type": "bss"}
     ]
+  },
+  {
+    "cad": "diptrace",
+    "files": [
+      {"name": "BoardOutline.gbr", "type": "out"},
+      {"name": "Through.drl",      "type": "drl"},
+      {"name": "TopMask.gbr",      "type": "tsm"},
+      {"name": "TopSilk.gbr",      "type": "tss"},
+      {"name": "BottomMask.gbr",   "type": "bsm"},
+      {"name": "Bottom.gbr",       "type": "bcu"},
+      {"name": "BottomPaste.gbr",  "type": "bsp"},
+      {"name": "TopPaste.gbr",     "type": "tsp"},
+      {"name": "Top.gbr",          "type": "tcu"},
+      {"name": "BottomSilk.gbr",   "type": "bss"}
+    ]
   }
 ]
