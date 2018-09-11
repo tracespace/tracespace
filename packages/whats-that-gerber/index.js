@@ -21,7 +21,7 @@ var layerTypes = [
     name: {
       en: 'top copper'
     },
-    match: /((F.Cu)|(copper_top)|(\.top\.gbr$))|(\.((cmp$)|(top$)|(gtl$)))|(\.toplayer\.ger$)|(top copper\.txt$)/i
+    match: /((F.Cu)|(copper_top)|((\.|^)top\.gbr$))|(\.((cmp$)|(top$)|(gtl$)))|(\.toplayer\.ger$)|(top copper\.txt$)/i
   },
   {
     id: 'tsm',
@@ -49,7 +49,7 @@ var layerTypes = [
     name: {
       en: 'bottom copper'
     },
-    match: /(B.Cu|(copper_bottom)|\.bottom\.gbr$)|(\.((sol$)|(bot$)|(gbl$)))|(\.bottomlayer\.ger$)|(bottom copper\.txt$)/i
+    match: /(B.Cu|(copper_bottom)|(\.|^)bottom\.gbr$)|(\.((sol$)|(bot$)|(gbl$)))|(\.bottomlayer\.ger$)|(bottom copper\.txt$)/i
   },
   {
     id: 'bsm',
@@ -70,7 +70,7 @@ var layerTypes = [
     name: {
       en: 'bottom solderpaste'
     },
-    match: /(B.Paste)|(solderpaste_bottom)|(\.((crs$)|(bsp$)|(gbp$)|(spb$)))|(\.bcream\.ger$)/i
+    match: /(B.Paste)|(solderpaste_bottom)|(BottomPaste)|(\.((crs$)|(bsp$)|(gbp$)|(spb$)))|(\.bcream\.ger$)/i
   },
   {
     id: 'icu',
@@ -84,7 +84,7 @@ var layerTypes = [
     name: {
       en: 'board outline'
     },
-    match: /(Edge.Cuts)|(profile)|(\.((dim$)|(mil$)|(gm(l|\d{1,2})$)|(gko$)|(fab$)))|(\.boardoutline\.ger$)|(\.outline\.gbr$)|(mechanical \d+\.txt$)/i
+    match: /(Edge.Cuts)|(profile)|(\.((dim$)|(mil$)|(gm(l|\d{1,2})$)|(gko$)|(fab$)))|(\.boardoutline\.ger$)|((board|\.)outline\.gbr$)|(mechanical \d+\.txt$)/i
   },
   {
     id: 'drl',
