@@ -28,14 +28,14 @@ yarn add --exact @tracespace/xml-id
 const {sanitize, random} = require('@tracespace/xml-id')
 ```
 
-The alphabet used by this module is a subset of what is valid for XML which is also URL friendly.
+The alphabet used by this module is a subset of what is valid for XML which is also CSS identifier and URL friendly.
 
 ### sanitize(source: string): string
 
 Takes a string and replaces any characters that would be invalid in an XML ID with underscores (`_`).
 
 ```js
-const id = sanitize('0abc def') // id === _abc_def
+const id = sanitize('0abc def.') // id === _abc_def_
 ```
 
 ### random(length: number): string
