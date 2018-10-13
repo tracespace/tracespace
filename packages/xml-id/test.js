@@ -5,22 +5,29 @@ var xid = require('@tracespace/xml-id')
 
 describe('xml-id', function () {
   describe('sanitize', function () {
-    it('leave a xml + url valid id alone', function () {
-      expect(xid.sanitize('_123')).to.equal('_123')
-      expect(xid.sanitize('aBcDeFg')).to.equal('aBcDeFg')
-    })
+    const SPECS = [
+      // should leave these alone
+      {given: '_123', expected: '_123'},
+      {given: 'aBcDeFg', expected: 'aBcDeFg'},
+      // should sanitize start char
+      {given: '0123', expected: '_123'},
+      {given: '-123', expected: '_123'},
+      {given: '.123', expected: '_123'},
+      {given: ':123', expected: '_123'},
+      // replace invalid characters with an underscore
+      {given: 'A B C', expected: 'A_B_C'},
+      {given: 'A~B~C', expected: 'A_B_C'},
+      {given: '.1*2&3', expected: '_1_2_3'},
+      {given: 'abc.def', expected: 'abc_def'}
+    ]
 
-    it('should replace an invalid start character with an "_"', function () {
-      expect(xid.sanitize('0123')).to.equal('_123')
-      expect(xid.sanitize('-123')).to.equal('_123')
-      expect(xid.sanitize('.123')).to.equal('_123')
-      expect(xid.sanitize(':123')).to.equal('_123')
-    })
+    SPECS.forEach(function (spec) {
+      var given = spec.given
+      var expected = spec.expected
 
-    it('should replace invalid characters with an "_"', function () {
-      expect(xid.sanitize('A B C')).to.equal('A_B_C')
-      expect(xid.sanitize('A~B~C')).to.equal('A_B_C')
-      expect(xid.sanitize('.1*2&3')).to.equal('_1_2_3')
+      it('given ' + given + ' expect ' + expected, function () {
+        expect(xid.sanitize(given)).to.equal(expected)
+      })
     })
   })
 })

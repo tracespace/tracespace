@@ -1,9 +1,9 @@
 // xml id utilities
 'use strict'
 
-// subset of characters that are both XML ID friendly and URL friendly
+// subset of characters that are XML ID, CSS identifier, and URL friendly
 var START_CHAR = '_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-var CHAR = '-.0123456789' + START_CHAR
+var CHAR = '-0123456789' + START_CHAR
 var REPLACE_RE = new RegExp('^[^' + START_CHAR + ']|[^\\' + CHAR + ']', 'g')
 
 var DEFAULT_RANDOM_LENGTH = 12
