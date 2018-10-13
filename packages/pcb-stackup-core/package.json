@@ -1,6 +1,6 @@
 {
   "name": "pcb-stackup-core",
-  "version": "4.0.0-next.13",
+  "version": "4.0.0-next.14",
   "description": "Layer stacking core logic for pcb-stackup",
   "main": "lib/index.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "whats-that-gerber": "^4.0.0"
   },
   "dependencies": {
-    "@tracespace/xml-id": "^4.0.0-next.13",
+    "@tracespace/xml-id": "^4.0.0-next.14",
     "color-string": "^1.4.0",
     "lodash.isstring": "^4.0.1",
     "viewbox": "^1.0.0",
