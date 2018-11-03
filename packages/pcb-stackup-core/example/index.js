@@ -58,10 +58,9 @@ function renderAllLayers (done) {
 
 function renderLayer (filename, layerTypes, done) {
   const file = fs.createReadStream(filename)
-  const layer = layerTypes[filename]
+  const {side, type} = layerTypes[filename]
 
-  assert(layer, `Expected ${filename} to be recognized as a gerber`)
-  const {side, type} = layer
+  assert(type, `Expected ${filename} to be recognized as a gerber`)
 
   const options = {
     id: xid.random(),

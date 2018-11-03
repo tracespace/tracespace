@@ -23,9 +23,14 @@ module.exports = function gatherLayers (
 
   var drillCount = 0
   var getUniqueId = function (type) {
-    var idSuffix = type !== wtg.TYPE_DRILL ? '' : ++drillCount
+    var id = idPrefix + type
 
-    return idPrefix + type + idSuffix
+    if (type === wtg.TYPE_DRILL) {
+      drillCount++
+      id += drillCount
+    }
+
+    return id
   }
 
   allLayers.forEach(function (layer) {

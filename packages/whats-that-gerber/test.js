@@ -67,21 +67,16 @@ describe('whats-that-gerber', function () {
 
       files.forEach(function (file) {
         var fileResult = result[file.name]
+        var sideResult = fileResult.side
+        var typeResult = fileResult.type
 
-        assert(fileResult, `Expected ${file.name} to be recognized as a layer`)
-        assert.equal(
-          fileResult.side,
-          file.side,
-          `Expected ${file.name} side to be "${file.side}", got "${[
-            fileResult.side
-          ]}"`
+        assert(
+          sideResult === file.side,
+          `${file.name} should be side "${file.side}", got "${sideResult}"`
         )
-        assert.equal(
-          fileResult.type,
-          file.type,
-          `Expected ${file.name} type to be "${file.type}", got "${
-            fileResult.type
-          }"`
+        assert(
+          typeResult === file.type,
+          `${file.name} should be type "${file.type}", got "${typeResult}"`
         )
       })
     })
