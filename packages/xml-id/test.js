@@ -5,7 +5,7 @@ var xid = require('@tracespace/xml-id')
 
 describe('xml-id', function () {
   describe('sanitize', function () {
-    const SPECS = [
+    var SPECS = [
       // should leave these alone
       {given: '_123', expected: '_123'},
       {given: 'aBcDeFg', expected: 'aBcDeFg'},

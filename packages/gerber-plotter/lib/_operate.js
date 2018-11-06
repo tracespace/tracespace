@@ -164,7 +164,10 @@ var arcCenterFromRadius = function (start, end, mode, epsilon, radius) {
   var yOffset = sign * deltaX * squareDifference / distance
 
   return [
-    [roundToZero(xAve + xOffset, epsilon), roundToZero(yAve + yOffset, epsilon)]
+    [
+      roundToZero(xAve + xOffset, epsilon),
+      roundToZero(yAve + yOffset, epsilon)
+    ]
   ]
 }
 

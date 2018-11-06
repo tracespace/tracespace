@@ -3,37 +3,44 @@
     {
       "name": "arduino-uno.cmp",
       "format": "gerber",
-      "type": "tcu"
+      "side": "top",
+      "type": "copper"
     },
     {
       "name": "arduino-uno.drd",
       "format": "drill",
-      "type": "drl"
+      "side": "all",
+      "type": "drill"
     },
     {
       "name": "arduino-uno.gko",
       "format": "gerber",
-      "type": "out"
+      "side": "all",
+      "type": "outline"
     },
     {
       "name": "arduino-uno.plc",
       "format": "gerber",
-      "type": "tss"
+      "side": "top",
+      "type": "silkscreen"
     },
     {
       "name": "arduino-uno.sol",
       "format": "gerber",
-      "type": "bcu"
+      "side": "bottom",
+      "type": "copper"
     },
     {
       "name": "arduino-uno.stc",
       "format": "gerber",
-      "type": "tsm"
+      "side": "top",
+      "type": "soldermask"
     },
     {
       "name": "arduino-uno.sts",
       "format": "gerber",
-      "type": "bsm"
+      "side": "bottom",
+      "type": "soldermask"
     }
   ]
 }

@@ -79,13 +79,14 @@ Astute readers will notice this is the same interface as gerber-to-svg converter
 
 ### layers array
 
-The first parameter to the function is an array of layer objects. A layer object is an object with a `type` key and a `converter` key, where `type` is a Gerber filetype string as output by [whats-that-gerber](../whats-that-gerber) and `converter` is the converter object returned by gerber-to-svg for that Gerber file (note: this is the actual return value of gerber-to-svg, not the value that is emitted by the stream or passed to the callback).
+The first parameter to the function is an array of layer objects. A layer object is an object with `side`, `type`, and `converter` keys, where `side` and `type` are the layer's properties as reported by [whats-that-gerber](../whats-that-gerber) and `converter` is the converter object returned by gerber-to-svg for that Gerber file (note: this is the actual return value of gerber-to-svg, not the value that is emitted by the stream or passed to the callback).
 
 It is expected that the converters will have already finished before being passed to pcb-stackup-core. This can be done by listening for the converter's `end` event or by using gerber-to-svg in callback mode, as shown in the example.
 
 ```js
-var topCopperLayer = {
-  type: GERBER_FILE_TYPE,
+var someLayer = {
+  side: LAYER_SIDE,
+  type: LAYER_TYPE,
   converter: FINISHED_GERBER_TO_SVG_CONVERTER
 }
 ```

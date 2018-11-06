@@ -3,32 +3,38 @@
     {
       "name": "freeduino.cmp",
       "format": "gerber",
-      "type": "tcu"
+      "side": "top",
+      "type": "copper"
     },
     {
       "name": "freeduino.drd",
       "format": "drill",
-      "type": "drl"
+      "side": "all",
+      "type": "drill"
     },
     {
       "name": "freeduino.plc",
       "format": "gerber",
-      "type": "tss"
+      "side": "top",
+      "type": "silkscreen"
     },
     {
       "name": "freeduino.sol",
       "format": "gerber",
-      "type": "bcu"
+      "side": "bottom",
+      "type": "copper"
     },
     {
       "name": "freeduino.stc",
       "format": "gerber",
-      "type": "tsm"
+      "side": "top",
+      "type": "soldermask"
     },
     {
       "name": "freeduino.sts",
       "format": "gerber",
-      "type": "bsm"
+      "side": "bottom",
+      "type": "soldermask"
     }
   ]
 }

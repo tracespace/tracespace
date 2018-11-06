@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/tracespace/tracespace/issues"
   },
-  "homepage": "https://github.com/tracespace/tracespace#readme"
+  "homepage": "https://github.com/tracespace/tracespace#readme",
+  "dependencies": {
+    "xtend": "^4.0.1"
+  }
 }

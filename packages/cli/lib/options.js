@@ -77,9 +77,9 @@ module.exports = {
     type: 'object',
     example: {
       cmd:
-        '$0 -l.arduino-uno.drd.type=drl -l.arduino-uno.drd.options.filetype=drill',
+        '$0 -l.arduino-uno.drd.type=drill -l.arduino-uno.drd.options.filetype=drill',
       desc:
-        'Set layer type of `arduino-uno.drd` to `drl` layer and parse as a drill file',
+        'Set layer type of `arduino-uno.drd` to `drill` and parse as a drill file',
       aside:
         "If you're using this option a lot, you may want to consider using a config file"
     }

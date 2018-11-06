@@ -2,63 +2,9 @@
 'use strict'
 
 var viewbox = require('viewbox')
+var wtg = require('whats-that-gerber')
 
 var gatherLayers = require('./_gather-layers')
-
-var findLayerId = function (layers, type) {
-  var layer
-  var i
-
-  for (i = 0; i < layers.length; i++) {
-    layer = layers[i]
-    if (layer.type === type) {
-      return layer.id
-    }
-  }
-}
-
-var useLayer = function (element, id, className, mask) {
-  var attr = {'xlink:href': '#' + id}
-
-  if (className) {
-    attr.fill = 'currentColor'
-    attr.stroke = 'currentColor'
-    attr.class = className
-  }
-
-  if (mask) {
-    attr.mask = 'url(#' + mask + ')'
-  }
-
-  return element('use', attr)
-}
-
-var createRect = function (element, box, fill, className) {
-  var attr = viewbox.rect(box)
-
-  if (fill) {
-    attr.fill = fill
-  }
-
-  if (className) {
-    attr.class = className
-  }
-
-  return element('rect', attr)
-}
-
-var mechMask = function (element, id, box, drills) {
-  var children = drills.map(function (layer) {
-    return useLayer(element, layer.id)
-  })
-
-  children.unshift(createRect(element, box, '#fff'))
-
-  var groupAttr = {fill: '#000', stroke: '#000'}
-  var group = [element('g', groupAttr, children)]
-
-  return element('mask', {id: id}, group)
-}
 
 module.exports = function (
   element,
@@ -92,10 +38,10 @@ module.exports = function (
 
   // build the layer starting with an fr4 rectangle the size of the viewbox
   var layer = [createRect(element, box, 'currentColor', classPrefix + 'fr4')]
-  var cuLayerId = findLayerId(layers, 'cu')
-  var smLayerId = findLayerId(layers, 'sm')
-  var ssLayerId = findLayerId(layers, 'ss')
-  var spLayerId = findLayerId(layers, 'sp')
+  var cuLayerId = findLayerId(layers, wtg.TYPE_COPPER)
+  var smLayerId = findLayerId(layers, wtg.TYPE_SOLDERMASK)
+  var ssLayerId = findLayerId(layers, wtg.TYPE_SILKSCREEN)
+  var spLayerId = findLayerId(layers, wtg.TYPE_SOLDERPASTE)
   var outLayerId = layerProps.outlineId
 
   // add copper and copper finish
@@ -157,4 +103,59 @@ module.exports = function (
     box: box,
     units: units
   }
+}
+
+function findLayerId (layers, type) {
+  var layer
+  var i
+
+  for (i = 0; i < layers.length; i++) {
+    layer = layers[i]
+    if (layer.type === type) {
+      return layer.id
+    }
+  }
+}
+
+function useLayer (element, id, className, mask) {
+  var attr = {'xlink:href': '#' + id}
+
+  if (className) {
+    attr.fill = 'currentColor'
+    attr.stroke = 'currentColor'
+    attr.class = className
+  }
+
+  if (mask) {
+    attr.mask = 'url(#' + mask + ')'
+  }
+
+  return element('use', attr)
+}
+
+function createRect (element, box, fill, className) {
+  var attr = viewbox.rect(box)
+
+  if (fill) {
+    attr.fill = fill
+  }
+
+  if (className) {
+    attr.class = className
+  }
+
+  return element('rect', attr)
+}
+
+function mechMask (element, id, box, drills) {
+  var children = drills.map(function (layer) {
+    return useLayer(element, layer.id)
+  })
+
+  children.unshift(createRect(element, box, '#fff'))
+
+  var groupAttr = {fill: '#000', stroke: '#000'}
+  var group = [element('g', groupAttr, children)]
+
+  return element('mask', {id: id}, group)
 }

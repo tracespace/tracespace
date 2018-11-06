@@ -3,42 +3,50 @@
     {
       "name": "mchck-B_Cu.pho",
       "format": "gerber",
-      "type": "bcu"
+      "side": "bottom",
+      "type": "copper"
     },
     {
       "name": "mchck-B_Mask.pho",
       "format": "gerber",
-      "type": "bsm"
+      "side": "bottom",
+      "type": "soldermask"
     },
     {
       "name": "mchck-B_SilkS.pho",
       "format": "gerber",
-      "type": "bss"
+      "side": "bottom",
+      "type": "silkscreen"
     },
     {
       "name": "mchck-Edge_Cuts.pho",
       "format": "gerber",
-      "type": "out"
+      "side": "all",
+      "type": "outline"
     },
     {
       "name": "mchck-F_Cu.pho",
       "format": "gerber",
-      "type": "tcu"
+      "side": "top",
+      "type": "copper"
     },
     {
       "name": "mchck-F_Mask.pho",
       "format": "gerber",
-      "type": "tsm"
+      "side": "top",
+      "type": "soldermask"
     },
     {
       "name": "mchck-F_SilkS.pho",
       "format": "gerber",
-      "type": "tss"
+      "side": "top",
+      "type": "silkscreen"
     },
     {
       "name": "mchck.drl",
       "format": "drill",
-      "type": "drl"
+      "side": "all",
+      "type": "drill"
     }
   ]
 }

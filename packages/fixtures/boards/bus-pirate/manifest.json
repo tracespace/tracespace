@@ -3,17 +3,20 @@
   "layers": [
     {
       "name": "BusPirate-v3.6a-SSOP.cmp",
-      "type": "tcu",
+      "side": "top",
+      "type": "copper",
       "format": "gerber"
     },
     {
       "name": "BusPirate-v3.6a-SSOP.drd",
-      "type": "drl",
+      "side": "all",
+      "type": "drill",
       "format": "drill"
     },
     {
       "name": "BusPirate-v3.6a-SSOP.gko",
-      "type": "out",
+      "side": "all",
+      "type": "outline",
       "format": "gerber",
       "options": {
         "plotAsOutline": 1.27
@@ -21,27 +24,32 @@
     },
     {
       "name": "BusPirate-v3.6a-SSOP.plc",
-      "type": "tss",
+      "side": "top",
+      "type": "silkscreen",
       "format": "gerber"
     },
     {
       "name": "BusPirate-v3.6a-SSOP.pls",
-      "type": "bss",
+      "side": "bottom",
+      "type": "silkscreen",
       "format": "gerber"
     },
     {
       "name": "BusPirate-v3.6a-SSOP.sol",
-      "type": "bcu",
+      "side": "bottom",
+      "type": "copper",
       "format": "gerber"
     },
     {
       "name": "BusPirate-v3.6a-SSOP.stc",
-      "type": "tsm",
+      "side": "top",
+      "type": "soldermask",
       "format": "gerber"
     },
     {
       "name": "BusPirate-v3.6a-SSOP.sts",
-      "type": "bsm",
+      "side": "bottom",
+      "type": "soldermask",
       "format": "gerber"
     }
   ]

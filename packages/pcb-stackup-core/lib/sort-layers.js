@@ -1,34 +1,32 @@
 // sort layers array into top and bottom
 'use strict'
 
+var wtg = require('whats-that-gerber')
+
 module.exports = function sortLayers (layers) {
-  return layers.reduce(
-    function (result, layer) {
-      var type = layer.type
-      var side = type[0]
-      var subtype = type.slice(1)
-      var externalId = layer.externalId
+  return layers.reduce(assignLayer, {
+    top: [],
+    bottom: [],
+    drills: [],
+    outline: null
+  })
+}
 
-      if (type === 'drl') {
-        result.drills.push(layer)
-      } else if (type === 'out') {
-        result.outline = layer
-      } else {
-        layer = {type: subtype, converter: layer.converter}
+function assignLayer (result, layer) {
+  var type = layer.type
+  var side = layer.side
 
-        if (externalId) {
-          layer.externalId = externalId
-        }
+  if (type === wtg.TYPE_DRILL) {
+    result.drills.push(layer)
+  } else if (type === wtg.TYPE_OUTLINE) {
+    result.outline = layer
+  } else {
+    if (side === wtg.SIDE_TOP) {
+      result.top.push(layer)
+    } else if (side === wtg.SIDE_BOTTOM) {
+      result.bottom.push(layer)
+    }
+  }
 
-        if (side === 't') {
-          result.top.push(layer)
-        } else if (side === 'b') {
-          result.bottom.push(layer)
-        }
-      }
-
-      return result
-    },
-    {top: [], bottom: [], drills: [], outline: null}
-  )
+  return result
 }

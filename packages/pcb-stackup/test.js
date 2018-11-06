@@ -1,8 +1,10 @@
 // test suite for simpler API
+// TODO(mc, 2018-08-01): refactor to test via mocking rather than SVG results
 'use strict'
 
 var expect = require('chai').expect
 var identity = require('lodash/identity')
+var wtg = require('whats-that-gerber')
 var pcbStackup = require('.')
 
 var emptyGerber = 'G04 empty gerber*\nM02*\n'
@@ -40,7 +42,9 @@ describe('easy stackup function', function () {
   })
 
   it('should accept a layer with a gerber string and type', function (done) {
-    var layers = [{gerber: emptyGerber, type: 'tcu'}]
+    var layers = [
+      {gerber: emptyGerber, side: wtg.SIDE_TOP, type: wtg.TYPE_COPPER}
+    ]
 
     pcbStackup(layers, function (error, stackup) {
       expect(error).to.equal(null)
@@ -53,7 +57,7 @@ describe('easy stackup function', function () {
     var layers = [{gerber: emptyGerber}]
 
     pcbStackup(layers, function (error, stackup) {
-      expect(error).to.be.an.instanceOf(Error)
+      expect(error.message).to.match(/layer 0 .+ missing/)
       done()
     })
   })
@@ -62,13 +66,20 @@ describe('easy stackup function', function () {
     var layers = [{gerber: emptyGerber, type: 'wrong'}]
 
     pcbStackup(layers, function (error, stackup) {
-      expect(error).to.be.an.instanceOf(Error)
+      expect(error.message).to.match(/layer 0 .+ invalid/)
       done()
     })
   })
 
   it('should not overwrite layer id', function (done) {
-    var layers = [{gerber: emptyGerber, type: 'tcu', options: {id: 'test-id'}}]
+    var layers = [
+      {
+        gerber: emptyGerber,
+        side: wtg.SIDE_TOP,
+        type: wtg.TYPE_COPPER,
+        options: {id: 'test-id'}
+      }
+    ]
 
     pcbStackup(layers, function (error, stackup) {
       expect(error).to.equal(null)
@@ -79,7 +90,8 @@ describe('easy stackup function', function () {
     })
   })
 
-  it('should not overwrite stackup id', function (done) {
+  // TODO(mc, 2018-08-02): fix this test so it actually tests something
+  it.skip('should not overwrite stackup id', function (done) {
     var layers = [{gerber: emptyGerber, type: 'tcu'}]
 
     pcbStackup(layers, {id: 'test-id'}, function (error, stackup) {
@@ -100,6 +112,7 @@ describe('easy stackup function', function () {
       expect(stackup).to.have.all.keys('top', 'bottom', 'layers')
       expect(stackup.layers).to.be.an.instanceOf(Array)
       expect(stackup.layers[0]).to.have.all.keys(
+        'side',
         'type',
         'filename',
         'converter',
@@ -111,7 +124,12 @@ describe('easy stackup function', function () {
 
   it('respects plotAsOutline option', function (done) {
     var layers = [
-      {gerber: emptyGerber, type: 'tcu', options: {plotAsOutline: true}}
+      {
+        gerber: emptyGerber,
+        side: wtg.SIDE_TOP,
+        type: wtg.TYPE_COPPER,
+        options: {plotAsOutline: true}
+      }
     ]
 
     pcbStackup(layers, function (error, stackup) {
@@ -124,8 +142,8 @@ describe('easy stackup function', function () {
 
   it('handles multiple layers', function (done) {
     var layers = [
-      {gerber: emptyGerber, type: 'bcu'},
-      {gerber: emptyGerber, type: 'tcu'}
+      {gerber: emptyGerber, side: wtg.SIDE_BOTTOM, type: wtg.TYPE_COPPER},
+      {gerber: emptyGerber, side: wtg.SIDE_TOP, type: wtg.TYPE_COPPER}
     ]
 
     pcbStackup(layers, function (error, stackup) {
@@ -138,8 +156,8 @@ describe('easy stackup function', function () {
 
   it('can be passed back its own output', function (done) {
     var layers = [
-      {gerber: emptyGerber, type: 'bcu'},
-      {gerber: emptyGerber, type: 'tcu'}
+      {gerber: emptyGerber, side: wtg.SIDE_BOTTOM, type: wtg.TYPE_COPPER},
+      {gerber: emptyGerber, side: wtg.SIDE_TOP, type: wtg.TYPE_COPPER}
     ]
 
     pcbStackup(layers, function (error, stackup1) {
@@ -155,8 +173,8 @@ describe('easy stackup function', function () {
 
   it('sets the createElement option', function (done) {
     var layers = [
-      {gerber: emptyGerber, type: 'bcu'},
-      {gerber: emptyGerber, type: 'tcu'}
+      {gerber: emptyGerber, side: wtg.SIDE_BOTTOM, type: wtg.TYPE_COPPER},
+      {gerber: emptyGerber, side: wtg.SIDE_TOP, type: wtg.TYPE_COPPER}
     ]
     var options = {
       createElement: function () {
@@ -174,10 +192,11 @@ describe('easy stackup function', function () {
 
   it('overrides the createElement option', function (done) {
     var layers = [
-      {gerber: emptyGerber, type: 'bcu'},
+      {gerber: emptyGerber, side: wtg.SIDE_BOTTOM, type: wtg.TYPE_COPPER},
       {
         gerber: emptyGerber,
-        type: 'tcu',
+        side: wtg.SIDE_TOP,
+        type: wtg.TYPE_COPPER,
         options: {
           createElement: function () {
             return 2
@@ -200,7 +219,9 @@ describe('easy stackup function', function () {
   })
 
   it('sets threshold for filling outline gaps', function (done) {
-    var layers = [{gerber: emptyGerber, type: 'out'}]
+    var layers = [
+      {gerber: emptyGerber, side: wtg.SIDE_ALL, type: wtg.TYPE_OUTLINE}
+    ]
 
     var options = {outlineGapFill: 2}
 
