@@ -3,13 +3,14 @@ sudo: false
 language: node_js
 
 node_js:
-  - '6'
-  - '8'
+  - 'lts/boron'
+  - 'lts/carbon'
+  - 'lts/dubnium'
   - node
 
-script: yarn run ci
+script: npm run ci:script
 
-after_success: yarn run ci:coverage
+after_success: npm run ci:after-success
 
 # use build stages with "test" and "deploy" stages
 # node_js versions above automatically added to "test" stage
@@ -23,14 +24,15 @@ jobs:
       # deploy if tag starts with v
       if: tag =~ ^v
       node_js: node
-      script: yarn run example && yarn run docs
+      script: npm run example && npm run docs
       after_success: echo "skipping coverage upload"
       # set npm credentials for npm publish
       before_deploy:
-        - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > ~/.npmrc
+        - npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+        - npm config set tracespace:publishTag $(node scripts/get-npm-tag.js $TRAVIS_TAG)
       deploy:
         provider: script
-        script: npm run publish
+        script: npm run ci:publish
         # keep node_modules for deploy
         skip_cleanup: true
         # deploy on tagged commits

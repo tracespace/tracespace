@@ -34,10 +34,10 @@
   },
   "homepage": "https://github.com/tracespace/tracespace#readme",
   "dependencies": {
-    "@tracespace/xml-id": "^4.0.0-next.14",
+    "@tracespace/xml-id": "file:../xml-id",
     "escape-html": "^1.0.3",
-    "gerber-parser": "^4.0.0-next.9",
-    "gerber-plotter": "^4.0.0-next.13",
+    "gerber-parser": "file:../gerber-parser",
+    "gerber-plotter": "file:../gerber-plotter",
     "inherits": "^2.0.1",
     "lodash.isfinite": "^3.2.0",
     "lodash.isstring": "^4.0.1",

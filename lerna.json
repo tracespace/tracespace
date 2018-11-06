@@ -1,14 +1,13 @@
 {
   "version": "4.0.0-next.14",
-  "npmClient": "yarn",
-  "useWorkspaces": true,
   "command": {
-    "publish": {
-      "cdVersion": "prerelease",
+    "version": {
       "conventionalCommits": true,
-      "preid": "next",
-      "message": "chore(release): Publish %s",
-      "skipNpm": true
+      "message": "chore(release): %s",
+      "preid": "next"
     }
-  }
+  },
+  "packages": [
+    "packages/*"
+  ]
 }

@@ -33,10 +33,10 @@
     "gerber-to-svg": "^4.0.0"
   },
   "dependencies": {
-    "@tracespace/xml-id": "^4.0.0-next.14",
+    "@tracespace/xml-id": "file:../xml-id",
     "color-string": "^1.4.0",
     "viewbox": "^1.0.0",
-    "whats-that-gerber": "^4.0.0-next.12",
+    "whats-that-gerber": "file:../whats-that-gerber",
     "xml-element-string": "^1.0.0"
   }
 }
