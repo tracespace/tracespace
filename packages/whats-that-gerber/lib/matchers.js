@@ -10,7 +10,7 @@ function layerTypeToMatchers(layer) {
 
   function matcherToCadMatchers(matcher) {
     var match = matcher.ext
-      ? new RegExp(`\\.${matcher.ext}$`, 'i')
+      ? new RegExp('\\.' + matcher.ext + '$', 'i')
       : new RegExp(matcher.match, 'i')
 
     return [].concat(matcher.cad).map(mergeLayerWithCad)

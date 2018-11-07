@@ -24,11 +24,11 @@ describe('whats-that-gerber', function() {
   it('should default to null', function() {
     var result = wtg('foobar')
 
-    assert.deepEqual(result, {foobar: {side: null, type: null}})
+    assert.deepStrictEqual(result, {foobar: {side: null, type: null}})
   })
 
   it('should have a list of all layer types', function() {
-    assert.deepEqual(wtg.getAllLayers(), EXPECTED_LAYERS)
+    assert.deepStrictEqual(wtg.getAllLayers(), EXPECTED_LAYERS)
   })
 
   it('should know which types are valid', function() {
@@ -36,7 +36,7 @@ describe('whats-that-gerber', function() {
 
     allLayers.forEach(function(layer) {
       var result = wtg.validate(layer)
-      assert.deepEqual(result, {
+      assert.deepStrictEqual(result, {
         valid: true,
         side: layer.side,
         type: layer.type,
@@ -49,9 +49,13 @@ describe('whats-that-gerber', function() {
     var invalidType = wtg.validate({side: 'top', type: 'topper'})
     var invalidAll = wtg.validate({side: 'fizz', type: 'buzz'})
 
-    assert.deepEqual(invalidSide, {valid: false, side: null, type: 'copper'})
-    assert.deepEqual(invalidType, {valid: false, side: 'top', type: null})
-    assert.deepEqual(invalidAll, {valid: false, side: null, type: null})
+    assert.deepStrictEqual(invalidSide, {
+      valid: false,
+      side: null,
+      type: 'copper',
+    })
+    assert.deepStrictEqual(invalidType, {valid: false, side: 'top', type: null})
+    assert.deepStrictEqual(invalidAll, {valid: false, side: null, type: null})
   })
 
   cadFilenames.forEach(function(cadSet) {
@@ -66,17 +70,18 @@ describe('whats-that-gerber', function() {
       )
 
       files.forEach(function(file) {
-        var fileResult = result[file.name]
+        var name = file.name
+        var fileResult = result[name]
         var sideResult = fileResult.side
         var typeResult = fileResult.type
 
         assert(
           sideResult === file.side,
-          `${file.name} should be side "${file.side}", got "${sideResult}"`
+          name + ' should be side "' + file.side + '", got "' + sideResult + '"'
         )
         assert(
           typeResult === file.type,
-          `${file.name} should be type "${file.type}", got "${typeResult}"`
+          name + ' should be type "' + file.type + '", got "' + typeResult + '"'
         )
       })
     })
