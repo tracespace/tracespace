@@ -1,50 +1,22 @@
 # tracespace
 
-[![monorepo][monorepo-badge]][monorepo]
 [![ci][ci-badge]][ci]
 [![coverage][coverage-badge]][coverage]
 [![dev dependencies][dev-dependencies-badge]][dev-dependencies]
+[![chat][chat-badge]][chat]
 
 > PCB visualization tools for Node.js and the browser
 
 tracespace is an open-source collection of tools to make looking at circuit boards on the internet easier.
 
-[monorepo]: https://github.com/tracespace/tracespace
 [ci]: https://travis-ci.org/tracespace/tracespace
 [coverage]: https://codecov.io/gh/tracespace/tracespace
 [dev-dependencies]: https://david-dm.org/tracespace/tracespace?type=dev
-[monorepo-badge]: https://img.shields.io/badge/dynamic/json.svg?label=monorepo&url=https%3A%2F%2Fraw.githubusercontent.com%2Ftracespace%2Ftracespace%2Fnext%2Flerna.json&query=%24.version&prefix=v&style=flat-square&maxAge=3600
-[ci-badge]: https://img.shields.io/travis/tracespace/tracespace.svg?style=flat-square&maxAge=3600
-[coverage-badge]: https://img.shields.io/codecov/c/github/tracespace/tracespace.svg?style=flat-square&maxAge=3600
-[dev-dependencies-badge]: https://img.shields.io/david/dev/tracespace/tracespace.svg?style=flat-square&maxAge=3600
-
-## packages
-
-[![pcb-stackup][pcb-stackup-badge]][pcb-stackup] - Render PCBs as beautiful, precise SVGs from Gerber / NC drill files  
-[![pcb-stackup-core][pcb-stackup-core-badge]][pcb-stackup-core] - Layer stacking core logic for pcb-stackup  
-[![gerber-to-svg][gerber-to-svg-badge]][gerber-to-svg] - Render individual Gerber / NC drill files as SVGs  
-[![gerber-plotter][gerber-plotter-badge]][gerber-plotter] - Streaming layer image plotter (consumer of `gerber-parser`)  
-[![gerber-parser][gerber-parser-badge]][gerber-parser] - Streaming Gerber/drill file parser  
-[![whats-that-gerber][whats-that-gerber-badge]][whats-that-gerber] - Identify Gerber and drill files by filename  
-[![@tracespace/fixtures][tracespace-fixtures-badge]][tracespace-fixtures] - Test fixtures for tracespace projects  
-[![@tracespace/cli][tracespace-cli-badge]][tracespace-cli] - Render PCBs as SVGs from the comfort of your own terminal
-
-[pcb-stackup]: ./packages/pcb-stackup
-[pcb-stackup-core]: ./packages/pcb-stackup-core
-[gerber-to-svg]: ./packages/gerber-to-svg
-[gerber-plotter]: ./packages/gerber-plotter
-[gerber-parser]: ./packages/gerber-parser
-[whats-that-gerber]: ./packages/whats-that-gerber
-[tracespace-fixtures]: ./packages/fixtures
-[tracespace-cli]: ./packages/cli
-[pcb-stackup-badge]: https://img.shields.io/npm/v/pcb-stackup.svg?label=pcb-stackup&style=flat-square&maxAge=3600
-[pcb-stackup-core-badge]: https://img.shields.io/npm/v/pcb-stackup-core.svg?label=pcb-stackup-core&style=flat-square&maxAge=3600
-[gerber-to-svg-badge]: https://img.shields.io/npm/v/gerber-to-svg.svg?label=gerber-to-svg&style=flat-square&maxAge=3600
-[gerber-plotter-badge]: https://img.shields.io/npm/v/gerber-plotter.svg?label=gerber-plotter&style=flat-square&maxAge=3600
-[gerber-parser-badge]: https://img.shields.io/npm/v/gerber-parser.svg?label=gerber-parser&style=flat-square&maxAge=3600
-[whats-that-gerber-badge]: https://img.shields.io/npm/v/whats-that-gerber.svg?label=whats-that-gerber&style=flat-square&maxAge=3600
-[tracespace-fixtures-badge]: https://img.shields.io/npm/v/@tracespace/fixtures.svg?label=@tracespace/fixtures&style=flat-square&maxAge=3600
-[tracespace-cli-badge]: https://img.shields.io/npm/v/@tracespace/cli.svg?label=@tracespace/cli&style=flat-square&maxAge=3600
+[chat]: https://gitter.im/tracespace/Lobby
+[ci-badge]: https://flat.badgen.net/travis/tracespace/tracespace
+[coverage-badge]: https://flat.badgen.net/codecov/c/github/tracespace/tracespace
+[dev-dependencies-badge]: https://flat.badgen.net/david/dev/tracespace/tracespace
+[chat-badge]: https://flat.badgen.net/badge/chat/on%20gitter/cyan
 
 ## examples
 
@@ -108,6 +80,107 @@ Arduino Uno design files used under the terms of the [Creative Commons Attributi
 [tracespace-viewer]: http://viewer.tracespace.io
 [kitspace]: https://kitspace.org
 [openhardware]: https://www.openhardware.io
+
+## packages
+
+### [pcb-stackup][]
+
+![latest][pcb-stackup-latest-badge]
+![next][pcb-stackup-next-badge]
+
+> Render PCBs as beautiful, precise SVGs from Gerber / NC drill files
+
+[pcb-stackup]: ./packages/pcb-stackup
+[pcb-stackup-latest-badge]: https://flat.badgen.net/npm/v/pcb-stackup
+[pcb-stackup-next-badge]: https://flat.badgen.net/npm/v/pcb-stackup/next
+
+### [@tracespace/cli][]
+
+![latest][@tracespace/cli-latest-badge]
+![next][@tracespace/cli-next-badge]
+
+> Render PCBs as SVGs from the comfort of your own terminal
+
+[@tracespace/cli]: ./packages/cli
+[@tracespace/cli-latest-badge]: https://flat.badgen.net/npm/v/@tracespace/cli
+[@tracespace/cli-next-badge]: https://flat.badgen.net/npm/v/@tracespace/cli/next
+
+### [pcb-stackup-core][]
+
+![latest][pcb-stackup-core-latest-badge]
+![next][pcb-stackup-core-next-badge]
+
+> Layer stacking core logic for pcb-stackup
+
+[pcb-stackup-core]: ./packages/pcb-stackup-core
+[pcb-stackup-core-latest-badge]: https://flat.badgen.net/npm/v/pcb-stackup-core
+[pcb-stackup-core-next-badge]: https://flat.badgen.net/npm/v/pcb-stackup-core/next
+
+### [gerber-to-svg][]
+
+![latest][gerber-to-svg-latest-badge]
+![next][gerber-to-svg-next-badge]
+
+> Render individual Gerber / NC drill files as SVGs
+
+[gerber-to-svg]: ./packages/gerber-to-svg
+[gerber-to-svg-latest-badge]: https://flat.badgen.net/npm/v/gerber-to-svg
+[gerber-to-svg-next-badge]: https://flat.badgen.net/npm/v/gerber-to-svg/next
+
+### [gerber-plotter][]
+
+![latest][gerber-plotter-latest-badge]
+![next][gerber-plotter-next-badge]
+
+> Streaming layer image plotter (consumer of `gerber-parser`)
+
+[gerber-plotter]: ./packages/gerber-plotter
+[gerber-plotter-latest-badge]: https://flat.badgen.net/npm/v/gerber-plotter
+[gerber-plotter-next-badge]: https://flat.badgen.net/npm/v/gerber-plotter/next
+
+### [gerber-parser][]
+
+![latest][gerber-parser-latest-badge]
+![next][gerber-parser-next-badge]
+
+> Streaming Gerber/drill file parser
+
+[gerber-parser]: ./packages/gerber-parser
+[gerber-parser-latest-badge]: https://flat.badgen.net/npm/v/gerber-parser
+[gerber-parser-next-badge]: https://flat.badgen.net/npm/v/gerber-parser/next
+
+### [whats-that-gerber][]
+
+![latest][whats-that-gerber-latest-badge]
+![next][whats-that-gerber-next-badge]
+
+> Identify Gerber and drill files by filename
+
+[whats-that-gerber]: ./packages/whats-that-gerber
+[whats-that-gerber-latest-badge]: https://flat.badgen.net/npm/v/whats-that-gerber
+[whats-that-gerber-next-badge]: https://flat.badgen.net/npm/v/whats-that-gerber/next
+
+### [@tracespace/xml-id][]
+
+![latest][@tracespace/xml-id-latest-badge]
+![next][@tracespace/xml-id-next-badge]
+
+> XML ID generation and sanitation utilities for tracespace projects
+
+[@tracespace/xml-id]: ./packages/xml-id
+[@tracespace/xml-id-latest-badge]: https://flat.badgen.net/npm/v/@tracespace/xml-id
+[@tracespace/xml-id-next-badge]: https://flat.badgen.net/npm/v/@tracespace/xml-id/next
+
+### [@tracespace/fixtures][]
+
+![latest][@tracespace/fixtures-latest-badge]
+![next][@tracespace/fixtures-next-badge]
+
+> Test fixtures for tracespace projects
+
+[@tracespace/fixtures]: ./packages/fixtures
+[@tracespace/fixtures-latest-badge]: https://flat.badgen.net/npm/v/@tracespace/fixtures
+[@tracespace/fixtures-next-badge]: https://flat.badgen.net/npm/v/@tracespace/fixtures/next
 
 ## contributing
 

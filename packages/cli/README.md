@@ -1,6 +1,7 @@
 # tracespace cli
 
-[![npm][npm-badge]][npm]
+[![latest][@tracespace/cli-latest-badge]][npm]
+[![next][@tracespace/cli-next-badge]][npm-next]
 
 > Render PCBs as SVGs from the comfort of your own terminal
 
@@ -12,7 +13,9 @@ Part of the [tracespace][] collection of PCB visualization tools.
 [pcb-stackup]: ../pcb-stackup
 [tracespace]: https://github.com/tracespace/tracespace
 [npm]: https://www.npmjs.com/package/@tracespace/cli
-[npm-badge]: https://img.shields.io/npm/v/@tracespace/cli.svg?style=flat-square&maxAge=3600
+[npm-next]: https://www.npmjs.com/package/@tracespace/cli/v/next
+[@tracespace/cli-latest-badge]: https://flat.badgen.net/npm/v/@tracespace/cli
+[@tracespace/cli-next-badge]: https://flat.badgen.net/npm/v/@tracespace/cli/next
 
 ## install
 

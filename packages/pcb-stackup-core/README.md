@@ -1,6 +1,7 @@
 # pcb stackup core
 
-[![npm][npm-badge]][npm]
+[![latest][pcb-stackup-core-latest-badge]][npm]
+[![next][pcb-stackup-core-next-badge]][npm-next]
 
 > Stack gerber-to-svg layer renders to build PCB renders
 
@@ -12,7 +13,9 @@ Part of the [tracespace][] collection of PCB visualization tools.
 
 [tracespace]: https://github.com/tracespace/tracespace
 [npm]: https://www.npmjs.com/package/pcb-stackup-core
-[npm-badge]: https://img.shields.io/npm/v/pcb-stackup-core.svg?style=flat-square&maxAge=3600
+[npm-next]: https://www.npmjs.com/package/pcb-stackup-core/v/next
+[pcb-stackup-core-latest-badge]: https://flat.badgen.net/npm/v/pcb-stackup-core
+[pcb-stackup-core-next-badge]: https://flat.badgen.net/npm/v/pcb-stackup-core/next
 
 ## install
 
