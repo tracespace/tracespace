@@ -1,6 +1,7 @@
 # what's that gerber?
 
-[![version][npm-badge]][npm]
+[![latest][whats-that-gerber-latest-badge]][npm]
+[![next][whats-that-gerber-next-badge]][npm-next]
 
 > Identify Gerber and drill files by filename
 
@@ -10,7 +11,9 @@ Part of the [tracespace][] collection of PCB visualization tools.
 
 [tracespace]: https://github.com/tracespace/tracespace
 [npm]: https://www.npmjs.com/package/whats-that-gerber
-[npm-badge]: https://img.shields.io/npm/v/whats-that-gerber.svg?style=flat-square&maxAge=3600
+[npm-next]: https://www.npmjs.com/package/whats-that-gerber/v/next
+[whats-that-gerber-latest-badge]: https://flat.badgen.net/npm/v/whats-that-gerber
+[whats-that-gerber-next-badge]: https://flat.badgen.net/npm/v/whats-that-gerber/next
 
 ## install
 

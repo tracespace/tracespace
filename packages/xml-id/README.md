@@ -1,8 +1,9 @@
 # xml id
 
-[![npm][npm-badge]][npm]
+[![latest][@tracespace/xml-id-latest-badge]][npm]
+[![next][@tracespace/xml-id-next-badge]][npm-next]
 
-> XML ID utilities for tracespace projects
+> XML ID generation and sanitation utilities for tracespace projects
 
 ID attributes in XML documents (e.g. SVG images) have certain requirements. This module provides utility methods for sanitizing and generating strings to meet those requirements so they can safely be used as XML IDs.
 
@@ -10,7 +11,9 @@ Part of the [tracespace][] collection of PCB visualization tools.
 
 [tracespace]: https://github.com/tracespace/tracespace
 [npm]: https://www.npmjs.com/package/@tracespace/xml-id
-[npm-badge]: https://img.shields.io/npm/v/@tracespace/xml-id.svg?style=flat-square&maxAge=3600
+[npm-next]: https://www.npmjs.com/package/@tracespace/xml-id/v/next
+[@tracespace/xml-id-latest-badge]: https://flat.badgen.net/npm/v/@tracespace/xml-id
+[@tracespace/xml-id-next-badge]: https://flat.badgen.net/npm/v/@tracespace/xml-id/next
 
 ## install
 
