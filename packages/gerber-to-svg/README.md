@@ -29,7 +29,7 @@ After you clone and set-up the repository as detailed in [development setup](../
 
 ```shell
 cd tracespace/packages/gerber-to-svg
-yarn run example
+npm run example
 ```
 
 ![arduino uno sol][sol]

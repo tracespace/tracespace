@@ -17,7 +17,7 @@ after_success: npm run ci:after-success
 jobs:
   include:
     # TODO(mc, 2018-04-13): add browser test to default "test" stage
-    # - script: yarn run test:browser
+    # - script: npm run test:browser
     #   node_js: node
 
     - stage: deploy
@@ -41,4 +41,4 @@ jobs:
           tags: true
           all_brances: true
 
-cache: yarn
+cache: npm

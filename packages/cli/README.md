@@ -150,8 +150,8 @@ tracespace -b.color.sm="rgba(128,00,00,0.75)"
 > If you're using this option a lot, you may want to consider using a config file
 
 ```shell
-# Set layer type of `arduino-uno.drd` to `drl` layer and parse as a drill file
-tracespace -l.arduino-uno.drd.type=drl -l.arduino-uno.drd.options.filetype=drill
+# Set layer type of `arduino-uno.drd` to `drill` and parse as a drill file
+tracespace -l.arduino-uno.drd.type=drill -l.arduino-uno.drd.options.filetype=drill
 ```
 
 #### `-q`, `--quiet`, `config.quiet`

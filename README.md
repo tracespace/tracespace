@@ -117,19 +117,19 @@ We could use your help maintaining and growing the tracespace ecosystem! Issues 
 
 The tracespace tools live here in this [monorepo][]. We use [lerna][] to manage this setup.
 
-Node v8 (lts/carbon) is recommended and [yarn][] is required.
+Node v8 (lts/carbon) or later is recommended.
 
 ```shell
 # clone repository and install dependencies
 git clone git@github.com:tracespace/tracespace.git
 cd tracespace
-yarn
+npm install
 ```
 
 This repository adheres to the [Conventional Changelog][conventional-changelog] commit specification for automatic changelog generation. We recommend installing [commitizen][commitizen] to ensure your commit messages are properly formatted:
 
 ```shell
-yarn global add commitizen
+npm install -g commitizen
 
 # later, when you're ready to commit
 git add some/files/*
@@ -137,7 +137,6 @@ git cz
 ```
 
 [monorepo]: https://github.com/babel/babel/blob/master/doc/design/monorepo.md
-[yarn]: https://yarnpkg.com/
 [lerna]: https://lernajs.io/
 [conventional-changelog]: https://github.com/conventional-changelog/conventional-changelog
 [commitizen]: https://commitizen.github.io/cz-cli/
@@ -146,21 +145,21 @@ git cz
 
 ```shell
 # run unit and integration tests tests with coverage and linting
-yarn run test
+npm test
 
 # set SNAPSHOT_UPDATE=1 to update integration test snapshots
-SNAPSHOT_UPDATE=1 yarn run test
+SNAPSHOT_UPDATE=1 npm test
 
 # run unit tests in watch mode (no coverage, no linting)
-yarn run test:watch
+npm run test:watch
 
 # set INTEGRATION=1 to also include integration tests
-INTEGRATION=1 yarn run test:watch
+INTEGRATION=1 npm run test:watch
 
 # run unit tests in watch mode in Firefox and Chrome (using Karma)
 # will autolaunch Chrome and/or Firefox if they're installed
 # TODO: not yet implemented
-# yarn run test:browser
+# npm run test:browser
 ```
 
 ### integration tests
@@ -171,10 +170,10 @@ Automated integration tests consist of [snapshot tests][snapshot-testing] of SVG
 
 ```shell
 # run all integration test servers
-yarn run integration:server
+npm run integration:server
 
 # run server for a specific project
-yarn run integration:server --scope gerber-to-svg
+npm run integration:server --scope gerber-to-svg
 ```
 
 [snapshot-testing]: https://facebook.github.io/jest/docs/en/snapshot-testing.html
@@ -183,10 +182,10 @@ yarn run integration:server --scope gerber-to-svg
 
 ```shell
 # format the code for styling
-yarn run format
+npm run format
 
 # lint the code for potential errors
-yarn run lint
+npm run lint
 ```
 
 ### publishing
@@ -199,16 +198,17 @@ Packages are published to npm by the CI server. To publish a release, you must h
 * Commit, tag, and push to git
 
 ```shell
-# by default, bump to the next prerelease with identifier "next"
-# e.g. 4.0.0 -> 4.0.1-next.0
-yarn run bump
+# by default, bump to the next version as determined by conventional commits
+npm run bump
 
-# you may specify a bump level
-# https://github.com/lerna/lerna#--cd-version
-yarn run bump --cd-version=${major|minor|patch|premajor|preminor|prepatch|prerelease}
+# you may specify a bump level or exact version
+# prerelease bumps will be prefixed with "next", e.g. 4.0.0 -> 4.0.1-next.0
+# https://github.com/lerna/lerna/tree/master/commands/version#readme
+npm run bump -- ${major|minor|patch|premajor|preminor|prepatch|prerelease}
+npm run bump -- v42.0.0
 
 # to do a "dry run", you can stop before commit, tag, and push
-yarn run bump --skip-git
+npm run bump -- --no-git-tag-version --no-push
 ```
 
 The release will be published to the `latest` npm tag for bare versions (e.g. `4.0.0`) and to `next` for pre-release versions (e.g. `4.0.0-next.0`).
