@@ -10,12 +10,12 @@ const getResults = require('./get-results')
 const SIDES = ['top', 'bottom']
 const BOARDS = getBoards.sync().filter(b => !b.skipSnapshot)
 
-describe(`pcb-stackup-core :: integration`, function () {
+describe(`pcb-stackup-core :: integration`, function() {
   BOARDS.forEach((board, index) =>
-    describe(board.name, function () {
+    describe(board.name, function() {
       let boardResults
 
-      before(function (done) {
+      before(function(done) {
         if (process.env.INTEGRATION !== '1') return this.skip()
 
         getResults(board, (error, results) => {
@@ -26,7 +26,7 @@ describe(`pcb-stackup-core :: integration`, function () {
       })
 
       SIDES.forEach(side =>
-        it(`renders ${side}`, function () {
+        it(`renders ${side}`, function() {
           const result = boardResults.specs.find(s => s.name === side)
           snapshot(format(result.render).split('\n'))
         })

@@ -16,10 +16,10 @@ module.exports = {
   gerberFilenames,
   getBoards,
   getGerberSpecs,
-  server
+  server,
 }
 
-function getBoards (done) {
+function getBoards(done) {
   runWaterfall(
     [
       next => glob(GLOB_BOARD_MANIFEST, next),
@@ -27,19 +27,19 @@ function getBoards (done) {
         runParallel(
           manifestPaths.map(manifest => next => readManifest(manifest, next)),
           next
-        )
+        ),
     ],
     done
   )
 }
 
-getBoards.sync = function getBoardsSync () {
+getBoards.sync = function getBoardsSync() {
   const manifests = glob.sync(GLOB_BOARD_MANIFEST)
 
   return manifests.map(manifest => readManifest.sync(manifest))
 }
 
-function getGerberSpecs (done) {
+function getGerberSpecs(done) {
   runWaterfall(
     [
       next => glob(GLOB_SPEC_GERBER, next),
@@ -48,20 +48,20 @@ function getGerberSpecs (done) {
           gerberPaths.map(gerber => next => readFile(gerber, {}, next)),
           next
         ),
-      (gerberSpecs, next) => next(null, collectSpecs(gerberSpecs))
+      (gerberSpecs, next) => next(null, collectSpecs(gerberSpecs)),
     ],
     done
   )
 }
 
-getGerberSpecs.sync = function () {
+getGerberSpecs.sync = function() {
   const paths = glob.sync(GLOB_SPEC_GERBER)
   const specs = paths.map(filepath => readFile.sync(filepath, {}))
 
   return collectSpecs(specs)
 }
 
-function readManifest (manifestPath, done) {
+function readManifest(manifestPath, done) {
   const name = path.basename(path.dirname(manifestPath))
 
   runWaterfall(
@@ -70,18 +70,18 @@ function readManifest (manifestPath, done) {
   )
 }
 
-readManifest.sync = function readManifestSync (manifestPath) {
+readManifest.sync = function readManifestSync(manifestPath) {
   const name = path.basename(path.dirname(manifestPath))
   const manifest = readFile.sync(manifestPath, {name})
 
   return addLayersToManifest.sync(manifest)
 }
 
-function getLayerFilepath (manifest, layer) {
+function getLayerFilepath(manifest, layer) {
   return path.join(path.dirname(manifest.filepath), layer.name)
 }
 
-function addLayersToManifest (manifest, done) {
+function addLayersToManifest(manifest, done) {
   runWaterfall(
     [
       next =>
@@ -91,13 +91,13 @@ function addLayersToManifest (manifest, done) {
           ),
           next
         ),
-      (layers, next) => next(null, Object.assign(manifest, {layers}))
+      (layers, next) => next(null, Object.assign(manifest, {layers})),
     ],
     done
   )
 }
 
-addLayersToManifest.sync = function addLayersToManifestSync (manifest) {
+addLayersToManifest.sync = function addLayersToManifestSync(manifest) {
   const layers = manifest.layers.map(layer =>
     readFile.sync(getLayerFilepath(manifest, layer), layer)
   )
@@ -105,23 +105,23 @@ addLayersToManifest.sync = function addLayersToManifestSync (manifest) {
   return Object.assign(manifest, {layers})
 }
 
-function readFile (filepath, props, done) {
+function readFile(filepath, props, done) {
   runWaterfall(
     [
       next => fs.readFile(filepath, 'utf8', next),
-      (source, next) => next(null, makeFileResult(filepath, props, source))
+      (source, next) => next(null, makeFileResult(filepath, props, source)),
     ],
     done
   )
 }
 
-readFile.sync = function readFileSync (filepath, props) {
+readFile.sync = function readFileSync(filepath, props) {
   const source = fs.readFileSync(filepath, 'utf8')
 
   return makeFileResult(filepath, props, source)
 }
 
-function makeFileResult (filepath, props, source) {
+function makeFileResult(filepath, props, source) {
   const dirname = path.dirname(filepath)
   const category = path.basename(dirname)
   const extname = path.extname(filepath)
@@ -134,7 +134,7 @@ function makeFileResult (filepath, props, source) {
   return Object.assign(file, result, props)
 }
 
-function collectSpecs (gerberSpecs) {
+function collectSpecs(gerberSpecs) {
   const {suites, suitesByName} = gerberSpecs.reduce(
     (result, spec) => {
       const {category, name} = spec
@@ -148,7 +148,7 @@ function collectSpecs (gerberSpecs) {
         result.suitesByName[category] = {
           name: category,
           specs: [name],
-          specsByName: {[name]: spec}
+          specsByName: {[name]: spec},
         }
       } else if (result.suitesByName[category].specs.indexOf(name) < 0) {
         result.suitesByName[category].specs.push(name)
@@ -169,6 +169,6 @@ function collectSpecs (gerberSpecs) {
     name,
     specs: suitesByName[name].specs.map(
       specName => suitesByName[name].specsByName[specName]
-    )
+    ),
   }))
 }

@@ -14,8 +14,8 @@ module.exports = {
     type: 'string',
     example: {
       cmd: '$0 --out=renders',
-      desc: 'Write SVGs into directory `./renders`'
-    }
+      desc: 'Write SVGs into directory `./renders`',
+    },
   },
   noBoard: {
     alias: 'B',
@@ -23,8 +23,8 @@ module.exports = {
     type: 'boolean',
     example: {
       cmd: '$0 -B',
-      desc: 'Output only the individual layer renders'
-    }
+      desc: 'Output only the individual layer renders',
+    },
   },
   noLayer: {
     alias: 'L',
@@ -32,8 +32,8 @@ module.exports = {
     type: 'boolean',
     example: {
       cmd: '$0 -L',
-      desc: 'Output only the top and bottom PCB renders'
-    }
+      desc: 'Output only the top and bottom PCB renders',
+    },
   },
   force: {
     alias: 'f',
@@ -41,8 +41,8 @@ module.exports = {
     type: 'boolean',
     example: {
       cmd: '$0 -B --force some-file.xyz',
-      desc: 'Attempt render even if whats-that-gerber cannot identify'
-    }
+      desc: 'Attempt render even if whats-that-gerber cannot identify',
+    },
   },
   gerber: {
     alias: 'g',
@@ -50,8 +50,8 @@ module.exports = {
     type: 'object',
     example: {
       cmd: '$0 -B -g.attributes.color=blue',
-      desc: 'Set the color attribute of all Gerber SVGs'
-    }
+      desc: 'Set the color attribute of all Gerber SVGs',
+    },
   },
   drill: {
     alias: 'd',
@@ -59,8 +59,8 @@ module.exports = {
     type: 'object',
     example: {
       cmd: '$0 -B -d.attributes.color=red',
-      desc: 'Set the color attribute of all drill SVGs'
-    }
+      desc: 'Set the color attribute of all drill SVGs',
+    },
   },
   board: {
     alias: 'b',
@@ -68,8 +68,8 @@ module.exports = {
     type: 'object',
     example: {
       cmd: '$0 -b.color.sm="rgba(128,00,00,0.75)"',
-      desc: 'Set the soldermask color of the board renders'
-    }
+      desc: 'Set the soldermask color of the board renders',
+    },
   },
   layer: {
     alias: 'l',
@@ -81,8 +81,8 @@ module.exports = {
       desc:
         'Set layer type of `arduino-uno.drd` to `drill` and parse as a drill file',
       aside:
-        "If you're using this option a lot, you may want to consider using a config file"
-    }
+        "If you're using this option a lot, you may want to consider using a config file",
+    },
   },
   quiet: {
     alias: 'q',
@@ -90,7 +90,7 @@ module.exports = {
     type: 'boolean',
     example: {
       cmd: '$0 --quiet',
-      desc: 'Do not print info to stderr'
-    }
-  }
+      desc: 'Do not print info to stderr',
+    },
+  },
 }

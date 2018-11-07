@@ -1,7 +1,7 @@
 // function to determine filetype from a chunk
 'use strict'
 
-var determine = function (chunk, start, LIMIT) {
+var determine = function(chunk, start, LIMIT) {
   var limit = Math.min(LIMIT - start, chunk.length)
   var current = []
   var filetype = null

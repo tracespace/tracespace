@@ -36,18 +36,18 @@ readFile(doc, 'utf8')
     }
   )
 
-function insertOptionsIntoDocument (contents) {
+function insertOptionsIntoDocument(contents) {
   return contents.replace(
     matcher('options'),
     (match, startTag, endTag) => `${startTag}${generateOptions()}${endTag}`
   )
 }
 
-function writeDocs (contents) {
+function writeDocs(contents) {
   return writeFile(doc, contents, 'utf8')
 }
 
-function generateOptions () {
+function generateOptions() {
   return Object.keys(options)
     .map(long => {
       const {
@@ -55,7 +55,7 @@ function generateOptions () {
         type,
         example,
         alias: short,
-        default: defaultValue
+        default: defaultValue,
       } = options[long]
 
       return `
@@ -73,7 +73,7 @@ ${example.cmd.replace('$0', 'tracespace')}
     .join('\n')
 }
 
-function getDefaultFromType (type) {
+function getDefaultFromType(type) {
   switch (type) {
     case 'boolean':
       return 'false'

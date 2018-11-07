@@ -10,7 +10,7 @@ const debug = require('debug')('tracespace/fixtures/server')
 
 const TEMPLATE = path.join(__dirname, './template.html')
 
-module.exports = function makeServer (name, getSuites, getSuiteResult) {
+module.exports = function makeServer(name, getSuites, getSuiteResult) {
   const app = express()
 
   app.get('/', (request, response) => {
@@ -28,11 +28,11 @@ module.exports = function makeServer (name, getSuites, getSuiteResult) {
 
   return app
 
-  function handleTestRun (done) {
+  function handleTestRun(done) {
     runWaterfall([getSuites, getResults, makeResponse], done)
   }
 
-  function getResults (suites, done) {
+  function getResults(suites, done) {
     debug(`Rendering specs from ${suites.length} suites`)
 
     const tasks = suites.map(suite => next => getSuiteResult(suite, next))
@@ -40,14 +40,14 @@ module.exports = function makeServer (name, getSuites, getSuiteResult) {
     runParallel(tasks, done)
   }
 
-  function makeResponse (results, done) {
+  function makeResponse(results, done) {
     debug(`Running template with ${results.length} suites`)
 
     runTemplate({name, results}, done)
   }
 }
 
-function runTemplate (props, done) {
+function runTemplate(props, done) {
   runWaterfall(
     [
       next => fs.readFile(TEMPLATE, 'utf8', next),
@@ -57,7 +57,7 @@ function runTemplate (props, done) {
         } catch (error) {
           next(error)
         }
-      }
+      },
     ],
     done
   )

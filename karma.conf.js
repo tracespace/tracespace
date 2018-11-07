@@ -1,4 +1,4 @@
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     frameworks: ['browserify', 'mocha'],
 
@@ -7,12 +7,12 @@ module.exports = function (config) {
     exclude: ['**/integration/**'],
 
     preprocessors: {
-      './packages/**/*test.js': ['browserify']
+      './packages/**/*test.js': ['browserify'],
     },
 
     browserify: {
       debug: true,
-      plugin: ['proxyquire-universal']
+      plugin: ['proxyquire-universal'],
     },
 
     reporters: ['progress'],
@@ -29,6 +29,6 @@ module.exports = function (config) {
 
     singleRun: process.env.CI,
 
-    concurrency: Infinity
+    concurrency: Infinity,
   })
 }

@@ -7,7 +7,7 @@ var padLeft = require('lodash.padleft')
 var padRight = require('lodash.padright')
 
 // function takes in the number string to be converted and the format object
-var normalizeCoord = function (number, format) {
+var normalizeCoord = function(number, format) {
   // make sure we're dealing with a string
   if (number == null) {
     return NaN

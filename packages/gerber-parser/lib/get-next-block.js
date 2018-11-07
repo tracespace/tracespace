@@ -2,7 +2,7 @@
 // returns {next: '_', read: [chars read], lines: [lines read]}
 'use strict'
 
-var getNext = function (type, chunk, start) {
+var getNext = function(type, chunk, start) {
   if (type !== 'gerber' && type !== 'drill') {
     throw new Error('filetype to get next block must be "drill" or "gerber"')
   }

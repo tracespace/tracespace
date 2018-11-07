@@ -17,7 +17,7 @@ const GERBER_PATHS = [
   path.join(GERBERS_DIR, 'arduino-uno.plc'),
   path.join(GERBERS_DIR, 'arduino-uno.sol'),
   path.join(GERBERS_DIR, 'arduino-uno.stc'),
-  path.join(GERBERS_DIR, 'arduino-uno.sts')
+  path.join(GERBERS_DIR, 'arduino-uno.sts'),
 ]
 
 GERBER_PATHS.forEach(filename => {

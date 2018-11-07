@@ -9,7 +9,7 @@ const debug = require('debug')('tracespace/gerber-to-svg/integration')
 const wtg = require('whats-that-gerber')
 const gerberToSvg = require('..')
 
-module.exports = function getSuiteResults (suite, done) {
+module.exports = function getSuiteResults(suite, done) {
   debug(`Rendering suite ${suite.name}`)
 
   const specs = suite.specs || suite.layers
@@ -18,19 +18,19 @@ module.exports = function getSuiteResults (suite, done) {
   runWaterfall(
     [
       next => runParallel(specTasks, next),
-      (specs, next) => next(null, Object.assign(suite, {specs}))
+      (specs, next) => next(null, Object.assign(suite, {specs})),
     ],
     done
   )
 }
 
-function renderSpec (spec, done) {
+function renderSpec(spec, done) {
   debug(`Rendering ${spec.category} - ${spec.name}`)
 
   const renderOptions = Object.assign(
     {
       id: path.basename(spec.filepath),
-      plotAsOutline: spec.type === wtg.TYPE_OUTLINE
+      plotAsOutline: spec.type === wtg.TYPE_OUTLINE,
     },
     spec.options
   )
@@ -38,7 +38,7 @@ function renderSpec (spec, done) {
   runWaterfall(
     [
       next => gerberToSvg(spec.source, renderOptions, next),
-      (render, next) => next(null, Object.assign({render}, spec))
+      (render, next) => next(null, Object.assign({render}, spec)),
     ],
     done
   )

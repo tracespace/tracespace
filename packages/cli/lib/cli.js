@@ -22,14 +22,14 @@ const resolve = require('./resolve')
 const writeFile = util.promisify(fs.writeFile)
 const stackup = util.promisify(pcbStackup)
 
-module.exports = function cli (processArgv, config) {
+module.exports = function cli(processArgv, config) {
   const argv = yargs
     .usage('$0 [options] <files...>', `${description}\nv${version}`, yargs => {
       yargs.positional('files', {
         coerce: files => files.map(resolve),
         describe:
           "Filenames, directories, or globs to a PCB's Gerber/drill files",
-        type: 'string'
+        type: 'string',
       })
 
       examples.forEach(e => yargs.example(e.cmd, e.desc))
@@ -58,7 +58,7 @@ module.exports = function cli (processArgv, config) {
     .then(renderFiles)
     .then(writeRenders)
 
-  function renderFiles (filenames) {
+  function renderFiles(filenames) {
     const layers = filenames.map(makeLayerFromFilename).filter(_ => _)
 
     if (!layers.length) throw new Error(`No valid Gerber or drill files found`)
@@ -66,7 +66,7 @@ module.exports = function cli (processArgv, config) {
     return stackup(layers, argv.board)
   }
 
-  function makeLayerFromFilename (filename) {
+  function makeLayerFromFilename(filename) {
     const basename = path.basename(filename)
     const type = getType(basename)
 
@@ -85,19 +85,19 @@ module.exports = function cli (processArgv, config) {
     return {type, gerber, options, filename: basename}
   }
 
-  function getType (basename) {
+  function getType(basename) {
     const defaultType = whatsThatGerber(basename)
 
     return get(argv.layer, `${basename}.type`, defaultType)
   }
 
-  function getOptions (basename, type) {
+  function getOptions(basename, type) {
     const defaultOptions = type === 'drl' ? argv.drill : argv.gerber
 
     return get(argv.layer, `${basename}.options`, defaultOptions)
   }
 
-  function writeRenders (stackup) {
+  function writeRenders(stackup) {
     const name = inferBoardName(stackup)
     const ensureDir =
       argv.out !== options.out.STDOUT ? makeDir(argv.out) : Promise.resolve()
@@ -113,12 +113,12 @@ module.exports = function cli (processArgv, config) {
               `${layer.filename}.${layer.type}.svg`,
               gerberToSvg.render(layer.converter, layer.options.attributes)
             )
-          )
+          ),
       ])
     )
   }
 
-  function writeOutput (name, contents) {
+  function writeOutput(name, contents) {
     if (argv.out === options.out.STDOUT) return console.log(contents)
 
     const filename = path.join(argv.out, name)
@@ -127,7 +127,7 @@ module.exports = function cli (processArgv, config) {
   }
 }
 
-function inferBoardName (stackup) {
+function inferBoardName(stackup) {
   const names = stackup.layers.map(ly =>
     path.basename(ly.filename, path.extname(ly.filename))
   )

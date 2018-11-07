@@ -6,7 +6,7 @@ var wtg = require('whats-that-gerber')
 
 var wrapLayer = require('./wrap-layer')
 
-module.exports = function gatherLayers (
+module.exports = function gatherLayers(
   element,
   idPrefix,
   layers,
@@ -22,7 +22,7 @@ module.exports = function gatherLayers (
   var allLayers = layers.concat(drills, outline || [])
 
   var drillCount = 0
-  var getUniqueId = function (type) {
+  var getUniqueId = function(type) {
     var id = idPrefix + type
 
     if (type === wtg.TYPE_DRILL) {
@@ -33,7 +33,7 @@ module.exports = function gatherLayers (
     return id
   }
 
-  allLayers.forEach(function (layer) {
+  allLayers.forEach(function(layer) {
     if (!layer.externalId) {
       defs = defs.concat(defs, layer.converter.defs)
     }
@@ -50,7 +50,7 @@ module.exports = function gatherLayers (
   }
 
   var viewboxLayers = outline ? [outline] : allLayers
-  var box = viewboxLayers.reduce(function (result, layer) {
+  var box = viewboxLayers.reduce(function(result, layer) {
     var nextBox = layer.converter.viewBox
 
     nextBox = viewbox.scale(nextBox, getScale(units, layer.converter.units))
@@ -58,8 +58,8 @@ module.exports = function gatherLayers (
     return viewbox.add(result, nextBox)
   }, viewbox.create())
 
-  var wrapConverterLayer = function (collection) {
-    return function (layer) {
+  var wrapConverterLayer = function(collection) {
+    return function(layer) {
       var id = layer.externalId
       var converter = layer.converter
 
@@ -104,11 +104,11 @@ module.exports = function gatherLayers (
     units: units,
     layerIds: layerIds,
     drillIds: drillIds,
-    outlineId: outlineId
+    outlineId: outlineId,
   }
 }
 
-function getScale (units, layerUnits) {
+function getScale(units, layerUnits) {
   var scale = units === 'in' ? 1 / 25.4 : 25.4
   var result = units === layerUnits ? 1 : scale
 

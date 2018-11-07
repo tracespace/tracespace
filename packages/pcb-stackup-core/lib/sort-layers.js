@@ -3,16 +3,16 @@
 
 var wtg = require('whats-that-gerber')
 
-module.exports = function sortLayers (layers) {
+module.exports = function sortLayers(layers) {
   return layers.reduce(assignLayer, {
     top: [],
     bottom: [],
     drills: [],
-    outline: null
+    outline: null,
   })
 }
 
-function assignLayer (result, layer) {
+function assignLayer(result, layer) {
   var type = layer.type
   var side = layer.side
 

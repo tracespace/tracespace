@@ -25,5 +25,5 @@ module.exports = {
   _CAD_EAGLE: 'eagle',
   _CAD_GEDA_PCB: 'geda-pcb',
   _CAD_ORCAD: 'orcad',
-  _CAD_DIPTRACE: 'diptrace'
+  _CAD_DIPTRACE: 'diptrace',
 }

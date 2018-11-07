@@ -6,7 +6,7 @@ var parseMacroExpr = require('./_parse-macro-expression')
 var RE_NUM = /^-?[\d.]+$/
 var RE_VAR_DEF = /^(\$[\d+])=(.+)/
 
-var parseMacroBlock = function (parser, block) {
+var parseMacroBlock = function(parser, block) {
   // check first for a comment
   if (block[0] === '0') {
     return {type: 'comment'}
@@ -19,7 +19,7 @@ var parseMacroBlock = function (parser, block) {
     var varExpr = varDefMatch[2]
     var evaluate = parseMacroExpr(parser, varExpr)
 
-    var setMods = function (mods) {
+    var setMods = function(mods) {
       mods[varName] = evaluate(mods)
 
       return mods
@@ -28,7 +28,7 @@ var parseMacroBlock = function (parser, block) {
   }
 
   // map a primitive param to a number or, if an expression, a function
-  var modVal = function (m) {
+  var modVal = function(m) {
     if (RE_NUM.test(m)) {
       return Number(m)
     }
@@ -48,7 +48,7 @@ var parseMacroBlock = function (parser, block) {
       cx: mods[3],
       cy: mods[4],
       // handle optional rotation with circle primitives
-      rot: mods[5] || 0
+      rot: mods[5] || 0,
     }
   }
 
@@ -66,7 +66,7 @@ var parseMacroBlock = function (parser, block) {
       y1: mods[4],
       x2: mods[5],
       y2: mods[6],
-      rot: mods[7]
+      rot: mods[7],
     }
   }
 
@@ -79,7 +79,7 @@ var parseMacroBlock = function (parser, block) {
       height: mods[3],
       cx: mods[4],
       cy: mods[5],
-      rot: mods[6]
+      rot: mods[6],
     }
   }
 
@@ -94,7 +94,7 @@ var parseMacroBlock = function (parser, block) {
       height: mods[3],
       x: mods[4],
       y: mods[5],
-      rot: mods[6]
+      rot: mods[6],
     }
   }
 
@@ -103,7 +103,7 @@ var parseMacroBlock = function (parser, block) {
       type: 'outline',
       exp: exp,
       points: mods.slice(3, -1).map(Number),
-      rot: Number(mods[mods.length - 1])
+      rot: Number(mods[mods.length - 1]),
     }
   }
 
@@ -115,7 +115,7 @@ var parseMacroBlock = function (parser, block) {
       cx: mods[3],
       cy: mods[4],
       dia: mods[5],
-      rot: mods[6]
+      rot: mods[6],
     }
   }
 
@@ -132,7 +132,7 @@ var parseMacroBlock = function (parser, block) {
       maxRings: mods[6],
       crossThx: mods[7],
       crossLen: mods[8],
-      rot: mods[9]
+      rot: mods[9],
     }
   }
 
@@ -146,7 +146,7 @@ var parseMacroBlock = function (parser, block) {
       outerDia: mods[3],
       innerDia: mods[4],
       gap: mods[5],
-      rot: mods[6]
+      rot: mods[6],
     }
   } else {
     parser._warn(code + ' is an unrecognized primitive for a macro aperture')

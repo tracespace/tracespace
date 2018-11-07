@@ -7,11 +7,11 @@ var gerberToSvg = require('gerber-to-svg')
 var createStackup = require('pcb-stackup-core')
 var wtg = require('whats-that-gerber')
 
-var getFilename = function (layer) {
+var getFilename = function(layer) {
   return layer.filename
 }
 
-var getValidationMessage = function (layer) {
+var getValidationMessage = function(layer) {
   var result = wtg.validate(layer)
 
   if (layer.filename || result.valid) return ''
@@ -19,7 +19,7 @@ var getValidationMessage = function (layer) {
   return 'has invalid side/type (' + layer.side + '/' + layer.type + ')'
 }
 
-var pcbStackup = function (layers, options, done) {
+var pcbStackup = function(layers, options, done) {
   if (typeof options === 'function') {
     done = options
     options = {}
@@ -29,7 +29,7 @@ var pcbStackup = function (layers, options, done) {
 
   var validationMessage = layers
     .map(getValidationMessage)
-    .map(function (msg, i) {
+    .map(function(msg, i) {
       return msg && 'layer ' + i + ' ' + msg
     })
     .filter(Boolean)
@@ -44,7 +44,7 @@ var pcbStackup = function (layers, options, done) {
   }
 
   if (options.createElement != null) {
-    layers.forEach(function (layer) {
+    layers.forEach(function(layer) {
       layer.options = layer.options || {}
       layer.options.createElement = options.createElement
     })
@@ -53,7 +53,7 @@ var pcbStackup = function (layers, options, done) {
   var layerCount = layers.length
   var stackupLayers = []
 
-  var finishLayer = function () {
+  var finishLayer = function() {
     if (--layerCount < 1) {
       var stackup = createStackup(stackupLayers, options)
 
@@ -69,7 +69,7 @@ var pcbStackup = function (layers, options, done) {
 
   var gerberIds = wtg(layers.map(getFilename))
 
-  layers.forEach(function (layer) {
+  layers.forEach(function(layer) {
     var gerberId = gerberIds[layer.filename]
     var layerSide = layer.side || gerberId.side
     var layerType = layer.type || gerberId.type
@@ -98,7 +98,7 @@ var pcbStackup = function (layers, options, done) {
       type: layerType,
       filename: layer.filename,
       converter: converter,
-      options: layerOptions
+      options: layerOptions,
     })
 
     if (usePreConverted) {

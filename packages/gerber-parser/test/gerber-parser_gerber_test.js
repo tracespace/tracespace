@@ -7,13 +7,13 @@ var partial = require('lodash/partial')
 
 var parser = require('../lib')
 
-describe('gerber parser with gerber files', function () {
+describe('gerber parser with gerber files', function() {
   var p
   var pFactory = partial(parser, {filetype: 'gerber'})
 
   // convenience function to expect an array of results
-  var expectResults = function (expected, done) {
-    var handleData = function (res) {
+  var expectResults = function(expected, done) {
+    var handleData = function(res) {
       expect(res).to.eql(expected.shift())
       if (!expected.length) {
         return done()
@@ -23,26 +23,26 @@ describe('gerber parser with gerber files', function () {
     p.on('data', handleData)
   }
 
-  beforeEach(function () {
+  beforeEach(function() {
     p = pFactory()
   })
 
-  afterEach(function () {
+  afterEach(function() {
     p.removeAllListeners('data')
     p.removeAllListeners('warning')
     p.removeAllListeners('error')
   })
 
-  it('should do nothing with comments', function (done) {
-    p.once('data', function () {
+  it('should do nothing with comments', function(done) {
+    p.once('data', function() {
       p.removeAllListeners('warning').removeAllListeners('error')
       throw new Error('should not have emitted from comments')
     })
-    p.once('warning', function () {
+    p.once('warning', function() {
       p.removeAllListeners('data').removeAllListeners('error')
       throw new Error('should not have warned from comments')
     })
-    p.once('error', function () {
+    p.once('error', function() {
       p.removeAllListeners('warning').removeAllListeners('data')
       throw new Error('should not have errored from comments')
     })
@@ -56,16 +56,16 @@ describe('gerber parser with gerber files', function () {
     setTimeout(done, 1)
   })
 
-  it('should do nothing with "empty" blocks', function (done) {
-    p.once('data', function () {
+  it('should do nothing with "empty" blocks', function(done) {
+    p.once('data', function() {
       p.removeAllListeners('warning').removeAllListeners('error')
       throw new Error('should not have emitted from empty block')
     })
-    p.once('warning', function () {
+    p.once('warning', function() {
       p.removeAllListeners('data').removeAllListeners('error')
       throw new Error('should not have warned from empty block')
     })
-    p.once('error', function () {
+    p.once('error', function() {
       p.removeAllListeners('warning').removeAllListeners('data')
       throw new Error('should not have errored from empty block')
     })
@@ -77,8 +77,8 @@ describe('gerber parser with gerber files', function () {
     setTimeout(done, 1)
   })
 
-  it('should warn if a block is unhandled', function (done) {
-    p.once('warning', function (w) {
+  it('should warn if a block is unhandled', function(done) {
+    p.once('warning', function(w) {
       expect(w.line).to.equal(0)
       expect(w.message).to.match(/not recognized/)
       done()
@@ -87,16 +87,16 @@ describe('gerber parser with gerber files', function () {
     p.write('foobarbaz*\n')
   })
 
-  it('should handle split blocks', function (done) {
-    p.once('data', function () {
+  it('should handle split blocks', function(done) {
+    p.once('data', function() {
       p.removeAllListeners('warning').removeAllListeners('error')
       throw new Error('should not have emitted from split comment')
     })
-    p.once('warning', function () {
+    p.once('warning', function() {
       p.removeAllListeners('data').removeAllListeners('error')
       throw new Error('should not have warned from split comment')
     })
-    p.once('error', function () {
+    p.once('error', function() {
       p.removeAllListeners('warning').removeAllListeners('data')
       throw new Error('should not have errored from split comment')
     })
@@ -106,32 +106,32 @@ describe('gerber parser with gerber files', function () {
     setTimeout(done, 1)
   })
 
-  it('should end the file with a M02', function (done) {
+  it('should end the file with a M02', function(done) {
     var expected = [{type: 'done', line: 0}]
 
     expectResults(expected, done)
     p.write('M02*\n')
   })
 
-  describe('general set commands (G-codes)', function () {
-    it('should set region mode on/off with G36/7', function (done) {
+  describe('general set commands (G-codes)', function() {
+    it('should set region mode on/off with G36/7', function(done) {
       var expected = [
         {type: 'set', prop: 'region', value: true, line: 0},
-        {type: 'set', prop: 'region', value: false, line: 1}
+        {type: 'set', prop: 'region', value: false, line: 1},
       ]
 
       expectResults(expected, done)
       p.write('G36*\nG37*\n')
     })
 
-    it('should set interpolation mode with G01/2/3', function (done) {
+    it('should set interpolation mode with G01/2/3', function(done) {
       var expected = [
         {type: 'set', prop: 'mode', value: 'i', line: 0},
         {type: 'set', prop: 'mode', value: 'cw', line: 1},
         {type: 'set', prop: 'mode', value: 'ccw', line: 2},
         {type: 'set', prop: 'mode', value: 'i', line: 3},
         {type: 'set', prop: 'mode', value: 'cw', line: 4},
-        {type: 'set', prop: 'mode', value: 'ccw', line: 5}
+        {type: 'set', prop: 'mode', value: 'ccw', line: 5},
       ]
 
       expectResults(expected, done)
@@ -139,10 +139,10 @@ describe('gerber parser with gerber files', function () {
       p.write('G1*\nG2*\nG3*\n')
     })
 
-    it('should set the arc mode with G74/5', function (done) {
+    it('should set the arc mode with G74/5', function(done) {
       var expected = [
         {type: 'set', prop: 'arc', value: 's', line: 0},
-        {type: 'set', prop: 'arc', value: 'm', line: 1}
+        {type: 'set', prop: 'arc', value: 'm', line: 1},
       ]
 
       expectResults(expected, done)
@@ -150,11 +150,11 @@ describe('gerber parser with gerber files', function () {
     })
   })
 
-  describe('unit set commands (MO parameter)', function () {
-    it('should set units with %MOIN*% and %MOMM*%', function (done) {
+  describe('unit set commands (MO parameter)', function() {
+    it('should set units with %MOIN*% and %MOMM*%', function(done) {
       var expected = [
         {type: 'set', prop: 'units', value: 'in', line: 0},
-        {type: 'set', prop: 'units', value: 'mm', line: 1}
+        {type: 'set', prop: 'units', value: 'mm', line: 1},
       ]
 
       expectResults(expected, done)
@@ -162,10 +162,10 @@ describe('gerber parser with gerber files', function () {
       p.write('%MOMM*%\n')
     })
 
-    it('should set backup units with G70/1', function (done) {
+    it('should set backup units with G70/1', function(done) {
       var expected = [
         {type: 'set', prop: 'backupUnits', value: 'in', line: 0},
-        {type: 'set', prop: 'backupUnits', value: 'mm', line: 1}
+        {type: 'set', prop: 'backupUnits', value: 'mm', line: 1},
       ]
 
       expectResults(expected, done)
@@ -173,8 +173,8 @@ describe('gerber parser with gerber files', function () {
     })
   })
 
-  describe('format block', function () {
-    it('should parse zero suppression', function () {
+  describe('format block', function() {
+    it('should parse zero suppression', function() {
       var format = '%FSLAX34Y34*%'
       p.write(format)
       expect(p.format.zero).to.equal('L')
@@ -185,8 +185,8 @@ describe('gerber parser with gerber files', function () {
       expect(p.format.zero).to.equal('T')
     })
 
-    it('should warn trailing suppression is deprected', function (done) {
-      p.once('warning', function (w) {
+    it('should warn trailing suppression is deprected', function(done) {
+      p.once('warning', function(w) {
         expect(w.line).to.equal(0)
         expect(w.message).to.match(/trailing zero suppression/)
         done()
@@ -195,7 +195,7 @@ describe('gerber parser with gerber files', function () {
       p.write('%FSTAX34Y34*%\n')
     })
 
-    it('should parse places format', function () {
+    it('should parse places format', function() {
       var format = '%FSLAX34Y34*%'
       p.write(format)
       expect(p.format.places).to.eql([3, 4])
@@ -206,7 +206,7 @@ describe('gerber parser with gerber files', function () {
       expect(p.format.places).to.eql([7, 7])
     })
 
-    it('should not override user-set places or suppression', function () {
+    it('should not override user-set places or suppression', function() {
       var format = '%FSLAX34Y34*%'
       p.format.zero = 'T'
       p.format.places = [7, 7]
@@ -215,7 +215,7 @@ describe('gerber parser with gerber files', function () {
       expect(p.format.places).to.eql([7, 7])
     })
 
-    it('should set notation and epsilon', function (done) {
+    it('should set notation and epsilon', function(done) {
       var format1 = '%FSLAX34Y34*%\n'
       var format2 = '%FSLIX77Y77*%\n'
       // ensure it parses if suppression is missing
@@ -226,7 +226,7 @@ describe('gerber parser with gerber files', function () {
         {type: 'set', line: 1, prop: 'nota', value: 'I'},
         {type: 'set', line: 1, prop: 'epsilon', value: 1.5 * Math.pow(10, -7)},
         {type: 'set', line: 2, prop: 'nota', value: 'A'},
-        {type: 'set', line: 2, prop: 'epsilon', value: 1.5 * Math.pow(10, -6)}
+        {type: 'set', line: 2, prop: 'epsilon', value: 1.5 * Math.pow(10, -6)},
       ]
 
       expectResults(expected, done)
@@ -238,9 +238,9 @@ describe('gerber parser with gerber files', function () {
       p.write(format3)
     })
 
-    it('should warn and set leading if suppression missing', function (done) {
+    it('should warn and set leading if suppression missing', function(done) {
       var format = '%FSAX34Y34*%\n'
-      p.once('warning', function (w) {
+      p.once('warning', function(w) {
         expect(w.line).to.equal(0)
         expect(w.message).to.match(/suppression missing/)
         expect(p.format.zero).to.equal('L')
@@ -250,10 +250,10 @@ describe('gerber parser with gerber files', function () {
       p.write(format)
     })
 
-    it('should be able to set backup notation with G90/1', function (done) {
+    it('should be able to set backup notation with G90/1', function(done) {
       var expected = [
         {type: 'set', line: 0, prop: 'backupNota', value: 'A'},
-        {type: 'set', line: 1, prop: 'backupNota', value: 'I'}
+        {type: 'set', line: 1, prop: 'backupNota', value: 'I'},
       ]
 
       expectResults(expected, done)
@@ -261,10 +261,10 @@ describe('gerber parser with gerber files', function () {
       p.write('G91*\n')
     })
 
-    it('should warn but still set format if there are extra characters', function (done) {
+    it('should warn but still set format if there are extra characters', function(done) {
       var format = '%FSLAN2X34Y34*%\n'
 
-      p.once('warning', function (w) {
+      p.once('warning', function(w) {
         expect(w.line).to.equal(0)
         expect(w.message).to.match(/unknown characters/)
         expect(p.format.zero).to.equal('L')
@@ -276,37 +276,37 @@ describe('gerber parser with gerber files', function () {
     })
   })
 
-  describe('new level commands (SR/LP parameters)', function () {
-    it('should parse a new level polarity', function (done) {
+  describe('new level commands (SR/LP parameters)', function() {
+    it('should parse a new level polarity', function(done) {
       var expected = [
         {type: 'level', line: 0, level: 'polarity', value: 'D'},
-        {type: 'level', line: 1, level: 'polarity', value: 'C'}
+        {type: 'level', line: 1, level: 'polarity', value: 'C'},
       ]
 
       expectResults(expected, done)
       p.write('%LPD*%\n%LPC*%')
     })
 
-    it('should parse a new step-repeat level', function (done) {
+    it('should parse a new step-repeat level', function(done) {
       var expected = [
         {
           type: 'level',
           line: 0,
           level: 'stepRep',
-          value: {x: 1, y: 1, i: 0, j: 0}
+          value: {x: 1, y: 1, i: 0, j: 0},
         },
         {
           type: 'level',
           line: 1,
           level: 'stepRep',
-          value: {x: 2, y: 3, i: 2, j: 3}
+          value: {x: 2, y: 3, i: 2, j: 3},
         },
         {
           type: 'level',
           line: 2,
           level: 'stepRep',
-          value: {x: 1, y: 1, i: 0, j: 0}
-        }
+          value: {x: 1, y: 1, i: 0, j: 0},
+        },
       ]
 
       expectResults(expected, done)
@@ -317,17 +317,17 @@ describe('gerber parser with gerber files', function () {
     })
   })
 
-  describe('tool changes and definitions', function () {
-    beforeEach(function () {
+  describe('tool changes and definitions', function() {
+    beforeEach(function() {
       p.format.zero = 'L'
       p.format.places = [2, 2]
     })
 
-    it('should parse a tool change block', function (done) {
+    it('should parse a tool change block', function(done) {
       var expected = [
         {type: 'set', line: 0, prop: 'tool', value: '10'},
         {type: 'set', line: 1, prop: 'tool', value: '11'},
-        {type: 'set', line: 2, prop: 'tool', value: '12'}
+        {type: 'set', line: 2, prop: 'tool', value: '12'},
       ]
 
       expectResults(expected, done)
@@ -336,16 +336,16 @@ describe('gerber parser with gerber files', function () {
       p.write('D00012*\n')
     })
 
-    it('should handle standard circles', function (done) {
+    it('should handle standard circles', function(done) {
       var expectedTools = [
         {shape: 'circle', params: [1], hole: []},
         {shape: 'circle', params: [1], hole: [0.1]},
-        {shape: 'circle', params: [1], hole: [0.2, 0.3]}
+        {shape: 'circle', params: [1], hole: [0.2, 0.3]},
       ]
       var expected = [
         {type: 'tool', line: 0, code: '10', tool: expectedTools[0]},
         {type: 'tool', line: 1, code: '11', tool: expectedTools[1]},
-        {type: 'tool', line: 2, code: '12', tool: expectedTools[2]}
+        {type: 'tool', line: 2, code: '12', tool: expectedTools[2]},
       ]
 
       expectResults(expected, done)
@@ -354,16 +354,16 @@ describe('gerber parser with gerber files', function () {
       p.write('%ADD12C,1X0.2X0.3*%\n')
     })
 
-    it('should handle standard rectangles/obrounds', function (done) {
+    it('should handle standard rectangles/obrounds', function(done) {
       var expectedTools = [
         {shape: 'rect', params: [1, 2], hole: []},
         {shape: 'obround', params: [3, 4], hole: [0.1]},
-        {shape: 'rect', params: [5, 6], hole: [0.2, 0.3]}
+        {shape: 'rect', params: [5, 6], hole: [0.2, 0.3]},
       ]
       var expected = [
         {type: 'tool', line: 0, code: '10', tool: expectedTools[0]},
         {type: 'tool', line: 1, code: '11', tool: expectedTools[1]},
-        {type: 'tool', line: 2, code: '12', tool: expectedTools[2]}
+        {type: 'tool', line: 2, code: '12', tool: expectedTools[2]},
       ]
 
       expectResults(expected, done)
@@ -372,18 +372,18 @@ describe('gerber parser with gerber files', function () {
       p.write('%ADD12R,5X6X0.2X0.3*%\n')
     })
 
-    it('should handle standard polygons', function (done) {
+    it('should handle standard polygons', function(done) {
       var expectedTools = [
         {shape: 'poly', params: [1, 5, 0], hole: []},
         {shape: 'poly', params: [2, 6, 45], hole: []},
         {shape: 'poly', params: [3, 7, 0], hole: [0.1]},
-        {shape: 'poly', params: [4, 8, 0], hole: [0.2, 0.3]}
+        {shape: 'poly', params: [4, 8, 0], hole: [0.2, 0.3]},
       ]
       var expected = [
         {type: 'tool', line: 0, code: '10', tool: expectedTools[0]},
         {type: 'tool', line: 1, code: '11', tool: expectedTools[1]},
         {type: 'tool', line: 2, code: '12', tool: expectedTools[2]},
-        {type: 'tool', line: 3, code: '13', tool: expectedTools[3]}
+        {type: 'tool', line: 3, code: '13', tool: expectedTools[3]},
       ]
 
       expectResults(expected, done)
@@ -393,14 +393,14 @@ describe('gerber parser with gerber files', function () {
       p.write('%ADD13P,4X8X0X0.2X0.3*%\n')
     })
 
-    it('should handle aperture macro tools', function (done) {
+    it('should handle aperture macro tools', function(done) {
       var expectedTools = [
         {shape: 'CIRC', params: [1, 0.5], hole: []},
-        {shape: 'RECT', params: [], hole: []}
+        {shape: 'RECT', params: [], hole: []},
       ]
       var expected = [
         {type: 'tool', line: 0, code: '10', tool: expectedTools[0]},
-        {type: 'tool', line: 1, code: '11', tool: expectedTools[1]}
+        {type: 'tool', line: 1, code: '11', tool: expectedTools[1]},
       ]
 
       expectResults(expected, done)
@@ -408,10 +408,10 @@ describe('gerber parser with gerber files', function () {
       p.write('%ADD11RECT*%\n')
     })
 
-    it('should handle tool defs with leading zeros', function (done) {
+    it('should handle tool defs with leading zeros', function(done) {
       var expectedTools = [{shape: 'circle', params: [1], hole: []}]
       var expected = [
-        {type: 'tool', line: 0, code: '10', tool: expectedTools[0]}
+        {type: 'tool', line: 0, code: '10', tool: expectedTools[0]},
       ]
 
       expectResults(expected, done)
@@ -419,14 +419,14 @@ describe('gerber parser with gerber files', function () {
     })
   })
 
-  describe('aperture macros', function () {
-    it('should parse the name of the macro properly', function (done) {
+  describe('aperture macros', function() {
+    it('should parse the name of the macro properly', function(done) {
       var expected = [
         {type: 'macro', line: 0, name: 'NAME1', blocks: []},
         {type: 'macro', line: 1, name: 'CRAZY8', blocks: []},
         {type: 'macro', line: 2, name: 'NAME-1', blocks: []},
         {type: 'macro', line: 3, name: 'Name1.0', blocks: []},
-        {type: 'macro', line: 4, name: '$Name1', blocks: []}
+        {type: 'macro', line: 4, name: '$Name1', blocks: []},
       ]
 
       expectResults(expected, done)
@@ -437,8 +437,8 @@ describe('gerber parser with gerber files', function () {
       p.write('%AM$Name1*%\n')
     })
 
-    it('should warn that hyphens in macro names are invalid', function (done) {
-      p.once('warning', function (w) {
+    it('should warn that hyphens in macro names are invalid', function(done) {
+      p.once('warning', function(w) {
         expect(w.line).to.equal(0)
         expect(w.message).to.match(/hyphen/)
         done()
@@ -447,13 +447,13 @@ describe('gerber parser with gerber files', function () {
       p.write('%AMNAME-1*%\n')
     })
 
-    describe('primitive blocks', function () {
+    describe('primitive blocks', function() {
       var exp = 1
 
-      it('should parse comments', function (done) {
+      it('should parse comments', function(done) {
         var expectedBlocks = [{type: 'comment'}]
         var expected = [
-          {type: 'macro', line: 1, name: 'NAME1', blocks: expectedBlocks}
+          {type: 'macro', line: 1, name: 'NAME1', blocks: expectedBlocks},
         ]
 
         expectResults(expected, done)
@@ -461,13 +461,13 @@ describe('gerber parser with gerber files', function () {
         p.write('0 a comment*%\n')
       })
 
-      it('should parse circle primitives', function (done) {
+      it('should parse circle primitives', function(done) {
         var expectedBlocks = [
           {type: 'circle', exp: exp, dia: 5, cx: 1, cy: 2, rot: 0},
-          {type: 'circle', exp: exp, dia: 3, cx: 4, cy: 5, rot: 20}
+          {type: 'circle', exp: exp, dia: 3, cx: 4, cy: 5, rot: 20},
         ]
         var expected = [
-          {type: 'macro', line: 2, name: 'CIRC1', blocks: expectedBlocks}
+          {type: 'macro', line: 2, name: 'CIRC1', blocks: expectedBlocks},
         ]
 
         expectResults(expected, done)
@@ -476,7 +476,7 @@ describe('gerber parser with gerber files', function () {
         p.write('1,1,3,4,5,20*%\n')
       })
 
-      it('should parse vector primitives', function (done) {
+      it('should parse vector primitives', function(done) {
         var expectedBlocks = [
           {
             type: 'vect',
@@ -486,7 +486,7 @@ describe('gerber parser with gerber files', function () {
             y1: 4,
             x2: 5,
             y2: 6,
-            rot: 7
+            rot: 7,
           },
           {
             type: 'vect',
@@ -496,11 +496,11 @@ describe('gerber parser with gerber files', function () {
             y1: 4,
             x2: 5,
             y2: 6,
-            rot: 7
-          }
+            rot: 7,
+          },
         ]
         var expected = [
-          {type: 'macro', line: 2, name: 'VECT1', blocks: expectedBlocks}
+          {type: 'macro', line: 2, name: 'VECT1', blocks: expectedBlocks},
         ]
 
         expectResults(expected, done)
@@ -509,8 +509,8 @@ describe('gerber parser with gerber files', function () {
         p.write('20,1,2,3,4,5,6,7*%\n')
       })
 
-      it('should warn that primitive code 2 is deprecated', function (done) {
-        p.once('warning', function (w) {
+      it('should warn that primitive code 2 is deprecated', function(done) {
+        p.once('warning', function(w) {
           expect(w.line).to.equal(1)
           expect(w.message).to.match(/vector.*deprecated/)
           done()
@@ -520,12 +520,12 @@ describe('gerber parser with gerber files', function () {
         p.write('2,1,2,3,4,5,6,7*%\n')
       })
 
-      it('should parse rectangle primitives', function (done) {
+      it('should parse rectangle primitives', function(done) {
         var expectedBlocks = [
-          {type: 'rect', exp: exp, width: 2, height: 3, cx: 4, cy: 5, rot: 6}
+          {type: 'rect', exp: exp, width: 2, height: 3, cx: 4, cy: 5, rot: 6},
         ]
         var expected = [
-          {type: 'macro', line: 1, name: 'RECT1', blocks: expectedBlocks}
+          {type: 'macro', line: 1, name: 'RECT1', blocks: expectedBlocks},
         ]
 
         expectResults(expected, done)
@@ -533,12 +533,12 @@ describe('gerber parser with gerber files', function () {
         p.write('21,1,2,3,4,5,6*%\n')
       })
 
-      it('should parse a lower left rectangle primitive', function (done) {
+      it('should parse a lower left rectangle primitive', function(done) {
         var expectedBlocks = [
-          {type: 'rectLL', exp: exp, width: 2, height: 3, x: 4, y: 5, rot: 6}
+          {type: 'rectLL', exp: exp, width: 2, height: 3, x: 4, y: 5, rot: 6},
         ]
         var expected = [
-          {type: 'macro', line: 1, name: 'RECTLL1', blocks: expectedBlocks}
+          {type: 'macro', line: 1, name: 'RECTLL1', blocks: expectedBlocks},
         ]
 
         expectResults(expected, done)
@@ -546,8 +546,8 @@ describe('gerber parser with gerber files', function () {
         p.write('22,1,2,3,4,5,6*%\n')
       })
 
-      it('should warn that primitive code 22 is deprecated', function (done) {
-        p.once('warning', function (w) {
+      it('should warn that primitive code 22 is deprecated', function(done) {
+        p.once('warning', function(w) {
           expect(w.line).to.equal(1)
           expect(w.message).to.match(/lower-left.*deprecated/)
           done()
@@ -557,12 +557,12 @@ describe('gerber parser with gerber files', function () {
         p.write('22,1,2,3,4,5,6*%\n')
       })
 
-      it('should parse an outline polygon primitive', function (done) {
+      it('should parse an outline polygon primitive', function(done) {
         var expectedBlocks = [
-          {type: 'outline', exp: exp, points: [3, 4, 5, 6, 7, 8], rot: 9}
+          {type: 'outline', exp: exp, points: [3, 4, 5, 6, 7, 8], rot: 9},
         ]
         var expected = [
-          {type: 'macro', line: 1, name: 'OUT1', blocks: expectedBlocks}
+          {type: 'macro', line: 1, name: 'OUT1', blocks: expectedBlocks},
         ]
 
         expectResults(expected, done)
@@ -570,12 +570,12 @@ describe('gerber parser with gerber files', function () {
         p.write('4,1,2,3,4,5,6,7,8,9*%\n')
       })
 
-      it('should parse a regular polygon primitive', function (done) {
+      it('should parse a regular polygon primitive', function(done) {
         var expectedBlocks = [
-          {type: 'poly', exp: exp, vertices: 3, cx: 4, cy: 5, dia: 6, rot: 7}
+          {type: 'poly', exp: exp, vertices: 3, cx: 4, cy: 5, dia: 6, rot: 7},
         ]
         var expected = [
-          {type: 'macro', line: 1, name: 'POLY1', blocks: expectedBlocks}
+          {type: 'macro', line: 1, name: 'POLY1', blocks: expectedBlocks},
         ]
 
         expectResults(expected, done)
@@ -583,7 +583,7 @@ describe('gerber parser with gerber files', function () {
         p.write('5,1,3,4,5,6,7*%\n')
       })
 
-      it('should parse a moire primitive', function (done) {
+      it('should parse a moire primitive', function(done) {
         var expectedBlocks = [
           {
             type: 'moire',
@@ -596,11 +596,11 @@ describe('gerber parser with gerber files', function () {
             maxRings: 6,
             crossThx: 7,
             crossLen: 8,
-            rot: 9
-          }
+            rot: 9,
+          },
         ]
         var expected = [
-          {type: 'macro', line: 1, name: 'MOIRE1', blocks: expectedBlocks}
+          {type: 'macro', line: 1, name: 'MOIRE1', blocks: expectedBlocks},
         ]
 
         expectResults(expected, done)
@@ -608,7 +608,7 @@ describe('gerber parser with gerber files', function () {
         p.write('6,1,2,3,4,5,6,7,8,9*%\n')
       })
 
-      it('should parse a thermal primitive', function (done) {
+      it('should parse a thermal primitive', function(done) {
         var expectedBlocks = [
           {
             type: 'thermal',
@@ -618,11 +618,11 @@ describe('gerber parser with gerber files', function () {
             outerDia: 3,
             innerDia: 4,
             gap: 5,
-            rot: 6
-          }
+            rot: 6,
+          },
         ]
         var expected = [
-          {type: 'macro', line: 1, name: 'THERMAL1', blocks: expectedBlocks}
+          {type: 'macro', line: 1, name: 'THERMAL1', blocks: expectedBlocks},
         ]
 
         expectResults(expected, done)
@@ -630,8 +630,8 @@ describe('gerber parser with gerber files', function () {
         p.write('7,1,2,3,4,5,6*%\n')
       })
 
-      it('should warn if the primitive is unrecognized', function (done) {
-        p.once('warning', function (w) {
+      it('should warn if the primitive is unrecognized', function(done) {
+        p.once('warning', function(w) {
           expect(w.line).to.equal(1)
           expect(w.message).to.match(/unrecognized primitive/)
           done()
@@ -641,12 +641,12 @@ describe('gerber parser with gerber files', function () {
         p.write('8,1,2,3,4,5,6,7*%\n')
       })
 
-      it('should parse primitives with negative parameters', function (done) {
+      it('should parse primitives with negative parameters', function(done) {
         var expectedBlocks = [
-          {type: 'circle', exp: exp, dia: 5, cx: -1, cy: -2.5, rot: 0}
+          {type: 'circle', exp: exp, dia: 5, cx: -1, cy: -2.5, rot: 0},
         ]
         var expected = [
-          {type: 'macro', line: 1, name: 'CIRC1', blocks: expectedBlocks}
+          {type: 'macro', line: 1, name: 'CIRC1', blocks: expectedBlocks},
         ]
 
         expectResults(expected, done)
@@ -654,12 +654,12 @@ describe('gerber parser with gerber files', function () {
         p.write('1,1,5,-1,-2.5*%\n')
       })
 
-      it('should ignore empty blocks', function (done) {
+      it('should ignore empty blocks', function(done) {
         var expectedBlocks = [
-          {type: 'circle', exp: exp, dia: 5, cx: 1, cy: 2, rot: 0}
+          {type: 'circle', exp: exp, dia: 5, cx: 1, cy: 2, rot: 0},
         ]
         var expected = [
-          {type: 'macro', line: 2, name: 'CIRC1', blocks: expectedBlocks}
+          {type: 'macro', line: 2, name: 'CIRC1', blocks: expectedBlocks},
         ]
 
         expectResults(expected, done)
@@ -669,18 +669,18 @@ describe('gerber parser with gerber files', function () {
       })
     })
 
-    describe('variable set blocks', function () {
+    describe('variable set blocks', function() {
       var mods
-      beforeEach(function () {
+      beforeEach(function() {
         mods = {$1: 42}
       })
 
-      var expectExprResults = function (expected, done) {
-        p.once('data', function (res) {
+      var expectExprResults = function(expected, done) {
+        p.once('data', function(res) {
           expect(res.type).to.equal('macro')
           expect(res.name).to.equal('MODS1')
 
-          res.blocks.forEach(function (v) {
+          res.blocks.forEach(function(v) {
             var newMods = v.set(mods)
             expect(v.type).to.equal('variable')
             expect(newMods).to.eql(expected.shift())
@@ -690,7 +690,7 @@ describe('gerber parser with gerber files', function () {
         })
       }
 
-      it('should return function that takes / returns mods', function (done) {
+      it('should return function that takes / returns mods', function(done) {
         var expected = [{$1: 42, $2: 1}]
 
         expectExprResults(expected, done)
@@ -698,7 +698,7 @@ describe('gerber parser with gerber files', function () {
         p.write('$2=1*%\n')
       })
 
-      it('should parse addition', function (done) {
+      it('should parse addition', function(done) {
         var expected = [{$1: 42, $2: 3}, {$1: 42, $2: 56}]
 
         expectExprResults(expected, done)
@@ -707,7 +707,7 @@ describe('gerber parser with gerber files', function () {
         p.write('$2=$1+14*%\n')
       })
 
-      it('should parse subtraction', function (done) {
+      it('should parse subtraction', function(done) {
         var expected = [{$1: 42, $2: 3}, {$1: 42, $2: 21}]
 
         expectExprResults(expected, done)
@@ -716,7 +716,7 @@ describe('gerber parser with gerber files', function () {
         p.write('$2=63-$1*%\n')
       })
 
-      it('should parse multiplication with x and X', function (done) {
+      it('should parse multiplication with x and X', function(done) {
         var expected = [{$1: 42, $2: 21}, {$1: 42, $2: 6}]
 
         expectExprResults(expected, done)
@@ -725,8 +725,8 @@ describe('gerber parser with gerber files', function () {
         p.write('$2=2X3*%\n')
       })
 
-      it('should warn that mult with X is incorrect', function (done) {
-        p.once('warning', function (w) {
+      it('should warn that mult with X is incorrect', function(done) {
+        p.once('warning', function(w) {
           expect(w.message).to.match(/multiplication/)
           done()
         })
@@ -735,7 +735,7 @@ describe('gerber parser with gerber files', function () {
         p.write('$2=$1X1*%\n')
       })
 
-      it('should parse division with /', function (done) {
+      it('should parse division with /', function(done) {
         var expected = [{$1: 42, $2: 4}, {$1: 42, $2: 21}]
 
         expectExprResults(expected, done)
@@ -744,7 +744,7 @@ describe('gerber parser with gerber files', function () {
         p.write('$2=$1/2*%\n')
       })
 
-      it('should handle expressions with parentheses', function (done) {
+      it('should handle expressions with parentheses', function(done) {
         var expected = [{$1: 42, $2: 3}]
 
         expectExprResults(expected, done)
@@ -753,8 +753,8 @@ describe('gerber parser with gerber files', function () {
       })
     })
 
-    it('should parse params in primitives as expressions', function (done) {
-      p.once('data', function (d) {
+    it('should parse params in primitives as expressions', function(done) {
+      p.once('data', function(d) {
         expect(d.blocks[0].dia({$1: 4})).to.equal(5)
         done()
       })
@@ -764,24 +764,24 @@ describe('gerber parser with gerber files', function () {
     })
   })
 
-  describe('operations', function () {
-    beforeEach(function () {
+  describe('operations', function() {
+    beforeEach(function() {
       p.format.zero = 'L'
       p.format.places = [2, 3]
     })
 
-    it('should parse an interpolation command', function (done) {
+    it('should parse an interpolation command', function(done) {
       var expected = [
         {
           type: 'op',
           line: 0,
           op: 'int',
-          coord: {x: 0.1, y: 0.2, i: 0.3, j: 0.4}
+          coord: {x: 0.1, y: 0.2, i: 0.3, j: 0.4},
         },
         {type: 'op', line: 1, op: 'int', coord: {x: 0.11, y: 0}},
         {type: 'op', line: 2, op: 'int', coord: {x: 0.22}},
         {type: 'op', line: 3, op: 'int', coord: {y: 0.33}},
-        {type: 'op', line: 4, op: 'int', coord: {}}
+        {type: 'op', line: 4, op: 'int', coord: {}},
       ]
 
       expectResults(expected, done)
@@ -792,11 +792,11 @@ describe('gerber parser with gerber files', function () {
       p.write('D01*\n')
     })
 
-    it('should parse a move command', function (done) {
+    it('should parse a move command', function(done) {
       var expected = [
         {type: 'op', line: 0, op: 'move', coord: {x: 0.3, y: 0.001}},
         {type: 'op', line: 1, op: 'move', coord: {x: -0.1}},
-        {type: 'op', line: 2, op: 'move', coord: {}}
+        {type: 'op', line: 2, op: 'move', coord: {}},
       ]
 
       expectResults(expected, done)
@@ -805,11 +805,11 @@ describe('gerber parser with gerber files', function () {
       p.write('D02*\n')
     })
 
-    it('should parse a flash command', function (done) {
+    it('should parse a flash command', function(done) {
       var expected = [
         {type: 'op', line: 0, op: 'flash', coord: {x: 0.3, y: 0.001}},
         {type: 'op', line: 1, op: 'flash', coord: {x: -0.1}},
-        {type: 'op', line: 2, op: 'flash', coord: {}}
+        {type: 'op', line: 2, op: 'flash', coord: {}},
       ]
 
       expectResults(expected, done)
@@ -818,10 +818,10 @@ describe('gerber parser with gerber files', function () {
       p.write('D03*\n')
     })
 
-    it('should send "last" operation if op code is missing', function (done) {
+    it('should send "last" operation if op code is missing', function(done) {
       var expected = [
         {type: 'op', line: 0, op: 'last', coord: {x: 0.3, y: 0.001}},
-        {type: 'op', line: 1, op: 'last', coord: {x: -0.1}}
+        {type: 'op', line: 1, op: 'last', coord: {x: -0.1}},
       ]
 
       expectResults(expected, done)
@@ -829,14 +829,14 @@ describe('gerber parser with gerber files', function () {
       p.write('X-100*\n')
     })
 
-    it('should interpolate with inline mode set', function (done) {
+    it('should interpolate with inline mode set', function(done) {
       var expected = [
         {type: 'set', line: 0, prop: 'mode', value: 'i'},
         {type: 'op', line: 0, op: 'int', coord: {x: 0.001, y: 0.001}},
         {type: 'set', line: 1, prop: 'mode', value: 'cw'},
         {type: 'op', line: 1, op: 'int', coord: {x: 0.001, y: 0.001}},
         {type: 'set', line: 2, prop: 'mode', value: 'ccw'},
-        {type: 'op', line: 2, op: 'int', coord: {x: 0.001, y: 0.001}}
+        {type: 'op', line: 2, op: 'int', coord: {x: 0.001, y: 0.001}},
       ]
 
       expectResults(expected, done)
@@ -845,8 +845,8 @@ describe('gerber parser with gerber files', function () {
       p.write('G03X01Y01D01*\n')
     })
 
-    it('should be strict about what counts as a operation', function (done) {
-      p.once('readable', function () {
+    it('should be strict about what counts as a operation', function(done) {
+      p.once('readable', function() {
         throw new Error('should not have operated')
       })
 
