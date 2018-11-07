@@ -2,6 +2,7 @@
 
 [![latest][@tracespace/xml-id-latest-badge]][npm]
 [![next][@tracespace/xml-id-next-badge]][npm-next]
+[![david][@tracespace/xml-id-david-badge]][david]
 
 > XML ID generation and sanitation utilities for tracespace projects
 
@@ -12,8 +13,10 @@ Part of the [tracespace][] collection of PCB visualization tools.
 [tracespace]: https://github.com/tracespace/tracespace
 [npm]: https://www.npmjs.com/package/@tracespace/xml-id
 [npm-next]: https://www.npmjs.com/package/@tracespace/xml-id/v/next
+[david]: https://david-dm.org/tracespace/tracespace?path=packages/xml-id
 [@tracespace/xml-id-latest-badge]: https://flat.badgen.net/npm/v/@tracespace/xml-id
 [@tracespace/xml-id-next-badge]: https://flat.badgen.net/npm/v/@tracespace/xml-id/next
+[@tracespace/xml-id-david-badge]: https://flat.badgen.net/david/dep/tracespace/tracespace/packages/xml-id
 
 ## install
 
@@ -46,6 +49,6 @@ const id = sanitize('0abc def.') // id === _abc_def_
 Returns a basic, (non-cryptographically-secure) random string that can be safely used as an XML ID. If unspecified or 0, `length` will be 12.
 
 ```js
-const id = random()  // maybe "w57gH_nT3-o8"
+const id = random() // maybe "w57gH_nT3-o8"
 const id = random(8) // maybe "Gi3ma2Ef"
 ```

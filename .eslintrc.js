@@ -17,6 +17,7 @@ module.exports = {
   overrides: [
     {
       files: [
+        '.*.js',
         'packages/cli/**/*.js',
         'packages/fixtures/**/*.js',
         '**/integration/**/*.js',

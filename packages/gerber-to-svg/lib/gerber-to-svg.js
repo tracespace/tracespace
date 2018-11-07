@@ -1,8 +1,6 @@
 // gerber to svg transform stream
 'use strict'
 
-var isString = require('lodash.isstring')
-
 var xid = require('@tracespace/xml-id')
 var gerberParser = require('gerber-parser')
 var gerberPlotter = require('gerber-plotter')
@@ -19,7 +17,7 @@ var getAttributesFromOptions = function(options) {
 
   var attributes = options.attributes || {}
 
-  if (isString(options)) {
+  if (typeof options === 'string') {
     attributes.id = xid.sanitize(options)
   } else if (options.id) {
     attributes.id = xid.sanitize(options.id)

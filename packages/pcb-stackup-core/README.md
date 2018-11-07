@@ -2,6 +2,7 @@
 
 [![latest][pcb-stackup-core-latest-badge]][npm]
 [![next][pcb-stackup-core-next-badge]][npm-next]
+[![david][pcb-stackup-core-david-badge]][david]
 
 > Stack gerber-to-svg layer renders to build PCB renders
 
@@ -14,8 +15,10 @@ Part of the [tracespace][] collection of PCB visualization tools.
 [tracespace]: https://github.com/tracespace/tracespace
 [npm]: https://www.npmjs.com/package/pcb-stackup-core
 [npm-next]: https://www.npmjs.com/package/pcb-stackup-core/v/next
+[david]: https://david-dm.org/tracespace/tracespace?path=packages/pcb-stackup-core
 [pcb-stackup-core-latest-badge]: https://flat.badgen.net/npm/v/pcb-stackup-core
 [pcb-stackup-core-next-badge]: https://flat.badgen.net/npm/v/pcb-stackup-core/next
+[pcb-stackup-core-david-badge]: https://flat.badgen.net/david/dep/tracespace/tracespace/packages/pcb-stackup-core
 
 ## install
 
@@ -90,7 +93,7 @@ It is expected that the converters will have already finished before being passe
 var someLayer = {
   side: LAYER_SIDE,
   type: LAYER_TYPE,
-  converter: FINISHED_GERBER_TO_SVG_CONVERTER
+  converter: FINISHED_GERBER_TO_SVG_CONVERTER,
 }
 ```
 
@@ -106,7 +109,7 @@ You can tell the stackup function that a layer is stored externally by giving it
 var sharedLayer = {
   type: GERBER_FILE_TYPE,
   converter: FINISHED_GERBER_TO_SVG_CONVERTER,
-  externalId: ID_OF_THE_EXTERNALLY_STORED_LAYER_GROUP
+  externalId: ID_OF_THE_EXTERNALLY_STORED_LAYER_GROUP,
 }
 ```
 
@@ -149,7 +152,7 @@ var DEFAULT_COLOR = {
   sm: 'rgba(0, 66, 0, 0.75)',
   ss: '#fff',
   sp: '#999',
-  out: '#000'
+  out: '#000',
 }
 ```
 
@@ -211,8 +214,8 @@ If you want to add more attributes to the SVG nodes than are there by default, t
 var stackup = pcbStackupCore(layers, {
   id: 'board-id',
   attributes: {
-    class: 'w-100 h-100'
-  }
+    class: 'w-100 h-100',
+  },
 })
 ```
 

@@ -2,6 +2,7 @@
 
 [![latest][@tracespace/cli-latest-badge]][npm]
 [![next][@tracespace/cli-next-badge]][npm-next]
+[![david][@tracespace/cli-david-badge]][david]
 
 > Render PCBs as SVGs from the comfort of your own terminal
 
@@ -14,8 +15,10 @@ Part of the [tracespace][] collection of PCB visualization tools.
 [tracespace]: https://github.com/tracespace/tracespace
 [npm]: https://www.npmjs.com/package/@tracespace/cli
 [npm-next]: https://www.npmjs.com/package/@tracespace/cli/v/next
+[david]: https://david-dm.org/tracespace/tracespace?path=packages/cli
 [@tracespace/cli-latest-badge]: https://flat.badgen.net/npm/v/@tracespace/cli
 [@tracespace/cli-next-badge]: https://flat.badgen.net/npm/v/@tracespace/cli/next
+[@tracepsace/cli-david-badge]: https://flat.badgen.net/david/dep/tracespace/tracespace/packages/cli
 
 ## install
 
@@ -47,8 +50,8 @@ All options can be specified using a config file (`.tracespacerc`, `.tracespacer
 
 #### `-h`, `--help`
 
-* Type: boolean
-* Description: prints version and usage then exits
+- Type: boolean
+- Description: prints version and usage then exits
 
 ```shell
 # Print usage
@@ -57,8 +60,8 @@ tracespace --help
 
 #### `-v`, `--version`
 
-* Type: boolean
-* Description: prints version then exits
+- Type: boolean
+- Description: prints version then exits
 
 ```shell
 # Print version

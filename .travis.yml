@@ -8,9 +8,18 @@ node_js:
   - 'lts/dubnium'
   - node
 
+# upgrade npm if necessary
+before_install: if [[ ! $(npm -v) =~ ^6 ]]; then npm i -g npm@6; fi
+
+install: npm ci
+
 script: npm run ci:script
 
 after_success: npm run ci:after-success
+
+cache:
+  directories:
+    - $HOME/.npm
 
 # use build stages with "test" and "deploy" stages
 # node_js versions above automatically added to "test" stage
@@ -40,5 +49,3 @@ jobs:
           repo: tracespace/tracespace
           tags: true
           all_brances: true
-
-cache: npm

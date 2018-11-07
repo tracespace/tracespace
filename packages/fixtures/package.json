@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "glob": "^7.1.2",
-    "into-stream": "^3.1.0",
+    "into-stream": "^4.0.0",
     "run-parallel": "^1.1.6",
     "run-series": "^1.1.4",
     "run-waterfall": "^1.1.3"
