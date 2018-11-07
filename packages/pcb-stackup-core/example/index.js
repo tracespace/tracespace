@@ -23,7 +23,7 @@ const GERBER_PATHS = [
   'arduino-uno.plc',
   'arduino-uno.sol',
   'arduino-uno.stc',
-  'arduino-uno.sts'
+  'arduino-uno.sts',
 ].map(filename => path.join(GERBERS_DIR, filename))
 
 runWaterfall([renderAllLayers, renderStackupAndWrite], error => {
@@ -32,22 +32,22 @@ runWaterfall([renderAllLayers, renderStackupAndWrite], error => {
   console.log(`Wrote:\n  ${TOP_OUT}\n  ${BOTTOM_OUT}`)
 })
 
-function renderStackupAndWrite (layers, done) {
+function renderStackupAndWrite(layers, done) {
   const options = {
     id: xid.random(),
-    maskWithOutline: true
+    maskWithOutline: true,
   }
 
   const stackup = pcbStackupCore(layers, options)
   const tasks = [
     next => fs.writeFile(TOP_OUT, stackup.top.svg, next),
-    next => fs.writeFile(BOTTOM_OUT, stackup.bottom.svg, next)
+    next => fs.writeFile(BOTTOM_OUT, stackup.bottom.svg, next),
   ]
 
   runParallel(tasks, done)
 }
 
-function renderAllLayers (done) {
+function renderAllLayers(done) {
   const layerTypes = wtg(GERBER_PATHS)
   const tasks = GERBER_PATHS.map(file => next =>
     renderLayer(file, layerTypes, next)
@@ -56,7 +56,7 @@ function renderAllLayers (done) {
   runParallel(tasks, done)
 }
 
-function renderLayer (filename, layerTypes, done) {
+function renderLayer(filename, layerTypes, done) {
   const file = fs.createReadStream(filename)
   const {side, type} = layerTypes[filename]
 
@@ -64,7 +64,7 @@ function renderLayer (filename, layerTypes, done) {
 
   const options = {
     id: xid.random(),
-    plotAsOutline: type === wtg.TYPE_OUTLINE
+    plotAsOutline: type === wtg.TYPE_OUTLINE,
   }
 
   const converter = gerberToSvg(file, options, error => {

@@ -14,8 +14,8 @@ module.exports = [
       {match: /top\.\w+$/, cad: [c._CAD_GEDA_PCB, c._CAD_DIPTRACE]},
       {match: /f[._]cu/, cad: c._CAD_KICAD},
       {match: /copper_top/, cad: c._CAD_EAGLE},
-      {match: /top copper/, cad: null}
-    ]
+      {match: /top copper/, cad: null},
+    ],
   },
   {
     type: c.TYPE_SOLDERMASK,
@@ -29,8 +29,8 @@ module.exports = [
       {match: /topmask\.\w+$/, cad: [c._CAD_GEDA_PCB, c._CAD_DIPTRACE]},
       {match: /f[._]mask/, cad: c._CAD_KICAD},
       {match: /soldermask_top/, cad: c._CAD_EAGLE},
-      {match: /top solder resist/, cad: null}
-    ]
+      {match: /top solder resist/, cad: null},
+    ],
   },
   {
     type: c.TYPE_SILKSCREEN,
@@ -44,8 +44,8 @@ module.exports = [
       {match: /topsilk\.\w+$/, cad: [c._CAD_GEDA_PCB, c._CAD_DIPTRACE]},
       {match: /f[._]silks/, cad: c._CAD_KICAD},
       {match: /silkscreen_top/, cad: c._CAD_EAGLE},
-      {match: /top silk screen/, cad: null}
-    ]
+      {match: /top silk screen/, cad: null},
+    ],
   },
   {
     type: c.TYPE_SOLDERPASTE,
@@ -58,8 +58,8 @@ module.exports = [
       {ext: 'tcream\\.ger', cad: c._CAD_EAGLE_OSHPARK},
       {match: /toppaste\.\w+$/, cad: [c._CAD_GEDA_PCB, c._CAD_DIPTRACE]},
       {match: /f[._]paste/, cad: c._CAD_KICAD},
-      {match: /solderpaste_top/, cad: c._CAD_EAGLE}
-    ]
+      {match: /solderpaste_top/, cad: c._CAD_EAGLE},
+    ],
   },
   {
     type: c.TYPE_COPPER,
@@ -72,8 +72,8 @@ module.exports = [
       {match: /bottom\.\w+$/, cad: [c._CAD_GEDA_PCB, c._CAD_DIPTRACE]},
       {match: /b[._]cu/, cad: c._CAD_KICAD},
       {match: /copper_bottom/, cad: c._CAD_EAGLE},
-      {match: /bottom copper/, cad: null}
-    ]
+      {match: /bottom copper/, cad: null},
+    ],
   },
   {
     type: c.TYPE_SOLDERMASK,
@@ -87,8 +87,8 @@ module.exports = [
       {match: /bottommask\.\w+$/, cad: [c._CAD_GEDA_PCB, c._CAD_DIPTRACE]},
       {match: /b[._]mask/, cad: c._CAD_KICAD},
       {match: /soldermask_bottom/, cad: c._CAD_EAGLE},
-      {match: /bottom solder resist/, cad: null}
-    ]
+      {match: /bottom solder resist/, cad: null},
+    ],
   },
   {
     type: c.TYPE_SILKSCREEN,
@@ -102,8 +102,8 @@ module.exports = [
       {match: /bottomsilk\.\w+$/, cad: [c._CAD_GEDA_PCB, c._CAD_DIPTRACE]},
       {match: /b[._]silks/, cad: c._CAD_KICAD},
       {match: /silkscreen_bottom/, cad: c._CAD_EAGLE},
-      {match: /bottom silk screen/, cad: null}
-    ]
+      {match: /bottom silk screen/, cad: null},
+    ],
   },
   {
     type: c.TYPE_SOLDERPASTE,
@@ -116,8 +116,8 @@ module.exports = [
       {ext: 'bcream\\.ger', cad: c._CAD_EAGLE_OSHPARK},
       {match: /bottompaste\.\w+$/, cad: [c._CAD_GEDA_PCB, c._CAD_DIPTRACE]},
       {match: /b[._]paste/, cad: c._CAD_KICAD},
-      {match: /solderpaste_bottom/, cad: c._CAD_EAGLE}
-    ]
+      {match: /solderpaste_bottom/, cad: c._CAD_EAGLE},
+    ],
   },
   {
     type: c.TYPE_COPPER,
@@ -127,8 +127,8 @@ module.exports = [
       {ext: 'gp?\\d+', cad: [c._CAD_KICAD, c._CAD_ALTIUM]},
       {ext: 'in\\d+', cad: c._CAD_ORCAD},
       {ext: 'internalplane\\d+\\.ger', cad: c._CAD_EAGLE_OSHPARK},
-      {match: /in(?:ner)?\d+[._]cu/, cad: c._CAD_KICAD}
-    ]
+      {match: /in(?:ner)?\d+[._]cu/, cad: c._CAD_KICAD},
+    ],
   },
   {
     type: c.TYPE_OUTLINE,
@@ -144,8 +144,8 @@ module.exports = [
       {match: /boardoutline/, cad: [c._CAD_EAGLE_OSHPARK, c._CAD_DIPTRACE]},
       {match: /edge[._]cuts/, cad: c._CAD_KICAD},
       {match: /profile/, cad: c._CAD_EAGLE},
-      {match: /mechanical \d+/, cad: null}
-    ]
+      {match: /mechanical \d+/, cad: null},
+    ],
   },
   {
     type: c.TYPE_DRILL,
@@ -154,7 +154,7 @@ module.exports = [
       {ext: 'txt', cad: [c._CAD_EAGLE_LEGACY, c._CAD_ALTIUM]},
       {
         ext: 'xln',
-        cad: [c._CAD_EAGLE, c._CAD_EAGLE_LEGACY, c._CAD_EAGLE_OSHPARK]
+        cad: [c._CAD_EAGLE, c._CAD_EAGLE_LEGACY, c._CAD_EAGLE_OSHPARK],
       },
       {ext: 'exc', cad: c._CAD_EAGLE_LEGACY},
       {ext: 'drd', cad: c._CAD_EAGLE_LEGACY},
@@ -162,8 +162,8 @@ module.exports = [
       {ext: 'tap', cad: c._CAD_ORCAD},
       {ext: 'fab\\.gbr', cad: c._CAD_GEDA_PCB},
       {ext: 'plated-drill\\.cnc', cad: c._CAD_GEDA_PCB},
-      {match: /npth/, cad: c._CAD_KICAD}
-    ]
+      {match: /npth/, cad: c._CAD_KICAD},
+    ],
   },
   {
     type: c.TYPE_DRAWING,
@@ -172,7 +172,7 @@ module.exports = [
       {ext: 'pos', cad: c._CAD_KICAD},
       {ext: 'gbr', cad: null},
       {ext: 'ger', cad: null},
-      {ext: 'pho', cad: null}
-    ]
-  }
+      {ext: 'pho', cad: null},
+    ],
+  },
 ]

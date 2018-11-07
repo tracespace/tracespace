@@ -18,7 +18,7 @@ const GERBER_PATHS = [
   'arduino-uno.plc',
   'arduino-uno.sol',
   'arduino-uno.stc',
-  'arduino-uno.sts'
+  'arduino-uno.sts',
 ].map(filename => path.join(GERBERS_DIR, filename))
 
 runWaterfall([renderStackup, writeStackup], error => {
@@ -27,19 +27,19 @@ runWaterfall([renderStackup, writeStackup], error => {
   console.log(`Wrote:\n  ${TOP_OUT}\n  ${BOTTOM_OUT}`)
 })
 
-function renderStackup (done) {
+function renderStackup(done) {
   const layers = GERBER_PATHS.map(filename => ({
     filename,
-    gerber: fs.createReadStream(filename)
+    gerber: fs.createReadStream(filename),
   }))
 
   pcbStackup(layers, done)
 }
 
-function writeStackup (stackup, done) {
+function writeStackup(stackup, done) {
   const tasks = [
     next => fs.writeFile(TOP_OUT, stackup.top.svg, next),
-    next => fs.writeFile(BOTTOM_OUT, stackup.bottom.svg, next)
+    next => fs.writeFile(BOTTOM_OUT, stackup.bottom.svg, next),
   ]
 
   runParallel(tasks, done)

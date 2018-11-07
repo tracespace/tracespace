@@ -18,7 +18,7 @@ var RE_TOOL_SET = /T0*(\d+)(?![\S]*C)/
 var RE_COORD = /((?:[XYIJA][+-]?[\d.]+){1,4})(?:G85((?:[XY][+-]?[\d.]+){1,2}))?/
 var RE_ROUTE = /^G0([01235])/
 
-var setUnits = function (parser, units, line) {
+var setUnits = function(parser, units, line) {
   var format = units === 'in' ? [2, 4] : [3, 3]
   if (!parser.format.places) {
     parser.format.places = format
@@ -26,7 +26,7 @@ var setUnits = function (parser, units, line) {
   return parser._push(commands.set('units', units, line))
 }
 
-var parseCommentForFormatHints = function (parser, block, line) {
+var parseCommentForFormatHints = function(parser, block, line) {
   var result = {}
 
   if (RE_KI_HINT.test(block)) {
@@ -74,7 +74,7 @@ var parseCommentForFormatHints = function (parser, block, line) {
   return result
 }
 
-var zeroFromSupression = function (suppression) {
+var zeroFromSupression = function(suppression) {
   if (suppression === 'T') {
     return 'L'
   } else if (suppression === 'L') {
@@ -82,7 +82,7 @@ var zeroFromSupression = function (suppression) {
   }
 }
 
-var parseUnits = function (parser, block, line) {
+var parseUnits = function(parser, block, line) {
   var unitsMatch = block.match(RE_UNITS)
   var units = unitsMatch[1]
   var suppression = unitsMatch[2]
@@ -98,7 +98,7 @@ var parseUnits = function (parser, block, line) {
   }
 }
 
-var coordToCommand = function (parser, block, line) {
+var coordToCommand = function(parser, block, line) {
   var coordMatch = block.match(RE_COORD)
   var coord = parseCoord.parse(coordMatch[1], parser.format)
 
@@ -137,7 +137,7 @@ var coordToCommand = function (parser, block, line) {
   }
 }
 
-var parseBlock = function (parser, block, line) {
+var parseBlock = function(parser, block, line) {
   if (RE_TOOL_DEF.test(block)) {
     var toolMatch = block.match(RE_TOOL_DEF)
     var toolCode = toolMatch[1]
@@ -190,9 +190,9 @@ var parseBlock = function (parser, block, line) {
   }
 }
 
-var flush = function (parser) {
+var flush = function(parser) {
   if (parser._drillStash.length) {
-    parser._drillStash.forEach(function (data) {
+    parser._drillStash.forEach(function(data) {
       if (!parser.format.zero && RE_COORD.test(data.block)) {
         parser.format.zero = 'T'
         parser._warn(
@@ -206,7 +206,7 @@ var flush = function (parser) {
   }
 }
 
-var parse = function (parser, block) {
+var parse = function(parser, block) {
   parser._drillStash = parser._drillStash || []
 
   // parse comments for formatting hints and ignore the rest
@@ -214,7 +214,7 @@ var parse = function (parser, block) {
     // check for kicad format hints
     var formatHints = parseCommentForFormatHints(parser, block, parser.line)
 
-    Object.keys(formatHints).forEach(function (key) {
+    Object.keys(formatHints).forEach(function(key) {
       if (!parser.format[key]) {
         parser.format[key] = formatHints[key]
       }

@@ -8,13 +8,13 @@ const getResults = require('./get-results')
 
 const SUITES = [...getBoards.sync().filter(b => !b.skipSnapshot)]
 
-describe(`gerber-plotter :: integration`, function () {
+describe(`gerber-plotter :: integration`, function() {
   SUITES.forEach(suite =>
-    describe(suite.name, function () {
+    describe(suite.name, function() {
       const specs = suite.specs || suite.layers
       let suiteResults
 
-      before(function (done) {
+      before(function(done) {
         if (process.env.INTEGRATION !== '1') return this.skip()
 
         getResults(suite, (error, results) => {
@@ -25,7 +25,7 @@ describe(`gerber-plotter :: integration`, function () {
       })
 
       specs.forEach((spec, i) =>
-        it(`renders ${spec.name}`, function () {
+        it(`renders ${spec.name}`, function() {
           snapshot(suiteResults.specs[i].render)
         })
       )

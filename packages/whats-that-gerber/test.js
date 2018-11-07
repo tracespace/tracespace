@@ -17,34 +17,34 @@ var EXPECTED_LAYERS = [
   {type: 'copper', side: 'inner'},
   {type: 'outline', side: 'all'},
   {type: 'drill', side: 'all'},
-  {type: 'drawing', side: null}
+  {type: 'drawing', side: null},
 ]
 
-describe('whats-that-gerber', function () {
-  it('should default to null', function () {
+describe('whats-that-gerber', function() {
+  it('should default to null', function() {
     var result = wtg('foobar')
 
     assert.deepEqual(result, {foobar: {side: null, type: null}})
   })
 
-  it('should have a list of all layer types', function () {
+  it('should have a list of all layer types', function() {
     assert.deepEqual(wtg.getAllLayers(), EXPECTED_LAYERS)
   })
 
-  it('should know which types are valid', function () {
+  it('should know which types are valid', function() {
     var allLayers = wtg.getAllLayers()
 
-    allLayers.forEach(function (layer) {
+    allLayers.forEach(function(layer) {
       var result = wtg.validate(layer)
       assert.deepEqual(result, {
         valid: true,
         side: layer.side,
-        type: layer.type
+        type: layer.type,
       })
     })
   })
 
-  it('should know which types are invalid', function () {
+  it('should know which types are invalid', function() {
     var invalidSide = wtg.validate({side: 'bop', type: 'copper'})
     var invalidType = wtg.validate({side: 'top', type: 'topper'})
     var invalidAll = wtg.validate({side: 'fizz', type: 'buzz'})
@@ -54,18 +54,18 @@ describe('whats-that-gerber', function () {
     assert.deepEqual(invalidAll, {valid: false, side: null, type: null})
   })
 
-  cadFilenames.forEach(function (cadSet) {
+  cadFilenames.forEach(function(cadSet) {
     var cad = cadSet.cad
     var files = cadSet.files
 
-    it('should identify ' + cad + ' files', function () {
+    it('should identify ' + cad + ' files', function() {
       var result = wtg(
-        files.map(function (file) {
+        files.map(function(file) {
           return file.name
         })
       )
 
-      files.forEach(function (file) {
+      files.forEach(function(file) {
         var fileResult = result[file.name]
         var sideResult = fileResult.side
         var typeResult = fileResult.type

@@ -10,14 +10,14 @@ const whatsThatGerber = require('whats-that-gerber')
 const debug = require('debug')('tracespace/pcb-stackup-core/integration')
 const pcbStackupCore = require('..')
 
-module.exports = function getStackupResults (board, done) {
+module.exports = function getStackupResults(board, done) {
   debug(`Render started for ${board.name}`)
 
   const {layers} = board
   const options = Object.assign(
     {
       id: `__${board.name}`,
-      maskWithOutline: true
+      maskWithOutline: true,
     },
     board.options
   )
@@ -40,31 +40,31 @@ module.exports = function getStackupResults (board, done) {
         } catch (error) {
           next(error)
         }
-      }
+      },
     ],
     done
   )
 }
 
-function makeBoardResult (board, stackup) {
+function makeBoardResult(board, stackup) {
   return Object.assign(
     {
       specs: [
         {name: 'top', render: stackup.top.svg},
-        {name: 'bottom', render: stackup.bottom.svg}
-      ]
+        {name: 'bottom', render: stackup.bottom.svg},
+      ],
     },
     board
   )
 }
 
-function renderLayer (layer, layerTypes, done) {
+function renderLayer(layer, layerTypes, done) {
   const {filename, name, type: realType, side: realSide} = layer
   const {type, side} = layerTypes[name]
   const options = Object.assign(
     {
       id: `__${filename}`,
-      plotAsOutline: type === whatsThatGerber.TYPE_OUTLINE
+      plotAsOutline: type === whatsThatGerber.TYPE_OUTLINE,
     },
     layer.options
   )

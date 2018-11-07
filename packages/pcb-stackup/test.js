@@ -9,79 +9,79 @@ var pcbStackup = require('.')
 
 var emptyGerber = 'G04 empty gerber*\nM02*\n'
 
-describe('easy stackup function', function () {
-  it('should accept and call node style callback', function (done) {
-    pcbStackup([], function (error, stackup) {
+describe('easy stackup function', function() {
+  it('should accept and call node style callback', function(done) {
+    pcbStackup([], function(error, stackup) {
       expect(error).to.equal(null)
       expect(stackup).to.satisfy(identity)
       done()
     })
   })
 
-  it('should accept options as the second argument', function (done) {
-    pcbStackup([], {maskWithOutline: false}, function (error, stackup) {
+  it('should accept options as the second argument', function(done) {
+    pcbStackup([], {maskWithOutline: false}, function(error, stackup) {
       expect(error).to.equal(null)
       expect(stackup).to.satisfy(identity)
       done()
     })
   })
 
-  it('should fail without a callback', function () {
+  it('should fail without a callback', function() {
     expect(pcbStackup.bind(pcbStackup, [])).to.throw(TypeError)
     expect(pcbStackup.bind(pcbStackup, [], {})).to.throw(TypeError)
   })
 
-  it('should accept a layer with a gerber string and filename', function (done) {
+  it('should accept a layer with a gerber string and filename', function(done) {
     var layers = [{gerber: emptyGerber, filename: 'foo'}]
 
-    pcbStackup(layers, function (error, stackup) {
+    pcbStackup(layers, function(error, stackup) {
       expect(error).to.equal(null)
       expect(stackup).to.satisfy(identity)
       done()
     })
   })
 
-  it('should accept a layer with a gerber string and type', function (done) {
+  it('should accept a layer with a gerber string and type', function(done) {
     var layers = [
-      {gerber: emptyGerber, side: wtg.SIDE_TOP, type: wtg.TYPE_COPPER}
+      {gerber: emptyGerber, side: wtg.SIDE_TOP, type: wtg.TYPE_COPPER},
     ]
 
-    pcbStackup(layers, function (error, stackup) {
+    pcbStackup(layers, function(error, stackup) {
       expect(error).to.equal(null)
       expect(stackup).to.satisfy(identity)
       done()
     })
   })
 
-  it('should error if no filename or type is given', function (done) {
+  it('should error if no filename or type is given', function(done) {
     var layers = [{gerber: emptyGerber}]
 
-    pcbStackup(layers, function (error, stackup) {
+    pcbStackup(layers, function(error, stackup) {
       expect(error.message).to.match(/layer 0 .+ missing/)
       done()
     })
   })
 
-  it('should error when invalid layer type is given', function (done) {
+  it('should error when invalid layer type is given', function(done) {
     var layers = [{gerber: emptyGerber, type: 'wrong'}]
 
-    pcbStackup(layers, function (error, stackup) {
+    pcbStackup(layers, function(error, stackup) {
       expect(error.message).to.match(/layer 0 .+ invalid/)
       done()
     })
   })
 
-  it('should not overwrite layer id', function (done) {
+  it('should not overwrite layer id', function(done) {
     var layers = [
       {
         gerber: emptyGerber,
         side: wtg.SIDE_TOP,
         type: wtg.TYPE_COPPER,
-        options: {id: 'test-id'}
-      }
+        options: {id: 'test-id'},
+      },
     ]
 
-    pcbStackup(layers, function (error, stackup) {
+    pcbStackup(layers, function(error, stackup) {
       expect(error).to.equal(null)
       expect(stackup).to.satisfy(identity)
       expect(stackup.layers).to.have.lengthOf(1)
@@ -91,10 +91,10 @@ describe('easy stackup function', function () {
   })
 
   // TODO(mc, 2018-08-02): fix this test so it actually tests something
-  it.skip('should not overwrite stackup id', function (done) {
+  it.skip('should not overwrite stackup id', function(done) {
     var layers = [{gerber: emptyGerber, type: 'tcu'}]
 
-    pcbStackup(layers, {id: 'test-id'}, function (error, stackup) {
+    pcbStackup(layers, {id: 'test-id'}, function(error, stackup) {
       expect(error).to.equal(null)
       expect(stackup).to.satisfy(identity)
       // TODO: test for actual id
@@ -102,10 +102,10 @@ describe('easy stackup function', function () {
     })
   })
 
-  it('should callback with top, bottom and layer array', function (done) {
+  it('should callback with top, bottom and layer array', function(done) {
     var layers = [{gerber: emptyGerber, filename: 'foo'}]
 
-    pcbStackup(layers, function (error, stackup) {
+    pcbStackup(layers, function(error, stackup) {
       expect(error).to.equal(null)
       expect(stackup).to.satisfy(identity)
       expect(stackup).to.be.an('object')
@@ -122,17 +122,17 @@ describe('easy stackup function', function () {
     })
   })
 
-  it('respects plotAsOutline option', function (done) {
+  it('respects plotAsOutline option', function(done) {
     var layers = [
       {
         gerber: emptyGerber,
         side: wtg.SIDE_TOP,
         type: wtg.TYPE_COPPER,
-        options: {plotAsOutline: true}
-      }
+        options: {plotAsOutline: true},
+      },
     ]
 
-    pcbStackup(layers, function (error, stackup) {
+    pcbStackup(layers, function(error, stackup) {
       expect(error).to.equal(null)
       expect(stackup).to.satisfy(identity)
       expect(stackup.layers[0].options.plotAsOutline).to.equal(true)
@@ -140,13 +140,13 @@ describe('easy stackup function', function () {
     })
   })
 
-  it('handles multiple layers', function (done) {
+  it('handles multiple layers', function(done) {
     var layers = [
       {gerber: emptyGerber, side: wtg.SIDE_BOTTOM, type: wtg.TYPE_COPPER},
-      {gerber: emptyGerber, side: wtg.SIDE_TOP, type: wtg.TYPE_COPPER}
+      {gerber: emptyGerber, side: wtg.SIDE_TOP, type: wtg.TYPE_COPPER},
     ]
 
-    pcbStackup(layers, function (error, stackup) {
+    pcbStackup(layers, function(error, stackup) {
       expect(error).to.equal(null)
       expect(stackup).to.satisfy(identity)
       expect(stackup.layers).to.have.lengthOf(layers.length)
@@ -154,16 +154,16 @@ describe('easy stackup function', function () {
     })
   })
 
-  it('can be passed back its own output', function (done) {
+  it('can be passed back its own output', function(done) {
     var layers = [
       {gerber: emptyGerber, side: wtg.SIDE_BOTTOM, type: wtg.TYPE_COPPER},
-      {gerber: emptyGerber, side: wtg.SIDE_TOP, type: wtg.TYPE_COPPER}
+      {gerber: emptyGerber, side: wtg.SIDE_TOP, type: wtg.TYPE_COPPER},
     ]
 
-    pcbStackup(layers, function (error, stackup1) {
+    pcbStackup(layers, function(error, stackup1) {
       expect(error).to.equal(null)
 
-      pcbStackup(stackup1.layers, function (error, stackup2) {
+      pcbStackup(stackup1.layers, function(error, stackup2) {
         expect(error).to.equal(null)
         expect(stackup2).to.satisfy(identity)
         done()
@@ -171,18 +171,18 @@ describe('easy stackup function', function () {
     })
   })
 
-  it('sets the createElement option', function (done) {
+  it('sets the createElement option', function(done) {
     var layers = [
       {gerber: emptyGerber, side: wtg.SIDE_BOTTOM, type: wtg.TYPE_COPPER},
-      {gerber: emptyGerber, side: wtg.SIDE_TOP, type: wtg.TYPE_COPPER}
+      {gerber: emptyGerber, side: wtg.SIDE_TOP, type: wtg.TYPE_COPPER},
     ]
     var options = {
-      createElement: function () {
+      createElement: function() {
         return 1
-      }
+      },
     }
 
-    pcbStackup(layers, options, function (error, stackup) {
+    pcbStackup(layers, options, function(error, stackup) {
       expect(error).to.equal(null)
       expect(stackup.layers[0].converter['_element']()).to.equal(1)
       expect(stackup.layers[1].converter['_element']()).to.equal(1)
@@ -190,7 +190,7 @@ describe('easy stackup function', function () {
     })
   })
 
-  it('overrides the createElement option', function (done) {
+  it('overrides the createElement option', function(done) {
     var layers = [
       {gerber: emptyGerber, side: wtg.SIDE_BOTTOM, type: wtg.TYPE_COPPER},
       {
@@ -198,19 +198,19 @@ describe('easy stackup function', function () {
         side: wtg.SIDE_TOP,
         type: wtg.TYPE_COPPER,
         options: {
-          createElement: function () {
+          createElement: function() {
             return 2
-          }
-        }
-      }
+          },
+        },
+      },
     ]
     var options = {
-      createElement: function () {
+      createElement: function() {
         return 1
-      }
+      },
     }
 
-    pcbStackup(layers, options, function (error, stackup) {
+    pcbStackup(layers, options, function(error, stackup) {
       expect(error).to.equal(null)
       expect(stackup.layers[0].converter['_element']()).to.equal(1)
       expect(stackup.layers[1].converter['_element']()).to.equal(1)
@@ -218,19 +218,19 @@ describe('easy stackup function', function () {
     })
   })
 
-  it('sets threshold for filling outline gaps', function (done) {
+  it('sets threshold for filling outline gaps', function(done) {
     var layers = [
-      {gerber: emptyGerber, side: wtg.SIDE_ALL, type: wtg.TYPE_OUTLINE}
+      {gerber: emptyGerber, side: wtg.SIDE_ALL, type: wtg.TYPE_OUTLINE},
     ]
 
     var options = {outlineGapFill: 2}
 
-    pcbStackup(layers, options, function (error, stackup) {
+    pcbStackup(layers, options, function(error, stackup) {
       var options = {outlineGapFill: 3}
 
       expect(error).to.equal(null)
       expect(stackup.layers[0].options.plotAsOutline).to.equal(2)
-      pcbStackup(stackup.layers, options, function (error, stackup) {
+      pcbStackup(stackup.layers, options, function(error, stackup) {
         expect(error).to.equal(null)
         expect(stackup.layers[0].options.plotAsOutline).to.equal(3)
         done()

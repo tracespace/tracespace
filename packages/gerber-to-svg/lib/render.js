@@ -3,7 +3,7 @@
 
 var xmlElementString = require('xml-element-string')
 
-module.exports = function (converter, attr, createElement, includeNamespace) {
+module.exports = function(converter, attr, createElement, includeNamespace) {
   var element = createElement || xmlElementString
   var namespace =
     includeNamespace == null || includeNamespace === true
@@ -20,10 +20,10 @@ module.exports = function (converter, attr, createElement, includeNamespace) {
     'fill-rule': 'evenodd',
     width: converter.width + converter.units,
     height: converter.height + converter.units,
-    viewBox: converter.viewBox.join(' ')
+    viewBox: converter.viewBox.join(' '),
   }
 
-  Object.keys(attr || {}).forEach(function (key) {
+  Object.keys(attr || {}).forEach(function(key) {
     var value = attr[key]
 
     if (value != null) {
@@ -47,7 +47,7 @@ module.exports = function (converter, attr, createElement, includeNamespace) {
         {
           transform: transform,
           fill: 'currentColor',
-          stroke: 'currentColor'
+          stroke: 'currentColor',
         },
         converter.layer
       )

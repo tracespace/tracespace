@@ -20,17 +20,17 @@ var element = sinon.spy(xmlElementString)
 var pcbStackupCore = proxyquire('../lib', {
   'xml-element-string': element,
   './sort-layers': sortLayersSpy,
-  './stack-layers': stackLayersStub
+  './stack-layers': stackLayersStub,
 })
 
-var converter = function () {
+var converter = function() {
   return {
     defs: '',
     layer: '',
     viewBox: [0, 0, 0, 0],
     width: 0,
     height: 0,
-    units: ''
+    units: '',
   }
 }
 
@@ -41,11 +41,11 @@ var EXPECTED_DEFAULT_STYLE = [
   '.foobar_sm {color: #004200; opacity: 0.75;}',
   '.foobar_ss {color: #fff;}',
   '.foobar_sp {color: #999;}',
-  '.foobar_out {color: #000;}'
+  '.foobar_out {color: #000;}',
 ].join('\n')
 
-describe('pcb stackup function', function () {
-  beforeEach(function () {
+describe('pcb stackup function', function() {
+  beforeEach(function() {
     element.resetHistory()
     sortLayersSpy.resetHistory()
     stackLayersStub.reset()
@@ -54,24 +54,24 @@ describe('pcb stackup function', function () {
       units: '',
       mechMaskId: '',
       defs: [],
-      layer: []
+      layer: [],
     })
   })
 
-  it('should need an id as an option', function () {
-    expect(function () {
+  it('should need an id as an option', function() {
+    expect(function() {
       pcbStackupCore([], 'foo')
     }).to.not.throw()
-    expect(function () {
+    expect(function() {
       pcbStackupCore([], {id: 'bar'})
     }).to.not.throw()
-    expect(function () {
+    expect(function() {
       pcbStackupCore([])
     }).to.throw(/unique board ID/)
   })
 
-  it('should have a createElement option that defaults to xml-element-string', function () {
-    var customElement = function () {
+  it('should have a createElement option that defaults to xml-element-string', function() {
+    var customElement = function() {
       return 'foo'
     }
 
@@ -82,9 +82,9 @@ describe('pcb stackup function', function () {
     expect(stackLayersStub).to.be.calledWith(customElement)
   })
 
-  it('should return an SVG element with the propper attributes', function () {
+  it('should return an SVG element with the propper attributes', function() {
     var result = pcbStackupCore([], 'foobar')
-    var svgAttr = function (side) {
+    var svgAttr = function(side) {
       return {
         id: 'foobar_' + side,
         xmlns: 'http://www.w3.org/2000/svg',
@@ -97,7 +97,7 @@ describe('pcb stackup function', function () {
         'clip-rule': 'evenodd',
         viewBox: '0 0 0 0',
         width: '0',
-        height: '0'
+        height: '0',
       }
     }
 
@@ -110,7 +110,7 @@ describe('pcb stackup function', function () {
     expect(result.bottom.svg).to.equal(bottomElement.returnValues[0])
   })
 
-  it('should have a default color style', function () {
+  it('should have a default color style', function() {
     var result = pcbStackupCore([], 'foobar')
     var styleSpy = element.withArgs('style', {}, [EXPECTED_DEFAULT_STYLE])
 
@@ -119,10 +119,10 @@ describe('pcb stackup function', function () {
     expect(result.bottom.svg).to.contain(styleSpy.returnValues[0])
   })
 
-  it('should handle user input colors', function () {
+  it('should handle user input colors', function() {
     var options = {
       id: 'foobar',
-      color: {cu: '#123', cf: '#456', sp: '#789'}
+      color: {cu: '#123', cf: '#456', sp: '#789'},
     }
     var result = pcbStackupCore([], options)
     var expectedStyle = [
@@ -132,7 +132,7 @@ describe('pcb stackup function', function () {
       '.foobar_sm {color: #004200; opacity: 0.75;}',
       '.foobar_ss {color: #fff;}',
       '.foobar_sp {color: #789;}',
-      '.foobar_out {color: #000;}'
+      '.foobar_out {color: #000;}',
     ].join('\n')
 
     var styleSpy = element.withArgs('style', {}, [expectedStyle])
@@ -142,7 +142,7 @@ describe('pcb stackup function', function () {
     expect(result.bottom.svg).to.contain(styleSpy.returnValues[0])
   })
 
-  it('should pass the layers to sort layers', function () {
+  it('should pass the layers to sort layers', function() {
     var files = [
       {side: wtg.SIDE_TOP, type: wtg.TYPE_COPPER, converter: converter()},
       {side: wtg.SIDE_TOP, type: wtg.TYPE_SOLDERMASK, converter: converter()},
@@ -152,21 +152,21 @@ describe('pcb stackup function', function () {
       {
         side: wtg.SIDE_BOTTOM,
         type: wtg.TYPE_SOLDERMASK,
-        converter: converter()
+        converter: converter(),
       },
       {
         side: wtg.SIDE_BOTTOM,
         type: wtg.TYPE_SILKSCREEN,
-        converter: converter()
+        converter: converter(),
       },
       {
         side: wtg.SIDE_BOTTOM,
         type: wtg.TYPE_SOLDERPASTE,
-        converter: converter()
+        converter: converter(),
       },
       {side: wtg.SIDE_INNER, type: wtg.TYPE_COPPER, converter: converter()},
       {side: wtg.SIDE_ALL, type: wtg.TYPE_OUTLINE, converter: converter()},
-      {side: wtg.SIDE_ALL, type: wtg.TYPE_DRILL, converter: converter()}
+      {side: wtg.SIDE_ALL, type: wtg.TYPE_DRILL, converter: converter()},
     ]
 
     pcbStackupCore(files, 'this-id')
@@ -192,20 +192,20 @@ describe('pcb stackup function', function () {
     )
   })
 
-  it('should use stack to build result, add mech mask, flip as needed', function () {
+  it('should use stack to build result, add mech mask, flip as needed', function() {
     stackLayersStub.withArgs(element, 'foobar', 'top').returns({
       box: [0, 0, 1000, 1000],
       units: 'mm',
       layer: ['<top-group/>'],
       defs: ['<top-defs/>'],
-      mechMaskId: 'foobar_top_mech-mask'
+      mechMaskId: 'foobar_top_mech-mask',
     })
     stackLayersStub.withArgs(element, 'foobar', 'bottom').returns({
       box: [250, 250, 500, 500],
       units: 'in',
       layer: ['<bottom-group/>'],
       defs: ['<bottom-defs/>'],
-      mechMaskId: 'foobar_bottom_mech-mask'
+      mechMaskId: 'foobar_bottom_mech-mask',
     })
 
     var result = pcbStackupCore([], 'foobar')
@@ -215,12 +215,12 @@ describe('pcb stackup function', function () {
       {
         tag: 'g',
         attr: {mask: 'url(#foobar_top_mech-mask)'},
-        children: ['<top-group/>']
+        children: ['<top-group/>'],
       },
       {
         tag: 'g',
         attr: {transform: 'translate(0,1000) scale(1,-1)'},
-        children: [2]
+        children: [2],
       },
       {
         tag: 'svg',
@@ -229,7 +229,7 @@ describe('pcb stackup function', function () {
           .and(sinon.match.has('width', '1mm'))
           .and(sinon.match.has('height', '1mm'))
           .and(sinon.match.has('viewBox', '0 0 1000 1000')),
-        children: [1, 3]
+        children: [1, 3],
       },
       {tag: 'style', attr: {}, children: [EXPECTED_DEFAULT_STYLE]},
       {tag: 'defs', attr: {}, children: [5, '<bottom-defs/>']},
@@ -237,14 +237,14 @@ describe('pcb stackup function', function () {
         tag: 'g',
         attr: {
           mask: 'url(#foobar_bottom_mech-mask)',
-          transform: 'translate(1000,0) scale(-1,1)'
+          transform: 'translate(1000,0) scale(-1,1)',
         },
-        children: ['<bottom-group/>']
+        children: ['<bottom-group/>'],
       },
       {
         tag: 'g',
         attr: {transform: 'translate(0,1000) scale(1,-1)'},
-        children: [7]
+        children: [7],
       },
       {
         tag: 'svg',
@@ -253,8 +253,8 @@ describe('pcb stackup function', function () {
           .and(sinon.match.has('width', '0.5in'))
           .and(sinon.match.has('height', '0.5in'))
           .and(sinon.match.has('viewBox', '250 250 500 500')),
-        children: [6, 8]
-      }
+        children: [6, 8],
+      },
     ])
 
     expect(result).to.eql({
@@ -265,7 +265,7 @@ describe('pcb stackup function', function () {
         viewBox: [0, 0, 1000, 1000],
         width: 1,
         height: 1,
-        units: 'mm'
+        units: 'mm',
       },
       bottom: {
         svg: values[9],
@@ -274,19 +274,19 @@ describe('pcb stackup function', function () {
         viewBox: [250, 250, 500, 500],
         width: 0.5,
         height: 0.5,
-        units: 'in'
-      }
+        units: 'in',
+      },
     })
   })
 
-  it('should add a clip path if stackLayers returns a outline clip id', function () {
+  it('should add a clip path if stackLayers returns a outline clip id', function() {
     stackLayersStub.withArgs(element, 'foobar', 'top').returns({
       box: [0, 0, 1000, 1000],
       units: 'mm',
       layer: ['<top-group/>'],
       defs: ['<top-defs/>'],
       mechMaskId: 'foobar_top_mech-mask',
-      outClipId: 'foobar_top_out'
+      outClipId: 'foobar_top_out',
     })
     stackLayersStub.withArgs(element, 'foobar', 'bottom').returns({
       box: [250, 250, 500, 500],
@@ -294,7 +294,7 @@ describe('pcb stackup function', function () {
       layer: ['<bottom-group/>'],
       defs: ['<bottom-defs/>'],
       mechMaskId: 'foobar_bottom_mech-mask',
-      outClipId: 'foobar_bottom_out'
+      outClipId: 'foobar_bottom_out',
     })
 
     pcbStackupCore([], {id: 'foobar', maskWithOutline: true})
@@ -303,7 +303,7 @@ describe('pcb stackup function', function () {
       'g',
       {
         mask: 'url(#foobar_top_mech-mask)',
-        'clip-path': 'url(#foobar_top_out)'
+        'clip-path': 'url(#foobar_top_out)',
       },
       ['<top-group/>']
     )
@@ -312,19 +312,19 @@ describe('pcb stackup function', function () {
       {
         transform: 'translate(1000,0) scale(-1,1)',
         mask: 'url(#foobar_bottom_mech-mask)',
-        'clip-path': 'url(#foobar_bottom_out)'
+        'clip-path': 'url(#foobar_bottom_out)',
       },
       ['<bottom-group/>']
     )
   })
 
-  it('should not put xmlns attr in nodes if includeNamespace is false', function () {
+  it('should not put xmlns attr in nodes if includeNamespace is false', function() {
     pcbStackupCore([], {id: 'foo', includeNamespace: false})
 
     expect(element).to.not.be.calledWith('svg', sinon.match.has('xmlns'))
   })
 
-  it('should allow arbitrary stuff in the attributes', function () {
+  it('should allow arbitrary stuff in the attributes', function() {
     pcbStackupCore([], {id: 'foo', attributes: {bar: 'baz'}})
 
     expect(element).to.be.calledWith('svg', sinon.match.has('bar', 'baz'))

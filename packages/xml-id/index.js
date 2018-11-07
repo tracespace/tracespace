@@ -10,19 +10,19 @@ var DEFAULT_RANDOM_LENGTH = 12
 
 module.exports = {
   random: random,
-  sanitize: sanitize
+  sanitize: sanitize,
 }
 
-function random (length) {
+function random(length) {
   length = length || DEFAULT_RANDOM_LENGTH
   return _getRandomString(1, START_CHAR) + _getRandomString(length - 1, CHAR)
 }
 
-function sanitize (source) {
+function sanitize(source) {
   return source.replace(REPLACE_RE, '_')
 }
 
-function _getRandomString (length, alphabet) {
+function _getRandomString(length, alphabet) {
   var abLength = alphabet.length
   var result = ''
 

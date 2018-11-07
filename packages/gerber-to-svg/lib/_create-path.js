@@ -4,21 +4,21 @@
 var util = require('./_util')
 var shift = util.shift
 
-var pointsEqual = function (point, target) {
+var pointsEqual = function(point, target) {
   return point[0] === target[0] && point[1] === target[1]
 }
 
-var move = function (start) {
+var move = function(start) {
   return 'M ' + shift(start[0]) + ' ' + shift(start[1])
 }
 
-var line = function (lastCmd, end) {
+var line = function(lastCmd, end) {
   var cmd = lastCmd === 'L' || lastCmd === 'M' ? '' : 'L '
 
   return cmd + shift(end[0]) + ' ' + shift(end[1])
 }
 
-var arc = function (lastCmd, radius, sweep, dir, end, center) {
+var arc = function(lastCmd, radius, sweep, dir, end, center) {
   // add zero-length arcs as zero-length lines to render properly across all browsers
   if (sweep === 0) {
     return line(lastCmd, end)
@@ -45,7 +45,7 @@ var arc = function (lastCmd, radius, sweep, dir, end, center) {
   return result
 }
 
-var reduceSegments = function (result, segment) {
+var reduceSegments = function(result, segment) {
   var type = segment.type
   var start = segment.start
   var end = segment.end
@@ -77,7 +77,7 @@ var reduceSegments = function (result, segment) {
   return result
 }
 
-module.exports = function createPath (segments, width, element) {
+module.exports = function createPath(segments, width, element) {
   var pathData = segments.reduce(reduceSegments, {last: [], data: ''}).data
   var attr = {d: pathData}
 

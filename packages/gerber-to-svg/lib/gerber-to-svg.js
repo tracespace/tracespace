@@ -12,7 +12,7 @@ var PlotterToSvg = require('./plotter-to-svg')
 var render = require('./render')
 var clone = require('./clone')
 
-var getAttributesFromOptions = function (options) {
+var getAttributesFromOptions = function(options) {
   if (!options) {
     return {}
   }
@@ -28,7 +28,7 @@ var getAttributesFromOptions = function (options) {
   return attributes
 }
 
-var parseOptions = function (options) {
+var parseOptions = function(options) {
   var attributes = getAttributesFromOptions(options)
 
   if (!attributes.id) {
@@ -41,12 +41,12 @@ var parseOptions = function (options) {
       createElement: options.createElement || xmlElementString,
       includeNamespace:
         options.includeNamespace == null ? true : options.includeNamespace,
-      objectMode: options.objectMode == null ? false : options.objectMode
+      objectMode: options.objectMode == null ? false : options.objectMode,
     },
     parser: {
       places: options.places,
       zero: options.zero,
-      filetype: options.filetype
+      filetype: options.filetype,
     },
     plotter: {
       units: options.units,
@@ -54,14 +54,14 @@ var parseOptions = function (options) {
       nota: options.nota,
       backupNota: options.backupNota,
       optimizePaths: options.optimizePaths,
-      plotAsOutline: options.plotAsOutline
-    }
+      plotAsOutline: options.plotAsOutline,
+    },
   }
 
   return opts
 }
 
-module.exports = function gerberConverterFactory (gerber, options, done) {
+module.exports = function gerberConverterFactory(gerber, options, done) {
   var opts = parseOptions(options)
   var callbackMode = done != null
 
@@ -78,21 +78,21 @@ module.exports = function gerberConverterFactory (gerber, options, done) {
   converter.parser = parser
   converter.plotter = plotter
 
-  parser.on('warning', function handleParserWarning (w) {
+  parser.on('warning', function handleParserWarning(w) {
     converter.emit('warning', w)
   })
-  plotter.on('warning', function handlePlotterWarning (w) {
+  plotter.on('warning', function handlePlotterWarning(w) {
     converter.emit('warning', w)
   })
-  parser.once('error', function handleParserError (e) {
+  parser.once('error', function handleParserError(e) {
     converter.emit('error', e)
   })
-  plotter.once('error', function handlePlotterError (e) {
+  plotter.once('error', function handlePlotterError(e) {
     converter.emit('error', e)
   })
 
   // expose the filetype property of the parser for convenience
-  parser.once('end', function () {
+  parser.once('end', function() {
     converter.filetype = parser.format.filetype
   })
 
@@ -101,7 +101,7 @@ module.exports = function gerberConverterFactory (gerber, options, done) {
     gerber.pipe(parser)
   } else {
     // write the gerber string after listeners have been attached etc
-    process.nextTick(function writeStringToParser () {
+    process.nextTick(function writeStringToParser() {
       parser.write(gerber)
       parser.end()
     })
@@ -113,11 +113,11 @@ module.exports = function gerberConverterFactory (gerber, options, done) {
   if (callbackMode) {
     var result = ''
 
-    var finishConversion = function () {
+    var finishConversion = function() {
       return done(null, result)
     }
 
-    converter.on('readable', function collectStreamData () {
+    converter.on('readable', function collectStreamData() {
       var data
 
       do {
@@ -128,7 +128,7 @@ module.exports = function gerberConverterFactory (gerber, options, done) {
 
     converter.once('end', finishConversion)
 
-    converter.once('error', function (error) {
+    converter.once('error', function(error) {
       converter.removeListener('end', finishConversion)
 
       return done(error)

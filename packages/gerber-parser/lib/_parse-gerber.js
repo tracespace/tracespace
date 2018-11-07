@@ -31,7 +31,7 @@ var RE_STEP_REP = /^%SR(?:X(\d+)Y(\d+)I([\d.]+)J([\d.]+))?/
 var RE_TOOL_DEF = /^%ADD0*(\d{2,})([A-Za-z_$][\w\-.]*)(?:,((?:X?[\d.]+)*))?/
 var RE_MACRO = /^%AM([A-Za-z_$][\w\-.]*)\*?(.*)/
 
-var parseToolDef = function (parser, block) {
+var parseToolDef = function(parser, block) {
   var format = {places: parser.format.places}
   var toolMatch = block.match(RE_TOOL_DEF)
   var tool = toolMatch[1]
@@ -76,7 +76,7 @@ var parseToolDef = function (parser, block) {
   if (toolArgs[maxArgs - 1]) {
     hole = [
       normalize(toolArgs[maxArgs - 2], format),
-      normalize(toolArgs[maxArgs - 1], format)
+      normalize(toolArgs[maxArgs - 1], format),
     ]
   } else if (toolArgs[maxArgs - 2]) {
     hole = [normalize(toolArgs[maxArgs - 2], format)]
@@ -85,21 +85,21 @@ var parseToolDef = function (parser, block) {
   return parser._push(commands.tool(tool, toolDef))
 }
 
-var parseMacroDef = function (parser, block) {
+var parseMacroDef = function(parser, block) {
   var macroMatch = block.match(RE_MACRO)
   var name = macroMatch[1]
   if (name.match(/-/)) {
     parser._warn('hyphens in macro name are illegal: ' + name)
   }
   var blockMatch = macroMatch[2].length ? macroMatch[2].split('*') : []
-  var blocks = blockMatch.filter(Boolean).map(function (block) {
+  var blocks = blockMatch.filter(Boolean).map(function(block) {
     return parseMacroBlock(parser, block)
   })
 
   return parser._push(commands.macro(name, blocks))
 }
 
-var parse = function (parser, block) {
+var parse = function(parser, block) {
   if (RE_COMMENT.test(block)) {
     return
   }

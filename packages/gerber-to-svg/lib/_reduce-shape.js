@@ -6,15 +6,15 @@ var shift = util.shift
 var createMask = util.createMask
 var maskLayer = util.maskLayer
 
-var element = function (tag, attr, children) {
+var element = function(tag, attr, children) {
   return {tag: tag, attr: attr, children: children || []}
 }
 
-var circle = function (cx, cy, r, width) {
+var circle = function(cx, cy, r, width) {
   var attr = {
     cx: shift(cx),
     cy: shift(cy),
-    r: shift(r)
+    r: shift(r),
   }
 
   if (width != null) {
@@ -25,12 +25,12 @@ var circle = function (cx, cy, r, width) {
   return element('circle', attr)
 }
 
-var rect = function (cx, cy, r, width, height) {
+var rect = function(cx, cy, r, width, height) {
   var attr = {
     x: shift(cx - width / 2),
     y: shift(cy - height / 2),
     width: shift(width),
-    height: shift(height)
+    height: shift(height),
   }
 
   if (r) {
@@ -41,9 +41,9 @@ var rect = function (cx, cy, r, width, height) {
   return element('rect', attr)
 }
 
-var poly = function (points) {
+var poly = function(points) {
   var pointsAttr = points
-    .map(function (point) {
+    .map(function(point) {
       return point.map(shift).join(',')
     })
     .join(' ')
@@ -51,17 +51,17 @@ var poly = function (points) {
   return element('polygon', {points: pointsAttr})
 }
 
-var clip = function (maskIdPrefix, index, shapes, ring, createElement) {
+var clip = function(maskIdPrefix, index, shapes, ring, createElement) {
   var maskId = maskIdPrefix + 'mask-' + index
   var maskUrl = 'url(#' + maskId + ')'
 
   var circleNode = circle(ring.cx, ring.cy, ring.r, ring.width)
 
   var mask = createElement('mask', {id: maskId, stroke: '#fff'}, [
-    createElement(circleNode.tag, circleNode.attr)
+    createElement(circleNode.tag, circleNode.attr),
   ])
 
-  var groupChildren = shapes.map(function (shape) {
+  var groupChildren = shapes.map(function(shape) {
     var node =
       shape.type === 'rect'
         ? rect(shape.cx, shape.cy, shape.r, shape.width, shape.height)
@@ -75,7 +75,7 @@ var clip = function (maskIdPrefix, index, shapes, ring, createElement) {
   return {mask: mask, layer: layer}
 }
 
-module.exports = function reduceShapeArray (
+module.exports = function reduceShapeArray(
   prefix,
   code,
   shapeArray,
@@ -85,7 +85,7 @@ module.exports = function reduceShapeArray (
   var maskIdPrefix = id + '_'
 
   var image = shapeArray.reduce(
-    function (result, shape, index) {
+    function(result, shape, index) {
       var svg
 
       switch (shape.type) {
@@ -130,7 +130,7 @@ module.exports = function reduceShapeArray (
             result.maskBox = shape.box.slice(0)
             result.maskChildren = []
             result.layers = [
-              maskLayer(nextMaskId, result.layers, createElement)
+              maskLayer(nextMaskId, result.layers, createElement),
             ]
           } else {
             var mask = createMask(
@@ -168,7 +168,7 @@ module.exports = function reduceShapeArray (
       maskId: '',
       maskBox: [],
       maskChildren: [],
-      masks: []
+      masks: [],
     }
   )
 

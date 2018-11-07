@@ -6,7 +6,7 @@ var wtg = require('whats-that-gerber')
 
 var gatherLayers = require('./_gather-layers')
 
-module.exports = function (
+module.exports = function(
   element,
   id,
   side,
@@ -65,7 +65,7 @@ module.exports = function (
     var smMaskId = idPrefix + 'sm-mask'
     var smMaskShape = [
       createRect(element, box, '#fff'),
-      useLayer(element, smLayerId)
+      useLayer(element, smLayerId),
     ]
     var smMaskGroupAtrr = {fill: '#000', stroke: '#000'}
     var smMaskGroup = [element('g', smMaskGroupAtrr, smMaskShape)]
@@ -75,7 +75,7 @@ module.exports = function (
     // add the layer that gets masked
     var smGroupAttr = {mask: 'url(#' + smMaskId + ')'}
     var smGroupShape = [
-      createRect(element, box, 'currentColor', classPrefix + 'sm')
+      createRect(element, box, 'currentColor', classPrefix + 'sm'),
     ]
 
     if (ssLayerId) {
@@ -101,11 +101,11 @@ module.exports = function (
     mechMaskId: mechMaskId,
     outClipId: outLayerId && useOutline ? outLayerId : null,
     box: box,
-    units: units
+    units: units,
   }
 }
 
-function findLayerId (layers, type) {
+function findLayerId(layers, type) {
   var layer
   var i
 
@@ -117,7 +117,7 @@ function findLayerId (layers, type) {
   }
 }
 
-function useLayer (element, id, className, mask) {
+function useLayer(element, id, className, mask) {
   var attr = {'xlink:href': '#' + id}
 
   if (className) {
@@ -133,7 +133,7 @@ function useLayer (element, id, className, mask) {
   return element('use', attr)
 }
 
-function createRect (element, box, fill, className) {
+function createRect(element, box, fill, className) {
   var attr = viewbox.rect(box)
 
   if (fill) {
@@ -147,8 +147,8 @@ function createRect (element, box, fill, className) {
   return element('rect', attr)
 }
 
-function mechMask (element, id, box, drills) {
-  var children = drills.map(function (layer) {
+function mechMask(element, id, box, drills) {
+  var children = drills.map(function(layer) {
     return useLayer(element, layer.id)
   })
 
