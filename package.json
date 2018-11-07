@@ -1,30 +1,26 @@
 {
   "name": "tracespace",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "bootstrap": "lerna bootstrap",
     "_test": "mocha --timeout=5000 'packages/**/*test.js'",
-    "test": "cross-env INTEGRATION=1 nyc yarn run _test",
-    "posttest": "yarn run example && yarn run lint",
-    "test:watch": "yarn run _test --watch --reporter=dot",
+    "test": "cross-env INTEGRATION=1 nyc npm run _test",
+    "posttest": "npm run example && npm run docs && npm run lint",
+    "test:watch": "npm run _test -- --watch --reporter=dot",
     "test:browser": "karma start",
     "coverage": "nyc report --reporter=lcov",
     "integration:server": "lerna run integration:server --parallel",
     "lint": "eslint '**/*.js'",
     "format": "prettier-eslint --write '**/*.js'",
-    "docs": "lerna run docs && lerna exec -- 'cp $LERNA_ROOT_PATH/LICENSE .'",
+    "docs": "lerna run docs",
     "example": "lerna run example",
-    "prebump": "yarn run test",
-    "bump": "lerna publish",
-    "publish": "lerna exec -- 'node $LERNA_ROOT_PATH/scripts/publish.js'",
-    "ci": "yarn run test",
-    "preci:coverage": "yarn run coverage",
-    "ci:coverage": "codecov"
+    "prebump": "npm run test",
+    "bump": "lerna version",
+    "ci:script": "npm run test",
+    "ci:after-success": "npm run coverage && codecov",
+    "ci:publish": "lerna publish from-git --yes --npm-tag $npm_package_config_publishTag"
   },
   "config": {
+    "publishTag": "latest",
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
@@ -85,25 +81,25 @@
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
-    "execa": "^0.10.0",
     "express": "^4.16.2",
     "karma": "^2.0.0",
     "karma-browserify": "^5.1.3",
     "karma-chrome-launcher": "^2.2.0",
     "karma-firefox-launcher": "^1.1.0",
     "karma-mocha": "^1.3.0",
-    "lerna": "^3.0.0-beta.21",
+    "lerna": "^3.4.3",
     "lodash": "^4.17.10",
     "mocha": "^5.0.0",
     "nyc": "^12.0.2",
+    "pify": "^4.0.1",
     "prettier-eslint-cli": "^4.7.0",
     "proxyquire": "^2.0.1",
     "proxyquire-universal": "^1.0.8",
     "proxyquireify": "^3.2.1",
     "pump": "^3.0.0",
-    "read-pkg": "^4.0.1",
     "run-parallel": "^1.1.6",
     "run-waterfall": "^1.1.3",
+    "semver": "^5.6.0",
     "sinon": "^6.0.1",
     "sinon-chai": "^3.2.0",
     "snap-shot-it": "^5.0.1",
@@ -111,5 +107,16 @@
     "to-readable-stream": "^1.0.0",
     "watchify": "^3.10.0",
     "xml-formatter": "^1.0.1"
+  },
+  "dependencies": {
+    "@tracespace/cli": "file:packages/cli",
+    "@tracespace/fixtures": "file:packages/fixtures",
+    "@tracespace/xml-id": "file:packages/xml-id",
+    "gerber-parser": "file:packages/gerber-parser",
+    "gerber-plotter": "file:packages/gerber-plotter",
+    "gerber-to-svg": "file:packages/gerber-to-svg",
+    "pcb-stackup": "file:packages/pcb-stackup",
+    "pcb-stackup-core": "file:packages/pcb-stackup-core",
+    "whats-that-gerber": "file:packages/whats-that-gerber"
   }
 }
