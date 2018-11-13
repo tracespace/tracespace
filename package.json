@@ -20,7 +20,7 @@
     "ci:publish": "lerna publish from-git --yes --npm-tag $npm_package_config_publishTag"
   },
   "config": {
-    "publishTag": "latest",
+    "publishTag": "next",
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
