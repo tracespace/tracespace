@@ -3,8 +3,8 @@
 'use strict'
 
 var numIsFinite = require('lodash.isfinite')
-var padLeft = require('lodash.padleft')
-var padRight = require('lodash.padright')
+var padLeft = require('lodash.padstart')
+var padRight = require('lodash.padend')
 
 // function takes in the number string to be converted and the format object
 var normalizeCoord = function(number, format) {

@@ -2,6 +2,7 @@
 
 [![latest][@tracespace/fixtures-latest-badge]][npm]
 [![next][@tracespace/fixtures-next-badge]][npm-next]
+[![david][@tracespace/fixtures-david-badge]][david]
 
 > Test fixtures for tracespace projects
 
@@ -12,8 +13,10 @@ Part of the [tracespace][] collection of PCB visualization tools.
 [tracespace]: https://github.com/tracespace/tracespace
 [npm]: https://www.npmjs.com/package/@tracespace/fixtures
 [npm-next]: https://www.npmjs.com/package/@tracespace/fixtures/v/next
+[david]: https://david-dm.org/tracespace/tracespace?path=packages/fixtures
 [@tracespace/fixtures-latest-badge]: https://flat.badgen.net/npm/v/@tracespace/fixtures
 [@tracespace/fixtures-next-badge]: https://flat.badgen.net/npm/v/@tracespace/fixtures/next
+[@tracespace/fixtures-david-badge]: https://flat.badgen.net/david/dep/tracespace/tracespace/packages/fixtures
 
 ## install
 

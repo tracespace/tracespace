@@ -2,6 +2,7 @@
 
 [![latest][whats-that-gerber-latest-badge]][npm]
 [![next][whats-that-gerber-next-badge]][npm-next]
+[![david][whats-that-gerber-david-badge]][david]
 
 > Identify Gerber and drill files by filename
 
@@ -12,8 +13,10 @@ Part of the [tracespace][] collection of PCB visualization tools.
 [tracespace]: https://github.com/tracespace/tracespace
 [npm]: https://www.npmjs.com/package/whats-that-gerber
 [npm-next]: https://www.npmjs.com/package/whats-that-gerber/v/next
+[david]: https://david-dm.org/tracespace/tracespace?path=packages/whats-that-gerber
 [whats-that-gerber-latest-badge]: https://flat.badgen.net/npm/v/whats-that-gerber
 [whats-that-gerber-next-badge]: https://flat.badgen.net/npm/v/whats-that-gerber/next
+[whats-that-gerber-david-badge]: https://flat.badgen.net/david/dep/tracespace/tracespace/packages/whats-that-gerber
 
 ## install
 
@@ -92,7 +95,7 @@ const {
   SIDE_TOP, // 'top'
   SIDE_BOTTOM, // 'bottom'
   SIDE_INNER, // 'inner'
-  SIDE_ALL // 'all'
+  SIDE_ALL, // 'all'
 } = require('whats-that-gerber')
 ```
 
@@ -116,12 +119,12 @@ console.log(validate(type3)) // {valid: false, side: 'bottom', type: null}
 
 We should be able to identify files output by the following programs:
 
-* KiCad
-* Eagle
-* Altium
-* Orcad
-* gEDA PCB
-* DipTrace
+- KiCad
+- Eagle
+- Altium
+- Orcad
+- gEDA PCB
+- DipTrace
 
 ## contributing
 

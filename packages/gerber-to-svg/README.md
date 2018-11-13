@@ -2,6 +2,7 @@
 
 [![latest][gerber-to-svg-latest-badge]][npm]
 [![next][gerber-to-svg-next-badge]][npm-next]
+[![david][gerber-to-svg-david-badge]][david]
 
 > Render individual Gerber / NC drill files as SVGs
 
@@ -12,8 +13,10 @@ Part of the [tracespace][] collection of PCB visualization tools.
 [tracespace]: https://github.com/tracespace/tracespace
 [npm]: https://www.npmjs.com/package/gerber-to-svg
 [npm-next]: https://www.npmjs.com/package/gerber-to-svg/v/next
+[david]: https://david-dm.org/tracespace/tracespace?path=packages/gerber-to-svg
 [gerber-to-svg-latest-badge]: https://flat.badgen.net/npm/v/gerber-to-svg
 [gerber-to-svg-next-badge]: https://flat.badgen.net/npm/v/gerber-to-svg/next
+[gerber-to-svg-david-badge]: https://flat.badgen.net/david/dep/tracespace/tracespace/packages/gerber-to-svg
 [gerber]: https://en.wikipedia.org/wiki/Gerber_format
 [nc-drill]: https://en.wikipedia.org/wiki/Excellon_format
 [svg]: https://en.wikipedia.org/wiki/Scalable_Vector_Graphics

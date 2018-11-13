@@ -2,6 +2,7 @@
 
 [![latest][pcb-stackup-latest-badge]][npm]
 [![next][pcb-stackup-next-badge]][npm-next]
+[![david][pcb-stackup-david-badge]][david]
 
 > Render PCBs as beautiful, precise SVGs from Gerber / NC drill files
 
@@ -10,8 +11,10 @@ Part of the [tracespace][] collection of PCB visualization tools.
 [tracespace]: https://github.com/tracespace/tracespace
 [npm]: https://www.npmjs.com/package/pcb-stackup
 [npm-next]: https://www.npmjs.com/package/pcb-stackup/v/next
+[david]: https://david-dm.org/tracespace/tracespace?path=packages/pcb-stackup
 [pcb-stackup-latest-badge]: https://flat.badgen.net/npm/v/pcb-stackup
 [pcb-stackup-next-badge]: https://flat.badgen.net/npm/v/pcb-stackup/next
+[pcb-stackup-david-badge]: https://flat.badgen.net/david/dep/tracespace/tracespace/packages/pcb-stackup
 
 ## install
 
@@ -56,12 +59,12 @@ const fileNames = [
   '/path/to/board-B.Paste.gbp',
   '/path/to/board-Edge.Cuts.gm1',
   '/path/to/board.drl',
-  '/path/to/board-NPTH.drl'
+  '/path/to/board-NPTH.drl',
 ]
 
 const layers = fileNames.map(filename => ({
   filename,
-  gerber: fs.createReadStream(path)
+  gerber: fs.createReadStream(path),
 }))
 
 pcbStackup(layers, (error, stackup) => {
