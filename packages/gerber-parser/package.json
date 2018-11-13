@@ -1,6 +1,6 @@
 {
   "name": "gerber-parser",
-  "version": "4.0.0-next.9",
+  "version": "4.0.0-next.15",
   "description": "Streaming Gerber/drill file parser",
   "main": "lib/index.js",
   "repository": {
@@ -27,8 +27,8 @@
   "dependencies": {
     "inherits": "^2.0.3",
     "lodash.isfinite": "^3.3.2",
-    "lodash.padstart": "^4.6.1",
     "lodash.padend": "^4.6.1",
+    "lodash.padstart": "^4.6.1",
     "readable-stream": "^2.3.6"
   }
 }
