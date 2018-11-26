@@ -1,5 +1,5 @@
 {
-  "version": "4.0.0-next.15",
+  "version": "4.0.0-next.16",
   "command": {
     "version": {
       "conventionalCommits": true,

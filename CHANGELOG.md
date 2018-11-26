@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0-next.16](https://github.com/tracespace/tracespace/compare/v4.0.0-next.15...v4.0.0-next.16) (2018-11-26)
+
+
+### Bug Fixes
+
+* **cli:** Update CLI to be compatible with whats-that-gerber ([#94](https://github.com/tracespace/tracespace/issues/94)) ([8f5f91e](https://github.com/tracespace/tracespace/commit/8f5f91e))
+
+
+
+
+
 # [4.0.0-next.15](https://github.com/tracespace/tracespace/compare/v4.0.0-next.14...v4.0.0-next.15) (2018-11-13)
 
 
