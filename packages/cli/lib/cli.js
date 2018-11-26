@@ -59,40 +59,44 @@ module.exports = function cli(processArgv, config) {
     .then(writeRenders)
 
   function renderFiles(filenames) {
-    const layers = filenames.map(makeLayerFromFilename).filter(_ => _)
+    const typesByName = whatsThatGerber(filenames)
+    const layers = filenames
+      .map(filename => makeLayerFromFilename(filename, typesByName))
+      .filter(_ => _)
 
     if (!layers.length) throw new Error(`No valid Gerber or drill files found`)
 
     return stackup(layers, argv.board)
   }
 
-  function makeLayerFromFilename(filename) {
+  function makeLayerFromFilename(filename, typesByName) {
     const basename = path.basename(filename)
-    const type = getType(basename)
+    const {type, side} = getType(basename, typesByName[filename])
 
-    if (type === 'drw' && !argv.force) {
+    if (type == null && !argv.force) {
       info(`Skipping ${basename} (unable to identify type)`)
       return null
     }
 
-    info(`Rendering ${basename} as ${whatsThatGerber.getFullName(type)}`)
+    info(`Rendering ${basename} as ${type} (${side})`)
 
     const gerber = fs.createReadStream(filename)
     const options = getOptions(basename, type)
 
-    debug(filename, type, options)
+    debug(filename, type, side, options)
 
-    return {type, gerber, options, filename: basename}
+    return {type, side, gerber, options, filename: basename}
   }
 
-  function getType(basename) {
-    const defaultType = whatsThatGerber(basename)
-
-    return get(argv.layer, `${basename}.type`, defaultType)
+  function getType(basename, defaults) {
+    return {
+      side: get(argv.layer, `${basename}.side`, defaults.side),
+      type: get(argv.layer, `${basename}.type`, defaults.type),
+    }
   }
 
   function getOptions(basename, type) {
-    const defaultOptions = type === 'drl' ? argv.drill : argv.gerber
+    const defaultOptions = type === 'drill' ? argv.drill : argv.gerber
 
     return get(argv.layer, `${basename}.options`, defaultOptions)
   }
@@ -110,7 +114,7 @@ module.exports = function cli(processArgv, config) {
           .filter(_ => !argv.noLayer)
           .map(layer =>
             writeOutput(
-              `${layer.filename}.${layer.type}.svg`,
+              `${layer.filename}.${layer.side}.${layer.type}.svg`,
               gerberToSvg.render(layer.converter, layer.options.attributes)
             )
           ),
