@@ -150,6 +150,8 @@ describe('gerber parser with gerber files', function() {
         {type: 'set', line: 2, prop: 'units', value: 'mm'},
         {type: 'set', line: 3, prop: 'units', value: 'in'},
         {type: 'set', line: 4, prop: 'units', value: 'mm'},
+        {type: 'set', line: 5, prop: 'units', value: 'in'},
+        {type: 'set', line: 6, prop: 'units', value: 'mm'},
       ]
 
       expectResults(expected, done)
@@ -157,6 +159,8 @@ describe('gerber parser with gerber files', function() {
       p.write('METRIC\n')
       p.write('INCH,TZ\n')
       p.write('METRIC,LZ\n')
+      p.write('M72,LZ\n')
+      p.write('M71,LZ\n')
       p.end()
     })
 

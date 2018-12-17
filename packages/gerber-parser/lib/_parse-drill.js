@@ -12,7 +12,7 @@ var parseCoord = require('./parse-coord')
 var RE_ALTIUM_HINT = /;FILE_FORMAT=(\d):(\d)/
 var RE_KI_HINT = /;FORMAT={(.):(.)\/ (absolute|.+)? \/ (metric|inch) \/.+(trailing|leading|decimal|keep)/
 
-var RE_UNITS = /(INCH|METRIC)(?:,([TL])Z)?/
+var RE_UNITS = /(INCH|METRIC|M71|M72)(?:,([TL])Z)?/
 var RE_TOOL_DEF = /T0*(\d+)[\S]*C([\d.]+)/
 var RE_TOOL_SET = /T0*(\d+)(?![\S]*C)/
 var RE_COORD = /((?:[XYIJA][+-]?[\d.]+){1,4})(?:G85((?:[XY][+-]?[\d.]+){1,2}))?/
@@ -87,7 +87,7 @@ var parseUnits = function(parser, block, line) {
   var units = unitsMatch[1]
   var suppression = unitsMatch[2]
 
-  if (units === 'METRIC') {
+  if (units === 'METRIC' || units === 'M71') {
     setUnits(parser, 'mm', line)
   } else {
     setUnits(parser, 'in', line)
