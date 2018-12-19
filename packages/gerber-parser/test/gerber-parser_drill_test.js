@@ -221,17 +221,31 @@ describe('gerber parser with gerber files', function() {
       p.write('METRIC,LZ\n')
       p.end()
       expect(p.format.zero).to.equal('T')
+
+      p = pFactory()
+      p.write('M71,LZ\n')
+      p.end()
+      expect(p.format.zero).to.equal('T')
+
+      p = pFactory()
+      p.write('M72,TZ\n')
+      p.end()
+      expect(p.format.zero).to.equal('L')
     })
 
     it('should not overwrite suppression', function() {
       p.format.zero = 'L'
       p.write('METRIC,LZ\n')
       p.write('INCH,LZ\n')
+      p.write('M72,TZ\n')
+      p.write('M71,TZ\n')
       expect(p.format.zero).to.equal('L')
 
       p.format.zero = 'T'
       p.write('METRIC,TZ\n')
       p.write('INCH,TZ\n')
+      p.write('M72,TZ\n')
+      p.write('M71,TZ\n')
       expect(p.format.zero).to.equal('T')
     })
   })
