@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0-next.17](https://github.com/tracespace/tracespace/compare/v4.0.0-next.16...v4.0.0-next.17) (2018-12-20)
+
+
+### Bug Fixes
+
+* **parser:** Set units with M71/M72 in drill files ([#96](https://github.com/tracespace/tracespace/issues/96)) ([11066d2](https://github.com/tracespace/tracespace/commit/11066d2))
+
+
+
+
+
 # [4.0.0-next.16](https://github.com/tracespace/tracespace/compare/v4.0.0-next.15...v4.0.0-next.16) (2018-11-26)
 
 
