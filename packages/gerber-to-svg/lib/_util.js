@@ -27,7 +27,7 @@ var createMask = function(maskId, box, children, element) {
   children = [boundingRect(box, '#fff', element)].concat(children)
   var attributes = {id: maskId, fill: '#000', stroke: '#000'}
 
-  return element('mask', attributes, children)
+  return element('mask', attributes, [element('g', {}, children)])
 }
 
 module.exports = {
