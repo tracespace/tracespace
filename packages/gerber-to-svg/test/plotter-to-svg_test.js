@@ -427,6 +427,7 @@ describe('plotter to svg transform stream', function() {
         {mask: 'url(#id_pad-11_1)'},
         {x: -2, y: 3, width: 4, height: 4},
         {x: -3, y: 1, width: 6, height: 8, fill: '#fff'},
+        {},
         {id: 'id_pad-11_1', fill: '#000', stroke: '#000'},
         {x: -3, y: -9, width: 6, height: 8},
         {cx: 0, cy: 0, r: 4},
@@ -434,6 +435,7 @@ describe('plotter to svg transform stream', function() {
         {x: -2, y: -7, width: 4, height: 4},
         {cx: 0, cy: 0, r: 2},
         {x: -4, y: -9, width: 8, height: 13, fill: '#fff'},
+        {},
         {id: 'id_pad-11_3', fill: '#000', stroke: '#000'},
         {id: 'id_pad-11'},
       ]
@@ -446,27 +448,26 @@ describe('plotter to svg transform stream', function() {
       expect(element).to.be.calledWith('g', expected[1], [values[0]])
       expect(element).to.be.calledWith('rect', expected[2])
       expect(element).to.be.calledWith('rect', expected[3])
-      expect(element).to.be.calledWith('mask', expected[4], [
-        values[3],
-        values[2],
-      ])
-      expect(element).to.be.calledWith('rect', expected[5])
-      expect(element).to.be.calledWith('circle', expected[6])
-      expect(element).to.be.calledWith('g', expected[7], [
+      expect(element).to.be.calledWith('g', expected[4], [values[3], values[2]])
+      expect(element).to.be.calledWith('mask', expected[5], [values[4]])
+      expect(element).to.be.calledWith('rect', expected[6])
+      expect(element).to.be.calledWith('circle', expected[7])
+      expect(element).to.be.calledWith('g', expected[8], [
         values[1],
-        values[5],
         values[6],
+        values[7],
       ])
-      expect(element).to.be.calledWith('rect', expected[8])
-      expect(element).to.be.calledWith('circle', expected[9])
-      expect(element).to.be.calledWith('rect', expected[10])
-      expect(element).to.be.calledWith('mask', expected[11], [
-        values[10],
-        values[8],
+      expect(element).to.be.calledWith('rect', expected[9])
+      expect(element).to.be.calledWith('circle', expected[10])
+      expect(element).to.be.calledWith('rect', expected[11])
+      expect(element).to.be.calledWith('g', expected[12], [
+        values[11],
         values[9],
+        values[10],
       ])
-      expect(element).to.be.calledWith('g', expected[12], [values[7]])
-      expect(p.defs).to.eql([values[4], values[11], values[12]])
+      expect(element).to.be.calledWith('mask', expected[13], [values[12]])
+      expect(element).to.be.calledWith('g', expected[14], [values[8]])
+      expect(p.defs).to.eql([values[5], values[13], values[14]])
     })
   })
 
@@ -697,6 +698,7 @@ describe('plotter to svg transform stream', function() {
         {mask: 'url(#id_clear-1)'},
         {'xlink:href': '#id_pad-10', x: 5, y: 5},
         {x: 0, y: 0, width: 500, height: 500, fill: '#fff'},
+        {},
         {id: 'id_clear-1', fill: '#000', stroke: '#000'},
         {'xlink:href': '#id_pad-11', x: 5, y: 5},
       ]
@@ -704,14 +706,12 @@ describe('plotter to svg transform stream', function() {
       expect(element).to.be.calledWith('g', expected[0], [])
       expect(element).to.be.calledWith('use', expected[1])
       expect(element).to.be.calledWith('rect', expected[2])
-      expect(element).to.be.calledWith('mask', expected[3], [
-        values[2],
-        values[1],
-      ])
-      expect(element).to.be.calledWith('use', expected[4])
+      expect(element).to.be.calledWith('g', expected[3], [values[2], values[1]])
+      expect(element).to.be.calledWith('mask', expected[4], [values[3]])
+      expect(element).to.be.calledWith('use', expected[5])
       expect(p._mask).to.eql([])
-      expect(p.defs).to.eql([values[3]])
-      expect(p.layer).to.eql([values[0], values[4]])
+      expect(p.defs).to.eql([values[4]])
+      expect(p.layer).to.eql([values[0], values[5]])
     })
 
     it('should not do anything with dark polarity if there is no mask', function() {
@@ -885,6 +885,7 @@ describe('plotter to svg transform stream', function() {
           stroke: '#fff',
         },
         {x: 0, y: 0, width: 500, height: 500, fill: '#fff'},
+        {},
         {id: 'id_block-1-clear', fill: '#000', stroke: '#000'},
       ]
 
@@ -933,10 +934,11 @@ describe('plotter to svg transform stream', function() {
       expect(element).to.be.calledWith('use', expected[42])
       expect(element).to.be.calledWith('rect', expected[43])
       expect(element).to.be.calledWith(
-        'mask',
+        'g',
         expected[44],
         [values[43]].concat(values.slice(23, 43))
       )
+      expect(element).to.be.calledWith('mask', expected[45], [values[44]])
 
       expect(p.defs).to.eql([
         values[1],
@@ -944,7 +946,7 @@ describe('plotter to svg transform stream', function() {
         values[5],
         values[7],
         values[9],
-        values[44],
+        values[45],
       ])
 
       expect(p.layer).to.eql([values[22]])
@@ -966,6 +968,7 @@ describe('plotter to svg transform stream', function() {
       var expected = [
         {mask: 'url(#id_block-1-clear)'},
         {x: 0, y: 0, width: 1000, height: 1000, fill: '#fff'},
+        {},
         {id: 'id_clear-1', fill: '#000', stroke: '#000'},
         {'xlink:href': '#id_pad-10', x: 250, y: 250},
         {id: 'id_block-1-1'},
@@ -1009,26 +1012,27 @@ describe('plotter to svg transform stream', function() {
           stroke: '#fff',
         },
         {x: 0, y: 0, width: 1000, height: 1000, fill: '#fff'},
+        {},
         {id: 'id_block-1-clear', fill: '#000', stroke: '#000'},
       ]
 
       expect(element).to.be.calledWith('g', expected[0])
       expect(element).to.be.calledWith('rect', expected[1])
-      expect(element).to.be.calledWith('mask', expected[2], [values[1], 'MASK'])
-      expect(element).to.be.calledWith('use', expected[3])
-      expect(element).to.be.calledWith('g', expected[4], [values[3]])
-      expect(element).to.be.calledWith('use', expected[5])
-      expect(element).to.be.calledWith('g', expected[6], [values[5]])
-      expect(element).to.be.calledWith('use', expected[7])
+      expect(element).to.be.calledWith('g', expected[2], [values[1], 'MASK'])
+      expect(element).to.be.calledWith('mask', expected[3], [values[2]])
+      expect(element).to.be.calledWith('use', expected[4])
+      expect(element).to.be.calledWith('g', expected[5], [values[4]])
+      expect(element).to.be.calledWith('use', expected[6])
+      expect(element).to.be.calledWith('g', expected[7], [values[6]])
       expect(element).to.be.calledWith('use', expected[8])
       expect(element).to.be.calledWith('use', expected[9])
       expect(element).to.be.calledWith('use', expected[10])
+      expect(element).to.be.calledWith('use', expected[11])
       expect(element).to.be.calledWith(
         'g',
-        expected[11],
-        [values[0]].concat(values.slice(7, 11))
+        expected[12],
+        [values[0]].concat(values.slice(8, 12))
       )
-      expect(element).to.be.calledWith('use', expected[12])
       expect(element).to.be.calledWith('use', expected[13])
       expect(element).to.be.calledWith('use', expected[14])
       expect(element).to.be.calledWith('use', expected[15])
@@ -1036,15 +1040,17 @@ describe('plotter to svg transform stream', function() {
       expect(element).to.be.calledWith('use', expected[17])
       expect(element).to.be.calledWith('use', expected[18])
       expect(element).to.be.calledWith('use', expected[19])
-      expect(element).to.be.calledWith('rect', expected[20])
+      expect(element).to.be.calledWith('use', expected[20])
+      expect(element).to.be.calledWith('rect', expected[21])
       expect(element).to.be.calledWith(
-        'mask',
-        expected[21],
-        [values[20]].concat(values.slice(12, 20))
+        'g',
+        expected[22],
+        [values[21]].concat(values.slice(13, 21))
       )
+      expect(element).to.be.calledWith('mask', expected[23], [values[22]])
 
-      expect(p.defs).to.eql([values[2], values[4], values[6], values[21]])
-      expect(p.layer).to.eql([values[11]])
+      expect(p.defs).to.eql([values[3], values[5], values[7], values[23]])
+      expect(p.layer).to.eql([values[12]])
     })
 
     it('should handle step repeats that start with dark then change to clear', function() {
@@ -1066,6 +1072,7 @@ describe('plotter to svg transform stream', function() {
         {'xlink:href': '#id_block-1-1', x: 500, y: 0},
         {'xlink:href': '#id_block-1-1', x: 500, y: 500},
         {x: 0, y: 0, width: 1000, height: 1000, fill: '#fff'},
+        {},
         {id: 'id_block-1-clear', fill: '#000', stroke: '#000'},
       ]
 
@@ -1080,11 +1087,12 @@ describe('plotter to svg transform stream', function() {
       expect(element).to.be.calledWith('use', expected[6])
       expect(element).to.be.calledWith('rect', expected[7])
       expect(element).to.be.calledWith(
-        'mask',
+        'g',
         expected[8],
         [values[7]].concat(values.slice(3, 7))
       )
-      expect(p.defs).to.eql([values[1], values[8]])
+      expect(element).to.be.calledWith('mask', expected[9], [values[8]])
+      expect(p.defs).to.eql([values[1], values[9]])
       expect(p.layer).to.eql([values[2]])
     })
 
