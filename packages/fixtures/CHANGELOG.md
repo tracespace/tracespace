@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0-next.18](https://github.com/tracespace/tracespace/compare/v4.0.0-next.17...v4.0.0-next.18) (2019-01-26)
+
+
+### Bug Fixes
+
+* **fixtures:** Replace macro multi-exposure expected render ([#101](https://github.com/tracespace/tracespace/issues/101)) ([a821588](https://github.com/tracespace/tracespace/commit/a821588))
+
+
+
+
+
 # [4.0.0-next.15](https://github.com/tracespace/tracespace/compare/v4.0.0-next.14...v4.0.0-next.15) (2018-11-13)
 
 
