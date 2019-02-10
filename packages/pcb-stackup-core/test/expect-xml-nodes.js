@@ -1,17 +1,17 @@
 // helper to expect an chain of element calls
-// TODO(mc, 2018-01-16): refactor with testdouble and assert
+// TODO(mc, 2019-01-24): this is fundamentally broken / a bad idea
 'use strict'
 
-var chai = require('chai')
-var sinonChai = require('sinon-chai')
-var expect = chai.expect
-
-chai.use(sinonChai)
+var util = require('util')
+var expect = require('chai').expect
+var isEqual = require('lodash/isEqual')
+var pull = require('lodash/pull')
 
 // element is a sinon spy, expectations is an array of expectations of {tag, attr, children}
 // children is an array of indices of return values from expectations
 module.exports = function expectXmlNodes(element, expectations) {
   var returnValues = []
+  var calls = element.getCalls()
 
   expectations.forEach(function(expectation) {
     var tag = expectation.tag
@@ -28,18 +28,43 @@ module.exports = function expectXmlNodes(element, expectations) {
       })
     }
 
-    var spy
+    var spyCall = popCallByArgs(calls, tag, attr, children)
 
-    if (!children) {
-      spy = element.withArgs(tag, attr)
-      expect(element).to.be.calledWith(tag, attr)
-    } else {
-      spy = element.withArgs(tag, attr, children)
-      expect(element).to.be.calledWith(tag, attr, children)
-    }
+    expect(
+      spyCall != null,
+      'element(' +
+        tag +
+        ', ' +
+        util.format(attr) +
+        ', ' +
+        util.format(children) +
+        ') not called'
+    ).to.equal(true)
 
-    returnValues.push(spy.returnValues[0])
+    returnValues.push(spyCall.returnValue)
   })
 
   return returnValues
+}
+
+// modifies calls argument
+function popCallByArgs(calls, tag, attr, children) {
+  var matchingCall = calls.find(function(call) {
+    return (
+      isEqualOrMatches(call.args[0], tag) &&
+      isEqualOrMatches(call.args[1], attr) &&
+      isEqualOrMatches(call.args[2], children)
+    )
+  })
+
+  if (!matchingCall) return null
+
+  pull(calls, [matchingCall])
+  return matchingCall
+}
+
+function isEqualOrMatches(value, matcher) {
+  return matcher && typeof matcher.test === 'function'
+    ? matcher.test(value)
+    : isEqual(value, matcher)
 }

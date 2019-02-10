@@ -73,9 +73,9 @@ Arduino Uno design files used under the terms of the [Creative Commons Attributi
 
 ### tracespace in the wild
 
-* [viewer.tracespace.io][tracespace-viewer] - A Gerber viewer that lets you inspect the individual layers as well as the board preview
-* [kitspace.org][kitspace] - An electronics project sharing site with links to easily buy the required parts
-* [OpenHardware.io][openhardware] - A social site around open source hardware. Enables authors to sell and manufacture their boards.
+- [viewer.tracespace.io][tracespace-viewer] - A Gerber viewer that lets you inspect the individual layers as well as the board preview
+- [kitspace.org][kitspace] - An electronics project sharing site with links to easily buy the required parts
+- [OpenHardware.io][openhardware] - A social site around open source hardware. Enables authors to sell and manufacture their boards.
 
 [tracespace-viewer]: http://viewer.tracespace.io
 [kitspace]: https://kitspace.org
@@ -216,6 +216,8 @@ git cz
 
 ### tests
 
+Automated tests consist of unit tests along with integration [snapshot tests][snapshot-testing] of SVG and data outputs.
+
 ```shell
 # run unit and integration tests tests with coverage and linting
 npm test
@@ -235,21 +237,19 @@ INTEGRATION=1 npm run test:watch
 # npm run test:browser
 ```
 
-### integration tests
+[snapshot-testing]: https://facebook.github.io/jest/docs/en/snapshot-testing.html
 
-Automated integration tests consist of [snapshot tests][snapshot-testing] of SVG and data outputs and are run automatically as part of `yarn run test`.
+### development servers
 
-`pcb-stackup`, `pcb-stackup-core`, and `gerber-to-svg` also have integration test servers that serve a set of reference renders for manual visual inspection.
+`pcb-stackup`, `pcb-stackup-core`, and `gerber-to-svg` also have development servers that serve a set of reference renders for manual visual inspection.
 
 ```shell
-# run all integration test servers
-npm run integration:server
+# run all dev servers
+npm run start
 
 # run server for a specific project
-npm run integration:server --scope gerber-to-svg
+npm run start -- --scope gerber-to-svg
 ```
-
-[snapshot-testing]: https://facebook.github.io/jest/docs/en/snapshot-testing.html
 
 ### linting and formatting
 
@@ -265,10 +265,19 @@ npm run lint
 
 Packages are published to npm by the CI server. To publish a release, you must have write access to the repository. There is a `bump` script in the `package.json` that will:
 
-* Run all tests
-* Write new version to `package.json` in updated packages
-* Generate / update the changelogs
-* Commit, tag, and push to git
+- Run all tests
+- Write new version to `package.json` in updated packages
+- Generate / update the changelogs
+- Commit, tag, and push to git
+
+First, checkout and pull down the latest commits on `next`:
+
+```shell
+git checkout next
+get pull origin next
+```
+
+Then, bump the version:
 
 ```shell
 # by default, bump to the next version as determined by conventional commits
@@ -280,8 +289,14 @@ npm run bump
 npm run bump -- ${major|minor|patch|premajor|preminor|prepatch|prerelease}
 npm run bump -- v42.0.0
 
-# to do a "dry run", you can stop before commit, tag, and push
-npm run bump -- --no-git-tag-version --no-push
+# to do a "dry run", you can stop before commit and tag
+npm run bump -- --no-git-tag-version
+```
+
+After you bump, push the commit and tag:
+
+```shell
+git push origin next --follow-tags
 ```
 
 The release will be published to the `latest` npm tag for bare versions (e.g. `4.0.0`) and to `next` for pre-release versions (e.g. `4.0.0-next.0`).

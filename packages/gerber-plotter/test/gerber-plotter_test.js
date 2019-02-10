@@ -4,7 +4,7 @@
 
 var expect = require('chai').expect
 
-var plotter = require('../lib')
+var plotter = require('..')
 var boundingBox = require('../lib/_box')
 
 var EPSILON = 0.000001

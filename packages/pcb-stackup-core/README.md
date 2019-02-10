@@ -107,13 +107,14 @@ You can tell the stackup function that a layer is stored externally by giving it
 
 ```js
 var sharedLayer = {
-  type: GERBER_FILE_TYPE,
+  side: GERBER_LAYER_SIDE,
+  type: GERBER_LAYER_TYPE,
   converter: FINISHED_GERBER_TO_SVG_CONVERTER,
   externalId: ID_OF_THE_EXTERNALLY_STORED_LAYER_GROUP,
 }
 ```
 
-Please note that when using the `maskWithOutline` option as described below, the `externalId` of the outline layer will not be used, as a new `<clipPath>` element must be constructed.
+Please note that when using the `maskWithOutline` option as described below, the `externalId` option of the outline layer will be **ignored**, as a new `<clipPath>` element must be constructed to properly apply the outline shape.
 
 ### options
 
@@ -125,14 +126,13 @@ var stackup1 = pcbStackupCore(layers, 'my-unique-board-id')
 var stackup2 = pcbStackupCore(layers, {id: 'my-unique-board-id'})
 ```
 
-| key              | default   | description                                                               |
-| ---------------- | --------- | ------------------------------------------------------------------------- |
-| id               | N/A       | Unique board identifier (required)                                        |
-| color            | see below | Colors to apply to the board render by layer type                         |
-| maskWithOutline  | `false`   | Use the board outline layer as a mask for the board shape                 |
-| createElement    | see below | Function used to create the XML element nodes                             |
-| includeNamespace | `true`    | Whether or not to include the `xmlns` attribute in the top level SVG node |
-| attributes       | `{}`      | Map of additional attributes (e.g. `class`) to apply to the SVG nodes     |
+| key           | default   | description                                                           |
+| ------------- | --------- | --------------------------------------------------------------------- |
+| id            | N/A       | Unique board identifier (required)                                    |
+| color         | see below | Colors to apply to the board render by layer type                     |
+| useOutline    | `true`    | Use the board outline layer as a mask for the board shape             |
+| createElement | see below | Function used to create the XML element nodes                         |
+| attributes    | `{}`      | Map of additional attributes (e.g. `class`) to apply to the SVG nodes |
 
 #### id
 
@@ -182,26 +182,24 @@ If a value is falsey (e.g. an empty string), the layer will not be added to the 
 
 #### mask board shape with outline
 
-When constructing the stackup, a `<mask>` of all the drill layers is built and applied to the final image to remove the image wherever there are drill hits. If the `maskWithOutline` option is passed as true, the stackup function will _also_ create a `<clipPath>` with the contents of any included outline layers, and use that to remove any part of the image that falls outside of the board outline.
+When constructing the stackup, a `<mask>` of all the drill layers is built and applied to the final image to remove the image wherever there are drill hits. If the `useOutline` option is passed as true, the stackup function will _also_ create a `<clipPath>` with the contents of any included outline layers, and use that to remove any part of the image that falls outside of the board outline.
 
 | setting           | result                                          |
 | ----------------- | ----------------------------------------------- |
 | `false` (default) | Board shape is a rectangle that fits all layers |
 | `true`            | Board shape is the shape of the outline layer   |
 
-To work, the outline layer must be one or more fully-enclosed loops. If it isn't, setting `maskWithOutline` to true will likely result in the final image being incorrect (or non-existent), because the `<path>`s won't clip the image properly. See the [MDN's documentation of `<clipPath>`][clip-path] for more details.
+To work, the outline layer must be one or more fully-enclosed loops. If it isn't, setting `useOutline` to true will likely result in the final image being incorrect (or non-existent), because the `<path>`s won't clip the image properly. See the [MDN's documentation of `<clipPath>`][clip-path] for more details.
 
-To improve your chances of a board outline layer working for `maskWithOutline`, make sure you set the `plotAsOutline` [option of gerber-to-svg](..gerber-to-svg/API.md#options) to `true` when converting the outline gerber. If the board outline still doesn't work, please open an issue to see if we can improve the masking process.
+To improve your chances of a board outline layer working for `useOutline`, make sure you set the `plotAsOutline` [option of gerber-to-svg](..gerber-to-svg/API.md#options) to `true` when converting the outline gerber. If the board outline still doesn't work, please open an issue to see if we can improve the masking process.
 
 [clip-path]: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/clipPath
 
-#### create element and include namespace
+#### create element
 
 Both gerber-to-svg and pcb-stackup-core take a `createElement` function as an option. It defaults to [xml-element-string][], which outputs a string. However, any function that takes a tag name, attributes object, and children array may be used. For example, you could pass in [React.createElement][react-create-element] and create virtual DOM nodes instead.
 
 If you choose to use this option, the function you pass into pcb-stackup-core **must** be the same one you passed into gerber-to-svg.
-
-The `includeNamespace` option specifies whether or not to include the `xmlns` attribute in the top level SVG node. Some VDOM implementations get angry when you pass the `xmlns` attribute, so you may need to set it to `false`.
 
 [xml-element-string]: https://github.com/tracespace/xml-element-string
 [react-create-element]: https://reactjs.org/docs/react-api.html#createelement

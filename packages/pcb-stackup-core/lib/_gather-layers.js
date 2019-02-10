@@ -12,7 +12,7 @@ module.exports = function gatherLayers(
   layers,
   drills,
   outline,
-  maskWithOutline
+  useOutline
 ) {
   var defs = []
   var layerIds = []
@@ -49,13 +49,20 @@ module.exports = function gatherLayers(
     units = unitsCount.in > unitsCount.mm ? 'in' : 'mm'
   }
 
-  var viewboxLayers = outline ? [outline] : allLayers
+  var viewboxLayers = useOutline && outline ? [outline] : allLayers
+
   var box = viewboxLayers.reduce(function(result, layer) {
-    var nextBox = layer.converter.viewBox
+    var layerBox = layer.converter.viewBox
+    var layerUnits = layer.converter.units
 
-    nextBox = viewbox.scale(nextBox, getScale(units, layer.converter.units))
+    if (layerUnits && layerBox[2] !== 0 && layerBox[3] !== 0) {
+      return viewbox.add(
+        result,
+        viewbox.scale(layerBox, getScale(units, layerUnits))
+      )
+    }
 
-    return viewbox.add(result, nextBox)
+    return result
   }, viewbox.create())
 
   var wrapConverterLayer = function(collection) {
@@ -81,7 +88,7 @@ module.exports = function gatherLayers(
 
   // add the outline to defs if it's not defined externally or if we're using it to clip
   if (outline) {
-    if (outline.externalId && !maskWithOutline) {
+    if (outline.externalId && !useOutline) {
       outlineId = outline.externalId
     } else {
       outlineId = getUniqueId(outline.type)
@@ -92,7 +99,7 @@ module.exports = function gatherLayers(
           outlineId,
           outline.converter,
           getScale(units, outline.converter.units),
-          maskWithOutline ? 'clipPath' : 'g'
+          useOutline ? 'clipPath' : 'g'
         )
       )
     }

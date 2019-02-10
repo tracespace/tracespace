@@ -3,7 +3,6 @@
 const fs = require('fs')
 const path = require('path')
 const pump = require('pump')
-const xid = require('@tracespace/xml-id')
 
 const gerberToSvg = require('..')
 
@@ -25,9 +24,7 @@ GERBER_PATHS.forEach(filename => {
   const out = path.join(OUT_DIR, `${name}.svg`)
 
   const file = fs.createReadStream(filename)
-  const options = {id: xid.random()}
-
-  const source = gerberToSvg(file, options)
+  const source = gerberToSvg(file)
   const destination = fs.createWriteStream(out)
 
   pump(source, destination, error => {

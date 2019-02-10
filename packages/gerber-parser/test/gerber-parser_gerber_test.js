@@ -5,7 +5,7 @@
 var expect = require('chai').expect
 var partial = require('lodash/partial')
 
-var parser = require('../lib')
+var parser = require('..')
 
 describe('gerber parser with gerber files', function() {
   var p

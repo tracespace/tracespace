@@ -2,7 +2,7 @@
   "name": "gerber-parser",
   "version": "4.0.0-next.17",
   "description": "Streaming Gerber/drill file parser",
-  "main": "lib/index.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tracespace/tracespace.git"

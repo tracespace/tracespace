@@ -5,7 +5,7 @@ var Transform = require('readable-stream').Transform
 var expect = require('chai').expect
 var repeat = require('lodash/repeat')
 
-var parser = require('../lib')
+var parser = require('..')
 
 describe('gerber parser', function() {
   describe('factory and options', function() {

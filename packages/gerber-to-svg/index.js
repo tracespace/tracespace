@@ -6,41 +6,22 @@ var gerberParser = require('gerber-parser')
 var gerberPlotter = require('gerber-plotter')
 var xmlElementString = require('xml-element-string')
 
-var PlotterToSvg = require('./plotter-to-svg')
+var PlotterToSvg = require('./lib/plotter-to-svg')
 var render = require('./render')
 var clone = require('./clone')
 
-var getAttributesFromOptions = function(options) {
-  if (!options) {
-    return {}
-  }
-
-  var attributes = options.attributes || {}
-
-  if (typeof options === 'string') {
-    attributes.id = xid.sanitize(options)
-  } else if (options.id) {
-    attributes.id = xid.sanitize(options.id)
-  }
-
-  return attributes
-}
-
 var parseOptions = function(options) {
-  var attributes = getAttributesFromOptions(options)
-
-  if (!attributes.id) {
-    throw new Error('Non-empty id required for gerber-to-svg')
+  if (typeof options === 'string') {
+    options = {id: options}
+  } else if (!options) {
+    options = {}
   }
 
   var opts = {
-    svg: {
-      attributes: attributes,
-      createElement: options.createElement || xmlElementString,
-      includeNamespace:
-        options.includeNamespace == null ? true : options.includeNamespace,
-      objectMode: options.objectMode == null ? false : options.objectMode,
-    },
+    id: xid.ensure(options.id),
+    attributes: options.attributes || {},
+    createElement: options.createElement || xmlElementString,
+    objectMode: options.objectMode == null ? false : options.objectMode,
     parser: {
       places: options.places,
       zero: options.zero,
@@ -59,15 +40,20 @@ var parseOptions = function(options) {
   return opts
 }
 
-module.exports = function gerberConverterFactory(gerber, options, done) {
-  var opts = parseOptions(options)
+module.exports = function gerberConverterFactory(gerber, inputOpts, done) {
+  if (typeof options === 'function') {
+    done = inputOpts
+    inputOpts = {}
+  }
+
+  var opts = parseOptions(inputOpts)
   var callbackMode = done != null
 
   var converter = new PlotterToSvg(
-    opts.svg.attributes,
-    opts.svg.createElement,
-    opts.svg.includeNamespace,
-    opts.svg.objectMode
+    opts.id,
+    opts.attributes,
+    opts.createElement,
+    opts.objectMode
   )
 
   var parser = gerberParser(opts.parser)
