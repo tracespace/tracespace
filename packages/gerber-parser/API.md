@@ -2,14 +2,30 @@
 
 API documentation for gerber-parser. An understanding of the [Gerber file format specification](http://www.ucamco.com/en/guest/downloads) and the [Excellon NC drill format](http://www.excellon.com/manuals/program.htm) (as poorly defined as it is) will help with understanding the parser API.
 
-<!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
-
-- [create a gerber parser](#create-a-gerber-parser) - [usage](#usage) - [streaming](#streaming) - [synchronous](#synchronous) - [options](#options)
-- [public properties](#public-properties) - [format](#format) - [line](#line)
-- [events](#events) - [warning event](#warning-event) - [error event](#error-event)
-- [transform stream objects](#transform-stream-objects) - [done objects](#done-objects) - [set objects](#set-objects) - [operation objects](#operation-objects) - [coordinate objects](#coordinate-objects) - [level objects](#level-objects) - [tool objects](#tool-objects) - [shapes and parameters](#shapes-and-parameters) - [holes](#holes) - [macro objects](#macro-objects) - [macro blocks](#macro-blocks) - [variable set block](#variable-set-block) - [primitive blocks](#primitive-blocks)
-
-<!-- /TOC -->
+- [create a gerber parser](#create-a-gerber-parser)
+  - [usage](#usage)
+    - [streaming](#streaming)
+    - [synchronous](#synchronous)
+  - [options](#options)
+- [public properties](#public-properties)
+  - [format](#format)
+  - [line](#line)
+- [events](#events)
+  - [warning event](#warning-event)
+  - [error event](#error-event)
+- [transform stream objects](#transform-stream-objects)
+  - [done objects](#done-objects)
+  - [set objects](#set-objects)
+  - [operation objects](#operation-objects)
+    - [coordinate objects](#coordinate-objects)
+  - [level objects](#level-objects)
+  - [tool objects](#tool-objects)
+    - [shapes and parameters](#shapes-and-parameters)
+    - [holes](#holes)
+  - [macro objects](#macro-objects)
+    - [macro blocks](#macro-blocks)
+      - [variable set block](#variable-set-block)
+      - [primitive blocks](#primitive-blocks)
 
 ## create a gerber parser
 
