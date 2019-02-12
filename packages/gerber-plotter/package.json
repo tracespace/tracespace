@@ -3,6 +3,7 @@
   "version": "4.0.0-next.15",
   "description": "Streaming Gerber / NC drill layer image plotter",
   "main": "index.js",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tracespace/tracespace.git"
@@ -28,6 +29,7 @@
     "gerber-parser": "^4.0.0"
   },
   "dependencies": {
+    "@types/node": "^10.12.24",
     "inherits": "^2.0.3",
     "lodash.fill": "^3.4.0",
     "lodash.isfinite": "^3.3.2",

@@ -3,6 +3,7 @@
   "version": "4.0.0-next.18",
   "description": "Render PCBs as beautiful, precise SVGs from Gerber / NC drill files",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "example": "node example",
     "start": "node integration/server"
@@ -33,6 +34,7 @@
   "homepage": "https://github.com/tracespace/tracespace",
   "dependencies": {
     "@tracespace/xml-id": "file:../xml-id",
+    "@types/node": "^10.12.24",
     "gerber-to-svg": "file:../gerber-to-svg",
     "pcb-stackup-core": "file:../pcb-stackup-core",
     "run-parallel": "^1.1.9",
