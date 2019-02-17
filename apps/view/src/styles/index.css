@@ -1,0 +1,92 @@
+/* global @tracepace/view styles */
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700');
+@import '~tachyons';
+@import './animation';
+@import './skins';
+
+.sans {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.hover-bg-black-20:focus-within {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.w-sixth {
+  width: calc(100% / 6);
+}
+
+.mw0 {
+  max-width: 0;
+}
+
+.mxh-100 {
+  max-height: 100%;
+}
+
+.top-50 {
+  top: 50%;
+}
+
+.left-50 {
+  left: 50%;
+}
+
+.right-100 {
+  right: 100%;
+}
+
+.top-5 {
+  top: 5rem;
+}
+
+.top-6 {
+  top: 6rem;
+}
+
+.top-7 {
+  top: 7rem;
+}
+
+.bottom-5 {
+  bottom: 5rem;
+}
+
+.absolute--center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.tf-center {
+  transform: translate(-50%, -50%);
+}
+
+.tf-center-x {
+  transform: translateX(-50%);
+}
+
+.tf-flip-x {
+  transform: scaleX(-1);
+}
+
+.tf-skew-15 {
+  transform: skew(-15deg);
+}
+
+.shadow {
+  box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+}
+
+.absolute--center-w-third {
+  left: calc(50% - calc(100% / 6));
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+input.clip:focus + * {
+  outline: 1px dotted black;
+}

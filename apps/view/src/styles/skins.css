@@ -1,0 +1,15 @@
+.brand {
+  color: #30c2c2;
+}
+
+.bg-brand {
+  background-color: #30c2c2;
+}
+
+.b--brand {
+  border-color: #30c2c2;
+}
+
+.bg-gradient {
+  background: radial-gradient(#eee, #999);
+}

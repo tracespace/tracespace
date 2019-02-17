@@ -14,7 +14,13 @@ module.exports = {
   root: true,
   parserOptions: {ecmaVersion: 5},
   env: {es6: false},
-  extends: ['standard', 'plugin:prettier/recommended', 'prettier/standard'],
+  extends: [
+    'standard',
+    'plugin:react/recommended',
+    'plugin:prettier/recommended',
+    'prettier/react',
+    'prettier/standard',
+  ],
   overrides: [
     {
       files: [
@@ -41,7 +47,7 @@ module.exports = {
         project: './tsconfig.json',
       },
       env: {es6: true, browser: true},
-      plugins: ['@typescript-eslint'],
+      plugins: ['react-hooks', '@typescript-eslint'],
       rules: extend(
         pluginTs.configs.recommended.rules,
         configPrettierTs.rules,
@@ -49,6 +55,7 @@ module.exports = {
           'no-dupe-class-members': 'off',
           'no-redeclare': 'off',
           'no-useless-constructor': 'off',
+          'react-hooks/rules-of-hooks': 'error',
           '@typescript-eslint/explicit-member-accessibility': 'off',
           '@typescript-eslint/array-type': ['error', 'generic'],
           '@typescript-eslint/no-unused-vars': [
@@ -64,4 +71,9 @@ module.exports = {
       ),
     },
   ],
+  settings: {
+    react: {
+      version: '16.8',
+    },
+  },
 }
