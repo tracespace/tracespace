@@ -6,6 +6,7 @@
   "version": "4.0.0-next.15",
   "description": "XML ID utilities for tracespace projects",
   "main": "index.js",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tracespace/tracespace.git"

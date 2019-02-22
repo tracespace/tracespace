@@ -3,6 +3,7 @@
   "version": "4.0.0-next.15",
   "description": "Layer stacking core logic for pcb-stackup",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "example": "node example",
     "start": "node integration/server"
@@ -31,6 +32,7 @@
   "homepage": "https://github.com/tracespace/tracespace",
   "dependencies": {
     "@tracespace/xml-id": "file:../xml-id",
+    "@types/node": "^10.12.24",
     "color-string": "^1.4.0",
     "gerber-to-svg": "file:../gerber-to-svg",
     "viewbox": "^1.0.0",

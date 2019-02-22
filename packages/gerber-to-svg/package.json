@@ -3,6 +3,7 @@
   "version": "4.0.0-next.18",
   "description": "Render individual Gerber / NC drill files as SVGs",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "example": "node example",
     "start": "node integration/server"
@@ -35,6 +36,7 @@
   "homepage": "https://github.com/tracespace/tracespace#readme",
   "dependencies": {
     "@tracespace/xml-id": "file:../xml-id",
+    "@types/node": "^10.12.24",
     "escape-html": "^1.0.3",
     "gerber-parser": "file:../gerber-parser",
     "gerber-plotter": "file:../gerber-plotter",

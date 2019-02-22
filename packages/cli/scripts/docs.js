@@ -39,7 +39,7 @@ readFile(doc, 'utf8')
 function insertOptionsIntoDocument(contents) {
   return contents.replace(
     matcher('options'),
-    (match, startTag, endTag) => `${startTag}${generateOptions()}${endTag}`
+    (_match, startTag, endTag) => `${startTag}${generateOptions()}\n${endTag}`
   )
 }
 
@@ -61,9 +61,9 @@ function generateOptions() {
       return `
 #### \`-${short}\`, \`--${long}\`, \`config.${long}\`
 
-* Type: \`${type}\`
-* Default: \`${defaultValue || getDefaultFromType(type)}\`
-* Description: ${describe}
+- Type: \`${type}\`
+- Default: \`${defaultValue || getDefaultFromType(type)}\`
+- Description: ${describe}
 ${example.aside ? `\n> ${example.aside}\n` : ''}
 \`\`\`shell
 # ${example.desc}

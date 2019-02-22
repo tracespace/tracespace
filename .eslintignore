@@ -1,6 +1,8 @@
-package.json
-lerna.json
-bundle.js
+**/package.json
+package-lock.json
 node_modules
 __snapshots__
 coverage
+.nyc_output
+**/dist
+CHANGELOG.md

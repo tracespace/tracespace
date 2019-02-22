@@ -72,9 +72,9 @@ tracespace --version
 
 #### `-o`, `--out`, `config.out`
 
-* Type: `string`
-* Default: `.`
-* Description: Output directory (or `-` for stdout)
+- Type: `string`
+- Default: `.`
+- Description: Output directory (or `-` for stdout)
 
 ```shell
 # Write SVGs into directory `./renders`
@@ -83,9 +83,9 @@ tracespace --out=renders
 
 #### `-B`, `--noBoard`, `config.noBoard`
 
-* Type: `boolean`
-* Default: `false`
-* Description: Skip rendering PCB top and bottom
+- Type: `boolean`
+- Default: `false`
+- Description: Skip rendering PCB top and bottom
 
 ```shell
 # Output only the individual layer renders
@@ -94,9 +94,9 @@ tracespace -B
 
 #### `-L`, `--noLayer`, `config.noLayer`
 
-* Type: `boolean`
-* Default: `false`
-* Description: Skip rendering individual Gerber and drill layers
+- Type: `boolean`
+- Default: `false`
+- Description: Skip rendering individual Gerber and drill layers
 
 ```shell
 # Output only the top and bottom PCB renders
@@ -105,9 +105,9 @@ tracespace -L
 
 #### `-f`, `--force`, `config.force`
 
-* Type: `boolean`
-* Default: `false`
-* Description: Attempt to render files even if they're unrecognized
+- Type: `boolean`
+- Default: `false`
+- Description: Attempt to render files even if they're unrecognized
 
 ```shell
 # Attempt render even if whats-that-gerber cannot identify
@@ -116,9 +116,9 @@ tracespace -B --force some-file.xyz
 
 #### `-g`, `--gerber`, `config.gerber`
 
-* Type: `object`
-* Default: `{}`
-* Description: Options for all gerber files (passed to gerber-to-svg)
+- Type: `object`
+- Default: `{}`
+- Description: Options for all gerber files (passed to gerber-to-svg)
 
 ```shell
 # Set the color attribute of all Gerber SVGs
@@ -127,9 +127,9 @@ tracespace -B -g.attributes.color=blue
 
 #### `-d`, `--drill`, `config.drill`
 
-* Type: `object`
-* Default: `{}`
-* Description: Options for all drill files (passed to gerber-to-svg)
+- Type: `object`
+- Default: `{}`
+- Description: Options for all drill files (passed to gerber-to-svg)
 
 ```shell
 # Set the color attribute of all drill SVGs
@@ -138,9 +138,9 @@ tracespace -B -d.attributes.color=red
 
 #### `-b`, `--board`, `config.board`
 
-* Type: `object`
-* Default: `{}`
-* Description: Options for PCB renders (passed to pcb-stackup)
+- Type: `object`
+- Default: `{}`
+- Description: Options for PCB renders (passed to pcb-stackup)
 
 ```shell
 # Set the soldermask color of the board renders
@@ -149,9 +149,9 @@ tracespace -b.color.sm="rgba(128,00,00,0.75)"
 
 #### `-l`, `--layer`, `config.layer`
 
-* Type: `object`
-* Default: `{}`
-* Description: Override the layers options of a given file
+- Type: `object`
+- Default: `{}`
+- Description: Override the layers options of a given file
 
 > If you're using this option a lot, you may want to consider using a config file
 
@@ -162,12 +162,13 @@ tracespace -l.arduino-uno.drd.type=drill -l.arduino-uno.drd.options.filetype=dri
 
 #### `-q`, `--quiet`, `config.quiet`
 
-* Type: `boolean`
-* Default: `false`
-* Description: Suppress informational output (info logs to stderr)
+- Type: `boolean`
+- Default: `false`
+- Description: Suppress informational output (info logs to stderr)
 
 ```shell
 # Do not print info to stderr
 tracespace --quiet
 ```
+
 <!-- endinsert:docs:options -->

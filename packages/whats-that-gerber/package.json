@@ -3,6 +3,7 @@
   "version": "4.0.0-next.15",
   "description": "Identify Gerber and drill files by filenamee",
   "main": "index.js",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tracespace/tracespace.git"

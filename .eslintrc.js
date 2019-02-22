@@ -1,23 +1,25 @@
 'use strict'
 
+const extend = require('xtend')
+
+const configStandard = require('eslint-config-standard')
+const configPrettierTs = require('eslint-config-prettier/@typescript-eslint')
+const pluginTs = require('@typescript-eslint/eslint-plugin')
+
 // HACK: overriding parserOptions doesn't seem to do anything because
 // eslint-config-standard specifies it; delete it as a workaround
-const standard = require('eslint-config-standard')
-delete standard.parserOptions
+delete configStandard.parserOptions
 
 module.exports = {
+  root: true,
   parserOptions: {ecmaVersion: 5},
   env: {es6: false},
-  extends: [
-    'standard',
-    'prettier',
-    'prettier/standard',
-    'plugin:prettier/recommended',
-  ],
+  extends: ['standard', 'plugin:prettier/recommended', 'prettier/standard'],
   overrides: [
     {
       files: [
         '.*.js',
+        '**/*.config.js',
         'packages/cli/**/*.js',
         'packages/fixtures/**/*.js',
         '**/integration/**/*.js',
@@ -28,8 +30,38 @@ module.exports = {
       env: {es6: true},
     },
     {
-      files: ['**/*test.js'],
+      files: ['**/*test.js', '**/__tests__/**', 'scripts/init-test-env.js'],
       env: {mocha: true},
+    },
+    {
+      files: ['**/*.ts', '**/*.tsx'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        sourceType: 'module',
+        project: './tsconfig.json',
+      },
+      env: {es6: true, browser: true},
+      plugins: ['@typescript-eslint'],
+      rules: extend(
+        pluginTs.configs.recommended.rules,
+        configPrettierTs.rules,
+        {
+          'no-dupe-class-members': 'off',
+          'no-redeclare': 'off',
+          'no-useless-constructor': 'off',
+          '@typescript-eslint/explicit-member-accessibility': 'off',
+          '@typescript-eslint/array-type': ['error', 'generic'],
+          '@typescript-eslint/no-unused-vars': [
+            'error',
+            {ignoreRestSiblings: true, argsIgnorePattern: '^_'},
+          ],
+          '@typescript-eslint/no-use-before-define': [
+            'error',
+            {functions: false, typedefs: false},
+          ],
+          '@typescript-eslint/prefer-interface': 'off',
+        }
+      ),
     },
   ],
 }
