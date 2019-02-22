@@ -9,7 +9,7 @@ var reduceShapeArray = require('./_reduce-shape')
 var flashPad = require('./_flash-pad')
 var createPath = require('./_create-path')
 var util = require('./_util')
-var render = require('./render')
+var render = require('../render')
 
 var shift = util.shift
 var maskLayer = util.maskLayer
@@ -19,17 +19,14 @@ var BLOCK_MODE_OFF = 0
 var BLOCK_MODE_DARK = 1
 var BLOCK_MODE_CLEAR = 2
 
-var PlotterToSvg = function(
-  attributes,
-  createElement,
-  includeNamespace,
-  objectMode
-) {
+var PlotterToSvg = function(id, attributes, createElement, objectMode) {
   Transform.call(this, {
     writableObjectMode: true,
     readableObjectMode: objectMode,
   })
 
+  this.id = id
+  this.attributes = attributes
   this.defs = []
   this.layer = []
   this.viewBox = [0, 0, 0, 0]
@@ -50,11 +47,8 @@ var PlotterToSvg = function(
   this._lastLayer = 0
   this._blockCount = 0
   this._blockCount = 0
-  this._id = attributes.id
-  this._attributes = attributes
 
   this._element = createElement
-  this._includeNamespace = includeNamespace
 }
 
 inherits(PlotterToSvg, Transform)
@@ -63,15 +57,12 @@ PlotterToSvg.prototype._transform = function(chunk, encoding, done) {
   switch (chunk.type) {
     case 'shape':
       this.defs = this.defs.concat(
-        reduceShapeArray(this._id, chunk.tool, chunk.shape, this._element)
+        reduceShapeArray(this.id, chunk.tool, chunk.shape, this._element)
       )
-
       break
 
     case 'pad':
-      this._draw(
-        flashPad(this._id, chunk.tool, chunk.x, chunk.y, this._element)
-      )
+      this._draw(flashPad(this.id, chunk.tool, chunk.x, chunk.y, this._element))
       break
 
     case 'fill':
@@ -100,13 +91,7 @@ PlotterToSvg.prototype._transform = function(chunk, encoding, done) {
 PlotterToSvg.prototype._flush = function(done) {
   // shut off step repeat finish any in-progress clear layer and/or repeat
   this._handleNewRepeat([])
-
-  var attributes = this._attributes
-  var element = this._element
-  var includeNamespace = this._includeNamespace
-
-  this.push(render(this, attributes, element, includeNamespace))
-
+  this.push(render(this, this.attributes, this._element))
   done()
 }
 
@@ -116,7 +101,7 @@ PlotterToSvg.prototype._finishBlockLayer = function() {
     this._blockLayerCount++
 
     var blockLayerId =
-      this._id + '_block-' + this._blockCount + '-' + this._blockLayerCount
+      this.id + '_block-' + this._blockCount + '-' + this._blockLayerCount
 
     this.defs.push(this._element('g', {id: blockLayerId}, this._block))
 
@@ -150,7 +135,7 @@ PlotterToSvg.prototype._handleNewPolarity = function(polarity, box) {
 
   this._clearCount =
     polarity === 'clear' ? this._clearCount + 1 : this._clearCount
-  var maskId = this._id + '_clear-' + this._clearCount
+  var maskId = this.id + '_clear-' + this._clearCount
 
   // if clear polarity, wrap the layer and start a mask
   if (polarity === 'clear') {
@@ -175,7 +160,7 @@ PlotterToSvg.prototype._handleNewRepeat = function(offsets, box) {
   var element = this._element
   var blockMode = this._blockMode
   var blockLayers = this._blockLayerCount
-  var blockIdStart = this._id + '_block-' + this._blockCount + '-'
+  var blockIdStart = this.id + '_block-' + this._blockCount + '-'
 
   // add dark layers to layer
   this._offsets.forEach(function(offset) {

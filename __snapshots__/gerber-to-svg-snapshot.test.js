@@ -1,5 +1,5 @@
 exports['gerber-to-svg :: integration arc-strokes renders full-circle 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.45in\" height=\"1.15in\" viewBox=\"-1075 -575 2450 1150\" id=\"full-circle_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.45in\" height=\"1.15in\" viewBox=\"-1075 -575 2450 1150\">",
   "    <g transform=\"translate(0,0) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 0 0 A 500 500 0 0 1 -1000 0 500 500 0 0 1 0 0 M 300 0 A 500 500 0 0 0 1300 0 500 500 0 0 0 300 0\" fill=\"none\" stroke-width=\"150\"/>",
   "    </g>",
@@ -7,7 +7,7 @@ exports['gerber-to-svg :: integration arc-strokes renders full-circle 1'] = [
 ]
 
 exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-I-to-II 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.65in\" height=\"0.2535533906in\" viewBox=\"-825 175 1650 253.5533906\" id=\"multi-quadrant-I-to-II_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.65in\" height=\"0.2535533906in\" viewBox=\"-825 175 1650 253.5533906\">",
   "    <g transform=\"translate(0,603.5533906000001) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M -250 250 A 353.5533906 353.5533906 0 0 1 -750 250 M 250 250 A 353.5533906 353.5533906 0 0 0 750 250\" fill=\"none\" stroke-width=\"150\"/>",
   "    </g>",
@@ -15,7 +15,7 @@ exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-I-to-II
 ]
 
 exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-I-to-III 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.7535533906in\" height=\"0.7535533905999999in\" viewBox=\"-928.5533906 -325 1753.5533906 753.5533906\" id=\"multi-quadrant-I-to-III_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.7535533906in\" height=\"0.7535533905999999in\" viewBox=\"-928.5533906 -325 1753.5533906 753.5533906\">",
   "    <g transform=\"translate(0,103.55339059999994) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M -250 250 A 353.5533906 353.5533906 0 0 1 -750 -250 M 250 -250 A 353.5533906 353.5533906 0 0 0 750 250\" fill=\"none\" stroke-width=\"150\"/>",
   "    </g>",
@@ -23,7 +23,7 @@ exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-I-to-II
 ]
 
 exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-I-to-IV 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.7535533906in\" height=\"0.8571067812in\" viewBox=\"-928.5533906 -428.5533906 1753.5533906 857.1067812\" id=\"multi-quadrant-I-to-IV_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.7535533906in\" height=\"0.8571067812in\" viewBox=\"-928.5533906 -428.5533906 1753.5533906 857.1067812\">",
   "    <g transform=\"translate(0,0) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M -250 250 A 353.5533906 353.5533906 0 1 1 -250 -250 M 750 -250 A 353.5533906 353.5533906 0 1 0 750 250\" fill=\"none\" stroke-width=\"150\"/>",
   "    </g>",
@@ -31,7 +31,7 @@ exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-I-to-IV
 ]
 
 exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-II-to-I 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.8571067812in\" height=\"0.7535533905999999in\" viewBox=\"-928.5533906 -428.5533906 1857.1067812 753.5533906\" id=\"multi-quadrant-II-to-I_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.8571067812in\" height=\"0.7535533905999999in\" viewBox=\"-928.5533906 -428.5533906 1857.1067812 753.5533906\">",
   "    <g transform=\"translate(0,-103.55339060000006) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M -750 250 A 353.5533906 353.5533906 0 1 1 -250 250 M 750 250 A 353.5533906 353.5533906 0 1 0 250 250\" fill=\"none\" stroke-width=\"150\"/>",
   "    </g>",
@@ -39,7 +39,7 @@ exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-II-to-I
 ]
 
 exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-II-to-III 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.2535533906in\" height=\"0.65in\" viewBox=\"-928.5533906 -325 1253.5533906 650\" id=\"multi-quadrant-II-to-III_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.2535533906in\" height=\"0.65in\" viewBox=\"-928.5533906 -325 1253.5533906 650\">",
   "    <g transform=\"translate(0,0) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M -750 250 A 353.5533906 353.5533906 0 0 1 -750 -250 M 250 -250 A 353.5533906 353.5533906 0 0 0 250 250\" fill=\"none\" stroke-width=\"150\"/>",
   "    </g>",
@@ -47,7 +47,7 @@ exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-II-to-I
 ]
 
 exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-II-to-IV 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.7535533906in\" height=\"0.7535533905999999in\" viewBox=\"-928.5533906 -428.5533906 1753.5533906 753.5533906\" id=\"multi-quadrant-II-to-IV_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.7535533906in\" height=\"0.7535533905999999in\" viewBox=\"-928.5533906 -428.5533906 1753.5533906 753.5533906\">",
   "    <g transform=\"translate(0,-103.55339060000006) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M -750 250 A 353.5533906 353.5533906 0 0 1 -250 -250 M 750 -250 A 353.5533906 353.5533906 0 0 0 250 250\" fill=\"none\" stroke-width=\"150\"/>",
   "    </g>",
@@ -55,7 +55,7 @@ exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-II-to-I
 ]
 
 exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-III-to-I 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.7535533906in\" height=\"0.7535533905999999in\" viewBox=\"-825 -428.5533906 1753.5533906 753.5533906\" id=\"multi-quadrant-III-to-I_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.7535533906in\" height=\"0.7535533905999999in\" viewBox=\"-825 -428.5533906 1753.5533906 753.5533906\">",
   "    <g transform=\"translate(0,-103.55339060000006) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M -750 -250 A 353.5533906 353.5533906 0 0 1 -250 250 M 750 250 A 353.5533906 353.5533906 0 0 0 250 -250\" fill=\"none\" stroke-width=\"150\"/>",
   "    </g>",
@@ -63,7 +63,7 @@ exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-III-to-
 ]
 
 exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-III-to-II 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.7535533906in\" height=\"0.8571067812in\" viewBox=\"-825 -428.5533906 1753.5533906 857.1067812\" id=\"multi-quadrant-III-to-II_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.7535533906in\" height=\"0.8571067812in\" viewBox=\"-825 -428.5533906 1753.5533906 857.1067812\">",
   "    <g transform=\"translate(0,0) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M -750 -250 A 353.5533906 353.5533906 0 1 1 -750 250 M 250 250 A 353.5533906 353.5533906 0 1 0 250 -250\" fill=\"none\" stroke-width=\"150\"/>",
   "    </g>",
@@ -71,7 +71,7 @@ exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-III-to-
 ]
 
 exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-III-to-IV 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.65in\" height=\"0.2535533906in\" viewBox=\"-825 -428.5533906 1650 253.5533906\" id=\"multi-quadrant-III-to-IV_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.65in\" height=\"0.2535533906in\" viewBox=\"-825 -428.5533906 1650 253.5533906\">",
   "    <g transform=\"translate(0,-603.5533906000001) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M -750 -250 A 353.5533906 353.5533906 0 0 1 -250 -250 M 750 -250 A 353.5533906 353.5533906 0 0 0 250 -250\" fill=\"none\" stroke-width=\"150\"/>",
   "    </g>",
@@ -79,7 +79,7 @@ exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-III-to-
 ]
 
 exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-IV-to-I 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.2535533906in\" height=\"0.65in\" viewBox=\"-325 -325 1253.5533906 650\" id=\"multi-quadrant-IV-to-I_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.2535533906in\" height=\"0.65in\" viewBox=\"-325 -325 1253.5533906 650\">",
   "    <g transform=\"translate(0,0) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M -250 -250 A 353.5533906 353.5533906 0 0 1 -250 250 M 750 250 A 353.5533906 353.5533906 0 0 0 750 -250\" fill=\"none\" stroke-width=\"150\"/>",
   "    </g>",
@@ -87,7 +87,7 @@ exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-IV-to-I
 ]
 
 exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-IV-to-II 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.7535533906in\" height=\"0.7535533905999999in\" viewBox=\"-825 -325 1753.5533906 753.5533906\" id=\"multi-quadrant-IV-to-II_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.7535533906in\" height=\"0.7535533905999999in\" viewBox=\"-825 -325 1753.5533906 753.5533906\">",
   "    <g transform=\"translate(0,103.55339059999994) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M -250 -250 A 353.5533906 353.5533906 0 0 1 -750 250 M 250 250 A 353.5533906 353.5533906 0 0 0 750 -250\" fill=\"none\" stroke-width=\"150\"/>",
   "    </g>",
@@ -95,7 +95,7 @@ exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-IV-to-I
 ]
 
 exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-IV-to-III 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.8571067812in\" height=\"0.7535533905999999in\" viewBox=\"-928.5533906 -325 1857.1067812 753.5533906\" id=\"multi-quadrant-IV-to-III_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.8571067812in\" height=\"0.7535533905999999in\" viewBox=\"-928.5533906 -325 1857.1067812 753.5533906\">",
   "    <g transform=\"translate(0,103.55339059999994) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M -250 -250 A 353.5533906 353.5533906 0 1 1 -750 -250 M 250 -250 A 353.5533906 353.5533906 0 1 0 750 -250\" fill=\"none\" stroke-width=\"150\"/>",
   "    </g>",
@@ -103,7 +103,7 @@ exports['gerber-to-svg :: integration arc-strokes renders multi-quadrant-IV-to-I
 ]
 
 exports['gerber-to-svg :: integration arc-strokes renders single-quadrant-I-to-II 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.65in\" height=\"0.6216990565999999in\" viewBox=\"-325 -75 650 621.6990566\" id=\"single-quadrant-I-to-II_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.65in\" height=\"0.6216990565999999in\" viewBox=\"-325 -75 650 621.6990566\">",
   "    <g transform=\"translate(0,471.69905659999995) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M -250 0 A 471.6990566 471.6990566 0 0 0 250 0 M 250 400 A 471.6990566 471.6990566 0 0 1 -250 400\" fill=\"none\" stroke-width=\"150\"/>",
   "    </g>",
@@ -111,7 +111,7 @@ exports['gerber-to-svg :: integration arc-strokes renders single-quadrant-I-to-I
 ]
 
 exports['gerber-to-svg :: integration arc-strokes renders single-quadrant-II-to-III 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.6090169944in\" height=\"0.65in\" viewBox=\"-534.0169944 -325 609.0169944 650\" id=\"single-quadrant-II-to-III_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.6090169944in\" height=\"0.65in\" viewBox=\"-534.0169944 -325 609.0169944 650\">",
   "    <g transform=\"translate(0,0) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 0 -250 A 559.0169944 559.0169944 0 0 0 0 250 M -400 250 A 559.0169944 559.0169944 0 0 1 -400 -250\" fill=\"none\" stroke-width=\"150\"/>",
   "    </g>",
@@ -119,7 +119,7 @@ exports['gerber-to-svg :: integration arc-strokes renders single-quadrant-II-to-
 ]
 
 exports['gerber-to-svg :: integration arc-strokes renders single-quadrant-III-to-IV 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.65in\" height=\"0.6in\" viewBox=\"-325 -125 650 600\" id=\"single-quadrant-III-to-IV_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.65in\" height=\"0.6in\" viewBox=\"-325 -125 650 600\">",
   "    <g transform=\"translate(0,350) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 250 0 A 650 650 0 0 0 -250 0 M -250 400 A 650 650 0 0 1 250 400\" fill=\"none\" stroke-width=\"150\"/>",
   "    </g>",
@@ -127,7 +127,7 @@ exports['gerber-to-svg :: integration arc-strokes renders single-quadrant-III-to
 ]
 
 exports['gerber-to-svg :: integration arc-strokes renders single-quadrant-IV-to-I 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.6090169944in\" height=\"0.65in\" viewBox=\"-75 -325 609.0169944 650\" id=\"single-quadrant-IV-to-I_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.6090169944in\" height=\"0.65in\" viewBox=\"-75 -325 609.0169944 650\">",
   "    <g transform=\"translate(0,0) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 0 250 A 559.0169944 559.0169944 0 0 0 0 -250 M 400 -250 A 559.0169944 559.0169944 0 0 1 400 250\" fill=\"none\" stroke-width=\"150\"/>",
   "    </g>",
@@ -135,7 +135,7 @@ exports['gerber-to-svg :: integration arc-strokes renders single-quadrant-IV-to-
 ]
 
 exports['gerber-to-svg :: integration arc-strokes renders zero-length 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.25in\" height=\"0.25in\" viewBox=\"-125 -125 250 250\" id=\"zero-length_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.25in\" height=\"0.25in\" viewBox=\"-125 -125 250 250\">",
   "    <g transform=\"translate(0,0) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 0 0 0 0\" fill=\"none\" stroke-width=\"250\"/>",
   "    </g>",
@@ -143,7 +143,7 @@ exports['gerber-to-svg :: integration arc-strokes renders zero-length 1'] = [
 ]
 
 exports['gerber-to-svg :: integration arduino-uno renders arduino-uno.cmp 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"5.9182in\" height=\"2.9904in\" viewBox=\"45 48.6 5918.2 2990.4\" id=\"arduino-uno_cmp\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"5.9182in\" height=\"2.9904in\" viewBox=\"45 48.6 5918.2 2990.4\">",
   "    <defs>",
   "        <polygon points=\"30.49994,12.63349 12.63349,30.49994 -12.63349,30.49994 -30.49994,12.63349 -30.49994,-12.63349 -12.63349,-30.49994 12.63349,-30.49994 30.49994,-12.63349\" id=\"arduino-uno_cmp_pad-12\"/>",
   "        <polygon points=\"78.74984,32.61925 32.61925,78.74984 -32.61925,78.74984 -78.74984,32.61925 -78.74984,-32.61925 -32.61925,-78.74984 32.61925,-78.74984 78.74984,-32.61925\" id=\"arduino-uno_cmp_pad-17\"/>",
@@ -295,7 +295,7 @@ exports['gerber-to-svg :: integration arduino-uno renders arduino-uno.cmp 1'] = 
 ]
 
 exports['gerber-to-svg :: integration arduino-uno renders arduino-uno.drd 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.575in\" height=\"2.026in\" viewBox=\"933 1007 2575 2026\" id=\"arduino-uno_drd\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.575in\" height=\"2.026in\" viewBox=\"933 1007 2575 2026\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"12\" id=\"arduino-uno_drd_pad-1\"/>",
   "        <circle cx=\"0\" cy=\"0\" r=\"16.75\" id=\"arduino-uno_drd_pad-2\"/>",
@@ -479,7 +479,7 @@ exports['gerber-to-svg :: integration arduino-uno renders arduino-uno.drd 1'] = 
 ]
 
 exports['gerber-to-svg :: integration arduino-uno renders arduino-uno.gko 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.7in\" height=\"2.1in\" viewBox=\"845 970 2700 2100\" id=\"arduino-uno_gko\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.7in\" height=\"2.1in\" viewBox=\"845 970 2700 2100\">",
   "    <g transform=\"translate(0,4040) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 884.4 970 3405.6 970 3409.5 970.2 3413.3 970.8 3417 971.7 3420.7 973 3424.2 974.7 3427.5 976.6 3430.6 978.9 3433.5 981.5 3436.1 984.4 3438.4 987.5 3440.3 990.8 3442 994.3 3443.3 998 3444.2 1001.7 3444.8 1005.5 3445 1009.4 3445 1070 3545 1170 3545 2460 3445 2560 3445 3010 3385 3070 884.4 3070 880.5 3069.8 876.7 3069.2 873 3068.3 869.3 3067 865.8 3065.3 862.5 3063.4 859.4 3061.1 856.5 3058.5 853.9 3055.6 851.6 3052.5 849.7 3049.2 848 3045.7 846.7 3042 845.8 3038.3 845.2 3034.5 845 3030.6 845 1009.4 845.2 1005.5 845.8 1001.7 846.7 998 848 994.3 849.7 990.8 851.6 987.5 853.9 984.4 856.5 981.5 859.4 978.9 862.5 976.6 865.8 974.7 869.3 973 873 971.7 876.7 970.8 880.5 970.2 884.4 970 M 1332 1070 1332.2 1075 1332.8 1080 1333.8 1084.9 1335.2 1089.7 1336.9 1094.4 1339 1098.9 1341.5 1103.3 1344.3 1107.4 1347.5 1111.3 1350.9 1115 1354.6 1118.4 1358.6 1121.4 1362.8 1124.1 1367.2 1126.5 1371.8 1128.6 1376.5 1130.2 1381.3 1131.5 1386.3 1132.4 1391.2 1132.9 1396.3 1133 1401.3 1132.7 1406.2 1132 1411.1 1130.9 1415.9 1129.4 1420.5 1127.6 1425 1125.4 1429.3 1122.8 1433.4 1119.9 1437.3 1116.7 1440.9 1113.2 1444.1 1109.4 1447.1 1105.4 1449.8 1101.1 1452.1 1096.7 1454 1092.1 1455.6 1087.3 1456.8 1082.4 1457.6 1077.5 1458 1072.5 1458 1067.5 1457.6 1062.5 1456.8 1057.6 1455.6 1052.7 1454 1047.9 1452.1 1043.3 1449.8 1038.9 1447.1 1034.6 1444.1 1030.6 1440.9 1026.8 1437.3 1023.3 1433.4 1020.1 1429.3 1017.2 1425 1014.6 1420.5 1012.4 1415.9 1010.6 1411.1 1009.1 1406.2 1008 1401.3 1007.3 1396.3 1007 1391.2 1007.1 1386.3 1007.6 1381.3 1008.5 1376.5 1009.8 1371.8 1011.4 1367.2 1013.5 1362.8 1015.9 1358.6 1018.6 1354.6 1021.6 1350.9 1025 1347.5 1028.7 1344.3 1032.6 1341.5 1036.7 1339 1041.1 1336.9 1045.6 1335.2 1050.3 1333.8 1055.1 1332.8 1060 1332.2 1065 1332 1070 M 3382 1270 3382.2 1275 3382.8 1280 3383.8 1284.9 3385.2 1289.7 3386.9 1294.4 3389 1298.9 3391.5 1303.3 3394.3 1307.4 3397.5 1311.3 3400.9 1315 3404.6 1318.4 3408.6 1321.4 3412.8 1324.1 3417.2 1326.5 3421.8 1328.6 3426.5 1330.2 3431.3 1331.5 3436.3 1332.4 3441.2 1332.9 3446.3 1333 3451.3 1332.7 3456.2 1332 3461.1 1330.9 3465.9 1329.4 3470.5 1327.6 3475 1325.4 3479.3 1322.8 3483.4 1319.9 3487.3 1316.7 3490.9 1313.2 3494.1 1309.4 3497.1 1305.4 3499.8 1301.1 3502.1 1296.7 3504 1292.1 3505.6 1287.3 3506.8 1282.4 3507.6 1277.5 3508 1272.5 3508 1267.5 3507.6 1262.5 3506.8 1257.6 3505.6 1252.7 3504 1247.9 3502.1 1243.3 3499.8 1238.9 3497.1 1234.6 3494.1 1230.6 3490.9 1226.8 3487.3 1223.3 3483.4 1220.1 3479.3 1217.2 3475 1214.6 3470.5 1212.4 3465.9 1210.6 3461.1 1209.1 3456.2 1208 3451.3 1207.3 3446.3 1207 3441.2 1207.1 3436.3 1207.6 3431.3 1208.5 3426.5 1209.8 3421.8 1211.4 3417.2 1213.5 3412.8 1215.9 3408.6 1218.6 3404.6 1221.6 3400.9 1225 3397.5 1228.7 3394.3 1232.6 3391.5 1236.7 3389 1241.1 3386.9 1245.6 3385.2 1250.3 3383.8 1255.1 3382.8 1260 3382.2 1265 3382 1270 M 3382 2370 3382.2 2375 3382.8 2380 3383.8 2384.9 3385.2 2389.7 3386.9 2394.4 3389 2398.9 3391.5 2403.3 3394.3 2407.4 3397.5 2411.3 3400.9 2415 3404.6 2418.4 3408.6 2421.4 3412.8 2424.1 3417.2 2426.5 3421.8 2428.6 3426.5 2430.2 3431.3 2431.5 3436.3 2432.4 3441.2 2432.9 3446.3 2433 3451.3 2432.7 3456.2 2432 3461.1 2430.9 3465.9 2429.4 3470.5 2427.6 3475 2425.4 3479.3 2422.8 3483.4 2419.9 3487.3 2416.7 3490.9 2413.2 3494.1 2409.4 3497.1 2405.4 3499.8 2401.1 3502.1 2396.7 3504 2392.1 3505.6 2387.3 3506.8 2382.4 3507.6 2377.5 3508 2372.5 3508 2367.5 3507.6 2362.5 3506.8 2357.6 3505.6 2352.7 3504 2347.9 3502.1 2343.3 3499.8 2338.9 3497.1 2334.6 3494.1 2330.6 3490.9 2326.8 3487.3 2323.3 3483.4 2320.1 3479.3 2317.2 3475 2314.6 3470.5 2312.4 3465.9 2310.6 3461.1 2309.1 3456.2 2308 3451.3 2307.3 3446.3 2307 3441.2 2307.1 3436.3 2307.6 3431.3 2308.5 3426.5 2309.8 3421.8 2311.4 3417.2 2313.5 3412.8 2315.9 3408.6 2318.6 3404.6 2321.6 3400.9 2325 3397.5 2328.7 3394.3 2332.6 3391.5 2336.7 3389 2341.1 3386.9 2345.6 3385.2 2350.3 3383.8 2355.1 3382.8 2360 3382.2 2365 3382 2370 M 1382 2970 1382.2 2975 1382.8 2980 1383.8 2984.9 1385.2 2989.7 1386.9 2994.4 1389 2998.9 1391.5 3003.3 1394.3 3007.4 1397.5 3011.3 1400.9 3015 1404.6 3018.4 1408.6 3021.4 1412.8 3024.1 1417.2 3026.5 1421.8 3028.6 1426.5 3030.2 1431.3 3031.5 1436.3 3032.4 1441.2 3032.9 1446.3 3033 1451.3 3032.7 1456.2 3032 1461.1 3030.9 1465.9 3029.4 1470.5 3027.6 1475 3025.4 1479.3 3022.8 1483.4 3019.9 1487.3 3016.7 1490.9 3013.2 1494.1 3009.4 1497.1 3005.4 1499.8 3001.1 1502.1 2996.7 1504 2992.1 1505.6 2987.3 1506.8 2982.4 1507.6 2977.5 1508 2972.5 1508 2967.5 1507.6 2962.5 1506.8 2957.6 1505.6 2952.7 1504 2947.9 1502.1 2943.3 1499.8 2938.9 1497.1 2934.6 1494.1 2930.6 1490.9 2926.8 1487.3 2923.3 1483.4 2920.1 1479.3 2917.2 1475 2914.6 1470.5 2912.4 1465.9 2910.6 1461.1 2909.1 1456.2 2908 1451.3 2907.3 1446.3 2907 1441.2 2907.1 1436.3 2907.6 1431.3 2908.5 1426.5 2909.8 1421.8 2911.4 1417.2 2913.5 1412.8 2915.9 1408.6 2918.6 1404.6 2921.6 1400.9 2925 1397.5 2928.7 1394.3 2932.6 1391.5 2936.7 1389 2941.1 1386.9 2945.6 1385.2 2950.3 1383.8 2955.1 1382.8 2960 1382.2 2965 1382 2970\" fill=\"none\" stroke-width=\"10\"/>",
   "    </g>",
@@ -487,7 +487,7 @@ exports['gerber-to-svg :: integration arduino-uno renders arduino-uno.gko 1'] = 
 ]
 
 exports['gerber-to-svg :: integration arduino-uno renders arduino-uno.plc 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"3.9839in\" height=\"2.262in\" viewBox=\"366.2 965 3983.9 2262\" id=\"arduino-uno_plc\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"3.9839in\" height=\"2.262in\" viewBox=\"366.2 965 3983.9 2262\">",
   "    <defs>",
   "        <rect x=\"-5.9\" y=\"-2.95\" width=\"11.8\" height=\"5.9\" id=\"arduino-uno_plc_pad-21\"/>",
   "        <rect x=\"-5.9\" y=\"-5.9\" width=\"11.8\" height=\"11.8\" id=\"arduino-uno_plc_pad-22\"/>",
@@ -530,7 +530,7 @@ exports['gerber-to-svg :: integration arduino-uno renders arduino-uno.plc 1'] = 
 ]
 
 exports['gerber-to-svg :: integration arduino-uno renders arduino-uno.sol 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.638in\" height=\"2.038in\" viewBox=\"876 1001 2638 2038\" id=\"arduino-uno_sol\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.638in\" height=\"2.038in\" viewBox=\"876 1001 2638 2038\">",
   "    <defs>",
   "        <polygon points=\"30.49994,12.63349 12.63349,30.49994 -12.63349,30.49994 -30.49994,12.63349 -30.49994,-12.63349 -12.63349,-30.49994 12.63349,-30.49994 30.49994,-12.63349\" id=\"arduino-uno_sol_pad-12\"/>",
   "        <polygon points=\"78.74984,32.61925 32.61925,78.74984 -32.61925,78.74984 -78.74984,32.61925 -78.74984,-32.61925 -32.61925,-78.74984 32.61925,-78.74984 78.74984,-32.61925\" id=\"arduino-uno_sol_pad-13\"/>",
@@ -660,7 +660,7 @@ exports['gerber-to-svg :: integration arduino-uno renders arduino-uno.sol 1'] = 
 ]
 
 exports['gerber-to-svg :: integration arduino-uno renders arduino-uno.stc 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.61395in\" height=\"2.03in\" viewBox=\"896.05 1005 2613.95 2030\" id=\"arduino-uno_stc\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.61395in\" height=\"2.03in\" viewBox=\"896.05 1005 2613.95 2030\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"65\" id=\"arduino-uno_stc_pad-10\"/>",
   "        <polygon points=\"32.49993,13.46191 13.46191,32.49993 -13.46191,32.49993 -32.49993,13.46191 -32.49993,-13.46191 -13.46191,-32.49993 13.46191,-32.49993 32.49993,-13.46191\" id=\"arduino-uno_stc_pad-12\"/>",
@@ -736,7 +736,7 @@ exports['gerber-to-svg :: integration arduino-uno renders arduino-uno.stc 1'] = 
 ]
 
 exports['gerber-to-svg :: integration arduino-uno renders arduino-uno.sts 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.5803000000000003in\" height=\"2.03in\" viewBox=\"929.7 1005 2580.3 2030\" id=\"arduino-uno_sts\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.5803000000000003in\" height=\"2.03in\" viewBox=\"929.7 1005 2580.3 2030\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"65\" id=\"arduino-uno_sts_pad-10\"/>",
   "        <polygon points=\"32.49993,13.46191 13.46191,32.49993 -13.46191,32.49993 -32.49993,13.46191 -32.49993,-13.46191 -13.46191,-32.49993 13.46191,-32.49993 32.49993,-13.46191\" id=\"arduino-uno_sts_pad-12\"/>",
@@ -792,7 +792,7 @@ exports['gerber-to-svg :: integration arduino-uno renders arduino-uno.sts 1'] = 
 ]
 
 exports['gerber-to-svg :: integration clockblock renders clockblock-B_Cu.gbr 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"4.065in\" height=\"4.145in\" viewBox=\"17.5 27.5 4065 4145\" id=\"clockblock-B_Cu_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"4.065in\" height=\"4.145in\" viewBox=\"17.5 27.5 4065 4145\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"49.2126\" id=\"clockblock-B_Cu_gbr_pad-11\"/>",
   "        <circle cx=\"0\" cy=\"0\" r=\"70.866\" id=\"clockblock-B_Cu_gbr_pad-12\"/>",
@@ -1032,7 +1032,7 @@ exports['gerber-to-svg :: integration clockblock renders clockblock-B_Cu.gbr 1']
 ]
 
 exports['gerber-to-svg :: integration clockblock renders clockblock-B_Mask.gbr 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"3.901in\" height=\"3.831in\" viewBox=\"184.5 184.5 3901 3831\" id=\"clockblock-B_Mask_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"3.901in\" height=\"3.831in\" viewBox=\"184.5 184.5 3901 3831\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"52.2125\" id=\"clockblock-B_Mask_gbr_pad-11\"/>",
   "        <circle cx=\"0\" cy=\"0\" r=\"10.5\" id=\"clockblock-B_Mask_gbr_pad-12\"/>",
@@ -1079,7 +1079,7 @@ exports['gerber-to-svg :: integration clockblock renders clockblock-B_Mask.gbr 1
 ]
 
 exports['gerber-to-svg :: integration clockblock renders clockblock-B_SilkS.gbr 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"4.0012in\" height=\"3.831in\" viewBox=\"84.3 184.5 4001.2 3831\" id=\"clockblock-B_SilkS_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"4.0012in\" height=\"3.831in\" viewBox=\"84.3 184.5 4001.2 3831\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"52.2125\" id=\"clockblock-B_SilkS_gbr_pad-15\"/>",
   "        <circle cx=\"0\" cy=\"0\" r=\"10.5\" id=\"clockblock-B_SilkS_gbr_pad-16\"/>",
@@ -1137,7 +1137,7 @@ exports['gerber-to-svg :: integration clockblock renders clockblock-B_SilkS.gbr 
 ]
 
 exports['gerber-to-svg :: integration clockblock renders clockblock-Edge_Cuts.gbr 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"4.1in\" height=\"4.2in\" viewBox=\"0 0 4100 4200\" id=\"clockblock-Edge_Cuts_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"4.1in\" height=\"4.2in\" viewBox=\"0 0 4100 4200\">",
   "    <g transform=\"translate(0,4200) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 4100 3600 4100 3700 4100 4200 0 4200 0 3700 1450 3700 1450 3600 A 1450 1450 0 0 1 0 2150 L 0 2050 A 1450 1450 0 0 1 1450 600 L 1450 500 0 500 0 0 4100 0 4100 450 4100 600 4100 3600 M 4000 3700 3200 3700 3200 3600 4000 3600 4000 3700 M 3100 3700 3100 3600 3100 2150 3000 2150 A 1450 1450 0 0 1 1550 3600 L 1550 3700 3100 3700 M 1550 500 1550 600 A 1450 1450 0 0 1 3000 2050 L 3100 2050 3100 600 3100 500 1550 500 M 4000 500 3200 500 3200 600 4000 600 4000 500\" fill=\"none\" stroke-width=\"5\"/>",
   "    </g>",
@@ -1145,7 +1145,7 @@ exports['gerber-to-svg :: integration clockblock renders clockblock-Edge_Cuts.gb
 ]
 
 exports['gerber-to-svg :: integration clockblock renders clockblock-F_Cu.gbr 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"4.0671in\" height=\"4.145in\" viewBox=\"20.4 27.5 4067.1 4145\" id=\"clockblock-F_Cu_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"4.0671in\" height=\"4.145in\" viewBox=\"20.4 27.5 4067.1 4145\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"49.2126\" id=\"clockblock-F_Cu_gbr_pad-12\"/>",
   "        <rect x=\"-19.68505\" y=\"-76.7715\" width=\"39.3701\" height=\"153.543\" id=\"clockblock-F_Cu_gbr_pad-13\"/>",
@@ -1779,7 +1779,7 @@ exports['gerber-to-svg :: integration clockblock renders clockblock-F_Cu.gbr 1']
 ]
 
 exports['gerber-to-svg :: integration clockblock renders clockblock-F_Mask.gbr 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"4.0501173in\" height=\"3.831in\" viewBox=\"35.3827 184.5 4050.1173 3831\" id=\"clockblock-F_Mask_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"4.0501173in\" height=\"3.831in\" viewBox=\"35.3827 184.5 4050.1173 3831\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"52.2125\" id=\"clockblock-F_Mask_gbr_pad-11\"/>",
   "        <rect x=\"-22.68505\" y=\"-79.7715\" width=\"45.3701\" height=\"159.543\" id=\"clockblock-F_Mask_gbr_pad-12\"/>",
@@ -2158,7 +2158,7 @@ exports['gerber-to-svg :: integration clockblock renders clockblock-F_Mask.gbr 1
 ]
 
 exports['gerber-to-svg :: integration clockblock renders clockblock-F_Paste.gbr 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"3.9234126000000002in\" height=\"2.9211346in\" viewBox=\"39.3827 639.3827 3923.4126 2921.1346\" id=\"clockblock-F_Paste_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"3.9234126000000002in\" height=\"2.9211346in\" viewBox=\"39.3827 639.3827 3923.4126 2921.1346\">",
   "    <defs>",
   "        <rect x=\"-18.68505\" y=\"-75.7715\" width=\"37.3701\" height=\"151.543\" id=\"clockblock-F_Paste_gbr_pad-11\"/>",
   "        <rect x=\"-12.7953\" y=\"-12.7953\" width=\"25.5906\" height=\"25.5906\" id=\"clockblock-F_Paste_gbr_pad-12\"/>",
@@ -2484,7 +2484,7 @@ exports['gerber-to-svg :: integration clockblock renders clockblock-F_Paste.gbr 
 ]
 
 exports['gerber-to-svg :: integration clockblock renders clockblock-F_SilkS.gbr 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"4.0723173in\" height=\"3.8608000000000002in\" viewBox=\"35.3827 154.7 4072.3173 3860.8\" id=\"clockblock-F_SilkS_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"4.0723173in\" height=\"3.8608000000000002in\" viewBox=\"35.3827 154.7 4072.3173 3860.8\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"52.2125\" id=\"clockblock-F_SilkS_gbr_pad-17\"/>",
   "        <rect x=\"-22.68505\" y=\"-79.7715\" width=\"45.3701\" height=\"159.543\" id=\"clockblock-F_SilkS_gbr_pad-18\"/>",
@@ -2907,7 +2907,7 @@ exports['gerber-to-svg :: integration clockblock renders clockblock-F_SilkS.gbr 
 ]
 
 exports['gerber-to-svg :: integration clockblock renders clockblock-NPTH.drl 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"3.895in\" height=\"3.825in\" viewBox=\"187.5 187.5 3895 3825\" id=\"clockblock-NPTH_drl\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"3.895in\" height=\"3.825in\" viewBox=\"187.5 187.5 3895 3825\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"7.5\" id=\"clockblock-NPTH_drl_pad-1\"/>",
   "        <circle cx=\"0\" cy=\"0\" r=\"62.5\" id=\"clockblock-NPTH_drl_pad-2\"/>",
@@ -2936,7 +2936,7 @@ exports['gerber-to-svg :: integration clockblock renders clockblock-NPTH.drl 1']
 ]
 
 exports['gerber-to-svg :: integration clockblock renders clockblock.drl 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"3.979in\" height=\"2.948in\" viewBox=\"95 626 3979 2948\" id=\"clockblock_drl\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"3.979in\" height=\"2.948in\" viewBox=\"95 626 3979 2948\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"7.5\" id=\"clockblock_drl_pad-1\"/>",
   "        <circle cx=\"0\" cy=\"0\" r=\"10\" id=\"clockblock_drl_pad-2\"/>",
@@ -3156,7 +3156,7 @@ exports['gerber-to-svg :: integration clockblock renders clockblock.drl 1'] = [
 ]
 
 exports['gerber-to-svg :: integration core renders core.GBL 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.7727in\" height=\"1.3884in\" viewBox=\"136.1 36.6 772.7 1388.4\" id=\"core_GBL\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.7727in\" height=\"1.3884in\" viewBox=\"136.1 36.6 772.7 1388.4\">",
   "    <defs>",
   "        <rect x=\"-21.65\" y=\"-37.4\" width=\"43.3\" height=\"74.8\" id=\"core_GBL_pad-10\"/>",
   "        <rect x=\"-19.7\" y=\"-21.65\" width=\"39.4\" height=\"43.3\" id=\"core_GBL_pad-11\"/>",
@@ -3399,7 +3399,7 @@ exports['gerber-to-svg :: integration core renders core.GBL 1'] = [
 ]
 
 exports['gerber-to-svg :: integration core renders core.GBO 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.808in\" height=\"1.3052000000000001in\" viewBox=\"120.3 121.5 808 1305.2\" id=\"core_GBO\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.808in\" height=\"1.3052000000000001in\" viewBox=\"120.3 121.5 808 1305.2\">",
   "    <g transform=\"translate(0,1548.2) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 124.3 150.5 149.3 125.5 199.3 125.5 224.3 150.5 224.3 200.5 199.3 225.5 224.3 250.5 224.3 300.5 199.3 325.5 224.3 350.5 224.3 400.5 199.3 425.5 224.3 450.5 224.3 500.5 199.3 525.5 224.3 550.5 224.3 600.5 199.3 625.5 224.3 650.5 224.3 700.5 199.3 725.5 224.3 750.5 224.3 800.5 199.3 825.5 224.3 850.5 224.3 900.5 199.3 925.5 224.3 950.5 224.3 1000.5 199.3 1025.5 224.3 1050.5 224.3 1100.5 199.3 1125.5 224.3 1150.5 224.3 1200.5 199.3 1225.5 224.3 1250.5 224.3 1300.5 199.3 1325.5 149.3 1325.5 124.3 1300.5 124.3 1250.5 149.3 1225.5 124.3 1200.5 124.3 1150.5 149.3 1125.5 124.3 1100.5 124.3 1050.5 149.3 1025.5 124.3 1000.5 124.3 950.5 149.3 925.5 124.3 900.5 124.3 850.5 149.3 825.5 124.3 800.5 124.3 750.5 149.3 725.5 124.3 700.5 124.3 650.5 149.3 625.5 124.3 600.5 124.3 550.5 149.3 525.5 124.3 500.5 124.3 450.5 149.3 425.5 124.3 400.5 124.3 350.5 149.3 325.5 124.3 300.5 124.3 250.5 149.3 225.5 124.3 200.5 124.3 150.5 M 290.3 271.5 290.3 279.5 M 318.3 279.5 318.3 271.5 M 355.3 271.5 355.3 279.5 M 383.3 279.5 383.3 271.5 M 420.3 271.5 420.3 279.5 M 448.3 279.5 448.3 271.5 M 485.3 271.5 485.3 279.5 M 513.3 279.5 513.3 271.5 M 550.3 271.5 550.3 279.5 M 578.3 279.5 578.3 271.5 M 578.5 419.5 578.5 431.5 M 550.1 431.5 550.1 419.5 M 508.8 425.8 508.8 465.2 M 449.8 465.2 449.8 425.8 M 412.3 436.9 412.3 484.1 M 361.1 558.9 337.5 558.9 M 338.3 641.5 338.3 649.5 M 310.3 649.5 310.3 641.5 M 286.3 484.1 286.3 436.9 M 337.5 362.1 361.1 362.1 M 520.3 556.5 528.3 556.5 M 528.3 584.5 520.3 584.5 M 765.3 821.5 765.3 829.5 M 793.3 829.5 793.3 821.5 M 824.3 800.5 824.3 750.5 849.3 725.5 824.3 700.5 824.3 650.5 849.3 625.5 824.3 600.5 824.3 550.5 849.3 525.5 824.3 500.5 824.3 450.5 849.3 425.5 824.3 400.5 824.3 350.5 849.3 325.5 824.3 300.5 824.3 250.5 849.3 225.5 824.3 200.5 824.3 150.5 849.3 125.5 899.3 125.5 924.3 150.5 924.3 200.5 899.3 225.5 924.3 250.5 924.3 300.5 899.3 325.5 924.3 350.5 924.3 400.5 899.3 425.5 924.3 450.5 924.3 500.5 899.3 525.5 924.3 550.5 924.3 600.5 899.3 625.5 924.3 650.5 924.3 700.5 899.3 725.5 924.3 750.5 924.3 800.5 899.3 825.5 924.3 850.5 924.3 900.5 899.3 925.5 924.3 950.5 924.3 1000.5 899.3 1025.5 924.3 1050.5 924.3 1100.5 899.3 1125.5 924.3 1150.5 924.3 1200.5 899.3 1225.5 924.3 1250.5 924.3 1300.5 899.3 1325.5 849.3 1325.5 824.3 1300.5 824.3 1250.5 849.3 1225.5 824.3 1200.5 824.3 1150.5 849.3 1125.5 824.3 1100.5 824.3 1050.5 849.3 1025.5 824.3 1000.5 824.3 950.5 849.3 925.5 824.3 900.5 824.3 850.5 849.3 825.5 824.3 800.5 M 653.3 1200.5 653.3 1330.5 395.3 1330.5 395.3 1200.5 653.3 1200.5 M 715.3 1228.5 723.3 1228.5 M 723.3 1256.5 715.3 1256.5 M 729.9 1328.3 670.9 1328.3 670.9 1422.7 729.9 1422.7 M 808.7 1422.7 852 1422.7 867.7 1407 867.7 1344 852 1328.3 808.7 1328.3 M 528.3 1087.5 520.3 1087.5 M 520.3 1059.5 528.3 1059.5 M 366.7 1252.9 366.9 1254.3 367.5 1255.7 368.3 1256.9 369.5 1257.7 370.9 1258.3 372.3 1258.5 373.7 1258.3 375.1 1257.7 376.3 1256.9 377.1 1255.7 377.7 1254.3 377.9 1252.9 377.7 1251.5 377.1 1250.1 376.3 1248.9 375.1 1248.1 373.7 1247.5 372.3 1247.3 370.9 1247.5 369.5 1248.1 368.3 1248.9 367.5 1250.1 366.9 1251.5 366.7 1252.9 M 356.5 1249 356.5 1312 M 325.3 1366.3 313.3 1366.3 M 313.3 1394.7 325.3 1394.7 M 262 1312 262 1249 M 305.3 1194.5 313.3 1194.5 M 313.3 1166.5 305.3 1166.5 M 303.3 1124.7 315.3 1124.7 M 315.3 1096.3 303.3 1096.3 M 303.3 1059.7 315.3 1059.7 M 315.3 1031.3 303.3 1031.3 M 195.3 1366.3 183.3 1366.3 M 183.3 1394.7 195.3 1394.7\" fill=\"none\" stroke-width=\"8\"/>",
   "        <path d=\"M 516.6 1005.8 344 833.2 344 817.8 516.6 645.2 531.9 645.2 704.5 817.8 704.5 833.2 531.9 1005.8 516.6 1005.8 M 500.7 714.1 500.9 717.1 501.5 720.1 502.4 723 503.7 725.7 505.4 728.2 507.3 730.5 509.6 732.6 512.1 734.3 514.7 735.7 517.6 736.7 520.5 737.4 523.5 737.7 526.6 737.6 529.6 737.1 532.5 736.2 535.2 735 537.8 733.5 540.2 731.6 542.3 729.4 544.1 727 545.6 724.3 546.7 721.5 547.5 718.6 547.9 715.6 547.9 712.6 547.5 709.6 546.7 706.7 545.6 703.9 544.1 701.2 542.3 698.8 540.2 696.6 537.8 694.7 535.2 693.2 532.5 692 529.6 691.1 526.6 690.6 523.5 690.5 520.5 690.8 517.6 691.5 514.7 692.5 512.1 693.9 509.6 695.6 507.3 697.7 505.4 700 503.7 702.5 502.4 705.2 501.5 708.1 500.9 711.1 500.7 714.1\" fill=\"none\" stroke-width=\"10\"/>",
@@ -3412,7 +3412,7 @@ exports['gerber-to-svg :: integration core renders core.GBO 1'] = [
 ]
 
 exports['gerber-to-svg :: integration core renders core.GBP 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.71585in\" height=\"1.20465in\" viewBox=\"136.1 220.35 715.85 1204.65\" id=\"core_GBP\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.71585in\" height=\"1.20465in\" viewBox=\"136.1 220.35 715.85 1204.65\">",
   "    <defs>",
   "        <rect x=\"-21.65\" y=\"-37.4\" width=\"43.3\" height=\"74.8\" id=\"core_GBP_pad-10\"/>",
   "        <rect x=\"-19.7\" y=\"-21.65\" width=\"39.4\" height=\"43.3\" id=\"core_GBP_pad-11\"/>",
@@ -3554,7 +3554,7 @@ exports['gerber-to-svg :: integration core renders core.GBP 1'] = [
 ]
 
 exports['gerber-to-svg :: integration core renders core.GBS 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.7807000000000001in\" height=\"1.292in\" viewBox=\"132.1 137 780.7 1292\" id=\"core_GBS\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.7807000000000001in\" height=\"1.292in\" viewBox=\"132.1 137 780.7 1292\">",
   "    <defs>",
   "        <rect x=\"-25.65\" y=\"-41.4\" width=\"51.3\" height=\"82.8\" id=\"core_GBS_pad-10\"/>",
   "        <rect x=\"-23.7\" y=\"-25.65\" width=\"47.4\" height=\"51.3\" id=\"core_GBS_pad-11\"/>",
@@ -3725,7 +3725,7 @@ exports['gerber-to-svg :: integration core renders core.GBS 1'] = [
 ]
 
 exports['gerber-to-svg :: integration core renders core.GTL 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.784in\" height=\"1.3853499999999999in\" viewBox=\"132.3 33.5 784 1385.35\" id=\"core_GTL\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.784in\" height=\"1.3853499999999999in\" viewBox=\"132.3 33.5 784 1385.35\">",
   "    <defs>",
   "        <rect x=\"-21.65\" y=\"-19.7\" width=\"43.3\" height=\"39.4\" id=\"core_GTL_pad-10\"/>",
   "        <rect x=\"-7.85\" y=\"-26.55\" width=\"15.7\" height=\"53.1\" id=\"core_GTL_pad-11\"/>",
@@ -3940,7 +3940,7 @@ exports['gerber-to-svg :: integration core renders core.GTL 1'] = [
 ]
 
 exports['gerber-to-svg :: integration core renders core.GTO 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.6576000000000001in\" height=\"1.3987in\" viewBox=\"174.3 41.8 657.6 1398.7\" id=\"core_GTO\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.6576000000000001in\" height=\"1.3987in\" viewBox=\"174.3 41.8 657.6 1398.7\">",
   "    <defs>",
   "        <rect x=\"-7.85\" y=\"-19.7\" width=\"15.7\" height=\"39.4\" id=\"core_GTO_pad-16\"/>",
   "        <rect x=\"-5\" y=\"-50\" width=\"10\" height=\"100\" id=\"core_GTO_pad-17\"/>",
@@ -3959,7 +3959,7 @@ exports['gerber-to-svg :: integration core renders core.GTO 1'] = [
 ]
 
 exports['gerber-to-svg :: integration core renders core.GTP 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.61775in\" height=\"1.3769500000000001in\" viewBox=\"191.8 35.95 617.75 1376.95\" id=\"core_GTP\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.61775in\" height=\"1.3769500000000001in\" viewBox=\"191.8 35.95 617.75 1376.95\">",
   "    <defs>",
   "        <rect x=\"-21.65\" y=\"-19.7\" width=\"43.3\" height=\"39.4\" id=\"core_GTP_pad-10\"/>",
   "        <rect x=\"-7.85\" y=\"-26.55\" width=\"15.7\" height=\"53.1\" id=\"core_GTP_pad-11\"/>",
@@ -4074,7 +4074,7 @@ exports['gerber-to-svg :: integration core renders core.GTP 1'] = [
 ]
 
 exports['gerber-to-svg :: integration core renders core.GTS 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.778in\" height=\"1.3909in\" viewBox=\"135.8 31.95 778 1390.9\" id=\"core_GTS\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.778in\" height=\"1.3909in\" viewBox=\"135.8 31.95 778 1390.9\">",
   "    <defs>",
   "        <rect x=\"-25.65\" y=\"-23.7\" width=\"51.3\" height=\"47.4\" id=\"core_GTS_pad-10\"/>",
   "        <rect x=\"-11.85\" y=\"-30.55\" width=\"23.7\" height=\"61.1\" id=\"core_GTS_pad-11\"/>",
@@ -4219,7 +4219,7 @@ exports['gerber-to-svg :: integration core renders core.GTS 1'] = [
 ]
 
 exports['gerber-to-svg :: integration core renders core.MIL 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.8in\" height=\"1.4in\" viewBox=\"124.3 25.5 800 1400\" id=\"core_MIL\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.8in\" height=\"1.4in\" viewBox=\"124.3 25.5 800 1400\">",
   "    <g transform=\"translate(0,1451) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 124.3 125.5 224.3 25.5 824.3 25.5 924.3 125.5 924.3 1425.5 124.3 1425.5 124.3 125.5 M 435.7 1292.8 435.9 1294.9 436.5 1296.9 437.4 1298.9 438.6 1300.6 440.1 1302 441.9 1303.2 443.9 1304 445.9 1304.5 448 1304.6 450.1 1304.3 452.1 1303.7 454 1302.6 455.7 1301.3 457 1299.7 458.1 1297.9 458.9 1295.9 459.3 1293.9 459.3 1291.7 458.9 1289.7 458.1 1287.7 457 1285.9 455.7 1284.3 454 1283 452.1 1281.9 450.1 1281.3 448 1281 445.9 1281.1 443.9 1281.6 441.9 1282.4 440.1 1283.6 438.6 1285 437.4 1286.7 436.5 1288.7 435.9 1290.7 435.7 1292.8 M 425.6 1361.7 425.6 1389.3 425.5 1391 425 1392.7 424.3 1394.2 423.3 1395.6 422.1 1396.8 420.7 1397.8 419.2 1398.5 417.5 1399 415.8 1399.1 414 1398.9 412.3 1398.5 410.7 1397.7 409.2 1396.7 408 1395.5 407 1394 406.2 1392.4 405.8 1390.7 405.6 1388.9 405.6 1362.1 405.8 1360.3 406.2 1358.6 407 1357 408 1355.5 409.2 1354.3 410.7 1353.3 412.3 1352.5 414 1352.1 415.8 1351.9 417.5 1352 419.2 1352.5 420.7 1353.2 422.1 1354.2 423.3 1355.4 424.3 1356.8 425 1358.3 425.5 1360 425.6 1361.7 M 589.3 1292.8 589.5 1294.9 590.1 1296.9 591 1298.9 592.2 1300.6 593.7 1302 595.5 1303.2 597.5 1304 599.5 1304.5 601.6 1304.6 603.7 1304.3 605.7 1303.7 607.6 1302.6 609.3 1301.3 610.6 1299.7 611.7 1297.9 612.5 1295.9 612.9 1293.9 612.9 1291.7 612.5 1289.7 611.7 1287.7 610.6 1285.9 609.3 1284.3 607.6 1283 605.7 1281.9 603.7 1281.3 601.6 1281 599.5 1281.1 597.5 1281.6 595.5 1282.4 593.7 1283.6 592.2 1285 591 1286.7 590.1 1288.7 589.5 1290.7 589.3 1292.8 M 623.5 1362.1 623.5 1388.9 623.7 1390.7 624.1 1392.4 624.9 1394 625.9 1395.5 627.1 1396.7 628.6 1397.7 630.2 1398.5 631.9 1398.9 633.7 1399.1 635.4 1399 637.1 1398.5 638.6 1397.8 640 1396.8 641.2 1395.6 642.2 1394.2 642.9 1392.7 643.4 1391 643.6 1389.3 643.5 1361.7 643.4 1360 642.9 1358.3 642.2 1356.8 641.2 1355.4 640 1354.2 638.6 1353.2 637.1 1352.5 635.4 1352 633.7 1351.9 631.9 1352.1 630.2 1352.5 628.6 1353.3 627.1 1354.3 625.9 1355.5 624.9 1357 624.1 1358.6 623.7 1360.3 623.5 1362.1\" fill=\"none\" stroke-width=\"8\"/>",
   "    </g>",
@@ -4227,7 +4227,7 @@ exports['gerber-to-svg :: integration core renders core.MIL 1'] = [
 ]
 
 exports['gerber-to-svg :: integration core renders core.TXT 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.7373999999999999in\" height=\"1.3368in\" viewBox=\"154.4 44.6 737.4 1336.8\" id=\"core_TXT\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.7373999999999999in\" height=\"1.3368in\" viewBox=\"154.4 44.6 737.4 1336.8\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"5.9\" id=\"core_TXT_pad-1\"/>",
   "        <circle cx=\"0\" cy=\"0\" r=\"11.8\" id=\"core_TXT_pad-2\"/>",
@@ -4331,7 +4331,7 @@ exports['gerber-to-svg :: integration core renders core.TXT 1'] = [
 ]
 
 exports['gerber-to-svg :: integration drill renders arc-route 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.5in\" height=\"0.75in\" viewBox=\"-125 -125 1500 750\" id=\"arc-route_drl\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.5in\" height=\"0.75in\" viewBox=\"-125 -125 1500 750\">",
   "    <g transform=\"translate(0,500) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 0 0 A 250 250 0 0 0 250 250 250 250 0 0 1 500 500 M 750 0 A 250 250 0 0 0 1000 250 250 250 0 0 1 1250 500\" fill=\"none\" stroke-width=\"250\"/>",
   "    </g>",
@@ -4339,7 +4339,7 @@ exports['gerber-to-svg :: integration drill renders arc-route 1'] = [
 ]
 
 exports['gerber-to-svg :: integration drill renders hit 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"-250 -250 500 500\" id=\"hit_drl\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"-250 -250 500 500\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"250\" id=\"hit_drl_pad-1\"/>",
   "    </defs>",
@@ -4350,7 +4350,7 @@ exports['gerber-to-svg :: integration drill renders hit 1'] = [
 ]
 
 exports['gerber-to-svg :: integration drill renders linear-route 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.75in\" height=\"0.5in\" viewBox=\"-125 -125 750 500\" id=\"linear-route_drl\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.75in\" height=\"0.5in\" viewBox=\"-125 -125 750 500\">",
   "    <g transform=\"translate(0,250) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 0 0 250 250 500 0\" fill=\"none\" stroke-width=\"250\"/>",
   "    </g>",
@@ -4358,7 +4358,7 @@ exports['gerber-to-svg :: integration drill renders linear-route 1'] = [
 ]
 
 exports['gerber-to-svg :: integration drill renders slot 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1in\" height=\"0.5in\" viewBox=\"-250 -250 1000 500\" id=\"slot_drl\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1in\" height=\"0.5in\" viewBox=\"-250 -250 1000 500\">",
   "    <g transform=\"translate(0,0) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 0 0 500 0\" fill=\"none\" stroke-width=\"500\"/>",
   "    </g>",
@@ -4366,7 +4366,7 @@ exports['gerber-to-svg :: integration drill renders slot 1'] = [
 ]
 
 exports['gerber-to-svg :: integration freeduino renders freeduino.cmp 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.6856999999999998in\" height=\"2.0801999999999996in\" viewBox=\"317.4 231.8 2685.7 2080.2\" id=\"freeduino_cmp\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.6856999999999998in\" height=\"2.0801999999999996in\" viewBox=\"317.4 231.8 2685.7 2080.2\">",
   "    <defs>",
   "        <polygon points=\"29.99994,12.42638 12.42638,29.99994 -12.42638,29.99994 -29.99994,12.42638 -29.99994,-12.42638 -12.42638,-29.99994 12.42638,-29.99994 29.99994,-12.42638\" id=\"freeduino_cmp_pad-11\"/>",
   "        <polygon points=\"25.99995,10.76953 10.76953,25.99995 -10.76953,25.99995 -25.99995,10.76953 -25.99995,-10.76953 -10.76953,-25.99995 10.76953,-25.99995 25.99995,-10.76953\" id=\"freeduino_cmp_pad-12\"/>",
@@ -4609,7 +4609,7 @@ exports['gerber-to-svg :: integration freeduino renders freeduino.cmp 1'] = [
 ]
 
 exports['gerber-to-svg :: integration freeduino renders freeduino.drd 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.6029in\" height=\"2.0341in\" viewBox=\"370.6 249.3 2602.9 2034.1\" id=\"freeduino_drd\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.6029in\" height=\"2.0341in\" viewBox=\"370.6 249.3 2602.9 2034.1\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"11.8\" id=\"freeduino_drd_pad-1\"/>",
   "        <circle cx=\"0\" cy=\"0\" r=\"15.75\" id=\"freeduino_drd_pad-2\"/>",
@@ -4803,7 +4803,7 @@ exports['gerber-to-svg :: integration freeduino renders freeduino.drd 1'] = [
 ]
 
 exports['gerber-to-svg :: integration freeduino renders freeduino.plc 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.9649in\" height=\"2.104in\" viewBox=\"50.2 220 2964.9 2104\" id=\"freeduino_plc\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.9649in\" height=\"2.104in\" viewBox=\"50.2 220 2964.9 2104\">",
   "    <defs>",
   "        <rect x=\"-7.5\" y=\"-10\" width=\"15\" height=\"20\" id=\"freeduino_plc_pad-20\"/>",
   "        <rect x=\"-10\" y=\"-7.5\" width=\"20\" height=\"15\" id=\"freeduino_plc_pad-23\"/>",
@@ -4844,7 +4844,7 @@ exports['gerber-to-svg :: integration freeduino renders freeduino.plc 1'] = [
 ]
 
 exports['gerber-to-svg :: integration freeduino renders freeduino.sol 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.6856999999999998in\" height=\"2.08in\" viewBox=\"317.4 232 2685.7 2080\" id=\"freeduino_sol\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.6856999999999998in\" height=\"2.08in\" viewBox=\"317.4 232 2685.7 2080\">",
   "    <defs>",
   "        <polygon points=\"29.99994,12.42638 12.42638,29.99994 -12.42638,29.99994 -29.99994,12.42638 -29.99994,-12.42638 -12.42638,-29.99994 12.42638,-29.99994 29.99994,-12.42638\" id=\"freeduino_sol_pad-11\"/>",
   "        <polygon points=\"25.99995,10.76953 10.76953,25.99995 -10.76953,25.99995 -25.99995,10.76953 -25.99995,-10.76953 -10.76953,-25.99995 10.76953,-25.99995 25.99995,-10.76953\" id=\"freeduino_sol_pad-12\"/>",
@@ -5054,7 +5054,7 @@ exports['gerber-to-svg :: integration freeduino renders freeduino.sol 1'] = [
 ]
 
 exports['gerber-to-svg :: integration freeduino renders freeduino.stc 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.6229in\" height=\"2.0541in\" viewBox=\"354.6 233.3 2622.9 2054.1\" id=\"freeduino_stc\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.6229in\" height=\"2.0541in\" viewBox=\"354.6 233.3 2622.9 2054.1\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"67\" id=\"freeduino_stc_pad-10\"/>",
   "        <polygon points=\"33.99993,14.08323 14.08323,33.99993 -14.08323,33.99993 -33.99993,14.08323 -33.99993,-14.08323 -14.08323,-33.99993 14.08323,-33.99993 33.99993,-14.08323\" id=\"freeduino_stc_pad-11\"/>",
@@ -5290,7 +5290,7 @@ exports['gerber-to-svg :: integration freeduino renders freeduino.stc 1'] = [
 ]
 
 exports['gerber-to-svg :: integration freeduino renders freeduino.sts 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.6229in\" height=\"2.0541in\" viewBox=\"354.6 233.3 2622.9 2054.1\" id=\"freeduino_sts\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.6229in\" height=\"2.0541in\" viewBox=\"354.6 233.3 2622.9 2054.1\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"67\" id=\"freeduino_sts_pad-10\"/>",
   "        <polygon points=\"33.99993,14.08323 14.08323,33.99993 -14.08323,33.99993 -33.99993,14.08323 -33.99993,-14.08323 -14.08323,-33.99993 14.08323,-33.99993 33.99993,-14.08323\" id=\"freeduino_sts_pad-11\"/>",
@@ -5495,7 +5495,7 @@ exports['gerber-to-svg :: integration freeduino renders freeduino.sts 1'] = [
 ]
 
 exports['gerber-to-svg :: integration macro-primitives renders center-rect-primitive 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.25in\" viewBox=\"-250 -125 500 250\" id=\"center-rect-primitive_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.25in\" viewBox=\"-250 -125 500 250\">",
   "    <defs>",
   "        <rect x=\"-250\" y=\"-125\" width=\"500\" height=\"250\" id=\"center-rect-primitive_gbr_pad-10\"/>",
   "    </defs>",
@@ -5506,7 +5506,7 @@ exports['gerber-to-svg :: integration macro-primitives renders center-rect-primi
 ]
 
 exports['gerber-to-svg :: integration macro-primitives renders circle-primitive 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"-250 -250 500 500\" id=\"circle-primitive_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"-250 -250 500 500\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"250\" id=\"circle-primitive_gbr_pad-10\"/>",
   "    </defs>",
@@ -5517,7 +5517,7 @@ exports['gerber-to-svg :: integration macro-primitives renders circle-primitive 
 ]
 
 exports['gerber-to-svg :: integration macro-primitives renders lower-left-rect-primitive 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.25in\" viewBox=\"0 0 500 250\" id=\"lower-left-rect-primitive_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.25in\" viewBox=\"0 0 500 250\">",
   "    <defs>",
   "        <rect x=\"0\" y=\"0\" width=\"500\" height=\"250\" id=\"lower-left-rect-primitive_gbr_pad-10\"/>",
   "    </defs>",
@@ -5528,7 +5528,7 @@ exports['gerber-to-svg :: integration macro-primitives renders lower-left-rect-p
 ]
 
 exports['gerber-to-svg :: integration macro-primitives renders moire-primitive 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.15in\" height=\"0.55in\" viewBox=\"-275 -275 1150 550\" id=\"moire-primitive_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.15in\" height=\"0.55in\" viewBox=\"-275 -275 1150 550\">",
   "    <defs>",
   "        <g id=\"moire-primitive_gbr_pad-10\">",
   "            <circle cx=\"0\" cy=\"0\" r=\"230\" stroke-width=\"40\" fill=\"none\"/>",
@@ -5553,7 +5553,7 @@ exports['gerber-to-svg :: integration macro-primitives renders moire-primitive 1
 ]
 
 exports['gerber-to-svg :: integration macro-primitives renders outline-primitive 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"0 0 500 500\" id=\"outline-primitive_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"0 0 500 500\">",
   "    <defs>",
   "        <polygon points=\"0,0 0,500 500,500\" id=\"outline-primitive_gbr_pad-10\"/>",
   "    </defs>",
@@ -5564,7 +5564,7 @@ exports['gerber-to-svg :: integration macro-primitives renders outline-primitive
 ]
 
 exports['gerber-to-svg :: integration macro-primitives renders polygon-primitive 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.45225425in\" height=\"0.47552826in\" viewBox=\"-202.25425 -237.76413 452.25425 475.52826\" id=\"polygon-primitive_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.45225425in\" height=\"0.47552826in\" viewBox=\"-202.25425 -237.76413 452.25425 475.52826\">",
   "    <defs>",
   "        <polygon points=\"250,0 77.25425,237.76413 -202.25425,146.94631 -202.25425,-146.94631 77.25425,-237.76413\" id=\"polygon-primitive_gbr_pad-10\"/>",
   "    </defs>",
@@ -5575,7 +5575,7 @@ exports['gerber-to-svg :: integration macro-primitives renders polygon-primitive
 ]
 
 exports['gerber-to-svg :: integration macro-primitives renders rotated-center-rect-primitive 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5303301in\" height=\"0.5303301in\" viewBox=\"-265.16505 -265.16505 530.3301 530.3301\" id=\"rotated-center-rect-primitive_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5303301in\" height=\"0.5303301in\" viewBox=\"-265.16505 -265.16505 530.3301 530.3301\">",
   "    <defs>",
   "        <polygon points=\"-88.38835,-265.16505 265.16505,88.38835 88.38835,265.16505 -265.16505,-88.38835\" id=\"rotated-center-rect-primitive_gbr_pad-10\"/>",
   "    </defs>",
@@ -5586,7 +5586,7 @@ exports['gerber-to-svg :: integration macro-primitives renders rotated-center-re
 ]
 
 exports['gerber-to-svg :: integration macro-primitives renders rotated-lower-left-rect-primitive 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.25in\" height=\"0.5in\" viewBox=\"0 -500 250 500\" id=\"rotated-lower-left-rect-primitive_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.25in\" height=\"0.5in\" viewBox=\"0 -500 250 500\">",
   "    <defs>",
   "        <polygon points=\"250,0 250,-500 0,-500 0,0\" id=\"rotated-lower-left-rect-primitive_gbr_pad-10\"/>",
   "    </defs>",
@@ -5597,7 +5597,7 @@ exports['gerber-to-svg :: integration macro-primitives renders rotated-lower-lef
 ]
 
 exports['gerber-to-svg :: integration macro-primitives renders rotated-moire-primitive 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.1in\" height=\"0.5in\" viewBox=\"-250 -250 1100 500\" id=\"rotated-moire-primitive_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.1in\" height=\"0.5in\" viewBox=\"-250 -250 1100 500\">",
   "    <defs>",
   "        <g id=\"rotated-moire-primitive_gbr_pad-10\">",
   "            <circle cx=\"0\" cy=\"0\" r=\"230\" stroke-width=\"40\" fill=\"none\"/>",
@@ -5622,7 +5622,7 @@ exports['gerber-to-svg :: integration macro-primitives renders rotated-moire-pri
 ]
 
 exports['gerber-to-svg :: integration macro-primitives renders rotated-outline-primitive 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"-500 -500 500 500\" id=\"rotated-outline-primitive_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"-500 -500 500 500\">",
   "    <defs>",
   "        <polygon points=\"0,0 0,-500 -500,-500\" id=\"rotated-outline-primitive_gbr_pad-10\"/>",
   "    </defs>",
@@ -5633,7 +5633,7 @@ exports['gerber-to-svg :: integration macro-primitives renders rotated-outline-p
 ]
 
 exports['gerber-to-svg :: integration macro-primitives renders rotated-polygon-primitive 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.47552826in\" height=\"0.45225425in\" viewBox=\"-237.76413 -202.25425 475.52826 452.25425\" id=\"rotated-polygon-primitive_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.47552826in\" height=\"0.45225425in\" viewBox=\"-237.76413 -202.25425 475.52826 452.25425\">",
   "    <defs>",
   "        <polygon points=\"237.76413,77.25425 0,250 -237.76413,77.25425 -146.94631,-202.25425 146.94631,-202.25425\" id=\"rotated-polygon-primitive_gbr_pad-10\"/>",
   "    </defs>",
@@ -5644,7 +5644,7 @@ exports['gerber-to-svg :: integration macro-primitives renders rotated-polygon-p
 ]
 
 exports['gerber-to-svg :: integration macro-primitives renders rotated-thermal-primitive 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"-250 -250 500 500\" id=\"rotated-thermal-primitive_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"-250 -250 500 500\">",
   "    <defs>",
   "        <mask id=\"rotated-thermal-primitive_gbr_pad-10_mask-0\" stroke=\"#fff\">",
   "            <circle cx=\"0\" cy=\"0\" r=\"225\" stroke-width=\"50\" fill=\"none\"/>",
@@ -5663,7 +5663,7 @@ exports['gerber-to-svg :: integration macro-primitives renders rotated-thermal-p
 ]
 
 exports['gerber-to-svg :: integration macro-primitives renders rotated-vector-primitive 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.72620497in\" height=\"0.3106771in\" viewBox=\"-715.3105 -124.52434 726.20497 310.6771\" id=\"rotated-vector-primitive_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.72620497in\" height=\"0.3106771in\" viewBox=\"-715.3105 -124.52434 726.20497 310.6771\">",
   "    <defs>",
   "        <polygon points=\"-10.89447,-124.52434 -715.3105,-62.89592 -693.52156,186.15276 10.89447,124.52434\" id=\"rotated-vector-primitive_gbr_pad-10\"/>",
   "    </defs>",
@@ -5674,7 +5674,7 @@ exports['gerber-to-svg :: integration macro-primitives renders rotated-vector-pr
 ]
 
 exports['gerber-to-svg :: integration macro-primitives renders thermal-primitive 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"-250 -250 500 500\" id=\"thermal-primitive_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"-250 -250 500 500\">",
   "    <defs>",
   "        <mask id=\"thermal-primitive_gbr_pad-10_mask-0\" stroke=\"#fff\">",
   "            <circle cx=\"0\" cy=\"0\" r=\"225\" stroke-width=\"50\" fill=\"none\"/>",
@@ -5693,7 +5693,7 @@ exports['gerber-to-svg :: integration macro-primitives renders thermal-primitive
 ]
 
 exports['gerber-to-svg :: integration macro-primitives renders vector-primitive 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.6767767in\" height=\"0.6767767in\" viewBox=\"-88.38835 -88.38835 676.7767 676.7767\" id=\"vector-primitive_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.6767767in\" height=\"0.6767767in\" viewBox=\"-88.38835 -88.38835 676.7767 676.7767\">",
   "    <defs>",
   "        <polygon points=\"88.38835,-88.38835 588.38835,411.61165 411.61165,588.38835 -88.38835,88.38835\" id=\"vector-primitive_gbr_pad-10\"/>",
   "    </defs>",
@@ -5704,7 +5704,7 @@ exports['gerber-to-svg :: integration macro-primitives renders vector-primitive 
 ]
 
 exports['gerber-to-svg :: integration macros renders clear-with-moire 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.1in\" height=\"1.1in\" viewBox=\"-550 -550 1100 1100\" id=\"clear-with-moire_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.1in\" height=\"1.1in\" viewBox=\"-550 -550 1100 1100\">",
   "    <defs>",
   "        <rect x=\"-550\" y=\"-550\" width=\"1100\" height=\"1100\" id=\"clear-with-moire_gbr_pad-11\"/>",
   "        <g id=\"clear-with-moire_gbr_pad-10\">",
@@ -5729,7 +5729,7 @@ exports['gerber-to-svg :: integration macros renders clear-with-moire 1'] = [
 ]
 
 exports['gerber-to-svg :: integration macros renders clear-with-multiple-exposures 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.1in\" height=\"1.1in\" viewBox=\"-550 -550 1100 1100\" id=\"clear-with-multiple-exposures_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.1in\" height=\"1.1in\" viewBox=\"-550 -550 1100 1100\">",
   "    <defs>",
   "        <rect x=\"-550\" y=\"-550\" width=\"1100\" height=\"1100\" id=\"clear-with-multiple-exposures_gbr_pad-11\"/>",
   "        <mask id=\"clear-with-multiple-exposures_gbr_pad-10_1\" fill=\"#000\" stroke=\"#000\">",
@@ -5771,7 +5771,7 @@ exports['gerber-to-svg :: integration macros renders clear-with-multiple-exposur
 ]
 
 exports['gerber-to-svg :: integration macros renders clear-with-thermal 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.1in\" height=\"1.1in\" viewBox=\"-550 -550 1100 1100\" id=\"clear-with-thermal_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.1in\" height=\"1.1in\" viewBox=\"-550 -550 1100 1100\">",
   "    <defs>",
   "        <rect x=\"-550\" y=\"-550\" width=\"1100\" height=\"1100\" id=\"clear-with-thermal_gbr_pad-11\"/>",
   "        <mask id=\"clear-with-thermal_gbr_pad-10_mask-0\" stroke=\"#fff\">",
@@ -5799,7 +5799,7 @@ exports['gerber-to-svg :: integration macros renders clear-with-thermal 1'] = [
 ]
 
 exports['gerber-to-svg :: integration macros renders multiple-exposures 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1in\" height=\"0.775in\" viewBox=\"-500 -375 1000 775\" id=\"multiple-exposures_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1in\" height=\"0.775in\" viewBox=\"-500 -375 1000 775\">",
   "    <defs>",
   "        <mask id=\"multiple-exposures_gbr_pad-10_1\" fill=\"#000\" stroke=\"#000\">",
   "            <g>",
@@ -5832,7 +5832,7 @@ exports['gerber-to-svg :: integration macros renders multiple-exposures 1'] = [
 ]
 
 exports['gerber-to-svg :: integration mchck renders mchck-B_Cu.pho 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.443929135in\" height=\"0.7439212599999999in\" viewBox=\"1528.031495 -2371.96063 1443.929135 743.92126\" id=\"mchck-B_Cu_pho\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.443929135in\" height=\"0.7439212599999999in\" viewBox=\"1528.031495 -2371.96063 1443.929135 743.92126\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"37\" id=\"mchck-B_Cu_pho_pad-15\"/>",
   "        <rect x=\"-19.7\" y=\"-22.5\" width=\"39.4\" height=\"45\" id=\"mchck-B_Cu_pho_pad-16\"/>",
@@ -6013,7 +6013,7 @@ exports['gerber-to-svg :: integration mchck renders mchck-B_Cu.pho 1'] = [
 ]
 
 exports['gerber-to-svg :: integration mchck renders mchck-B_Mask.pho 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.443929135in\" height=\"0.7439212599999999in\" viewBox=\"1528.031495 -2371.96063 1443.929135 743.92126\" id=\"mchck-B_Mask_pho\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.443929135in\" height=\"0.7439212599999999in\" viewBox=\"1528.031495 -2371.96063 1443.929135 743.92126\">",
   "    <g transform=\"translate(0,-4000) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 1530 -1650 1530 -2350\" fill=\"none\" stroke-width=\"3.93701\"/>",
   "        <path d=\"M 2950 -2370 1550 -2370 M 2970 -1650 2970 -2350 M 1550 -1630 2950 -1630\" fill=\"none\" stroke-width=\"3.9\"/>",
@@ -6113,7 +6113,7 @@ exports['gerber-to-svg :: integration mchck renders mchck-B_Mask.pho 1'] = [
 ]
 
 exports['gerber-to-svg :: integration mchck renders mchck-B_SilkS.pho 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.443929135in\" height=\"0.7439212599999999in\" viewBox=\"1528.031495 -2371.96063 1443.929135 743.92126\" id=\"mchck-B_SilkS_pho\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.443929135in\" height=\"0.7439212599999999in\" viewBox=\"1528.031495 -2371.96063 1443.929135 743.92126\">",
   "    <g transform=\"translate(0,-4000) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 1530 -1650 1530 -2350\" fill=\"none\" stroke-width=\"3.93701\"/>",
   "        <path d=\"M 2950 -2370 1550 -2370 M 2970 -1650 2970 -2350 M 1550 -1630 2950 -1630\" fill=\"none\" stroke-width=\"3.9\"/>",
@@ -6134,7 +6134,7 @@ exports['gerber-to-svg :: integration mchck renders mchck-B_SilkS.pho 1'] = [
 ]
 
 exports['gerber-to-svg :: integration mchck renders mchck-Edge_Cuts.pho 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.44in\" height=\"0.74in\" viewBox=\"1530 -2370 1440 740\" id=\"mchck-Edge_Cuts_pho\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.44in\" height=\"0.74in\" viewBox=\"1530 -2370 1440 740\">",
   "    <g transform=\"translate(0,-4000) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 1530 -1650 1530 -2350 1550 -2370 2950 -2370 2970 -2350 2970 -1650 2950 -1630 1550 -1630 1530 -1650\" fill=\"none\" stroke-width=\"3.93701\"/>",
   "    </g>",
@@ -6142,7 +6142,7 @@ exports['gerber-to-svg :: integration mchck renders mchck-Edge_Cuts.pho 1'] = [
 ]
 
 exports['gerber-to-svg :: integration mchck renders mchck-F_Cu.pho 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.443929135in\" height=\"0.7439212599999999in\" viewBox=\"1528.031495 -2371.96063 1443.929135 743.92126\" id=\"mchck-F_Cu_pho\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.443929135in\" height=\"0.7439212599999999in\" viewBox=\"1528.031495 -2371.96063 1443.929135 743.92126\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"37\" id=\"mchck-F_Cu_pho_pad-14\"/>",
   "        <circle cx=\"0\" cy=\"0\" r=\"67\" id=\"mchck-F_Cu_pho_pad-15\"/>",
@@ -6347,7 +6347,7 @@ exports['gerber-to-svg :: integration mchck renders mchck-F_Cu.pho 1'] = [
 ]
 
 exports['gerber-to-svg :: integration mchck renders mchck-F_Mask.pho 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.443929135in\" height=\"0.7439212599999999in\" viewBox=\"1528.031495 -2371.96063 1443.929135 743.92126\" id=\"mchck-F_Mask_pho\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.443929135in\" height=\"0.7439212599999999in\" viewBox=\"1528.031495 -2371.96063 1443.929135 743.92126\">",
   "    <g transform=\"translate(0,-4000) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 1530 -1650 1530 -2350\" fill=\"none\" stroke-width=\"3.93701\"/>",
   "        <path d=\"M 2950 -2370 1550 -2370 M 2970 -1650 2970 -2350 M 1550 -1630 2950 -1630\" fill=\"none\" stroke-width=\"3.9\"/>",
@@ -6434,7 +6434,7 @@ exports['gerber-to-svg :: integration mchck renders mchck-F_Mask.pho 1'] = [
 ]
 
 exports['gerber-to-svg :: integration mchck renders mchck-F_SilkS.pho 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.443929135in\" height=\"0.7439212599999999in\" viewBox=\"1528.031495 -2371.96063 1443.929135 743.92126\" id=\"mchck-F_SilkS_pho\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.443929135in\" height=\"0.7439212599999999in\" viewBox=\"1528.031495 -2371.96063 1443.929135 743.92126\">",
   "    <g transform=\"translate(0,-4000) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 2715.2 -2014.4 2712.5 -2013.1 2708.6 -2013.1 2704.7 -2014.4 2702 -2017 2700.7 -2019.6 2699.4 -2024.9 2699.4 -2028.8 2700.7 -2034.1 2702 -2036.7 2704.7 -2039.3 2708.6 -2040.6 2711.2 -2040.6 2715.2 -2039.3 2716.5 -2038 2716.5 -2028.8 2711.2 -2028.8 M 2728.3 -2040.6 2728.3 -2013.1 2744 -2040.6 2744 -2013.1 M 2757.2 -2040.6 2757.2 -2013.1 2763.7 -2013.1 2767.7 -2014.4 2770.3 -2017 2771.6 -2019.6 2772.9 -2024.9 2772.9 -2028.8 2771.6 -2034.1 2770.3 -2036.7 2767.7 -2039.3 2763.7 -2040.6 2757.2 -2040.6 M 2669.2 -2035.4 2669.2 -2019.6 M 2685 -2035.4 2669.2 -2035.4 M 2685 -2019.6 2685 -2035.4 M 2669.2 -2019.6 2685 -2019.6 M 2696.8 -1971.7 2706 -1999.3 2715.2 -1971.7 M 2724.4 -1984.9 2733.5 -1984.9 M 2737.5 -1999.3 2724.4 -1999.3 2724.4 -1971.7 2737.5 -1971.7 M 2746.7 -1971.7 2765 -1999.3 M 2765 -1971.7 2746.7 -1999.3 M 2771.6 -1971.7 2787.4 -1971.7 M 2779.5 -1999.3 2779.5 -1971.7 M 2682.7 -1991.7 A 7.7781746 7.7781746 0 1 1 2671.6 -1991.7 M 2699.4 -1930.4 2716.5 -1930.4 2707.3 -1940.9 2711.2 -1940.9 2713.9 -1942.2 2715.2 -1943.5 2716.5 -1946.1 2716.5 -1952.7 2715.2 -1955.3 2713.9 -1956.6 2711.2 -1958 2703.4 -1958 2700.7 -1956.6 2699.4 -1955.3 M 2728.3 -1955.3 2729.6 -1956.6 2728.3 -1958 2727 -1956.6 2728.3 -1955.3 2728.3 -1958 M 2738.8 -1930.4 2755.9 -1930.4 2746.7 -1940.9 2750.6 -1940.9 2753.2 -1942.2 2754.5 -1943.5 2755.9 -1946.1 2755.9 -1952.7 2754.5 -1955.3 2753.2 -1956.6 2750.6 -1958 2742.7 -1958 2740.1 -1956.6 2738.8 -1955.3 M 2763.7 -1930.4 2772.9 -1958 2782.1 -1930.4 M 2685.2 -1944.8 A 8.1 8.1 0 0 1 2669 -1944.8 8.1 8.1 0 0 1 2685.2 -1944.8 M 2555.1 -2090.5 2555.1 -2208.6 M 2606.2 -2090.5 2555.1 -2090.5 M 2744 -2090.5 2744 -2208.6 M 2716.5 -2090.5 2744 -2090.5 M 2543.4 -2258.9 2547.5 -2258.1 2549.3 -2258.6 2551.8 -2260.2 2553.7 -2263.6 2553.9 -2266.5 2553.4 -2268.3 2551.8 -2270.8 2542.7 -2276 2528.9 -2252.1 2536.9 -2247.6 2539.8 -2247.4 2541.6 -2247.9 2544.1 -2249.5 2545.4 -2251.7 2545.5 -2254.7 2545.1 -2256.5 2543.4 -2258.9 2535.5 -2263.5 M 2553 -2241.3 2553.4 -2239.5 2555.1 -2237.1 2560.7 -2233.8 2563.7 -2233.6 2565.5 -2234.1 2567.9 -2235.7 2569.2 -2238 2570.1 -2242 2564.3 -2263.5 2579.1 -2255 M 2751.9 -1905.5 2751.9 -1771.6 M 2570.8 -1905.5 2751.9 -1905.5 M 2464.5 -1905.5 2346.4 -1905.5 M 2479.2 -1908 2479.2 -1931.6 M 2479.2 -1911.4 2480.9 -1909.7 2484.2 -1908 2489.3 -1908 2492.7 -1909.7 2494.3 -1913.1 2494.3 -1931.6 M 2531.4 -1931.6 2519.6 -1914.7 M 2511.2 -1931.6 2511.2 -1896.2 2524.7 -1896.2 2528.1 -1897.9 2529.7 -1899.6 2531.4 -1902.9 2531.4 -1908 2529.7 -1911.4 2528.1 -1913.1 2524.7 -1914.7 2511.2 -1914.7 M 2558.4 -1913.1 2546.6 -1913.1 M 2546.6 -1931.6 2546.6 -1896.2 2563.5 -1896.2 M 2346.4 -1771.6 2346.4 -1905.5\" fill=\"none\" stroke-width=\"5.9\"/>",
   "        <path d=\"M 1530 -1650 1530 -2350\" fill=\"none\" stroke-width=\"3.93701\"/>",
@@ -6454,7 +6454,7 @@ exports['gerber-to-svg :: integration mchck renders mchck-F_SilkS.pho 1'] = [
 ]
 
 exports['gerber-to-svg :: integration mchck renders mchck.drl 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"34.046mm\" height=\"16.51mm\" viewBox=\"40122 -59055 34046 16510\" id=\"mchck_drl\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"34.046mm\" height=\"16.51mm\" viewBox=\"40122 -59055 34046 16510\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"150\" id=\"mchck_drl_pad-1\"/>",
   "        <circle cx=\"0\" cy=\"0\" r=\"508\" id=\"mchck_drl_pad-2\"/>",
@@ -6539,7 +6539,7 @@ exports['gerber-to-svg :: integration mchck renders mchck.drl 1'] = [
 ]
 
 exports['gerber-to-svg :: integration pads renders circle 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"-250 -250 500 500\" id=\"circle_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"-250 -250 500 500\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"250\" id=\"circle_gbr_pad-10\"/>",
   "    </defs>",
@@ -6550,7 +6550,7 @@ exports['gerber-to-svg :: integration pads renders circle 1'] = [
 ]
 
 exports['gerber-to-svg :: integration pads renders circle-with-hole 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"-250 -250 500 500\" id=\"circle-with-hole_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"-250 -250 500 500\">",
   "    <defs>",
   "        <mask id=\"circle-with-hole_gbr_pad-10_1\" fill=\"#000\" stroke=\"#000\">",
   "            <g>",
@@ -6571,7 +6571,7 @@ exports['gerber-to-svg :: integration pads renders circle-with-hole 1'] = [
 ]
 
 exports['gerber-to-svg :: integration pads renders circle-with-rect-hole 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"-250 -250 500 500\" id=\"circle-with-rect-hole_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"-250 -250 500 500\">",
   "    <defs>",
   "        <mask id=\"circle-with-rect-hole_gbr_pad-10_1\" fill=\"#000\" stroke=\"#000\">",
   "            <g>",
@@ -6592,7 +6592,7 @@ exports['gerber-to-svg :: integration pads renders circle-with-rect-hole 1'] = [
 ]
 
 exports['gerber-to-svg :: integration pads renders obround 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1in\" height=\"0.5in\" viewBox=\"-500 -250 1000 500\" id=\"obround_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1in\" height=\"0.5in\" viewBox=\"-500 -250 1000 500\">",
   "    <defs>",
   "        <rect x=\"-500\" y=\"-250\" width=\"1000\" height=\"500\" rx=\"250\" ry=\"250\" id=\"obround_gbr_pad-10\"/>",
   "    </defs>",
@@ -6603,7 +6603,7 @@ exports['gerber-to-svg :: integration pads renders obround 1'] = [
 ]
 
 exports['gerber-to-svg :: integration pads renders obround-with-hole 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1in\" height=\"0.5in\" viewBox=\"-500 -250 1000 500\" id=\"obround-with-hole_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1in\" height=\"0.5in\" viewBox=\"-500 -250 1000 500\">",
   "    <defs>",
   "        <mask id=\"obround-with-hole_gbr_pad-10_1\" fill=\"#000\" stroke=\"#000\">",
   "            <g>",
@@ -6624,7 +6624,7 @@ exports['gerber-to-svg :: integration pads renders obround-with-hole 1'] = [
 ]
 
 exports['gerber-to-svg :: integration pads renders obround-with-rect-hole 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1in\" height=\"0.5in\" viewBox=\"-500 -250 1000 500\" id=\"obround-with-rect-hole_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1in\" height=\"0.5in\" viewBox=\"-500 -250 1000 500\">",
   "    <defs>",
   "        <mask id=\"obround-with-rect-hole_gbr_pad-10_1\" fill=\"#000\" stroke=\"#000\">",
   "            <g>",
@@ -6645,7 +6645,7 @@ exports['gerber-to-svg :: integration pads renders obround-with-rect-hole 1'] = 
 ]
 
 exports['gerber-to-svg :: integration pads renders polygon 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"5.775in\" height=\"0.5in\" viewBox=\"-125 -250 5775 500\" id=\"polygon_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"5.775in\" height=\"0.5in\" viewBox=\"-125 -250 5775 500\">",
   "    <defs>",
   "        <polygon points=\"250,0 -125,216.50635 -125,-216.50635\" id=\"polygon_gbr_pad-10\"/>",
   "        <polygon points=\"250,0 0,250 -250,0 0,-250\" id=\"polygon_gbr_pad-11\"/>",
@@ -6674,7 +6674,7 @@ exports['gerber-to-svg :: integration pads renders polygon 1'] = [
 ]
 
 exports['gerber-to-svg :: integration pads renders polygon-rotated 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.46984632in\" height=\"0.49240388in\" viewBox=\"-234.92316 -246.20194 469.84632 492.40388\" id=\"polygon-rotated_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.46984632in\" height=\"0.49240388in\" viewBox=\"-234.92316 -246.20194 469.84632 492.40388\">",
   "    <defs>",
   "        <polygon points=\"234.92316,85.50504 43.41204,246.20194 -191.51111,160.6969 -234.92316,-85.50504 -43.41204,-246.20194 191.51111,-160.6969\" id=\"polygon-rotated_gbr_pad-10\"/>",
   "    </defs>",
@@ -6685,7 +6685,7 @@ exports['gerber-to-svg :: integration pads renders polygon-rotated 1'] = [
 ]
 
 exports['gerber-to-svg :: integration pads renders polygon-with-hole 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.4330127in\" viewBox=\"-250 -216.50635 500 433.0127\" id=\"polygon-with-hole_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.4330127in\" viewBox=\"-250 -216.50635 500 433.0127\">",
   "    <defs>",
   "        <mask id=\"polygon-with-hole_gbr_pad-10_1\" fill=\"#000\" stroke=\"#000\">",
   "            <g>",
@@ -6706,7 +6706,7 @@ exports['gerber-to-svg :: integration pads renders polygon-with-hole 1'] = [
 ]
 
 exports['gerber-to-svg :: integration pads renders polygon-with-rect-hole 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.4330127in\" viewBox=\"-250 -216.50635 500 433.0127\" id=\"polygon-with-rect-hole_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.4330127in\" viewBox=\"-250 -216.50635 500 433.0127\">",
   "    <defs>",
   "        <mask id=\"polygon-with-rect-hole_gbr_pad-10_1\" fill=\"#000\" stroke=\"#000\">",
   "            <g>",
@@ -6727,7 +6727,7 @@ exports['gerber-to-svg :: integration pads renders polygon-with-rect-hole 1'] = 
 ]
 
 exports['gerber-to-svg :: integration pads renders rectangle 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1in\" height=\"0.5in\" viewBox=\"-500 -250 1000 500\" id=\"rectangle_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1in\" height=\"0.5in\" viewBox=\"-500 -250 1000 500\">",
   "    <defs>",
   "        <rect x=\"-500\" y=\"-250\" width=\"1000\" height=\"500\" id=\"rectangle_gbr_pad-10\"/>",
   "    </defs>",
@@ -6738,7 +6738,7 @@ exports['gerber-to-svg :: integration pads renders rectangle 1'] = [
 ]
 
 exports['gerber-to-svg :: integration pads renders rectangle-with-hole 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1in\" height=\"0.5in\" viewBox=\"-500 -250 1000 500\" id=\"rectangle-with-hole_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1in\" height=\"0.5in\" viewBox=\"-500 -250 1000 500\">",
   "    <defs>",
   "        <mask id=\"rectangle-with-hole_gbr_pad-10_1\" fill=\"#000\" stroke=\"#000\">",
   "            <g>",
@@ -6759,7 +6759,7 @@ exports['gerber-to-svg :: integration pads renders rectangle-with-hole 1'] = [
 ]
 
 exports['gerber-to-svg :: integration pads renders rectangle-with-rect-hole 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1in\" height=\"0.5in\" viewBox=\"-500 -250 1000 500\" id=\"rectangle-with-rect-hole_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1in\" height=\"0.5in\" viewBox=\"-500 -250 1000 500\">",
   "    <defs>",
   "        <mask id=\"rectangle-with-rect-hole_gbr_pad-10_1\" fill=\"#000\" stroke=\"#000\">",
   "            <g>",
@@ -6780,7 +6780,7 @@ exports['gerber-to-svg :: integration pads renders rectangle-with-rect-hole 1'] 
 ]
 
 exports['gerber-to-svg :: integration regions renders region-with-arc-cut-in 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1in\" height=\"0.8in\" viewBox=\"200 200 1000 800\" id=\"region-with-arc-cut-in_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1in\" height=\"0.8in\" viewBox=\"200 200 1000 800\">",
   "    <g transform=\"translate(0,1200) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 200 1000 1200 1000 1200 200 200 200 200 600 500 600 A 300 300 0 0 1 1100 600 300 300 0 0 1 500 600 L 200 600 200 1000\"/>",
   "    </g>",
@@ -6788,7 +6788,7 @@ exports['gerber-to-svg :: integration regions renders region-with-arc-cut-in 1']
 ]
 
 exports['gerber-to-svg :: integration regions renders region-with-arcs 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.5in\" height=\"1.5in\" viewBox=\"0 0 1500 1500\" id=\"region-with-arcs_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.5in\" height=\"1.5in\" viewBox=\"0 0 1500 1500\">",
   "    <g transform=\"translate(0,1500) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 500 0 1000 0 A 500 500 0 0 1 1500 500 L 1500 1000 A 500 500 0 0 1 1000 1500 L 500 1500 A 500 500 0 0 1 0 1000 L 0 500 A 500 500 0 0 1 500 0\"/>",
   "    </g>",
@@ -6796,7 +6796,7 @@ exports['gerber-to-svg :: integration regions renders region-with-arcs 1'] = [
 ]
 
 exports['gerber-to-svg :: integration regions renders region-with-cut-in-line 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.9in\" height=\"1.5in\" viewBox=\"12200 25700 900 1500\" id=\"region-with-cut-in-line_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.9in\" height=\"1.5in\" viewBox=\"12200 25700 900 1500\">",
   "    <g transform=\"translate(0,52900) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 12200 25700 12200 27200 13100 27200 13100 25700 12500 25700 12500 26000 12900 26000 12900 26400 12500 26400 12500 26700 12900 26700 12900 27000 12500 27000 12500 26700 12500 26400 12500 26000 12500 25700 12200 25700\"/>",
   "    </g>",
@@ -6804,7 +6804,7 @@ exports['gerber-to-svg :: integration regions renders region-with-cut-in-line 1'
 ]
 
 exports['gerber-to-svg :: integration regions renders region-with-lines 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.08in\" height=\"0.8in\" viewBox=\"20 100 1080 800\" id=\"region-with-lines_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.08in\" height=\"0.8in\" viewBox=\"20 100 1080 800\">",
   "    <g transform=\"translate(0,1000) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 20 300 700 300 700 100 1100 500 700 900 700 700 200 700 200 300\"/>",
   "    </g>",
@@ -6812,7 +6812,7 @@ exports['gerber-to-svg :: integration regions renders region-with-lines 1'] = [
 ]
 
 exports['gerber-to-svg :: integration step-repeats renders multi-polarity 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.5in\" height=\"1.5in\" viewBox=\"-250 -250 2500 1500\" id=\"multi-polarity_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.5in\" height=\"1.5in\" viewBox=\"-250 -250 2500 1500\">",
   "    <defs>",
   "        <rect x=\"-250\" y=\"-250\" width=\"500\" height=\"500\" id=\"multi-polarity_gbr_pad-10\"/>",
   "        <g id=\"multi-polarity_gbr_block-1-1\">",
@@ -6870,7 +6870,7 @@ exports['gerber-to-svg :: integration step-repeats renders multi-polarity 1'] = 
 ]
 
 exports['gerber-to-svg :: integration step-repeats renders multi-polarity-over-existing 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.25in\" height=\"1.25in\" viewBox=\"-625 -625 1250 1250\" id=\"multi-polarity-over-existing_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.25in\" height=\"1.25in\" viewBox=\"-625 -625 1250 1250\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"500\" id=\"multi-polarity-over-existing_gbr_pad-12\"/>",
   "        <circle cx=\"0\" cy=\"0\" r=\"425\" id=\"multi-polarity-over-existing_gbr_pad-11\"/>",
@@ -6917,7 +6917,7 @@ exports['gerber-to-svg :: integration step-repeats renders multi-polarity-over-e
 ]
 
 exports['gerber-to-svg :: integration step-repeats renders multi-polarity-over-self 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.5in\" height=\"1.5in\" viewBox=\"-500 -500 1500 1500\" id=\"multi-polarity-over-self_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.5in\" height=\"1.5in\" viewBox=\"-500 -500 1500 1500\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"500\" id=\"multi-polarity-over-self_gbr_pad-10\"/>",
   "        <g id=\"multi-polarity-over-self_gbr_block-1-1\">",
@@ -6985,7 +6985,7 @@ exports['gerber-to-svg :: integration step-repeats renders multi-polarity-over-s
 ]
 
 exports['gerber-to-svg :: integration step-repeats renders one-polarity 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.5in\" height=\"1.5in\" viewBox=\"-250 -250 2500 1500\" id=\"one-polarity_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"2.5in\" height=\"1.5in\" viewBox=\"-250 -250 2500 1500\">",
   "    <defs>",
   "        <rect x=\"-250\" y=\"-250\" width=\"500\" height=\"500\" id=\"one-polarity_gbr_pad-10\"/>",
   "        <g id=\"one-polarity_gbr_block-1-1\">",
@@ -7004,7 +7004,7 @@ exports['gerber-to-svg :: integration step-repeats renders one-polarity 1'] = [
 ]
 
 exports['gerber-to-svg :: integration strokes renders circle-tool-multi-segment 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.2in\" height=\"1in\" viewBox=\"-100 -100 1200 1000\" id=\"circle-tool-multi-segment_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.2in\" height=\"1in\" viewBox=\"-100 -100 1200 1000\">",
   "    <g transform=\"translate(0,800) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 0 0 1000 400 300 800 100 600 400 400\" fill=\"none\" stroke-width=\"200\"/>",
   "    </g>",
@@ -7012,7 +7012,7 @@ exports['gerber-to-svg :: integration strokes renders circle-tool-multi-segment 
 ]
 
 exports['gerber-to-svg :: integration strokes renders circle-tool-single-segment 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.7in\" height=\"0.5in\" viewBox=\"-100 -100 700 500\" id=\"circle-tool-single-segment_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.7in\" height=\"0.5in\" viewBox=\"-100 -100 700 500\">",
   "    <g transform=\"translate(0,300) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 0 0 500 300\" fill=\"none\" stroke-width=\"200\"/>",
   "    </g>",
@@ -7020,7 +7020,7 @@ exports['gerber-to-svg :: integration strokes renders circle-tool-single-segment
 ]
 
 exports['gerber-to-svg :: integration strokes renders circle-tool-zero-length 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"-250 -250 500 500\" id=\"circle-tool-zero-length_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.5in\" viewBox=\"-250 -250 500 500\">",
   "    <g transform=\"translate(0,0) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 0 0 0 0\" fill=\"none\" stroke-width=\"500\"/>",
   "    </g>",
@@ -7028,7 +7028,7 @@ exports['gerber-to-svg :: integration strokes renders circle-tool-zero-length 1'
 ]
 
 exports['gerber-to-svg :: integration strokes renders rect-tool-multi-segment 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.2in\" height=\"0.9in\" viewBox=\"-100 -50 1200 900\" id=\"rect-tool-multi-segment_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.2in\" height=\"0.9in\" viewBox=\"-100 -50 1200 900\">",
   "    <g transform=\"translate(0,800) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M -100 -50 100 -50 1100 350 1100 450 900 450 -100 50 -100 -50\"/>",
   "        <path d=\"M 1100 350 1100 450 400 850 200 850 200 750 900 350 1100 350\"/>",
@@ -7039,7 +7039,7 @@ exports['gerber-to-svg :: integration strokes renders rect-tool-multi-segment 1'
 ]
 
 exports['gerber-to-svg :: integration strokes renders rect-tool-single-segment 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.7in\" height=\"0.4in\" viewBox=\"-100 -50 700 400\" id=\"rect-tool-single-segment_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.7in\" height=\"0.4in\" viewBox=\"-100 -50 700 400\">",
   "    <g transform=\"translate(0,300) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M -100 -50 100 -50 600 250 600 350 400 350 -100 50 -100 -50\"/>",
   "    </g>",
@@ -7047,7 +7047,7 @@ exports['gerber-to-svg :: integration strokes renders rect-tool-single-segment 1
 ]
 
 exports['gerber-to-svg :: integration strokes renders rect-tool-zero-length 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.25in\" viewBox=\"-250 -125 500 250\" id=\"rect-tool-zero-length_gbr\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.5in\" height=\"0.25in\" viewBox=\"-250 -125 500 250\">",
   "    <g transform=\"translate(0,0) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M -250 -125 250 -125 250 125 -250 125 -250 -125\"/>",
   "    </g>",
@@ -7055,7 +7055,7 @@ exports['gerber-to-svg :: integration strokes renders rect-tool-zero-length 1'] 
 ]
 
 exports['gerber-to-svg :: integration usbvil renders pic18f14k50.gbl 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.3204in\" height=\"0.5585in\" viewBox=\"2159.7 2736.5 1320.4 558.5\" id=\"pic18f14k50_gbl\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.3204in\" height=\"0.5585in\" viewBox=\"2159.7 2736.5 1320.4 558.5\">",
   "    <defs>",
   "        <mask id=\"pic18f14k50_gbl_clear-1\" fill=\"#000\" stroke=\"#000\">",
   "            <g>",
@@ -7160,7 +7160,7 @@ exports['gerber-to-svg :: integration usbvil renders pic18f14k50.gbl 1'] = [
 ]
 
 exports['gerber-to-svg :: integration usbvil renders pic18f14k50.gbo 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.8498in\" height=\"0.39189999999999997in\" viewBox=\"2336.3 2762.7 849.8 391.9\" id=\"pic18f14k50_gbo\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"0.8498in\" height=\"0.39189999999999997in\" viewBox=\"2336.3 2762.7 849.8 391.9\">",
   "    <g transform=\"translate(0,5917.299999999999) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 2586.6 2969.4 2586.6 2909.4 2556.6 2909.4 2546.6 2919.4 2546.6 2959.4 2556.6 2969.4 2586.6 2969.4 M 2526.6 2909.4 2506.6 2909.4 2516.6 2909.4 2516.6 2969.4 2526.6 2959.4 M 2590.6 2838.6 2590.6 2898.6 2560.6 2898.6 2550.6 2888.6 2550.6 2868.6 2560.6 2858.6 2590.6 2858.6 M 2570.6 2858.6 2550.6 2838.6 M 2490.6 2838.6 2530.6 2838.6 2490.6 2878.6 2490.6 2888.6 2500.6 2898.6 2520.6 2898.6 2530.6 2888.6 M 2546.6 2817.7 2556.6 2827.7 2576.6 2827.7 2586.6 2817.7 2586.6 2777.7 2576.6 2767.7 2556.6 2767.7 2546.6 2777.7 M 2486.6 2827.7 2526.6 2827.7 2526.6 2797.7 2506.6 2807.7 2496.6 2807.7 2486.6 2797.7 2486.6 2777.7 2496.6 2767.7 2516.6 2767.7 2526.6 2777.7 M 3131.1 3109.6 3121.1 3119.6 3121.1 3139.6 3131.1 3149.6 3171.1 3149.6 3181.1 3139.6 3181.1 3119.6 3171.1 3109.6 M 3181.1 3059.6 3121.1 3059.6 3151.1 3089.6 3151.1 3049.6 M 3066.9 2893.7 3066.9 2953.7 3036.9 2953.7 3026.9 2943.7 3026.9 2923.7 3036.9 2913.7 3066.9 2913.7 M 3046.9 2913.7 3026.9 2893.7 M 3006.9 2893.7 2987 2893.7 2997 2893.7 2997 2953.7 3006.9 2943.7 M 3058.4 3022.4 3068.4 3032.4 3088.4 3032.4 3098.4 3022.4 3098.4 2982.4 3088.4 2972.4 3068.4 2972.4 3058.4 2982.4 M 3038.4 3022.4 3028.4 3032.4 3008.5 3032.4 2998.5 3022.4 2998.5 3012.4 3008.5 3002.4 3018.5 3002.4 3008.5 3002.4 2998.5 2992.4 2998.5 2982.4 3008.5 2972.4 3028.4 2972.4 3038.4 2982.4 M 3102.4 3115.1 3062.4 3055.1 M 3062.4 3115.1 3102.4 3055.1 M 3042.4 3115.1 3002.4 3115.1 3022.4 3115.1 3022.4 3055.1 M 2982.4 3055.1 2962.4 3055.1 2972.4 3055.1 2972.4 3115.1 2982.4 3105.1 M 2381.3 3134.8 2421.3 3134.8 2421.3 3104.8 2401.3 3104.8 2421.3 3104.8 2421.3 3074.8 M 2361.3 3074.8 2341.3 3074.8 2351.3 3074.8 2351.3 3134.8 2361.3 3124.8\" fill=\"none\" stroke-width=\"10\"/>",
   "        <path d=\"M 2524.3 3075.2 2562.3 3075.2 M 2523.3 3145.2 2563.3 3145.2\" fill=\"none\" stroke-width=\"5\"/>",
@@ -7169,7 +7169,7 @@ exports['gerber-to-svg :: integration usbvil renders pic18f14k50.gbo 1'] = [
 ]
 
 exports['gerber-to-svg :: integration usbvil renders pic18f14k50.gbs 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.30265in\" height=\"0.5287999999999999in\" viewBox=\"2171.8 2756.3 1302.65 528.8\" id=\"pic18f14k50_gbs\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.30265in\" height=\"0.5287999999999999in\" viewBox=\"2171.8 2756.3 1302.65 528.8\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"33.55\" id=\"pic18f14k50_gbs_pad-34\"/>",
   "        <rect x=\"-33.55\" y=\"-33.55\" width=\"67.1\" height=\"67.1\" id=\"pic18f14k50_gbs_pad-35\"/>",
@@ -7237,7 +7237,7 @@ exports['gerber-to-svg :: integration usbvil renders pic18f14k50.gbs 1'] = [
 ]
 
 exports['gerber-to-svg :: integration usbvil renders pic18f14k50.gko 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.3366in\" height=\"0.5748in\" viewBox=\"2151.6 2728.3 1336.6 574.8\" id=\"pic18f14k50_gko\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.3366in\" height=\"0.5748in\" viewBox=\"2151.6 2728.3 1336.6 574.8\">",
   "    <g transform=\"translate(0,6031.400000000001) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 3372 2956.7 A 15.7 15.7 0 0 1 3356.3 2972.4 L 3220.5 2972.4 A 15.7 15.7 0 0 1 3204.7 2956.7 L 3204.7 2879.9 A 15.7 15.7 0 0 1 3220.5 2864.2 L 3332.7 2864.2 3332.7 2728.3 2151.6 2728.3 2151.6 3303.1 3332.7 3303.1 3332.7 3179.1 3220.5 3179.1 A 15.7 15.7 0 0 1 3204.7 3163.4 L 3204.7 3086.6 A 15.7 15.7 0 0 1 3220.5 3070.9 L 3356.3 3070.9 A 15.7 15.7 0 0 1 3372 3086.6 L 3372 3267.7 3488.2 3267.7 3488.2 2775.6 3372 2775.6 3372 2956.7\" fill=\"none\" stroke-width=\"5.9\"/>",
   "    </g>",
@@ -7245,7 +7245,7 @@ exports['gerber-to-svg :: integration usbvil renders pic18f14k50.gko 1'] = [
 ]
 
 exports['gerber-to-svg :: integration usbvil renders pic18f14k50.gtl 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.29465in\" height=\"0.5464in\" viewBox=\"2175.8 2742.1 1294.65 546.4\" id=\"pic18f14k50_gtl\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.29465in\" height=\"0.5464in\" viewBox=\"2175.8 2742.1 1294.65 546.4\">",
   "    <defs>",
   "        <rect x=\"-14\" y=\"-18\" width=\"28\" height=\"36\" id=\"pic18f14k50_gtl_pad-10\"/>",
   "        <rect x=\"-18\" y=\"-14\" width=\"36\" height=\"28\" id=\"pic18f14k50_gtl_pad-11\"/>",
@@ -7354,7 +7354,7 @@ exports['gerber-to-svg :: integration usbvil renders pic18f14k50.gtl 1'] = [
 ]
 
 exports['gerber-to-svg :: integration usbvil renders pic18f14k50.gto 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.04715in\" height=\"0.48455000000000004in\" viewBox=\"2176.1 2791.1 1047.15 484.55\" id=\"pic18f14k50_gto\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.04715in\" height=\"0.48455000000000004in\" viewBox=\"2176.1 2791.1 1047.15 484.55\">",
   "    <g transform=\"translate(0,6066.75) scale(1,-1)\" fill=\"currentColor\" stroke=\"currentColor\">",
   "        <path d=\"M 3041 2931.8 3022 2931.8 3022 2936.8 3041 2936.8 3041 2931.8\"/>",
   "        <path d=\"M 2534.4 2928.7 2548.4 2928.7 2548.4 2921.7 2534.4 2921.7 2534.4 2909.7 2529.4 2909.7 2529.4 2940.7 2534.4 2940.7 2534.4 2928.7\"/>",
@@ -7386,7 +7386,7 @@ exports['gerber-to-svg :: integration usbvil renders pic18f14k50.gto 1'] = [
 ]
 
 exports['gerber-to-svg :: integration usbvil renders pic18f14k50.gts 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.30265in\" height=\"0.5287999999999999in\" viewBox=\"2171.8 2756.3 1302.65 528.8\" id=\"pic18f14k50_gts\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.30265in\" height=\"0.5287999999999999in\" viewBox=\"2171.8 2756.3 1302.65 528.8\">",
   "    <defs>",
   "        <rect x=\"-18\" y=\"-22\" width=\"36\" height=\"44\" id=\"pic18f14k50_gts_pad-29\"/>",
   "        <rect x=\"-22\" y=\"-18\" width=\"44\" height=\"36\" id=\"pic18f14k50_gts_pad-30\"/>",
@@ -7493,7 +7493,7 @@ exports['gerber-to-svg :: integration usbvil renders pic18f14k50.gts 1'] = [
 ]
 
 exports['gerber-to-svg :: integration usbvil renders pic18f14k50.txt 1'] = [
-  "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.278in\" height=\"0.5147999999999999in\" viewBox=\"2180.6 2763.3 1278 514.8\" id=\"pic18f14k50_txt\">",
+  "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"0\" fill-rule=\"evenodd\" width=\"1.278in\" height=\"0.5147999999999999in\" viewBox=\"2180.6 2763.3 1278 514.8\">",
   "    <defs>",
   "        <circle cx=\"0\" cy=\"0\" r=\"14\" id=\"pic18f14k50_txt_pad-1\"/>",
   "        <circle cx=\"0\" cy=\"0\" r=\"17.7\" id=\"pic18f14k50_txt_pad-2\"/>",

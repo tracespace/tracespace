@@ -2,14 +2,11 @@
 // TODO(mc, 2018-01-16): refactor with testdouble and maybe assert
 'use strict'
 
-var sinon = require('sinon')
-var chai = require('chai')
-var sinonChai = require('sinon-chai')
+var assign = require('lodash/assign')
+var expect = require('chai').expect
 var proxyquire = require('proxyquire')
+var sinon = require('sinon')
 var xmlElementString = require('xml-element-string')
-var expect = chai.expect
-
-chai.use(sinonChai)
 
 var wtg = require('whats-that-gerber')
 var expectXmlNodes = require('./expect-xml-nodes')
@@ -17,10 +14,10 @@ var sortLayersSpy = sinon.spy(require('../lib/sort-layers'))
 var stackLayersStub = sinon.stub()
 var element = sinon.spy(xmlElementString)
 
-var pcbStackupCore = proxyquire('../lib', {
-  'xml-element-string': element,
-  './sort-layers': sortLayersSpy,
-  './stack-layers': stackLayersStub,
+var pcbStackupCore = proxyquire('..', {
+  'xml-element-string': assign(element, {'@global': true}),
+  './lib/sort-layers': sortLayersSpy,
+  './lib/stack-layers': stackLayersStub,
 })
 
 var converter = function() {
@@ -35,14 +32,25 @@ var converter = function() {
 }
 
 var EXPECTED_DEFAULT_STYLE = [
-  '.foobar_fr4 {color: #666;}',
-  '.foobar_cu {color: #ccc;}',
-  '.foobar_cf {color: #c93;}',
+  '.foobar_fr4 {color: #666666;}',
+  '.foobar_cu {color: #cccccc;}',
+  '.foobar_cf {color: #cc9933;}',
   '.foobar_sm {color: #004200; opacity: 0.75;}',
-  '.foobar_ss {color: #fff;}',
-  '.foobar_sp {color: #999;}',
-  '.foobar_out {color: #000;}',
+  '.foobar_ss {color: #ffffff;}',
+  '.foobar_sp {color: #999999;}',
+  '.foobar_out {color: #000000;}',
 ].join('\n')
+
+var EXPECTED_BASE_ATTRIBUTES = {
+  xmlns: 'http://www.w3.org/2000/svg',
+  version: '1.1',
+  'xmlns:xlink': 'http://www.w3.org/1999/xlink',
+  'stroke-linecap': 'round',
+  'stroke-linejoin': 'round',
+  'stroke-width': 0,
+  'fill-rule': 'evenodd',
+  'clip-rule': 'evenodd',
+}
 
 describe('pcb stackup function', function() {
   beforeEach(function() {
@@ -58,16 +66,8 @@ describe('pcb stackup function', function() {
     })
   })
 
-  it('should need an id as an option', function() {
-    expect(function() {
-      pcbStackupCore([], 'foo')
-    }).to.not.throw()
-    expect(function() {
-      pcbStackupCore([], {id: 'bar'})
-    }).to.not.throw()
-    expect(function() {
-      pcbStackupCore([])
-    }).to.throw(/unique board ID/)
+  afterEach(function() {
+    sinon.restore()
   })
 
   it('should have a createElement option that defaults to xml-element-string', function() {
@@ -85,20 +85,15 @@ describe('pcb stackup function', function() {
   it('should return an SVG element with the propper attributes', function() {
     var result = pcbStackupCore([], 'foobar')
     var svgAttr = function(side) {
-      return {
-        id: 'foobar_' + side,
-        xmlns: 'http://www.w3.org/2000/svg',
-        version: '1.1',
-        'xmlns:xlink': 'http://www.w3.org/1999/xlink',
-        'stroke-linecap': 'round',
-        'stroke-linejoin': 'round',
-        'stroke-width': 0,
-        'fill-rule': 'evenodd',
-        'clip-rule': 'evenodd',
-        viewBox: '0 0 0 0',
-        width: '0',
-        height: '0',
-      }
+      return assign(
+        {
+          id: 'foobar_' + side,
+          viewBox: '0 0 0 0',
+          width: '0',
+          height: '0',
+        },
+        EXPECTED_BASE_ATTRIBUTES
+      )
     }
 
     var topElement = element.withArgs('svg', svgAttr('top'))
@@ -116,7 +111,7 @@ describe('pcb stackup function', function() {
 
     expect(styleSpy).to.have.callCount(2)
     expect(result.top.svg).to.contain(styleSpy.returnValues[0])
-    expect(result.bottom.svg).to.contain(styleSpy.returnValues[0])
+    expect(result.bottom.svg).to.contain(styleSpy.returnValues[1])
   })
 
   it('should handle user input colors', function() {
@@ -126,13 +121,13 @@ describe('pcb stackup function', function() {
     }
     var result = pcbStackupCore([], options)
     var expectedStyle = [
-      '.foobar_fr4 {color: #666;}',
-      '.foobar_cu {color: #123;}',
-      '.foobar_cf {color: #456;}',
+      '.foobar_fr4 {color: #666666;}',
+      '.foobar_cu {color: #112233;}',
+      '.foobar_cf {color: #445566;}',
       '.foobar_sm {color: #004200; opacity: 0.75;}',
-      '.foobar_ss {color: #fff;}',
-      '.foobar_sp {color: #789;}',
-      '.foobar_out {color: #000;}',
+      '.foobar_ss {color: #ffffff;}',
+      '.foobar_sp {color: #778899;}',
+      '.foobar_out {color: #000000;}',
     ].join('\n')
 
     var styleSpy = element.withArgs('style', {}, [expectedStyle])
@@ -195,7 +190,7 @@ describe('pcb stackup function', function() {
   it('should use stack to build result, add mech mask, flip as needed', function() {
     stackLayersStub.withArgs(element, 'foobar', 'top').returns({
       box: [0, 0, 1000, 1000],
-      units: 'mm',
+      units: 'in',
       layer: ['<top-group/>'],
       defs: ['<top-defs/>'],
       mechMaskId: 'foobar_top_mech-mask',
@@ -209,6 +204,7 @@ describe('pcb stackup function', function() {
     })
 
     var result = pcbStackupCore([], 'foobar')
+
     var values = expectXmlNodes(element, [
       {tag: 'style', attr: {}, children: [EXPECTED_DEFAULT_STYLE]},
       {tag: 'defs', attr: {}, children: [0, '<top-defs/>']},
@@ -226,8 +222,8 @@ describe('pcb stackup function', function() {
         tag: 'svg',
         attr: sinon.match.object
           .and(sinon.match.has('id', 'foobar_top'))
-          .and(sinon.match.has('width', '1mm'))
-          .and(sinon.match.has('height', '1mm'))
+          .and(sinon.match.has('width', '1in'))
+          .and(sinon.match.has('height', '1in'))
           .and(sinon.match.has('viewBox', '0 0 1000 1000')),
         children: [1, 3],
       },
@@ -250,32 +246,49 @@ describe('pcb stackup function', function() {
         tag: 'svg',
         attr: sinon.match.object
           .and(sinon.match.has('id', 'foobar_bottom'))
-          .and(sinon.match.has('width', '0.5in'))
-          .and(sinon.match.has('height', '0.5in'))
-          .and(sinon.match.has('viewBox', '250 250 500 500')),
+          .and(sinon.match.has('width', '1in'))
+          .and(sinon.match.has('height', '1in'))
+          .and(sinon.match.has('viewBox', '0 0 1000 1000')),
         children: [6, 8],
       },
     ])
 
-    expect(result).to.eql({
-      top: {
-        svg: values[4],
-        defs: [values[0], '<top-defs/>'],
-        layer: [values[2]],
-        viewBox: [0, 0, 1000, 1000],
-        width: 1,
-        height: 1,
-        units: 'mm',
-      },
-      bottom: {
-        svg: values[9],
-        defs: [values[5], '<bottom-defs/>'],
-        layer: [values[7]],
-        viewBox: [250, 250, 500, 500],
-        width: 0.5,
-        height: 0.5,
-        units: 'in',
-      },
+    expect(result.top).to.eql({
+      svg: values[4],
+      attributes: assign(
+        {
+          id: 'foobar_top',
+          viewBox: '0 0 1000 1000',
+          width: '1in',
+          height: '1in',
+        },
+        EXPECTED_BASE_ATTRIBUTES
+      ),
+      defs: [values[0], '<top-defs/>'],
+      layer: [values[2]],
+      viewBox: [0, 0, 1000, 1000],
+      width: 1,
+      height: 1,
+      units: 'in',
+    })
+
+    expect(result.bottom).to.eql({
+      svg: values[9],
+      attributes: assign(
+        {
+          id: 'foobar_bottom',
+          viewBox: '0 0 1000 1000',
+          width: '1in',
+          height: '1in',
+        },
+        EXPECTED_BASE_ATTRIBUTES
+      ),
+      defs: [values[5], '<bottom-defs/>'],
+      layer: [values[7]],
+      viewBox: [0, 0, 1000, 1000],
+      width: 1,
+      height: 1,
+      units: 'in',
     })
   })
 
@@ -316,12 +329,6 @@ describe('pcb stackup function', function() {
       },
       ['<bottom-group/>']
     )
-  })
-
-  it('should not put xmlns attr in nodes if includeNamespace is false', function() {
-    pcbStackupCore([], {id: 'foo', includeNamespace: false})
-
-    expect(element).to.not.be.calledWith('svg', sinon.match.has('xmlns'))
   })
 
   it('should allow arbitrary stuff in the attributes', function() {

@@ -194,15 +194,15 @@
     "cad": "diptrace",
     "files": [
       {"name": "BoardOutline.gbr", "side": "all", "type": "outline"},
-      {"name": "Through.drl",      "side": "all", "type": "drill"},
-      {"name": "TopMask.gbr",      "side": "top", "type": "soldermask"},
-      {"name": "TopSilk.gbr",      "side": "top", "type": "silkscreen"},
-      {"name": "BottomMask.gbr",   "side": "bottom", "type": "soldermask"},
-      {"name": "Bottom.gbr",       "side": "bottom", "type": "copper"},
-      {"name": "BottomPaste.gbr",  "side": "bottom", "type": "solderpaste"},
-      {"name": "TopPaste.gbr",     "side": "top", "type": "solderpaste"},
-      {"name": "Top.gbr",          "side": "top", "type": "copper"},
-      {"name": "BottomSilk.gbr",   "side": "bottom", "type": "silkscreen"}
+      {"name": "Through.drl", "side": "all", "type": "drill"},
+      {"name": "TopMask.gbr", "side": "top", "type": "soldermask"},
+      {"name": "TopSilk.gbr", "side": "top", "type": "silkscreen"},
+      {"name": "BottomMask.gbr", "side": "bottom", "type": "soldermask"},
+      {"name": "Bottom.gbr", "side": "bottom", "type": "copper"},
+      {"name": "BottomPaste.gbr", "side": "bottom", "type": "solderpaste"},
+      {"name": "TopPaste.gbr", "side": "top", "type": "solderpaste"},
+      {"name": "Top.gbr", "side": "top", "type": "copper"},
+      {"name": "BottomSilk.gbr", "side": "bottom", "type": "silkscreen"}
     ]
   }
 ]

@@ -3,16 +3,12 @@
 
 var xmlElementString = require('xml-element-string')
 
-module.exports = function(converter, attr, createElement, includeNamespace) {
+module.exports = function(converter, attr, createElement) {
   var element = createElement || xmlElementString
-  var namespace =
-    includeNamespace == null || includeNamespace === true
-      ? 'http://www.w3.org/2000/svg'
-      : null
 
   var attributes = {
-    xmlns: namespace,
     version: '1.1',
+    xmlns: 'http://www.w3.org/2000/svg',
     'xmlns:xlink': 'http://www.w3.org/1999/xlink',
     'stroke-linecap': 'round',
     'stroke-linejoin': 'round',
@@ -22,6 +18,8 @@ module.exports = function(converter, attr, createElement, includeNamespace) {
     height: converter.height + converter.units,
     viewBox: converter.viewBox.join(' '),
   }
+
+  if (typeof attr === 'string') attr = {id: attr}
 
   Object.keys(attr || {}).forEach(function(key) {
     var value = attr[key]

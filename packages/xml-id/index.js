@@ -11,6 +11,7 @@ var DEFAULT_RANDOM_LENGTH = 12
 module.exports = {
   random: random,
   sanitize: sanitize,
+  ensure: ensure,
 }
 
 function random(length) {
@@ -20,6 +21,10 @@ function random(length) {
 
 function sanitize(source) {
   return source.replace(REPLACE_RE, '_')
+}
+
+function ensure(maybeId, length) {
+  return typeof maybeId === 'string' ? sanitize(maybeId) : random(length)
 }
 
 function _getRandomString(length, alphabet) {

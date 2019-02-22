@@ -1,13 +1,9 @@
 // test suite for the wrap layer function
 'use strict'
 
-var chai = require('chai')
+var expect = require('chai').expect
 var sinon = require('sinon')
-var sinonChai = require('sinon-chai')
 var xmlElementString = require('xml-element-string')
-var expect = chai.expect
-
-chai.use(sinonChai)
 
 var wrapLayer = require('../lib/wrap-layer')
 

@@ -6,7 +6,6 @@ const path = require('path')
 const runParallel = require('run-parallel')
 const runWaterfall = require('run-waterfall')
 
-const xid = require('@tracespace/xml-id')
 const gerberToSvg = require('gerber-to-svg')
 const pcbStackupCore = require('pcb-stackup-core')
 const wtg = require('whats-that-gerber')
@@ -33,12 +32,7 @@ runWaterfall([renderAllLayers, renderStackupAndWrite], error => {
 })
 
 function renderStackupAndWrite(layers, done) {
-  const options = {
-    id: xid.random(),
-    maskWithOutline: true,
-  }
-
-  const stackup = pcbStackupCore(layers, options)
+  const stackup = pcbStackupCore(layers)
   const tasks = [
     next => fs.writeFile(TOP_OUT, stackup.top.svg, next),
     next => fs.writeFile(BOTTOM_OUT, stackup.bottom.svg, next),
@@ -48,10 +42,8 @@ function renderStackupAndWrite(layers, done) {
 }
 
 function renderAllLayers(done) {
-  const layerTypes = wtg(GERBER_PATHS)
-  const tasks = GERBER_PATHS.map(file => next =>
-    renderLayer(file, layerTypes, next)
-  )
+  const types = wtg(GERBER_PATHS)
+  const tasks = GERBER_PATHS.map(file => next => renderLayer(file, types, next))
 
   runParallel(tasks, done)
 }
@@ -59,13 +51,9 @@ function renderAllLayers(done) {
 function renderLayer(filename, layerTypes, done) {
   const file = fs.createReadStream(filename)
   const {side, type} = layerTypes[filename]
+  const options = {plotAsOutline: type === wtg.TYPE_OUTLINE}
 
   assert(type, `Expected ${filename} to be recognized as a gerber`)
-
-  const options = {
-    id: xid.random(),
-    plotAsOutline: type === wtg.TYPE_OUTLINE,
-  }
 
   const converter = gerberToSvg(file, options, error => {
     if (error) return done(error)

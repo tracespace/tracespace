@@ -3,19 +3,14 @@
 
 var assign = require('lodash/assign')
 var sinon = require('sinon')
-var chai = require('chai')
-var sinonChai = require('sinon-chai')
+var expect = require('chai').expect
 var xmlElement = require('xml-element-string')
-var expect = chai.expect
-
-chai.use(sinonChai)
 
 var PlotterToSvg = require('../lib/plotter-to-svg')
 
 var HALF_PI = Math.PI / 2
 
 var SVG_ATTR = {
-  id: 'id',
   xmlns: 'http://www.w3.org/2000/svg',
   version: '1.1',
   'xmlns:xlink': 'http://www.w3.org/1999/xlink',
@@ -36,7 +31,7 @@ describe('plotter to svg transform stream', function() {
 
   beforeEach(function() {
     element = sinon.spy(xmlElement)
-    p = new PlotterToSvg({id: 'id'}, element)
+    p = new PlotterToSvg('id', {}, element)
     p.setEncoding('utf8')
   })
 
@@ -54,21 +49,8 @@ describe('plotter to svg transform stream', function() {
     p.end()
   })
 
-  it('should be able to add an id', function(done) {
-    var converter = new PlotterToSvg({id: 'foo'}, element)
-    var expected = assign({}, SVG_ATTR, {id: 'foo'})
-
-    converter.once('data', function() {
-      expect(element).to.be.calledWith('svg', expected)
-      done()
-    })
-
-    converter.write({type: 'size', box: EMPTY_BOX, units: ''})
-    converter.end()
-  })
-
-  it('should be able to add other attributes', function(done) {
-    var converter = new PlotterToSvg({id: 'foo', bar: 'baz'}, element)
+  it('should be able to add attributes', function(done) {
+    var converter = new PlotterToSvg('foo', {id: 'foo', bar: 'baz'}, element)
     var expected = assign({}, SVG_ATTR, {id: 'foo', bar: 'baz'})
 
     converter.once('data', function() {
@@ -78,17 +60,6 @@ describe('plotter to svg transform stream', function() {
 
     converter.write({type: 'size', box: EMPTY_BOX, units: ''})
     converter.end()
-  })
-
-  it('should be able to omit the namespace from attributes', function(done) {
-    p = new PlotterToSvg({id: 'id'}, element, false)
-    p.once('data', function() {
-      expect(element.firstCall.args[1].xmlns == null).to.equal(true)
-      done()
-    })
-
-    p.write({type: 'size', box: EMPTY_BOX, units: ''})
-    p.end()
   })
 
   describe('creating pad shapes', function() {

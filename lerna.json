@@ -4,10 +4,16 @@
     "version": {
       "conventionalCommits": true,
       "message": "chore(release): %s",
-      "preid": "next"
+      "preid": "next",
+      "push": "false"
     }
   },
-  "packages": [
-    "packages/*"
-  ]
+  "ignoreChanges": [
+    "**/*.md",
+    "**/*test.js",
+    "**/integration/**/*.js",
+    "**/example/**/*.js",
+    "**/scripts/**/*.js"
+  ],
+  "packages": ["packages/*"]
 }

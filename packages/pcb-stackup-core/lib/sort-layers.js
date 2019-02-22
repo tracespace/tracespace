@@ -4,12 +4,23 @@
 var wtg = require('whats-that-gerber')
 
 module.exports = function sortLayers(layers) {
-  return layers.reduce(assignLayer, {
+  return layers.filter(acceptLayer).reduce(assignLayer, {
     top: [],
     bottom: [],
     drills: [],
     outline: null,
   })
+}
+
+function acceptLayer(layer) {
+  return (
+    layer != null &&
+    layer.type != null &&
+    layer.side != null &&
+    layer.converter != null &&
+    layer.converter.layer != null &&
+    layer.converter.layer.length
+  )
 }
 
 function assignLayer(result, layer) {

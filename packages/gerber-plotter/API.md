@@ -4,7 +4,7 @@ API documentation for `gerber-plotter`. An understanding of the [Gerber file for
 
 ## create a gerber plotter
 
-``` javascript
+```javascript
 var gerberPlotter = require('gerber-plotter')
 var plotter = gerberPlotter(OPTIONS)
 ```
@@ -17,21 +17,21 @@ The plotter is a [Node Transform Stream](https://nodejs.org/api/stream.html#stre
 
 The gerberPlotter function takes an options object and returns a transform stream. The options object can be used to override or certain details that would normally be set by the incoming command stream or may be missing from the input stream entirely (which can happen a lot, especially with drill files).
 
-``` javascript
+```javascript
 var options = {}
 var plotter = gerberPlotter(options)
 ```
 
 The available options are:
 
-key             | value                  | default | description
-----------------|------------------------|---------|------------------------------------------------
-`units`         | `mm` or `in`           | N/A     | PCB units
-`backupUnits`   | `mm` or `in`           | `in`    | Backup units in case units are missing
-`nota`          | `A` or `I`             | N/A     | Absolute or incremental coordinate notation
-`backupNota`    | `A` or `I`             | `A`     | Backup notation in case notation is missing
-`optimizePaths` | Boolean                | `false` | Optimize order of paths in strokes and regions
-`plotAsOutline` | Boolean/Number (in mm) | `false` | Adjust paths to better represent an outline
+| key             | value                  | default | description                                    |
+| --------------- | ---------------------- | ------- | ---------------------------------------------- |
+| `units`         | `mm` or `in`           | N/A     | PCB units                                      |
+| `backupUnits`   | `mm` or `in`           | `in`    | Backup units in case units are missing         |
+| `nota`          | `A` or `I`             | N/A     | Absolute or incremental coordinate notation    |
+| `backupNota`    | `A` or `I`             | `A`     | Backup notation in case notation is missing    |
+| `optimizePaths` | Boolean                | `false` | Optimize order of paths in strokes and regions |
+| `plotAsOutline` | Boolean/Number (in mm) | `false` | Adjust paths to better represent an outline    |
 
 #### units and backup units options
 
@@ -53,12 +53,12 @@ Setting this option to `false` will speed up plotting at the expense of ensuring
 
 This option is off by default. When `plotAsOutline` is true or a number, the plotter will take several actions:
 
-  * The `optimizePaths` option will be forced to true
-  * All stroke tools will be merged into one tool (the first tool in the file used for a stroke)
-  * The bounding box of the file will be determined by the center of the outline instead of the outside of the line
-  * Gaps between segments will be filled in
-    * If `plotAsOutline` is true, the maximum gap size will be 0.00011 in millimeters
-    * If a number, that number will be used as the maximum gap size in millimeters no matter the gerber units
+- The `optimizePaths` option will be forced to true
+- All stroke tools will be merged into one tool (the first tool in the file used for a stroke)
+- The bounding box of the file will be determined by the center of the outline instead of the outside of the line
+- Gaps between segments will be filled in
+  - If `plotAsOutline` is true, the maximum gap size will be 0.00011 in millimeters
+  - If a number, that number will be used as the maximum gap size in millimeters no matter the gerber units
 
 This option exists to take an image representing an outline layer and optimize it to get at the board information the layer represents. Sometimes, outline layers will (accidentally) use different tools for the same line or introduce small gaps in the outline. `plotAsOutline` will attempt to fix those details.
 
@@ -67,9 +67,10 @@ This option exists to take an image representing an outline layer and optimize i
 A gerber plotter has certain public properties. Any properties not listed here as public may be changed by a patch.
 
 ### format
+
 `plotter.format` is an object containing the units and coordinate notation the plotter used to build the image.
 
-``` javascript
+```javascript
 plotter.on('end', function() {
   console.log(plotter.format)
 })
@@ -90,7 +91,7 @@ Because the gerber plotter is a Node stream, it is also an event emitter. In add
 
 A `warning` event is emitted if the plotter encounters a recoverable problem while plotting the image. Typically, these warning are caused by elements that are deprecated in the current Gerber specification or missing information that will be replaced with assumptions by the plotter.
 
-``` javascript
+```javascript
 // warning object
 var exampleWarning = {message: 'warning message', line: LINE_NO_IN_GERBER}
 
@@ -103,7 +104,7 @@ plotter.on('warning', function(w) {
 
 The plotter will emit a stream of PCB image objects. Objects are of the format:
 
-``` javascript
+```javascript
 {type: IMAGE_TYPE, ...}
 ```
 
@@ -111,7 +112,7 @@ The plotter will emit a stream of PCB image objects. Objects are of the format:
 
 When a tool is going to be used to create a pad, the plotter will emit a shape for the tool once before the first flash:
 
-``` javascript
+```javascript
 {type: 'shape', tool: TOOL_CODE, shape: [PRIMITIVE_OBJECTS...]}
 ```
 
@@ -127,23 +128,27 @@ The primitive shapes array is meant to be reduced to a single symbol by the cons
 
 A filed-in circle with radius `r` centered at (`cx`, `cy`):
 
-``` javascript
-{type: 'circle', r, cx, cy}
+```javascript
+{
+  type: 'circle', r, cx, cy
+}
 ```
 
 **rectangle**
 
 A filled-in rectangle with width `width`, height `height`, and corner radius `r` centered at (`cx`, `cy`):
 
-``` javascript
-{type: 'rect', width, height, r, cx, cy}
+```javascript
+{
+  type: 'rect', width, height, r, cx, cy
+}
 ```
 
 **polygon**
 
 A filled-in polygon defined by a series of line-segments connecting `points`:
 
-``` javascript
+```javascript
 {type: 'poly', points: [[X0, Y0], [X1, Y1], ..., [XN, YN]]}
 ```
 
@@ -151,15 +156,17 @@ A filled-in polygon defined by a series of line-segments connecting `points`:
 
 A ring of radius `r` and stroke width `width` centered at (`cx`, `cy`):
 
-``` javascript
-{type: 'ring', r, width, cx, cy}
+```javascript
+{
+  type: 'ring', r, width, cx, cy
+}
 ```
 
 **clipped shape**
 
 A special nested structure that takes an array `shape` of rectangles or polygons as defined above and clips them with `clip` (which will be a ring shape as defined above). Used for thermal primitives in macro-defined tools:
 
-``` javascript
+```javascript
 {type: 'clip', shape: [RECTS_OR_POLYS...], clip: CLIPPING_RING}
 ```
 
@@ -167,7 +174,7 @@ A special nested structure that takes an array `shape` of rectangles or polygons
 
 A modifier that changes the subsequent shape polarities to `clear` or `dark`. By default, all shapes are `dark`. A dark shape creates an image, while a clear shape erases any shape that lies below it. Used for macro-defined tools and standard tools with holes. The polarity object also includes the current size of the image:
 
-``` javascript
+```javascript
 {type: 'layer', polarity: POLARITY, box: [X_MIN, Y_MIN, X_MAX, Y_MAX]}
 ```
 
@@ -175,7 +182,7 @@ A modifier that changes the subsequent shape polarities to `clear` or `dark`. By
 
 A pad object creates a pad with a previously defined shape for `tool`, at a location (`x`, `y`):
 
-``` javascript
+```javascript
 {type: 'pad', tool: TOOL_CODE, x: X_COORDINATE, y: Y_COORDINATE}
 ```
 
@@ -187,7 +194,7 @@ A fill object is a filled in region bounded by `path`. The bounding path does no
 
 The `path` array of these objects will be smaller if the `optimizePaths` option is set to true.
 
-``` javascript
+```javascript
 {type: 'stroke', width: WIDTH, path: [SEGMENTS...]}
 {type: 'fill', path: [SEGMENTS...]}
 ```
@@ -196,7 +203,7 @@ The `path` array of these objects will be smaller if the `optimizePaths` option 
 
 A line segment is a path from `start` to `end`
 
-``` javascript
+```javascript
 {type: 'line', start: [X0, Y0], end: [X1, Y1]}
 ```
 
@@ -204,7 +211,7 @@ A line segment is a path from `start` to `end`
 
 A arc segment is a circular arc from `start` to `end` with radius `radius`, center: `center`, direction `dir` (`'cw'` or `'ccw'`), and arc angle `sweep`. All angles are in radians.
 
-``` javascript
+```javascript
 {
   type: 'arc',
   start: [X0, Y0, ANGLE0],
@@ -220,7 +227,7 @@ A arc segment is a circular arc from `start` to `end` with radius `radius`, cent
 
 A layer polarity object changes the polarity of subsequent image objects until the polarity is changed again. A polarity of 'dark' is the default, and adds to the overall image. A polarity of 'clear' subtracts from the overall image. The polarity object also includes `box`: the bounding box of the existing overall image.
 
-``` javascript
+```javascript
 {type: 'polarity', polarity: POLARITY, box: [X_MIN, Y_MIN, X_MAX, Y_MAX]}
 ```
 
@@ -230,7 +237,7 @@ A block repeat object means all following objects will be gathered in a block, a
 
 Note that a block may contain multiple polarities, and according to the Gerber specification, if a clearing image appears in a repeated block and overlaps a previous block, it will clear the image in both blocks.
 
-``` javascript
+```javascript
 {type: 'repeat', offsets: [OFFSET_LOCATIONS...], box: [X_MIN, Y_MIN, X_MAX, Y_MAX]}
 ```
 
@@ -240,6 +247,6 @@ At the end of the stream, the plotter will push out one last object. This object
 
 A box of `[Infinity, Infinity, -Infinity, -Infinity]` means there is no image.
 
-``` javascript
+```javascript
 {type: 'size', box: [X_MIN, Y_MIN, X_MAX, Y_MAX], units: UNITS}
 ```

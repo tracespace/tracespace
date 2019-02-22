@@ -6,25 +6,24 @@ var proxyquire = require('proxyquire')
 var assign = require('lodash/assign')
 var xmlElementString = require('xml-element-string')
 var sinon = require('sinon')
-var chai = require('chai')
-var sinonChai = require('sinon-chai')
-var expect = chai.expect
-
-chai.use(sinonChai)
+var expect = require('chai').expect
 
 var parserStub = sinon.stub()
 var plotterStub = sinon.stub()
 var converterStub = sinon.stub()
 var xmlElementSpy = sinon.spy(xmlElementString)
-var gerberToSvg = proxyquire('../lib/gerber-to-svg', {
+var xidEnsureStub = sinon.stub()
+
+var gerberToSvg = proxyquire('..', {
   'gerber-parser': parserStub,
   'gerber-plotter': plotterStub,
   'xml-element-string': xmlElementSpy,
-  './plotter-to-svg': converterStub,
+  '@tracespace/xml-id': {ensure: xidEnsureStub},
+  './lib/plotter-to-svg': converterStub,
 })
 
-var render = require('../lib/render')
-var clone = require('../lib/clone')
+var render = require('../render')
+var clone = require('../clone')
 
 describe('gerber to svg', function() {
   var fakeParser
@@ -35,6 +34,8 @@ describe('gerber to svg', function() {
     parserStub.reset()
     plotterStub.reset()
     converterStub.reset()
+    xidEnsureStub.reset()
+    xidEnsureStub.returnsArg(0)
 
     fakeParser = new events.EventEmitter()
     assign(fakeParser, {
@@ -119,57 +120,43 @@ describe('gerber to svg', function() {
 
   it('should pass the id to plotter-to-svg when it is a string', function() {
     gerberToSvg('', 'foo')
-    expect(converterStub).to.be.calledWith({id: 'foo'})
+    expect(converterStub).to.be.calledWith('foo')
   })
 
   it('should pass the id in an object', function() {
     gerberToSvg('', {id: 'bar'})
-    expect(converterStub).to.be.calledWith({id: 'bar'})
+    expect(converterStub).to.be.calledWith('bar')
   })
 
-  it('should throw an error if id is missing', function() {
-    expect(function() {
-      gerberToSvg('', {})
-    }).to.throw(/id required/)
-    expect(function() {
-      gerberToSvg('')
-    }).to.throw(/id required/)
+  it('should generate a random ID if id is missing', function() {
+    xidEnsureStub.reset()
+    xidEnsureStub.returns('random-id')
+
+    gerberToSvg('')
+    expect(converterStub).to.be.calledWith('random-id')
   })
 
   it('should pass the attributes option', function() {
     gerberToSvg('', {id: 'foo', attributes: {bar: 'baz'}})
-    expect(converterStub).to.be.calledWith({id: 'foo', bar: 'baz'})
+    expect(converterStub).to.be.calledWith('foo', {bar: 'baz'})
   })
 
   it('should pass createElement, which should default to xml-element-string', function() {
     var element = function() {}
 
     gerberToSvg('', {id: 'foo'})
-    expect(converterStub).to.be.calledWith({id: 'foo'}, xmlElementSpy)
+    expect(converterStub).to.be.calledWith('foo', {}, xmlElementSpy)
     gerberToSvg('', {id: 'bar', createElement: element})
-    expect(converterStub).to.be.calledWith({id: 'bar'}, element)
-  })
-
-  it('should pass includeNamespace, which should default true', function() {
-    var element = function() {}
-
-    gerberToSvg('', {id: 'foo', createElement: element})
-    expect(converterStub).to.be.calledWith({id: 'foo'}, element, true)
-    gerberToSvg('', {
-      id: 'bar',
-      createElement: element,
-      includeNamespace: false,
-    })
-    expect(converterStub).to.be.calledWith({id: 'bar'}, element, false)
+    expect(converterStub).to.be.calledWith('bar', {}, element)
   })
 
   it('should pass objectMode, which should default to false', function() {
     var element = function() {}
 
     gerberToSvg('', {id: 'foo', createElement: element})
-    expect(converterStub).to.be.calledWith({id: 'foo'}, element, true, false)
+    expect(converterStub).to.be.calledWith('foo', {}, element, false)
     gerberToSvg('', {id: 'bar', createElement: element, objectMode: true})
-    expect(converterStub).to.be.calledWith({id: 'bar'}, element, true, true)
+    expect(converterStub).to.be.calledWith('bar', {}, element, true)
   })
 
   describe('passing along warnings', function() {
