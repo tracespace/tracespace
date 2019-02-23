@@ -17,8 +17,8 @@ export type UpdateDisplayState = (partial: PartialDisplayState) => void
 
 export type HandleZoom = (
   delta: number,
-  centerX: number,
-  centerY: number
+  centerX?: number,
+  centerY?: number
 ) => void
 
 export type HandlePan = (deltaX: number, deltaY: number) => void

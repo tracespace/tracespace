@@ -1,7 +1,7 @@
 import React, {useState, useRef, useEffect} from 'react'
 import cx from 'classnames'
 
-import {preventDefault} from '../events'
+import {preventDefault, select} from '../events'
 import {Label, Icon} from '../ui'
 
 export type BoardUrlProps = {
@@ -66,11 +66,11 @@ export default function BoardUrl(props: BoardUrlProps): JSX.Element {
         value={copyValue}
         className="clip"
         onClick={event => {
-          event.currentTarget.select()
+          select(event)
           document.execCommand('copy')
         }}
         onFocus={event => {
-          event.currentTarget.select()
+          select(event)
           setSelected(true)
         }}
         onBlur={() => {

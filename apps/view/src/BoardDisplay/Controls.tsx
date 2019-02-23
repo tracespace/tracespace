@@ -1,8 +1,8 @@
 // board display controls for zoom bar and board vs layer render
-import React from 'react'
+import React, {useState} from 'react'
 
 import {Button, Icon} from '../ui'
-import {linearizeScale} from './display'
+import {stepToScale, scaleToStep} from './display'
 import {DisplayControllerProps} from './types'
 
 type Props = DisplayControllerProps
@@ -16,14 +16,21 @@ const CONTROLS_STYLE =
 const ZOOM_ICON_STYLE = 'flex-none'
 const ZOOM_RESET_STYLE = 'absolute bottom-2 left-50 tf-center-x'
 
-const ZOOM_BAR_CONTAINER_STYLE = 'relative w-100 flex'
+const ZOOM_BAR_CONTAINER_STYLE = 'relative w-100 h2 flex items-center grab'
 const ZOOM_BAR_STYLE = 'dib pt2 bg-white shadow w-100'
 const ZOOM_SLIDER_STYLE =
   'absolute w1 h1 top-50 tf-center bg-brand o-70 left-animate'
 
 export default function Controls(props: Props): JSX.Element {
-  const {step, reset, zoomIn, zoomOut} = props
-  const sliderLeft = `${linearizeScale(step) * 100}%`
+  const [grabbing, setGrabbing] = useState(false)
+  const {step, reset, zoom, zoomIn, zoomOut} = props
+  const sliderLeft = `${stepToScale(step) * 100}%`
+
+  const handleGrabMove = (event: React.MouseEvent): void => {
+    const {left, width} = event.currentTarget.getBoundingClientRect()
+    const nextStep = scaleToStep((event.clientX - left) / width)
+    zoom(nextStep - step)
+  }
 
   return (
     <div className={CONTROLS_STYLE}>
@@ -41,7 +48,15 @@ export default function Controls(props: Props): JSX.Element {
       >
         <Icon name="search-minus" />
       </Button>
-      <span className={ZOOM_BAR_CONTAINER_STYLE}>
+      <span
+        className={ZOOM_BAR_CONTAINER_STYLE}
+        onMouseDown={event => {
+          setGrabbing(true)
+          handleGrabMove(event)
+        }}
+        onMouseUp={() => setGrabbing(false)}
+        onMouseMove={grabbing ? handleGrabMove : undefined}
+      >
         <span className={ZOOM_BAR_STYLE} />
         <span className={ZOOM_SLIDER_STYLE} style={{left: sliderLeft}} />
       </span>

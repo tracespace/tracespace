@@ -3,6 +3,7 @@ import {Formik, Form, Field} from 'formik'
 
 import {useAppState} from '../state'
 import {Button, Icon, Fade} from '../ui'
+import {select} from '../events'
 import {FileEvent} from '../types'
 
 const UPLOAD_MESSAGE = 'Upload your Gerber and drill files to render your board'
@@ -64,6 +65,7 @@ export default function LoadFiles(props: LoadFilesProps): JSX.Element {
                     name="url"
                     type="text"
                     className="w-100 mh2 bb bt-0 br-0 bl-0 b--near-black code f6 tc bg-transparent"
+                    onClick={select}
                   />
                   <Button
                     type="submit"

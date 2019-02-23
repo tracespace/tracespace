@@ -90,3 +90,11 @@
 input.clip:focus + * {
   outline: 1px dotted black;
 }
+
+.grab:hover {
+  cursor: grab;
+}
+
+.grab:active {
+  cursor: grabbing;
+}

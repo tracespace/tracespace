@@ -67,8 +67,13 @@ export function getScale(step: number): {step: number; scale: number} {
 //   0.0 -> scale === SCALE_MIN
 //   0.5 -> scale === SCALE_INITIAL
 //   1.0 -> SCALE === SCALE_MAX
-export function linearizeScale(step: number): number {
+export function stepToScale(step: number): number {
   const {step: actualStep} = getScale(step)
 
   return actualStep / SCALE_STEP_COUNT
+}
+
+// reverse of stepToScale
+export function scaleToStep(scale: number): number {
+  return getScale(scale * SCALE_STEP_COUNT).step
 }
