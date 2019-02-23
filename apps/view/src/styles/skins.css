@@ -13,3 +13,16 @@
 .bg-gradient {
   background: radial-gradient(#eee, #999);
 }
+
+.scrollbar-white,
+.scrollbar-near-black {
+  scrollbar-width: thin;
+}
+
+.scrollbar-white {
+  scrollbar-color: #fff transparent;
+}
+
+.scrollbar-near-black {
+  scrollbar-color: #111 transparent;
+}

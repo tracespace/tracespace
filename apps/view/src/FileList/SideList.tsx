@@ -32,7 +32,7 @@ export default function SideList(props: Props): JSX.Element {
     >
       <div
         onWheel={stopPropagation}
-        className={cx('w-100 mxh-100 overflow-y-auto ph3 tf-flip-x')}
+        className="w-100 mxh-100 overflow-y-auto ph3 tf-flip-x scrollbar-white"
       >
         <ul className="list mt0 mb3 pl0 tf-flip-x">
           {SIDES.map(sideProps => (
