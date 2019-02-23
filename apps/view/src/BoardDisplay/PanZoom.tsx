@@ -28,14 +28,18 @@ export default function PanZoom(props: Props): JSX.Element {
     }
 
     function handleWheel(event: WheelEvent): void {
+      const {deltaMode, deltaY} = event
       const threshhold =
-        event.deltaMode === event.DOM_DELTA_LINE
+        deltaMode === event.DOM_DELTA_LINE
           ? WHEEL_THRESHOLD_LINE
           : WHEEL_THRESHOLD
 
-      zoomDeltaY.current += event.deltaY
+      zoomDeltaY.current += deltaY
+
+      // increment count or reset count if direction switches
+      // make sure we don't reset if deltaY for the event is 0
       count.current =
-        Math.sign(event.deltaY) === Math.sign(zoomDeltaY.current)
+        deltaY === 0 || Math.sign(deltaY) === Math.sign(zoomDeltaY.current)
           ? count.current + 1
           : 1
 
