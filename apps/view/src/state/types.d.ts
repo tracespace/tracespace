@@ -16,6 +16,7 @@ export type State = {
   updating: boolean
   downloading: boolean
   layerVisibility: LayerVisibilityMap
+  error: null | ErrorObject
 }
 
 export type Dispatch = (action: Action) => void
@@ -41,3 +42,4 @@ export type Action =
   | {type: 'ALL_BOARDS_DELETED'}
   | {type: 'WORKER_INITIALIZED'; payload: Array<BoardSummary>}
   | {type: 'WORKER_ERRORED'; payload: {request: Action; error: ErrorObject}}
+  | {type: 'DISMISS_ERROR'}

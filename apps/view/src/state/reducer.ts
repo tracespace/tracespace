@@ -116,22 +116,28 @@ export default function reducer(state: State, action: Action): State {
       return INITIAL_STATE
     }
 
+    case actionTypes.DISMISS_ERROR: {
+      return {...state, error: null}
+    }
+
     case actionTypes.WORKER_ERRORED: {
+      let nextState = {...state, error: action.payload.error}
+
       switch (action.payload.request.type) {
         case actionTypes.CREATE_BOARD:
         case actionTypes.CREATE_BOARD_FROM_URL:
         case actionTypes.DELETE_BOARD:
         case actionTypes.DELETE_ALL_BOARDS:
-          return {...state, loading: false}
+          return {...nextState, loading: false}
 
         case actionTypes.UPDATE_BOARD:
-          return {...state, updating: false}
+          return {...nextState, updating: false}
 
         case actionTypes.GET_BOARD_PACKAGE:
-          return {...state, downloading: false}
+          return {...nextState, downloading: false}
       }
 
-      return state
+      return nextState
     }
   }
 

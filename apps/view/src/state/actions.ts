@@ -17,6 +17,7 @@ export const BOARD_PACKAGED = 'BOARD_PACKAGED'
 export const ALL_BOARDS_DELETED = 'ALL_BOARDS_DELETED'
 export const WORKER_INITIALIZED = 'WORKER_INITIALIZED'
 export const WORKER_ERRORED = 'WORKER_ERRORED'
+export const DISMISS_ERROR = 'DISMISS_ERROR'
 
 export const createBoard = (files: Array<File>): Action => ({
   type: CREATE_BOARD,
@@ -97,4 +98,8 @@ export const workerErrored = (request: Action, error: Error): Action => ({
     request,
     error: {name: error.name, message: error.message, error: error.toString()},
   },
+})
+
+export const dismissError = (): Action => ({
+  type: DISMISS_ERROR,
 })

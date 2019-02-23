@@ -10,6 +10,7 @@ export const INITIAL_STATE: State = {
   updating: false,
   downloading: false,
   layerVisibility: {},
+  error: null,
 }
 
 export const StateContext = React.createContext<ContextProps>({

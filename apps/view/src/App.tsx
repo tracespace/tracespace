@@ -8,6 +8,7 @@ import FileList from './FileList'
 import BoardList from './BoardList'
 import Nav from './Nav'
 import LoadFiles from './LoadFiles'
+import ErrorToast from './ErrorToast'
 import {preventDefault} from './events'
 import {Main} from './ui'
 import {FileEvent} from './types'
@@ -37,6 +38,7 @@ function App(): JSX.Element {
       <BoardList />
       <Nav handleFiles={handleFiles} handleUrl={handleUrl} />
       <LoadFiles handleFiles={handleFiles} handleUrl={handleUrl} />
+      <ErrorToast />
     </Main>
   )
 }
