@@ -121,19 +121,19 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
                 .map(ly => (
                   <LayerItem key={ly.id} filename={ly.filename}>
                     <Field
-                      id={ly.id}
                       name={`layers.${ly.id}.type`}
                       component={LayerTypeSelect}
+                      layerId={ly.id}
                     />
                     <Field
-                      id={ly.id}
                       name={`layers.${ly.id}.side`}
                       component={LayerSideSelect}
+                      layerId={ly.id}
                     />
                     <Field
-                      id={ly.id}
                       name={`layers.${ly.id}.color`}
                       component={LayerColorInput}
+                      layerId={ly.id}
                     />
                   </LayerItem>
                 ))}

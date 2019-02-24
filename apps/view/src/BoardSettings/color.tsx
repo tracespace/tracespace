@@ -48,13 +48,13 @@ const stripAlpha = (c: string): string => c.slice(0, 7)
 const colorsMatch = (a: string, b: string): boolean =>
   stripAlpha(a) === stripAlpha(b)
 
-function ColorInput(props: FieldProps & {id: ColorId}): JSX.Element {
-  const {id, field, form} = props
+function ColorInput(props: FieldProps & {colorId: ColorId}): JSX.Element {
+  const {colorId, field, form} = props
   const value = stripAlpha(`${field.value}`)
 
   return (
     <Label className="h2">
-      <span className="mr-auto">{COLOR_NAMES[id]}</span>
+      <span className="mr-auto">{COLOR_NAMES[colorId]}</span>
       <input
         {...field}
         value={value}
@@ -62,7 +62,7 @@ function ColorInput(props: FieldProps & {id: ColorId}): JSX.Element {
         className="clip"
         onChange={event => {
           let value = stripAlpha(event.target.value)
-          if (id === 'sm') value += MASK_ALPHA
+          if (colorId === 'sm') value += MASK_ALPHA
           form.setFieldValue(field.name, value)
         }}
       />
@@ -81,9 +81,9 @@ export function ColorFields(props: {fieldName: string}): JSX.Element {
       {COLOR_IDS.map(id => (
         <Field
           key={id}
-          id={id}
           name={`${props.fieldName}.${id}`}
           component={ColorInput}
+          colorId={id}
         />
       ))}
     </>

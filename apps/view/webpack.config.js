@@ -80,13 +80,8 @@ module.exports = {
   },
   plugins: [
     new FileManagerPlugin({
-      onStart: {
-        delete: [OUT_PATH],
-      },
-      onEnd: [
-        {mkdir: [OUT_PATH]},
-        {archive: [{source: EXAMPLE_FILES, destination: EXAMPLE_OUT}]},
-      ],
+      onStart: [{delete: [OUT_PATH]}, {mkdir: [OUT_PATH]}],
+      onEnd: {archive: [{source: EXAMPLE_FILES, destination: EXAMPLE_OUT}]},
     }),
     new HtmlPlugin({
       template: path.join(__dirname, 'src/template'),

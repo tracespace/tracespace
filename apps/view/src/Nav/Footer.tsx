@@ -8,7 +8,7 @@ const HREF_PRIVACY =
   'https://github.com/tracespace/tracespace/blob/next/PRIVACY.md'
 
 const COPY_STYLE = 'mv0 lh-copy f7 white'
-const LINK_STYLE = 'link dim near-black'
+const LINK_STYLE = 'link dim fw3 lightest-blue'
 
 export default function Footer(): JSX.Element {
   return (

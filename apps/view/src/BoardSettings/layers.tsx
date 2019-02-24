@@ -30,10 +30,10 @@ export function LayerItem(props: LayerItemProps): JSX.Element {
   )
 }
 
-type LayerFieldProps = FieldProps & {id: string}
+type LayerFieldProps = FieldProps & {layerId: string}
 
 export function LayerTypeSelect(props: LayerFieldProps): JSX.Element {
-  const {id, form, field} = props
+  const {layerId, form, field} = props
 
   return (
     <select
@@ -41,7 +41,7 @@ export function LayerTypeSelect(props: LayerFieldProps): JSX.Element {
       className="dib flex-none f5 w4 mr2"
       onChange={event => {
         const type = (event.target.value as GerberType) || ''
-        const layer = form.values.layers[id]
+        const layer = form.values.layers[layerId]
         const validSides = typeToValidSides(type)
         const side = validSides.includes(layer.side)
           ? layer.side
@@ -49,7 +49,7 @@ export function LayerTypeSelect(props: LayerFieldProps): JSX.Element {
 
         form.setValues({
           ...form.values,
-          layers: {...form.values.layers, [id]: {...layer, type, side}},
+          layers: {...form.values.layers, [layerId]: {...layer, type, side}},
         })
       }}
     >
@@ -64,8 +64,8 @@ export function LayerTypeSelect(props: LayerFieldProps): JSX.Element {
 }
 
 export function LayerSideSelect(props: LayerFieldProps): JSX.Element {
-  const {id, field, form} = props
-  const {type} = form.values.layers[id]
+  const {layerId, field, form} = props
+  const {type} = form.values.layers[layerId]
   const options: Array<string> = typeToValidSides(type)
   const disabled = options.length < 2
 
@@ -83,8 +83,8 @@ export function LayerSideSelect(props: LayerFieldProps): JSX.Element {
 }
 
 export function LayerColorInput(props: LayerFieldProps): JSX.Element {
-  const {id, field, form} = props
-  const {type} = form.values.layers[id]
+  const {layerId, field, form} = props
+  const {type} = form.values.layers[layerId]
   const disabled = type === ''
 
   return (
