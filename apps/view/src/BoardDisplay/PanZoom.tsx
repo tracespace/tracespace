@@ -7,7 +7,7 @@ type Props = DisplayControllerProps & {
   children?: React.ReactNode
 }
 
-const WHEEL_THRESHOLD = 24
+const WHEEL_THRESHOLD = 20
 const WHEEL_THRESHOLD_LINE = 0
 
 const getEventCenter = (event: WheelEvent | React.MouseEvent): Point => ({
@@ -18,7 +18,6 @@ const getEventCenter = (event: WheelEvent | React.MouseEvent): Point => ({
 export default function PanZoom(props: Props): JSX.Element {
   const {pan, zoom, containerRef, children} = props
   const panStart = useRef<{x: number; y: number} | null>(null)
-  const zoomDeltaY = useRef(0)
   const count = useRef(0)
 
   useEffect(() => {
@@ -34,20 +33,14 @@ export default function PanZoom(props: Props): JSX.Element {
           ? WHEEL_THRESHOLD_LINE
           : WHEEL_THRESHOLD
 
-      zoomDeltaY.current += deltaY
+      // increment or decrement count based on scroll direction
+      // remember that Math.sign(0) === 0
+      count.current += Math.sign(deltaY)
 
-      // increment count or reset count if direction switches
-      // make sure we don't reset if deltaY for the event is 0
-      count.current =
-        deltaY === 0 || Math.sign(deltaY) === Math.sign(zoomDeltaY.current)
-          ? count.current + 1
-          : 1
-
-      if (count.current > threshhold) {
-        const direction = Math.sign(-zoomDeltaY.current) || 0
+      if (Math.abs(count.current) > threshhold) {
+        const direction = Math.sign(-count.current) || 0
         const {x, y} = getEventCenter(event)
 
-        zoomDeltaY.current = 0
         count.current = 0
         zoom(direction, x, y)
       }
