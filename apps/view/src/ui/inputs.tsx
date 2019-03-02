@@ -29,13 +29,14 @@ export function HiddenInput(props: InputProps): JSX.Element {
 }
 
 export function Checkbox(props: InputProps): JSX.Element {
+  const {className, children, ...inputProps} = props
   const iconName = props.value ? 'check-square' : 'square'
 
   return (
-    <Label className={props.className}>
-      <HiddenInput type="checkbox" {...props} />
+    <Label className={className}>
+      <HiddenInput type="checkbox" {...inputProps} />
       <Icon className="nl2" name={iconName} />
-      {props.children}
+      {children}
     </Label>
   )
 }
