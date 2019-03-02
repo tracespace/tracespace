@@ -1,6 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
 
+import {Icon} from './Icon'
+
 export type LabelProps = {
   className?: string
   disabled?: boolean
@@ -17,5 +19,23 @@ export function Label(props: LabelProps): JSX.Element {
     <label className={style} {...rest}>
       {children}
     </label>
+  )
+}
+
+export type InputProps = React.InputHTMLAttributes<HTMLInputElement>
+
+export function HiddenInput(props: InputProps): JSX.Element {
+  return <input className="clip" {...props} />
+}
+
+export function Checkbox(props: InputProps): JSX.Element {
+  const iconName = props.value ? 'check-square' : 'square'
+
+  return (
+    <Label className={props.className}>
+      <HiddenInput type="checkbox" {...props} />
+      <Icon className="nl2" name={iconName} />
+      {props.children}
+    </Label>
   )
 }

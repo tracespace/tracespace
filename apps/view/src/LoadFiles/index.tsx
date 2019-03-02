@@ -1,15 +1,18 @@
-import React, {useState, useEffect} from 'react'
-import {Formik, Form, Field} from 'formik'
+import React from 'react'
 
 import {useAppState} from '../state'
-import {Button, Icon, Fade} from '../ui'
-import {select} from '../events'
+import {Icon, Fade} from '../ui'
 import {FileEvent} from '../types'
+import FileInput from './FileInput'
+import UrlInput from './UrlInput'
 
 const UPLOAD_MESSAGE = 'Upload your Gerber and drill files to render your board'
 const UPLOAD_SUBMESSAGE = 'ZIP files work, too'
+const URL_MESSAGE = 'or enter the URL of a ZIP archive'
 
-const MESSAGE_STYLE = 'absolute absolute--center near-black tc'
+const WRAPPER_STYLE = 'absolute absolute--center near-black tc'
+const MESSAGE_STYLE = 'mt3 mb0 f4 lh-copy'
+const SUBMESSAGE_STYLE = 'f5 fw3'
 
 export type LoadFilesProps = {
   handleFiles: (event: FileEvent) => void
@@ -18,66 +21,26 @@ export type LoadFilesProps = {
 
 export default function LoadFiles(props: LoadFilesProps): JSX.Element {
   const {mode, loading} = useAppState()
-  const [initialUrl, setInitialUrl] = useState('')
-
-  useEffect(() => {
-    const {origin, pathname} = window.location
-    setInitialUrl(`${origin}${pathname}arduino-uno.zip`)
-  }, [])
 
   return (
     <>
       <Fade in={loading}>
         <Icon
-          className={`${MESSAGE_STYLE} f1 brand`}
+          className={`${WRAPPER_STYLE} f1 brand`}
           name="spinner"
           faProps={{pulse: true}}
         />
       </Fade>
-      <Fade in={initialUrl && !mode && !loading}>
-        <div className={MESSAGE_STYLE}>
-          <label className="db pv4 pointer">
-            <input
-              type="file"
-              className="clip"
-              onChange={props.handleFiles}
-              multiple
-            />
-            <Icon name="plus" className="dib f1 brand" />
-            <p className="mt3 mb0 f4 lh-copy">
+      <Fade in={!mode && !loading}>
+        <div className={WRAPPER_STYLE}>
+          <FileInput handleFiles={props.handleFiles}>
+            <p className={MESSAGE_STYLE}>
               {UPLOAD_MESSAGE}
               <br />
-              <span className="f5 fw3">({UPLOAD_SUBMESSAGE})</span>
+              <span className={SUBMESSAGE_STYLE}>({UPLOAD_SUBMESSAGE})</span>
             </p>
-          </label>
-          <Formik
-            initialValues={{url: initialUrl}}
-            onSubmit={values => props.handleUrl(values.url)}
-          >
-            {formProps => (
-              <Form>
-                <label htmlFor="load-file_url" className="db pointer mb2">
-                  or enter the URL of a ZIP archive
-                </label>
-                <div className="flex items-bottom h2">
-                  <Field
-                    id="load-file_url"
-                    name="url"
-                    type="text"
-                    className="w-100 mh2 bb bt-0 br-0 bl-0 b--near-black code f6 tc bg-transparent"
-                    onClick={select}
-                  />
-                  <Button
-                    type="submit"
-                    className="flex-none nr4 brand"
-                    disabled={!formProps.values.url}
-                  >
-                    <Icon name="check" />
-                  </Button>
-                </div>
-              </Form>
-            )}
-          </Formik>
+          </FileInput>
+          <UrlInput handleUrl={props.handleUrl}>{URL_MESSAGE}</UrlInput>
         </div>
       </Fade>
     </>

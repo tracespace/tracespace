@@ -12,10 +12,11 @@ export type BoardSettingsProps = {
   updating: boolean
 }
 
-const OPEN_TOOLTIP = 'Board settings'
+const OPEN_BUTTON_TOOLTIP = 'Board settings'
 
 const STYLE = 'dib ph3 tc v-top w-third'
 const NAME_STYLE = 'flex items-center justify-center'
+const OPEN_BUTTON_STYLE = 'nr4'
 const MODAL_STYLE = 'fixed top-1 left-0 right-0 bottom-1 z-1 nt2'
 const MODAL_CONTENTS_STYLE =
   'relative w-50 mxh-100 center pt2 ph4 br3 near-black bg-white shadow overflow-y-auto scrollbar-near-black'
@@ -49,8 +50,8 @@ export default function BoardSettings(props: BoardSettingsProps): JSX.Element {
         <Button
           onClick={toggleOpen}
           disabled={updating}
-          className="nr4"
-          title={OPEN_TOOLTIP}
+          className={OPEN_BUTTON_STYLE}
+          title={OPEN_BUTTON_TOOLTIP}
         >
           <Icon
             name={updating ? 'spinner' : 'cog'}

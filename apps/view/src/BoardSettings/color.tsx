@@ -44,6 +44,7 @@ const COLOR_PRESETS: Array<ColorPreset> = [
 const COLOR_IDS: Array<ColorId> = ['sm', 'ss', 'cf']
 const COLOR_NAMES = {sm: 'soldermask', ss: 'silkscreen', cf: 'copper finish'}
 
+// TOCO(mc, 2019-03-01): move opacity entirely to pcb-stackup-core
 const stripAlpha = (c: string): string => c.slice(0, 7)
 const colorsMatch = (a: string, b: string): boolean =>
   stripAlpha(a) === stripAlpha(b)

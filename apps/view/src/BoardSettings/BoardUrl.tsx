@@ -1,6 +1,7 @@
-import React, {useState, useRef, useEffect} from 'react'
+import React, {useState} from 'react'
 import cx from 'classnames'
 
+import {useTimeout} from '../hooks'
 import {preventDefault, select} from '../events'
 import {Label, Icon} from '../ui'
 
@@ -20,18 +21,8 @@ const ICON_STYLE = 'flex-none ml1 nr4 br2 c-animate bg-animate'
 export default function BoardUrl(props: BoardUrlProps): JSX.Element {
   const [selected, setSelected] = useState(false)
   const [success, setSuccess] = useState(false)
-  const successTimeout = useRef<number | null>(null)
 
-  useEffect(() => {
-    if (success && !successTimeout.current) {
-      successTimeout.current = window.setTimeout(() => {
-        setSuccess(false)
-        successTimeout.current = null
-      }, SUCCESS_TIMEOUT)
-    }
-
-    return () => window.clearTimeout(successTimeout.current)
-  })
+  useTimeout(() => setSuccess(false), success ? SUCCESS_TIMEOUT : null)
 
   const {url} = props
   const {origin, pathname} = window.location

@@ -86,7 +86,7 @@ export async function deleteBoard(
         .then(() => db.layers.orderBy('sourceId').uniqueKeys())
         .then(sourceIdsToKeep => {
           const sourceIdsToDelete = sourceIds.filter(
-            id => sourceIdsToKeep.indexOf(id) === -1
+            id => !sourceIdsToKeep.includes(id)
           )
 
           db.sources.bulkDelete(sourceIdsToDelete)

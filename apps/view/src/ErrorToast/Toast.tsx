@@ -1,5 +1,6 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 
+import {useTimeout} from '../hooks'
 import {Button, Icon} from '../ui'
 
 const STYLE = 'dib center fixed top-1 left-0 right-0 tc'
@@ -17,10 +18,7 @@ export type ToastProps = {
 export default function Toast(props: ToastProps): JSX.Element {
   const {dismiss, children} = props
 
-  useEffect(() => {
-    const timeout = window.setTimeout(dismiss, DISMISS_TIMEOUT)
-    return () => window.clearTimeout(timeout)
-  })
+  useTimeout(dismiss, DISMISS_TIMEOUT)
 
   return (
     <div className={STYLE}>

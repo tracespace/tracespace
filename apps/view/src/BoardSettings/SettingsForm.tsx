@@ -1,7 +1,7 @@
 import React from 'react'
 import {Formik, Form, Field} from 'formik'
 
-import {useLogger} from '../logger'
+import log from '../logger'
 import {getDefaultLayerOptions, orderLayers} from '../layers'
 import {useAppState, updateBoard, deleteBoard} from '../state'
 import {BoardRender} from '../types'
@@ -35,7 +35,6 @@ type SettingsFormProps = {
 }
 
 export default function SettingsForm(props: SettingsFormProps): JSX.Element {
-  const log = useLogger()
   const {dispatch} = useAppState()
   const {board, close, className} = props
   const {id, sourceUrl, layers} = board

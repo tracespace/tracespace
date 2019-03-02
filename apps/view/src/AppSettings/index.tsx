@@ -13,10 +13,6 @@ export type AppSettingsProps = {
   buttonClassName: string
 }
 
-export type AppSettingsState = {
-  open: boolean
-}
-
 export default function AppSettings(props: AppSettingsProps): JSX.Element {
   const [open, setOpen] = useState(false)
   const {buttonClassName} = props

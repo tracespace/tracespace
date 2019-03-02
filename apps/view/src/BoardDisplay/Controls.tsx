@@ -5,8 +5,6 @@ import {Button, Icon} from '../ui'
 import {stepToScale, scaleToStep} from './display'
 import {DisplayControllerProps} from './types'
 
-type Props = DisplayControllerProps
-
 const ZOOM_RESET_TOOLTIP = 'Reset pan and zoom'
 const ZOOM_OUT_TOOLTIP = 'Zoom out'
 const ZOOM_IN_TOOTIP = 'Zoom in'
@@ -21,7 +19,7 @@ const ZOOM_BAR_STYLE = 'dib pt2 bg-white shadow w-100'
 const ZOOM_SLIDER_STYLE =
   'absolute w1 h1 top-50 tf-center bg-brand o-70 left-animate'
 
-export default function Controls(props: Props): JSX.Element {
+export default function Controls(props: DisplayControllerProps): JSX.Element {
   const [grabbing, setGrabbing] = useState(false)
   const {step, reset, zoom, zoomIn, zoomOut} = props
   const sliderLeft = `${stepToScale(step) * 100}%`

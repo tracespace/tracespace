@@ -1,5 +1,6 @@
-import React, {useRef, useEffect} from 'react'
+import React, {useRef} from 'react'
 
+import {useWindowListener} from '../hooks'
 import {DisplayControllerProps, Point} from './types'
 
 type Props = DisplayControllerProps & {
@@ -20,30 +21,23 @@ export default function PanZoom(props: Props): JSX.Element {
   const panStart = useRef<{x: number; y: number} | null>(null)
   const count = useRef(0)
 
-  useEffect(() => {
-    window.addEventListener('wheel', handleWheel)
-    return () => {
-      window.removeEventListener('wheel', handleWheel)
-    }
+  useWindowListener('wheel', function handleWheel(event: WheelEvent): void {
+    const {deltaMode, deltaY} = event
+    const threshhold =
+      deltaMode === event.DOM_DELTA_LINE
+        ? WHEEL_THRESHOLD_LINE
+        : WHEEL_THRESHOLD
 
-    function handleWheel(event: WheelEvent): void {
-      const {deltaMode, deltaY} = event
-      const threshhold =
-        deltaMode === event.DOM_DELTA_LINE
-          ? WHEEL_THRESHOLD_LINE
-          : WHEEL_THRESHOLD
+    // increment or decrement count based on scroll direction
+    // remember that Math.sign(0) === 0
+    count.current += Math.sign(deltaY)
 
-      // increment or decrement count based on scroll direction
-      // remember that Math.sign(0) === 0
-      count.current += Math.sign(deltaY)
+    if (Math.abs(count.current) > threshhold) {
+      const direction = Math.sign(-count.current) || 0
+      const {x, y} = getEventCenter(event)
 
-      if (Math.abs(count.current) > threshhold) {
-        const direction = Math.sign(-count.current) || 0
-        const {x, y} = getEventCenter(event)
-
-        count.current = 0
-        zoom(direction, x, y)
-      }
+      count.current = 0
+      zoom(direction, x, y)
     }
   })
 

@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import cx from 'classnames'
 
+import {useWindowListener} from '../../hooks'
 import {stopPropagation} from '../../events'
 import {Icon} from '../Icon'
 
@@ -24,18 +25,13 @@ const COPY_STYLE = 'dib pl1 pr2'
 
 export function DeleteButton(props: DeleteButtonProps): JSX.Element {
   const [armed, setArmed] = useState(false)
-
-  useEffect(() => {
-    const handleWindowClick = (): unknown => armed && setArmed(false)
-    window.addEventListener('click', handleWindowClick)
-    return () => window.removeEventListener('click', handleWindowClick)
-  })
-
   const className = cx(
     STYLE,
     armed ? ARMED_STYLE : DISARMED_STYLE,
     props.className
   )
+
+  useWindowListener('click', () => armed && setArmed(false))
 
   return (
     <button type="button" onClick={handleClick} className={className}>

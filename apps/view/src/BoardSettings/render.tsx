@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import {Field} from 'formik'
 
-import {Icon, Label} from '../ui'
+import {Checkbox, HiddenInput, Label} from '../ui'
 import {CoordinateFormat, ZeroSuppression, Units} from '../types'
 import {FieldProps} from './types'
 import {GAP_FILL_DEFAULT} from './values'
@@ -20,11 +20,9 @@ const NUMBER_INPUT_STYLE =
 
 export function UseOutlineInput(props: FieldProps): JSX.Element {
   return (
-    <CheckboxInput
-      label={USE_OUTLINE_LABEL}
-      className="inline-flex v-mid"
-      {...props}
-    />
+    <Checkbox className="inline-flex v-mid" {...props.field}>
+      {USE_OUTLINE_LABEL}
+    </Checkbox>
   )
 }
 
@@ -103,13 +101,12 @@ function RadioGroup(props: RadioGroupProps): JSX.Element {
 
         return (
           <Label key={opt.value}>
-            <input
+            <HiddenInput
               {...field}
               type="radio"
               key={opt.value}
               value={opt.value}
               checked={checked}
-              className="clip"
             />
             <span className={cx('dib ph2 ml2', {'bb bw1 b--brand': checked})}>
               {opt.label}
@@ -169,12 +166,13 @@ export function UnitsFields(props: RenderSettingProps<Units>): JSX.Element {
   )
 }
 
-type OverrideCheckboxProps = CheckboxInputProps & {
+type OverrideCheckboxProps = FieldProps & {
+  label: string
   defaultValue: unknown
 }
 
 function OverrideCheckbox(props: OverrideCheckboxProps): JSX.Element {
-  const {form, defaultValue} = props
+  const {form, defaultValue, label} = props
   const field = {
     ...props.field,
     checked: !!props.field.value,
@@ -185,7 +183,7 @@ function OverrideCheckbox(props: OverrideCheckboxProps): JSX.Element {
     },
   }
 
-  return <CheckboxInput {...props} field={field} />
+  return <Checkbox {...field}>{label}</Checkbox>
 }
 
 type OverridableFieldProps = {
@@ -212,22 +210,5 @@ function OverridableField(props: OverridableFieldProps): JSX.Element {
         {children}
       </div>
     </div>
-  )
-}
-
-type CheckboxInputProps = FieldProps & {
-  label: string
-  className?: string
-}
-
-function CheckboxInput(props: CheckboxInputProps): JSX.Element {
-  const iconName = props.field.value ? 'check-square' : 'square'
-
-  return (
-    <Label className={props.className}>
-      <input type="checkbox" className="clip" {...props.field} />
-      <Icon className="nl2" name={iconName} />
-      {props.label}
-    </Label>
   )
 }

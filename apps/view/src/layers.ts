@@ -1,3 +1,4 @@
+// TODO(mc, 2019-03-01): tree-shake this import somehow or bundle reduction
 import {
   TYPE_COPPER,
   TYPE_SOLDERMASK,

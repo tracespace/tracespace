@@ -38,7 +38,8 @@ const RANDOM_ID_LENGTH = 20
 const SCALE_MM_TO_IN = 1 / 25.4
 const SCALE_IN_TO_MM = 25.4
 
-const getPcbStackup = import('pcb-stackup').then(m => m.default)
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const getPcbStackup = () => import('pcb-stackup').then(m => m.default)
 
 export async function filesToStackups(
   files: Array<File>
@@ -63,7 +64,7 @@ export async function boardToStackups(
     options: layerToGerberToSvgOptions(ly, board),
   }))
 
-  return getPcbStackup.then(pcbStackup => {
+  return getPcbStackup().then(pcbStackup => {
     const options = boardToPcbStackupOptions(board)
     const selfContainedStackup = pcbStackup(stackupLayers, options)
     const sharedStackup = selfContainedStackup.then(stackup =>
@@ -186,7 +187,7 @@ async function fileStreamsToStackups(
   const layers = fileStreams.map(fileStreamToInputLayer)
   const options = {id, attributes: {class: 'w-100 h-100'}}
 
-  return getPcbStackup.then(pcbStackup => {
+  return getPcbStackup().then(pcbStackup => {
     const selfContainedStackup = pcbStackup(layers, options)
     const sharedStackup = selfContainedStackup.then(stackup =>
       pcbStackup(

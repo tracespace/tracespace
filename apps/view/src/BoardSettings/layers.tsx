@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 
-import {ColorPill, Label} from '../ui'
+import {ColorPill, HiddenInput, Label} from '../ui'
 import {SIDE_ALL, ALL_TYPES, typeToValidSides} from '../layers'
 import {GerberType} from '../types'
 import {FieldProps} from './types'
@@ -89,7 +89,7 @@ export function LayerColorInput(props: LayerFieldProps): JSX.Element {
 
   return (
     <Label className="h2" disabled={disabled}>
-      <input type="color" className="clip" disabled={disabled} {...field} />
+      <HiddenInput type="color" disabled={disabled} {...field} />
       <ColorPill color={field.value} className={cx({'o-40': disabled})} />
     </Label>
   )

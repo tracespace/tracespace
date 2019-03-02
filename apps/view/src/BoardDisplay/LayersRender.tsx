@@ -12,7 +12,8 @@ type Props = {
 }
 
 export default React.memo(function LayersRender(props: Props): JSX.Element {
-  const {layers, layerVisibility, viewBox, className} = props
+  const {layerVisibility, viewBox, className} = props
+  const layers = props.layers.filter(ly => ly.converter.layer.length > 0)
 
   return (
     <svg
@@ -23,19 +24,14 @@ export default React.memo(function LayersRender(props: Props): JSX.Element {
       fillRule="evenodd"
       viewBox={vb.asString(viewBox)}
     >
-      {layers.map(
-        ly =>
-          ly.converter && (
-            <defs
-              key={ly.id}
-              dangerouslySetInnerHTML={{__html: ly.converter.defs.join('')}}
-            />
-          )
-      )}
+      {layers.map(ly => (
+        <defs
+          key={ly.id}
+          dangerouslySetInnerHTML={{__html: ly.converter.defs.join('')}}
+        />
+      ))}
       <g transform={`translate(0,${viewBox[3] + 2 * viewBox[1]}) scale(1, -1)`}>
         {layers.map(ly => {
-          if (!ly.converter) return null
-
           const {converter, scale} = ly
           const groupProps: React.SVGProps<SVGGElement> = {
             id: ly.id,

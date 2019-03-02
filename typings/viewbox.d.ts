@@ -15,7 +15,7 @@ declare module 'viewbox' {
 
     function create(): ViewBox
     function add(box: ViewBox, addend: ViewBox): ViewBox
-    function scale(box: ViewBox, scale: number): ViewBox
+    function scale(box: ViewBox, factor: number): ViewBox
     function rect(box: ViewBox | null): Rectangle
     function asString(box: ViewBox | null): string
   }

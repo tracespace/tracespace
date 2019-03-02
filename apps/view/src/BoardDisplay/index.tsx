@@ -2,6 +2,7 @@ import React, {useState, useRef, useEffect, useLayoutEffect} from 'react'
 import cx from 'classnames'
 
 import {useAppState} from '../state'
+import {usePrevious} from '../hooks'
 import {Fade, Slide, SvgRender} from '../ui'
 import {INITIAL_STATE, pan, zoom, getScale} from './display'
 import PanZoom from './PanZoom'
@@ -10,11 +11,12 @@ import LayersRender from './LayersRender'
 import {DisplayControllerProps} from './types'
 
 const percent = (n: number): string => `${n * 100}%`
+const getId = (b: {id: string} | null): string | null => (b ? b.id : null)
 
 export default function BoardDisplay(): JSX.Element {
   const {mode, board, loading, layerVisibility} = useAppState()
   const [displayState, setDisplayState] = useState(INITIAL_STATE)
-  const prevBoardId = useRef<string | null>(null)
+  const prevBoard = usePrevious(board)
   const containerRef = useRef<HTMLDivElement | null>(null)
   const show = !loading && board !== null
 
@@ -38,15 +40,8 @@ export default function BoardDisplay(): JSX.Element {
   })
 
   useEffect(() => {
-    const currId = board ? board.id : null
-    const prevId = prevBoardId.current
-
-    if ((prevId || currId) && prevId !== currId) controllerProps.reset()
-  }, [board, prevBoardId.current])
-
-  useEffect(() => {
-    prevBoardId.current = board ? board.id : null
-  }, [board])
+    if (getId(board) !== getId(prevBoard)) controllerProps.reset()
+  }, [board, prevBoard])
 
   return (
     <>

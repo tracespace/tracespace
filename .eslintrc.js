@@ -55,6 +55,7 @@ module.exports = {
           'no-dupe-class-members': 'off',
           'no-redeclare': 'off',
           'no-useless-constructor': 'off',
+          'import/export': 'off',
           'react-hooks/rules-of-hooks': 'error',
           '@typescript-eslint/explicit-member-accessibility': 'off',
           '@typescript-eslint/array-type': ['error', 'generic'],
