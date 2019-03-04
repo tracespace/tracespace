@@ -42,6 +42,7 @@ module.exports = {
   module: {
     rules: [
       {
+        // ensure imports in ambient definitions don't inflate bundles
         test: /\.d\.ts$/,
         loader: 'null-loader',
       },
@@ -99,7 +100,13 @@ module.exports = {
     }),
   ],
   optimization: {
-    minimizer: [new TerserPlugin(), new OptimizeCssAssetsPlugin()],
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        sourceMap: true,
+      }),
+      new OptimizeCssAssetsPlugin(),
+    ],
   },
   devServer: {
     historyApiFallback: true,
