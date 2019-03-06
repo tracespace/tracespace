@@ -45,16 +45,16 @@ jobs:
         script: npm run publish:npm
 
     - # apps deploy to s3 on next (staging) and tagged commits (production)
-      # TODO: update "chore-view-ci" to "next" before merge
-      if: tag =~ ^v OR (branch = chore-view-ci AND type != pull_request)
+      # TODO(mc, 2019-03-05): update "next" to "master" for 4.0.0
+      if: tag =~ ^v OR (branch = next AND type != pull_request)
       stage: deploy
       name: 'Deploy apps to s3'
       script: npm run build
       # set bucket for deploy
-      # TODO: update "chore-view-ci" to "next" before merge
+      # TODO(mc, 2019-03-05): update "next" to "master" for 4.0.0
       before_deploy:
         - |
-          if [ $TRAVIS_BRANCH = chore-view-ci ]; then
+          if [ $TRAVIS_BRANCH = next ]; then
             export AWS_S3_BUCKET=$AWS_S3_BUCKET_STAGING
           else
             export AWS_S3_BUCKET=$AWS_S3_BUCKET_PRODUCTION
