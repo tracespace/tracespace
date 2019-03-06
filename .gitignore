@@ -4,4 +4,5 @@ coverage
 
 # artifacts
 bundle.*
+**/dist
 */**/LICENSE

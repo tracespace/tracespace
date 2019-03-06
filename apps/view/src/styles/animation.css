@@ -1,0 +1,112 @@
+/* styles for animation components */
+
+/* atomic utilities */
+.c-animate {
+  transition: color 0.15s ease-in, background-color 0.15s ease-in;
+}
+
+.mw-animate {
+  transition: max-width 0.15s ease-in;
+}
+
+.w-animate {
+  transition: width 0.15s ease-in;
+}
+
+.tf-animate {
+  transition: transform 0.25s linear;
+}
+
+.left-animate {
+  transition: left 0.25s linear;
+}
+
+/* component styles */
+
+.fade-enter-active,
+.fade-exit-active {
+  transition: opacity 250ms ease-in;
+}
+
+.slide-top-enter-active,
+.slide-top-exit-active,
+.slide-right-enter-active,
+.slide-right-exit-active,
+.slide-bottom-enter-active,
+.slide-bottom-exit-active,
+.slide-left-enter-active,
+.slide-left-exit-active {
+  transition: opacity 125ms ease-in, transform 250ms ease-in;
+}
+
+.fade-enter,
+.slide-top-enter,
+.slide-right-enter,
+.slide-bottom-enter,
+.slide-left-enter {
+  opacity: 0.01;
+}
+
+.fade-enter-active,
+.fade-exit,
+.slide-top-enter-active,
+.slide-right-enter-active,
+.slide-bottom-enter-active,
+.slide-left-enter-active,
+.slide-top-exit,
+.slide-right-exit,
+.slide-bottom-exit,
+.slide-left-exit {
+  opacity: 1;
+}
+
+.fade-exit-active,
+.slide-top-exit-active,
+.slide-right-exit-active,
+.slide-bottom-exit-active,
+.slide-left-exit-active {
+  opacity: 0.01;
+}
+
+.slide-top-enter {
+  transform: translateY(-100%);
+}
+
+.slide-right-enter {
+  transform: translateX(100%);
+}
+
+.slide-bottom-enter {
+  transform: translateY(100%);
+}
+
+.slide-left-enter {
+  transform: translateX(-100%);
+}
+
+.slide-top-enter-active,
+.slide-right-enter-active,
+.slide-bottom-enter-active,
+.slide-left-enter-active,
+.slide-top-exit,
+.slide-right-exit,
+.slide-bottom-exit,
+.slide-left-exit {
+  transform: translate(0, 0);
+}
+
+.slide-top-exit-active {
+  transform: translateY(-100%);
+}
+
+.slide-right-exit-active {
+  transform: translateX(100%);
+}
+
+.slide-bottom-exit-active {
+  transform: translateY(100%);
+}
+
+.slide-left-exit-active {
+  transform: translateX(-100%);
+}
