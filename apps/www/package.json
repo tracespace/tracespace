@@ -1,0 +1,23 @@
+{
+  "name": "@tracespace/www",
+  "version": "4.0.0-next.18",
+  "private": true,
+  "description": "tracespace website",
+  "author": {
+    "name": "Mike Cousins",
+    "email": "mike@cousins.io",
+    "url": "https://mike.cousins.io"
+  },
+  "homepage": "https://tracespace.io",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tracespace/tracespace.git"
+  },
+  "scripts": {
+    "publish:s3": "node ../../scripts/publish-to-s3.js dist"
+  },
+  "bugs": {
+    "url": "https://github.com/tracespace/tracespace/issues"
+  }
+}

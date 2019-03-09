@@ -1,51 +1,64 @@
-sudo: false
+# tracespace/tracespace TravisCI configuration
 
 language: node_js
 
+# lts/carbon used as default in explicit job entries
 node_js:
-  - 'lts/boron'
   - 'lts/carbon'
   - 'lts/dubnium'
   - node
 
-# upgrade npm if necessary
-before_install: if [[ ! $(npm -v) =~ ^6 ]]; then npm i -g npm@6; fi
-
-install: npm ci
-
-script: npm run ci:script
-
-after_success: npm run ci:after-success
+script:
+  - npm test
+  - npm run coverage:upload
 
 cache:
-  directories:
-    - $HOME/.npm
+  npm: true
+
+_deploy_base: &_deploy_base
+  provider: script
+  skip_cleanup: true
+  on:
+    repo: tracespace/tracespace
+    all_branches: true
 
 # use build stages with "test" and "deploy" stages
-# node_js versions above automatically added to "test" stage
+# jobs for node_js versions above automatically added to matrix "test" stage
 jobs:
   include:
-    # TODO(mc, 2018-04-13): add browser test to default "test" stage
-    # - script: npm run test:browser
-    #   node_js: node
+    - # test that app builds all work
+      stage: test
+      name: 'App builds'
+      script: npm run build
 
-    - stage: deploy
-      # deploy if tag starts with v
+    - # package deploy to npm on tagged commits
       if: tag =~ ^v
-      node_js: node
+      stage: deploy
+      name: 'Deploy packages to npm'
       script: npm run example && npm run docs
-      after_success: echo "skipping coverage upload"
       # set npm credentials for npm publish
       before_deploy:
         - npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
-        - npm config set tracespace:publishTag $(node scripts/get-npm-tag.js $TRAVIS_TAG)
+        - export NPM_TAG=$(node scripts/get-npm-tag.js $TRAVIS_TAG)
       deploy:
-        provider: script
-        script: npm run ci:publish
-        # keep node_modules for deploy
-        skip_cleanup: true
-        # deploy on tagged commits
-        on:
-          repo: tracespace/tracespace
-          tags: true
-          all_brances: true
+        <<: *_deploy_base
+        script: npm run publish:npm
+
+    - # apps deploy to s3 on next (staging) and tagged commits (production)
+      # TODO(mc, 2019-03-05): update "next" to "master" for 4.0.0
+      if: tag =~ ^v OR (branch = next AND type != pull_request)
+      stage: deploy
+      name: 'Deploy apps to s3'
+      script: npm run build
+      # set bucket for deploy
+      # TODO(mc, 2019-03-05): update "next" to "master" for 4.0.0
+      before_deploy:
+        - |
+          if [ $TRAVIS_BRANCH = next ]; then
+            export AWS_S3_BUCKET=$AWS_S3_BUCKET_STAGING
+          else
+            export AWS_S3_BUCKET=$AWS_S3_BUCKET_PRODUCTION
+          fi
+      deploy:
+        <<: *_deploy_base
+        script: npm run publish:s3

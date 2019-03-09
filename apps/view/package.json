@@ -9,9 +9,8 @@
     "email": "mike@cousins.io",
     "url": "https://mike.cousins.io"
   },
-  "homepage": "https://viewer.tracespace.io",
+  "homepage": "https://tracespace.io/view",
   "license": "MIT",
-  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tracespace/tracespace.git"
@@ -19,7 +18,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --hot",
     "build": "cross-env NODE_ENV=production webpack",
-    "serve": "node ./scripts/serve"
+    "serve": "node ./scripts/serve",
+    "publish:s3": "node ../../scripts/publish-to-s3.js dist view"
   },
   "bugs": {
     "url": "https://github.com/tracespace/tracespace/issues"
