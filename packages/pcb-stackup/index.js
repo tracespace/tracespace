@@ -106,14 +106,12 @@ module.exports = function pcbStackup(layers, options, done) {
       layerOptions.plotAsOutline = true
     }
 
-    if (options) {
-      if (options.outlineGapFill != null && layerOptions.plotAsOutline) {
-        layerOptions.plotAsOutline = options.outlineGapFill
-      }
-
-      if (options.createElement) {
-        layerOptions.createElement = options.createElement
-      }
+    if (
+      options &&
+      options.outlineGapFill != null &&
+      layerOptions.plotAsOutline
+    ) {
+      layerOptions.plotAsOutline = options.outlineGapFill
     }
 
     return extend(layer, {

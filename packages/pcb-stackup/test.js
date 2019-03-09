@@ -9,8 +9,6 @@ var extend = require('xtend')
 var fakeStackup = {foo: 'bar'}
 var fakeConverter = {baz: 'quux'}
 var fakeGerber = 'gerber'
-var fakeCE1 = function() {}
-var fakeCE2 = function() {}
 
 describe('pcb stackup', function() {
   var pcbStackup
@@ -250,28 +248,6 @@ describe('pcb stackup', function() {
         ],
         expectedLayerAdditions: [{converter: fakeConverter}],
         expectedGtsGerbers: [fakeGerber],
-      },
-      {
-        name: 'should set and override createElement if specified',
-        layers: [
-          {
-            gerber: fakeGerber,
-            side: 'top',
-            type: 'copper',
-          },
-          {
-            gerber: fakeGerber,
-            side: 'bottom',
-            type: 'copper',
-            options: {createElement: fakeCE2},
-          },
-        ],
-        options: {createElement: fakeCE1},
-        expectedLayerAdditions: [
-          {converter: fakeConverter, options: {createElement: fakeCE1}},
-          {converter: fakeConverter, options: {createElement: fakeCE1}},
-        ],
-        expectedGtsGerbers: [fakeGerber, fakeGerber],
       },
       {
         name: 'sets plotAsOutline to outlineGapFill if needed',
