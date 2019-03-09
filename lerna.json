@@ -5,7 +5,7 @@
       "conventionalCommits": true,
       "message": "chore(release): %s",
       "preid": "next",
-      "push": "false"
+      "push": false
     }
   },
   "ignoreChanges": [
@@ -15,8 +15,5 @@
     "**/example/**/*.js",
     "**/scripts/**/*.js"
   ],
-  "packages": [
-    "apps/*",
-    "packages/*"
-  ]
+  "packages": ["apps/*", "packages/*"]
 }

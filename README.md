@@ -73,11 +73,11 @@ Arduino Uno design files used under the terms of the [Creative Commons Attributi
 
 ### tracespace in the wild
 
-- [viewer.tracespace.io][tracespace-viewer] - A Gerber viewer that lets you inspect the individual layers as well as the board preview
+- [tracespace.io/view][tracespace-view] - A Gerber viewer powered by the tracespace libraries
 - [kitspace.org][kitspace] - An electronics project sharing site with links to easily buy the required parts
 - [OpenHardware.io][openhardware] - A social site around open source hardware. Enables authors to sell and manufacture their boards.
 
-[tracespace-viewer]: http://viewer.tracespace.io
+[tracespace-view]: https://tracespace.io/view
 [kitspace]: https://kitspace.org
 [openhardware]: https://www.openhardware.io
 
