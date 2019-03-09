@@ -197,12 +197,21 @@ To improve your chances of a board outline layer working for `useOutline`, make 
 
 #### create element
 
-Both gerber-to-svg and pcb-stackup-core take a `createElement` function as an option. It defaults to [xml-element-string][], which outputs a string. However, any function that takes a tag name, attributes object, and children array may be used. For example, you could pass in [React.createElement][react-create-element] and create virtual DOM nodes instead.
+Both gerber-to-svg and pcb-stackup-core take a `createElement` function as an option. It defaults to [xml-element-string][], which outputs a string. However, any function that takes a tag name, attributes object, and children array may be used. For example, if you wanted to create an object representation of the render and serialize it to JSON:
 
-If you choose to use this option, the function you pass into pcb-stackup-core **must** be the same one you passed into gerber-to-svg.
+```js
+var stackup = pcbStackupCore(layers, {createElement: createObjectElement})
+var topJson = JSON.stringify(stackup.top.svg, null, 2)
+var bottomJson = JSON.stringify(stackup.bottom.svg, null, 2)
+
+function createObjectElement(tag, attributes, children) {
+  return {tag: tag, attributes: attributes, children: children}
+}
+```
+
+If you choose to use this option, the function you pass into pcb-stackup-core **must** be the same one you passed into gerber-to-svg. Also remember, if your `createElement` function returns something other than a string or Buffer, `options.objectMode` **must** be set to `true` in `gerberToSvg`. (See the [gerber-to-svg docs](../gerber-to-svg/API.md#element-options) for more details.)
 
 [xml-element-string]: https://github.com/tracespace/xml-element-string
-[react-create-element]: https://reactjs.org/docs/react-api.html#createelement
 
 #### attributes
 
