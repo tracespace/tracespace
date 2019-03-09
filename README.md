@@ -1,7 +1,5 @@
 # tracespace
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/tracespace/tracespace.svg)](https://greenkeeper.io/)
-
 [![ci][ci-badge]][ci]
 [![coverage][coverage-badge]][coverage]
 [![dev dependencies][dev-dependencies-badge]][dev-dependencies]

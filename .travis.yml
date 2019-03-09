@@ -28,8 +28,17 @@ jobs:
   include:
     - # test that app builds all work
       stage: test
-      name: 'App builds'
+      name: App builds
       script: npm run build
+
+    - # greenkeeper-lockfile
+      if: branch =~ ^greenkeeper
+      stage: test
+      name: Greenkeep lockfile update
+      before_install: npm i -g npm@latest greenkeeper-lockfile@2
+      install: npm install
+      before_script: greenkeeper-lockfile-update
+      after_Script: greenkeeper-lockfile-upload
 
     - # package deploy to npm on tagged commits
       if: tag =~ ^v
