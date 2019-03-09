@@ -34,12 +34,12 @@
     "debug": "^4.1.0",
     "dot-prop": "^4.2.0",
     "gerber-to-svg": "file:../gerber-to-svg",
-    "globby": "^8.0.1",
-    "make-dir": "^1.3.0",
+    "globby": "^9.1.0",
+    "make-dir": "^2.1.0",
     "pcb-stackup": "file:../pcb-stackup",
     "untildify": "^3.0.3",
     "whats-that-gerber": "file:../whats-that-gerber",
-    "yargs": "^12.0.1"
+    "yargs": "^13.2.2"
   },
   "yargs": {
     "boolean-negation": false
