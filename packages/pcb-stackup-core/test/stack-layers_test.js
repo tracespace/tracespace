@@ -67,7 +67,7 @@ describe('stack layers function', function() {
     it('should add all layer defs to defs', function() {
       var result = stack(element, 'id', 'top', layers, drills, outline)
 
-      expect(result.defs).to.include.members([
+      expect(result.defs.slice(0, 7)).to.eql([
         '<cu-d/>',
         '<sm-d/>',
         '<ss-d/>',
