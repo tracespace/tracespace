@@ -26,11 +26,11 @@
   },
   "homepage": "https://github.com/tracespace/tracespace#readme",
   "dependencies": {
-    "@types/node": "^10.12.24",
+    "@types/node": "^11.11.0",
     "inherits": "^2.0.3",
     "lodash.isfinite": "^3.3.2",
     "lodash.padend": "^4.6.1",
     "lodash.padstart": "^4.6.1",
-    "readable-stream": "^2.3.6"
+    "readable-stream": "^3.2.0"
   }
 }

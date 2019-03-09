@@ -34,7 +34,7 @@
   "homepage": "https://github.com/tracespace/tracespace",
   "dependencies": {
     "@tracespace/xml-id": "file:../xml-id",
-    "@types/node": "^10.12.24",
+    "@types/node": "^11.11.0",
     "gerber-to-svg": "file:../gerber-to-svg",
     "pcb-stackup-core": "file:../pcb-stackup-core",
     "run-parallel": "^1.1.9",

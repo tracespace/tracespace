@@ -46,6 +46,7 @@ module.exports = function cli(processArgv, config) {
     .fail((error, message, yargs) => {
       throw new Error(error)
     })
+    .parserConfiguration({'boolean-negation': false})
     .parse(processArgv)
 
   debug('argv', argv)

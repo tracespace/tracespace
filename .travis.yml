@@ -28,13 +28,22 @@ jobs:
   include:
     - # test that app builds all work
       stage: test
-      name: 'App builds'
+      name: App builds
       script: npm run build
+
+    - # greenkeeper-lockfile
+      if: branch =~ ^greenkeeper
+      stage: test
+      name: Greenkeeper lockfile update
+      before_install: npm i -g npm@latest greenkeeper-lockfile@2
+      install: npm install
+      before_script: greenkeeper-lockfile-update
+      after_script: greenkeeper-lockfile-upload
 
     - # package deploy to npm on tagged commits
       if: tag =~ ^v
       stage: deploy
-      name: 'Deploy packages to npm'
+      name: Deploy packages to npm
       script: npm run example && npm run docs
       # set npm credentials for npm publish
       before_deploy:
@@ -48,7 +57,7 @@ jobs:
       # TODO(mc, 2019-03-05): update "next" to "master" for 4.0.0
       if: tag =~ ^v OR (branch = next AND type != pull_request)
       stage: deploy
-      name: 'Deploy apps to s3'
+      name: Deploy apps to s3
       script: npm run build
       # set bucket for deploy
       # TODO(mc, 2019-03-05): update "next" to "master" for 4.0.0

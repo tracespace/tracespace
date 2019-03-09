@@ -1,0 +1,20 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "apps/view/package.json",
+        "apps/www/package.json",
+        "package.json",
+        "packages/cli/package.json",
+        "packages/fixtures/package.json",
+        "packages/gerber-parser/package.json",
+        "packages/gerber-plotter/package.json",
+        "packages/gerber-to-svg/package.json",
+        "packages/pcb-stackup-core/package.json",
+        "packages/pcb-stackup/package.json",
+        "packages/whats-that-gerber/package.json",
+        "packages/xml-id/package.json"
+      ]
+    }
+  }
+}
