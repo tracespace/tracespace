@@ -32,44 +32,44 @@ Arduino Uno design files used under the terms of the [Creative Commons Attributi
   <h4>top copper</h4>
   <img
     title='arduino uno cmp'
-    src='https://unpkg.com/gerber-to-svg@next/example/arduino-uno.cmp.svg'
+    src='https://unpkg.com/gerber-to-svg/example/arduino-uno.cmp.svg'
   >
 
   <h4>drill hits</h4>
   <img
     title='arduino uno drd'
-    src='https://unpkg.com/gerber-to-svg@next/example/arduino-uno.drd.svg'>
+    src='https://unpkg.com/gerber-to-svg/example/arduino-uno.drd.svg'>
 
   <h4>outline</h4>
   <img
     title='arduino uno gko'
-    src='https://unpkg.com/gerber-to-svg@next/example/arduino-uno.gko.svg'>
+    src='https://unpkg.com/gerber-to-svg/example/arduino-uno.gko.svg'>
 
   <h4>top silkscreen</h4>
   <img
     title='arduino uno plc'
-    src='https://unpkg.com/gerber-to-svg@next/example/arduino-uno.plc.svg'>
+    src='https://unpkg.com/gerber-to-svg/example/arduino-uno.plc.svg'>
 
   <h4>bottom copper</h4>
   <img
     title='arduino uno sol'
-    src='https://unpkg.com/gerber-to-svg@next/example/arduino-uno.sol.svg'>
+    src='https://unpkg.com/gerber-to-svg/example/arduino-uno.sol.svg'>
 
   <h4>top soldermask</h4>
   <img
     title='arduino uno stc'
-    src='https://unpkg.com/gerber-to-svg@next/example/arduino-uno.stc.svg'>
+    src='https://unpkg.com/gerber-to-svg/example/arduino-uno.stc.svg'>
 
   <h4>bottom soldermask</h4>
   <img
     title='arduino uno sts'
-    src='https://unpkg.com/gerber-to-svg@next/example/arduino-uno.sts.svg'>
+    src='https://unpkg.com/gerber-to-svg/example/arduino-uno.sts.svg'>
 </details>
 
 [arduino]: https://www.arduino.cc/
 [arduino-osh]: https://www.arduino.cc/en/Main/FAQ
-[top]: https://unpkg.com/pcb-stackup@next/example/arduino-uno-top.svg
-[bottom]: https://unpkg.com/pcb-stackup@next/example/arduino-uno-bottom.svg
+[top]: https://unpkg.com/pcb-stackup/example/arduino-uno-top.svg
+[bottom]: https://unpkg.com/pcb-stackup/example/arduino-uno-bottom.svg
 
 ### tracespace in the wild
 
@@ -270,11 +270,11 @@ Packages are published to npm by the CI server. To publish a release, you must h
 - Generate / update the changelogs
 - Commit, tag, and push to git
 
-First, checkout and pull down the latest commits on `next`:
+First, checkout and pull down the latest commits on `master`:
 
 ```shell
-git checkout next
-get pull origin next
+git checkout master
+get pull origin master
 ```
 
 Then, bump the version:
@@ -296,7 +296,7 @@ npm run bump -- --no-git-tag-version
 After you bump, push the commit and tag:
 
 ```shell
-git push origin next --follow-tags
+git push origin master --follow-tags
 ```
 
 The release will be published to the `latest` npm tag for bare versions (e.g. `4.0.0`) and to `next` for pre-release versions (e.g. `4.0.0-next.0`).

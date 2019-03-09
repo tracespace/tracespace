@@ -1,11 +1,13 @@
 import React, {useState} from 'react'
 
+import pkg from '../../package.json'
 import {Button, Icon, getButtonStyle} from '../ui'
 import SettingsDrawer from './SettingsDrawer'
 
 const HELP_TOOLTIP = 'Troubleshooting'
-const HELP_HREF =
-  'https://github.com/tracespace/tracespace/blob/next/apps/view/HELP.md'
+const HELP_HREF = `https://github.com/tracespace/tracespace/blob/v${
+  pkg.version
+}/apps/view/HELP.md`
 
 const SETTINGS_TOOLTIP = 'App settings'
 

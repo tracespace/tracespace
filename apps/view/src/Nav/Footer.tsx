@@ -7,8 +7,7 @@ const REPO_URL = REPO_URL_MATCH ? REPO_URL_MATCH[1] : '#'
 
 const {name: AUTHOR_NAME, url: AUTHOR_URL} = pkg.author
 const CONTRIBUTORS_URL = `${REPO_URL}/graphs/contributors`
-// TODO(mc, 2019-03-01): s/next/master/
-const PRIVACY_URL = `${REPO_URL}/blob/next/PRIVACY.md`
+const PRIVACY_URL = `${REPO_URL}/blob/v${pkg.version}/PRIVACY.md`
 
 const STYLE = 'fixed right-1 bottom-1 w-third tr'
 const COPY_STYLE = 'mv0 lh-copy f7 white'
