@@ -14,9 +14,6 @@
     "type": "git",
     "url": "git+https://github.com/tracespace/tracespace.git"
   },
-  "scripts": {
-    "publish:s3": "node ../../scripts/publish-to-s3.js dist"
-  },
   "bugs": {
     "url": "https://github.com/tracespace/tracespace/issues"
   }

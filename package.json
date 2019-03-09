@@ -21,7 +21,7 @@
     "precoverage:upload": "npm run coverage",
     "coverage:upload": "codecov",
     "publish:npm": "lerna publish from-git --yes --npm-tag $NPM_TAG",
-    "publish:s3": "lerna run publish:s3 --parallel"
+    "publish:s3": "node ./scripts/publish-to-s3 apps/www/dist: apps/view/dist:view"
   },
   "config": {
     "commitizen": {
