@@ -35,7 +35,7 @@ module.exports = function gatherLayers(
 
   allLayers.forEach(function(layer) {
     if (!layer.externalId) {
-      defs = defs.concat(defs, layer.converter.defs)
+      defs = defs.concat(layer.converter.defs)
     }
 
     if (layer.converter.units === 'mm') {
