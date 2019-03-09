@@ -109,7 +109,6 @@
     "null-loader": "^0.1.1",
     "nyc": "^13.3.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
-    "pify": "^4.0.1",
     "prettier": "^1.16.4",
     "proxyquire": "^2.0.1",
     "proxyquire-universal": "^2.1.0",

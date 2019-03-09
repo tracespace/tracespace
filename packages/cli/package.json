@@ -40,8 +40,5 @@
     "untildify": "^3.0.3",
     "whats-that-gerber": "file:../whats-that-gerber",
     "yargs": "^13.2.2"
-  },
-  "yargs": {
-    "boolean-negation": false
   }
 }
