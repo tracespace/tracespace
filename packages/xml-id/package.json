@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "4.0.0-next.15",
+  "version": "4.0.0-next.19",
   "description": "XML ID utilities for tracespace projects",
   "main": "index.js",
   "types": "index.d.ts",
