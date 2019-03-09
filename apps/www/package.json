@@ -1,6 +1,6 @@
 {
   "name": "@tracespace/www",
-  "version": "4.0.0-next.19",
+  "version": "4.0.0",
   "private": true,
   "description": "tracespace website",
   "author": {

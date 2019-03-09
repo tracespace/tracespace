@@ -1,5 +1,5 @@
 {
-  "version": "4.0.0-next.19",
+  "version": "4.0.0",
   "command": {
     "version": {
       "conventionalCommits": true,
@@ -15,5 +15,8 @@
     "**/example/**/*.js",
     "**/scripts/**/*.js"
   ],
-  "packages": ["apps/*", "packages/*"]
+  "packages": [
+    "apps/*",
+    "packages/*"
+  ]
 }

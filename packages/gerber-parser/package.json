@@ -1,6 +1,6 @@
 {
   "name": "gerber-parser",
-  "version": "4.0.0-next.19",
+  "version": "4.0.0",
   "description": "Streaming Gerber/drill file parser",
   "main": "index.js",
   "types": "index.d.ts",
