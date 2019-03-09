@@ -36,13 +36,13 @@
   "homepage": "https://github.com/tracespace/tracespace#readme",
   "dependencies": {
     "@tracespace/xml-id": "file:../xml-id",
-    "@types/node": "^10.12.24",
+    "@types/node": "^11.11.0",
     "escape-html": "^1.0.3",
     "gerber-parser": "file:../gerber-parser",
     "gerber-plotter": "file:../gerber-plotter",
     "inherits": "^2.0.3",
     "lodash.isfinite": "^3.3.2",
-    "readable-stream": "^2.3.6",
+    "readable-stream": "^3.2.0",
     "xml-element-string": "^1.0.0"
   }
 }
