@@ -39,6 +39,9 @@ jobs:
       install: npm install
       before_script: greenkeeper-lockfile-update
       after_script: greenkeeper-lockfile-upload
+      env:
+        # 3 unit test jobs + 1 app build job + 1 this job = 5
+        - BUILD_LEADER_ID=5
 
     - # package deploy to npm on tagged commits
       if: tag =~ ^v
