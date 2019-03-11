@@ -124,7 +124,7 @@
     "style-loader": "^0.23.1",
     "terser-webpack-plugin": "^1.2.2",
     "testdouble": "^3.10.0",
-    "to-readable-stream": "^1.0.0",
+    "to-readable-stream": "^2.0.0",
     "typescript": "^3.3.3",
     "watchify": "^3.11.1",
     "webpack": "^4.29.5",
