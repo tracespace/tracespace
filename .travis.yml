@@ -35,7 +35,7 @@ jobs:
       if: branch =~ ^greenkeeper
       stage: test
       name: Greenkeeper lockfile update
-      before_install: npm i -g npm@latest greenkeeper-lockfile@2
+      before_install: npm i -g npm@latest greenkeeper-lockfile@1
       install: npm install
       before_script: greenkeeper-lockfile-update
       after_script: greenkeeper-lockfile-upload
