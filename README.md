@@ -230,11 +230,6 @@ npm run test:watch
 
 # set INTEGRATION=1 to also include integration tests
 INTEGRATION=1 npm run test:watch
-
-# run unit tests in watch mode in Firefox and Chrome (using Karma)
-# will autolaunch Chrome and/or Firefox if they're installed
-# TODO: not yet implemented
-# npm run test:browser
 ```
 
 [snapshot-testing]: https://facebook.github.io/jest/docs/en/snapshot-testing.html
