@@ -81,7 +81,21 @@ Arduino Uno design files used under the terms of the [Creative Commons Attributi
 [kitspace]: https://kitspace.org
 [openhardware]: https://www.openhardware.io
 
+## apps
+
+This repository has one web-app that is published to <https://tracespace.io>
+
+### [@tracespace/view][view]
+
+> Probably the best printed circuit board viewer on the internet
+
+A Gerber viewer powered by the tracepsace libraries. Available at <https://tracespace.io/view>.
+
+[view]: ./apps/view
+
 ## packages
+
+This repository also contains several packages that are published to npm. See them all below!
 
 ### [pcb-stackup][]
 
@@ -209,6 +223,8 @@ git add some/files/*
 git cz
 ```
 
+All development scripts below **should be run from the root of the repository**. Lerna handles delegating scripts downwards to the individual projects as necessary.
+
 [monorepo]: https://github.com/babel/babel/blob/master/doc/design/monorepo.md
 [lerna]: https://lernajs.io/
 [conventional-changelog]: https://github.com/conventional-changelog/conventional-changelog
@@ -236,14 +252,20 @@ INTEGRATION=1 npm run test:watch
 
 ### development servers
 
-`pcb-stackup`, `pcb-stackup-core`, and `gerber-to-svg` also have development servers that serve a set of reference renders for manual visual inspection.
+`pcb-stackup`, `pcb-stackup-core`, `gerber-to-svg`, and `@tracespace/view` have development servers. The first three serve a set of reference renders for manual visual inspection, and the `@tracespace/view` development server builds and serves the web-app locally.
 
 ```shell
 # run all dev servers
 npm run start
 
 # run server for a specific project
-npm run start -- --scope gerber-to-svg
+npm run start -- --scope @tracespace/view
+```
+
+`@tracespace/view` can also build and serve its production assets as a sanity check before deploying:
+
+```shell
+npm run serve
 ```
 
 ### linting and formatting
