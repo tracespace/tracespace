@@ -1,4 +1,23 @@
 {
   "extends": ["config:base", ":prNotPending", ":unpublishSafe"],
-  "rangeStrategy": "bump"
+  "rangeStrategy": "bump",
+  "packageRules": [
+    {
+      "groupName": "eslint packages",
+      "packagePatterns": ["eslint"]
+    },
+    {
+      "groupName": "test packages",
+      "packagePatterns": [
+        "chai",
+        "enzyme",
+        "mocha",
+        "nyc",
+        "proxyquire",
+        "sinon",
+        "snap-shot-it",
+        "testdouble"
+      ]
+    }
+  ]
 }
