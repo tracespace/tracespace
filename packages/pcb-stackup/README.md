@@ -67,9 +67,7 @@ const layers = fileNames.map(filename => ({
   gerber: fs.createReadStream(path),
 }))
 
-pcbStackup(layers, (error, stackup) => {
-  if (error) return console.error(error)
-
+pcbStackup(layers).then(stackup => {
   console.log(stackup.top.svg) // logs "<svg ... </svg>"
   console.log(stackup.bottom.svg) // logs "<svg ... </svg>"
 })
@@ -79,6 +77,6 @@ pcbStackup(layers, (error, stackup) => {
 
 See [the API documentation](./API.md).
 
-If your board doesn't appear at all or looks weirdly distorted try rendering it
+If your board doesn't appear at all or looks weirdly distorted, try rendering it
 with the options `{maskWithOutline: false}` or filling in gaps in the outline
 with e.g. `{outlineGapFill: 0.011}`.
