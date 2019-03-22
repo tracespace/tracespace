@@ -31,7 +31,7 @@
   "dependencies": {
     "common-prefix": "^1.1.0",
     "cosmiconfig": "^5.0.5",
-    "debug": "^4.1.0",
+    "debug": "^4.1.1",
     "dot-prop": "^4.2.0",
     "gerber-to-svg": "file:../gerber-to-svg",
     "globby": "^9.1.0",
