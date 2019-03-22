@@ -122,7 +122,7 @@
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.1.14",
     "worker-loader": "^2.0.0",
-    "xml-formatter": "^1.0.1"
+    "xml-formatter": "^1.1.0"
   },
   "dependencies": {
     "@tracespace/cli": "file:packages/cli",
