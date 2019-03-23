@@ -22,6 +22,7 @@ var Parser = function(places, zero, filetype) {
   this._stash = ''
   this._index = 0
   this._drillMode = drillMode.DRILL
+  this._drillStash = []
   this._syncResult = null
   this.line = 0
   this.format = {places: places, zero: zero, filetype: filetype}

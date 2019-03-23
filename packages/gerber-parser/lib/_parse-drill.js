@@ -12,19 +12,13 @@ var parseCoord = require('./parse-coord')
 var RE_ALTIUM_HINT = /;FILE_FORMAT=(\d):(\d)/
 var RE_KI_HINT = /;FORMAT={(.):(.)\/ (absolute|.+)? \/ (metric|inch) \/.+(trailing|leading|decimal|keep)/
 
-var RE_UNITS = /(INCH|METRIC|M71|M72)(?:,([TL])Z)?/
+var RE_UNITS = /^(INCH|METRIC|M71|M72)/
+var RE_ZERO = /,([TL])Z/
+var RE_FORMAT = /,(0{1,8})\.(0{1,8})/
 var RE_TOOL_DEF = /T0*(\d+)[\S]*C([\d.]+)/
 var RE_TOOL_SET = /T0*(\d+)(?![\S]*C)/
 var RE_COORD = /((?:[XYIJA][+-]?[\d.]+){1,4})(?:G85((?:[XY][+-]?[\d.]+){1,2}))?/
 var RE_ROUTE = /^G0([01235])/
-
-var setUnits = function(parser, units, line) {
-  var format = units === 'in' ? [2, 4] : [3, 3]
-  if (!parser.format.places) {
-    parser.format.places = format
-  }
-  return parser._push(commands.set('units', units, line))
-}
 
 var parseCommentForFormatHints = function(parser, block, line) {
   var result = {}
@@ -74,28 +68,30 @@ var parseCommentForFormatHints = function(parser, block, line) {
   return result
 }
 
-var zeroFromSupression = function(suppression) {
-  if (suppression === 'T') {
-    return 'L'
-  } else if (suppression === 'L') {
-    return 'T'
-  }
-}
-
 var parseUnits = function(parser, block, line) {
   var unitsMatch = block.match(RE_UNITS)
-  var units = unitsMatch[1]
-  var suppression = unitsMatch[2]
+  var zeroMatch = block.match(RE_ZERO)
+  var formatMatch = block.match(RE_FORMAT)
+  var units =
+    unitsMatch[1] === 'METRIC' || unitsMatch[1] === 'M71' ? 'mm' : 'in'
 
-  if (units === 'METRIC' || units === 'M71') {
-    setUnits(parser, 'mm', line)
-  } else {
-    setUnits(parser, 'in', line)
+  var keep = zeroMatch && zeroMatch[1]
+
+  if (parser.format.zero == null && keep) {
+    // flip drill keep to gerber suppression
+    parser.format.zero = keep === 'T' ? 'L' : 'T'
   }
 
-  if (parser.format.zero == null) {
-    parser.format.zero = zeroFromSupression(suppression)
+  if (parser.format.places == null) {
+    if (formatMatch) {
+      parser.format.places = [formatMatch[1].length, formatMatch[2].length]
+    } else {
+      // by default, use 2.4 for inches and 3.3 for mm
+      parser.format.places = units === 'in' ? [2, 4] : [3, 3]
+    }
   }
+
+  parser._push(commands.set('units', units, line))
 }
 
 var coordToCommand = function(parser, block, line) {
@@ -162,19 +158,16 @@ var parseBlock = function(parser, block, line) {
       parser._warn('places format missing; assuming [2, 4]')
     }
 
+    if (!parser.format.zero) {
+      parser.format.zero = 'T'
+      parser._warn('zero suppression missing; assuming trailing suppression')
+    }
+
     return coordToCommand(parser, block, line)
   }
 
   if (block === 'M00' || block === 'M30') {
     return parser._push(commands.done(line))
-  }
-
-  if (block === 'M71') {
-    return setUnits(parser, 'mm', line)
-  }
-
-  if (block === 'M72') {
-    return setUnits(parser, 'in', line)
   }
 
   if (block === 'G90') {
@@ -191,27 +184,15 @@ var parseBlock = function(parser, block, line) {
 }
 
 var flush = function(parser) {
-  if (parser._drillStash.length) {
-    parser._drillStash.forEach(function(data) {
-      if (!parser.format.zero && RE_COORD.test(data.block)) {
-        parser.format.zero = 'T'
-        parser._warn(
-          'zero suppression missing and not detectable;' +
-            ' assuming trailing suppression'
-        )
-      }
-      parseBlock(parser, data.block, data.line)
-    })
-    parser._drillStash = []
-  }
+  parser._drillStash.forEach(function(data) {
+    parseBlock(parser, data.block, data.line)
+  })
+  parser._drillStash = []
 }
 
 var parse = function(parser, block) {
-  parser._drillStash = parser._drillStash || []
-
-  // parse comments for formatting hints and ignore the rest
   if (block[0] === ';') {
-    // check for kicad format hints
+    // if comment, parse it for formatting hints
     var formatHints = parseCommentForFormatHints(parser, block, parser.line)
 
     Object.keys(formatHints).forEach(function(key) {
@@ -219,40 +200,33 @@ var parse = function(parser, block) {
         parser.format[key] = formatHints[key]
       }
     })
+  } else if (!parser.format.zero) {
+    // else if we don't have zero suppress yet, attempt to detect it
+    parser._drillStash.push({line: parser.line, block: block})
 
-    return
-  }
-
-  // detect or assume zero suppression
-  if (!parser.format.zero) {
-    if (parser._drillStash.length >= 1000) {
-      flush(parser)
-      return parseBlock(parser, block, parser.line)
-    }
     if (RE_COORD.test(block)) {
       parser.format.zero = parseCoord.detectZero(block)
+
       if (parser.format.zero) {
-        var zero = parser.format.zero === 'L' ? 'leading' : 'trailing'
         parser._warn(
-          'zero suppression missing; detected ' + zero + ' suppression'
+          'zero suppression missing; detected ' +
+            (parser.format.zero === 'L' ? 'leading' : 'trailing') +
+            ' suppression'
         )
-        flush(parser)
-        return parseBlock(parser, block, parser.line)
-      }
-    } else if (RE_UNITS.test(block)) {
-      var unitsMatch = block.match(RE_UNITS)
-      var suppression = unitsMatch[2]
-      parser.format.zero = zeroFromSupression(suppression)
-      if (parser.format.zero) {
-        flush(parser)
-        return parseBlock(parser, block, parser.line)
       }
     }
 
-    return parser._drillStash.push({line: parser.line, block: block})
+    if (
+      parser.format.zero ||
+      RE_ZERO.test(block) ||
+      parser._drillStash.length >= 1000
+    ) {
+      flush(parser)
+    }
+  } else {
+    // else just parse the block like normal
+    parseBlock(parser, block, parser.line)
   }
-
-  return parseBlock(parser, block, parser.line)
 }
 
 module.exports = {parse: parse, flush: flush}
