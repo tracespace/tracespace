@@ -1,7 +1,7 @@
 // pcb-stackup render snapshot tests
 'use strict'
 
-const format = require('xml-formatter')
+const prettier = require('prettier')
 const snapshot = require('snap-shot-it')
 
 const {getBoards} = require('@tracespace/fixtures')
@@ -28,7 +28,7 @@ describe(`pcb-stackup :: integration snapshots`, function() {
       SIDES.forEach(side =>
         it(`renders ${side}`, function() {
           const result = boardResults.specs.find(s => s.name === side)
-          snapshot(format(result.render).split('\n'))
+          snapshot(prettier.format(result.render, {parser: 'html'}).split('\n'))
         })
       )
     })

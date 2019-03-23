@@ -1,7 +1,7 @@
 // gerber-to-svg render snapshot tests
 'use strict'
 
-const format = require('xml-formatter')
+const prettier = require('prettier')
 const snapshot = require('snap-shot-it')
 
 const {getGerberSpecs, getBoards} = require('@tracespace/fixtures')
@@ -31,7 +31,7 @@ describe(`gerber-to-svg :: integration`, function() {
       specs.forEach((spec, i) =>
         it(`renders ${spec.name}`, function() {
           const result = suiteResults.specs[i]
-          snapshot(format(result.render).split('\n'))
+          snapshot(prettier.format(result.render, {parser: 'html'}).split('\n'))
         })
       )
     })
