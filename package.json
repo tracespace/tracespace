@@ -2,7 +2,7 @@
   "name": "tracespace",
   "private": true,
   "scripts": {
-    "_test": "mocha --require scripts/init-test-env --timeout 15000 '@(packages|apps)/**/*test.@(js|ts|tsx)'",
+    "_test": "mocha --require scripts/init-test-env '@(packages|apps)/**/*test.@(js|ts|tsx)'",
     "test": "cross-env INTEGRATION=1 nyc npm run _test",
     "posttest": "npm run example && npm run docs && npm run check && npm run lint",
     "test:watch": "npm run _test -- --watch --reporter dot --watch-extensions js,ts,tsx",

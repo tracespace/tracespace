@@ -13,6 +13,8 @@ const SUITES = [
 ]
 
 describe(`gerber-to-svg :: integration`, function() {
+  this.timeout(15000)
+
   SUITES.forEach(suite =>
     describe(suite.name, function() {
       const specs = suite.specs || suite.layers

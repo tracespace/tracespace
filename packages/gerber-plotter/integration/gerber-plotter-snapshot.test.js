@@ -9,6 +9,8 @@ const getResults = require('./get-results')
 const SUITES = [...getBoards.sync().filter(b => !b.skipSnapshot)]
 
 describe(`gerber-plotter :: integration`, function() {
+  this.timeout(15000)
+
   SUITES.forEach(suite =>
     describe(suite.name, function() {
       const specs = suite.specs || suite.layers
