@@ -8,9 +8,8 @@
     },
     {
       "groupName": "test packages",
-      "packagePatterns": [
-        "chai",
-        "enzyme",
+      "packagePatterns": ["chai", "enzyme"],
+      "packageNames": [
         "mocha",
         "nyc",
         "proxyquire",
@@ -18,6 +17,16 @@
         "snap-shot-it",
         "testdouble"
       ]
+    },
+    {
+      "groupName": "webpack packages",
+      "packagePatterns": ["webpack", "loader"],
+      "packageNames": ["mini-css-extract-plugin"],
+      "excludePackagePatterns": ["hot-loader"]
+    },
+    {
+      "groupName": "react-hot-loader packages",
+      "packageNames": ["react-hot-loader", "@hot-loader/react-dom"]
     }
   ]
 }
