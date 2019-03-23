@@ -2072,6 +2072,20 @@ describe('gerber plotter', function() {
       p.write({type: 'op', op: 'flash', coord: {x: -3, y: 4}})
       expect(p._box).to.eql([-4, 0, 1.5, 5])
     })
+
+    it('should emit an empty step repeat if SR is disabled', function(done) {
+      p.once('readable', function() {
+        var result = p.read()
+        expect(result.offsets).to.eql([])
+        done()
+      })
+
+      p.write({
+        type: 'level',
+        level: 'stepRep',
+        value: {x: 1, y: 1, i: 0, j: 0},
+      })
+    })
   })
 
   describe('ending the stream', function() {
