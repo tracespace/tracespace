@@ -7,7 +7,7 @@ var partial = require('lodash/partial')
 
 var parser = require('..')
 
-describe('gerber parser with gerber files', function() {
+describe('gerber parser with drill files', function() {
   var p
   var pFactory = partial(parser, {filetype: 'drill'})
 
@@ -211,7 +211,7 @@ describe('gerber parser with gerber files', function() {
     })
   })
 
-  describe('setting zero suppression', function() {
+  describe('setting zero suppression in unit command', function() {
     it('should set zero suppression if included with units', function() {
       p.write('INCH,TZ\n')
       p.end()
@@ -247,6 +247,29 @@ describe('gerber parser with gerber files', function() {
       p.write('M72,TZ\n')
       p.write('M71,TZ\n')
       expect(p.format.zero).to.equal('T')
+    })
+  })
+
+  describe('setting format in unit command', function() {
+    it('should set format if included with units', function() {
+      p.write('INCH,TZ,00.00000\n')
+      p.end()
+      expect(p.format.places).to.eql([2, 5])
+
+      p = pFactory()
+      p.write('METRIC,0000.00,LZ\n')
+      p.end()
+      expect(p.format.places).to.eql([4, 2])
+
+      p = pFactory()
+      p.write('M71,000.000\n')
+      p.end()
+      expect(p.format.places).to.eql([3, 3])
+
+      p = pFactory()
+      p.write('M72,0.0000\n')
+      p.end()
+      expect(p.format.places).to.eql([1, 4])
     })
   })
 
