@@ -18,7 +18,7 @@ Part of the [tracespace][] collection of PCB visualization tools.
 [david]: https://david-dm.org/tracespace/tracespace?path=packages/cli
 [@tracespace/cli-latest-badge]: https://flat.badgen.net/npm/v/@tracespace/cli
 [@tracespace/cli-next-badge]: https://flat.badgen.net/npm/v/@tracespace/cli/next
-[@tracepsace/cli-david-badge]: https://flat.badgen.net/david/dep/tracespace/tracespace/packages/cli
+[@tracespace/cli-david-badge]: https://flat.badgen.net/david/dep/tracespace/tracespace/packages/cli
 
 ## install
 

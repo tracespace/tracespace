@@ -1,5 +1,5 @@
 {
-  "name": "@tracepsace/config",
+  "name": "@tracespace/config",
   "version": "4.0.1",
   "private": true,
   "description": "Development config for tracespace/tracespace",
