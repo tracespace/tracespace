@@ -62,7 +62,7 @@
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
     "react-hot-loader": "^4.7.1",
-    "react-transition-group": "^2.5.3",
+    "react-transition-group": "^2.7.0",
     "tachyons": "^4.11.1",
     "viewbox": "^1.0.0",
     "whats-that-gerber": "file:../../packages/whats-that-gerber"
