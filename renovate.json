@@ -11,7 +11,7 @@
       "packageNames": [
         "mocha",
         "chai",
-        "chai-as-promised"
+        "chai-as-promised",
         "nyc",
         "proxyquire",
         "sinon",
