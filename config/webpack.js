@@ -41,9 +41,7 @@ const baseConfig = dirname => ({
     ],
   },
   devServer: {
-    devServer: {
-      contentBase: OUT_DIRNAME,
-    },
+    contentBase: path.join(dirname, OUT_DIRNAME),
     historyApiFallback: true,
     disableHostCheck: true,
   },
