@@ -29,6 +29,16 @@ npm install --save gerber-to-svg
 yarn add gerber-to-svg
 ```
 
+Or, use a script tag:
+
+```html
+<script src="https://unpkg.com/gerber-to-svg@^4.0.0/dist/gerber-to-svg.min.js"></script>
+<script>
+  // global variable gerberToSvg now available
+  var converter = gerberToSvg(input)
+</script>
+```
+
 ## example
 
 After you clone and set-up the repository as detailed in [development setup](../..#development-setup), you can run `gerber-to-svg`'s [example script](./example/index.js) to render all the layers of an Arduino Uno PCB.

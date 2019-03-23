@@ -26,6 +26,7 @@ module.exports = {
       files: [
         '.*.js',
         '**/*.config.js',
+        'config/**/*.js',
         'packages/cli/**/*.js',
         'packages/fixtures/**/*.js',
         '**/integration/**/*.js',

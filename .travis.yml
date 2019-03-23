@@ -18,7 +18,7 @@ cache:
 _deploy_base: &_deploy_base
   provider: script
   skip_cleanup: true
-  on:
+  on: &_deploy_base__on
     repo: tracespace/tracespace
     all_branches: true
 
@@ -31,26 +31,16 @@ jobs:
       name: App builds
       script: npm run build
 
-    - # package deploy to npm on tagged commits
-      if: tag =~ ^v
-      stage: deploy
-      name: Deploy packages to npm
-      script: npm run example && npm run docs
-      # set npm credentials for npm publish
-      before_deploy:
-        - npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
-        - export NPM_TAG=$(node scripts/get-npm-tag.js $TRAVIS_TAG)
-      deploy:
-        <<: *_deploy_base
-        script: npm run publish:npm
-
-    - # apps deploy to s3 on master (staging) and tagged commits (production)
+    - # build and publish
       if: tag =~ ^v OR (branch = master AND type != pull_request)
       stage: deploy
-      name: Deploy apps to s3
+      name: Deploy to npm and s3
       script: npm run build
-      # set bucket for deploy
       before_deploy:
+        # set npm deploy parameters
+        - npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+        - export NPM_TAG=$(node scripts/get-npm-tag.js $TRAVIS_TAG)
+        # set s3 deploy parameters
         - |
           if [ $TRAVIS_BRANCH = master ]; then
             export AWS_S3_BUCKET=$AWS_S3_BUCKET_STAGING
@@ -58,5 +48,13 @@ jobs:
             export AWS_S3_BUCKET=$AWS_S3_BUCKET_PRODUCTION
           fi
       deploy:
-        <<: *_deploy_base
-        script: npm run publish:s3
+        - # s3 publish on master (staging) and tagged commits (production)
+          <<: *_deploy_base
+          script: npm run publish:s3
+
+        - # npm publish on tags only
+          <<: *_deploy_base
+          script: npm run publish:npm
+          on:
+            <<: *_deploy_base__on
+            tags: true

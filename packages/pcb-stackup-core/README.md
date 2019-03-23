@@ -36,6 +36,16 @@ npm install --save gerber-to-svg whats-that-gerber
 yarn add gerber-to-svg whats-that-gerber
 ```
 
+Or, use a script tag:
+
+```html
+<script src="https://unpkg.com/pcb-stackup-core@^4.0.0/dist/pcb-stackup-core.min.js"></script>
+<script>
+  // global variable pcbStackupCore now available
+  var stackup = pcbStackupCore(layers)
+</script>
+```
+
 ## example
 
 After you clone and set-up the repository as detailed in [development setup](../..#development-setup), you can run `pcb-stackup-core`'s [example script](./example/index.js) to render the top and bottom of an Arduino Uno PCB.

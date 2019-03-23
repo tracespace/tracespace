@@ -26,6 +26,16 @@ npm install --save whats-that-gerber
 yarn add whats-that-gerber
 ```
 
+Or, use a script tag:
+
+```html
+<script src="https://unpkg.com/whats-that-gerber@^4.0.0/dist/whats-that-gerber.min.js"></script>
+<script>
+  // global variable whatsThatGerber now available
+  var parser = whatsThatGerber()
+</script>
+```
+
 ## usage
 
 Pass `whatsThatGerber` an array of filenames from a PCB, and it will give you back an object keyed by filename with the best guess it can make for the type and side of each file. If both `side` and `type` are `null`, the filename cannot be identified as a Gerber / drill file.

@@ -34,6 +34,16 @@ npm install --save gerber-parser
 yarn add gerber-parser
 ```
 
+Or, use a script tag:
+
+```html
+<script src="https://unpkg.com/gerber-plotter@^4.0.0/dist/gerber-plotter.min.js"></script>
+<script>
+  // global variable gerberPlotter now available
+  var plotter = gerberPlotter()
+</script>
+```
+
 ## example
 
 ```js
@@ -60,7 +70,7 @@ fs.createReadStream('/path/to/gerber/file.gbr')
   })
 ```
 
-To run this module in a browser, it should be bundled with a tool like [browserify][] or [webpack][].
+To run this module in a browser, it should be bundled with a tool like [browserify][] or [webpack][]. If you are using the script tag installation method instead, there will be a global variable `gerberPlotter` available after you have included `gerber-plotter.min.js`.
 
 [browserify]: http://browserify.org/
 [webpack]: https://webpack.js.org/
