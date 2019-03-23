@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.1](https://github.com/tracespace/tracespace/compare/v4.0.0...v4.0.1) (2019-03-23)
+
+
+### Bug Fixes
+
+* **deps:** update dependency color-string to ^1.5.3 ([#157](https://github.com/tracespace/tracespace/issues/157)) ([611b026](https://github.com/tracespace/tracespace/commit/611b026))
+
+
+
+
+
 # [4.0.0](https://github.com/tracespace/tracespace/compare/v4.0.0-next.19...v4.0.0) (2019-03-09)
 
 **Note:** Version bump only for package pcb-stackup-core

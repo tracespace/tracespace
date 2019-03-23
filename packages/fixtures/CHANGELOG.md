@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.1](https://github.com/tracespace/tracespace/compare/v4.0.0...v4.0.1) (2019-03-23)
+
+
+### Bug Fixes
+
+* **deps:** update dependency glob to ^7.1.3 ([#162](https://github.com/tracespace/tracespace/issues/162)) ([e20498c](https://github.com/tracespace/tracespace/commit/e20498c))
+* **deps:** update dependency run-parallel to ^1.1.9 ([#166](https://github.com/tracespace/tracespace/issues/166)) ([a175306](https://github.com/tracespace/tracespace/commit/a175306))
+* **deps:** update dependency run-series to ^1.1.8 ([#170](https://github.com/tracespace/tracespace/issues/170)) ([d5b0082](https://github.com/tracespace/tracespace/commit/d5b0082))
+* **deps:** update dependency run-waterfall to ^1.1.6 ([#172](https://github.com/tracespace/tracespace/issues/172)) ([9e72361](https://github.com/tracespace/tracespace/commit/9e72361))
+* **whats-that-gerber:** Recognize DipTrace inner copper layers  ([#171](https://github.com/tracespace/tracespace/issues/171)) ([100a95b](https://github.com/tracespace/tracespace/commit/100a95b)), closes [#138](https://github.com/tracespace/tracespace/issues/138)
+
+
+
+
+
 # [4.0.0](https://github.com/tracespace/tracespace/compare/v4.0.0-next.19...v4.0.0) (2019-03-09)
 
 **Note:** Version bump only for package @tracespace/fixtures

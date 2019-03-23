@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.1](https://github.com/tracespace/tracespace/compare/v4.0.0...v4.0.1) (2019-03-23)
+
+
+### Bug Fixes
+
+* **whats-that-gerber:** Recognize DipTrace inner copper layers  ([#171](https://github.com/tracespace/tracespace/issues/171)) ([100a95b](https://github.com/tracespace/tracespace/commit/100a95b)), closes [#138](https://github.com/tracespace/tracespace/issues/138)
+
+
+
+
+
 # [4.0.0](https://github.com/tracespace/tracespace/compare/v4.0.0-next.19...v4.0.0) (2019-03-09)
 
 **Note:** Version bump only for package whats-that-gerber

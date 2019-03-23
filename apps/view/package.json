@@ -1,7 +1,7 @@
 {
   "name": "@tracespace/view",
   "productName": "tracespace view",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "private": true,
   "description": "Probably the best printed circuit board viewer on the internet",
   "author": {
