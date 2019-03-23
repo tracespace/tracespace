@@ -202,7 +202,9 @@
       {"name": "BottomPaste.gbr", "side": "bottom", "type": "solderpaste"},
       {"name": "TopPaste.gbr", "side": "top", "type": "solderpaste"},
       {"name": "Top.gbr", "side": "top", "type": "copper"},
-      {"name": "BottomSilk.gbr", "side": "bottom", "type": "silkscreen"}
+      {"name": "BottomSilk.gbr", "side": "bottom", "type": "silkscreen"},
+      {"name": "Inner1.gbr", "side": "inner", "type": "copper"},
+      {"name": "Inner2.gbr", "side": "inner", "type": "copper"}
     ]
   }
 ]
