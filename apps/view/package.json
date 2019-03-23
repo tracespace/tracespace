@@ -29,7 +29,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.7.2",
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
-    "@hot-loader/react-dom": "^16.8.2",
+    "@hot-loader/react-dom": "^16.8.4",
     "@tracespace/xml-id": "file:../../packages/xml-id",
     "@types/classnames": "^2.2.7",
     "@types/common-prefix": "^1.1.0",
