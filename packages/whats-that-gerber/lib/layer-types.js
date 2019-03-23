@@ -128,6 +128,7 @@ module.exports = [
       {ext: 'in\\d+', cad: c._CAD_ORCAD},
       {ext: 'internalplane\\d+\\.ger', cad: c._CAD_EAGLE_OSHPARK},
       {match: /in(?:ner)?\d+[._]cu/, cad: c._CAD_KICAD},
+      {match: /inner/, cad: c._CAD_DIPTRACE},
     ],
   },
   {
