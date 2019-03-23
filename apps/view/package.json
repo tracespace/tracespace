@@ -18,7 +18,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --hot",
     "build": "cross-env NODE_ENV=production webpack",
-    "serve": "node ./scripts/serve"
+    "serve": "node ../../scripts/serve"
   },
   "bugs": {
     "url": "https://github.com/tracespace/tracespace/issues"

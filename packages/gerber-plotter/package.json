@@ -4,9 +4,14 @@
   "description": "Streaming Gerber / NC drill layer image plotter",
   "main": "index.js",
   "types": "index.d.ts",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack",
+    "serve": "node ../../scripts/serve"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tracespace/tracespace.git"
+    "url": "git+https://github.com/tracespace/tracespace.git",
+    "directory": "packages/gerber-plotter"
   },
   "keywords": [
     "PCB",

@@ -6,3 +6,4 @@ coverage
 bundle.*
 **/dist
 */**/LICENSE
+**/*.tgz

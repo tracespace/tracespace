@@ -24,6 +24,18 @@ npm install --save pcb-stackup
 yarn add pcb-stackup
 ```
 
+Or, use a script tag:
+
+```html
+<script src="https://unpkg.com/pcb-stackup@^4.0.0/dist/pcb-stackup.min.js"></script>
+<script>
+  // global variable pcbStackup now available
+  pcbStackup(layers).then(stackup => {
+    // ...
+  })
+</script>
+```
+
 ## example
 
 ![arduino-uno-top](https://unpkg.com/pcb-stackup@next/example/arduino-uno-top.svg)
