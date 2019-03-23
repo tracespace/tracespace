@@ -24,7 +24,6 @@
     "url": "https://github.com/tracespace/tracespace/issues"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.4.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.15",
     "@fortawesome/free-regular-svg-icons": "^5.7.2",
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
@@ -45,6 +44,7 @@
     "classnames": "^2.2.6",
     "common-prefix": "^1.1.0",
     "contrast": "^1.0.1",
+    "core-js": "^3.0.0",
     "dexie": "3.0.0-alpha.7",
     "file-saver": "^2.0.1",
     "filereader-stream": "^2.0.0",

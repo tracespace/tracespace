@@ -40,12 +40,20 @@
     "exclude": [
       "**/node_modules/**",
       "**/example/**",
+      "**/scripts/**",
+      "**/dist/**",
       "**/integration/**",
       "**/test.js",
       "**/test/**",
       "**/__tests__/**",
       "**/*.config.js",
+      "config/**",
       "packages/fixtures/**"
+    ],
+    "extension": [
+      ".js",
+      ".ts",
+      ".tsx"
     ]
   },
   "devDependencies": {
@@ -55,7 +63,6 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.4.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-transform-modules-commonjs": "^7.4.0",
-    "@babel/plugin-transform-runtime": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
@@ -65,7 +72,7 @@
     "@types/chai-as-promised": "^7.1.0",
     "@types/enzyme": "^3.9.1",
     "@types/mocha": "^5.2.6",
-    "@types/node": "^11.9.4",
+    "@types/node": "^11.11.0",
     "@typescript-eslint/eslint-plugin": "^1.5.0",
     "aws-sdk": "^2.422.0",
     "babel-loader": "^8.0.5",
