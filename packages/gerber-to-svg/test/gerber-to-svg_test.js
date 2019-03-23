@@ -96,6 +96,18 @@ describe('gerber to svg', function() {
     fakeConverter.emit('end')
   })
 
+  it('should allow options param to be skipped', function(done) {
+    gerberToSvg('foobar*\n', function(error, result) {
+      expect(error == null).to.equal(true)
+      expect(result).to.equal('<svg />')
+      done()
+    })
+
+    fakeConverter.read.onCall(0).returns('<svg />')
+    fakeConverter.emit('readable')
+    fakeConverter.emit('end')
+  })
+
   it('should pipe a stream input into the parser and listen for errors', function() {
     var input = {pipe: sinon.spy(), setEncoding: sinon.spy()}
 

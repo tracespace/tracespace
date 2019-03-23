@@ -41,9 +41,9 @@ var parseOptions = function(options) {
 }
 
 module.exports = function gerberConverterFactory(gerber, inputOpts, done) {
-  if (typeof options === 'function') {
+  if (typeof inputOpts === 'function') {
     done = inputOpts
-    inputOpts = {}
+    inputOpts = null
   }
 
   var opts = parseOptions(inputOpts)
