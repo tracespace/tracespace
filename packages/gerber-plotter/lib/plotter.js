@@ -271,11 +271,14 @@ Plotter.prototype._transform = function(chunk, encoding, done) {
     } else {
       // calculate new offsets
       var offsets = []
-      for (var x = 0; x < levelValue.x; x++) {
-        for (var y = 0; y < levelValue.y; y++) {
-          offsets.push([x * levelValue.i, y * levelValue.j])
+      if (levelValue.x > 1 || levelValue.y > 1) {
+        for (var x = 0; x < levelValue.x; x++) {
+          for (var y = 0; y < levelValue.y; y++) {
+            offsets.push([x * levelValue.i, y * levelValue.j])
+          }
         }
       }
+
       this._stepRep = offsets
 
       this.push({
