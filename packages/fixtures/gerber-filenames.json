@@ -99,7 +99,9 @@
       {"name": "board.SPB", "side": "bottom", "type": "solderpaste"},
       {"name": "board.IN1", "side": "inner", "type": "copper"},
       {"name": "board.FAB", "side": "all", "type": "outline"},
-      {"name": "board.TAP", "side": "all", "type": "drill"}
+      {"name": "board.DRD", "side": "all", "type": "outline"},
+      {"name": "board.TAP", "side": "all", "type": "drill"},
+      {"name": "board.NPT", "side": "all", "type": "drill"}
     ]
   },
   {
