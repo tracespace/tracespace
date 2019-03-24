@@ -1,6 +1,6 @@
 {
   "name": "whats-that-gerber",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Identify Gerber and drill files by filenamee",
   "main": "index.js",
   "types": "index.d.ts",

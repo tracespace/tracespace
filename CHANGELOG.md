@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.2](https://github.com/tracespace/tracespace/compare/v4.0.1...v4.0.2) (2019-03-24)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @types/node to ^11.11.6 ([#184](https://github.com/tracespace/tracespace/issues/184)) ([c3bb301](https://github.com/tracespace/tracespace/commit/c3bb301))
+* **deps:** update dependency jszip to ^3.2.1 ([#163](https://github.com/tracespace/tracespace/issues/163)) ([ee2aeac](https://github.com/tracespace/tracespace/commit/ee2aeac))
+* **deps:** update font awesome ([#173](https://github.com/tracespace/tracespace/issues/173)) ([f9ba8e8](https://github.com/tracespace/tracespace/commit/f9ba8e8))
+* **deps:** update react monorepo and packages ([#155](https://github.com/tracespace/tracespace/issues/155)) ([cd445d8](https://github.com/tracespace/tracespace/commit/cd445d8))
+* **gerber-plotter:** Emit correct 'repeat' object on steprepeat disable ([#188](https://github.com/tracespace/tracespace/issues/188)) ([930d133](https://github.com/tracespace/tracespace/commit/930d133)), closes [#81](https://github.com/tracespace/tracespace/issues/81)
+* **gerber-to-svg:** Allow options parameter to be skipped ([#181](https://github.com/tracespace/tracespace/issues/181)) ([bbe5c07](https://github.com/tracespace/tracespace/commit/bbe5c07))
+* **whats-that-gerber:** Add Orcad matchers for .drd and .npt ([#189](https://github.com/tracespace/tracespace/issues/189)) ([2894208](https://github.com/tracespace/tracespace/commit/2894208))
+
+
+
+
+
 ## [4.0.1](https://github.com/tracespace/tracespace/compare/v4.0.0...v4.0.1) (2019-03-23)
 
 

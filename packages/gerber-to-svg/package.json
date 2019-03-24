@@ -1,6 +1,6 @@
 {
   "name": "gerber-to-svg",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Render individual Gerber / NC drill files as SVGs",
   "main": "index.js",
   "types": "index.d.ts",

@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.2](https://github.com/tracespace/tracespace/compare/v4.0.1...v4.0.2) (2019-03-24)
+
+
+### Bug Fixes
+
+* **deps:** update dependency jszip to ^3.2.1 ([#163](https://github.com/tracespace/tracespace/issues/163)) ([ee2aeac](https://github.com/tracespace/tracespace/commit/ee2aeac))
+* **deps:** update font awesome ([#173](https://github.com/tracespace/tracespace/issues/173)) ([f9ba8e8](https://github.com/tracespace/tracespace/commit/f9ba8e8))
+* **deps:** update react monorepo and packages ([#155](https://github.com/tracespace/tracespace/issues/155)) ([cd445d8](https://github.com/tracespace/tracespace/commit/cd445d8))
+
+
+
+
+
 ## [4.0.1](https://github.com/tracespace/tracespace/compare/v4.0.0...v4.0.1) (2019-03-23)
 
 
