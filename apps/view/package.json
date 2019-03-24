@@ -52,7 +52,7 @@
     "gerber-parser": "file:../../packages/gerber-parser",
     "gerber-plotter": "file:../../packages/gerber-plotter",
     "gerber-to-svg": "file:../../packages/gerber-to-svg",
-    "jszip": "^3.1.5",
+    "jszip": "^3.2.1",
     "md5.js": "^1.3.5",
     "mini-svg-data-uri": "^1.0.3",
     "pcb-stackup": "file:../../packages/pcb-stackup",
