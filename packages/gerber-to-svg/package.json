@@ -45,7 +45,7 @@
     "gerber-plotter": "file:../gerber-plotter",
     "inherits": "^2.0.3",
     "lodash.isfinite": "^3.3.2",
-    "readable-stream": "^3.2.0",
+    "readable-stream": "^3.3.0",
     "xml-element-string": "^1.0.0"
   }
 }
