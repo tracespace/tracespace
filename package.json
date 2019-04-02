@@ -72,7 +72,7 @@
     "@types/chai-as-promised": "^7.1.0",
     "@types/enzyme": "^3.9.1",
     "@types/mocha": "^5.2.6",
-    "@types/node": "^11.11.6",
+    "@types/node": "^11.13.0",
     "@typescript-eslint/eslint-plugin": "^1.5.0",
     "aws-sdk": "^2.432.0",
     "babel-loader": "^8.0.5",

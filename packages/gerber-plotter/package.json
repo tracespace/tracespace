@@ -34,7 +34,7 @@
     "gerber-parser": "^4.0.0"
   },
   "dependencies": {
-    "@types/node": "^11.11.6",
+    "@types/node": "^11.13.0",
     "inherits": "^2.0.3",
     "lodash.fill": "^3.4.0",
     "lodash.isfinite": "^3.3.2",
