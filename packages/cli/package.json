@@ -28,6 +28,9 @@
     "Mike Cousins <mike@cousins.io> (https://mike.cousins.io)"
   ],
   "license": "MIT",
+  "engines": {
+    "node": ">=8"
+  },
   "dependencies": {
     "common-prefix": "^1.1.0",
     "cosmiconfig": "^5.2.0",
