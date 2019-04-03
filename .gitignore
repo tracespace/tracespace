@@ -11,7 +11,7 @@ esm
 umd
 dist
 packages/*/LICENSE
-*.d.ts
+**/lib/**/*.d.ts
 *.tgz
 
 # system files

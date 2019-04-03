@@ -1,0 +1,20 @@
+graph LR
+
+root --- header
+root --- image
+
+header --- units
+header --- zeroSuppression
+header --- toolDefinition
+header --- coordinateMode
+
+units --- mm(units: mm)
+zeroSuppression --- leading(suppression: leading)
+toolDefinition --- code(code: 1)
+toolDefinition --- shape(shape: circle)
+toolDefinition --- diameter(diameter: 0.5)
+coordinateMode --- mode(mode: absolute)
+
+image --- pad1[pad]
+pad1 --- tool1(tool: 1)
+pad1 --- location1("location: [0, 0]")

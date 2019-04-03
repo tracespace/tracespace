@@ -1,0 +1,44 @@
+graph LR
+
+root --- header
+root --- image
+
+header --- units
+header --- zeroSuppression
+header --- toolDefinition
+header --- coordinateMode
+
+units --- mm(units: mm)
+zeroSuppression --- leading(suppression: leading)
+toolDefinition --- code(code: 1)
+toolDefinition --- shape(shape: circle)
+toolDefinition --- diameter(diameter: 0.25)
+coordinateMode --- mode(mode: absolute)
+
+image --- trace1[trace]
+trace1 --- tool1(tool: 1)
+trace1 --- arc1(arcMode: cw)
+trace1 --- radius1(arcRadius: 2500)
+trace1 --- start1("start: [0, 0]")
+trace1 --- end1("end: [2500, 2500]")
+
+image --- trace2[trace]
+trace2 --- tool2(tool: 1)
+trace2 --- arc2(arcMode: ccw)
+trace2 --- radius2(radius: 2500)
+trace2 --- start2("start: [2500, 2500]")
+trace2 --- end2("end: [5000, 5000]")
+
+image --- trace3[trace]
+trace3 --- tool3(tool: 1)
+trace3 --- arc3(arcMode: cw)
+trace3 --- centerOffset3("centerOffset: [2500, 0]")
+trace3 --- start3("start: [7500, 0]")
+trace3 --- end3("end: [10000, 2500]")
+
+image --- trace4[trace]
+trace4 --- tool4(tool: 1)
+trace4 --- arc4(arcMode: ccw)
+trace4 --- centerOffset4("centerOffset: [0, 2500]")
+trace4 --- start4("start: [10000, 2500]")
+trace4 --- end4("end: [12500, 5000]")

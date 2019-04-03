@@ -13,6 +13,7 @@ module.exports = {
     '**/test/**',
     '**/__tests__/**',
     '**/*.config.js',
+    '**/*.d.ts',
     'config/**',
     'packages/fixtures/**',
   ],

@@ -1,0 +1,22 @@
+graph LR
+
+root --- header
+root --- image
+
+header --- units
+header --- zeroSuppression
+header --- toolDefinition
+header --- coordinateMode
+
+units --- mm(units: mm)
+zeroSuppression --- leading(suppression: leading)
+toolDefinition --- code(code: 1)
+toolDefinition --- shape(shape: circle)
+toolDefinition --- diameter(diameter: 0.5)
+coordinateMode --- mode(mode: absolute)
+
+image --- trace1[trace]
+trace1 --- tool1(tool: 1)
+trace1 --- mode1(mode: absolute)
+trace1 --- start1("start: [0, 0]")
+trace1 --- end1("end: [5000, 0]")

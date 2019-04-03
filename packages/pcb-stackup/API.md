@@ -38,7 +38,7 @@ Object representing a single Gerber or drill file (PCB layer).
 
 | Property   | Type                                                  | Description                                                                              |
 | ---------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| gerber     | `string` &#124; `Buffer` &#124; [`ReadableStream`][2] | Gerber data for the layer. Required if `layer.converter` is not used                     |
+| gerber     | `string` &vert; `Buffer` &vert; [`ReadableStream`][2] | Gerber data for the layer. Required if `layer.converter` is not used                     |
 | filename   | `string`                                              | Filename to infer the layer's type and side. Required if `side` and `type` are not used  |
 | type       | `string`                                              | [whats-that-gerber layer type][3]. Required if `layer.filename` is not used              |
 | side       | `string`                                              | [whats-that-gerber layer side][3]. Required if `layer.filename` is not used              |
@@ -79,7 +79,7 @@ pcbStackup(layers, (error, stackup) => {
 
 | Param   | Type                  | Description                    |
 | ------- | --------------------- | ------------------------------ |
-| error   | `Error` &#124; `null` | Error if something goes wrong. |
+| error   | `Error` &vert; `null` | Error if something goes wrong. |
 | stackup | [`Stackup`](#Stackup) | Stackup render and other data  |
 
 <a name="Stackup"></a>

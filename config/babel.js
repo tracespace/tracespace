@@ -5,11 +5,7 @@ module.exports = {
     ['@babel/preset-env', {modules: false}],
     '@babel/preset-typescript',
   ],
-  plugins: [
-    ['@babel/plugin-proposal-class-properties', {loose: true}],
-    ['@babel/proposal-object-rest-spread', {loose: true}],
-    '@babel/plugin-syntax-dynamic-import',
-  ],
+  plugins: ['@babel/plugin-proposal-class-properties'],
   overrides: [
     {
       test: '../apps/view/**/*',

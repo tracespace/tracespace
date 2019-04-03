@@ -1,8 +1,14 @@
-**/package.json
-package-lock.json
 node_modules
 __snapshots__
 coverage
 .nyc_output
 **/dist
+
+# compiled code
+packages/lexer/lib
+packages/parser/lib
+
+# prettier ignore
 CHANGELOG.md
+**/package.json
+package-lock.json

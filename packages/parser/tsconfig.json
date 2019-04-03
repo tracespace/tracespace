@@ -1,0 +1,12 @@
+{
+  "extends": "@tracespace/config/typescript.json",
+  "references": [],
+  "compilerOptions": {
+    "composite": true,
+    "emitDeclarationOnly": true,
+    "rootDir": "src",
+    "outDir": "lib"
+  },
+  "include": ["src", "typings"],
+  "exclude": ["**/__tests__/**"]
+}
