@@ -78,7 +78,7 @@
     "babel-loader": "^8.0.5",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "codecov": "^3.2.0",
+    "codecov": "^3.3.0",
     "concat-stream": "^2.0.0",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
