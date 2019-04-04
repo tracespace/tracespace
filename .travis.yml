@@ -26,16 +26,23 @@ _deploy_base: &_deploy_base
 # jobs for node_js versions above automatically added to matrix "test" stage
 jobs:
   include:
-    - # test that app builds all work
+    - # lint and typecheck
       stage: test
-      name: App builds
-      script: npm run build
+      name: Lint and typecheck
+      script:
+        - npm run lint
+        - npm run check
+
+    - # test that asset builds all work
+      stage: test
+      name: Build assets
+      script: npm run build:all
 
     - # build and publish
       if: tag =~ ^v OR (branch = master AND type != pull_request)
       stage: deploy
       name: Deploy to npm and s3
-      script: npm run build
+      script: npm run build:all
       before_deploy:
         # set npm deploy parameters
         - npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
