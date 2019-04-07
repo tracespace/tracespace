@@ -35,7 +35,7 @@
     "common-prefix": "^1.1.0",
     "cosmiconfig": "^5.2.0",
     "debug": "^4.1.1",
-    "dot-prop": "^4.2.0",
+    "dot-prop": "^5.0.0",
     "gerber-to-svg": "file:../gerber-to-svg",
     "globby": "^9.2.0",
     "make-dir": "^3.0.0",
