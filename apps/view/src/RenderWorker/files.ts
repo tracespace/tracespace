@@ -5,13 +5,17 @@ import pump from 'pump'
 import {baseName, promiseFlatMap, PromiseArray} from './util'
 
 const READER_OPTIONS = {chunkSize: 2048}
-const MIMETYPE_ZIP = 'application/zip'
+const MIMETYPE_ZIP = [
+  'application/zip',
+  'application/x-zip',
+  'application/x-zip-compressed',
+]
 
 export type FileToWrite = {name: string; contents: string}
 
 export async function readFiles(files: Array<File>): PromiseArray<FileStream> {
   return promiseFlatMap(files, (file: File) =>
-    file.type === MIMETYPE_ZIP ? zipReader(file) : [fileReader(file)]
+    isZip(file) ? zipReader(file) : [fileReader(file)]
   )
 }
 
@@ -22,7 +26,7 @@ export async function fetchZipFile(url: string): PromiseArray<FileStream> {
       throw new Error(`Could not fetch ${url}: ${response.status}`)
     })
     .then(blob => {
-      if (blob.type === MIMETYPE_ZIP) return zipReader(blob)
+      if (isZip(blob)) return zipReader(blob)
       throw new Error(`${url} is not a zip file`)
     })
 }
@@ -62,6 +66,13 @@ export class FileStream extends Transform {
     this.contents = Buffer.concat(this._chunks)
     next()
   }
+}
+
+function isZip(file: File | Blob): boolean {
+  return (
+    ('name' in file && file.name.endsWith('.zip')) ||
+    MIMETYPE_ZIP.includes(file.type)
+  )
 }
 
 function fileReader(file: File): FileStream {
