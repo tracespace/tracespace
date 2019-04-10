@@ -7,3 +7,7 @@ bundle.*
 **/dist
 */**/LICENSE
 **/*.tgz
+
+# system files
+.DS_Store
+*/.DS_Store
