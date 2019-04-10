@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.3](https://github.com/tracespace/tracespace/compare/v4.0.2...v4.0.3) (2019-04-10)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @types/node to ^11.13.0 ([#193](https://github.com/tracespace/tracespace/issues/193)) ([44f2d60](https://github.com/tracespace/tracespace/commit/44f2d60))
+* **deps:** update dependency @types/node to ^11.13.2 ([#217](https://github.com/tracespace/tracespace/issues/217)) ([e981a4e](https://github.com/tracespace/tracespace/commit/e981a4e))
+
+
+
+
+
 ## [4.0.2](https://github.com/tracespace/tracespace/compare/v4.0.1...v4.0.2) (2019-03-24)
 
 

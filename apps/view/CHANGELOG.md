@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.3](https://github.com/tracespace/tracespace/compare/v4.0.2...v4.0.3) (2019-04-10)
+
+
+### Bug Fixes
+
+* **deps:** update dependency core-js to ^3.0.1 ([#213](https://github.com/tracespace/tracespace/issues/213)) ([b6a87f1](https://github.com/tracespace/tracespace/commit/b6a87f1))
+* **deps:** update dependency formik to ^1.5.2 ([#204](https://github.com/tracespace/tracespace/issues/204)) ([f84edda](https://github.com/tracespace/tracespace/commit/f84edda))
+* **deps:** update dependency react-transition-group to ^2.8.0 ([#202](https://github.com/tracespace/tracespace/issues/202)) ([44a05a1](https://github.com/tracespace/tracespace/commit/44a05a1))
+* **deps:** update react monorepo and packages ([#191](https://github.com/tracespace/tracespace/issues/191)) ([56320c8](https://github.com/tracespace/tracespace/commit/56320c8))
+* **view:** Make ZIP logic more lenient by checking filename ([#222](https://github.com/tracespace/tracespace/issues/222)) ([a37a02d](https://github.com/tracespace/tracespace/commit/a37a02d)), closes [#220](https://github.com/tracespace/tracespace/issues/220)
+
+
+
+
+
 ## [4.0.2](https://github.com/tracespace/tracespace/compare/v4.0.1...v4.0.2) (2019-03-24)
 
 

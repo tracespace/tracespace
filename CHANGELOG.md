@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.3](https://github.com/tracespace/tracespace/compare/v4.0.2...v4.0.3) (2019-04-10)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @types/node to ^11.13.0 ([#193](https://github.com/tracespace/tracespace/issues/193)) ([44f2d60](https://github.com/tracespace/tracespace/commit/44f2d60))
+* **deps:** update dependency @types/node to ^11.13.2 ([#217](https://github.com/tracespace/tracespace/issues/217)) ([e981a4e](https://github.com/tracespace/tracespace/commit/e981a4e))
+* **deps:** update dependency core-js to ^3.0.1 ([#213](https://github.com/tracespace/tracespace/issues/213)) ([b6a87f1](https://github.com/tracespace/tracespace/commit/b6a87f1))
+* **deps:** update dependency cosmiconfig to ^5.2.0 ([#190](https://github.com/tracespace/tracespace/issues/190)) ([347a9f5](https://github.com/tracespace/tracespace/commit/347a9f5))
+* **deps:** update dependency dot-prop to v5 ([#214](https://github.com/tracespace/tracespace/issues/214)) ([921518e](https://github.com/tracespace/tracespace/commit/921518e))
+* **deps:** update dependency formik to ^1.5.2 ([#204](https://github.com/tracespace/tracespace/issues/204)) ([f84edda](https://github.com/tracespace/tracespace/commit/f84edda))
+* **deps:** update dependency globby to ^9.2.0 ([#200](https://github.com/tracespace/tracespace/issues/200)) ([06f0955](https://github.com/tracespace/tracespace/commit/06f0955))
+* **deps:** update dependency make-dir to v3 ([#201](https://github.com/tracespace/tracespace/issues/201)) ([eff27d5](https://github.com/tracespace/tracespace/commit/eff27d5))
+* **deps:** update dependency react-transition-group to ^2.8.0 ([#202](https://github.com/tracespace/tracespace/issues/202)) ([44a05a1](https://github.com/tracespace/tracespace/commit/44a05a1))
+* **deps:** update dependency readable-stream to ^3.3.0 ([#199](https://github.com/tracespace/tracespace/issues/199)) ([594e947](https://github.com/tracespace/tracespace/commit/594e947))
+* **deps:** update react monorepo and packages ([#191](https://github.com/tracespace/tracespace/issues/191)) ([56320c8](https://github.com/tracespace/tracespace/commit/56320c8))
+* **view:** Make ZIP logic more lenient by checking filename ([#222](https://github.com/tracespace/tracespace/issues/222)) ([a37a02d](https://github.com/tracespace/tracespace/commit/a37a02d)), closes [#220](https://github.com/tracespace/tracespace/issues/220)
+
+
+
+
+
 ## [4.0.2](https://github.com/tracespace/tracespace/compare/v4.0.1...v4.0.2) (2019-03-24)
 
 

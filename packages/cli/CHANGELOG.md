@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.3](https://github.com/tracespace/tracespace/compare/v4.0.2...v4.0.3) (2019-04-10)
+
+
+### Bug Fixes
+
+* **deps:** update dependency cosmiconfig to ^5.2.0 ([#190](https://github.com/tracespace/tracespace/issues/190)) ([347a9f5](https://github.com/tracespace/tracespace/commit/347a9f5))
+* **deps:** update dependency dot-prop to v5 ([#214](https://github.com/tracespace/tracespace/issues/214)) ([921518e](https://github.com/tracespace/tracespace/commit/921518e))
+* **deps:** update dependency globby to ^9.2.0 ([#200](https://github.com/tracespace/tracespace/issues/200)) ([06f0955](https://github.com/tracespace/tracespace/commit/06f0955))
+* **deps:** update dependency make-dir to v3 ([#201](https://github.com/tracespace/tracespace/issues/201)) ([eff27d5](https://github.com/tracespace/tracespace/commit/eff27d5))
+
+
+
+
+
 ## [4.0.2](https://github.com/tracespace/tracespace/compare/v4.0.1...v4.0.2) (2019-03-24)
 
 **Note:** Version bump only for package @tracespace/cli
