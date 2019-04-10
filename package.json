@@ -4,12 +4,12 @@
   "scripts": {
     "_test": "mocha --require scripts/init-test-env '@(packages|apps)/**/*test.@(js|ts|tsx)'",
     "test": "cross-env INTEGRATION=1 nyc npm run _test",
-    "posttest": "npm run example && npm run docs && npm run check && npm run lint",
     "test:watch": "npm run _test -- --watch --reporter dot --watch-extensions js,ts,tsx",
     "coverage": "nyc report --reporter=lcov",
     "start": "lerna run start --parallel",
     "build": "lerna run build --parallel",
     "serve": "lerna run serve --parallel",
+    "build:all": "npm run build && npm run example && npm run docs",
     "lint": "eslint '.*.js' '**/*.@(js|ts|tsx)'",
     "format": "prettier --ignore-path .eslintignore --write '.*.@(js|yml)' '**/*.@(js|ts|tsx|json|md|yml)'",
     "check": "tsc",

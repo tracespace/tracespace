@@ -235,13 +235,13 @@ All development scripts below **should be run from the root of the repository**.
 Automated tests consist of unit tests along with integration [snapshot tests][snapshot-testing] of SVG and data outputs.
 
 ```shell
-# run unit and integration tests tests with coverage and linting
+# run unit and integration tests tests with coverage
 npm test
 
 # set SNAPSHOT_UPDATE=1 to update integration test snapshots
 SNAPSHOT_UPDATE=1 npm test
 
-# run unit tests in watch mode (no coverage, no linting)
+# run unit tests in watch mode (no coverage)
 npm run test:watch
 
 # set INTEGRATION=1 to also include integration tests
@@ -262,10 +262,36 @@ npm run start
 npm run start -- --scope @tracespace/view
 ```
 
-`@tracespace/view` can also build and serve its production assets as a sanity check before deploying:
+### production assets
+
+There are two production asset types that you can build:
+
+- Full web-app bundles
+  - `@tracespace/view`
+- Standalone library bundles
+  - `gerber-parser`
+  - `gerber-plotter`
+  - `gerber-to-svg`
+  - `pcb-stackup-core`
+  - `pcb-stackup`
+  - `whats-that-gerber`
+
+To build them:
 
 ```shell
+# build production bundles
+npm run build
+
+# build:all
+# builds all production bundles, example files, and documentation
+npm run build:all
+
+# build all bundles and serve them for testing/validation
 npm run serve
+
+# as with the dev server, these commands may be scoped by name
+npm run build -- --scope gerber-parser
+npm run serve -- --scope @tracespace/view
 ```
 
 ### linting and formatting
@@ -276,6 +302,9 @@ npm run format
 
 # lint the code for potential errors
 npm run lint
+
+# typecheck any typescript code
+npm run check
 ```
 
 ### publishing
