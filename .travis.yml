@@ -43,17 +43,20 @@ jobs:
       stage: deploy
       name: Deploy to npm and s3
       script: npm run build:all
-      before_deploy:
+      before_script:
         # set npm deploy parameters
         - npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
         - export NPM_TAG=$(node scripts/get-npm-tag.js $TRAVIS_TAG)
         # set s3 deploy parameters
         - |
           if [ $TRAVIS_BRANCH = master ]; then
+            export MIXPANEL_ID=$MIXPANEL_ID_STAGING
             export AWS_S3_BUCKET=$AWS_S3_BUCKET_STAGING
           else
+            export MIXPANEL_ID=$MIXPANEL_ID_PRODUCTION
             export AWS_S3_BUCKET=$AWS_S3_BUCKET_PRODUCTION
           fi
+
       deploy:
         - # s3 publish on master (staging) and tagged commits (production)
           <<: *_deploy_base

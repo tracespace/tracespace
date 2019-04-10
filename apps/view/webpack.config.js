@@ -76,7 +76,7 @@ module.exports = merge(baseConfig(__dirname), {
   },
   plugins: [
     new FileManagerPlugin({
-      onStart: [{delete: [OUT_PATH]}, {mkdir: [OUT_PATH]}],
+      onStart: {mkdir: [OUT_PATH]},
       onEnd: {archive: [{source: EXAMPLE_FILES, destination: EXAMPLE_OUT}]},
     }),
     new HtmlPlugin({

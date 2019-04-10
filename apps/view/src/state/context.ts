@@ -3,6 +3,7 @@ import React, {useContext} from 'react'
 import {State, ContextProps} from './types'
 
 export const INITIAL_STATE: State = {
+  appPreferences: {},
   board: null,
   savedBoards: [],
   mode: null,

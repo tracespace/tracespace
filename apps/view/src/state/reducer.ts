@@ -4,6 +4,10 @@ import {Action, State} from './types'
 
 export default function reducer(state: State, action: Action): State {
   switch (action.type) {
+    case actionTypes.APP_PREFERENCES: {
+      return {...state, appPreferences: action.payload}
+    }
+
     case actionTypes.CREATE_BOARD:
     case actionTypes.CREATE_BOARD_FROM_URL: {
       return {...state, loading: true}

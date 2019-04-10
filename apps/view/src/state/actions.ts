@@ -1,6 +1,16 @@
-import {Board, BoardSummary, BoardUpdate, BoardRender, Mode} from '../types'
+import {
+  AppPreferences,
+  BoardSummary,
+  BoardUpdate,
+  BoardRender,
+  Mode,
+} from '../types'
+
 import {Action} from './types'
 
+export const FETCH_APP_PREFERENCES = 'FETCH_APP_PREFERENCES'
+export const UPDATE_APP_PREFERENCES = 'UPDATE_APP_PREFERENCES'
+export const APP_PREFERENCES = 'APP_PREFERENCES'
 export const CREATE_BOARD = 'CREATE_BOARD'
 export const CREATE_BOARD_FROM_URL = 'CREATE_BOARD_FROM_URL'
 export const GET_BOARD = 'GET_BOARD'
@@ -19,9 +29,27 @@ export const WORKER_INITIALIZED = 'WORKER_INITIALIZED'
 export const WORKER_ERRORED = 'WORKER_ERRORED'
 export const DISMISS_ERROR = 'DISMISS_ERROR'
 
-export const createBoard = (files: Array<File>): Action => ({
+export const fetchAppPreferences = (): Action => ({
+  type: FETCH_APP_PREFERENCES,
+})
+
+export const updateAppPreferences = (prefs: AppPreferences): Action => ({
+  type: UPDATE_APP_PREFERENCES,
+  payload: prefs,
+})
+
+export const appPreferences = (prefs: AppPreferences): Action => ({
+  type: APP_PREFERENCES,
+  payload: prefs,
+})
+
+export const createBoard = (
+  files: Array<File>,
+  dragAndDrop: boolean = false
+): Action => ({
   type: CREATE_BOARD,
   payload: files,
+  metadata: {dragAndDrop},
 })
 
 export const createBoardFromUrl = (url: string): Action => ({
@@ -63,12 +91,13 @@ export const toggleVisibility = (id: string, solo: boolean): Action => ({
   payload: {id, solo},
 })
 
-export const boardRendered = (render: BoardRender): Action => ({
+export const boardRendered = (render: BoardRender, time: number): Action => ({
   type: BOARD_RENDERED,
   payload: render,
+  metadata: {time},
 })
 
-export const boardUpdated = (board: Board): Action => ({
+export const boardUpdated = (board: BoardSummary): Action => ({
   type: BOARD_UPDATED,
   payload: board,
 })
@@ -78,9 +107,13 @@ export const boardDeleted = (id: string): Action => ({
   payload: id,
 })
 
-export const boardPackaged = (name: string, file: Blob): Action => ({
+export const boardPackaged = (
+  id: string,
+  name: string,
+  file: Blob
+): Action => ({
   type: BOARD_PACKAGED,
-  payload: {name, file},
+  payload: {id, name, file},
 })
 
 export const allBoardsDeleted = (): Action => ({

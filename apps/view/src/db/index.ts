@@ -1,10 +1,10 @@
 // indexedDB storage of layers and boards
 import {Board, BoardSummary} from '../types'
 import {NotFoundError} from './errors'
-import {BoardDatabase, DbBoard} from './types'
+import {BoardDatabase, DbBoard, AppDatabase, DbAppPreferences} from './types'
 export * from './types'
 
-export async function createDatabase(): Promise<BoardDatabase> {
+export async function createBoardDatabase(): Promise<BoardDatabase> {
   return import('dexie').then(({default: Dexie}) => {
     const db = new Dexie('BoardDatabase')
 
@@ -16,6 +16,38 @@ export async function createDatabase(): Promise<BoardDatabase> {
 
     return db as BoardDatabase
   })
+}
+
+export async function createAppDatabase(): Promise<AppDatabase> {
+  return import('dexie').then(({default: Dexie}) => {
+    const db = new Dexie('AppDatabase')
+
+    db.version(1).stores({preferences: '++'})
+
+    return db as AppDatabase
+  })
+}
+
+export async function ensureAppPreferences(
+  db: AppDatabase
+): Promise<DbAppPreferences> {
+  return db.transaction('rw', db.preferences, async () => {
+    return db.preferences.toArray().then(results => {
+      if (results.length === 0) {
+        const prefs = {}
+        return db.preferences.add(prefs).then(() => prefs)
+      }
+
+      return results[0]
+    })
+  })
+}
+
+export async function updateAppPreferences(
+  db: AppDatabase,
+  update: DbAppPreferences
+): Promise<number> {
+  return db.preferences.toCollection().modify(update)
 }
 
 export async function saveBoard(

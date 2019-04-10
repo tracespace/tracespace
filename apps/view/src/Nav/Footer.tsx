@@ -1,13 +1,12 @@
 import React from 'react'
 
-import pkg from './../../package.json'
-
-const REPO_URL_MATCH = pkg.repository.url.match(/git\+(https:\/\/.+).git/)
-const REPO_URL = REPO_URL_MATCH ? REPO_URL_MATCH[1] : '#'
-
-const {name: AUTHOR_NAME, url: AUTHOR_URL} = pkg.author
-const CONTRIBUTORS_URL = `${REPO_URL}/graphs/contributors`
-const PRIVACY_URL = `${REPO_URL}/blob/v${pkg.version}/PRIVACY.md`
+import {
+  REPO_URL,
+  AUTHOR_NAME,
+  AUTHOR_URL,
+  CONTRIBUTORS_URL,
+  PRIVACY_URL,
+} from '../pkg'
 
 const STYLE = 'fixed right-1 bottom-1 w-third tr'
 const COPY_STYLE = 'mv0 lh-copy f7 white'

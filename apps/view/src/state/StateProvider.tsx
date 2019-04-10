@@ -2,14 +2,18 @@ import React from 'react'
 
 import {useStore} from './store'
 import {StateContext} from './context'
+import {Middleware} from './types'
 
-export type StateProviderProps = {children: React.ReactNode}
+export type StateProviderProps = {
+  middleware: Array<Middleware>
+  children: React.ReactNode
+}
 
 export default function StateProvider(props: StateProviderProps): JSX.Element {
-  const contextValue = useStore()
+  const {getState, dispatch} = useStore(props.middleware)
 
   return (
-    <StateContext.Provider value={contextValue}>
+    <StateContext.Provider value={{...getState(), dispatch}}>
       {props.children}
     </StateContext.Provider>
   )

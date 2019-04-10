@@ -1,6 +1,6 @@
 import {
+  AppPreferences,
   BoardRender,
-  Board,
   BoardSummary,
   BoardUpdate,
   LayerVisibilityMap,
@@ -9,6 +9,7 @@ import {
 } from '../types'
 
 export type State = {
+  appPreferences: AppPreferences
   board: BoardRender | null
   savedBoards: Array<BoardSummary>
   mode: Mode
@@ -21,12 +22,27 @@ export type State = {
 
 export type Dispatch = (action: Action) => void
 
-export type EffectsHandler = (action: Action) => void
+export type Store = {getState: () => State; dispatch: Dispatch}
+
+export type Middleware = {
+  (store: Store): ConnectedMiddleware
+}
+
+export type ConnectedMiddleware = {
+  (next: Dispatch): Dispatch
+}
 
 export type ContextProps = State & {dispatch: Dispatch}
 
 export type Action =
-  | {type: 'CREATE_BOARD'; payload: Array<File>}
+  | {type: 'FETCH_APP_PREFERENCES'}
+  | {type: 'UPDATE_APP_PREFERENCES'; payload: AppPreferences}
+  | {type: 'APP_PREFERENCES'; payload: AppPreferences}
+  | {
+      type: 'CREATE_BOARD'
+      payload: Array<File>
+      metadata: {dragAndDrop: boolean}
+    }
   | {type: 'CREATE_BOARD_FROM_URL'; payload: string}
   | {type: 'GET_BOARD'; payload: string}
   | {type: 'UPDATE_BOARD'; payload: {id: string; update: BoardUpdate}}
@@ -35,10 +51,10 @@ export type Action =
   | {type: 'GET_BOARD_PACKAGE'; payload: string}
   | {type: 'SET_MODE'; payload: Mode}
   | {type: 'TOGGLE_VISIBILITY'; payload: {id: string; solo: boolean}}
-  | {type: 'BOARD_RENDERED'; payload: BoardRender}
-  | {type: 'BOARD_UPDATED'; payload: Board}
+  | {type: 'BOARD_RENDERED'; payload: BoardRender; metadata: {time: number}}
+  | {type: 'BOARD_UPDATED'; payload: BoardSummary}
   | {type: 'BOARD_DELETED'; payload: string}
-  | {type: 'BOARD_PACKAGED'; payload: {name: string; file: Blob}}
+  | {type: 'BOARD_PACKAGED'; payload: {id: string; name: string; file: Blob}}
   | {type: 'ALL_BOARDS_DELETED'}
   | {type: 'WORKER_INITIALIZED'; payload: Array<BoardSummary>}
   | {type: 'WORKER_ERRORED'; payload: {request: Action; error: ErrorObject}}
