@@ -124,7 +124,7 @@
     "style-loader": "^0.23.1",
     "terser-webpack-plugin": "^1.2.3",
     "testdouble": "^3.11.0",
-    "to-readable-stream": "^2.0.0",
+    "to-readable-stream": "^2.1.0",
     "typescript": "^3.4.1",
     "webpack": "^4.29.6",
     "webpack-bundle-analyzer": "^3.1.0",
