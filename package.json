@@ -111,7 +111,7 @@
     "nyc": "^13.3.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "portfinder": "^1.0.20",
-    "prettier": "^1.16.4",
+    "prettier": "^1.17.0",
     "proxyquire": "^2.1.0",
     "pump": "^3.0.0",
     "run-parallel": "^1.1.9",
