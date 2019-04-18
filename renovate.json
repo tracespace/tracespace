@@ -3,30 +3,13 @@
   "rangeStrategy": "bump",
   "packageRules": [
     {
-      "groupName": "eslint packages",
-      "packagePatterns": ["eslint"]
+      "groupName": "devDependencies",
+      "depTypeList": ["devDependencies"],
+      "separateMajorMinor": false
     },
     {
-      "groupName": "test packages",
-      "packageNames": [
-        "mocha",
-        "chai",
-        "chai-as-promised",
-        "nyc",
-        "proxyquire",
-        "sinon",
-        "snap-shot-it",
-        "testdouble",
-        "@types/mocha",
-        "@types/chai",
-        "@types/chai-as-promised"
-      ]
-    },
-    {
-      "groupName": "webpack packages",
-      "packagePatterns": ["webpack", "loader"],
-      "packageNames": ["mini-css-extract-plugin"],
-      "excludePackagePatterns": ["hot-loader"]
+      "groupName": "type definitions",
+      "packagePatterns": ["^@types/"]
     },
     {
       "groupName": "react monorepo and packages",
@@ -34,13 +17,7 @@
       "packageNames": [
         "react-hot-loader",
         "@hot-loader/react-dom",
-        "react-transition-group",
-        "enzyme",
-        "enzyme-adapter-react-16",
-        "@types/react",
-        "@types/react-dom",
-        "@types/react-transition-group",
-        "@types/enzyme"
+        "react-transition-group"
       ]
     }
   ]
