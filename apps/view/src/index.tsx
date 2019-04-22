@@ -5,33 +5,18 @@ import './styles'
 Promise.all([
   import('react-dom'),
   import('./App'),
-  import('./analytics'),
-  import('./logger'),
-  import('./render'),
-  import('./settings'),
-  import('./state'),
+  import('./state/StoreProvider'),
 ]).then(imports => {
   const [
     {default: ReactDom},
     {default: App},
-    {createAnalyticsMiddleware},
-    {createLogMiddleware},
-    {createRenderMiddleware},
-    {createSettingsMiddleware},
-    {StateProvider},
+    {default: StoreProvider},
   ] = imports
 
   ReactDom.hydrate(
-    <StateProvider
-      middleware={[
-        createAnalyticsMiddleware(),
-        createRenderMiddleware(),
-        createSettingsMiddleware(),
-        createLogMiddleware(),
-      ]}
-    >
+    <StoreProvider>
       <App />
-    </StateProvider>,
+    </StoreProvider>,
     document.querySelector('[data-hook=root]')
   )
 })

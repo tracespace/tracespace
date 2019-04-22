@@ -18,9 +18,10 @@ export default log
 
 export const createLogMiddleware = (): Middleware => {
   return store => next => action => {
+    const result = next(action)
     log.debug('action', action)
-    next(action)
     log.debug('next state', store.getState())
+    return result
   }
 }
 

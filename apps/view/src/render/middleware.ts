@@ -10,7 +10,7 @@ export function createRenderMiddleware(): State.Middleware {
   return store => {
     const {dispatch} = store
 
-    worker.onmessage = (event: WorkerMessageEvent) => {
+    worker.onmessage = function handleWorkerMessage(event: WorkerMessageEvent) {
       log.debug('action recieved from RenderWorker', event.data.type)
       dispatch(event.data)
     }
@@ -43,7 +43,7 @@ export function createRenderMiddleware(): State.Middleware {
         }
       }
 
-      next(action)
+      return next(action)
     }
   }
 }

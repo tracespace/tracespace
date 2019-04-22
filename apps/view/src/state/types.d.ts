@@ -20,19 +20,13 @@ export type State = {
   error: null | ErrorObject
 }
 
-export type Dispatch = (action: Action) => void
+export type Reducer = (state: State, action: Action) => State
+
+export type Dispatch = (action: Action) => Action
 
 export type Store = {getState: () => State; dispatch: Dispatch}
 
-export type Middleware = {
-  (store: Store): ConnectedMiddleware
-}
-
-export type ConnectedMiddleware = {
-  (next: Dispatch): Dispatch
-}
-
-export type ContextProps = State & {dispatch: Dispatch}
+export type Middleware = (store: Store) => (next: Dispatch) => Dispatch
 
 export type Action =
   | {type: 'FETCH_APP_PREFERENCES'}

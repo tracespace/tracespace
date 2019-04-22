@@ -60,6 +60,10 @@ module.exports = {
           'react-hooks/rules-of-hooks': 'error',
           '@typescript-eslint/camelcase': 'off',
           '@typescript-eslint/explicit-member-accessibility': 'off',
+          '@typescript-eslint/explicit-function-return-type': [
+            'warn',
+            {allowExpressions: true},
+          ],
           '@typescript-eslint/array-type': ['error', 'generic'],
           '@typescript-eslint/no-unused-vars': [
             'error',

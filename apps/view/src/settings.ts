@@ -38,7 +38,7 @@ export function createSettingsMiddleware(): State.Middleware {
         }
       }
 
-      next(action)
+      return next(action)
     }
   }
 }
