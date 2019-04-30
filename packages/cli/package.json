@@ -40,7 +40,7 @@
     "globby": "^9.2.0",
     "make-dir": "^3.0.0",
     "pcb-stackup": "file:../pcb-stackup",
-    "untildify": "^3.0.3",
+    "untildify": "^4.0.0",
     "whats-that-gerber": "file:../whats-that-gerber",
     "yargs": "^13.2.2"
   }
