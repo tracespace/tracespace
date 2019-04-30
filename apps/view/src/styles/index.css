@@ -2,6 +2,7 @@
 
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700');
 @import '~tachyons';
+@import './reset';
 @import './animation';
 @import './skins';
 

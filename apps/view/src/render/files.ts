@@ -2,14 +2,10 @@ import {Transform, TransformCallback} from 'readable-stream'
 import fileReaderStream from 'filereader-stream'
 import MD5 from 'md5.js'
 import pump from 'pump'
+import {isZip} from '../util'
 import {baseName, promiseFlatMap, PromiseArray} from './util'
 
 const READER_OPTIONS = {chunkSize: 2048}
-const MIMETYPE_ZIP = [
-  'application/zip',
-  'application/x-zip',
-  'application/x-zip-compressed',
-]
 
 export type FileToWrite = {name: string; contents: string}
 
@@ -66,13 +62,6 @@ export class FileStream extends Transform {
     this.contents = Buffer.concat(this._chunks)
     next()
   }
-}
-
-function isZip(file: File | Blob): boolean {
-  return (
-    ('name' in file && file.name.endsWith('.zip')) ||
-    MIMETYPE_ZIP.includes(file.type)
-  )
 }
 
 function fileReader(file: File): FileStream {

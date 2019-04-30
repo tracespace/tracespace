@@ -8,6 +8,10 @@ import {GerberSide, GerberType} from 'whats-that-gerber'
 
 export {CoordinateFormat, ZeroSuppression, Units, GerberType, GerberSide}
 
+export type AppPreferences = Optional<{
+  analyticsOptIn: boolean
+}>
+
 export type Mode = null | 'top' | 'bottom' | 'layers'
 
 export type SvgSource = string | null
@@ -60,6 +64,7 @@ export type BoardRender = {
   top: SvgSource
   bottom: SvgSource
   layers: Array<LayerRender>
+  sourceIds: Array<string>
   sourceUrl: string | null
 }
 

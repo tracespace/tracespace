@@ -1,5 +1,5 @@
 import {
-  createDatabase,
+  createBoardDatabase,
   saveBoard,
   getBoard,
   getBoards,
@@ -43,15 +43,18 @@ import {
 const ctx: RenderWorkerContext = self as any
 let db: BoardDatabase
 
-createDatabase()
+createBoardDatabase()
   .then(database => {
     db = database
     return getBoards(db)
   })
   .then(boards => ctx.postMessage(workerInitialized(boards)))
 
+const duration = (start: number): number => Date.now() - start
+
 ctx.onmessage = function receive(event) {
   const request = event.data
+  const startTime = Date.now()
   let response
 
   switch (request.type) {
@@ -71,7 +74,7 @@ ctx.onmessage = function receive(event) {
         if (!existingBoard) {
           const render = stackupToBoardRender(shared, board)
 
-          ctx.postMessage(boardRendered(render))
+          ctx.postMessage(boardRendered(render, duration(startTime)))
           saveQuery = saveBoard(db, board)
         } else {
           board = updateBoard(board, existingBoard)
@@ -80,7 +83,7 @@ ctx.onmessage = function receive(event) {
             const render = stackupToBoardRender(shared, board)
 
             board = updateBoardThumbnail(board, selfContained)
-            ctx.postMessage(boardRendered(render))
+            ctx.postMessage(boardRendered(render, duration(startTime)))
 
             return saveBoard(db, board)
           })
@@ -100,7 +103,7 @@ ctx.onmessage = function receive(event) {
         const board = stackupToBoard(selfContained)
         const render = stackupToBoardRender(shared, board)
 
-        ctx.postMessage(boardRendered(render))
+        ctx.postMessage(boardRendered(render, duration(startTime)))
 
         return saveBoard(db, board).then(() =>
           ctx.postMessage(boardUpdated(board))
@@ -117,7 +120,7 @@ ctx.onmessage = function receive(event) {
         boardToStackups(board).then(stackups => {
           const [, shared] = stackups
           const render = stackupToBoardRender(shared, board)
-          ctx.postMessage(boardRendered(render))
+          ctx.postMessage(boardRendered(render, duration(startTime)))
         })
       )
 
@@ -133,7 +136,7 @@ ctx.onmessage = function receive(event) {
             const [selfContained] = stackups
             return stackupToZipBlob(selfContained)
           })
-          .then(blob => ctx.postMessage(boardPackaged(board.name, blob)))
+          .then(blob => ctx.postMessage(boardPackaged(id, board.name, blob)))
       )
 
       break
@@ -150,10 +153,17 @@ ctx.onmessage = function receive(event) {
           const render = stackupToBoardRender(shared, board)
           const nextBoard = updateBoardThumbnail(board, selfContained)
 
-          ctx.postMessage(boardRendered(render))
+          ctx.postMessage(boardRendered(render, duration(startTime)))
 
           return saveBoard(db, nextBoard).then(() =>
-            ctx.postMessage(boardUpdated(nextBoard))
+            ctx.postMessage(
+              boardUpdated({
+                id: nextBoard.id,
+                name: nextBoard.name,
+                options: nextBoard.options,
+                thumbnail: nextBoard.thumbnail,
+              })
+            )
           )
         })
       })

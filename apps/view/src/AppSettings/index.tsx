@@ -3,6 +3,7 @@ import React, {useState} from 'react'
 import pkg from '../../package.json'
 import {Button, Icon, getButtonStyle} from '../ui'
 import SettingsDrawer from './SettingsDrawer'
+import AnalyticsOptInModal from './AnalyticsOptInModal'
 
 const HELP_TOOLTIP = 'Troubleshooting'
 const HELP_HREF = `https://github.com/tracespace/tracespace/blob/v${
@@ -39,6 +40,7 @@ export default function AppSettings(props: AppSettingsProps): JSX.Element {
         <Icon name="sliders-h" />
       </Button>
       <SettingsDrawer open={open} close={toggleOpen} />
+      <AnalyticsOptInModal />
     </>
   )
 }

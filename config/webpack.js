@@ -2,6 +2,7 @@
 'use strict'
 
 const path = require('path')
+const webpack = require('webpack')
 const HtmlPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
@@ -30,6 +31,7 @@ const baseConfig = dirname => ({
       analyzerMode: ANALYZER ? 'server' : 'disabled',
       openAnalyzer: ANALYZER,
     }),
+    new webpack.EnvironmentPlugin(['MIXPANEL_ID']),
   ],
   optimization: {
     minimizer: [
