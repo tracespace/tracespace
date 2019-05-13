@@ -125,7 +125,7 @@ module.exports = function cli(processArgv, config) {
 
   function writeOutput(name, contents) {
     if (argv.out === options.out.STDOUT) return console.log(contents)
-
+    name = name.replace(/.null/g, '');   // remove .null from output file name.
     const filename = path.join(argv.out, name)
     info(`Writing ${filename}`)
     return writeFile(filename, contents)
