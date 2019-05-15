@@ -47,7 +47,7 @@
     "contrast": "^1.0.1",
     "core-js": "^3.0.1",
     "dexie": "3.0.0-alpha.8",
-    "file-saver": "^2.0.1",
+    "file-saver": "^2.0.2",
     "filereader-stream": "^2.0.0",
     "formik": "^1.5.4",
     "gerber-parser": "file:../../packages/gerber-parser",
