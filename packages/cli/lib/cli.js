@@ -4,7 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const util = require('util')
 const common = require('common-prefix')
-const {get} = require('dot-prop')
+const { get } = require('dot-prop')
 const glob = require('globby')
 const makeDir = require('make-dir')
 const debug = require('debug')('@tracespace/cli')
@@ -14,7 +14,7 @@ const pcbStackup = require('pcb-stackup')
 const whatsThatGerber = require('whats-that-gerber')
 const yargs = require('yargs')
 
-const {description, version} = require('../package.json')
+const { description, version } = require('../package.json')
 const examples = require('./examples')
 const options = require('./options')
 const resolve = require('./resolve')
@@ -42,11 +42,11 @@ module.exports = function cli(processArgv, config) {
     .options(options)
     .version()
     .help()
-    .alias({help: 'h', version: 'v'})
+    .alias({ help: 'h', version: 'v' })
     .fail((error, message, yargs) => {
       throw new Error(error)
     })
-    .parserConfiguration({'boolean-negation': false})
+    .parserConfiguration({ 'boolean-negation': false })
     .parse(processArgv)
 
   debug('argv', argv)
@@ -72,7 +72,7 @@ module.exports = function cli(processArgv, config) {
 
   function makeLayerFromFilename(filename, typesByName) {
     const basename = path.basename(filename)
-    const {type, side} = getType(basename, typesByName[filename])
+    const { type, side } = getType(basename, typesByName[filename])
 
     if (type == null && !argv.force) {
       info(`Skipping ${basename} (unable to identify type)`)
@@ -86,7 +86,7 @@ module.exports = function cli(processArgv, config) {
 
     debug(filename, type, side, options)
 
-    return {type, side, gerber, options, filename: basename}
+    return { type, side, gerber, options, filename: basename }
   }
 
   function getType(basename, defaults) {
@@ -113,19 +113,23 @@ module.exports = function cli(processArgv, config) {
         !argv.noBoard && writeOutput(`${name}.bottom.svg`, stackup.bottom.svg),
         ...stackup.layers
           .filter(_ => !argv.noLayer)
-          .map(layer =>
-            writeOutput(
-              `${layer.filename}.${layer.side}.${layer.type}.svg`,
+          .map(layer => {
+            let filename = layer.filename
+            if (layer.side) filename += `.${layer.side}`
+            if (layer.type) filename += `.${layer.type}`
+
+            return writeOutput(
+              `${filename}.svg`,
               gerberToSvg.render(layer.converter, layer.options.attributes)
             )
-          ),
+          }),
       ])
     )
   }
 
   function writeOutput(name, contents) {
     if (argv.out === options.out.STDOUT) return console.log(contents)
-    name = name.replace(/.null/g, '')   // remove .null from output file name.
+    name = name.replace(/.null/g, '')
     const filename = path.join(argv.out, name)
     info(`Writing ${filename}`)
     return writeFile(filename, contents)
