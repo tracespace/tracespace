@@ -208,7 +208,7 @@ Node v8 (lts/carbon) or later is recommended.
 
 ```shell
 # clone repository and install dependencies
-git clone git@github.com:tracespace/tracespace.git
+git clone https://github.com/tracespace/tracespace
 cd tracespace
 npm install
 ```
