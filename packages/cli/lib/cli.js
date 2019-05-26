@@ -113,16 +113,12 @@ module.exports = function cli(processArgv, config) {
         !argv.noBoard && writeOutput(`${name}.bottom.svg`, stackup.bottom.svg),
         ...stackup.layers
           .filter(_ => !argv.noLayer)
-          .map(layer => {
-            let filename = layer.filename
-            if (layer.side) filename += `.${layer.side}`
-            if (layer.type) filename += `.${layer.type}`
-
-            return writeOutput(
-              `${filename}.svg`,
+          .map(layer =>
+            writeOutput(
+              `${layer.filename}.${layer.side}.${layer.type}.svg`,
               gerberToSvg.render(layer.converter, layer.options.attributes)
             )
-          }),
+          ),
       ])
     )
   }
