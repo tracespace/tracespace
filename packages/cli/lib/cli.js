@@ -113,19 +113,23 @@ module.exports = function cli(processArgv, config) {
         !argv.noBoard && writeOutput(`${name}.bottom.svg`, stackup.bottom.svg),
         ...stackup.layers
           .filter(_ => !argv.noLayer)
-          .map(layer =>
-            writeOutput(
-              `${layer.filename}.${layer.side}.${layer.type}.svg`,
+          .map(layer => {
+            let filename = layer.filename
+            if (layer.side) filename += `.${layer.side}`
+            if (layer.type) filename += `.${layer.type}`
+
+            return writeOutput(
+              `${filename}.svg`,
               gerberToSvg.render(layer.converter, layer.options.attributes)
             )
-          ),
+          }),
       ])
     )
   }
 
   function writeOutput(name, contents) {
     if (argv.out === options.out.STDOUT) return console.log(contents)
-    name = name.replace(/.null/g, '');   // remove .null from output file name.
+
     const filename = path.join(argv.out, name)
     info(`Writing ${filename}`)
     return writeFile(filename, contents)
