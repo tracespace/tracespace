@@ -11,7 +11,7 @@ type Props = {
   className?: string
 }
 
-export default React.memo(function LayersRender(props: Props): JSX.Element {
+export function LayersRender(props: Props): JSX.Element {
   const {layerVisibility, viewBox, className} = props
   const layers = props.layers.filter(ly => ly.converter.layer.length > 0)
 
@@ -54,4 +54,6 @@ export default React.memo(function LayersRender(props: Props): JSX.Element {
       </g>
     </svg>
   )
-})
+}
+
+export default React.memo(LayersRender)
