@@ -152,7 +152,13 @@ Array<{
 
 ### render suite server
 
-Simple server to display the results of a render test.
+Simple server to display the results of a render test. Has a peer dependency on Express, which you must install yourself before usage:
+
+```shell
+npm install --save-dev @tracespace/fixtures express
+```
+
+Usage:
 
 ```js
 const {server, getGerberSpecs} = require('@tracespace/fixtures')
