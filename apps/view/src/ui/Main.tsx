@@ -2,8 +2,8 @@ import React from 'react'
 
 export type MainProps = {
   children: React.ReactNode
-  onDragOver: (event: React.DragEvent<HTMLMainElement>) => void
-  onDrop: (event: React.DragEvent<HTMLMainElement>) => void
+  onDragOver: (event: React.DragEvent<HTMLElement>) => void
+  onDrop: (event: React.DragEvent<HTMLElement>) => void
 }
 
 const STYLE = 'sans relative overflow-hidden h-100 pa3 white bg-gradient'

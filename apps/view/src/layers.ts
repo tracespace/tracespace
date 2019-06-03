@@ -120,26 +120,28 @@ export function getDefaultLayerOptions(
   return layers.reduce<Optional<LayerOptions>>((options, ly) => {
     OPTIONS.forEach(name => {
       const layerValue = ly.initialOptions[name]
-      const existingValue = options[name]
+      let value = options[name]
 
-      if (typeof existingValue === 'undefined') {
+      if (typeof value === 'undefined') {
         // set the option to the layer value if it hasn't been set yet
-        options[name] = layerValue
-      } else if (existingValue !== null) {
+        value = layerValue
+      } else if (value !== null) {
         // if it has been set, check that every layer has the same value, and
         // null out the option if they don't
-        if (Array.isArray(existingValue)) {
+        if (Array.isArray(value)) {
           if (
             !Array.isArray(layerValue) ||
-            existingValue[0] !== layerValue[0] ||
-            existingValue[1] !== layerValue[1]
+            value[0] !== layerValue[0] ||
+            value[1] !== layerValue[1]
           ) {
-            options[name] = null
+            value = null
           }
-        } else if (existingValue !== layerValue) {
-          options[name] = null
+        } else if (value !== layerValue) {
+          value = null
         }
       }
+
+      if (value !== options[name]) options = {...options, [name]: value}
     })
 
     return options
