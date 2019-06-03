@@ -42,6 +42,6 @@
     "pcb-stackup": "file:../pcb-stackup",
     "untildify": "^4.0.0",
     "whats-that-gerber": "file:../whats-that-gerber",
-    "yargs": "^13.2.2"
+    "yargs": "^13.2.4"
   }
 }
