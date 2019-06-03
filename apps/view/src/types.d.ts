@@ -108,7 +108,7 @@ export type ErrorObject = {
 }
 
 export type FileEvent =
-  | React.DragEvent<HTMLMainElement>
+  | React.DragEvent<HTMLElement>
   | React.ChangeEvent<HTMLInputElement>
 
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error'
