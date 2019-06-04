@@ -1,7 +1,12 @@
 {
   "extends": ["config:base", ":prNotPending", ":unpublishSafe"],
   "rangeStrategy": "bump",
+  "postUpdateOptions": ["npmDedupe"],
   "packageRules": [
+    {
+      "depTypeList": ["peerDependencies"],
+      "rangeStrategy": "widen"
+    },
     {
       "groupName": "devDependencies",
       "depTypeList": ["devDependencies"],
