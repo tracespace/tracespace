@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/tracespace/tracespace#readme",
   "dependencies": {
-    "@types/node": "^11.13.8",
+    "@types/node": "^11.13.13",
     "inherits": "^2.0.3",
     "lodash.isfinite": "^3.3.2",
     "lodash.padend": "^4.6.1",

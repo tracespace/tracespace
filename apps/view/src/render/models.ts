@@ -108,7 +108,7 @@ export function stackupToBoard(stackup: StackupFromFiles): Board {
         source: contents,
         side: ly.side,
         type: ly.type,
-        color: randomColor({luminosity: 'dark'}),
+        color: randomColor({luminosity: 'dark'}) as string,
         initialOptions: {
           coordinateFormat: ly.converter.parser.format.places,
           zeroSuppression: ly.converter.parser.format.zero,
