@@ -25,6 +25,6 @@
     "run-waterfall": "^1.1.6"
   },
   "peerDependencies": {
-    "express": "^4.0.0"
+    "express": "^4.17.1"
   }
 }
