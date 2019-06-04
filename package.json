@@ -2,9 +2,8 @@
   "name": "tracespace",
   "private": true,
   "scripts": {
-    "_test": "mocha --require scripts/init-test-env '@(packages|apps)/**/*test.@(js|ts|tsx)'",
-    "test": "cross-env INTEGRATION=1 nyc npm run _test",
-    "test:watch": "npm run _test -- --watch --reporter dot --watch-extensions js,ts,tsx",
+    "test": "cross-env INTEGRATION=1 nyc mocha",
+    "test:watch": "mocha --watch --reporter dot",
     "coverage": "nyc report --reporter=lcov",
     "start": "lerna run start --parallel",
     "build": "lerna run build --parallel",
