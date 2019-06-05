@@ -22,6 +22,7 @@ function whatsThatGerber(filenames) {
 
   return filenames.reduce(function(result, filename) {
     var match = _selectMatch(matches, filename, commonCad)
+
     result[filename] = match
       ? {type: match.type, side: match.side}
       : {type: null, side: null}
@@ -31,9 +32,13 @@ function whatsThatGerber(filenames) {
 }
 
 function getAllLayers() {
-  return layerTypes.map(function(layer) {
-    return {type: layer.type, side: layer.side}
-  })
+  return layerTypes
+    .map(function(layer) {
+      return {type: layer.type, side: layer.side}
+    })
+    .filter(function(layer) {
+      return layer.type !== null
+    })
 }
 
 function validate(target) {

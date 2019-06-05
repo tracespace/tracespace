@@ -17,7 +17,6 @@ function layerTypeToMatchers(layer) {
 
     function mergeLayerWithCad(cad) {
       return {
-        id: layer.id,
         type: layer.type,
         side: layer.side,
         match: match,

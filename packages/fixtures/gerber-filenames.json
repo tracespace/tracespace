@@ -174,6 +174,38 @@
     ]
   },
   {
+    "cad": "eagle-pcbng",
+    "files": [
+      {"name": "board.drill.txt", "side": "all", "type": "drill"},
+      {"name": "pnp_bom.txt", "side": null, "type": null},
+      {"name": "board.outline.gbr", "side": "all", "type": "outline"},
+      {"name": "board.bottom_copper.gbr", "side": "bottom", "type": "copper"},
+      {"name": "board.bottom_mask.gbr", "side": "bottom", "type": "soldermask"},
+      {
+        "name": "board.bottom_paste.gbr",
+        "side": "bottom",
+        "type": "solderpaste"
+      },
+      {"name": "board.bottom_silk.gbr", "side": "bottom", "type": "silkscreen"},
+      {"name": "board.top_copper.gbr", "side": "top", "type": "copper"},
+      {"name": "board.top_mask.gbr", "side": "top", "type": "soldermask"},
+      {"name": "board.top_paste.gbr", "side": "top", "type": "solderpaste"},
+      {"name": "board.top_silk.gbr", "side": "top", "type": "silkscreen"},
+      {"name": "board_bom.csv", "side": null, "type": null},
+      {"name": "board.bottom_copper.gpi", "side": null, "type": null},
+      {"name": "board.bottom_mask.gpi", "side": null, "type": null},
+      {"name": "board.bottom_paste.gpi", "side": null, "type": null},
+      {"name": "board.bottom_silk.gpi", "side": null, "type": null},
+      {"name": "board_centroid.csv", "side": null, "type": null},
+      {"name": "board.drill.dri", "side": null, "type": null},
+      {"name": "board.outline.gpi", "side": null, "type": null},
+      {"name": "board.top_copper.gpi", "side": null, "type": null},
+      {"name": "board.top_mask.gpi", "side": null, "type": null},
+      {"name": "board.top_paste.gpi", "side": null, "type": null},
+      {"name": "board.top_silk.gpi", "side": null, "type": null}
+    ]
+  },
+  {
     "cad": "eagle",
     "files": [
       {"name": "profile.gbr", "side": "all", "type": "outline"},

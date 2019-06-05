@@ -208,13 +208,15 @@ function fileStreamToInputLayer(gerber: FileStream): InputLayerFromFile {
 }
 
 function stackupToBoardName(stackup: Stackup): string {
-  return (
+  const boardName =
     commonPrefix(
       stackup.layers
         .filter(ly => ly.converter.layer.length > 0)
         .map(ly => baseName(ly.filename || '', true))
     ) || DEFAULT_BOARD_NAME
-  )
+
+  // strip trailing dot if present
+  return boardName.endsWith('.') ? boardName.slice(0, -1) : boardName
 }
 
 function stackupToBoardOptions(stackup: Stackup): Board['options'] {
