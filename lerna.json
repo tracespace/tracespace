@@ -1,5 +1,5 @@
 {
-  "version": "4.1.0",
+  "version": "4.1.1",
   "command": {
     "version": {
       "conventionalCommits": true,
@@ -15,5 +15,9 @@
     "**/example/**/*.js",
     "**/scripts/**/*.js"
   ],
-  "packages": ["apps/*", "config", "packages/*"]
+  "packages": [
+    "apps/*",
+    "config",
+    "packages/*"
+  ]
 }

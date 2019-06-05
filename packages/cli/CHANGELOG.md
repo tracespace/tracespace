@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.1](https://github.com/tracespace/tracespace/compare/v4.1.0...v4.1.1) (2019-06-05)
+
+
+### Bug Fixes
+
+* **cli:** Do not append "null" to output filenames ([#253](https://github.com/tracespace/tracespace/issues/253)) ([09f1c4e](https://github.com/tracespace/tracespace/commit/09f1c4e)), closes [#251](https://github.com/tracespace/tracespace/issues/251)
+* **deps:** update dependency cosmiconfig to ^5.2.1 ([#257](https://github.com/tracespace/tracespace/issues/257)) ([b2586c5](https://github.com/tracespace/tracespace/commit/b2586c5))
+* **deps:** update dependency yargs to ^13.2.4 ([#254](https://github.com/tracespace/tracespace/issues/254)) ([04646a3](https://github.com/tracespace/tracespace/commit/04646a3))
+
+
+
+
+
 # [4.1.0](https://github.com/tracespace/tracespace/compare/v4.0.3...v4.1.0) (2019-05-01)
 
 

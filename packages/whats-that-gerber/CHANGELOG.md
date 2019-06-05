@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.1](https://github.com/tracespace/tracespace/compare/v4.1.0...v4.1.1) (2019-06-05)
+
+
+### Bug Fixes
+
+* **whats-that-gerber:** Support for PCB:NG Eagle, .gbx, .art files ([#268](https://github.com/tracespace/tracespace/issues/268)) ([1449cba](https://github.com/tracespace/tracespace/commit/1449cba)), closes [#246](https://github.com/tracespace/tracespace/issues/246) [#248](https://github.com/tracespace/tracespace/issues/248)
+
+
+
+
+
 ## [4.0.2](https://github.com/tracespace/tracespace/compare/v4.0.1...v4.0.2) (2019-03-24)
 
 

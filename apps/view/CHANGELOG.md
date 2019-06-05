@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.1](https://github.com/tracespace/tracespace/compare/v4.1.0...v4.1.1) (2019-06-05)
+
+
+### Bug Fixes
+
+* **deps:** update dependency core-js to ^3.1.3 ([#261](https://github.com/tracespace/tracespace/issues/261)) ([5b60c1e](https://github.com/tracespace/tracespace/commit/5b60c1e))
+* **deps:** update dependency file-saver to ^2.0.2 ([#255](https://github.com/tracespace/tracespace/issues/255)) ([3dac107](https://github.com/tracespace/tracespace/commit/3dac107))
+* **deps:** update dependency formik to ^1.5.7 ([#259](https://github.com/tracespace/tracespace/issues/259)) ([e47896e](https://github.com/tracespace/tracespace/commit/e47896e))
+* **deps:** update dependency mixpanel-browser to ^2.28.0 ([#256](https://github.com/tracespace/tracespace/issues/256)) ([52b81d6](https://github.com/tracespace/tracespace/commit/52b81d6))
+* **deps:** update font awesome ([#249](https://github.com/tracespace/tracespace/issues/249)) ([040b16d](https://github.com/tracespace/tracespace/commit/040b16d))
+* **deps:** update type definitions ([#245](https://github.com/tracespace/tracespace/issues/245)) ([d227db3](https://github.com/tracespace/tracespace/commit/d227db3))
+* **whats-that-gerber:** Support for PCB:NG Eagle, .gbx, .art files ([#268](https://github.com/tracespace/tracespace/issues/268)) ([1449cba](https://github.com/tracespace/tracespace/commit/1449cba)), closes [#246](https://github.com/tracespace/tracespace/issues/246) [#248](https://github.com/tracespace/tracespace/issues/248)
+
+
+
+
+
 # [4.1.0](https://github.com/tracespace/tracespace/compare/v4.0.3...v4.1.0) (2019-05-01)
 
 
