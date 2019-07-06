@@ -37,7 +37,7 @@
     "debug": "^4.1.1",
     "dot-prop": "^5.0.0",
     "gerber-to-svg": "file:../gerber-to-svg",
-    "globby": "^9.2.0",
+    "globby": "^10.0.1",
     "make-dir": "^3.0.0",
     "pcb-stackup": "file:../pcb-stackup",
     "untildify": "^4.0.0",
