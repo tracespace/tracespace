@@ -41,6 +41,6 @@
     "viewbox": "^1.0.0",
     "whats-that-gerber": "file:../whats-that-gerber",
     "xml-element-string": "^1.0.0",
-    "xtend": "^4.0.1"
+    "xtend": "^4.0.2"
   }
 }
