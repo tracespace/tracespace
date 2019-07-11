@@ -63,8 +63,8 @@
     "randomcolor": "^0.5.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-hot-loader": "^4.9.0",
-    "react-transition-group": "^4.1.0",
+    "react-hot-loader": "^4.12.6",
+    "react-transition-group": "^4.2.1",
     "tachyons": "^4.11.1",
     "viewbox": "^1.0.0",
     "whats-that-gerber": "file:../../packages/whats-that-gerber"
