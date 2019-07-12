@@ -70,6 +70,7 @@ var parseCommentForFormatHints = function(parser, block, line) {
   } else if (RE_ALTIUM_NPTH.test(block)) {
     parser._push(commands.set('plating', 'NPTH', line))
   }
+
   return result
 }
 
