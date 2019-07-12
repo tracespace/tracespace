@@ -10,6 +10,8 @@ var normalize = require('./normalize-coord')
 var parseCoord = require('./parse-coord')
 
 var RE_ALTIUM_HINT = /;FILE_FORMAT=(\d):(\d)/
+var RE_ALTIUM_PTH = /;TYPE=PLATED/
+var RE_ALTIUM_NPTH = /;TYPE=NON_PLATED/
 var RE_KI_HINT = /;FORMAT={(.):(.)\/ (absolute|.+)? \/ (metric|inch) \/.+(trailing|leading|decimal|keep)/
 
 var RE_UNITS = /^(INCH|METRIC|M71|M72)/
@@ -63,8 +65,11 @@ var parseCommentForFormatHints = function(parser, block, line) {
     var altiumMatch = block.match(RE_ALTIUM_HINT)
 
     result.places = [Number(altiumMatch[1]), Number(altiumMatch[2])]
+  } else if (RE_ALTIUM_PTH.test(block)) {
+    parser._push(commands.set('plating', 'PTH', line))
+  } else if (RE_ALTIUM_NPTH.test(block)) {
+    parser._push(commands.set('plating', 'NPTH', line))
   }
-
   return result
 }
 
