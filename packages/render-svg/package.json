@@ -1,0 +1,45 @@
+{
+  "name": "@tracespace/render-svg",
+  "private": true,
+  "version": "4.2.0",
+  "description": "Render @tracespace/builder image trees as SVGs",
+  "source": "src/index.ts",
+  "main": "cjs/index.js",
+  "module": "esm/index.mjs",
+  "types": "lib/index.d.ts",
+  "umpkg": "umd/render-svg.min.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tracespace/tracespace.git",
+    "directory": "packages/render-svg"
+  },
+  "scripts": {
+    "start": "node integration/server",
+    "clean": "rimraf lib cjs esm umd"
+  },
+  "keywords": [
+    "pcb",
+    "circuit",
+    "board",
+    "hardware",
+    "electronics"
+  ],
+  "contributors": [
+    "Mike Cousins <mike@cousins.io> (https://mike.cousins.io)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tracespace/tracespace/issues"
+  },
+  "homepage": "https://github.com/tracespace/tracespace#readme",
+  "dependencies": {
+    "@tracespace/builder": "^4.2.0",
+    "@tracespace/parser": "^4.2.0",
+    "@types/hast-format": "^2.3.0",
+    "hast-util-to-html": "^6.0.1",
+    "hastscript": "^5.1.0",
+    "unist-util-map": "^1.0.5",
+    "unist-util-visit-parents": "^2.1.2",
+    "whats-that-gerber": "^4.2.0"
+  }
+}

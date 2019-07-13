@@ -1,14 +1,12 @@
 {
   "extends": "@tracespace/config/typescript.json",
-  "references": [
-    {"path": "../../packages/whats-that-gerber"},
-    {"path": "../../packages/xml-id"}
-  ],
+  "references": [{"path": "../parser"}],
   "compilerOptions": {
     "composite": true,
     "emitDeclarationOnly": true,
     "rootDir": "src",
     "outDir": "lib"
   },
-  "include": ["typings", "src"]
+  "include": ["src", "typings"],
+  "exclude": ["**/__tests__/**"]
 }

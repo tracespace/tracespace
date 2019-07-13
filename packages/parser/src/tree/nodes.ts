@@ -85,6 +85,8 @@ export interface Polygon {
 }
 
 // node types
+export type Ancestor = Root | Header | Image | Tool
+
 export interface Root extends Parent {
   type: typeof ROOT
   filetype: Filetype | null
@@ -94,11 +96,12 @@ export interface Root extends Parent {
 
 export interface Header extends Parent {
   type: typeof HEADER
-  children: Array<Units | CoordinateFormat | ToolDefinition>
+  children: (Units | CoordinateFormat | ToolDefinition)[]
 }
 
 export interface Image extends Parent {
   type: typeof IMAGE
+  children: (Tool | Graphic)[]
 }
 
 export interface Units extends Node {
@@ -123,6 +126,7 @@ export interface ToolDefinition extends Node {
 export interface Tool extends Parent {
   type: typeof TOOL
   code: string
+  children: Graphic[]
 }
 
 export interface Graphic extends Node {

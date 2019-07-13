@@ -129,4 +129,4 @@ See the [lexer documentation][lexer-docs] for more information about the `Lexer`
 @tracespace/parser exports some of its lower level modules for advanced usage. If you'd like to check them out, see the following documentation:
 
 - Lexer/tokenization: [`./src/lexer/README.md`][lexer-docs]
-- AST and node types: [./src/tree/README.md][tree-docs]
+- AST and node types: [`./src/tree/README.md`][tree-docs]
