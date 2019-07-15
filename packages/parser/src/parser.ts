@@ -19,7 +19,6 @@ export class Parser {
 
   constructor() {
     this.lexer = createLexer()
-
     this._header = {type: Tree.HEADER, children: []}
     this._image = {type: Tree.IMAGE, children: []}
     this._root = {
