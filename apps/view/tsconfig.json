@@ -1,0 +1,10 @@
+{
+  "extends": "@tracespace/config/tsconfig-base.json",
+  "references": [],
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": true,
+    "rootDir": "src"
+  },
+  "include": ["typings", "src"]
+}

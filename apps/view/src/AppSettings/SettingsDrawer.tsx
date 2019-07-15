@@ -1,13 +1,13 @@
 import React from 'react'
 
-import pkg from '../../package.json'
+import {VERSION} from '../pkg'
 import {getAnalyticsUserId} from '../analytics'
 import {select} from '../events'
 import {useAppState, deleteAllBoards, updateAppPreferences} from '../state'
 import {DeleteButton, Drawer, Checkbox, Label} from '../ui'
 
 const TITLE = 'app settings'
-const FOOTER = `tracespace v${pkg.version}`
+const FOOTER = `tracespace v${VERSION}`
 
 const DELETE_SAVED_COPY = 'delete all saved boards'
 const USAGE_TRACKING_COPY = 'send usage data to tracespace'

@@ -9,7 +9,7 @@ import {
   BoardDatabase,
 } from '../db'
 
-import {RenderWorker, RenderWorkerContext} from './types'
+import {RenderWorkerContext, WorkerMessageEvent} from './types'
 
 import {
   filesToStackups,
@@ -23,6 +23,7 @@ import {
 } from './models'
 
 import {
+  Action,
   CREATE_BOARD,
   CREATE_BOARD_FROM_URL,
   GET_BOARD,
@@ -193,4 +194,10 @@ ctx.onmessage = function receive(event) {
   }
 }
 
-export default RenderWorker
+declare module './worker' {
+  export default class RenderWorker extends Worker {
+    constructor()
+    onmessage: (event: WorkerMessageEvent) => void
+    postMessage(message: Action): void
+  }
+}

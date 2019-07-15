@@ -30,18 +30,13 @@ module.exports = merge(baseConfig(__dirname), {
     globalObject: 'this',
   },
   resolve: {
-    extensions: ['.js', '.ts', '.tsx', '.d.ts', '.json', '.css'],
+    extensions: ['.js', '.ts', '.tsx', '.json', '.css'],
     alias: {
       'react-dom': '@hot-loader/react-dom',
     },
   },
   module: {
     rules: [
-      {
-        // ensure imports in ambient definitions don't inflate bundles
-        test: /\.d\.ts$/,
-        loader: 'null-loader',
-      },
       {
         test: /worker\.ts$/i,
         loader: 'worker-loader',
@@ -76,7 +71,13 @@ module.exports = merge(baseConfig(__dirname), {
     ],
   },
   plugins: [
-    new EnvironmentPlugin({MIXPANEL_ID: null}),
+    new EnvironmentPlugin({
+      MIXPANEL_ID: null,
+      PKG_VERSION: pkg.version,
+      PKG_REPOSITORY_URL: pkg.repository.url,
+      PKG_AUTHOR_NAME: pkg.author.name,
+      PKG_AUTHOR_URL: pkg.author.url,
+    }),
     new FileManagerPlugin({
       onStart: {mkdir: [OUT_PATH]},
       onEnd: {archive: [{source: EXAMPLE_FILES, destination: EXAMPLE_OUT}]},

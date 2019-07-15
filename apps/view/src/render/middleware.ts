@@ -11,7 +11,7 @@ export function createRenderMiddleware(): State.Middleware {
     const {dispatch} = store
 
     worker.onmessage = function handleWorkerMessage(event: WorkerMessageEvent) {
-      log.debug('action recieved from RenderWorker', event.data.type)
+      log.debug('action received from RenderWorker', event.data.type)
       dispatch(event.data)
     }
 
