@@ -4,8 +4,9 @@
   "postUpdateOptions": ["npmDedupe"],
   "packageRules": [
     {
-      "depTypeList": ["peerDependencies"],
-      "rangeStrategy": "widen"
+      "groupName": "dependencies",
+      "depTypeList": ["dependencies"],
+      "separateMajorMinor": true
     },
     {
       "groupName": "devDependencies",
@@ -13,17 +14,13 @@
       "separateMajorMinor": false
     },
     {
-      "groupName": "type definitions",
-      "packagePatterns": ["^@types/"]
+      "groupName": "peerDependencies",
+      "depTypeList": ["peerDependencies"],
+      "rangeStrategy": "widen"
     },
     {
-      "groupName": "react monorepo and packages",
-      "extends": ["monorepo:react"],
-      "packageNames": [
-        "react-hot-loader",
-        "@hot-loader/react-dom",
-        "react-transition-group"
-      ]
+      "groupName": "type definitions",
+      "packagePatterns": ["^@types/"]
     }
   ]
 }
