@@ -66,7 +66,7 @@ var parseCommentForFormatHints = function(parser, block, line) {
     result.places = [Number(altiumMatch[1]), Number(altiumMatch[2])]
   } else if (RE_ALTIUM_PLATING_HINT.test(block)) {
     var platingMatch = block.match(RE_ALTIUM_PLATING_HINT)
-    var holePlating = platingMatch[1] === 'PLATED' ? 'pth' : 'npth';
+    var holePlating = platingMatch[1] === 'PLATED' ? 'pth' : 'npth'
     parser._push(commands.set('holePlating', holePlating, line))
   }
 
