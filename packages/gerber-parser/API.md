@@ -185,17 +185,18 @@ Commands used to set the state of the plotter.
 }
 ```
 
-| property      | value               | description                             |
-| ------------- | ------------------- | --------------------------------------- |
-| `mode`        | `i`, `cw`, or `ccw` | linear, CW-arc, or CCW-arc draw mode    |
-| `arc`         | `s` or `m`          | single or multi-quadrant arc mode       |
-| `region`      | `true` or `false`   | region mode on or off                   |
-| `units`       | `mm` or `in`        | units                                   |
-| `backupUnits` | `mm` or `in`        | backup units (used if units missing)    |
-| `epsilon`     | `[Number]`          | threshold for comparing two coordinates |
-| `nota`        | `A` or `I`          | absolute or incremental coord notation  |
-| `backupNota`  | `A` or `I`          | backup notation (used if missing)       |
-| `tool`        | `[Integer string]`  | currently used tool code                |
+| property      | value               | description                                                  |
+| ------------- | ------------------- | ------------------------------------------------------------ |
+| `mode`        | `i`, `cw`, or `ccw` | linear, CW-arc, or CCW-arc draw mode                         |
+| `arc`         | `s` or `m`          | single or multi-quadrant arc mode                            |
+| `region`      | `true` or `false`   | region mode on or off                                        |
+| `units`       | `mm` or `in`        | units                                                        |
+| `backupUnits` | `mm` or `in`        | backup units (used if units missing)                         |
+| `epsilon`     | `[Number]`          | threshold for comparing two coordinates                      |
+| `nota`        | `A` or `I`          | absolute or incremental coord notation                       |
+| `backupNota`  | `A` or `I`          | backup notation (used if missing)                            |
+| `tool`        | `[Integer string]`  | currently used tool code                                     |
+| `holePlating` | `pth` or `npth`     | Plated or Non-Plated through-holes for Altium NC-Drill Files |
 
 ### operation objects
 

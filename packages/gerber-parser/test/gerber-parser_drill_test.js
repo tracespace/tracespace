@@ -605,4 +605,18 @@ describe('gerber parser with drill files', function() {
       })
     })
   })
+
+  describe('parsing altium plating comments', function() {
+    it('should set hole plating', function(done) {
+      var expected = [
+        {type: 'set', line: 1, prop: 'holePlating', value: 'pth'},
+        {type: 'set', line: 2, prop: 'holePlating', value: 'npth'},
+      ]
+
+      expectResults(expected, done)
+      p.write(';TYPE=PLATED\n')
+      p.write(';TYPE=NON_PLATED\n')
+      p.end()
+    })
+  })
 })
