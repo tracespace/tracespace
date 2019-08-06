@@ -125,7 +125,7 @@ export default function reducer(state: State, action: Action): State {
     }
 
     case actionTypes.WORKER_ERRORED: {
-      let nextState = {...state, error: action.payload.error}
+      const nextState = {...state, error: action.payload.error}
 
       switch (action.payload.request.type) {
         case actionTypes.CREATE_BOARD:

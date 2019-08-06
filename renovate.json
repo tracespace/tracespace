@@ -20,7 +20,8 @@
     },
     {
       "groupName": "type definitions",
-      "packagePatterns": ["^@types/"]
+      "packagePatterns": ["^@types/"],
+      "separateMajorMinor": false
     }
   ]
 }
