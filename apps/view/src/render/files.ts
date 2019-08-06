@@ -37,9 +37,13 @@ export async function writeFiles(files: Array<FileToWrite>): Promise<Blob> {
 
 export class FileStream extends Transform {
   _hasher: MD5
+
   _chunks: Array<Buffer>
+
   name: string
+
   digest: string | null
+
   contents: Buffer | null
 
   constructor(filename: string) {

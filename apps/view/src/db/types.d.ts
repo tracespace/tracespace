@@ -12,7 +12,9 @@ export type DbLayersMap = {[id: string]: DbLayer}
 
 export class BoardDatabase extends Dexie {
   boards: Dexie.Table<DbBoard, string>
+
   layers: Dexie.Table<DbLayer, string>
+
   sources: Dexie.Table<DbSource, string>
 }
 

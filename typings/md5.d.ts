@@ -7,8 +7,11 @@
 declare module 'md5.js' {
   class MD5 {
     constructor()
+
     update(data: string, encoding?: string): this
+
     update(data: Buffer, encoding?: 'buffer'): this
+
     digest(encoding?: string): string
   }
 

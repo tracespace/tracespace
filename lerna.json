@@ -15,9 +15,5 @@
     "**/example/**/*.js",
     "**/scripts/**/*.js"
   ],
-  "packages": [
-    "apps/*",
-    "config",
-    "packages/*"
-  ]
+  "packages": ["apps/*", "config", "packages/*"]
 }

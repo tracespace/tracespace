@@ -4,7 +4,9 @@ export type WorkerMessageEvent = {data: Action}
 
 export class RenderWorker extends Worker {
   constructor()
+
   onmessage: (event: WorkerMessageEvent) => void
+
   postMessage(message: Action): void
 }
 

@@ -65,7 +65,7 @@ ctx.onmessage = function receive(event) {
         findBoardByUrl(db, url),
         urlToStackups(url),
       ]).then(async result => {
-        let [existingBoard, [selfContained, shared]] = result
+        const [existingBoard, [selfContained, shared]] = result
         let board = stackupToBoard(selfContained)
         let saveQuery
 
