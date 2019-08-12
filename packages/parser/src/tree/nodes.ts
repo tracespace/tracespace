@@ -8,6 +8,7 @@ export type Node = UnistNode
 
 // node type constants
 export const ROOT = 'root'
+export const COMMENT = 'comment'
 export const HEADER = 'header'
 export const IMAGE = 'image'
 export const UNITS = 'units'
@@ -18,6 +19,7 @@ export const GRAPHIC = 'graphic'
 
 export type NodeType =
   | typeof ROOT
+  | typeof COMMENT
   | typeof HEADER
   | typeof IMAGE
   | typeof UNITS
@@ -92,6 +94,11 @@ export interface Root extends Parent {
   filetype: Filetype | null
   done: boolean
   children: [Header, Image]
+}
+
+export interface Comment extends Node {
+  type: typeof COMMENT
+  value: string
 }
 
 export interface Header extends Parent {

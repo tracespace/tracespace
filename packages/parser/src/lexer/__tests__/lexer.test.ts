@@ -37,15 +37,15 @@ describe('lexer', () => {
       lexer.reset(['X1', 'Y+2', 'I-3.4', 'J24.42', 'A001234'].join('\n'))
 
       expect(getResults(lexer)).to.eql([
-        {type: 'CHAR', value: 'X'},
+        {type: 'COORD_CHAR', value: 'X'},
         {type: 'NUMBER', value: '1'},
-        {type: 'CHAR', value: 'Y'},
+        {type: 'COORD_CHAR', value: 'Y'},
         {type: 'NUMBER', value: '+2'},
-        {type: 'CHAR', value: 'I'},
+        {type: 'COORD_CHAR', value: 'I'},
         {type: 'NUMBER', value: '-3.4'},
-        {type: 'CHAR', value: 'J'},
+        {type: 'COORD_CHAR', value: 'J'},
         {type: 'NUMBER', value: '24.42'},
-        {type: 'CHAR', value: 'A'},
+        {type: 'COORD_CHAR', value: 'A'},
         {type: 'NUMBER', value: '001234'},
       ])
     })
@@ -94,7 +94,7 @@ describe('lexer', () => {
           '%FSLAX34Y34*%',
           '%FSTAX22Y22*%',
           '%FSDIX44Y44*%',
-          '%FSLANX42Y42*%',
+          '%FSLAN2X42Y42*%',
         ].join('\n')
       )
 
@@ -102,44 +102,45 @@ describe('lexer', () => {
         // %FSLAX34Y34*%
         {type: 'PERCENT', value: '%'},
         {type: 'GERBER_FORMAT', value: 'LA'},
-        {type: 'CHAR', value: 'X'},
+        {type: 'COORD_CHAR', value: 'X'},
         {type: 'NUMBER', value: '34'},
-        {type: 'CHAR', value: 'Y'},
+        {type: 'COORD_CHAR', value: 'Y'},
         {type: 'NUMBER', value: '34'},
         {type: 'ASTERISK', value: '*'},
         {type: 'PERCENT', value: '%'},
         // %FSTAX22Y22*%
         {type: 'PERCENT', value: '%'},
         {type: 'GERBER_FORMAT', value: 'TA'},
-        {type: 'CHAR', value: 'X'},
+        {type: 'COORD_CHAR', value: 'X'},
         {type: 'NUMBER', value: '22'},
-        {type: 'CHAR', value: 'Y'},
+        {type: 'COORD_CHAR', value: 'Y'},
         {type: 'NUMBER', value: '22'},
         {type: 'ASTERISK', value: '*'},
         {type: 'PERCENT', value: '%'},
         // %FSDIX44Y44*%
         {type: 'PERCENT', value: '%'},
         {type: 'GERBER_FORMAT', value: 'DI'},
-        {type: 'CHAR', value: 'X'},
+        {type: 'COORD_CHAR', value: 'X'},
         {type: 'NUMBER', value: '44'},
-        {type: 'CHAR', value: 'Y'},
+        {type: 'COORD_CHAR', value: 'Y'},
         {type: 'NUMBER', value: '44'},
         {type: 'ASTERISK', value: '*'},
         {type: 'PERCENT', value: '%'},
-        // %FSLANX42Y42*%
+        // %FSLAN2X42Y42*%
         {type: 'PERCENT', value: '%'},
         {type: 'GERBER_FORMAT', value: 'LA'},
-        {type: 'CATCHALL', value: 'N'},
-        {type: 'CHAR', value: 'X'},
+        {type: 'WORD', value: 'N'},
+        {type: 'NUMBER', value: '2'},
+        {type: 'COORD_CHAR', value: 'X'},
         {type: 'NUMBER', value: '42'},
-        {type: 'CHAR', value: 'Y'},
+        {type: 'COORD_CHAR', value: 'Y'},
         {type: 'NUMBER', value: '42'},
         {type: 'ASTERISK', value: '*'},
         {type: 'PERCENT', value: '%'},
       ])
     })
 
-    it('should lex gerber unts', () => {
+    it('should lex gerber units', () => {
       lexer.reset(['%MOIN*%', '%MOMM*%'].join('\n'))
 
       expect(getResults(lexer)).to.eql([
@@ -174,7 +175,7 @@ describe('lexer', () => {
         {type: 'GERBER_TOOL_DEF', value: '11'},
         {type: 'GERBER_TOOL_NAME', value: 'C'},
         {type: 'NUMBER', value: '0.5'},
-        {type: 'CHAR', value: 'X'},
+        {type: 'COORD_CHAR', value: 'X'},
         {type: 'NUMBER', value: '0.25'},
         {type: 'ASTERISK', value: '*'},
         {type: 'PERCENT', value: '%'},
@@ -183,9 +184,9 @@ describe('lexer', () => {
         {type: 'GERBER_TOOL_DEF', value: '12'},
         {type: 'GERBER_TOOL_NAME', value: 'C'},
         {type: 'NUMBER', value: '10'},
-        {type: 'CHAR', value: 'X'},
+        {type: 'COORD_CHAR', value: 'X'},
         {type: 'NUMBER', value: '5'},
-        {type: 'CHAR', value: 'X'},
+        {type: 'COORD_CHAR', value: 'X'},
         {type: 'NUMBER', value: '5'},
         {type: 'ASTERISK', value: '*'},
         {type: 'PERCENT', value: '%'},
@@ -207,12 +208,14 @@ describe('lexer', () => {
   })
 
   describe('drill file tokens', () => {
-    it('should lex a comment', () => {
-      lexer.reset(";I'm a comment")
+    it('should lex a drill comment', () => {
+      lexer.reset('; comment\n')
 
-      const result = getResults(lexer)[0]
-      expect(result.type).to.equal('DRILL_COMMENT')
-      expect(result.value).to.equal("I'm a comment")
+      expect(getResults(lexer)).to.eql([
+        {type: 'SEMICOLON', value: ';'},
+        {type: 'WHITESPACE', value: ' '},
+        {type: 'WORD', value: 'comment'},
+      ])
     })
 
     it('should lex a unit setting', () => {
@@ -231,13 +234,13 @@ describe('lexer', () => {
 
       expect(getResults(lexer)).to.eql([
         {type: 'DRILL_UNITS', value: 'METRIC'},
-        {type: 'DRILL_ZERO_INCLUSION', value: 'T'},
+        {type: 'DRILL_ZERO_INCLUSION', value: 'TZ'},
         {type: 'M_CODE', value: '71'},
-        {type: 'DRILL_ZERO_INCLUSION', value: 'L'},
+        {type: 'DRILL_ZERO_INCLUSION', value: 'LZ'},
         {type: 'DRILL_UNITS', value: 'INCH'},
-        {type: 'DRILL_ZERO_INCLUSION', value: 'L'},
+        {type: 'DRILL_ZERO_INCLUSION', value: 'LZ'},
         {type: 'M_CODE', value: '72'},
-        {type: 'DRILL_ZERO_INCLUSION', value: 'T'},
+        {type: 'DRILL_ZERO_INCLUSION', value: 'TZ'},
       ])
     })
 
@@ -250,13 +253,13 @@ describe('lexer', () => {
 
       expect(getResults(lexer)).to.eql([
         {type: 'DRILL_UNITS', value: 'METRIC'},
-        {type: 'DRILL_ZERO_INCLUSION', value: 'T'},
+        {type: 'DRILL_ZERO_INCLUSION', value: 'TZ'},
         {type: 'DRILL_COORD_FORMAT', value: '0000.00'},
         {type: 'M_CODE', value: '71'},
         {type: 'DRILL_COORD_FORMAT', value: '00.000'},
         {type: 'DRILL_UNITS', value: 'INCH'},
         {type: 'DRILL_COORD_FORMAT', value: '0.0'},
-        {type: 'DRILL_ZERO_INCLUSION', value: 'L'},
+        {type: 'DRILL_ZERO_INCLUSION', value: 'LZ'},
         {type: 'M_CODE', value: '72'},
         {type: 'DRILL_COORD_FORMAT', value: '00.00'},
       ])

@@ -57,7 +57,7 @@ describe('gerber parser with drill files', function() {
 
     describe('format hints', function() {
       describe('kicad', function() {
-        it('should set format and suppresion if included', function() {
+        it('should set format and suppression if included', function() {
           p.write(
             ';FORMAT={3:3/ absolute / metric / suppress trailing zeros}\n'
           )
@@ -111,7 +111,7 @@ describe('gerber parser with drill files', function() {
         })
       })
 
-      it('should not overrite user set format with format hints', function() {
+      it('should not overwrite user set format with format hints', function() {
         p.format.places = [2, 3]
         p.format.zero = 'T'
 

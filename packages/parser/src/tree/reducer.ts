@@ -12,6 +12,18 @@ export function reducer(
   const [header, image] = tree.children
 
   switch (matchType) {
+    case Grammar.DRILL_COMMENT: {
+      const value = tokens
+        .slice(1, -1)
+        .map(t => t.value)
+        .join('')
+        .trim()
+
+      const target = image.children.length ? image : header
+      appendDeepestChild(target, {type: Nodes.COMMENT, value})
+      break
+    }
+
     case Grammar.GERBER_UNITS: {
       const units = tokens[1].value === 'MM' ? 'mm' : 'in'
       ensureChild(header, {type: Nodes.UNITS, units})
@@ -167,7 +179,7 @@ export function reducer(
       break
     }
 
-    case Grammar.DRILL_HIT: {
+    case Grammar.DRILL_OPERATION: {
       tokens
         .filter(t => t.type === Lexer.T_CODE)
         .forEach(t => (tree = reducer(tree, Grammar.DRILL_TOOL_CHANGE, [t])))
@@ -235,7 +247,7 @@ function tokensToCoordinates(tokens: Array<Lexer.Token>): Nodes.Coordinates {
   return tokens.reduce<Nodes.Coordinates>((coords, token, i) => {
     const prev = tokens[i - 1]
 
-    if (token.type === Lexer.NUMBER && prev && prev.type === Lexer.CHAR) {
+    if (token.type === Lexer.NUMBER && prev && prev.type === Lexer.COORD_CHAR) {
       coords[prev.value.toLowerCase()] = token.value
     }
 

@@ -90,9 +90,9 @@ const SPECS: {[name: string]: ReducerSpec} = {
   'operation with no mode': {
     matchType: Grammar.GERBER_OPERATION,
     tokens: [
-      t(Lexer.CHAR, 'X'),
+      t(Lexer.COORD_CHAR, 'X'),
       t(Lexer.NUMBER, '001'),
-      t(Lexer.CHAR, 'Y'),
+      t(Lexer.COORD_CHAR, 'Y'),
       t(Lexer.NUMBER, '002'),
       t(Lexer.ASTERISK, '*'),
     ],
@@ -107,9 +107,9 @@ const SPECS: {[name: string]: ReducerSpec} = {
   'flash operation': {
     matchType: Grammar.GERBER_OPERATION,
     tokens: [
-      t(Lexer.CHAR, 'X'),
+      t(Lexer.COORD_CHAR, 'X'),
       t(Lexer.NUMBER, '001'),
-      t(Lexer.CHAR, 'Y'),
+      t(Lexer.COORD_CHAR, 'Y'),
       t(Lexer.NUMBER, '002'),
       t(Lexer.D_CODE, '3'),
       t(Lexer.ASTERISK, '*'),
@@ -128,9 +128,9 @@ const SPECS: {[name: string]: ReducerSpec} = {
   'move operation': {
     matchType: Grammar.GERBER_OPERATION,
     tokens: [
-      t(Lexer.CHAR, 'X'),
+      t(Lexer.COORD_CHAR, 'X'),
       t(Lexer.NUMBER, '001'),
-      t(Lexer.CHAR, 'Y'),
+      t(Lexer.COORD_CHAR, 'Y'),
       t(Lexer.NUMBER, '002'),
       t(Lexer.D_CODE, '2'),
       t(Lexer.ASTERISK, '*'),
@@ -149,11 +149,11 @@ const SPECS: {[name: string]: ReducerSpec} = {
   'interpolate operation': {
     matchType: Grammar.GERBER_OPERATION,
     tokens: [
-      t(Lexer.CHAR, 'X'),
+      t(Lexer.COORD_CHAR, 'X'),
       t(Lexer.NUMBER, '001'),
-      t(Lexer.CHAR, 'Y'),
+      t(Lexer.COORD_CHAR, 'Y'),
       t(Lexer.NUMBER, '002'),
-      t(Lexer.CHAR, 'I'),
+      t(Lexer.COORD_CHAR, 'I'),
       t(Lexer.NUMBER, '003'),
       t(Lexer.D_CODE, '1'),
       t(Lexer.ASTERISK, '*'),

@@ -2,9 +2,10 @@
 
 import {expect} from 'chai'
 import td from 'testdouble'
-import {Parser as ParserClass} from '..'
+import {Parser as ParserClass} from '../..'
+import * as Grammar from '../../grammar'
 
-describe('@tracepace/parser', () => {
+describe.skip('tree reducer common actions', () => {
   let Rules: {findMatch: (matchState: {}, token: {}) => {}}
   let Parser: typeof ParserClass
   let parser: ParserClass
@@ -26,8 +27,9 @@ describe('@tracepace/parser', () => {
     td.when(
       Rules.findMatch(td.matchers.anything(), td.matchers.anything())
     ).thenReturn({
+      match: {filetype: 'drill', type: Grammar.DRILL_COMMENT},
+      tokens: [],
       candidates: [],
-      match: {filetype: 'drill', handler: () => {}},
     })
 
     parser.feed('\n')
@@ -38,8 +40,9 @@ describe('@tracepace/parser', () => {
     td.when(
       Rules.findMatch(td.matchers.anything(), td.matchers.anything())
     ).thenReturn({
+      match: {filetype: 'gerber', type: Grammar.GERBER_COMMENT},
+      tokens: [],
       candidates: [],
-      match: {filetype: 'gerber', handler: () => {}},
     })
 
     parser.feed('\n')

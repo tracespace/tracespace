@@ -50,9 +50,9 @@ describe('@tracepace/parser with gerber files', () => {
       it('should add node with leading suppression and absolute', () => {
         feedExtended([
           t(Lexer.GERBER_FORMAT, 'LA'),
-          t(Lexer.CHAR, 'X'),
+          t(Lexer.COORD_CHAR, 'X'),
           t(Lexer.NUMBER, '34'),
-          t(Lexer.CHAR, 'Y'),
+          t(Lexer.COORD_CHAR, 'Y'),
           t(Lexer.NUMBER, '34'),
         ])
 
@@ -72,9 +72,9 @@ describe('@tracepace/parser with gerber files', () => {
       it('should add node with trailing suppression and incremental', () => {
         feedExtended([
           t(Lexer.GERBER_FORMAT, 'TI'),
-          t(Lexer.CHAR, 'X'),
+          t(Lexer.COORD_CHAR, 'X'),
           t(Lexer.NUMBER, '45'),
-          t(Lexer.CHAR, 'Y'),
+          t(Lexer.COORD_CHAR, 'Y'),
           t(Lexer.NUMBER, '45'),
         ])
 
@@ -94,13 +94,13 @@ describe('@tracepace/parser with gerber files', () => {
       it('should allow missing specs and ignore other stuff', () => {
         feedExtended([
           t(Lexer.GERBER_FORMAT, 'DA'),
-          t(Lexer.CATCHALL, 'N'),
+          t(Lexer.WORD, 'N'),
           t(Lexer.NUMBER, '2'),
-          t(Lexer.CHAR, 'X'),
+          t(Lexer.COORD_CHAR, 'X'),
           t(Lexer.NUMBER, '22'),
-          t(Lexer.CHAR, 'Y'),
+          t(Lexer.COORD_CHAR, 'Y'),
           t(Lexer.NUMBER, '22'),
-          t(Lexer.CATCHALL, 'Z'),
+          t(Lexer.WORD, 'Z'),
           t(Lexer.NUMBER, '2'),
         ])
 
@@ -167,7 +167,7 @@ describe('@tracepace/parser with gerber files', () => {
             t(Lexer.GERBER_TOOL_DEF, '10'),
             t(Lexer.GERBER_TOOL_NAME, 'C'),
             t(Lexer.NUMBER, '0.5'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '0.1'),
           ],
           expected: makeExpected(
@@ -183,9 +183,9 @@ describe('@tracepace/parser with gerber files', () => {
             t(Lexer.GERBER_TOOL_DEF, '10'),
             t(Lexer.GERBER_TOOL_NAME, 'C'),
             t(Lexer.NUMBER, '0.5'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '0.1'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '0.2'),
           ],
           expected: makeExpected(
@@ -201,7 +201,7 @@ describe('@tracepace/parser with gerber files', () => {
             t(Lexer.GERBER_TOOL_DEF, '11'),
             t(Lexer.GERBER_TOOL_NAME, 'R'),
             t(Lexer.NUMBER, '0.5'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '0.6'),
           ],
           expected: makeExpected('11', {
@@ -217,9 +217,9 @@ describe('@tracepace/parser with gerber files', () => {
             t(Lexer.GERBER_TOOL_DEF, '11'),
             t(Lexer.GERBER_TOOL_NAME, 'R'),
             t(Lexer.NUMBER, '0.5'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '0.6'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '0.2'),
           ],
           expected: makeExpected(
@@ -235,11 +235,11 @@ describe('@tracepace/parser with gerber files', () => {
             t(Lexer.GERBER_TOOL_DEF, '11'),
             t(Lexer.GERBER_TOOL_NAME, 'R'),
             t(Lexer.NUMBER, '0.5'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '0.6'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '0.2'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '0.1'),
           ],
           expected: makeExpected(
@@ -255,7 +255,7 @@ describe('@tracepace/parser with gerber files', () => {
             t(Lexer.GERBER_TOOL_DEF, '12'),
             t(Lexer.GERBER_TOOL_NAME, 'O'),
             t(Lexer.NUMBER, '0.5'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '0.6'),
           ],
           expected: makeExpected('12', {
@@ -271,9 +271,9 @@ describe('@tracepace/parser with gerber files', () => {
             t(Lexer.GERBER_TOOL_DEF, '12'),
             t(Lexer.GERBER_TOOL_NAME, 'O'),
             t(Lexer.NUMBER, '0.5'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '0.6'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '0.2'),
           ],
           expected: makeExpected(
@@ -289,11 +289,11 @@ describe('@tracepace/parser with gerber files', () => {
             t(Lexer.GERBER_TOOL_DEF, '12'),
             t(Lexer.GERBER_TOOL_NAME, 'O'),
             t(Lexer.NUMBER, '0.5'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '0.6'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '0.2'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '0.1'),
           ],
           expected: makeExpected(
@@ -309,7 +309,7 @@ describe('@tracepace/parser with gerber files', () => {
             t(Lexer.GERBER_TOOL_DEF, '13'),
             t(Lexer.GERBER_TOOL_NAME, 'P'),
             t(Lexer.NUMBER, '1.5'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '3'),
           ],
           expected: makeExpected('13', {
@@ -326,9 +326,9 @@ describe('@tracepace/parser with gerber files', () => {
             t(Lexer.GERBER_TOOL_DEF, '13'),
             t(Lexer.GERBER_TOOL_NAME, 'P'),
             t(Lexer.NUMBER, '2.5'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '4'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '12.5'),
           ],
           expected: makeExpected('13', {
@@ -345,11 +345,11 @@ describe('@tracepace/parser with gerber files', () => {
             t(Lexer.GERBER_TOOL_DEF, '13'),
             t(Lexer.GERBER_TOOL_NAME, 'P'),
             t(Lexer.NUMBER, '2.5'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '4'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '12.5'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '1'),
           ],
           expected: makeExpected(
@@ -365,13 +365,13 @@ describe('@tracepace/parser with gerber files', () => {
             t(Lexer.GERBER_TOOL_DEF, '13'),
             t(Lexer.GERBER_TOOL_NAME, 'P'),
             t(Lexer.NUMBER, '2.5'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '4'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '12.5'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '1'),
-            t(Lexer.CHAR, 'X'),
+            t(Lexer.COORD_CHAR, 'X'),
             t(Lexer.NUMBER, '1.5'),
           ],
           expected: makeExpected(

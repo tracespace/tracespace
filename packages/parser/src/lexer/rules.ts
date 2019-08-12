@@ -40,14 +40,11 @@ export const rules: Rules = {
     match: /ADD\d+/,
     value: text => text.slice(3).replace(RE_STRIP_LEADING_ZEROS, '') || '0',
   },
-  [Tokens.DRILL_COMMENT]: {
-    match: /;.*$/,
-    value: text => text.slice(1),
-  },
+  [Tokens.SEMICOLON]: /;/,
   [Tokens.DRILL_UNITS]: /^(?:METRIC|INCH)/,
   [Tokens.DRILL_ZERO_INCLUSION]: {
     match: /,(?:TZ|LZ)/,
-    value: text => text[1],
+    value: text => text.slice(1),
   },
   [Tokens.DRILL_COORD_FORMAT]: {
     match: /,0{1,8}\.0{1,8}/,
@@ -66,8 +63,9 @@ export const rules: Rules = {
       return diameterMatch ? diameterMatch[0] : ''
     },
   },
+  [Tokens.COORD_CHAR]: /[XYZIJA]/,
   [Tokens.NUMBER]: /(?:[+-])?[\d.]+/,
-  [Tokens.CHAR]: /[XYZIJA]/,
+  [Tokens.WORD]: /[a-zA-Z]+/,
   [Tokens.WHITESPACE]: /[ \t]+/,
   [Tokens.NEWLINE]: {
     match: /\r?\n/,

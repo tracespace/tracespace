@@ -3,7 +3,6 @@
 import {expect} from 'chai'
 import React from 'react'
 import {shallow} from 'enzyme'
-import snapshot from 'snap-shot-it'
 
 import * as components from '..'
 
@@ -29,12 +28,5 @@ describe('Logo', () => {
   it('should preserve aspect ratio', () => {
     expect(shallow(<Logo width="32" />).prop('height')).to.equal('32')
     expect(shallow(<Logo height="32" />).prop('width')).to.equal('32')
-  })
-
-  it('should render', () => {
-    snapshot(shallow(<Logo />).html())
-    snapshot(shallow(<Logo width="32" />).html())
-    snapshot(shallow(<Logo height="32" />).html())
-    snapshot(shallow(<Logo width="100%" height="50%" />).html())
   })
 })

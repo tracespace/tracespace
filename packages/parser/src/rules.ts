@@ -2,6 +2,7 @@ import {Token} from './lexer'
 import {GrammarMatch} from './grammar'
 
 const TOKEN = 'TOKEN'
+const NOT_TOKEN = 'NOT_TOKEN'
 const MIN_TO_MAX = 'MIN_TO_MAX'
 
 const FULL_MATCH = 'FULL_MATCH'
@@ -18,6 +19,7 @@ export interface TokenRule {
   rule: typeof TOKEN
   type: Token['type']
   value: Token['value'] | null | undefined
+  negate?: boolean
 }
 
 export interface MinToMaxRule {
@@ -50,6 +52,13 @@ export function findMatch(state: MatchState, token: Token): MatchState {
 
 export function token(type: Token['type'], value?: Token['value']): TokenRule {
   return {rule: TOKEN, type, value}
+}
+
+export function notToken(
+  type: Token['type'],
+  value?: Token['value']
+): TokenRule {
+  return {rule: TOKEN, type, value, negate: true}
 }
 
 export function one(match: Array<TokenRule>): MinToMaxRule {
@@ -110,10 +119,11 @@ function isMatch(rules: Array<Rule>, tokens: Array<Token>): Match {
 
 function checkToken(rule: Rule, token: Token): boolean {
   if (rule.rule === TOKEN) {
-    return (
+    const result =
       rule.type === token.type &&
       (rule.value == null || rule.value === token.value)
-    )
+
+    return rule.negate ? !result : result
   }
 
   if (Array.isArray(rule.match)) {
