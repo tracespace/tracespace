@@ -3,15 +3,18 @@
 import * as Lexer from '../lexer'
 import * as Grammar from '../grammar'
 import * as Nodes from './nodes'
+import {parseMacroDefinition} from './parse-macros'
 
-export function reducer(
-  tree: Nodes.Root,
-  matchType: Grammar.GrammarMatch['type'],
-  tokens: Array<Lexer.Token>
-): Nodes.Root {
+type ReducerMatch = Grammar.GrammarMatch<Grammar.GrammarRuleType>
+
+export function reducer(tree: Nodes.Root, match: ReducerMatch): Nodes.Root {
   const [header, image] = tree.children
+  const {type: matchType, tokens, filetype} = match
+
+  if (filetype && !tree.filetype) tree.filetype = filetype
 
   switch (matchType) {
+    case Grammar.GERBER_COMMENT:
     case Grammar.DRILL_COMMENT: {
       const value = tokens
         .slice(1, -1)
@@ -19,14 +22,14 @@ export function reducer(
         .join('')
         .trim()
 
-      const target = image.children.length ? image : header
-      appendDeepestChild(target, {type: Nodes.COMMENT, value})
+      const target = image.children.length > 0 ? image : header
+      target.children.push({type: Nodes.COMMENT, value})
       break
     }
 
     case Grammar.GERBER_UNITS: {
       const units = tokens[1].value === 'MM' ? 'mm' : 'in'
-      ensureChild(header, {type: Nodes.UNITS, units})
+      header.children.push({type: Nodes.UNITS, units})
       break
     }
 
@@ -49,7 +52,7 @@ export function reducer(
       })
 
       if (format || zeroSuppression || mode) {
-        ensureChild(header, {
+        header.children.push({
           type: Nodes.COORDINATE_FORMAT,
           format,
           zeroSuppression,
@@ -72,16 +75,16 @@ export function reducer(
         } else if (token.type === Lexer.DRILL_ZERO_INCLUSION) {
           zeroSuppression =
             token.value === 'TZ' ? Nodes.LEADING : Nodes.TRAILING
-        } else if (token.type === Lexer.DRILL_COORD_FORMAT) {
+        } else if (token.type === Lexer.NUMBER) {
           const [integer, decimal] = token.value.split('.')
           format = [integer.length, decimal.length]
         }
       })
 
-      if (units) ensureChild(header, {type: Nodes.UNITS, units})
+      if (units) header.children.push({type: Nodes.UNITS, units})
 
       if (format || zeroSuppression) {
-        ensureChild(header, {
+        header.children.push({
           type: Nodes.COORDINATE_FORMAT,
           mode: null,
           format,
@@ -92,15 +95,18 @@ export function reducer(
     }
 
     case Grammar.GERBER_TOOL_DEFINITION: {
-      const code = tokens[1].value
-      const name = tokens[2].value
+      const toolProps = tokens[1].value.match(/(\d+)(.+)/) || []
+      // this should never happen, but for safety
+      if (toolProps === null) return tree
+
+      const [, code, name] = toolProps
       const params: Array<number> = tokens
         .slice(3)
         .filter(t => t.type === Lexer.NUMBER)
         .map(t => Number(t.value))
 
       let shape: Nodes.ToolShape | null = null
-      let hole: Nodes.HoleShape | null = null
+      let hole: Nodes.HoleShape = null
       let holeParams: Array<number> = []
 
       if (name === 'C') {
@@ -118,77 +124,156 @@ export function reducer(
         const [diameter, vertices, rotation = null, ...rest] = params
         shape = {type: Nodes.POLYGON, diameter, vertices, rotation}
         holeParams = rest
+      } else {
+        // macro time
+        shape = {type: Nodes.MACRO_SHAPE, name, params}
+        holeParams = []
       }
 
       if (holeParams.length === 1) {
         const [diameter] = holeParams
-        hole = {type: 'circle', diameter}
+        hole = {type: Nodes.CIRCLE, diameter}
       } else if (holeParams.length === 2) {
         const [xSize, ySize] = holeParams
-        hole = {type: 'rectangle', xSize, ySize}
+        hole = {type: Nodes.RECTANGLE, xSize, ySize}
       }
 
       if (shape) {
-        appendChild(header, {type: Nodes.TOOL_DEFINITION, code, shape, hole})
+        header.children.push({
+          type: Nodes.TOOL_DEFINITION,
+          code,
+          shape,
+          hole,
+        })
       }
+      break
+    }
+
+    case Grammar.GERBER_TOOL_MACRO: {
+      header.children.push(parseMacroDefinition(tokens))
       break
     }
 
     case Grammar.DRILL_TOOL_DEFINITION: {
       const code = tokens[0].value
       const hole = null
-      const shape = {
+      const shape: Nodes.ToolShape = {
         type: Nodes.CIRCLE,
         diameter: Number(tokens[1].value.slice(1)),
       }
 
-      appendChild(header, {type: Nodes.TOOL_DEFINITION, hole, code, shape})
+      header.children.push({
+        type: Nodes.TOOL_DEFINITION,
+        hole,
+        code,
+        shape,
+      })
       break
     }
 
     case Grammar.GERBER_TOOL_CHANGE: {
       const codeToken = tokens.find(t => t.type === Lexer.D_CODE)
       if (codeToken) {
-        const node = {type: Nodes.TOOL, children: [], code: codeToken.value}
-        appendDeepestChild(image, node, Nodes.IMAGE)
+        const node: Nodes.ToolChange = {
+          type: Nodes.TOOL_CHANGE,
+          code: codeToken.value,
+        }
+        image.children.push(node)
       }
       break
     }
 
     case Grammar.DRILL_TOOL_CHANGE: {
-      const node = {type: Nodes.TOOL, children: [], code: tokens[0].value}
-      appendDeepestChild(image, node, Nodes.IMAGE)
-      break
-    }
-
-    case Grammar.GERBER_OPERATION: {
-      const operation = tokens.find(t => t.type === Lexer.D_CODE)
-      const coordinates = tokensToCoordinates(tokens)
-      let graphic = null
-      if (operation) {
-        if (operation.value === '3') {
-          graphic = Nodes.SHAPE
-        } else if (operation.value === '2') {
-          graphic = Nodes.MOVE
-        } else if (operation.value === '1') {
-          graphic = Nodes.SEGMENT
-        }
+      const node: Nodes.ToolChange = {
+        type: Nodes.TOOL_CHANGE,
+        code: tokens[0].value,
       }
-
-      appendDeepestChild(image, {type: Nodes.GRAPHIC, coordinates, graphic})
+      image.children.push(node)
       break
     }
 
-    case Grammar.DRILL_OPERATION: {
+    case Grammar.GERBER_INTERPOLATE_MODE:
+    case Grammar.DRILL_OPERATION:
+    case Grammar.GERBER_OPERATION: {
       tokens
         .filter(t => t.type === Lexer.T_CODE)
-        .forEach(t => (tree = reducer(tree, Grammar.DRILL_TOOL_CHANGE, [t])))
+        .forEach(
+          t =>
+            (tree = reducer(tree, {
+              type: Grammar.DRILL_TOOL_CHANGE,
+              tokens: [t],
+            }))
+        )
 
-      appendDeepestChild(image, {
-        type: Nodes.GRAPHIC,
-        graphic: Nodes.SHAPE,
-        coordinates: tokensToCoordinates(tokens),
+      tokens
+        .filter(t => t.type === Lexer.G_CODE)
+        .map(t => {
+          if (t.value === '0') return Nodes.MOVE
+          if (t.value === '1') return Nodes.LINE
+          if (t.value === '2') return Nodes.CW_ARC
+          if (t.value === '3') return Nodes.CCW_ARC
+          return null
+        })
+        .forEach(mode => {
+          image.children.push({type: Nodes.INTERPOLATE_MODE, mode})
+        })
+
+      const graphic = tokens
+        .filter(t => t.type === Lexer.D_CODE)
+        .reduce<Nodes.GraphicType>((_, t) => {
+          if (t.value === '3') return Nodes.SHAPE
+          if (t.value === '2') return Nodes.MOVE
+          if (t.value === '1') return Nodes.SEGMENT
+          return null
+        }, null)
+
+      if (
+        tokens.some(t => t.type === Lexer.COORD_CHAR || t.type === Lexer.NUMBER)
+      ) {
+        image.children.push({
+          type: Nodes.GRAPHIC,
+          coordinates: tokensToCoordinates(tokens),
+          graphic,
+        })
+      }
+      break
+    }
+
+    case Grammar.GERBER_REGION_MODE: {
+      const gCodeToken = tokens[0]
+      image.children.push({
+        type: Nodes.REGION_MODE,
+        region: gCodeToken.value === '36',
       })
+      break
+    }
+
+    case Grammar.GERBER_QUADRANT_MODE: {
+      const gCodeToken = tokens[0]
+      image.children.push({
+        type: Nodes.QUADRANT_MODE,
+        quadrant: gCodeToken.value === '74' ? Nodes.SINGLE : Nodes.MULTI,
+      })
+      break
+    }
+
+    case Grammar.DRILL_SLOT: {
+      const slotToken = tokens.find(
+        t => t.type === Lexer.G_CODE && t.value === '85'
+      )
+      const splitIdx = slotToken ? tokens.indexOf(slotToken) : -1
+
+      if (splitIdx >= 0) {
+        const {x: x1, y: y1} = tokensToCoordinates(tokens.slice(0, splitIdx))
+        const {x: x2, y: y2} = tokensToCoordinates(tokens.slice(splitIdx))
+
+        image.children.push({
+          type: Nodes.GRAPHIC,
+          graphic: Nodes.SLOT,
+          coordinates: {x1, y1, x2, y2},
+        })
+      }
+
       break
     }
 
@@ -199,48 +284,12 @@ export function reducer(
     }
 
     default: {
-      console.warn('unhandled match', matchType, tokens)
+      const unhandledMatch: never = matchType
+      throw new Error(`unhandled match: ${unhandledMatch}`)
     }
   }
 
   return tree
-}
-
-export function ensureChild(parent: Nodes.Parent, child: Nodes.Node): unknown {
-  let i
-
-  for (i = 0; i < parent.children.length; i++) {
-    const current = parent.children[i]
-    if (current.type === child.type) {
-      return (parent.children[i] = child)
-    }
-  }
-
-  parent.children.push(child)
-}
-
-export function appendChild(parent: Nodes.Parent, child: Nodes.Node): void {
-  parent.children.push(child)
-}
-
-export function appendDeepestChild(
-  parent: Nodes.Parent,
-  child: Nodes.Node,
-  type?: Nodes.NodeType
-): unknown {
-  let i
-
-  for (i = parent.children.length - 1; i >= 0; i--) {
-    const candidate = parent.children[i]
-
-    if (candidate.children && (!type || candidate.type === type)) {
-      return appendDeepestChild(candidate as Nodes.Parent, child, type)
-    }
-  }
-
-  if (!type || parent.type === type) {
-    appendChild(parent, child)
-  }
 }
 
 function tokensToCoordinates(tokens: Array<Lexer.Token>): Nodes.Coordinates {

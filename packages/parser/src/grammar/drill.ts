@@ -1,10 +1,8 @@
 // drill file grammar
-'use strict'
-
 import * as Lexer from '../lexer'
-import { token, notToken, one, zeroOrOne, zeroOrMore, minToMax } from '../rules'
-import { DRILL } from '../tree'
-import { GrammarMatch } from './types'
+import {token, notToken, one, zeroOrOne, zeroOrMore, minToMax} from '../rules'
+import {DRILL} from '../tree'
+import {GrammarRule} from './types'
 
 export const DRILL_UNITS = 'DRILL_UNITS'
 export const DRILL_COMMENT = 'DRILL_COMMENT'
@@ -24,9 +22,9 @@ export type DrillGrammarType =
   | typeof DRILL_DONE
   | typeof DRILL_COMMENT
 
-export type DrillGrammarMatch = GrammarMatch<DrillGrammarType>
+export type DrillGrammarRule = GrammarRule<DrillGrammarType>
 
-const drillUnits: DrillGrammarMatch = {
+const drillUnits: DrillGrammarRule = {
   type: DRILL_UNITS,
   filetype: DRILL,
   match: [
@@ -36,14 +34,15 @@ const drillUnits: DrillGrammarMatch = {
       token(Lexer.M_CODE, '72'),
     ]),
     zeroOrMore([
+      token(Lexer.COMMA),
       token(Lexer.DRILL_ZERO_INCLUSION),
-      token(Lexer.DRILL_COORD_FORMAT),
+      token(Lexer.NUMBER, /^0{1,8}\.0{1,8}$/),
     ]),
     token(Lexer.NEWLINE),
   ],
 }
 
-const drillToolDefinition: DrillGrammarMatch = {
+const drillToolDefinition: DrillGrammarRule = {
   type: DRILL_TOOL_DEFINITION,
   filetype: DRILL,
   match: [
@@ -53,13 +52,13 @@ const drillToolDefinition: DrillGrammarMatch = {
   ],
 }
 
-const drillToolChange: DrillGrammarMatch = {
+const drillToolChange: DrillGrammarRule = {
   type: DRILL_TOOL_CHANGE,
   filetype: DRILL,
   match: [token(Lexer.T_CODE), token(Lexer.NEWLINE)],
 }
 
-const drillOperation: DrillGrammarMatch = {
+const drillOperation: DrillGrammarRule = {
   type: DRILL_OPERATION,
   filetype: DRILL,
   match: [
@@ -77,7 +76,7 @@ const drillOperation: DrillGrammarMatch = {
   ],
 }
 
-const drillSlot: DrillGrammarMatch = {
+const drillSlot: DrillGrammarRule = {
   type: DRILL_SLOT,
   filetype: DRILL,
   match: [
@@ -88,7 +87,7 @@ const drillSlot: DrillGrammarMatch = {
   ],
 }
 
-const drillDone: DrillGrammarMatch = {
+const drillDone: DrillGrammarRule = {
   type: DRILL_DONE,
   filetype: DRILL,
   match: [
@@ -97,7 +96,7 @@ const drillDone: DrillGrammarMatch = {
   ],
 }
 
-const drillComment: DrillGrammarMatch = {
+const drillComment: DrillGrammarRule = {
   type: DRILL_COMMENT,
   filetype: DRILL,
   match: [
@@ -107,7 +106,7 @@ const drillComment: DrillGrammarMatch = {
   ],
 }
 
-const grammar: Array<DrillGrammarMatch> = [
+export const drillGrammar: Array<DrillGrammarRule> = [
   drillUnits,
   drillToolDefinition,
   drillToolChange,
@@ -116,5 +115,3 @@ const grammar: Array<DrillGrammarMatch> = [
   drillDone,
   drillComment,
 ]
-
-export default grammar

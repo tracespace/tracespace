@@ -4,19 +4,18 @@ import {toArray} from 'lodash'
 
 import * as Lexer from '../../lexer'
 import {token as t, simplifyToken} from '../../__tests__/helpers'
-import {findMatch, MatchState} from '../../rules'
+import {reduceMatchState, MatchState} from '../../rules'
 import {GERBER} from '../../tree'
 import * as Grammar from '..'
 
 interface GrammarSpec {
   tokens: Array<Lexer.Token>
-  expected: Grammar.GrammarMatch['type']
+  expected: Grammar.GerberGrammarType
 }
 
-const INITIAL_MATCH_STATE: MatchState = {
+const INITIAL_MATCH_STATE: MatchState<Grammar.GrammarRuleType> = {
   candidates: Grammar.grammar,
   tokens: [],
-  match: null,
 }
 
 describe('gerber grammar', () => {
@@ -96,11 +95,11 @@ describe('gerber grammar', () => {
       lexer.reset(source)
 
       const actualTokens = toArray((lexer as unknown) as Array<Lexer.Token>)
-      const result = actualTokens.reduce(findMatch, INITIAL_MATCH_STATE)
+      const {match} = actualTokens.reduce(reduceMatchState, INITIAL_MATCH_STATE)
 
-      expect(result.tokens.map(simplifyToken)).to.eql(expectedTokens)
-      expect(result.match && result.match.type).to.equal(expected)
-      expect(result.match && result.match.filetype).to.equal(GERBER)
+      expect(match && match.tokens.map(simplifyToken)).to.eql(expectedTokens)
+      expect(match && match.type).to.equal(expected)
+      expect(match && match.filetype).to.equal(GERBER)
     })
   })
 })

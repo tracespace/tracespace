@@ -28,6 +28,7 @@ export const rules: Rules = {
   },
   [Tokens.ASTERISK]: '*',
   [Tokens.PERCENT]: '%',
+  [Tokens.EQUALS]: '=',
   [Tokens.GERBER_FORMAT]: {
     match: /FS[LTDAI]+/,
     value: text => text.slice(2),
@@ -36,25 +37,22 @@ export const rules: Rules = {
     match: /MO(?:IN|MM)/,
     value: text => text.slice(2),
   },
-  [Tokens.GERBER_TOOL_DEF]: {
-    match: /ADD\d+/,
-    value: text => text.slice(3).replace(RE_STRIP_LEADING_ZEROS, '') || '0',
+  [Tokens.GERBER_TOOL_MACRO]: {
+    // "-" in a tool name is illegal, but some gerber writers misbehave
+    // https://github.com/mcous/gerber-parser/pull/13
+    match: /AM[a-zA-Z_.$][\w.-]*/,
+    value: text => text.slice(2),
   },
+  [Tokens.GERBER_TOOL_DEF]: {
+    match: /ADD\d+[a-zA-Z_.$][\w.-]*/,
+    value: text => text.slice(3).replace(RE_STRIP_LEADING_ZEROS, ''),
+  },
+  [Tokens.GERBER_MACRO_VARIABLE]: /\$\d+/,
   [Tokens.SEMICOLON]: /;/,
   [Tokens.DRILL_UNITS]: /^(?:METRIC|INCH)/,
   [Tokens.DRILL_ZERO_INCLUSION]: {
     match: /,(?:TZ|LZ)/,
     value: text => text.slice(1),
-  },
-  [Tokens.DRILL_COORD_FORMAT]: {
-    match: /,0{1,8}\.0{1,8}/,
-    value: text => text.slice(1),
-  },
-  [Tokens.GERBER_TOOL_NAME]: {
-    // "-" in a tool name is illegal, but some gerber writers misbehave
-    // https://github.com/mcous/gerber-parser/pull/13
-    match: /[a-zA-Z_.$][\w.-]*?,/,
-    value: text => text.slice(0, -1),
   },
   [Tokens.DRILL_TOOL_PROPS]: {
     match: /(?:[CFSBHZ][\d.]+)+/,
@@ -65,6 +63,8 @@ export const rules: Rules = {
   },
   [Tokens.COORD_CHAR]: /[XYZIJA]/,
   [Tokens.NUMBER]: /(?:[+-])?[\d.]+/,
+  [Tokens.OPERATOR]: ['x', '/', '+', '-', '(', ')'],
+  [Tokens.COMMA]: ',',
   [Tokens.WORD]: /[a-zA-Z]+/,
   [Tokens.WHITESPACE]: /[ \t]+/,
   [Tokens.NEWLINE]: {

@@ -3,10 +3,10 @@
   "files": [],
   "references": [
     {"path": "./apps/view"},
-    {"path": "./packages/builder"},
     {"path": "./packages/cli"},
     {"path": "./packages/parser"},
-    {"path": "./packages/render-svg"},
+    {"path": "./packages/plotter"},
+    {"path": "./packages/renderer"},
     {"path": "./packages/whats-that-gerber"},
     {"path": "./packages/xml-id"}
   ]

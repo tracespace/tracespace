@@ -165,15 +165,15 @@ describe('lexer', () => {
       expect(getResults(lexer)).to.eql([
         // %ADD10C,.025*%
         {type: 'PERCENT', value: '%'},
-        {type: 'GERBER_TOOL_DEF', value: '10'},
-        {type: 'GERBER_TOOL_NAME', value: 'C'},
+        {type: 'GERBER_TOOL_DEF', value: '10C'},
+        {type: 'COMMA', value: ','},
         {type: 'NUMBER', value: '.025'},
         {type: 'ASTERISK', value: '*'},
         {type: 'PERCENT', value: '%'},
         // %ADD11C,0.5X0.25*%
         {type: 'PERCENT', value: '%'},
-        {type: 'GERBER_TOOL_DEF', value: '11'},
-        {type: 'GERBER_TOOL_NAME', value: 'C'},
+        {type: 'GERBER_TOOL_DEF', value: '11C'},
+        {type: 'COMMA', value: ','},
         {type: 'NUMBER', value: '0.5'},
         {type: 'COORD_CHAR', value: 'X'},
         {type: 'NUMBER', value: '0.25'},
@@ -181,8 +181,8 @@ describe('lexer', () => {
         {type: 'PERCENT', value: '%'},
         // %ADD12C,10X5X5*%
         {type: 'PERCENT', value: '%'},
-        {type: 'GERBER_TOOL_DEF', value: '12'},
-        {type: 'GERBER_TOOL_NAME', value: 'C'},
+        {type: 'GERBER_TOOL_DEF', value: '12C'},
+        {type: 'COMMA', value: ','},
         {type: 'NUMBER', value: '10'},
         {type: 'COORD_CHAR', value: 'X'},
         {type: 'NUMBER', value: '5'},
@@ -254,14 +254,18 @@ describe('lexer', () => {
       expect(getResults(lexer)).to.eql([
         {type: 'DRILL_UNITS', value: 'METRIC'},
         {type: 'DRILL_ZERO_INCLUSION', value: 'TZ'},
-        {type: 'DRILL_COORD_FORMAT', value: '0000.00'},
+        {type: 'COMMA', value: ','},
+        {type: 'NUMBER', value: '0000.00'},
         {type: 'M_CODE', value: '71'},
-        {type: 'DRILL_COORD_FORMAT', value: '00.000'},
+        {type: 'COMMA', value: ','},
+        {type: 'NUMBER', value: '00.000'},
         {type: 'DRILL_UNITS', value: 'INCH'},
-        {type: 'DRILL_COORD_FORMAT', value: '0.0'},
+        {type: 'COMMA', value: ','},
+        {type: 'NUMBER', value: '0.0'},
         {type: 'DRILL_ZERO_INCLUSION', value: 'LZ'},
         {type: 'M_CODE', value: '72'},
-        {type: 'DRILL_COORD_FORMAT', value: '00.00'},
+        {type: 'COMMA', value: ','},
+        {type: 'NUMBER', value: '00.00'},
       ])
     })
 

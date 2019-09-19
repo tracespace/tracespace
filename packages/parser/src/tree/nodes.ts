@@ -1,10 +1,8 @@
 import {Node as UnistNode, Parent as UnistParent} from 'unist'
 
 export interface Parent extends UnistParent {
-  children: Array<Node | UnistParent>
+  children: Array<UnistNode | UnistParent>
 }
-
-export type Node = UnistNode
 
 // node type constants
 export const ROOT = 'root'
@@ -14,8 +12,27 @@ export const IMAGE = 'image'
 export const UNITS = 'units'
 export const COORDINATE_FORMAT = 'coordinateFormat'
 export const TOOL_DEFINITION = 'toolDefinition'
-export const TOOL = 'tool'
+export const TOOL_MACRO = 'toolMacro'
+export const TOOL_CHANGE = 'toolChange'
 export const GRAPHIC = 'graphic'
+export const INTERPOLATE_MODE = 'interpolateMode'
+export const REGION_MODE = 'regionMode'
+export const QUADRANT_MODE = 'quadrantMode'
+
+export type Node =
+  | Root
+  | Comment
+  | Header
+  | Image
+  | Units
+  | CoordinateFormat
+  | ToolDefinition
+  | ToolMacro
+  | ToolChange
+  | InterpolateMode
+  | RegionMode
+  | QuadrantMode
+  | Graphic
 
 export type NodeType =
   | typeof ROOT
@@ -25,7 +42,11 @@ export type NodeType =
   | typeof UNITS
   | typeof COORDINATE_FORMAT
   | typeof TOOL_DEFINITION
-  | typeof TOOL
+  | typeof TOOL_MACRO
+  | typeof TOOL_CHANGE
+  | typeof INTERPOLATE_MODE
+  | typeof REGION_MODE
+  | typeof QUADRANT_MODE
   | typeof GRAPHIC
 
 // file type constants
@@ -52,16 +73,64 @@ export const CIRCLE = 'circle'
 export const RECTANGLE = 'rectangle'
 export const OBROUND = 'obround'
 export const POLYGON = 'polygon'
-export type ToolShape = Circle | Rectangle | Obround | Polygon
-export type HoleShape = Circle | Rectangle
+export const MACRO_SHAPE = 'macroShape'
+export type ToolShape = Circle | Rectangle | Obround | Polygon | MacroShape
+export type HoleShape = Circle | Rectangle | null
+
+// macro constants
+export const MACRO_COMMENT = 'macroComment'
+export const MACRO_VARIABLE = 'macroVariable'
+export const MACRO_PRIMITIVE = 'macroPrimitive'
+
+export const MACRO_CIRCLE = '1'
+export const MACRO_VECTOR_LINE = '20'
+export const MACRO_CENTER_LINE = '21'
+export const MACRO_OUTLINE = '4'
+export const MACRO_POLYGON = '5'
+export const MACRO_MOIRE = '6'
+export const MACRO_THERMAL = '7'
+
+export type MacroPrimitiveCode =
+  | typeof MACRO_CIRCLE
+  | typeof MACRO_VECTOR_LINE
+  | typeof MACRO_CENTER_LINE
+  | typeof MACRO_OUTLINE
+  | typeof MACRO_POLYGON
+  | typeof MACRO_MOIRE
+  | typeof MACRO_THERMAL
 
 // drawing constants
 export const SHAPE = 'shape'
 export const MOVE = 'move'
 export const SEGMENT = 'segment'
-export type GraphicType = typeof SHAPE | typeof MOVE | typeof SEGMENT
-export type Coordinates = {[axis: string]: string}
+export const SLOT = 'slot'
 
+// interpolation / routing constants
+export const LINE = 'line'
+export const CW_ARC = 'cwArc'
+export const CCW_ARC = 'ccwArc'
+
+// quadrant mode
+export const SINGLE = 'single'
+export const MULTI = 'multi'
+
+export type GraphicType =
+  | typeof SHAPE
+  | typeof MOVE
+  | typeof SEGMENT
+  | typeof SLOT
+  | null
+
+export type InterpolateModeType =
+  | typeof LINE
+  | typeof CW_ARC
+  | typeof CCW_ARC
+  | typeof MOVE
+  | null
+
+export type QuadrantModeType = typeof SINGLE | typeof MULTI | null
+
+export type Coordinates = Partial<{[axis: string]: string}>
 export interface Circle {
   type: typeof CIRCLE
   diameter: number
@@ -86,8 +155,56 @@ export interface Polygon {
   rotation: number | null
 }
 
+export interface MacroShape {
+  type: typeof MACRO_SHAPE
+  name: string
+  params: number[]
+}
+
+export interface MacroExpression {
+  left: MacroValue
+  right: MacroValue
+  operator: '+' | '-' | 'x' | '/'
+}
+
+export type MacroValue = number | string | MacroExpression
+
+export type MacroBlock = MacroComment | MacroVariable | MacroPrimitive
+
+export interface MacroComment {
+  type: typeof MACRO_COMMENT
+  value: string
+}
+
+export interface MacroVariable {
+  type: typeof MACRO_VARIABLE
+  name: string
+  value: MacroValue
+}
+
+export interface MacroPrimitive {
+  type: typeof MACRO_PRIMITIVE
+  code: MacroPrimitiveCode | string
+  modifiers: MacroValue[]
+}
+
 // node types
-export type Ancestor = Root | Header | Image | Tool
+export type Ancestor = Root | Header | Image
+
+export type HeaderChild =
+  | Comment
+  | Units
+  | CoordinateFormat
+  | ToolDefinition
+  | ToolMacro
+
+export type ImageChild =
+  | Comment
+  | ToolChange
+  | InterpolateMode
+  | RegionMode
+  | QuadrantMode
+  | Graphic
 
 export interface Root extends Parent {
   type: typeof ROOT
@@ -96,48 +213,67 @@ export interface Root extends Parent {
   children: [Header, Image]
 }
 
-export interface Comment extends Node {
+export interface Comment extends UnistNode {
   type: typeof COMMENT
   value: string
 }
 
 export interface Header extends Parent {
   type: typeof HEADER
-  children: (Units | CoordinateFormat | ToolDefinition)[]
+  children: HeaderChild[]
 }
 
 export interface Image extends Parent {
   type: typeof IMAGE
-  children: (Tool | Graphic)[]
+  children: ImageChild[]
 }
 
-export interface Units extends Node {
+export interface Units extends UnistNode {
   type: typeof UNITS
   units: UnitsType
 }
 
-export interface CoordinateFormat extends Node {
+export interface CoordinateFormat extends UnistNode {
   type: typeof COORDINATE_FORMAT
   format: Format | null
   zeroSuppression: ZeroSuppression | null
   mode: Mode | null
 }
 
-export interface ToolDefinition extends Node {
+export interface ToolDefinition extends UnistNode {
   type: typeof TOOL_DEFINITION
   code: string
   shape: ToolShape
-  hole: HoleShape | null
+  hole: HoleShape
 }
 
-export interface Tool extends Parent {
-  type: typeof TOOL
+export interface ToolMacro extends UnistNode {
+  type: typeof TOOL_MACRO
+  name: string
+  blocks: MacroBlock[]
+}
+
+export interface ToolChange extends UnistNode {
+  type: typeof TOOL_CHANGE
   code: string
-  children: Graphic[]
+}
+export interface Graphic extends UnistNode {
+  type: typeof GRAPHIC
+  graphic: GraphicType
+  coordinates: Coordinates
 }
 
-export interface Graphic extends Node {
-  type: typeof GRAPHIC
-  graphic: GraphicType | null
-  coordinates: Coordinates
+export interface InterpolateMode extends UnistNode {
+  type: typeof INTERPOLATE_MODE
+  mode: InterpolateModeType
+}
+
+export interface RegionMode extends UnistNode {
+  type: typeof REGION_MODE
+  region: boolean
+}
+
+export interface QuadrantMode extends UnistNode {
+  type: typeof QUADRANT_MODE
+  quadrant: QuadrantModeType
 }

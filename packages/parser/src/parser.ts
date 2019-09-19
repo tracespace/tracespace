@@ -1,15 +1,11 @@
 // parser class
-import {createLexer, Lexer} from './lexer'
+import {createLexer, Lexer, Token} from './lexer'
 
 import * as Tree from './tree'
 import * as Rules from './rules'
 import {grammar} from './grammar'
 
-const INITIAL_MATCH_STATE: Rules.MatchState = {
-  candidates: grammar,
-  tokens: [],
-  match: null,
-}
+const INITIAL_MATCH_STATE = Rules.initialMatchState(grammar)
 
 export class Parser {
   lexer: Lexer
@@ -30,24 +26,21 @@ export class Parser {
   }
 
   feed(chunk: string): void {
-    let next
+    let next: Token | undefined
     let matchState = INITIAL_MATCH_STATE
 
     this.lexer.reset(chunk)
 
     while ((next = this.lexer.next())) {
-      matchState = Rules.findMatch(matchState, next)
-      const {match, tokens} = matchState
+      matchState = Rules.reduceMatchState(matchState, next)
 
-      if (match) {
-        this._root = Tree.reducer(this._root, match.type, tokens)
-
-        if (!this._root.filetype && match.filetype) {
-          this._root.filetype = match.filetype
-        }
+      if (matchState.match) {
+        this._root = Tree.reducer(this._root, matchState.match)
       }
 
-      if (matchState.candidates.length === 0) matchState = INITIAL_MATCH_STATE
+      if (matchState.candidates.length === 0) {
+        matchState = INITIAL_MATCH_STATE
+      }
     }
   }
 

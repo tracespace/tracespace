@@ -1,24 +1,23 @@
 import {Token} from './lexer'
-import {GrammarMatch} from './grammar'
+import {GrammarRule, GrammarMatch} from './grammar'
 
 const TOKEN = 'TOKEN'
-const NOT_TOKEN = 'NOT_TOKEN'
 const MIN_TO_MAX = 'MIN_TO_MAX'
 
 const FULL_MATCH = 'FULL_MATCH'
 const PARTIAL_MATCH = 'PARTIAL_MATCH'
 const NO_MATCH = 'NO_MATCH'
 
-export interface MatchState {
-  candidates: Array<GrammarMatch>
-  tokens: Array<Token>
-  match: GrammarMatch | null
+export interface MatchState<Type extends string> {
+  candidates: GrammarRule<Type>[]
+  tokens: Token[]
+  match?: GrammarMatch<Type>
 }
 
 export interface TokenRule {
   rule: typeof TOKEN
   type: Token['type']
-  value: Token['value'] | null | undefined
+  value: Token['value'] | RegExp | null | undefined
   negate?: boolean
 }
 
@@ -31,26 +30,43 @@ export interface MinToMaxRule {
 
 export type Rule = TokenRule | MinToMaxRule
 
-export function findMatch(state: MatchState, token: Token): MatchState {
-  const {candidates, match, tokens} = state
+export const initialMatchState = <Type extends string>(
+  candidates: GrammarRule<Type>[]
+): MatchState<Type> => ({
+  candidates,
+  tokens: [],
+})
 
-  return candidates.reduce<MatchState>(
-    (nextState, cand) => {
-      const result = isMatch(cand.match, nextState.tokens)
+export function reduceMatchState<Type extends string>(
+  state: MatchState<Type>,
+  token: Token
+): MatchState<Type> {
+  const {candidates: prevCandidates} = state
+  const candidates = []
+  const tokens = [...state.tokens, token]
 
-      if (result === FULL_MATCH) {
-        nextState.match = nextState.match || cand
-      } else if (result === PARTIAL_MATCH) {
-        nextState.candidates.push(cand)
-      }
+  let i
+  for (i = 0; i < prevCandidates.length; i++) {
+    const rule = prevCandidates[i]
+    const result = tokenListMatches(rule.match, tokens)
 
-      return nextState
-    },
-    {candidates: [], match, tokens: [...tokens, token]}
-  )
+    if (result === FULL_MATCH) {
+      const match = {type: rule.type, filetype: rule.filetype, tokens}
+      return {candidates: [], tokens, match}
+    }
+
+    if (result === PARTIAL_MATCH) {
+      candidates.push(rule)
+    }
+  }
+
+  return {candidates, tokens}
 }
 
-export function token(type: Token['type'], value?: Token['value']): TokenRule {
+export function token(
+  type: Token['type'],
+  value?: Token['value'] | RegExp
+): TokenRule {
   return {rule: TOKEN, type, value}
 }
 
@@ -73,6 +89,10 @@ export function zeroOrMore(match: Array<TokenRule>): MinToMaxRule {
   return {rule: MIN_TO_MAX, min: 0, max: Infinity, match}
 }
 
+export function oneOrMore(match: Array<TokenRule>): MinToMaxRule {
+  return {rule: MIN_TO_MAX, min: 1, max: Infinity, match}
+}
+
 export function minToMax(
   min: number,
   max: number,
@@ -81,9 +101,9 @@ export function minToMax(
   return {rule: MIN_TO_MAX, min, max, match}
 }
 
-type Match = typeof FULL_MATCH | typeof PARTIAL_MATCH | typeof NO_MATCH
+type ListMatch = typeof FULL_MATCH | typeof PARTIAL_MATCH | typeof NO_MATCH
 
-function isMatch(rules: Array<Rule>, tokens: Array<Token>): Match {
+function tokenListMatches(rules: Array<Rule>, tokens: Array<Token>): ListMatch {
   let i = 0
   let j = 0
   let multiMatchCount = 0
@@ -91,7 +111,7 @@ function isMatch(rules: Array<Rule>, tokens: Array<Token>): Match {
   while (i < rules.length && j < tokens.length) {
     let rule = rules[i]
     let token = tokens[j]
-    let match = checkToken(rule, token)
+    let match = tokenMatches(rule, token)
 
     if (match) {
       if (
@@ -117,18 +137,22 @@ function isMatch(rules: Array<Rule>, tokens: Array<Token>): Match {
   return FULL_MATCH
 }
 
-function checkToken(rule: Rule, token: Token): boolean {
+function tokenMatches(rule: Rule, token: Token): boolean {
   if (rule.rule === TOKEN) {
-    const result =
-      rule.type === token.type &&
-      (rule.value == null || rule.value === token.value)
+    const typeResult = rule.type === token.type
+    const valueResult =
+      rule.value == null ||
+      (typeof rule.value === 'string' && rule.value === token.value) ||
+      (rule.value instanceof RegExp && rule.value.test(token.value))
+
+    const result = typeResult && valueResult
 
     return rule.negate ? !result : result
   }
 
   if (Array.isArray(rule.match)) {
     return rule.match.some(function checkRuleMatch(match) {
-      return checkToken(match, token)
+      return tokenMatches(match, token)
     })
   }
 
