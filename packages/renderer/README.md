@@ -1,4 +1,4 @@
-# @tracespace/plotter
+# @tracespace/renderer
 
 [![latest][@tracespace/plotter-latest-badge]][npm]
 [![next][@tracespace/plotter-next-badge]][npm-next]

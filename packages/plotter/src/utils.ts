@@ -24,7 +24,7 @@ export const degreesToRadians = (degrees: number): number =>
 export function rotateAndShift(
   point: Position,
   shift: Position,
-  degrees: number = 0
+  degrees = 0
 ): Position {
   const rotation = degreesToRadians(degrees)
   const [sin, cos] = [Math.sin(rotation), Math.cos(rotation)]

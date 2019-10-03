@@ -61,7 +61,7 @@ export function createPlot(
   // arcs in drill files are always 180 degrees max
   let quadrantMode: Parser.QuadrantModeType = null
 
-  let currentLayer: ImageLayer = {
+  const currentLayer: ImageLayer = {
     type: IMAGE_LAYER,
     size: BBox.empty(),
     children: [],

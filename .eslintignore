@@ -5,8 +5,10 @@ coverage
 **/dist
 
 # compiled code
-packages/lexer/lib
+apps/view/lib
 packages/parser/lib
+packages/plotter/lib
+packages/renderer/lib
 
 # prettier ignore
 CHANGELOG.md

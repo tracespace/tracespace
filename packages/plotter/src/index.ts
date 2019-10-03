@@ -18,27 +18,25 @@ export function createBoard(
   const boardOptions = {units: (options && options.units) || 'mm'}
 
   const boardLayers = layers
-    .map(
-      (ly: InputLayer, i: number): Layer | null => {
-        const type = layerTypes[i]
-        const format = layerFormats[i]
+    .map((ly: InputLayer, i: number): Layer | null => {
+      const type = layerTypes[i]
+      const format = layerFormats[i]
 
-        if (format) {
-          const {filename, tree} = ly
-          const image = createPlot(type, format, tree)
+      if (format) {
+        const {filename, tree} = ly
+        const image = createPlot(type, format, tree)
 
-          return {
-            ...type,
-            ...format,
-            tree,
-            image,
-            filename: filename || null,
-          }
+        return {
+          ...type,
+          ...format,
+          tree,
+          image,
+          filename: filename || null,
         }
-
-        return null
       }
-    )
+
+      return null
+    })
     .filter((ly: Layer | null): ly is Layer => ly !== null)
 
   return {layers: boardLayers, options: boardOptions}

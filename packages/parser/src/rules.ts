@@ -109,9 +109,9 @@ function tokenListMatches(rules: Array<Rule>, tokens: Array<Token>): ListMatch {
   let multiMatchCount = 0
 
   while (i < rules.length && j < tokens.length) {
-    let rule = rules[i]
-    let token = tokens[j]
-    let match = tokenMatches(rule, token)
+    const rule = rules[i]
+    const token = tokens[j]
+    const match = tokenMatches(rule, token)
 
     if (match) {
       if (

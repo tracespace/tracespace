@@ -8,7 +8,7 @@ node_js:
   - 10
 
 script:
-  - yarn test
+  - yarn run test
   - yarn run coverage:upload
 
 cache:
@@ -28,7 +28,7 @@ jobs:
   include:
     - # run lints
       stage: test
-      name: Lint
+      name: Lint and format check
       script:
         - yarn run lint
         - yarn run format --check

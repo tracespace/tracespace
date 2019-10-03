@@ -17,4 +17,10 @@ export interface SvgOptions extends Options {
   colors: Colors
 }
 
-export interface Colors {}
+export interface Colors {
+  copper: string
+  mask: string
+  silkscreen: string
+  paste: string
+  substrate: string
+}

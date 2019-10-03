@@ -32,6 +32,7 @@ module.exports = merge(baseConfig(__dirname), {
       PKG_REPOSITORY_URL: pkg.repository.url,
       PKG_AUTHOR_NAME: pkg.author.name,
       PKG_AUTHOR_URL: pkg.author.url,
+      MIXPANEL_ID: null,
     }),
     new FileManagerPlugin({
       onStart: {mkdir: [OUT_PATH]},

@@ -9,6 +9,40 @@
 
 tracespace is an open-source collection of tools to make looking at circuit boards on the internet easier.
 
+**This is the branch for tracespace v5, which is still very much in development.**
+
+v5 checklist
+
+- [x] Written in TypeScript
+- New parser that generates [unist][] abstract syntax trees
+  - [x] Parses Gerber files
+  - [x] Parses drill files
+  - [ ] Streaming compatible
+  - [ ] Fully covered by tests
+  - [ ] Well documented
+- New plotter with an improved image description format that plots all layers of a board at the same time
+  - [ ] Can plot any Gerber file
+  - [x] Can plot any drill file
+  - [x] Infers coordinate format settings using the full context of all layers
+  - [ ] Infers board outline
+  - [ ] Fully covered by tests
+  - [ ] Well documented
+- New SVG renderer that outputs [hast][] abstract syntax trees
+  - [ ] Renders individual layer views
+  - [ ] Renders board views
+  - [ ] Covered by tests
+  - [ ] Documented
+- [ ] tracespace CLI to powered by new libraries
+- [ ] tracespace view powered by new libraries
+
+very nice to have
+
+- [ ] documentation website
+- [ ] usage guides and tutorials
+- [ ] parser / plotter / renderer playground
+
+[unist]: https://unifiedjs.com/
+[hast]: https://github.com/syntax-tree/hast
 [ci]: https://travis-ci.org/tracespace/tracespace
 [coverage]: https://codecov.io/gh/tracespace/tracespace
 [dev-dependencies]: https://david-dm.org/tracespace/tracespace?type=dev
