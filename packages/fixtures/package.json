@@ -19,7 +19,7 @@
   "dependencies": {
     "debug": "^4.1.1",
     "glob": "^7.1.4",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "run-parallel": "^1.1.9",
     "run-series": "^1.1.8",
     "run-waterfall": "^1.1.6"

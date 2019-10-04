@@ -43,7 +43,7 @@
     "escape-html": "^1.0.3",
     "gerber-parser": "file:../gerber-parser",
     "gerber-plotter": "file:../gerber-plotter",
-    "inherits": "^2.0.3",
+    "inherits": "^2.0.4",
     "lodash.isfinite": "^3.3.2",
     "readable-stream": "^3.4.0",
     "xml-element-string": "^1.0.0"

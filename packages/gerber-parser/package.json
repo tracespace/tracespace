@@ -32,7 +32,7 @@
   "homepage": "https://github.com/tracespace/tracespace#readme",
   "dependencies": {
     "@types/node": "^11.13.18",
-    "inherits": "^2.0.3",
+    "inherits": "^2.0.4",
     "lodash.isfinite": "^3.3.2",
     "lodash.padend": "^4.6.1",
     "lodash.padstart": "^4.6.1",

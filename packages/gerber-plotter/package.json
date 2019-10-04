@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@types/node": "^11.13.18",
-    "inherits": "^2.0.3",
+    "inherits": "^2.0.4",
     "lodash.fill": "^3.4.0",
     "lodash.isfinite": "^3.3.2",
     "lodash.isfunction": "^3.0.9",

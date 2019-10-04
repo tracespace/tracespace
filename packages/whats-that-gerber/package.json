@@ -32,6 +32,6 @@
   },
   "homepage": "https://github.com/tracespace/tracespace#readme",
   "dependencies": {
-    "xtend": "^4.0.1"
+    "xtend": "^4.0.2"
   }
 }

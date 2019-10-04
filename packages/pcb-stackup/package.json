@@ -43,6 +43,6 @@
     "run-parallel": "^1.1.9",
     "run-waterfall": "^1.1.6",
     "whats-that-gerber": "file:../whats-that-gerber",
-    "xtend": "^4.0.1"
+    "xtend": "^4.0.2"
   }
 }

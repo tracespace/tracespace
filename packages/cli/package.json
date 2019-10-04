@@ -35,13 +35,13 @@
     "common-prefix": "^1.1.0",
     "cosmiconfig": "^5.2.1",
     "debug": "^4.1.1",
-    "dot-prop": "^5.0.0",
+    "dot-prop": "^5.1.0",
     "gerber-to-svg": "file:../gerber-to-svg",
     "globby": "^10.0.1",
     "make-dir": "^3.0.0",
     "pcb-stackup": "file:../pcb-stackup",
     "untildify": "^4.0.0",
     "whats-that-gerber": "file:../whats-that-gerber",
-    "yargs": "^13.2.4"
+    "yargs": "^13.3.0"
   }
 }
