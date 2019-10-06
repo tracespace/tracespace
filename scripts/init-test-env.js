@@ -13,6 +13,8 @@ require('@babel/register')({
       {
         alias: {
           '^@tracespace/parser$': '@tracespace/parser/src/index.ts',
+          '^@tracespace/plotter$': '@tracespace/plotter/src/index.ts',
+          '^@tracespace/renderer$': '@tracespace/renderer/src/index.ts',
           '^@tracespace/xml-id$': '@tracespace/xml-id/src/index.ts',
           '^whats-that-gerber$': 'whats-that-gerber/src/index.ts',
         },

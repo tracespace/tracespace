@@ -17,7 +17,6 @@ import {options, STDOUT} from './options'
 import {resolve} from './resolve'
 import {Config} from './types'
 
-const {description, version} = require('../package.json')
 const debug = createLogger('@tracespace/cli')
 const writeFile = util.promisify(fs.writeFile)
 
@@ -28,20 +27,24 @@ export function cli(
   config: Partial<Config>
 ): Promise<unknown> {
   const argv = yargs
-    .usage('$0 [options] <files...>', `${description}\nv${version}`, yargs => {
-      examples.forEach(e => yargs.example(e.cmd, e.desc))
+    .usage(
+      '$0 [options] <files...>',
+      `${__PKG_DESCRIPTION__}\nv${__PKG_VERSION__}`,
+      yargs => {
+        examples.forEach(e => yargs.example(e.cmd, e.desc))
 
-      yargs.epilog(
-        `You may also specify options in the current working directory using a config file in (.tracespacerc, .tracespacerc.json, tracespace.config.js, etc.) or a "tracespace" key in package.json`
-      )
+        yargs.epilog(
+          `You may also specify options in the current working directory using a config file in (.tracespacerc, .tracespacerc.json, tracespace.config.js, etc.) or a "tracespace" key in package.json`
+        )
 
-      return yargs.positional('files', {
-        coerce: files => files.map(resolve),
-        describe:
-          "Filenames, directories, or globs to a PCB's Gerber/drill files",
-        type: 'string',
-      })
-    })
+        return yargs.positional('files', {
+          coerce: files => files.map(resolve),
+          describe:
+            "Filenames, directories, or globs to a PCB's Gerber/drill files",
+          type: 'string',
+        })
+      }
+    )
     .options(options)
     .config(config)
     .version()

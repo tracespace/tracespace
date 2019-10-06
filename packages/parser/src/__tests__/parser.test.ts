@@ -22,7 +22,10 @@ describe('@tracespace/parser', () => {
       type: 'root',
       filetype: null,
       done: false,
-      children: [{type: 'header', children: []}, {type: 'image', children: []}],
+      children: [
+        {type: 'header', children: []},
+        {type: 'image', children: []},
+      ],
     }
 
     expect(parser.results()).to.eql(expected)

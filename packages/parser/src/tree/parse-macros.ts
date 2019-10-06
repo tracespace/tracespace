@@ -135,8 +135,8 @@ export function parseMacroExpression(tokens: Token[]): MacroValue {
 
     while (
       nextToken &&
-      (nextToken.type === OPERATOR &&
-        (nextToken.value === 'x' || nextToken.value === '/'))
+      nextToken.type === OPERATOR &&
+      (nextToken.value === 'x' || nextToken.value === '/')
     ) {
       toParse.shift()
       expression = {
@@ -156,8 +156,8 @@ export function parseMacroExpression(tokens: Token[]): MacroValue {
 
     while (
       nextToken &&
-      (nextToken.type === OPERATOR &&
-        (nextToken.value === '+' || nextToken.value === '-'))
+      nextToken.type === OPERATOR &&
+      (nextToken.value === '+' || nextToken.value === '-')
     ) {
       let operator: '+' | '-' = '+'
       if (nextToken.type === OPERATOR) {

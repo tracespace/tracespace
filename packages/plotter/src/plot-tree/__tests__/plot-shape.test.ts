@@ -79,7 +79,12 @@ describe('shape plotting', () => {
       position: [2, 2],
       expectedShape: {
         type: Nodes.POLYGON,
-        points: [[10, 2], [2, 10], [-6, 2], [2, -6]],
+        points: [
+          [10, 2],
+          [2, 10],
+          [-6, 2],
+          [2, -6],
+        ],
       },
       expectedBox: [-6, -6, 10, 10],
     },

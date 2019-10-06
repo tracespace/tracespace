@@ -11,8 +11,6 @@ module.exports = {
         'packages/gerber-to-svg/**/*.js',
         'packages/pcb-stackup/**/*.js',
         'packages/pcb-stackup-core/**/*.js',
-        'packages/whats-that-gerber/**/*.js',
-        'packages/xml-id/**/*.js',
       ],
       parserOptions: {ecmaVersion: 5, sourceType: 'script'},
       env: {es6: false},
@@ -46,10 +44,8 @@ module.exports = {
         'prettier/@typescript-eslint',
       ],
       rules: {
-        'no-dupe-class-members': 'off',
-        'no-redeclare': 'off',
+        // TODO(mc, 2019-10-07): remove this rule override with switch to worker-plugin
         'no-useless-constructor': 'off',
-        'import/export': 'off',
         '@typescript-eslint/ban-ts-ignore': 'warn',
         '@typescript-eslint/camelcase': 'off',
         '@typescript-eslint/explicit-member-accessibility': 'off',
@@ -67,8 +63,28 @@ module.exports = {
           'error',
           {functions: false, typedefs: false},
         ],
-        '@typescript-eslint/prefer-interface': 'off',
-        '@typescript-eslint/no-var-requires': 'off',
+      },
+    },
+    {
+      files: ['**/*.d.ts'],
+      rules: {
+        'no-redeclare': 'off',
+        'no-dupe-class-members': 'off',
+      },
+    },
+    {
+      files: [
+        'packages/cli/**/*',
+        'packages/parser/**/*',
+        'packages/plotter/**/*',
+        'packages/renderer/**/*',
+        'packages/whats-that-gerber/**/*',
+        'packages/xml-id/**/*',
+      ],
+      globals: {
+        __PKG_NAME__: 'readonly',
+        __PKG_VERSION__: 'readonly',
+        __PKG_DESCRIPTION__: 'readonly',
       },
     },
   ],
