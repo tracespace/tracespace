@@ -202,7 +202,7 @@ We could use your help maintaining and growing the tracespace ecosystem! Issues 
 
 ### development setup
 
-The tracespace tools live here in this [monorepo][]. We use [lerna][] to manage this setup.
+The tracespace tools live here in this [monorepo][]. We use [yarn][] and [lerna][] to manage this setup.
 
 Node v8 (lts/carbon) or later is recommended.
 
@@ -210,13 +210,13 @@ Node v8 (lts/carbon) or later is recommended.
 # clone repository and install dependencies
 git clone git@github.com:tracespace/tracespace.git
 cd tracespace
-npm install
+yarn install
 ```
 
 This repository adheres to the [Conventional Changelog][conventional-changelog] commit specification for automatic changelog generation. We recommend installing [commitizen][commitizen] to ensure your commit messages are properly formatted:
 
 ```shell
-npm install -g commitizen
+yarn global add commitizen
 
 # later, when you're ready to commit
 git add some/files/*
@@ -226,6 +226,7 @@ git cz
 All development scripts below **should be run from the root of the repository**. Lerna handles delegating scripts downwards to the individual projects as necessary.
 
 [monorepo]: https://github.com/babel/babel/blob/master/doc/design/monorepo.md
+[yarn]: https://yarnpkg.com
 [lerna]: https://lernajs.io/
 [conventional-changelog]: https://github.com/conventional-changelog/conventional-changelog
 [commitizen]: https://commitizen.github.io/cz-cli/
@@ -236,16 +237,16 @@ Automated tests consist of unit tests along with integration [snapshot tests][sn
 
 ```shell
 # run unit and integration tests tests with coverage
-npm test
+yarn test
 
 # set SNAPSHOT_UPDATE=1 to update integration test snapshots
-SNAPSHOT_UPDATE=1 npm test
+SNAPSHOT_UPDATE=1 yarn test
 
 # run unit tests in watch mode (no coverage)
-npm run test:watch
+yarn test:watch
 
 # set INTEGRATION=1 to also include integration tests
-INTEGRATION=1 npm run test:watch
+INTEGRATION=1 yarn test:watch
 ```
 
 [snapshot-testing]: https://facebook.github.io/jest/docs/en/snapshot-testing.html
@@ -256,10 +257,10 @@ INTEGRATION=1 npm run test:watch
 
 ```shell
 # run all dev servers
-npm run start
+yarn start
 
 # run server for a specific project
-npm run start -- --scope @tracespace/view
+yarn start -- --scope @tracespace/view
 ```
 
 ### production assets
@@ -280,31 +281,31 @@ To build them:
 
 ```shell
 # build production bundles
-npm run build
+yarn build
 
 # build:all
 # builds all production bundles, example files, and documentation
-npm run build:all
+yarn build:all
 
 # build all bundles and serve them for testing/validation
-npm run serve
+yarn serve
 
 # as with the dev server, these commands may be scoped by name
-npm run build -- --scope gerber-parser
-npm run serve -- --scope @tracespace/view
+yarn build --scope gerber-parser
+yarn serve --scope @tracespace/view
 ```
 
 ### linting and formatting
 
 ```shell
 # format the code for styling
-npm run format
+yarn format
 
 # lint the code for potential errors
-npm run lint
+yarn lint
 
 # typecheck any typescript code
-npm run check
+yarn run check
 ```
 
 ### publishing
@@ -327,16 +328,16 @@ Then, bump the version:
 
 ```shell
 # by default, bump to the next version as determined by conventional commits
-npm run bump
+yarn bump
 
 # you may specify a bump level or exact version
 # prerelease bumps will be prefixed with "next", e.g. 4.0.0 -> 4.0.1-next.0
 # https://github.com/lerna/lerna/tree/master/commands/version#readme
-npm run bump -- ${major|minor|patch|premajor|preminor|prepatch|prerelease}
-npm run bump -- v42.0.0
+yarn bump ${major|minor|patch|premajor|preminor|prepatch|prerelease}
+yarn bump v42.0.0
 
 # to do a "dry run", you can stop before commit and tag
-npm run bump -- --no-git-tag-version
+yarn bump --no-git-tag-version
 ```
 
 After you bump, push the commit and tag:
