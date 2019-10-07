@@ -13,8 +13,8 @@
       "separateMajorMinor": false
     },
     {
-      "groupName": "peerDependencies",
-      "depTypeList": ["peerDependencies"],
+      "groupName": "peerDependencies and engines",
+      "depTypeList": ["peerDependencies", "engines"],
       "rangeStrategy": "widen"
     },
     {
@@ -22,5 +22,6 @@
       "packagePatterns": ["^@types/"],
       "separateMajorMinor": false
     }
-  ]
+  ],
+  "ignoreDeps": ["cz-conventional-changelog"]
 }
