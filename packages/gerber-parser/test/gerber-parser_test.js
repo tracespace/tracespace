@@ -35,33 +35,32 @@ describe('gerber parser', function() {
       expect(p.format.filetype).to.equal('drill')
     })
 
-    it('should throw with bad options to the contructor', function() {
-      var p
+    it('should throw with bad options to the constructor', function() {
       var badOpts = {places: 'string'}
+
       expect(function() {
-        p = parser(badOpts)
+        parser(badOpts)
       }).to.throw(/places/)
       badOpts = {places: [1, 2, 3]}
       expect(function() {
-        p = parser(badOpts)
+        parser(badOpts)
       }).to.throw(/places/)
       badOpts = {places: ['a', 'b']}
       expect(function() {
-        p = parser(badOpts)
+        parser(badOpts)
       }).to.throw(/places/)
       badOpts = {zero: 4}
       expect(function() {
-        p = parser(badOpts)
+        parser(badOpts)
       }).to.throw(/zero/)
       badOpts = {zero: 'F'}
       expect(function() {
-        p = parser(badOpts)
+        parser(badOpts)
       }).to.throw(/zero/)
       badOpts = {filetype: 'foo'}
       expect(function() {
-        p = parser(badOpts)
+        parser(badOpts)
       }).to.throw(/type/)
-      void p
     })
 
     it('should not throw with null/undefined options', function() {

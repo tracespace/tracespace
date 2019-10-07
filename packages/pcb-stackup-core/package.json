@@ -35,12 +35,12 @@
   "homepage": "https://github.com/tracespace/tracespace",
   "dependencies": {
     "@tracespace/xml-id": "^4.0.0",
-    "@types/node": "^11.13.18",
+    "@types/node": "^12.7.11",
     "color-string": "^1.5.3",
     "gerber-to-svg": "^4.1.1",
     "viewbox": "^1.0.0",
     "whats-that-gerber": "^4.1.1",
     "xml-element-string": "^1.0.0",
-    "xtend": "^4.0.1"
+    "xtend": "^4.0.2"
   }
 }

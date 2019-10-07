@@ -30,7 +30,6 @@ const baseConfig = dirname => ({
       analyzerMode: ANALYZER ? 'server' : 'disabled',
       openAnalyzer: ANALYZER,
     }),
-    new webpack.EnvironmentPlugin(['MIXPANEL_ID']),
   ],
   optimization: {
     minimizer: [

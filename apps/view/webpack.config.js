@@ -1,6 +1,7 @@
 'use strict'
 
 const path = require('path')
+const {EnvironmentPlugin} = require('webpack')
 const FileManagerPlugin = require('filemanager-webpack-plugin')
 const HtmlPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -75,6 +76,7 @@ module.exports = merge(baseConfig(__dirname), {
     ],
   },
   plugins: [
+    new EnvironmentPlugin({MIXPANEL_ID: null}),
     new FileManagerPlugin({
       onStart: {mkdir: [OUT_PATH]},
       onEnd: {archive: [{source: EXAMPLE_FILES, destination: EXAMPLE_OUT}]},
