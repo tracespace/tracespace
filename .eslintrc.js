@@ -14,37 +14,35 @@ module.exports = {
         'packages/whats-that-gerber/**/*.js',
         'packages/xml-id/**/*.js',
       ],
-      env: {es6: false},
       parserOptions: {ecmaVersion: 5, sourceType: 'script'},
+      env: {es6: false},
     },
     {
-      files: [
-        '.*.js',
-        '**/*.config.js',
-        'config/**/*.js',
-        'packages/cli/**/*.js',
-        'packages/fixtures/**/*.js',
-        '**/integration/**/*.js',
-        '**/example/**/*.js',
-        '**/scripts/**/*.js',
-      ],
-      env: {es6: true},
+      files: ['**/*.config.js', '**/integration/**/*.js', '**/example/**/*.js'],
       parserOptions: {ecmaVersion: 6},
+      env: {es6: true},
+    },
+    {
+      files: ['apps/**'],
+      env: {browser: true},
+      plugins: ['react-hooks'],
+      extends: ['plugin:react/recommended', 'prettier/react'],
+      rules: {
+        'react-hooks/rules-of-hooks': 'error',
+        'react-hooks/exhaustive-deps': 'warn',
+      },
     },
     {
       files: ['**/*test.js', '**/__tests__/**', 'scripts/init-test-env.js'],
       env: {mocha: true},
+      rules: {
+        'import/first': 'off',
+      },
     },
     {
       files: ['**/*.ts', '**/*.tsx'],
-      parser: '@typescript-eslint/parser',
-      env: {es6: true, browser: true},
-      parserOptions: {project: './tsconfig.json'},
-      plugins: ['react-hooks'],
       extends: [
-        'plugin:react/recommended',
         'plugin:@typescript-eslint/recommended',
-        'prettier/react',
         'prettier/@typescript-eslint',
       ],
       rules: {
@@ -52,15 +50,14 @@ module.exports = {
         'no-redeclare': 'off',
         'no-useless-constructor': 'off',
         'import/export': 'off',
-        'react-hooks/rules-of-hooks': 'error',
-        'react-hooks/exhaustive-deps': 'warn',
+        '@typescript-eslint/ban-ts-ignore': 'warn',
         '@typescript-eslint/camelcase': 'off',
         '@typescript-eslint/explicit-member-accessibility': 'off',
         '@typescript-eslint/explicit-function-return-type': [
           'warn',
           {allowExpressions: true},
         ],
-        '@typescript-eslint/array-type': ['error', 'generic'],
+        '@typescript-eslint/no-inferrable-types': 'warn',
         '@typescript-eslint/no-unused-vars': [
           'error',
           {ignoreRestSiblings: true, argsIgnorePattern: '^_'},
@@ -70,12 +67,13 @@ module.exports = {
           {functions: false, typedefs: false},
         ],
         '@typescript-eslint/prefer-interface': 'off',
+        '@typescript-eslint/no-var-requires': 'off',
       },
     },
   ],
   settings: {
     react: {
-      version: '16.8',
+      version: '16.10',
     },
   },
 }

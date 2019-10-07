@@ -39,11 +39,11 @@
   "homepage": "https://github.com/tracespace/tracespace#readme",
   "dependencies": {
     "@tracespace/xml-id": "^4.0.0",
-    "@types/node": "^11.13.18",
+    "@types/node": "^12.7.11",
     "escape-html": "^1.0.3",
     "gerber-parser": "^4.1.1",
     "gerber-plotter": "^4.1.1",
-    "inherits": "^2.0.3",
+    "inherits": "^2.0.4",
     "lodash.isfinite": "^3.3.2",
     "readable-stream": "^3.4.0",
     "xml-element-string": "^1.0.0"
