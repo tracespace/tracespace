@@ -9,11 +9,12 @@ node_js:
   - node
 
 script:
-  - npm test
-  - npm run coverage:upload
+  - yarn test
+  - yarn run coverage:upload
 
 cache:
-  npm: true
+  yarn: true
+  npm: false
 
 _deploy_base: &_deploy_base
   provider: script
@@ -30,19 +31,19 @@ jobs:
       stage: test
       name: Lint and typecheck
       script:
-        - npm run lint
-        - npm run check
+        - yarn run lint
+        - yarn run check
 
     - # test that asset builds all work
       stage: test
       name: Build assets
-      script: npm run build:all
+      script: yarn run build:all
 
     - # build and publish
       if: tag =~ ^v OR (branch = master AND type != pull_request)
       stage: deploy
       name: Deploy to npm and s3
-      script: npm run build:all
+      script: yarn run build:all
       before_script:
         # set npm deploy parameters
         - npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
@@ -60,10 +61,11 @@ jobs:
       deploy:
         - # s3 publish on master (staging) and tagged commits (production)
           <<: *_deploy_base
-          script: npm run publish:s3
+          script: yarn run publish:s3
 
         - # npm publish on tags only
           <<: *_deploy_base
+          # use npm client instead of yarn for publish to npm
           script: npm run publish:npm
           on:
             <<: *_deploy_base__on

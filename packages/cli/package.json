@@ -36,12 +36,12 @@
     "cosmiconfig": "^5.2.1",
     "debug": "^4.1.1",
     "dot-prop": "^5.0.0",
-    "gerber-to-svg": "file:../gerber-to-svg",
+    "gerber-to-svg": "^4.1.1",
     "globby": "^10.0.1",
     "make-dir": "^3.0.0",
-    "pcb-stackup": "file:../pcb-stackup",
+    "pcb-stackup": "^4.1.1",
     "untildify": "^4.0.0",
-    "whats-that-gerber": "file:../whats-that-gerber",
+    "whats-that-gerber": "^4.1.1",
     "yargs": "^13.2.4"
   }
 }

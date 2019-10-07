@@ -1,6 +1,11 @@
 {
   "name": "tracespace",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "config",
+    "packages/*"
+  ],
   "scripts": {
     "test": "cross-env INTEGRATION=1 nyc mocha",
     "test:watch": "mocha --watch --reporter dot",
@@ -8,15 +13,15 @@
     "start": "lerna run start --parallel",
     "build": "lerna run build --parallel",
     "serve": "lerna run serve --parallel",
-    "build:all": "npm run build && npm run example && npm run docs",
+    "build:all": "yarn build && yarn example && yarn docs",
     "lint": "eslint \".*.js\" \"**/*.@(js|ts|tsx)\"",
     "format": "prettier --ignore-path .eslintignore --write \".*.@(js|yml)\" \"**/*.@(js|ts|tsx|json|md|yml)\"",
     "check": "tsc",
     "docs": "lerna run docs",
     "example": "lerna run example",
-    "prebump": "npm run test",
+    "prebump": "yarn test",
     "bump": "lerna version",
-    "precoverage:upload": "npm run coverage",
+    "precoverage:upload": "yarn coverage",
     "coverage:upload": "codecov",
     "publish:npm": "lerna publish from-git --yes --npm-tag $NPM_TAG",
     "publish:s3": "node ./scripts/publish-to-s3 apps/www/dist: apps/view/dist:view"
@@ -66,7 +71,6 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "@babel/register": "^7.5.5",
-    "@tracespace/config": "file:config",
     "@types/chai": "^4.2.0",
     "@types/chai-as-promised": "^7.1.2",
     "@types/enzyme": "^3.10.3",
@@ -134,18 +138,5 @@
     "webpack-dev-server": "^3.7.2",
     "webpack-merge": "^4.2.1",
     "worker-loader": "^2.0.0"
-  },
-  "dependencies": {
-    "@tracespace/cli": "file:packages/cli",
-    "@tracespace/fixtures": "file:packages/fixtures",
-    "@tracespace/view": "file:apps/view",
-    "@tracespace/www": "file:apps/www",
-    "@tracespace/xml-id": "file:packages/xml-id",
-    "gerber-parser": "file:packages/gerber-parser",
-    "gerber-plotter": "file:packages/gerber-plotter",
-    "gerber-to-svg": "file:packages/gerber-to-svg",
-    "pcb-stackup": "file:packages/pcb-stackup",
-    "pcb-stackup-core": "file:packages/pcb-stackup-core",
-    "whats-that-gerber": "file:packages/whats-that-gerber"
   }
 }

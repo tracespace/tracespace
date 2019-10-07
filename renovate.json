@@ -1,7 +1,6 @@
 {
   "extends": ["config:base", ":prNotPending", ":unpublishSafe"],
   "rangeStrategy": "bump",
-  "postUpdateOptions": ["npmDedupe"],
   "packageRules": [
     {
       "groupName": "dependencies",

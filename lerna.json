@@ -1,11 +1,16 @@
 {
   "version": "4.1.1",
+  "npmClient": "yarn",
+  "useWorkspaces": true,
   "command": {
     "version": {
       "conventionalCommits": true,
       "message": "chore(release): %s",
       "preid": "next",
       "push": false
+    },
+    "publish": {
+      "npmClient": "npm"
     }
   },
   "ignoreChanges": [
@@ -14,6 +19,5 @@
     "**/integration/**/*.js",
     "**/example/**/*.js",
     "**/scripts/**/*.js"
-  ],
-  "packages": ["apps/*", "config", "packages/*"]
+  ]
 }

@@ -52,7 +52,7 @@ After you clone and set-up the repository as detailed in [development setup](../
 
 ```shell
 cd tracespace/packages/pcb-stackup-core
-npm run example
+yarn example
 ```
 
 Arduino Uno design files used here under the terms of the [Creative Commons Attribution Share-Alike license](https://www.arduino.cc/en/Main/FAQ).
