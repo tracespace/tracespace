@@ -87,7 +87,7 @@
     "concat-stream": "^2.0.0",
     "cross-env": "^6.0.3",
     "css-loader": "^3.2.0",
-    "cz-conventional-changelog": "2.1.0",
+    "cz-conventional-changelog": "3.0.2",
     "debug": "^4.1.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
