@@ -76,7 +76,7 @@ const fileNames = [
 
 const layers = fileNames.map(filename => ({
   filename,
-  gerber: fs.createReadStream(path),
+  gerber: fs.createReadStream(filename),
 }))
 
 pcbStackup(layers).then(stackup => {
