@@ -58,7 +58,7 @@ export default function BoardDisplay(): JSX.Element {
                 source={board.bottom}
               />
               <LayersRender
-                className={cx('w-100', {dn: mode !== 'layers'})}
+                className={cx('w-100', {clip: mode !== 'layers'})}
                 viewBox={board.viewBox}
                 layers={board.layers}
                 layerVisibility={layerVisibility}
