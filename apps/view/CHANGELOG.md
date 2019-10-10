@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](https://github.com/tracespace/tracespace/compare/v4.1.1...v4.2.0) (2019-10-10)
+
+
+### Bug Fixes
+
+* **deps:** update dependencies ([#304](https://github.com/tracespace/tracespace/issues/304)) ([8029e8e](https://github.com/tracespace/tracespace/commit/8029e8e))
+* **deps:** update type definitions ([#272](https://github.com/tracespace/tracespace/issues/272)) ([6f6eb3f](https://github.com/tracespace/tracespace/commit/6f6eb3f))
+* **deps:** Upgrade all dependencies ([7f3c6f4](https://github.com/tracespace/tracespace/commit/7f3c6f4))
+* **view:** Ensure layer defs are accessible to <mask>s in board renders ([#305](https://github.com/tracespace/tracespace/issues/305)) ([0d0ee60](https://github.com/tracespace/tracespace/commit/0d0ee60)), closes [#303](https://github.com/tracespace/tracespace/issues/303)
+
+
+
+
+
 ## [4.1.1](https://github.com/tracespace/tracespace/compare/v4.1.0...v4.1.1) (2019-06-05)
 
 

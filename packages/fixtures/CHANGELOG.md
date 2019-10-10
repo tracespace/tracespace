@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](https://github.com/tracespace/tracespace/compare/v4.1.1...v4.2.0) (2019-10-10)
+
+
+### Bug Fixes
+
+* **deps:** Upgrade all dependencies ([7f3c6f4](https://github.com/tracespace/tracespace/commit/7f3c6f4))
+
+
+
+
+
 ## [4.1.1](https://github.com/tracespace/tracespace/compare/v4.1.0...v4.1.1) (2019-06-05)
 
 
