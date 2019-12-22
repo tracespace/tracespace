@@ -39,7 +39,7 @@
   "homepage": "https://github.com/tracespace/tracespace#readme",
   "dependencies": {
     "@tracespace/xml-id": "^4.0.0",
-    "@types/node": "^12.7.11",
+    "@types/node": "^12.12.21",
     "escape-html": "^1.0.3",
     "gerber-parser": "^4.2.0",
     "gerber-plotter": "^4.2.0",
