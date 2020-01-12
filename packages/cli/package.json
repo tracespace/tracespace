@@ -33,15 +33,15 @@
   },
   "dependencies": {
     "common-prefix": "^1.1.0",
-    "cosmiconfig": "^5.2.1",
+    "cosmiconfig": "^6.0.0",
     "debug": "^4.1.1",
     "dot-prop": "^5.1.0",
     "gerber-to-svg": "^4.2.0",
-    "globby": "^10.0.1",
+    "globby": "^11.0.0",
     "make-dir": "^3.0.0",
     "pcb-stackup": "^4.2.0",
     "untildify": "^4.0.0",
     "whats-that-gerber": "^4.2.0",
-    "yargs": "^14.2.0"
+    "yargs": "^15.1.0"
   }
 }
