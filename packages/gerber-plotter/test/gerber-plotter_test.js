@@ -394,7 +394,11 @@ describe('gerber plotter', function() {
         expect(p._tool.pad).to.eql([
           {
             type: 'poly',
-            points: [[1, 0], [-0.5, 0.8660254], [-0.5, -0.8660254]],
+            points: [
+              [1, 0],
+              [-0.5, 0.8660254],
+              [-0.5, -0.8660254],
+            ],
           },
         ])
 
@@ -563,8 +567,24 @@ describe('gerber plotter', function() {
           p.write(tool)
 
           expect(p._tool.pad).to.eql([
-            {type: 'poly', points: [[0, -1], [5, -1], [5, 1], [0, 1]]},
-            {type: 'poly', points: [[0.5, 0], [0.5, 5], [-0.5, 5], [-0.5, 0]]},
+            {
+              type: 'poly',
+              points: [
+                [0, -1],
+                [5, -1],
+                [5, 1],
+                [0, 1],
+              ],
+            },
+            {
+              type: 'poly',
+              points: [
+                [0.5, 0],
+                [0.5, 5],
+                [-0.5, 5],
+                [-0.5, 0],
+              ],
+            },
           ])
 
           expect(p._tool.box).to.eql([-0.5, -1, 5, 5])
@@ -622,7 +642,14 @@ describe('gerber plotter', function() {
           p.write(macro)
           p.write(tool)
           expect(p._tool.pad).to.eql([
-            {type: 'poly', points: [[0, 0], [1, 0], [1, 1]]},
+            {
+              type: 'poly',
+              points: [
+                [0, 0],
+                [1, 0],
+                [1, 1],
+              ],
+            },
           ])
           expect(p._tool.box).to.eql([0, 0, 1, 1])
         })
@@ -643,7 +670,12 @@ describe('gerber plotter', function() {
           expect(p._tool.pad).to.eql([
             {
               type: 'poly',
-              points: [[4, 2], [3, 3], [2, 2], [3, 1]],
+              points: [
+                [4, 2],
+                [3, 3],
+                [2, 2],
+                [3, 1],
+              ],
             },
           ])
           expect(p._tool.box).to.eql([2, 1, 4, 3])
@@ -895,7 +927,11 @@ describe('gerber plotter', function() {
           expect(p._tool.pad).to.eql([
             {
               type: 'poly',
-              points: [[0, 0], [-0.8660254, 0.5], [-1.3660254, -0.3660254]],
+              points: [
+                [0, 0],
+                [-0.8660254, 0.5],
+                [-1.3660254, -0.3660254],
+              ],
             },
           ])
           expect(p._tool.box).to.eql([-1.3660254, -0.3660254, 0, 0.5])
@@ -926,7 +962,12 @@ describe('gerber plotter', function() {
           expect(p._tool.pad).to.eql([
             {
               type: 'poly',
-              points: [[1, 1], [-1, 1], [-1, -1], [1, -1]],
+              points: [
+                [1, 1],
+                [-1, 1],
+                [-1, -1],
+                [1, -1],
+              ],
             },
           ])
           expect(p._tool.box).to.eql([-1, -1, 1, 1])

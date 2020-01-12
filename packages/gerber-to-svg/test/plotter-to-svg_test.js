@@ -99,7 +99,16 @@ describe('plotter to svg transform stream', function() {
     })
 
     it('should handle polygon primitives', function() {
-      var toolShape = [{type: 'poly', points: [[0, 0], [1, 0], [0, 1]]}]
+      var toolShape = [
+        {
+          type: 'poly',
+          points: [
+            [0, 0],
+            [1, 0],
+            [0, 1],
+          ],
+        },
+      ]
       var expected = {id: 'id_pad-12', points: '0,0 1000,0 0,1000'}
 
       p.write({type: 'shape', tool: '12', shape: toolShape})
@@ -190,10 +199,42 @@ describe('plotter to svg transform stream', function() {
       var mN = ne + 0.004
 
       var clippedShapes = [
-        {type: 'poly', points: [[po, po], [mP, po], [mP, mP], [po, mP]]},
-        {type: 'poly', points: [[ne, po], [mN, po], [mN, mP], [ne, mP]]},
-        {type: 'poly', points: [[ne, ne], [mN, ne], [mN, mN], [ne, mN]]},
-        {type: 'poly', points: [[po, ne], [mP, ne], [mP, mN], [po, mN]]},
+        {
+          type: 'poly',
+          points: [
+            [po, po],
+            [mP, po],
+            [mP, mP],
+            [po, mP],
+          ],
+        },
+        {
+          type: 'poly',
+          points: [
+            [ne, po],
+            [mN, po],
+            [mN, mP],
+            [ne, mP],
+          ],
+        },
+        {
+          type: 'poly',
+          points: [
+            [ne, ne],
+            [mN, ne],
+            [mN, mN],
+            [ne, mN],
+          ],
+        },
+        {
+          type: 'poly',
+          points: [
+            [po, ne],
+            [mP, ne],
+            [mP, mN],
+            [po, mN],
+          ],
+        },
       ]
       var ring = {type: 'ring', r: 0.004, width: 0.002, cx: 0, cy: 0}
       var toolShape = [{type: 'clip', shape: clippedShapes, clip: ring}]
@@ -698,7 +739,12 @@ describe('plotter to svg transform stream', function() {
 
   describe('block repeats', function() {
     it('if only one layer, it should wrap the current layer and repeat it', function() {
-      var offsets = [[0, 0], [0, 1], [1, 0], [1, 1]]
+      var offsets = [
+        [0, 0],
+        [0, 1],
+        [1, 0],
+        [1, 1],
+      ]
       var expected = [
         {'xlink:href': '#id_pad-10', x: 250, y: 250},
         {id: 'id_block-1-1'},
@@ -724,7 +770,12 @@ describe('plotter to svg transform stream', function() {
     })
 
     it('should allow several layers in a block', function() {
-      var offsets = [[0, 0], [0, 5], [5, 0], [5, 5]]
+      var offsets = [
+        [0, 0],
+        [0, 5],
+        [5, 0],
+        [5, 5],
+      ]
 
       p.write({type: 'repeat', offsets: offsets, box: [0, 0, 0.5, 0.5]})
       p.write({type: 'pad', tool: '10', x: 0.25, y: 0.25})
@@ -924,7 +975,12 @@ describe('plotter to svg transform stream', function() {
     })
 
     it('should handle step repeats that start with clear', function() {
-      var offsets = [[0, 0], [0, 0.5], [0.5, 0], [0.5, 0.5]]
+      var offsets = [
+        [0, 0],
+        [0, 0.5],
+        [0.5, 0],
+        [0.5, 0.5],
+      ]
 
       p.layer = ['LAYER']
       p.write({type: 'polarity', polarity: 'clear', box: [0, 0, 1, 1]})
@@ -1025,7 +1081,12 @@ describe('plotter to svg transform stream', function() {
     })
 
     it('should handle step repeats that start with dark then change to clear', function() {
-      var offsets = [[0, 0], [0, 0.5], [0.5, 0], [0.5, 0.5]]
+      var offsets = [
+        [0, 0],
+        [0, 0.5],
+        [0.5, 0],
+        [0.5, 0.5],
+      ]
 
       p.layer = ['SOME_EXISTING_STUFF']
       p.write({type: 'repeat', offsets: offsets, box: [0, 0, 1, 1]})
@@ -1068,7 +1129,12 @@ describe('plotter to svg transform stream', function() {
     })
 
     it('should handle polarity switches with no objects gracefully', function() {
-      var offsets = [[0, 0], [0, 0.5], [0.5, 0], [0.5, 0.5]]
+      var offsets = [
+        [0, 0],
+        [0, 0.5],
+        [0.5, 0],
+        [0.5, 0.5],
+      ]
 
       p.layer = ['SOME_EXISTING_STUFF']
       p.write({type: 'repeat', offsets: offsets, box: [0, 0, 1, 1]})
@@ -1081,7 +1147,12 @@ describe('plotter to svg transform stream', function() {
     })
 
     it('should handle Infinities in the box', function() {
-      var offsets = [[0, 0], [0, 0.5], [0.5, 0], [0.5, 0.5]]
+      var offsets = [
+        [0, 0],
+        [0, 0.5],
+        [0.5, 0],
+        [0.5, 0.5],
+      ]
 
       p.layer = ['SOME_EXISTING_STUFF']
       p.write({type: 'repeat', offsets: offsets, box: EMPTY_BOX})
@@ -1161,7 +1232,12 @@ describe('plotter to svg transform stream', function() {
     })
 
     it('should finish any in-progress repeat', function() {
-      var offsets = [[0, 0], [0, 1], [1, 0], [1, 1]]
+      var offsets = [
+        [0, 0],
+        [0, 1],
+        [1, 0],
+        [1, 1],
+      ]
 
       p.write({type: 'repeat', offsets: offsets, box: [0, 0, 0.5, 0.5]})
       p.write({type: 'pad', tool: '10', x: 0.25, y: 0.25})
