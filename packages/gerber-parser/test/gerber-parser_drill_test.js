@@ -123,7 +123,10 @@ describe('gerber parser with drill files', function() {
   })
 
   it('should call done with M00 and M30', function(done) {
-    var expected = [{type: 'done', line: 1}, {type: 'done', line: 2}]
+    var expected = [
+      {type: 'done', line: 1},
+      {type: 'done', line: 2},
+    ]
 
     expectResults(expected, done)
     p.write('M00\n')
@@ -571,7 +574,10 @@ describe('gerber parser with drill files', function() {
       })
 
       it('should handle cw arc routing with radius', function(done) {
-        var coords = [{x: 2, y: 2, a: 1}, {x: 3, y: 3, a: 1}]
+        var coords = [
+          {x: 2, y: 2, a: 1},
+          {x: 3, y: 3, a: 1},
+        ]
         var expected = [
           {type: 'op', line: 1, op: 'move', coord: {x: 1, y: 1}},
           {type: 'set', line: 2, prop: 'mode', value: 'cw'},
@@ -588,7 +594,10 @@ describe('gerber parser with drill files', function() {
       })
 
       it('should handle ccw arc routing with radius', function(done) {
-        var coords = [{x: 2, y: 2, a: 1}, {x: 3, y: 3, a: 1}]
+        var coords = [
+          {x: 2, y: 2, a: 1},
+          {x: 3, y: 3, a: 1},
+        ]
         var expected = [
           {type: 'op', line: 1, op: 'move', coord: {x: 1, y: 1}},
           {type: 'set', line: 2, prop: 'mode', value: 'ccw'},

@@ -6,11 +6,7 @@ var isFinite = require('lodash.isfinite')
 var Parser = require('./lib/parser')
 
 var verifyPlaces = function(p) {
-  if (
-    Array.isArray(p) &&
-    p.length === 2 &&
-    (isFinite(p[0]) && isFinite(p[1]))
-  ) {
+  if (Array.isArray(p) && p.length === 2 && isFinite(p[0]) && isFinite(p[1])) {
     return p
   }
 

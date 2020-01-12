@@ -699,7 +699,10 @@ describe('gerber parser with gerber files', function() {
       })
 
       it('should parse addition', function(done) {
-        var expected = [{$1: 42, $2: 3}, {$1: 42, $2: 56}]
+        var expected = [
+          {$1: 42, $2: 3},
+          {$1: 42, $2: 56},
+        ]
 
         expectExprResults(expected, done)
         p.write('%AMMODS1*\n')
@@ -708,7 +711,10 @@ describe('gerber parser with gerber files', function() {
       })
 
       it('should parse subtraction', function(done) {
-        var expected = [{$1: 42, $2: 3}, {$1: 42, $2: 21}]
+        var expected = [
+          {$1: 42, $2: 3},
+          {$1: 42, $2: 21},
+        ]
 
         expectExprResults(expected, done)
         p.write('%AMMODS1*\n')
@@ -717,7 +723,10 @@ describe('gerber parser with gerber files', function() {
       })
 
       it('should parse multiplication with x and X', function(done) {
-        var expected = [{$1: 42, $2: 21}, {$1: 42, $2: 6}]
+        var expected = [
+          {$1: 42, $2: 21},
+          {$1: 42, $2: 6},
+        ]
 
         expectExprResults(expected, done)
         p.write('%AMMODS1*\n')
@@ -736,7 +745,10 @@ describe('gerber parser with gerber files', function() {
       })
 
       it('should parse division with /', function(done) {
-        var expected = [{$1: 42, $2: 4}, {$1: 42, $2: 21}]
+        var expected = [
+          {$1: 42, $2: 4},
+          {$1: 42, $2: 21},
+        ]
 
         expectExprResults(expected, done)
         p.write('%AMMODS1*\n')
