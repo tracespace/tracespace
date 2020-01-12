@@ -16,6 +16,7 @@
   "ignoreChanges": [
     "**/*.md",
     "**/*test.js",
+    "**/__tests__/**",
     "**/integration/**/*.js",
     "**/example/**/*.js",
     "**/scripts/**/*.js"
