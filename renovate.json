@@ -23,5 +23,5 @@
       "separateMajorMinor": false
     }
   ],
-  "ignoreDeps": ["cz-conventional-changelog"]
+  "ignoreDeps": ["cz-conventional-changelog", "file-loader", "globby", "semver"]
 }
