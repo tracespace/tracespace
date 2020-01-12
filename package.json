@@ -14,7 +14,7 @@
     "prebuild": "yarn clean",
     "build": "lerna build --parallel",
     "postbuild": "yarn types",
-    "watch": "concurrently \"lerna run watch --parallel\" \"yarn types -- --watch\"",
+    "watch": "concurrently \"lerna run watch --parallel\" \"yarn types --watch\"",
     "serve": "lerna run serve --parallel",
     "clean": "lerna run clean --parallel",
     "postclean": "yarn clean:types",
