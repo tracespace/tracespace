@@ -65,6 +65,7 @@ ctx.onmessage = function receive(event) {
         findBoardByUrl(db, url),
         urlToStackups(url),
       ]).then(async result => {
+        // @ts-ignore: https://github.com/microsoft/TypeScript/issues/33752
         const [existingBoard, [selfContained, shared]] = result
         let board = stackupToBoard(selfContained)
         let saveQuery

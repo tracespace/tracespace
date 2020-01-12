@@ -34,7 +34,7 @@
     "@types/common-prefix": "^1.1.0",
     "@types/core-js": "^2.5.2",
     "@types/file-saver": "^2.0.1",
-    "@types/jszip": "^3.1.6",
+    "@types/jszip": "^3.1.7",
     "@types/lodash": "^4.14.149",
     "@types/mixpanel-browser": "^2.23.2",
     "@types/pump": "^1.1.0",
