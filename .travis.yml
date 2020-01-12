@@ -29,13 +29,13 @@ jobs:
   include:
     - # run lints
       stage: test
-      name: Lint and typecheck
+      name: Lint
       script:
         - yarn run lint
 
     - # test that asset builds all work (type-checking included)
       stage: test
-      name: Build assets
+      name: Build assets and type definitions
       script: yarn run build:all
 
     - # build and publish
