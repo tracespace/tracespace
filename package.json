@@ -12,7 +12,7 @@
     "coverage": "nyc report --reporter=lcov",
     "start": "lerna run start --parallel",
     "prebuild": "yarn clean",
-    "build": "lerna build --parallel",
+    "build": "lerna run build --parallel",
     "postbuild": "yarn types",
     "watch": "concurrently \"lerna run watch --parallel\" \"yarn types --watch\"",
     "serve": "lerna run serve --parallel",

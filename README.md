@@ -260,7 +260,7 @@ INTEGRATION=1 yarn test:watch
 yarn start
 
 # run server for a specific project
-yarn start -- --scope @tracespace/view
+yarn start --scope @tracespace/view
 ```
 
 ### production assets
@@ -305,7 +305,7 @@ yarn format
 yarn lint
 
 # typecheck any typescript code
-yarn run check
+yarn types
 ```
 
 ### publishing
