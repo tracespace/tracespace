@@ -6,7 +6,7 @@ const runParallel = require('run-parallel')
 const runWaterfall = require('run-waterfall')
 
 const debug = require('debug')('tracespace/gerber-to-svg/integration')
-const wtg = require('whats-that-gerber')
+const {TYPE_OUTLINE} = require('whats-that-gerber')
 const gerberToSvg = require('..')
 
 module.exports = function getSuiteResults(suite, done) {
@@ -30,7 +30,7 @@ function renderSpec(spec, done) {
   const renderOptions = Object.assign(
     {
       id: path.basename(spec.filepath),
-      plotAsOutline: spec.type === wtg.TYPE_OUTLINE,
+      plotAsOutline: spec.type === TYPE_OUTLINE,
     },
     spec.options
   )

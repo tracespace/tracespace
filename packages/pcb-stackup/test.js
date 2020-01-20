@@ -23,7 +23,7 @@ describe('pcb stackup', function() {
     pcbStackup = proxyquire('.', {
       'pcb-stackup-core': stackupCore,
       'gerber-to-svg': gts,
-      'whats-that-gerber': wtg,
+      'whats-that-gerber/src/index.ts': {identifyLayers: wtg},
     })
 
     gts.returns(fakeConverter)

@@ -29,22 +29,24 @@ yarn add whats-that-gerber
 Or, use a script tag:
 
 ```html
-<script src="https://unpkg.com/whats-that-gerber@^4.0.0/dist/whats-that-gerber.min.js"></script>
+<script src="https://unpkg.com/whats-that-gerber@^4.0.0/umd/whats-that-gerber.min.js"></script>
 <script>
-  // global variable whatsThatGerber now available
-  var parser = whatsThatGerber()
+  // global variable WhatsThatGerber now available
+  var identifyLayers = WhatsThatGerber.identifyLayers
 </script>
 ```
 
 ## usage
 
-Pass `whatsThatGerber` an array of filenames from a PCB, and it will give you back an object keyed by filename with the best guess it can make for the type and side of each file. If both `side` and `type` are `null`, the filename cannot be identified as a Gerber / drill file.
+Pass `identifyLayers` an array of filenames from a PCB, and it will give you back an object keyed by filename with the best guess it can make for the type and side of each file. If both `side` and `type` are `null`, the filename cannot be identified as a Gerber / drill file.
 
 ```js
-const whatsThatGerber = require('whats-that-gerber')
+const {identifyLayers} = require('whats-that-gerber')
+// ES Modules work, too
+// import {identifyLayers} from 'whats-that-gerber'
 
 const filenames = ['my-board-F_Cu.gbr', 'my-board-B_Cu.gbr', 'foo.bar']
-const typeByFilename = whatsThatGerber(filenames)
+const typeByFilename = identifyLayers(filenames)
 // {
 //   'my-board-F_Cu.gbr': {type: 'copper', side: 'top'},
 //   'my-board-B_Cu.gbr': {type: 'copper', side: 'bottom'},
@@ -68,6 +70,9 @@ You can get an array of all types with:
 
 ```js
 const {getAllLayers} = require('whats-that-gerber')
+// ES Modules work, too
+// import {getAllLayers} from 'whats-that-gerber'
+
 const allLayers = getAllLayers()
 ```
 
@@ -107,6 +112,9 @@ const {
   SIDE_INNER, // 'inner'
   SIDE_ALL, // 'all'
 } = require('whats-that-gerber')
+
+// ES Modules work, too
+// import {TYPE_COPPER} from 'whats-that-gerber'
 ```
 
 #### checking if a layer type is valid
@@ -115,6 +123,8 @@ You can check if any given string is a valid layer type with:
 
 ```js
 const {validate} = require('whats-that-gerber')
+// ES Modules work, too
+// import {validate} from 'whats-that-gerber'
 
 const type1 = {side: 'top', type: 'copper'}
 const type2 = {side: 'foo', type: 'silkscreen'}

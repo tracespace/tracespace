@@ -1,11 +1,20 @@
 {
   "name": "whats-that-gerber",
   "version": "4.2.0",
-  "description": "Identify Gerber and drill files by filenamee",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "description": "Identify Gerber and drill files by filename",
+  "source": "src/index.ts",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "types": "esm/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "src",
+    "esm",
+    "cjs",
+    "umd"
+  ],
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack",
+    "clean": "rimraf cjs esm umd",
     "serve": "node ../../scripts/serve"
   },
   "repository": {
@@ -30,8 +39,5 @@
   "bugs": {
     "url": "https://github.com/tracespace/tracespace/issues"
   },
-  "homepage": "https://github.com/tracespace/tracespace#readme",
-  "dependencies": {
-    "xtend": "^4.0.2"
-  }
+  "homepage": "https://github.com/tracespace/tracespace#readme"
 }

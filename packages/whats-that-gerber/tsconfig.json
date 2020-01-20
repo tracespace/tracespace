@@ -1,10 +1,11 @@
 {
   "extends": "@tracespace/config/tsconfig-base.json",
-  "references": [{"path": "../../packages/whats-that-gerber"}],
+  "references": [],
   "compilerOptions": {
     "composite": true,
-    "noEmit": true,
-    "rootDir": "src"
+    "emitDeclarationOnly": true,
+    "rootDir": "src",
+    "outDir": "esm"
   },
   "include": ["typings", "src"]
 }
