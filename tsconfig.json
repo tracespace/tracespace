@@ -1,5 +1,8 @@
 {
   "compileOnSave": true,
   "files": [],
-  "references": [{"path": "./apps/view"}]
+  "references": [
+    {"path": "./apps/view"},
+    {"path": "./packages/whats-that-gerber"}
+  ]
 }

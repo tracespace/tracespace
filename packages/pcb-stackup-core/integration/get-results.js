@@ -5,7 +5,7 @@ const runParallel = require('run-parallel')
 const runWaterfall = require('run-waterfall')
 
 const gerberToSvg = require('gerber-to-svg')
-const whatsThatGerber = require('whats-that-gerber')
+const {identifyLayers, TYPE_OUTLINE} = require('whats-that-gerber')
 
 const debug = require('debug')('tracespace/pcb-stackup-core/integration')
 const pcbStackupCore = require('..')
@@ -22,7 +22,7 @@ module.exports = function getStackupResults(board, done) {
     board.options
   )
 
-  const layerTypes = whatsThatGerber(layers.map(l => l.name))
+  const layerTypes = identifyLayers(layers.map(l => l.name))
 
   runWaterfall(
     [
@@ -64,7 +64,7 @@ function renderLayer(layer, layerTypes, done) {
   const options = Object.assign(
     {
       id: `__${filename}`,
-      plotAsOutline: type === whatsThatGerber.TYPE_OUTLINE,
+      plotAsOutline: type === TYPE_OUTLINE,
     },
     layer.options
   )

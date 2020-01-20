@@ -8,7 +8,7 @@ const runWaterfall = require('run-waterfall')
 
 const gerberToSvg = require('gerber-to-svg')
 const pcbStackupCore = require('pcb-stackup-core')
-const wtg = require('whats-that-gerber')
+const {identifyLayers, TYPE_OUTLINE} = require('whats-that-gerber')
 
 const GERBERS_DIR = path.join(__dirname, '../../fixtures/boards/arduino-uno')
 
@@ -42,7 +42,7 @@ function renderStackupAndWrite(layers, done) {
 }
 
 function renderAllLayers(done) {
-  const types = wtg(GERBER_PATHS)
+  const types = identifyLayers(GERBER_PATHS)
   const tasks = GERBER_PATHS.map(file => next => renderLayer(file, types, next))
 
   runParallel(tasks, done)
@@ -51,7 +51,7 @@ function renderAllLayers(done) {
 function renderLayer(filename, layerTypes, done) {
   const file = fs.createReadStream(filename)
   const {side, type} = layerTypes[filename]
-  const options = {plotAsOutline: type === wtg.TYPE_OUTLINE}
+  const options = {plotAsOutline: type === TYPE_OUTLINE}
 
   assert(type, `Expected ${filename} to be recognized as a gerber`)
 

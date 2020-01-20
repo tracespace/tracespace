@@ -33,7 +33,7 @@ module.exports = function pcbStackup(layers, options, done) {
     })
   }
 
-  var layerTypes = wtg(
+  var layerTypes = wtg.identifyLayers(
     layers
       .map(function(layer) {
         return layer.filename

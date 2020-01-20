@@ -11,7 +11,7 @@ const debug = require('debug')('@tracespace/cli')
 
 const gerberToSvg = require('gerber-to-svg')
 const pcbStackup = require('pcb-stackup')
-const whatsThatGerber = require('whats-that-gerber')
+const {identifyLayers} = require('whats-that-gerber')
 const yargs = require('yargs')
 
 const {description, version} = require('../package.json')
@@ -60,7 +60,7 @@ module.exports = function cli(processArgv, config) {
     .then(writeRenders)
 
   function renderFiles(filenames) {
-    const typesByName = whatsThatGerber(filenames)
+    const typesByName = identifyLayers(filenames)
     const layers = filenames
       .map(filename => makeLayerFromFilename(filename, typesByName))
       .filter(_ => _)

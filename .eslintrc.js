@@ -19,7 +19,7 @@ module.exports = {
     },
     {
       files: ['**/*.config.js', '**/integration/**/*.js', '**/example/**/*.js'],
-      parserOptions: {ecmaVersion: 6},
+      parserOptions: {ecmaVersion: 10},
       env: {es6: true},
     },
     {
