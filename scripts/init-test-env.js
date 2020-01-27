@@ -12,6 +12,7 @@ require('@babel/register')({
       'babel-plugin-module-resolver',
       {
         alias: {
+          '^@tracespace/xml-id$': '@tracespace/xml-id/src/index.ts',
           '^whats-that-gerber$': 'whats-that-gerber/src/index.ts',
         },
       },

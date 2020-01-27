@@ -1,11 +1,9 @@
-'use strict'
+import {expect} from 'chai'
+import {sanitize} from '..'
 
-var expect = require('chai').expect
-var xid = require('@tracespace/xml-id')
-
-describe('xml-id', function() {
-  describe('sanitize', function() {
-    var SPECS = [
+describe('xml-id', () => {
+  describe('sanitize', () => {
+    const SPECS = [
       // should leave these alone
       {given: '_123', expected: '_123'},
       {given: 'aBcDeFg', expected: 'aBcDeFg'},
@@ -21,12 +19,11 @@ describe('xml-id', function() {
       {given: 'abc.def', expected: 'abc_def'},
     ]
 
-    SPECS.forEach(function(spec) {
-      var given = spec.given
-      var expected = spec.expected
+    SPECS.forEach(spec => {
+      const {given, expected} = spec
 
-      it('given ' + given + ' expect ' + expected, function() {
-        expect(xid.sanitize(given)).to.equal(expected)
+      it(`given ${given} expect ${expected}`, () => {
+        expect(sanitize(given)).to.equal(expected)
       })
     })
   })

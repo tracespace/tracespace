@@ -14,8 +14,7 @@
     "umd"
   ],
   "scripts": {
-    "clean": "rimraf cjs esm umd",
-    "serve": "node ../../scripts/serve"
+    "clean": "rimraf cjs esm umd"
   },
   "repository": {
     "type": "git",
