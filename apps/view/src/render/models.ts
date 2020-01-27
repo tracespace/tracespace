@@ -2,7 +2,7 @@ import commonPrefix from 'common-prefix'
 import randomColor from 'randomcolor'
 
 import vb from 'viewbox'
-import xid from '@tracespace/xml-id'
+import * as xid from '@tracespace/xml-id'
 import {Options as GerberToSvgOptions} from 'gerber-to-svg'
 
 // @ts-ignore: cannot figure out how to type this without breaking the import

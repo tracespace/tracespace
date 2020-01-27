@@ -18,7 +18,7 @@ var gerberToSvg = proxyquire('..', {
   'gerber-parser': parserStub,
   'gerber-plotter': plotterStub,
   'xml-element-string': xmlElementSpy,
-  '@tracespace/xml-id': {ensure: xidEnsureStub},
+  '@tracespace/xml-id/src/index.ts': {ensure: xidEnsureStub},
   './lib/plotter-to-svg': converterStub,
 })
 

@@ -4,7 +4,7 @@ import babel from 'rollup-plugin-babel'
 import {terser} from 'rollup-plugin-terser'
 import {camelCase, upperFirst} from 'lodash'
 
-const PACKAGES = ['packages/whats-that-gerber']
+const PACKAGES = ['packages/whats-that-gerber', 'packages/xml-id']
 
 const PLUGINS = [
   resolve({extensions: ['.mjs', '.js', '.json', '.node', '.ts']}),
@@ -39,13 +39,13 @@ const makeBundleConfig = (dir, pkg) => ({
   input: resolveAbs(dir, pkg.source),
   output: [
     {
-      file: resolveAbs(dir, 'umd', `${pkg.name}.js`),
+      file: resolveAbs(dir, 'umd', `${path.basename(pkg.name)}.js`),
       format: 'umd',
       name: upperFirst(camelCase(pkg.name)),
       sourcemap: true,
     },
     {
-      file: resolveAbs(dir, 'umd', `${pkg.name}.min.js`),
+      file: resolveAbs(dir, 'umd', `${path.basename(pkg.name)}.min.js`),
       format: 'umd',
       name: upperFirst(camelCase(pkg.name)),
       plugins: [terser()],

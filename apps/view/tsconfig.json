@@ -1,6 +1,9 @@
 {
   "extends": "@tracespace/config/tsconfig-base.json",
-  "references": [{"path": "../../packages/whats-that-gerber"}],
+  "references": [
+    {"path": "../../packages/whats-that-gerber"},
+    {"path": "../../packages/xml-id"}
+  ],
   "compilerOptions": {
     "composite": true,
     "noEmit": true,
