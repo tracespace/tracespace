@@ -4,7 +4,7 @@
 const cosmiconfig = require('cosmiconfig')
 const yargs = require('yargs')
 const debug = require('debug')('@tracespace/cli')
-const cli = require('./lib/cli')
+const {cli} = require('@tracespace/cli')
 
 debug('Searching for default config')
 
@@ -22,11 +22,11 @@ cosmiconfig('tracespace')
   .then(
     () => {
       debug('cli ran successfully')
-      process.exit(0)
+      process.exitCode = 0
     },
     error => {
       console.error(`Error: ${error.message}\n\nUsage:`)
       yargs.showHelp()
-      process.exit(1)
+      process.exitCode = 1
     }
   )

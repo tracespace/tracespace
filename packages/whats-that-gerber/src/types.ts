@@ -1,10 +1,10 @@
 import * as Constants from './constants'
 
-export interface WhatsThatGerberResult {
-  [filename: string]: LayerResult
+export interface LayerIdentityMap {
+  [filename: string]: LayerIdentity
 }
 
-export interface LayerResult {
+export interface LayerIdentity {
   type: GerberType
   side: GerberSide
 }
@@ -14,7 +14,7 @@ export interface ValidLayer {
   side: GerberSide
 }
 
-export type ValidatedLayer = LayerResult & {valid: boolean}
+export type ValidatedLayer = LayerIdentity & {valid: boolean}
 
 export type GerberType =
   | typeof Constants.TYPE_COPPER

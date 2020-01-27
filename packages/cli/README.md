@@ -114,10 +114,21 @@ tracespace -L
 tracespace -B --force some-file.xyz
 ```
 
+#### `-q`, `--quiet`, `config.quiet`
+
+- Type: `boolean`
+- Default: `false`
+- Description: Suppress informational output (info logs to stderr)
+
+```shell
+# Do not print info to stderr
+tracespace --quiet
+```
+
 #### `-g`, `--gerber`, `config.gerber`
 
 - Type: `object`
-- Default: `{}`
+- Default: `undefined`
 - Description: Options for all gerber files (passed to gerber-to-svg)
 
 ```shell
@@ -128,7 +139,7 @@ tracespace -B -g.attributes.color=blue
 #### `-d`, `--drill`, `config.drill`
 
 - Type: `object`
-- Default: `{}`
+- Default: `undefined`
 - Description: Options for all drill files (passed to gerber-to-svg)
 
 ```shell
@@ -139,7 +150,7 @@ tracespace -B -d.attributes.color=red
 #### `-b`, `--board`, `config.board`
 
 - Type: `object`
-- Default: `{}`
+- Default: `undefined`
 - Description: Options for PCB renders (passed to pcb-stackup)
 
 ```shell
@@ -150,7 +161,7 @@ tracespace -b.color.sm="rgba(128,00,00,0.75)"
 #### `-l`, `--layer`, `config.layer`
 
 - Type: `object`
-- Default: `{}`
+- Default: `undefined`
 - Description: Override the layers options of a given file
 
 > If you're using this option a lot, you may want to consider using a config file
@@ -158,17 +169,6 @@ tracespace -b.color.sm="rgba(128,00,00,0.75)"
 ```shell
 # Set layer type of `arduino-uno.drd` to `drill` and parse as a drill file
 tracespace -l.arduino-uno.drd.type=drill -l.arduino-uno.drd.options.filetype=drill
-```
-
-#### `-q`, `--quiet`, `config.quiet`
-
-- Type: `boolean`
-- Default: `false`
-- Description: Suppress informational output (info logs to stderr)
-
-```shell
-# Do not print info to stderr
-tracespace --quiet
 ```
 
 <!-- endinsert:docs:options -->

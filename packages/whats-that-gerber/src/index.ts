@@ -4,10 +4,10 @@ import {layerTypes} from './layer-types'
 import {flatMap} from './flat-map'
 
 import {
-  WhatsThatGerberResult,
+  LayerIdentityMap,
   ValidLayer,
   ValidatedLayer,
-  LayerResult,
+  LayerIdentity,
   LayerTestMatch,
   GerberType,
   GerberSide,
@@ -17,15 +17,13 @@ import {
 export * from './constants'
 export * from './types'
 
-export function identifyLayers(
-  filenames: string | string[]
-): WhatsThatGerberResult {
+export function identifyLayers(filenames: string | string[]): LayerIdentityMap {
   if (typeof filenames === 'string') filenames = [filenames]
 
   const matches = flatMap(filenames, getMatches)
   const commonCad = getCommonCad(matches)
 
-  return filenames.reduce<WhatsThatGerberResult>((result, filename) => {
+  return filenames.reduce<LayerIdentityMap>((result, filename) => {
     const match = _selectMatch(matches, filename, commonCad)
 
     result[filename] =
@@ -64,7 +62,7 @@ function _selectMatch(
   matches: LayerTestMatch[],
   filename: string,
   cad: GerberCad
-): LayerResult | null {
+): LayerIdentity | null {
   const filenameMatches = matches.filter(match => match.filename === filename)
   const result = filenameMatches.find(match => match.cad === cad)
 

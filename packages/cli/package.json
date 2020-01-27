@@ -6,8 +6,20 @@
   "version": "4.2.0",
   "description": "Render a PCB as SVGs from the command line",
   "bin": {
-    "tracespace": "index.js"
+    "tracespace": "bin/cli.js"
   },
+  "source": "src/index.ts",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "types": "esm/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "src",
+    "esm",
+    "cjs",
+    "umd",
+    "bin"
+  ],
   "scripts": {
     "docs": "node scripts/docs.js README.md docs"
   },
@@ -32,6 +44,8 @@
     "node": ">=8"
   },
   "dependencies": {
+    "@types/debug": "^4.1.5",
+    "@types/yargs": "^15.0.1",
     "common-prefix": "^1.1.0",
     "cosmiconfig": "^5.2.1",
     "debug": "^4.1.1",
