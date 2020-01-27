@@ -5,7 +5,7 @@ const fs = require('fs')
 const path = require('path')
 const {promisify} = require('util')
 
-const options = require('../lib/options')
+const {options} = require('@tracespace/cli')
 
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
@@ -28,11 +28,11 @@ readFile(doc, 'utf8')
   .then(
     () => {
       console.log(`Wrote ${doc}`)
-      process.exit(0)
+      process.exitCode = 0
     },
     error => {
       console.error(error)
-      process.exit(1)
+      process.exitCode = 1
     }
   )
 
@@ -52,8 +52,8 @@ function generateOptions() {
     .map(long => {
       const {
         describe,
-        type,
         example,
+        type = 'object',
         alias: short,
         default: defaultValue,
       } = options[long]
@@ -74,11 +74,8 @@ ${example.cmd.replace('$0', 'tracespace')}
 }
 
 function getDefaultFromType(type) {
-  switch (type) {
-    case 'boolean':
-      return 'false'
-    case 'object':
-      return '{}'
+  if (type === 'boolean') {
+    return 'false'
   }
 
   return 'undefined'

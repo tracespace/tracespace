@@ -39,7 +39,7 @@ declare namespace pcbStackup {
   interface InputLayer {
     filename?: string
     gerber?: GerberSource
-    options?: GerberOptions | string
+    options?: GerberOptions
     side?: GerberSide
     type?: GerberType
     converter?: ConverterResult

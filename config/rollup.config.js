@@ -1,65 +1,85 @@
 import path from 'path'
+import builtins from 'builtin-modules'
 import resolve from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
 import babel from 'rollup-plugin-babel'
 import {terser} from 'rollup-plugin-terser'
 import {camelCase, upperFirst} from 'lodash'
 
-const PACKAGES = ['packages/whats-that-gerber', 'packages/xml-id']
-
-const PLUGINS = [
-  resolve({extensions: ['.mjs', '.js', '.json', '.node', '.ts']}),
-  babel({
-    rootMode: 'upward',
-    exclude: '**/node_modules/**',
-    extensions: ['.ts'],
-  }),
+const ENTRIES = [
+  {path: 'packages/cli', bundle: false},
+  {path: 'packages/whats-that-gerber', bundle: true},
+  {path: 'packages/xml-id', bundle: true},
 ]
 
 const resolveAbs = (...paths) => path.join(__dirname, '..', ...paths)
 
-const makeConfig = (dir, pkg) => ({
-  input: resolveAbs(dir, pkg.source),
+const makeConfig = (entry, pkg) => ({
+  input: resolveAbs(entry.path, pkg.source),
   output: [
     {
-      file: resolveAbs(dir, pkg.module),
+      file: resolveAbs(entry.path, pkg.module),
       format: 'esm',
       sourcemap: true,
     },
     {
-      file: resolveAbs(dir, pkg.main),
+      file: resolveAbs(entry.path, pkg.main),
       format: 'cjs',
       sourcemap: true,
     },
+  ].filter(_ => _),
+  plugins: [
+    resolve({
+      extensions: ['.mjs', '.js', '.json', '.node', '.ts'],
+    }),
+    commonjs(),
+    babel({
+      rootMode: 'upward',
+      exclude: '**/node_modules/**',
+      extensions: ['.ts'],
+    }),
   ],
-  plugins: PLUGINS,
-  external: pkg.dependencies ? Object.keys(pkg.dependencies) : [],
+  external: [...Object.keys(pkg.dependencies || {}), ...builtins],
 })
 
-const makeBundleConfig = (dir, pkg) => ({
-  input: resolveAbs(dir, pkg.source),
+const makeBundleConfig = (entry, pkg) => ({
+  input: resolveAbs(entry.path, pkg.source),
   output: [
     {
-      file: resolveAbs(dir, 'umd', `${path.basename(pkg.name)}.js`),
+      file: resolveAbs(entry.path, 'umd', `${path.basename(pkg.name)}.js`),
       format: 'umd',
       name: upperFirst(camelCase(pkg.name)),
       sourcemap: true,
     },
     {
-      file: resolveAbs(dir, 'umd', `${path.basename(pkg.name)}.min.js`),
+      file: resolveAbs(entry.path, 'umd', `${path.basename(pkg.name)}.min.js`),
       format: 'umd',
       name: upperFirst(camelCase(pkg.name)),
       plugins: [terser()],
       sourcemap: true,
     },
   ],
-  plugins: PLUGINS,
+  plugins: [
+    resolve({
+      extensions: ['.mjs', '.js', '.json', '.node', '.ts'],
+      preferBuiltins: false,
+    }),
+    commonjs(),
+    babel({
+      rootMode: 'upward',
+      exclude: '**/node_modules/**',
+      extensions: ['.ts'],
+    }),
+  ],
 })
 
 export default function config(cliArgs) {
-  return PACKAGES.map(dir => {
-    const pkg = require(resolveAbs(dir, 'package.json'))
-    const configBuilder = cliArgs.configBundle ? makeBundleConfig : makeConfig
+  return ENTRIES.filter(entry => !cliArgs.configBundle || entry.bundle).map(
+    entry => {
+      const pkg = require(resolveAbs(entry.path, 'package.json'))
+      const configBuilder = cliArgs.configBundle ? makeBundleConfig : makeConfig
 
-    return configBuilder(dir, pkg)
-  })
+      return configBuilder(entry, pkg)
+    }
+  )
 }

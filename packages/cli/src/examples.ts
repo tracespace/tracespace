@@ -1,8 +1,6 @@
-'use strict'
+import {options} from './options'
 
-const options = require('./options')
-
-module.exports = [
+export const examples = [
   {
     cmd: '$0',
     desc: 'Render files in `cwd` and output to `cwd`',
@@ -11,5 +9,5 @@ module.exports = [
     cmd: '$0 --out=-',
     desc: 'Render files in `cwd` and output to `stdout`',
   },
-  ...Object.keys(options).map(name => options[name].example),
+  ...Object.values(options).map(opt => opt.example),
 ]
