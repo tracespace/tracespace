@@ -4,15 +4,11 @@ const path = require('path')
 const {EnvironmentPlugin} = require('webpack')
 const FileManagerPlugin = require('filemanager-webpack-plugin')
 const HtmlPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
 const merge = require('webpack-merge')
 
 const pkg = require('./package.json')
-const {
-  DEV_MODE,
-  OUT_DIRNAME,
-  baseConfig,
-} = require('@tracespace/config/webpack')
+const {OUT_DIRNAME, baseConfig} = require('@tracespace/config/webpack')
 
 const OUT_PATH = path.join(__dirname, OUT_DIRNAME)
 const EXAMPLE_OUT = path.join(OUT_PATH, 'arduino-uno.zip')
@@ -28,47 +24,6 @@ module.exports = merge(baseConfig(__dirname), {
   },
   output: {
     globalObject: 'this',
-  },
-  resolve: {
-    extensions: ['.js', '.ts', '.tsx', '.json', '.css'],
-    alias: {
-      'react-dom': '@hot-loader/react-dom',
-    },
-  },
-  module: {
-    rules: [
-      {
-        test: /worker\.ts$/i,
-        loader: 'worker-loader',
-      },
-      {
-        test: /\.tsx?$/,
-        loader: 'babel-loader',
-        options: {
-          cacheDirectory: true,
-          configFile: path.join(__dirname, '../../babel.config.js'),
-        },
-      },
-      {
-        test: /\.js$/,
-        loader: 'source-map-loader',
-        enforce: 'pre',
-      },
-      {
-        test: /\.css$/,
-        use: [
-          DEV_MODE ? 'style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader',
-        ],
-      },
-      {
-        test: /\.(png|ico)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[contenthash].[ext]',
-        },
-      },
-    ],
   },
   plugins: [
     new EnvironmentPlugin({

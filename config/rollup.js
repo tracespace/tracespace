@@ -34,7 +34,8 @@ const makeConfig = (entry, pkg) => ({
     }),
     commonjs(),
     babel({
-      rootMode: 'upward',
+      root: path.join(__dirname, '..'),
+      configFile: path.join(__dirname, './babel.js'),
       exclude: '**/node_modules/**',
       extensions: ['.ts'],
     }),
@@ -66,7 +67,8 @@ const makeBundleConfig = (entry, pkg) => ({
     }),
     commonjs(),
     babel({
-      rootMode: 'upward',
+      root: path.join(__dirname, '..'),
+      configFile: path.join(__dirname, './babel.js'),
       exclude: '**/node_modules/**',
       extensions: ['.ts'],
     }),

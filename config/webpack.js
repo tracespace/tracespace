@@ -21,6 +21,48 @@ const baseConfig = dirname => ({
     path: path.join(dirname, OUT_DIRNAME),
     filename: DEV_MODE ? '[name].js' : '[name].[contenthash].js',
   },
+  resolve: {
+    extensions: ['.js', '.ts', '.tsx', '.json', '.css'],
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+    },
+  },
+  module: {
+    rules: [
+      {
+        test: /worker\.ts$/i,
+        loader: 'worker-loader',
+      },
+      {
+        test: /\.tsx?$/,
+        loader: 'babel-loader',
+        options: {
+          cacheDirectory: true,
+          root: path.join(__dirname, '..'),
+          configFile: path.join(__dirname, './babel.js'),
+        },
+      },
+      {
+        test: /\.js$/,
+        loader: 'source-map-loader',
+        enforce: 'pre',
+      },
+      {
+        test: /\.css$/,
+        use: [
+          DEV_MODE ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+        ],
+      },
+      {
+        test: /\.(png|ico)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[contenthash].[ext]',
+        },
+      },
+    ],
+  },
   plugins: [
     new MiniCssExtractPlugin({
       filename: DEV_MODE ? '[name].css' : '[name].[contenthash].css',
