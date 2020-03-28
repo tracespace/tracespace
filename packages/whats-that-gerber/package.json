@@ -4,17 +4,18 @@
   "description": "Identify Gerber and drill files by filename",
   "source": "src/index.ts",
   "main": "cjs/index.js",
-  "module": "esm/index.js",
-  "types": "esm/index.d.ts",
+  "module": "esm/index.mjs",
+  "types": "lib/index.d.ts",
   "sideEffects": false,
   "files": [
     "src",
+    "lib",
     "esm",
     "cjs",
     "umd"
   ],
   "scripts": {
-    "clean": "rimraf cjs esm umd"
+    "clean": "rimraf lib cjs esm umd"
   },
   "repository": {
     "type": "git",

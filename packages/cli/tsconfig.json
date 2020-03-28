@@ -1,11 +1,11 @@
 {
-  "extends": "@tracespace/config/tsconfig-base.json",
+  "extends": "@tracespace/config/typescript.json",
   "references": [{"path": "../../packages/whats-that-gerber"}],
   "compilerOptions": {
     "composite": true,
     "emitDeclarationOnly": true,
     "rootDir": "src",
-    "outDir": "esm"
+    "outDir": "lib"
   },
   "include": ["src"],
   "exclude": ["**/__tests__/**"]

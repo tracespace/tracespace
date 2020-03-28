@@ -3,7 +3,6 @@
 module.exports = {
   presets: [
     ['@babel/preset-env', {modules: false}],
-    '@babel/preset-react',
     '@babel/preset-typescript',
   ],
   plugins: [
@@ -13,8 +12,11 @@ module.exports = {
   ],
   overrides: [
     {
-      test: 'apps/view/**/*',
-      presets: [['@babel/preset-env', {useBuiltIns: 'usage', corejs: 3}]],
+      test: '../apps/view/**/*',
+      presets: [
+        '@babel/preset-react',
+        ['@babel/preset-env', {useBuiltIns: 'usage', corejs: 3}],
+      ],
       plugins: ['react-hot-loader/babel'],
     },
   ],

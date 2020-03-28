@@ -7,20 +7,20 @@
     "packages/*"
   ],
   "scripts": {
-    "test": "cross-env INTEGRATION=1 nyc mocha",
-    "test:watch": "mocha --watch --reporter dot",
-    "coverage": "nyc report --reporter=lcov",
+    "test": "cross-env INTEGRATION=1 nyc --nycrc-path config/nyc.js mocha --config config/mocha.js",
+    "test:watch": "mocha --config config/mocha.js --watch --reporter dot",
+    "coverage": "nyc report --nycrc-path config/nyc.js --reporter=lcov",
     "start": "lerna run start --parallel",
     "prebuild": "yarn clean",
-    "build": "yarn build:packages && lerna run build --parallel",
-    "build:packages": "rollup -c config/rollup.config.js",
+    "build": "yarn build:packages && lerna run build --parallel && yarn build:bundles",
+    "build:packages": "rollup -c config/rollup.js",
     "build:bundles": "yarn build:packages --configBundle",
+    "build:all": "yarn build && yarn example && yarn docs",
     "postbuild": "yarn types",
     "watch": "concurrently \"lerna run watch --parallel\" \"yarn build:packages --watch\" \"yarn types --watch\"",
     "serve": "lerna run serve --parallel",
     "clean": "lerna run clean --parallel",
     "postclean": "yarn clean:types",
-    "build:all": "yarn build && yarn build:bundles && yarn example && yarn docs",
     "lint": "eslint '.*.js' '**/*.@(js|ts|tsx)'",
     "format": "prettier --ignore-path .eslintignore --write '.*.@(js|yml)' '**/*.@(js|ts|tsx|json|md|yml)'",
     "types": "tsc --build",
@@ -42,31 +42,6 @@
   "engines": {
     "node": ">=8",
     "yarn": ">=1"
-  },
-  "nyc": {
-    "all": true,
-    "include": [
-      "apps/**",
-      "packages/**"
-    ],
-    "exclude": [
-      "**/node_modules/**",
-      "**/example/**",
-      "**/scripts/**",
-      "**/dist/**",
-      "**/integration/**",
-      "**/test.js",
-      "**/test/**",
-      "**/__tests__/**",
-      "**/*.config.js",
-      "config/**",
-      "packages/fixtures/**"
-    ],
-    "extension": [
-      ".js",
-      ".ts",
-      ".tsx"
-    ]
   },
   "devDependencies": {
     "@babel/cli": "^7.8.0",
