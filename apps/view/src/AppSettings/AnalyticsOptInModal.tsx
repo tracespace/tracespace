@@ -11,7 +11,7 @@ const TITLE_COPY = 'welcome to tracespace view!'
 const USAGE_TRACKING_COPY_1 =
   'Please consider giving tracespace permission to collect anonymous usage data as you use this app.'
 const USAGE_TRACKING_COPY_2 =
-  'The tracespace project is an open-source project developed by volunteers. Usage data is an important tool to help us decide where to focus our energy and measure how well the app is performing.'
+  'The tracespace project is open-source and developed by volunteers. Usage data is an important tool to help us decide where to focus our energy and measure how well the app is performing.'
 const MORE_INFORMATION_COPY =
   'This data will never be shared or sold. For more information, a full list of the data collected, and instructions on how to request your data please see our'
 const PRIVACY_POLICY_COPY = 'Privacy Policy'
