@@ -7,9 +7,9 @@ import {terser} from 'rollup-plugin-terser'
 import {camelCase, upperFirst} from 'lodash'
 
 const ENTRIES = [
-  {path: 'packages/cli', bundle: false},
-  {path: 'packages/whats-that-gerber', bundle: true},
-  {path: 'packages/xml-id', bundle: true},
+  {path: 'packages/cli', esm: false, cjs: true, umd: false},
+  {path: 'packages/whats-that-gerber', esm: true, cjs: true, umd: true},
+  {path: 'packages/xml-id', esm: true, cjs: true, umd: true},
 ]
 
 const resolveAbs = (...paths) => path.join(__dirname, '..', ...paths)
@@ -17,12 +17,12 @@ const resolveAbs = (...paths) => path.join(__dirname, '..', ...paths)
 const makeConfig = (entry, pkg) => ({
   input: resolveAbs(entry.path, pkg.source),
   output: [
-    {
+    entry.esm && {
       file: resolveAbs(entry.path, pkg.module),
       format: 'esm',
       sourcemap: true,
     },
-    {
+    entry.cjs && {
       file: resolveAbs(entry.path, pkg.main),
       format: 'cjs',
       sourcemap: true,
@@ -76,7 +76,7 @@ const makeBundleConfig = (entry, pkg) => ({
 })
 
 export default function config(cliArgs) {
-  return ENTRIES.filter(entry => !cliArgs.configBundle || entry.bundle).map(
+  return ENTRIES.filter(entry => !cliArgs.configBundle || entry.umd).map(
     entry => {
       const pkg = require(resolveAbs(entry.path, 'package.json'))
       const configBuilder = cliArgs.configBundle ? makeBundleConfig : makeConfig

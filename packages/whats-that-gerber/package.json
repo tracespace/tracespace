@@ -6,6 +6,7 @@
   "main": "cjs/index.js",
   "module": "esm/index.mjs",
   "types": "lib/index.d.ts",
+  "unpkg": "umd/whats-that-gerber.min.js",
   "sideEffects": false,
   "files": [
     "src",

@@ -11,13 +11,7 @@ esm
 umd
 dist
 packages/*/LICENSE
-<<<<<<< HEAD
 *.d.ts
-=======
-packages/cli/lib
-packages/whats-that-gerber/lib
-packages/xml-id/lib
->>>>>>> build(config): Move various build config files to @tracespace/config
 *.tgz
 
 # system files
