@@ -10,19 +10,16 @@
   },
   "source": "src/index.ts",
   "main": "cjs/index.js",
-  "module": "esm/index.mjs",
   "types": "lib/index.d.ts",
   "sideEffects": false,
   "files": [
     "src",
     "lib",
-    "esm",
     "cjs",
-    "umd",
     "bin"
   ],
   "scripts": {
-    "clean": "rimraf lib cjs esm umd",
+    "clean": "rimraf lib cjs",
     "docs": "node scripts/docs.js README.md docs"
   },
   "repository": {

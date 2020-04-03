@@ -9,6 +9,7 @@
   "main": "cjs/index.js",
   "module": "esm/index.mjs",
   "types": "lib/index.d.ts",
+  "unpkg": "umd/xml-id.min.js",
   "sideEffects": false,
   "files": [
     "src",
@@ -18,7 +19,7 @@
     "umd"
   ],
   "scripts": {
-    "clean": "rimraf lib cjs esm umd"
+    "clean": "rimraf cjs esm lib umd"
   },
   "repository": {
     "type": "git",
