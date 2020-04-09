@@ -15,7 +15,7 @@ const DEFAULT_FORMAT_MM: Parser.Format = [3, 5]
 const DEFAULT_ZERO = Parser.LEADING
 
 const filterDrillFormatHint = (node: Parser.Node): boolean =>
-  node.type === Parser.COMMENT && node.value.indexOf('FORMAT') > -1
+  node.type === Parser.COMMENT && node.comment.indexOf('FORMAT') > -1
 
 export function getLayerFormats(layers: InputLayer[]): FormatResult[] {
   const result: NullableFormat[] = layers.map(ly => {
@@ -25,9 +25,8 @@ export function getLayerFormats(layers: InputLayer[]): FormatResult[] {
     let coordFormat = ly.coordFormat || null
     let zeroSuppression = ly.zeroSuppression || null
 
-    const [header] = ly.tree.children
-
-    header.children.forEach(node => {
+    // TODO: find, not forEach
+    ly.tree.children.forEach(node => {
       if (node.type === Parser.UNITS && units === null) {
         units = node.units
       } else if (node.type === Parser.COORDINATE_FORMAT) {
@@ -79,9 +78,9 @@ export function inferCoordinateFormat(layer: InputLayer): Parser.Format | null {
     unistVisit<Parser.Node, Parser.Comment>(
       layer.tree,
       filterDrillFormatHint,
-      comment => {
-        const {value} = comment
-        const formatMatch = value.match(/(\d):(\d)/)
+      commentNode => {
+        const {comment} = commentNode
+        const formatMatch = comment.match(/(\d):(\d)/)
 
         if (formatMatch) {
           result = [Number(formatMatch[1]), Number(formatMatch[2])]
@@ -109,14 +108,14 @@ export function inferZeroSuppression(
     unistVisit<Parser.Node, Parser.Comment>(
       layer.tree,
       filterDrillFormatHint,
-      comment => {
-        const {value} = comment
-        if (value.indexOf('suppress trailing zeros') > -1) {
+      commentNode => {
+        const {comment} = commentNode
+        if (comment.indexOf('suppress trailing zeros') > -1) {
           result = Parser.TRAILING
         } else if (
-          value.indexOf('suppress leading zeros') > -1 ||
-          value.indexOf('keep zeros') > -1 ||
-          value.indexOf('decimal') > -1
+          comment.indexOf('suppress leading zeros') > -1 ||
+          comment.indexOf('keep zeros') > -1 ||
+          comment.indexOf('decimal') > -1
         ) {
           result = Parser.LEADING
         }

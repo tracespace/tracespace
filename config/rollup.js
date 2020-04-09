@@ -8,12 +8,12 @@ import {terser} from 'rollup-plugin-terser'
 import {camelCase, upperFirst} from 'lodash'
 
 const ENTRIES = [
-  {path: 'packages/cli', esm: false, cjs: true, umd: false},
-  {path: 'packages/parser', esm: true, cjs: true, umd: true},
-  {path: 'packages/plotter', esm: true, cjs: true, umd: true},
-  {path: 'packages/renderer', esm: true, cjs: true, umd: true},
-  {path: 'packages/whats-that-gerber', esm: true, cjs: true, umd: true},
-  {path: 'packages/xml-id', esm: true, cjs: true, umd: true},
+  {dir: 'packages/cli', esm: false, cjs: true, umd: false},
+  {dir: 'packages/parser', esm: true, cjs: true, umd: true},
+  {dir: 'packages/plotter', esm: true, cjs: true, umd: true},
+  {dir: 'packages/renderer', esm: true, cjs: true, umd: true},
+  {dir: 'packages/whats-that-gerber', esm: true, cjs: true, umd: true},
+  {dir: 'packages/xml-id', esm: true, cjs: true, umd: true},
 ]
 
 const resolveFromRoot = (...paths) => path.join(__dirname, '..', ...paths)
@@ -41,16 +41,16 @@ const makeReplacePlugin = pkg =>
     PKG_VERSION: JSON.stringify(pkg.version),
   })
 
-const makeConfig = ({path, esm, cjs}, pkg) => ({
-  input: resolveFromRoot(path, pkg.source),
+const makeConfig = ({dir, esm, cjs}, pkg) => ({
+  input: resolveFromRoot(dir, pkg.source),
   output: [
     esm && {
-      file: resolveFromRoot(path, pkg.module),
+      file: resolveFromRoot(dir, pkg.module),
       format: 'esm',
       sourcemap: true,
     },
     cjs && {
-      file: resolveFromRoot(path, pkg.main),
+      file: resolveFromRoot(dir, pkg.main),
       format: 'cjs',
       sourcemap: true,
     },
@@ -64,17 +64,17 @@ const makeConfig = ({path, esm, cjs}, pkg) => ({
   external: [...Object.keys(pkg.dependencies || {}), ...builtins],
 })
 
-const makeBundleConfig = ({path}, pkg) => ({
-  input: resolveFromRoot(path, pkg.source),
+const makeBundleConfig = ({dir}, pkg) => ({
+  input: resolveFromRoot(dir, pkg.source),
   output: [
     {
-      file: resolveFromRoot(path, 'umd', `${path.basename(pkg.name)}.js`),
+      file: resolveFromRoot(dir, 'umd', `${path.basename(pkg.name)}.js`),
       format: 'umd',
       name: upperFirst(camelCase(pkg.name)),
       sourcemap: true,
     },
     {
-      file: resolveFromRoot(path, 'umd', `${path.basename(pkg.name)}.min.js`),
+      file: resolveFromRoot(dir, 'umd', `${path.basename(pkg.name)}.min.js`),
       format: 'umd',
       name: upperFirst(camelCase(pkg.name)),
       plugins: [terser()],
@@ -92,7 +92,7 @@ const makeBundleConfig = ({path}, pkg) => ({
 export default function config(cliArgs) {
   return ENTRIES.filter(entry => !cliArgs.configBundle || entry.umd).map(
     entry => {
-      const pkg = require(resolveFromRoot(entry.path, 'package.json'))
+      const pkg = require(resolveFromRoot(entry.dir, 'package.json'))
       const configBuilder = cliArgs.configBundle ? makeBundleConfig : makeConfig
 
       return configBuilder(entry, pkg)

@@ -17,7 +17,6 @@ export const GERBER_MACRO_VARIABLE = 'GERBER_MACRO_VARIABLE'
 export const SEMICOLON = 'SEMICOLON'
 export const DRILL_UNITS = 'DRILL_UNITS'
 export const DRILL_ZERO_INCLUSION = 'DRILL_ZERO_INCLUSION'
-export const DRILL_TOOL_PROPS = 'DRILL_TOOL_PROPS'
 export const COORD_CHAR = 'COORD_CHAR'
 export const NUMBER = 'NUMBER'
 export const WORD = 'WORD'
@@ -44,7 +43,6 @@ export type TokenType =
   | typeof SEMICOLON
   | typeof DRILL_UNITS
   | typeof DRILL_ZERO_INCLUSION
-  | typeof DRILL_TOOL_PROPS
   | typeof COORD_CHAR
   | typeof NUMBER
   | typeof WORD

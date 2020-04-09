@@ -54,14 +54,7 @@ export const rules: Rules = {
     match: /,(?:TZ|LZ)/,
     value: text => text.slice(1),
   },
-  [Tokens.DRILL_TOOL_PROPS]: {
-    match: /(?:[CFSBHZ][\d.]+)+/,
-    value: text => {
-      const diameterMatch = text.match(/C[\d.]+/)
-      return diameterMatch ? diameterMatch[0] : ''
-    },
-  },
-  [Tokens.COORD_CHAR]: /[XYZIJA]/,
+  [Tokens.COORD_CHAR]: /[XYIJACFSBHZN]/,
   [Tokens.NUMBER]: /(?:[+-])?[\d.]+/,
   [Tokens.OPERATOR]: ['x', '/', '+', '-', '(', ')'],
   [Tokens.COMMA]: ',',

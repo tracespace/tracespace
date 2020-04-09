@@ -31,11 +31,10 @@ export function createPlot(
   format: LayerFormat,
   tree: GerberTree
 ): ImageTree {
-  const [header, image] = tree.children
-  const tools = header.children.filter(
+  const tools = tree.children.filter(
     (n): n is Parser.ToolDefinition => n.type === Parser.TOOL_DEFINITION
   )
-  const macros = header.children.filter(
+  const macros = tree.children.filter(
     (n): n is Parser.ToolMacro => n.type === Parser.TOOL_MACRO
   )
   const toolMap = tools.reduce<ToolMap>(
@@ -69,7 +68,7 @@ export function createPlot(
 
   let currentPath: ImagePath | ImageRegion | null = null
 
-  visit(image, visitNode)
+  visit(tree, visitNode)
   addCurrentPathToLayer()
 
   return {
@@ -86,7 +85,7 @@ export function createPlot(
     }
   }
 
-  function visitNode(node: Parser.ImageChild): unknown {
+  function visitNode(node: Parser.ChildNode): unknown {
     switch (node.type) {
       case Parser.TOOL_CHANGE: {
         return (tool = getTool(node.code))
