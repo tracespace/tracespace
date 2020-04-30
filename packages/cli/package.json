@@ -38,8 +38,10 @@
     "dot-prop": "^5.1.0",
     "gerber-to-svg": "^4.2.0",
     "globby": "^10.0.2",
+    "is-glob": "^4.0.1",
     "make-dir": "^3.0.0",
     "pcb-stackup": "^4.2.0",
+    "slash": "^3.0.0",
     "untildify": "^4.0.0",
     "whats-that-gerber": "^4.2.0",
     "yargs": "^15.1.0"

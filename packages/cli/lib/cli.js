@@ -5,7 +5,6 @@ const path = require('path')
 const util = require('util')
 const common = require('common-prefix')
 const {get} = require('dot-prop')
-const glob = require('globby')
 const makeDir = require('make-dir')
 const debug = require('debug')('@tracespace/cli')
 
@@ -17,7 +16,7 @@ const yargs = require('yargs')
 const {description, version} = require('../package.json')
 const examples = require('./examples')
 const options = require('./options')
-const resolve = require('./resolve')
+const {resolvePatterns} = require('./resolve')
 
 const writeFile = util.promisify(fs.writeFile)
 const stackup = util.promisify(pcbStackup)
@@ -26,7 +25,6 @@ module.exports = function cli(processArgv, config) {
   const argv = yargs
     .usage('$0 [options] <files...>', `${description}\nv${version}`, yargs => {
       yargs.positional('files', {
-        coerce: files => files.map(resolve),
         describe:
           "Filenames, directories, or globs to a PCB's Gerber/drill files",
         type: 'string',
@@ -55,7 +53,7 @@ module.exports = function cli(processArgv, config) {
 
   if (config._configFile) info(`Config loaded from ${config._configFile}`)
 
-  return glob(argv.files)
+  return resolvePatterns(argv.files)
     .then(renderFiles)
     .then(writeRenders)
 
