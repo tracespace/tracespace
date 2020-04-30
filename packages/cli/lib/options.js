@@ -1,6 +1,6 @@
 'use strict'
 
-const resolve = require('./resolve')
+const {normalize} = require('./resolve')
 
 const STDOUT = '-'
 
@@ -8,7 +8,7 @@ module.exports = {
   out: {
     STDOUT,
     alias: 'o',
-    coerce: path => (path === STDOUT ? path : resolve(path)),
+    coerce: path => (path === STDOUT ? path : normalize(path)),
     default: '.',
     describe: `Output directory (or \`${STDOUT}\` for stdout)`,
     type: 'string',
