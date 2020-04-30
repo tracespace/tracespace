@@ -9,7 +9,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Bug Fixes
 
 * **deps:** update devDependencies, React, and yargs ([#315](https://github.com/tracespace/tracespace/issues/315)) ([34ebb3e](https://github.com/tracespace/tracespace/commit/34ebb3e))
-* **view:** avoid lowercase sentence start in welcome message ([8b7f331](https://github.com/tracespace/tracespace/commit/8b7f331))
+* **view:** avoid lowercase sentence start in welcome message ([#323](https://github.com/tracespace/tracespace/issues/323)) ([8b7f331](https://github.com/tracespace/tracespace/commit/8b7f331))
 
 
 
