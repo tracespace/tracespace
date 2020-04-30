@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.1](https://github.com/tracespace/tracespace/compare/v4.2.0...v4.2.1) (2020-04-30)
+
+
+### Bug Fixes
+
+* **cli:** resolve file paths correctly on Windows ([#328](https://github.com/tracespace/tracespace/issues/328)) ([2eb1dc7](https://github.com/tracespace/tracespace/commit/2eb1dc7)), closes [#327](https://github.com/tracespace/tracespace/issues/327)
+* **deps:** update devDependencies, React, and yargs ([#315](https://github.com/tracespace/tracespace/issues/315)) ([34ebb3e](https://github.com/tracespace/tracespace/commit/34ebb3e))
+
+
+
+
+
 # [4.2.0](https://github.com/tracespace/tracespace/compare/v4.1.1...v4.2.0) (2019-10-10)
 
 

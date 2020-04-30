@@ -1,6 +1,6 @@
 {
   "name": "gerber-to-svg",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "Render individual Gerber / NC drill files as SVGs",
   "main": "index.js",
   "types": "index.d.ts",
@@ -41,8 +41,8 @@
     "@tracespace/xml-id": "^4.0.0",
     "@types/node": "^13.1.6",
     "escape-html": "^1.0.3",
-    "gerber-parser": "^4.2.0",
-    "gerber-plotter": "^4.2.0",
+    "gerber-parser": "^4.2.1",
+    "gerber-plotter": "^4.2.1",
     "inherits": "^2.0.4",
     "lodash.isfinite": "^3.3.2",
     "readable-stream": "^3.4.0",
