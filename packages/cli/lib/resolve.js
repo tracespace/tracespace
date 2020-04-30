@@ -22,7 +22,9 @@ function resolvePatterns(patterns) {
 
   return matchPatterns.then(matches => {
     debug('glob matches', matches)
-    return files.concat(matches.filter(m => files.indexOf(m) === -1))
+
+    // TODO(mc, 2020-04-30): ensure results are deduped
+    return files.concat(matches)
   })
 }
 
