@@ -4,8 +4,12 @@ import {toArray} from 'lodash'
 
 import * as Lexer from '../../lexer'
 import * as Tree from '../../tree'
-import {token as t, simplifyToken} from '../../__tests__/helpers'
-import {grammar, matchGrammar, MatchState} from '..'
+import {
+  token as t,
+  position as pos,
+  simplifyToken,
+} from '../../__tests__/helpers'
+import {matchSyntax, MatchState} from '..'
 
 import {
   DRILL,
@@ -30,13 +34,23 @@ const SPECS: Array<{
     // drill file end with M00
     source: 'M00\n',
     expectedTokens: [t(Lexer.M_CODE, '0'), t(Lexer.NEWLINE, '\n')],
-    expectedNodes: [{type: Tree.DONE}],
+    expectedNodes: [
+      {
+        type: Tree.DONE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+      },
+    ],
   },
   {
     // drill file end with M30
     source: 'M30\n',
     expectedTokens: [t(Lexer.M_CODE, '30'), t(Lexer.NEWLINE, '\n')],
-    expectedNodes: [{type: Tree.DONE}],
+    expectedNodes: [
+      {
+        type: Tree.DONE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+      },
+    ],
   },
   {
     // drill comment
@@ -49,31 +63,61 @@ const SPECS: Array<{
       t(Lexer.WORD, 'world'),
       t(Lexer.NEWLINE, '\n'),
     ],
-    expectedNodes: [{type: Tree.COMMENT, comment: 'hello world'}],
+    expectedNodes: [
+      {
+        type: Tree.COMMENT,
+        position: pos([1, 1, 0], [1, 14, 13]),
+        comment: 'hello world',
+      },
+    ],
   },
   {
     // drill inch units (new style)
     source: 'INCH\n',
     expectedTokens: [t(Lexer.DRILL_UNITS, 'INCH'), t(Lexer.NEWLINE, '\n')],
-    expectedNodes: [{type: Tree.UNITS, units: IN}],
+    expectedNodes: [
+      {
+        type: Tree.UNITS,
+        position: pos([1, 1, 0], [1, 5, 4]),
+        units: IN,
+      },
+    ],
   },
   {
     // drill millimeter units (new style)
     source: 'METRIC\n',
     expectedTokens: [t(Lexer.DRILL_UNITS, 'METRIC'), t(Lexer.NEWLINE, '\n')],
-    expectedNodes: [{type: Tree.UNITS, units: MM}],
+    expectedNodes: [
+      {
+        type: Tree.UNITS,
+        position: pos([1, 1, 0], [1, 7, 6]),
+        units: MM,
+      },
+    ],
   },
   {
     // drill inch units (old style)
     source: 'M72\n',
     expectedTokens: [t(Lexer.M_CODE, '72'), t(Lexer.NEWLINE, '\n')],
-    expectedNodes: [{type: Tree.UNITS, units: IN}],
+    expectedNodes: [
+      {
+        type: Tree.UNITS,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        units: IN,
+      },
+    ],
   },
   {
     // drill millimeter units (new style)
     source: 'M71\n',
     expectedTokens: [t(Lexer.M_CODE, '71'), t(Lexer.NEWLINE, '\n')],
-    expectedNodes: [{type: Tree.UNITS, units: MM}],
+    expectedNodes: [
+      {
+        type: Tree.UNITS,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        units: MM,
+      },
+    ],
   },
   {
     // drill new-style inches with leading zero suppression (keep trailing)
@@ -84,9 +128,14 @@ const SPECS: Array<{
       t(Lexer.NEWLINE, '\n'),
     ],
     expectedNodes: [
-      {type: Tree.UNITS, units: IN},
+      {
+        type: Tree.UNITS,
+        position: pos([1, 1, 0], [1, 5, 4]),
+        units: IN,
+      },
       {
         type: Tree.COORDINATE_FORMAT,
+        position: pos([1, 5, 4], [1, 8, 7]),
         zeroSuppression: LEADING,
         format: null,
         mode: null,
@@ -102,9 +151,14 @@ const SPECS: Array<{
       t(Lexer.NEWLINE, '\n'),
     ],
     expectedNodes: [
-      {type: Tree.UNITS, units: MM},
+      {
+        type: Tree.UNITS,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        units: MM,
+      },
       {
         type: Tree.COORDINATE_FORMAT,
+        position: pos([1, 4, 3], [1, 7, 6]),
         zeroSuppression: TRAILING,
         format: null,
         mode: null,
@@ -122,9 +176,14 @@ const SPECS: Array<{
       t(Lexer.NEWLINE, '\n'),
     ],
     expectedNodes: [
-      {type: Tree.UNITS, units: IN},
+      {
+        type: Tree.UNITS,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        units: IN,
+      },
       {
         type: Tree.COORDINATE_FORMAT,
+        position: pos([1, 4, 3], [1, 14, 13]),
         zeroSuppression: TRAILING,
         format: [2, 3],
         mode: null,
@@ -142,9 +201,14 @@ const SPECS: Array<{
       t(Lexer.NEWLINE, '\n'),
     ],
     expectedNodes: [
-      {type: Tree.UNITS, units: MM},
+      {
+        type: Tree.UNITS,
+        position: pos([1, 1, 0], [1, 7, 6]),
+        units: MM,
+      },
       {
         type: Tree.COORDINATE_FORMAT,
+        position: pos([1, 7, 6], [1, 19, 18]),
         zeroSuppression: LEADING,
         format: [3, 4],
         mode: null,
@@ -163,6 +227,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_DEFINITION,
+        position: pos([1, 1, 0], [1, 9, 8]),
         code: '1',
         shape: {type: CIRCLE, diameter: 0.01},
         hole: null,
@@ -184,6 +249,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_DEFINITION,
+        position: pos([1, 1, 0], [1, 13, 12]),
         code: '2',
         shape: {type: CIRCLE, diameter: 0.05},
         hole: null,
@@ -194,7 +260,13 @@ const SPECS: Array<{
     // tool change
     source: 'T03\n',
     expectedTokens: [t(Lexer.T_CODE, '3'), t(Lexer.NEWLINE, '\n')],
-    expectedNodes: [{type: Tree.TOOL_CHANGE, code: '3'}],
+    expectedNodes: [
+      {
+        type: Tree.TOOL_CHANGE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        code: '3',
+      },
+    ],
   },
   {
     // tool change with cruft
@@ -205,7 +277,13 @@ const SPECS: Array<{
       t(Lexer.NUMBER, '200'),
       t(Lexer.NEWLINE, '\n'),
     ],
-    expectedNodes: [{type: Tree.TOOL_CHANGE, code: '4'}],
+    expectedNodes: [
+      {
+        type: Tree.TOOL_CHANGE,
+        position: pos([1, 1, 0], [1, 8, 7]),
+        code: '4',
+      },
+    ],
   },
   {
     // simple drill operation
@@ -218,7 +296,12 @@ const SPECS: Array<{
       t(Lexer.NEWLINE, '\n'),
     ],
     expectedNodes: [
-      {type: Tree.GRAPHIC, coordinates: {x: '01', y: '02'}, graphic: null},
+      {
+        type: Tree.GRAPHIC,
+        position: pos([1, 1, 0], [1, 7, 6]),
+        coordinates: {x: '01', y: '02'},
+        graphic: null,
+      },
     ],
   },
   {
@@ -233,8 +316,17 @@ const SPECS: Array<{
       t(Lexer.NEWLINE, '\n'),
     ],
     expectedNodes: [
-      {type: Tree.TOOL_CHANGE, code: '5'},
-      {type: Tree.GRAPHIC, coordinates: {x: '01', y: '02'}, graphic: null},
+      {
+        type: Tree.TOOL_CHANGE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        code: '5',
+      },
+      {
+        type: Tree.GRAPHIC,
+        position: pos([1, 4, 3], [1, 10, 9]),
+        coordinates: {x: '01', y: '02'},
+        graphic: null,
+      },
     ],
   },
   {
@@ -249,8 +341,17 @@ const SPECS: Array<{
       t(Lexer.NEWLINE, '\n'),
     ],
     expectedNodes: [
-      {type: Tree.TOOL_CHANGE, code: '6'},
-      {type: Tree.GRAPHIC, coordinates: {x: '01', y: '02'}, graphic: null},
+      {
+        type: Tree.TOOL_CHANGE,
+        position: pos([1, 7, 6], [1, 10, 9]),
+        code: '6',
+      },
+      {
+        type: Tree.GRAPHIC,
+        position: pos([1, 1, 0], [1, 7, 6]),
+        coordinates: {x: '01', y: '02'},
+        graphic: null,
+      },
     ],
   },
   {
@@ -265,8 +366,17 @@ const SPECS: Array<{
       t(Lexer.NEWLINE, '\n'),
     ],
     expectedNodes: [
-      {type: Tree.INTERPOLATE_MODE, mode: MOVE},
-      {type: Tree.GRAPHIC, coordinates: {x: '05', y: '06'}, graphic: null},
+      {
+        type: Tree.INTERPOLATE_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        mode: MOVE,
+      },
+      {
+        type: Tree.GRAPHIC,
+        position: pos([1, 4, 3], [1, 10, 9]),
+        coordinates: {x: '05', y: '06'},
+        graphic: null,
+      },
     ],
   },
   {
@@ -281,8 +391,17 @@ const SPECS: Array<{
       t(Lexer.NEWLINE, '\n'),
     ],
     expectedNodes: [
-      {type: Tree.INTERPOLATE_MODE, mode: LINE},
-      {type: Tree.GRAPHIC, coordinates: {x: '05', y: '06'}, graphic: null},
+      {
+        type: Tree.INTERPOLATE_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        mode: LINE,
+      },
+      {
+        type: Tree.GRAPHIC,
+        position: pos([1, 4, 3], [1, 10, 9]),
+        coordinates: {x: '05', y: '06'},
+        graphic: null,
+      },
     ],
   },
   {
@@ -301,9 +420,14 @@ const SPECS: Array<{
       t(Lexer.NEWLINE, '\n'),
     ],
     expectedNodes: [
-      {type: Tree.INTERPOLATE_MODE, mode: CW_ARC},
+      {
+        type: Tree.INTERPOLATE_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        mode: CW_ARC,
+      },
       {
         type: Tree.GRAPHIC,
+        position: pos([1, 4, 3], [1, 16, 15]),
         coordinates: {x: '05', y: '06', i: '01', j: '02'},
         graphic: null,
       },
@@ -323,9 +447,14 @@ const SPECS: Array<{
       t(Lexer.NEWLINE, '\n'),
     ],
     expectedNodes: [
-      {type: Tree.INTERPOLATE_MODE, mode: CCW_ARC},
+      {
+        type: Tree.INTERPOLATE_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        mode: CCW_ARC,
+      },
       {
         type: Tree.GRAPHIC,
+        position: pos([1, 4, 3], [1, 13, 12]),
         coordinates: {x: '05', y: '06', a: '01'},
         graphic: null,
       },
@@ -343,39 +472,78 @@ const SPECS: Array<{
       t(Lexer.NEWLINE, '\n'),
     ],
     expectedNodes: [
-      {type: Tree.INTERPOLATE_MODE, mode: DRILL},
-      {type: Tree.GRAPHIC, coordinates: {x: '05', y: '06'}, graphic: null},
+      {
+        type: Tree.INTERPOLATE_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        mode: DRILL,
+      },
+      {
+        type: Tree.GRAPHIC,
+        position: pos([1, 4, 3], [1, 10, 9]),
+        coordinates: {x: '05', y: '06'},
+        graphic: null,
+      },
     ],
   },
   {
     // route mode without coordinates
     source: 'G00\n',
     expectedTokens: [t(Lexer.G_CODE, '0'), t(Lexer.NEWLINE, '\n')],
-    expectedNodes: [{type: Tree.INTERPOLATE_MODE, mode: MOVE}],
+    expectedNodes: [
+      {
+        type: Tree.INTERPOLATE_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        mode: MOVE,
+      },
+    ],
   },
   {
     // linear mode without coordinates
     source: 'G01\n',
     expectedTokens: [t(Lexer.G_CODE, '1'), t(Lexer.NEWLINE, '\n')],
-    expectedNodes: [{type: Tree.INTERPOLATE_MODE, mode: LINE}],
+    expectedNodes: [
+      {
+        type: Tree.INTERPOLATE_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        mode: LINE,
+      },
+    ],
   },
   {
     // cw mode without coordinates
     source: 'G02\n',
     expectedTokens: [t(Lexer.G_CODE, '2'), t(Lexer.NEWLINE, '\n')],
-    expectedNodes: [{type: Tree.INTERPOLATE_MODE, mode: CW_ARC}],
+    expectedNodes: [
+      {
+        type: Tree.INTERPOLATE_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        mode: CW_ARC,
+      },
+    ],
   },
   {
     // ccw mode without coordinates
     source: 'G03\n',
     expectedTokens: [t(Lexer.G_CODE, '3'), t(Lexer.NEWLINE, '\n')],
-    expectedNodes: [{type: Tree.INTERPOLATE_MODE, mode: CCW_ARC}],
+    expectedNodes: [
+      {
+        type: Tree.INTERPOLATE_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        mode: CCW_ARC,
+      },
+    ],
   },
   {
     // drill mode without coordinates
     source: 'G05\n',
     expectedTokens: [t(Lexer.G_CODE, '5'), t(Lexer.NEWLINE, '\n')],
-    expectedNodes: [{type: Tree.INTERPOLATE_MODE, mode: DRILL}],
+    expectedNodes: [
+      {
+        type: Tree.INTERPOLATE_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        mode: DRILL,
+      },
+    ],
   },
   {
     // drill slot
@@ -395,6 +563,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.GRAPHIC,
+        position: pos([1, 1, 0], [1, 16, 15]),
         graphic: SLOT,
         coordinates: {x1: '07', y1: '08', x2: '09', y2: '10'},
       },
@@ -414,6 +583,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.GRAPHIC,
+        position: pos([1, 1, 0], [1, 10, 9]),
         graphic: SLOT,
         coordinates: {x1: '07', y2: '10'},
       },
@@ -421,7 +591,7 @@ const SPECS: Array<{
   },
 ]
 
-describe('drill grammar matches', () => {
+describe('drill syntax matches', () => {
   SPECS.forEach(({source, expectedTokens, expectedNodes}) => {
     it(`should match on ${source.trim()}`, () => {
       const lexer = Lexer.createLexer()
@@ -429,15 +599,14 @@ describe('drill grammar matches', () => {
 
       const actualTokens = toArray((lexer as unknown) as Array<Lexer.Token>)
       const {tokens, nodes, filetype} = actualTokens.reduce<MatchState>(
-        (state, token) => matchGrammar(state, token, grammar),
+        (state, token) => matchSyntax(state, token),
         null
       )
+      const simpleTokens = tokens.map(simplifyToken)
 
       expect(filetype).to.equal(DRILL)
       expect(nodes).to.eql(expectedNodes)
-      expect(tokens.map(simplifyToken)).to.eql(
-        expectedTokens.map(simplifyToken)
-      )
+      expect(simpleTokens).to.eql(expectedTokens.map(simplifyToken))
     })
   })
 })

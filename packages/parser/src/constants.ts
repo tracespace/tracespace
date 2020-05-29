@@ -21,11 +21,6 @@ export const OBROUND = 'obround'
 export const POLYGON = 'polygon'
 export const MACRO_SHAPE = 'macroShape'
 
-// macro constants
-export const MACRO_COMMENT = 'macroComment'
-export const MACRO_VARIABLE = 'macroVariable'
-export const MACRO_PRIMITIVE = 'macroPrimitive'
-
 // macro primitive codes
 export const MACRO_CIRCLE = '1'
 export const MACRO_VECTOR_LINE = '20'

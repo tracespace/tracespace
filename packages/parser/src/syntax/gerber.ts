@@ -1,17 +1,18 @@
-// gerber file grammar
+// gerber file syntax
 import * as Lexer from '../lexer'
 import * as Constants from '../constants'
 import * as Types from '../types'
 import * as Tree from '../tree'
 import {token, notToken, one, zeroOrMore, zeroOrOne, minToMax} from './rules'
 import {parseMacroBlocks} from './macro'
-import {GrammarRule} from './types'
+import {SyntaxRule} from './types'
 
 import {
   tokensToCoordinates,
   tokensToMode,
   tokensToGraphic,
   tokensToString,
+  tokensToPosition,
 } from './map-tokens'
 
 const holeParamsToShape = (params: number[]): Types.HoleShape | null => {
@@ -28,26 +29,32 @@ const holeParamsToShape = (params: number[]): Types.HoleShape | null => {
   return null
 }
 
-const done: GrammarRule = {
+const done: SyntaxRule = {
   rules: [
     one([token(Lexer.M_CODE, '0'), token(Lexer.M_CODE, '2')]),
     token(Lexer.ASTERISK),
   ],
-  createNodes: () => [{type: Tree.DONE}],
+  createNodes: tokens => [
+    {type: Tree.DONE, position: tokensToPosition(tokens)},
+  ],
 }
 
-const comment: GrammarRule = {
+const comment: SyntaxRule = {
   rules: [
     token(Lexer.G_CODE, '4'),
     zeroOrMore([notToken(Lexer.ASTERISK)]),
     token(Lexer.ASTERISK),
   ],
   createNodes: tokens => [
-    {type: Tree.COMMENT, comment: tokensToString(tokens.slice(1, -1))},
+    {
+      type: Tree.COMMENT,
+      position: tokensToPosition(tokens),
+      comment: tokensToString(tokens.slice(1, -1)),
+    },
   ],
 }
 
-const format: GrammarRule = {
+const format: SyntaxRule = {
   rules: [
     token(Lexer.PERCENT),
     token(Lexer.GERBER_FORMAT),
@@ -81,11 +88,19 @@ const format: GrammarRule = {
       if (integers && decimals) format = [integers, decimals]
     }
 
-    return [{type: Tree.COORDINATE_FORMAT, zeroSuppression, format, mode}]
+    return [
+      {
+        type: Tree.COORDINATE_FORMAT,
+        position: tokensToPosition(tokens.slice(1, -1)),
+        zeroSuppression,
+        format,
+        mode,
+      },
+    ]
   },
 }
 
-const units: GrammarRule = {
+const units: SyntaxRule = {
   rules: [
     token(Lexer.PERCENT),
     token(Lexer.GERBER_UNITS),
@@ -95,12 +110,13 @@ const units: GrammarRule = {
   createNodes: tokens => [
     {
       type: Tree.UNITS,
+      position: tokensToPosition(tokens.slice(1, -1)),
       units: tokens[1].value === 'MM' ? Constants.MM : Constants.IN,
     },
   ],
 }
 
-const toolMacro: GrammarRule = {
+const toolMacro: SyntaxRule = {
   rules: [
     token(Lexer.PERCENT),
     token(Lexer.GERBER_TOOL_MACRO),
@@ -110,15 +126,21 @@ const toolMacro: GrammarRule = {
   ],
   createNodes: tokens => {
     const name = tokens[1].value
+    const position = tokensToPosition(tokens.slice(1, -1))
     const blockTokens = tokens.slice(3, -1)
 
     return [
-      {type: Tree.TOOL_MACRO, blocks: parseMacroBlocks(blockTokens), name},
+      {
+        type: Tree.TOOL_MACRO,
+        position,
+        children: parseMacroBlocks(blockTokens),
+        name,
+      },
     ]
   },
 }
 
-const toolDefinition: GrammarRule = {
+const toolDefinition: SyntaxRule = {
   rules: [
     token(Lexer.PERCENT),
     token(Lexer.GERBER_TOOL_DEF),
@@ -158,11 +180,19 @@ const toolDefinition: GrammarRule = {
       shape = {type: Constants.MACRO_SHAPE, name, params}
     }
 
-    return [{type: Tree.TOOL_DEFINITION, code, shape, hole}]
+    return [
+      {
+        type: Tree.TOOL_DEFINITION,
+        position: tokensToPosition(tokens.slice(1, -1)),
+        code,
+        shape,
+        hole,
+      },
+    ]
   },
 }
 
-const toolChange: GrammarRule = {
+const toolChange: SyntaxRule = {
   rules: [
     zeroOrOne([token(Lexer.G_CODE, '54')]),
     token(Lexer.D_CODE),
@@ -171,6 +201,7 @@ const toolChange: GrammarRule = {
   createNodes: tokens => [
     {
       type: Tree.TOOL_CHANGE,
+      position: tokensToPosition(tokens),
       code: tokens.find(t => t.type === Lexer.D_CODE)?.value as string,
     },
   ],
@@ -180,12 +211,20 @@ const createOperationNodes = (tokens: Lexer.Token[]): Tree.ChildNode[] => {
   const graphic = tokensToGraphic(tokens)
   const coordinates = tokensToCoordinates(tokens)
   const mode = tokensToMode(tokens)
-  const nodes: Tree.ChildNode[] = [{type: Tree.GRAPHIC, graphic, coordinates}]
-  if (mode) nodes.unshift({type: Tree.INTERPOLATE_MODE, mode})
+  const position = tokensToPosition(tokens, {
+    head: mode ? tokens[1] : tokens[0],
+  })
+  const nodes: Tree.ChildNode[] = [
+    {type: Tree.GRAPHIC, position, graphic, coordinates},
+  ]
+  if (mode) {
+    const modePosition = tokensToPosition(tokens, {head: tokens[0], length: 2})
+    nodes.unshift({type: Tree.INTERPOLATE_MODE, position: modePosition, mode})
+  }
   return nodes
 }
 
-const operation: GrammarRule = {
+const operation: SyntaxRule = {
   rules: [
     zeroOrOne([
       token(Lexer.G_CODE, '1'),
@@ -203,7 +242,7 @@ const operation: GrammarRule = {
   createNodes: createOperationNodes,
 }
 
-const operationWithoutCoords: GrammarRule = {
+const operationWithoutCoords: SyntaxRule = {
   rules: [
     zeroOrOne([
       token(Lexer.G_CODE, '1'),
@@ -220,7 +259,7 @@ const operationWithoutCoords: GrammarRule = {
   createNodes: createOperationNodes,
 }
 
-const interpolationMode: GrammarRule = {
+const interpolationMode: SyntaxRule = {
   rules: [
     one([
       token(Lexer.G_CODE, '1'),
@@ -230,21 +269,29 @@ const interpolationMode: GrammarRule = {
     token(Lexer.ASTERISK),
   ],
   createNodes: tokens => [
-    {type: Tree.INTERPOLATE_MODE, mode: tokensToMode(tokens)},
+    {
+      type: Tree.INTERPOLATE_MODE,
+      position: tokensToPosition(tokens),
+      mode: tokensToMode(tokens),
+    },
   ],
 }
 
-const regionMode: GrammarRule = {
+const regionMode: SyntaxRule = {
   rules: [
     one([token(Lexer.G_CODE, '36'), token(Lexer.G_CODE, '37')]),
     token(Lexer.ASTERISK),
   ],
   createNodes: tokens => [
-    {type: Tree.REGION_MODE, region: tokens[0].value === '36'},
+    {
+      type: Tree.REGION_MODE,
+      position: tokensToPosition(tokens),
+      region: tokens[0].value === '36',
+    },
   ],
 }
 
-const quadrantMode: GrammarRule = {
+const quadrantMode: SyntaxRule = {
   rules: [
     one([token(Lexer.G_CODE, '74'), token(Lexer.G_CODE, '75')]),
     token(Lexer.ASTERISK),
@@ -252,12 +299,13 @@ const quadrantMode: GrammarRule = {
   createNodes: tokens => [
     {
       type: Tree.QUADRANT_MODE,
+      position: tokensToPosition(tokens),
       quadrant: tokens[0].value === '74' ? Constants.SINGLE : Constants.MULTI,
     },
   ],
 }
 
-export const gerberGrammar: Array<GrammarRule> = [
+export const gerberSyntax: Array<SyntaxRule> = [
   operation,
   operationWithoutCoords,
   interpolationMode,

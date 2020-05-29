@@ -125,7 +125,7 @@
     "terser-webpack-plugin": "^2.3.2",
     "testdouble": "^3.12.5",
     "to-readable-stream": "^2.1.0",
-    "typescript": "^3.8.3",
+    "typescript": "^3.9.3",
     "unist-builder": "^1.0.4",
     "unist-util-select": "^2.0.2",
     "untildify": "^4.0.0",

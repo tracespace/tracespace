@@ -1,3 +1,4 @@
+import {Position} from 'unist'
 import {Token, NUMBER, COORD_CHAR, G_CODE, D_CODE} from '../lexer'
 import {Coordinates, InterpolateModeType, GraphicType} from '../types'
 import {SEGMENT, MOVE, SHAPE, LINE, CW_ARC, CCW_ARC, DRILL} from '../constants'
@@ -43,4 +44,19 @@ export function tokensToString(tokens: Token[]): string {
     .map(t => t.value)
     .join('')
     .trim()
+}
+
+export function tokensToPosition(
+  tokens: Token[],
+  options: Partial<{head: Token; length: number}> = {}
+): Position {
+  const head = options.head ?? tokens[0]
+  const tail = options.length
+    ? tokens[tokens.indexOf(head) + options.length - 1]
+    : tokens[tokens.length - 1]
+
+  return {
+    start: {line: head.line, column: head.col, offset: head.offset},
+    end: {line: tail.line, column: tail.col, offset: tail.offset},
+  }
 }

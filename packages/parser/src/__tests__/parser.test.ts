@@ -28,19 +28,44 @@ describe('@tracespace/parser', () => {
       type: ROOT,
       filetype: GERBER,
       done: false,
-      children: [{type: COMMENT, comment: 'hello world'}],
+      children: [
+        {
+          type: COMMENT,
+          position: {
+            start: {line: 1, column: 1, offset: 0},
+            end: {line: 1, column: 16, offset: 15},
+          },
+          comment: 'hello world',
+        },
+      ],
     })
   })
 
   it('should handle multiple feedings', () => {
-    parser.feed('G04 hello world*')
+    parser.feed('G04 hello world*\n')
     parser.feed('M00*')
 
     expect(parser.results()).to.eql({
       type: ROOT,
       filetype: GERBER,
       done: true,
-      children: [{type: COMMENT, comment: 'hello world'}, {type: DONE}],
+      children: [
+        {
+          type: COMMENT,
+          position: {
+            start: {line: 1, column: 1, offset: 0},
+            end: {line: 1, column: 16, offset: 15},
+          },
+          comment: 'hello world',
+        },
+        {
+          type: DONE,
+          position: {
+            start: {line: 2, column: 1, offset: 17},
+            end: {line: 2, column: 4, offset: 20},
+          },
+        },
+      ],
     })
   })
 
@@ -55,7 +80,23 @@ describe('@tracespace/parser', () => {
       type: ROOT,
       filetype: GERBER,
       done: true,
-      children: [{type: COMMENT, comment: 'hello world'}, {type: DONE}],
+      children: [
+        {
+          type: COMMENT,
+          position: {
+            start: {line: 1, column: 1, offset: 0},
+            end: {line: 1, column: 16, offset: 15},
+          },
+          comment: 'hello world',
+        },
+        {
+          type: DONE,
+          position: {
+            start: {line: 2, column: 1, offset: 17},
+            end: {line: 2, column: 4, offset: 20},
+          },
+        },
+      ],
     })
   })
 })

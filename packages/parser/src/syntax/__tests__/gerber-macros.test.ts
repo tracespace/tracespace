@@ -4,13 +4,15 @@ import {toArray} from 'lodash'
 
 import * as Lexer from '../../lexer'
 import * as Tree from '../../tree'
-import {token as t, simplifyToken} from '../../__tests__/helpers'
-import {grammar, matchGrammar, MatchState} from '..'
+import {
+  token as t,
+  position as pos,
+  simplifyToken,
+} from '../../__tests__/helpers'
+import {matchSyntax, MatchState} from '..'
 
 import {
   GERBER,
-  MACRO_COMMENT,
-  MACRO_PRIMITIVE,
   MACRO_CIRCLE,
   MACRO_VECTOR_LINE,
   MACRO_CENTER_LINE,
@@ -18,7 +20,6 @@ import {
   MACRO_POLYGON,
   MACRO_MOIRE,
   MACRO_THERMAL,
-  MACRO_VARIABLE,
 } from '../../constants'
 
 const SPECS: Array<{
@@ -44,8 +45,15 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_MACRO,
+        position: pos([1, 2, 1], [1, 25, 24]),
         name: 'COMMENT',
-        blocks: [{type: MACRO_COMMENT, comment: 'hello world'}],
+        children: [
+          {
+            type: Tree.MACRO_COMMENT,
+            position: pos([1, 12, 11], [1, 25, 24]),
+            comment: 'hello world',
+          },
+        ],
       },
     ],
   },
@@ -71,10 +79,12 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_MACRO,
+        position: pos([1, 2, 1], [1, 22, 21]),
         name: 'CIRCLE',
-        blocks: [
+        children: [
           {
-            type: MACRO_PRIMITIVE,
+            type: Tree.MACRO_PRIMITIVE,
+            position: pos([1, 11, 10], [1, 22, 21]),
             code: MACRO_CIRCLE,
             modifiers: [1, 0.5, 0, 0],
           },
@@ -110,10 +120,12 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_MACRO,
+        position: pos([1, 2, 1], [1, 32, 31]),
         name: 'VECTOR',
-        blocks: [
+        children: [
           {
-            type: MACRO_PRIMITIVE,
+            type: Tree.MACRO_PRIMITIVE,
+            position: pos([1, 11, 10], [1, 32, 31]),
             code: MACRO_VECTOR_LINE,
             modifiers: [1, 0.25, 0, 0, 0.5, 0.5, 0],
           },
@@ -147,10 +159,12 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_MACRO,
+        position: pos([1, 2, 1], [1, 34, 33]),
         name: 'CENTERLINE',
-        blocks: [
+        children: [
           {
-            type: MACRO_PRIMITIVE,
+            type: Tree.MACRO_PRIMITIVE,
+            position: pos([1, 15, 14], [1, 34, 33]),
             code: MACRO_CENTER_LINE,
             modifiers: [1, 0.5, 0.25, 0, 0, 0],
           },
@@ -194,10 +208,12 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_MACRO,
+        position: pos([1, 2, 1], [1, 41, 40]),
         name: 'OUTLINE',
-        blocks: [
+        children: [
           {
-            type: MACRO_PRIMITIVE,
+            type: Tree.MACRO_PRIMITIVE,
+            position: pos([1, 12, 11], [1, 41, 40]),
             code: MACRO_OUTLINE,
             modifiers: [1, 3, 0, 0, 0, 0.5, 0.5, 0.5, 0, 0, 0],
           },
@@ -231,10 +247,12 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_MACRO,
+        position: pos([1, 2, 1], [1, 27, 26]),
         name: 'POLYGON',
-        blocks: [
+        children: [
           {
-            type: MACRO_PRIMITIVE,
+            type: Tree.MACRO_PRIMITIVE,
+            position: pos([1, 12, 11], [1, 27, 26]),
             code: MACRO_POLYGON,
             modifiers: [1, 5, 0, 0, 0.5, 0],
           },
@@ -274,10 +292,12 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_MACRO,
+        position: pos([1, 2, 1], [1, 43, 42]),
         name: 'MOIRE',
-        blocks: [
+        children: [
           {
-            type: MACRO_PRIMITIVE,
+            type: Tree.MACRO_PRIMITIVE,
+            position: pos([1, 10, 9], [1, 43, 42]),
             code: MACRO_MOIRE,
             modifiers: [0, 0, 0.5, 0.04, 0.03, 2, 0.01, 0.55, 0],
           },
@@ -311,10 +331,12 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_MACRO,
+        position: pos([1, 2, 1], [1, 31, 30]),
         name: 'THERMAL',
-        blocks: [
+        children: [
           {
-            type: MACRO_PRIMITIVE,
+            type: Tree.MACRO_PRIMITIVE,
+            position: pos([1, 12, 11], [1, 31, 30]),
             code: MACRO_THERMAL,
             modifiers: [0, 0, 0.5, 0.4, 0.1, 0],
           },
@@ -388,25 +410,30 @@ $5=(1+(2-$4))x4*
     expectedNodes: [
       {
         type: Tree.TOOL_MACRO,
+        position: pos([1, 2, 1], [6, 15, 73]),
         name: 'COMPLEX',
-        blocks: [
+        children: [
           {
-            type: MACRO_VARIABLE,
+            type: Tree.MACRO_VARIABLE,
+            position: pos([2, 1, 12], [2, 9, 20]),
             name: '$2',
             value: {left: '$1', right: 14, operator: '+'},
           },
           {
-            type: MACRO_VARIABLE,
+            type: Tree.MACRO_VARIABLE,
+            position: pos([3, 1, 22], [3, 10, 31]),
             name: '$3',
             value: {left: -42, right: '$1', operator: '-'},
           },
           {
-            type: MACRO_VARIABLE,
+            type: Tree.MACRO_VARIABLE,
+            position: pos([4, 1, 33], [4, 8, 40]),
             name: '$4',
             value: {left: '$3', right: 2, operator: '/'},
           },
           {
-            type: MACRO_VARIABLE,
+            type: Tree.MACRO_VARIABLE,
+            position: pos([5, 1, 42], [5, 16, 57]),
             name: '$5',
             value: {
               left: {
@@ -419,7 +446,8 @@ $5=(1+(2-$4))x4*
             },
           },
           {
-            type: MACRO_PRIMITIVE,
+            type: Tree.MACRO_PRIMITIVE,
+            position: pos([6, 1, 59], [6, 14, 72]),
             code: MACRO_CIRCLE,
             modifiers: [1, {left: '$5', right: 1, operator: '+'}, '$2', 0],
           },
@@ -429,7 +457,7 @@ $5=(1+(2-$4))x4*
   },
 ]
 
-describe('gerber tool grammar matches', () => {
+describe('gerber macro syntax matches', () => {
   SPECS.forEach(({source, expectedTokens, expectedNodes}) => {
     it(`should match on ${source.trim()}`, () => {
       const lexer = Lexer.createLexer()
@@ -437,7 +465,7 @@ describe('gerber tool grammar matches', () => {
 
       const actualTokens = toArray((lexer as unknown) as Array<Lexer.Token>)
       const {tokens, nodes, filetype} = actualTokens.reduce<MatchState>(
-        (state, token) => matchGrammar(state, token, grammar),
+        (state, token) => matchSyntax(state, token),
         null
       )
 

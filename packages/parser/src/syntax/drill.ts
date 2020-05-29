@@ -4,10 +4,15 @@ import * as Tree from '../tree'
 import * as Constants from '../constants'
 import * as Types from '../types'
 import {token, notToken, one, zeroOrOne, zeroOrMore, minToMax} from './rules'
-import {tokensToCoordinates, tokensToMode, tokensToString} from './map-tokens'
-import {GrammarRule} from './types'
+import {
+  tokensToCoordinates,
+  tokensToMode,
+  tokensToString,
+  tokensToPosition,
+} from './map-tokens'
+import {SyntaxRule} from './types'
 
-const units: GrammarRule = {
+const units: SyntaxRule = {
   rules: [
     one([
       token(Lexer.DRILL_UNITS),
@@ -42,11 +47,14 @@ const units: GrammarRule = {
         return [integer.length, decimal.length]
       }, null)
 
-    const nodes: Tree.ChildNode[] = [{type: Tree.UNITS, units}]
+    const nodes: Tree.ChildNode[] = [
+      {type: Tree.UNITS, position: tokensToPosition(tokens.slice(0, 2)), units},
+    ]
 
     if (zeroSuppression || format) {
       nodes.push({
         type: Tree.COORDINATE_FORMAT,
+        position: tokensToPosition(tokens.slice(1)),
         mode: null,
         format,
         zeroSuppression,
@@ -57,7 +65,7 @@ const units: GrammarRule = {
   },
 }
 
-const tool: GrammarRule = {
+const tool: SyntaxRule = {
   rules: [
     token(Lexer.T_CODE),
     minToMax(0, 12, [
@@ -73,17 +81,18 @@ const tool: GrammarRule = {
   ],
   createNodes: tokens => {
     const code = tokens[0].value
+    const position = tokensToPosition(tokens)
     const {c = null} = tokensToCoordinates(tokens.slice(1, -1))
     const shape: Types.ToolShape | null =
       c !== null ? {type: Constants.CIRCLE, diameter: Number(c)} : null
 
     return shape
-      ? [{type: Tree.TOOL_DEFINITION, hole: null, shape, code}]
-      : [{type: Tree.TOOL_CHANGE, code}]
+      ? [{type: Tree.TOOL_DEFINITION, hole: null, position, shape, code}]
+      : [{type: Tree.TOOL_CHANGE, position, code}]
   },
 }
 
-const mode: GrammarRule = {
+const mode: SyntaxRule = {
   rules: [
     one([
       token(Lexer.G_CODE, '0'),
@@ -95,11 +104,15 @@ const mode: GrammarRule = {
     token(Lexer.NEWLINE),
   ],
   createNodes: tokens => [
-    {type: Tree.INTERPOLATE_MODE, mode: tokensToMode(tokens)},
+    {
+      type: Tree.INTERPOLATE_MODE,
+      position: tokensToPosition(tokens),
+      mode: tokensToMode(tokens),
+    },
   ],
 }
 
-const operation: GrammarRule = {
+const operation: SyntaxRule = {
   rules: [
     minToMax(0, 2, [
       token(Lexer.T_CODE),
@@ -114,22 +127,42 @@ const operation: GrammarRule = {
     token(Lexer.NEWLINE),
   ],
   createNodes: tokens => {
-    const coordinates = tokensToCoordinates(tokens)
-    const code = tokens
-      .filter(t => t.type === Lexer.T_CODE)
-      .reduce<string | null>((_, t) => t.value, null)
+    const graphicTokens = tokens.filter(
+      t => t.type === Lexer.COORD_CHAR || t.type === Lexer.NUMBER
+    )
+    const modeToken = tokens.find(t => t.type === Lexer.G_CODE)
+    const toolToken = tokens.find(t => t.type === Lexer.T_CODE)
+    const coordinates = tokensToCoordinates(graphicTokens)
+    const code = toolToken ? toolToken.value : null
     const mode = tokensToMode(tokens)
+
+    const graphicPosition = tokensToPosition(tokens, {
+      head: graphicTokens[0],
+      length: graphicTokens.length + 1,
+    })
+    const modePosition = tokensToPosition(tokens, {head: modeToken, length: 2})
+    const toolPosition = tokensToPosition(tokens, {head: toolToken, length: 2})
+
     const nodes: Tree.ChildNode[] = [
-      {type: Tree.GRAPHIC, graphic: null, coordinates},
+      {
+        type: Tree.GRAPHIC,
+        position: graphicPosition,
+        graphic: null,
+        coordinates,
+      },
     ]
 
-    if (mode) nodes.unshift({type: Tree.INTERPOLATE_MODE, mode})
-    if (code) nodes.unshift({type: Tree.TOOL_CHANGE, code})
+    if (mode) {
+      nodes.unshift({type: Tree.INTERPOLATE_MODE, position: modePosition, mode})
+    }
+    if (code) {
+      nodes.unshift({type: Tree.TOOL_CHANGE, position: toolPosition, code})
+    }
     return nodes
   },
 }
 
-const slot: GrammarRule = {
+const slot: SyntaxRule = {
   rules: [
     minToMax(2, 4, [token(Lexer.COORD_CHAR), token(Lexer.NUMBER)]),
     token(Lexer.G_CODE, '85'),
@@ -146,30 +179,43 @@ const slot: GrammarRule = {
     Object.keys(start).forEach(k => (coordinates[`${k}1`] = start[k]))
     Object.keys(end).forEach(k => (coordinates[`${k}2`] = end[k]))
 
-    return [{type: Tree.GRAPHIC, graphic: Constants.SLOT, coordinates}]
+    return [
+      {
+        type: Tree.GRAPHIC,
+        position: tokensToPosition(tokens),
+        graphic: Constants.SLOT,
+        coordinates,
+      },
+    ]
   },
 }
 
-const done: GrammarRule = {
+const done: SyntaxRule = {
   rules: [
     one([token(Lexer.M_CODE, '30'), token(Lexer.M_CODE, '0')]),
     token(Lexer.NEWLINE),
   ],
-  createNodes: () => [{type: Tree.DONE}],
+  createNodes: tokens => [
+    {type: Tree.DONE, position: tokensToPosition(tokens)},
+  ],
 }
 
-const comment: GrammarRule = {
+const comment: SyntaxRule = {
   rules: [
     token(Lexer.SEMICOLON),
     zeroOrMore([notToken(Lexer.NEWLINE)]),
     token(Lexer.NEWLINE),
   ],
   createNodes: tokens => [
-    {type: Tree.COMMENT, comment: tokensToString(tokens.slice(1, -1))},
+    {
+      type: Tree.COMMENT,
+      comment: tokensToString(tokens.slice(1, -1)),
+      position: tokensToPosition(tokens),
+    },
   ],
 }
 
-export const drillGrammar: Array<GrammarRule> = [
+export const drillSyntax: Array<SyntaxRule> = [
   tool,
   mode,
   operation,

@@ -4,7 +4,7 @@ import * as Constants from './constants'
 
 export type Filetype = typeof Constants.GERBER | typeof Constants.DRILL
 
-// formating options
+// formatting options
 
 export type UnitsType = typeof Constants.MM | typeof Constants.IN
 
@@ -52,7 +52,7 @@ export interface MacroShape {
   params: number[]
 }
 
-// macro shape types
+// macro shape and expression types
 
 export type MacroPrimitiveCode =
   | typeof Constants.MACRO_CIRCLE
@@ -63,8 +63,6 @@ export type MacroPrimitiveCode =
   | typeof Constants.MACRO_MOIRE
   | typeof Constants.MACRO_THERMAL
 
-// macro block types
-
 export interface MacroExpression {
   left: MacroValue
   right: MacroValue
@@ -72,25 +70,6 @@ export interface MacroExpression {
 }
 
 export type MacroValue = number | string | MacroExpression
-
-export type MacroBlock = MacroComment | MacroVariable | MacroPrimitive
-
-export interface MacroComment {
-  type: typeof Constants.MACRO_COMMENT
-  comment: string
-}
-
-export interface MacroVariable {
-  type: typeof Constants.MACRO_VARIABLE
-  name: string
-  value: MacroValue
-}
-
-export interface MacroPrimitive {
-  type: typeof Constants.MACRO_PRIMITIVE
-  code: MacroPrimitiveCode | string
-  modifiers: MacroValue[]
-}
 
 // graphic drawing types
 

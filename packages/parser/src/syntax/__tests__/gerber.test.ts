@@ -1,11 +1,15 @@
-// gerber grammar tests
+// gerber syntax tests
 import {expect} from 'chai'
 import {toArray} from 'lodash'
 
 import * as Lexer from '../../lexer'
 import * as Tree from '../../tree'
-import {token as t, simplifyToken} from '../../__tests__/helpers'
-import {grammar, matchGrammar, MatchState} from '..'
+import {
+  token as t,
+  position as pos,
+  simplifyToken,
+} from '../../__tests__/helpers'
+import {matchSyntax, MatchState} from '..'
 
 import {
   GERBER,
@@ -34,13 +38,23 @@ const SPECS: Array<{
     // gerber file end with M02
     source: 'M02*',
     expectedTokens: [t(Lexer.M_CODE, '2'), t(Lexer.ASTERISK, '*')],
-    expectedNodes: [{type: Tree.DONE}],
+    expectedNodes: [
+      {
+        type: Tree.DONE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+      },
+    ],
   },
   {
     // gerber file end with M00
     source: 'M00*',
     expectedTokens: [t(Lexer.M_CODE, '0'), t(Lexer.ASTERISK, '*')],
-    expectedNodes: [{type: Tree.DONE}],
+    expectedNodes: [
+      {
+        type: Tree.DONE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+      },
+    ],
   },
   {
     // gerber comment
@@ -53,13 +67,25 @@ const SPECS: Array<{
       t(Lexer.NUMBER, '123'),
       t(Lexer.ASTERISK, '*'),
     ],
-    expectedNodes: [{type: Tree.COMMENT, comment: 'foo 123'}],
+    expectedNodes: [
+      {
+        type: Tree.COMMENT,
+        position: pos([1, 1, 0], [1, 12, 11]),
+        comment: 'foo 123',
+      },
+    ],
   },
   {
     // tool change
     source: 'D123*',
     expectedTokens: [t(Lexer.D_CODE, '123'), t(Lexer.ASTERISK, '*')],
-    expectedNodes: [{type: Tree.TOOL_CHANGE, code: '123'}],
+    expectedNodes: [
+      {
+        type: Tree.TOOL_CHANGE,
+        position: pos([1, 1, 0], [1, 5, 4]),
+        code: '123',
+      },
+    ],
   },
   {
     // tool change with deprecated G54
@@ -69,7 +95,13 @@ const SPECS: Array<{
       t(Lexer.D_CODE, '456'),
       t(Lexer.ASTERISK, '*'),
     ],
-    expectedNodes: [{type: Tree.TOOL_CHANGE, code: '456'}],
+    expectedNodes: [
+      {
+        type: Tree.TOOL_CHANGE,
+        position: pos([1, 1, 0], [1, 8, 7]),
+        code: '456',
+      },
+    ],
   },
   {
     // operation with modal graphic type (deprecated)
@@ -84,6 +116,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.GRAPHIC,
+        position: pos([1, 1, 0], [1, 9, 8]),
         graphic: null,
         coordinates: {x: '001', y: '002'},
       },
@@ -103,6 +136,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.GRAPHIC,
+        position: pos([1, 1, 0], [1, 12, 11]),
         graphic: MOVE,
         coordinates: {x: '001', y: '002'},
       },
@@ -121,9 +155,14 @@ const SPECS: Array<{
       t(Lexer.ASTERISK, '*'),
     ],
     expectedNodes: [
-      {type: Tree.INTERPOLATE_MODE, mode: CCW_ARC},
+      {
+        type: Tree.INTERPOLATE_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        mode: CCW_ARC,
+      },
       {
         type: Tree.GRAPHIC,
+        position: pos([1, 4, 3], [1, 15, 14]),
         graphic: SEGMENT,
         coordinates: {x: '001', y: '002'},
       },
@@ -133,7 +172,14 @@ const SPECS: Array<{
     // shape operation with modal coordinates
     source: 'D03*',
     expectedTokens: [t(Lexer.D_CODE, '3'), t(Lexer.ASTERISK, '*')],
-    expectedNodes: [{type: Tree.GRAPHIC, graphic: SHAPE, coordinates: {}}],
+    expectedNodes: [
+      {
+        type: Tree.GRAPHIC,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        graphic: SHAPE,
+        coordinates: {},
+      },
+    ],
   },
   {
     // shape operation with modal coordinates and leading mode (deprecated)
@@ -144,51 +190,102 @@ const SPECS: Array<{
       t(Lexer.ASTERISK, '*'),
     ],
     expectedNodes: [
-      {type: Tree.INTERPOLATE_MODE, mode: LINE},
-      {type: Tree.GRAPHIC, graphic: SHAPE, coordinates: {}},
+      {
+        type: Tree.INTERPOLATE_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        mode: LINE,
+      },
+      {
+        type: Tree.GRAPHIC,
+        position: pos([1, 4, 3], [1, 7, 6]),
+        graphic: SHAPE,
+        coordinates: {},
+      },
     ],
   },
   {
     // linear interpolation mode
     source: 'G01*',
     expectedTokens: [t(Lexer.G_CODE, '1'), t(Lexer.ASTERISK, '*')],
-    expectedNodes: [{type: Tree.INTERPOLATE_MODE, mode: LINE}],
+    expectedNodes: [
+      {
+        type: Tree.INTERPOLATE_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        mode: LINE,
+      },
+    ],
   },
   {
     // clockwise arc interpolation mode
     source: 'G02*',
     expectedTokens: [t(Lexer.G_CODE, '2'), t(Lexer.ASTERISK, '*')],
-    expectedNodes: [{type: Tree.INTERPOLATE_MODE, mode: CW_ARC}],
+    expectedNodes: [
+      {
+        type: Tree.INTERPOLATE_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        mode: CW_ARC,
+      },
+    ],
   },
   {
     // counterclockwise arc interpolation mode
     source: 'G03*',
     expectedTokens: [t(Lexer.G_CODE, '3'), t(Lexer.ASTERISK, '*')],
-    expectedNodes: [{type: Tree.INTERPOLATE_MODE, mode: CCW_ARC}],
+    expectedNodes: [
+      {
+        type: Tree.INTERPOLATE_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        mode: CCW_ARC,
+      },
+    ],
   },
   {
     // region mode on
     source: 'G36*',
     expectedTokens: [t(Lexer.G_CODE, '36'), t(Lexer.ASTERISK, '*')],
-    expectedNodes: [{type: Tree.REGION_MODE, region: true}],
+    expectedNodes: [
+      {
+        type: Tree.REGION_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        region: true,
+      },
+    ],
   },
   {
     // region mode off
     source: 'G37*',
     expectedTokens: [t(Lexer.G_CODE, '37'), t(Lexer.ASTERISK, '*')],
-    expectedNodes: [{type: Tree.REGION_MODE, region: false}],
+    expectedNodes: [
+      {
+        type: Tree.REGION_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        region: false,
+      },
+    ],
   },
   {
     // single quadrant mode
     source: 'G74*',
     expectedTokens: [t(Lexer.G_CODE, '74'), t(Lexer.ASTERISK, '*')],
-    expectedNodes: [{type: Tree.QUADRANT_MODE, quadrant: SINGLE}],
+    expectedNodes: [
+      {
+        type: Tree.QUADRANT_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        quadrant: SINGLE,
+      },
+    ],
   },
   {
     // multi quadrant mode
     source: 'G75*',
     expectedTokens: [t(Lexer.G_CODE, '75'), t(Lexer.ASTERISK, '*')],
-    expectedNodes: [{type: Tree.QUADRANT_MODE, quadrant: MULTI}],
+    expectedNodes: [
+      {
+        type: Tree.QUADRANT_MODE,
+        position: pos([1, 1, 0], [1, 4, 3]),
+        quadrant: MULTI,
+      },
+    ],
   },
   {
     // inch mode
@@ -199,7 +296,13 @@ const SPECS: Array<{
       t(Lexer.ASTERISK, '*'),
       t(Lexer.PERCENT, '%'),
     ],
-    expectedNodes: [{type: Tree.UNITS, units: IN}],
+    expectedNodes: [
+      {
+        type: Tree.UNITS,
+        position: pos([1, 2, 1], [1, 6, 5]),
+        units: IN,
+      },
+    ],
   },
   {
     // millimeter mode
@@ -210,7 +313,13 @@ const SPECS: Array<{
       t(Lexer.ASTERISK, '*'),
       t(Lexer.PERCENT, '%'),
     ],
-    expectedNodes: [{type: Tree.UNITS, units: MM}],
+    expectedNodes: [
+      {
+        type: Tree.UNITS,
+        position: pos([1, 2, 1], [1, 6, 5]),
+        units: MM,
+      },
+    ],
   },
   {
     // gerber format leading, absolute
@@ -228,6 +337,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.COORDINATE_FORMAT,
+        position: pos([1, 2, 1], [1, 12, 11]),
         zeroSuppression: LEADING,
         mode: ABSOLUTE,
         format: [3, 4],
@@ -250,6 +360,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.COORDINATE_FORMAT,
+        position: pos([1, 2, 1], [1, 12, 11]),
         zeroSuppression: TRAILING,
         mode: INCREMENTAL,
         format: [4, 5],
@@ -276,6 +387,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.COORDINATE_FORMAT,
+        position: pos([1, 2, 1], [1, 17, 16]),
         zeroSuppression: null,
         mode: ABSOLUTE,
         format: [2, 2],
@@ -284,7 +396,7 @@ const SPECS: Array<{
   },
 ]
 
-describe('gerber grammar matches', () => {
+describe('gerber syntax matches', () => {
   SPECS.forEach(({source, expectedTokens, expectedNodes}) => {
     it(`should match on ${source.trim()}`, () => {
       const lexer = Lexer.createLexer()
@@ -292,15 +404,14 @@ describe('gerber grammar matches', () => {
 
       const actualTokens = toArray((lexer as unknown) as Array<Lexer.Token>)
       const {tokens, nodes, filetype} = actualTokens.reduce<MatchState>(
-        (state, token) => matchGrammar(state, token, grammar),
+        (state, token) => matchSyntax(state, token),
         null
       )
+      const simpleTokens = tokens.map(simplifyToken)
 
       expect(filetype).to.equal(GERBER)
       expect(nodes).to.eql(expectedNodes)
-      expect(tokens.map(simplifyToken)).to.eql(
-        expectedTokens.map(simplifyToken)
-      )
+      expect(simpleTokens).to.eql(expectedTokens.map(simplifyToken))
     })
   })
 })

@@ -4,7 +4,7 @@ import {toArray} from 'lodash'
 
 import * as Lexer from '../../lexer'
 import {token as t, simplifyToken} from '../../__tests__/helpers'
-import {grammar, matchGrammar, MatchState} from '..'
+import {matchSyntax, MatchState} from '..'
 
 const SPECS: Array<{
   source: string
@@ -22,7 +22,7 @@ const SPECS: Array<{
   },
 ]
 
-describe('drill grammar matches', () => {
+describe('syntax match blacklist', () => {
   SPECS.forEach(({source, expectedTokens}) => {
     it(`should match on ${source.trim()}`, () => {
       const lexer = Lexer.createLexer()
@@ -30,7 +30,7 @@ describe('drill grammar matches', () => {
 
       const actualTokens = toArray((lexer as unknown) as Array<Lexer.Token>)
       const matchState = actualTokens.reduce<MatchState>(
-        (state, token) => matchGrammar(state, token, grammar),
+        (state, token) => matchSyntax(state, token),
         null
       )
 

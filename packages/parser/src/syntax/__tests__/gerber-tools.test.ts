@@ -4,8 +4,12 @@ import {toArray} from 'lodash'
 
 import * as Lexer from '../../lexer'
 import * as Tree from '../../tree'
-import {token as t, simplifyToken} from '../../__tests__/helpers'
-import {grammar, matchGrammar, MatchState} from '..'
+import {
+  token as t,
+  position as pos,
+  simplifyToken,
+} from '../../__tests__/helpers'
+import {matchSyntax, MatchState} from '..'
 
 import {
   GERBER,
@@ -35,6 +39,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_DEFINITION,
+        position: pos([1, 2, 1], [1, 13, 12]),
         code: '10',
         shape: {type: CIRCLE, diameter: 0.025},
         hole: null,
@@ -57,6 +62,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_DEFINITION,
+        position: pos([1, 2, 1], [1, 17, 16]),
         code: '11',
         shape: {type: CIRCLE, diameter: 0.5},
         hole: {type: CIRCLE, diameter: 0.25},
@@ -81,6 +87,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_DEFINITION,
+        position: pos([1, 2, 1], [1, 15, 14]),
         code: '12',
         shape: {type: CIRCLE, diameter: 10},
         hole: {type: RECTANGLE, xSize: 5, ySize: 5},
@@ -103,6 +110,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_DEFINITION,
+        position: pos([1, 2, 1], [1, 16, 15]),
         code: '13',
         shape: {type: RECTANGLE, xSize: 0.5, ySize: 0.6},
         hole: null,
@@ -127,6 +135,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_DEFINITION,
+        position: pos([1, 2, 1], [1, 20, 19]),
         code: '14',
         shape: {type: RECTANGLE, xSize: 0.5, ySize: 0.6},
         hole: {type: CIRCLE, diameter: 0.2},
@@ -153,6 +162,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_DEFINITION,
+        position: pos([1, 2, 1], [1, 24, 23]),
         code: '15',
         shape: {type: RECTANGLE, xSize: 0.5, ySize: 0.6},
         hole: {type: RECTANGLE, xSize: 0.2, ySize: 0.1},
@@ -175,6 +185,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_DEFINITION,
+        position: pos([1, 2, 1], [1, 16, 15]),
         code: '16',
         shape: {type: OBROUND, xSize: 0.5, ySize: 0.6},
         hole: null,
@@ -199,6 +210,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_DEFINITION,
+        position: pos([1, 2, 1], [1, 20, 19]),
         code: '17',
         shape: {type: OBROUND, xSize: 0.5, ySize: 0.6},
         hole: {type: CIRCLE, diameter: 0.2},
@@ -225,6 +237,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_DEFINITION,
+        position: pos([1, 2, 1], [1, 24, 23]),
         code: '18',
         shape: {type: OBROUND, xSize: 0.5, ySize: 0.6},
         hole: {type: RECTANGLE, xSize: 0.2, ySize: 0.1},
@@ -247,6 +260,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_DEFINITION,
+        position: pos([1, 2, 1], [1, 14, 13]),
         code: '19',
         shape: {type: POLYGON, diameter: 1.5, vertices: 3, rotation: null},
         hole: null,
@@ -271,6 +285,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_DEFINITION,
+        position: pos([1, 2, 1], [1, 19, 18]),
         code: '20',
         shape: {type: POLYGON, diameter: 2.5, vertices: 4, rotation: 12.5},
         hole: null,
@@ -297,6 +312,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_DEFINITION,
+        position: pos([1, 2, 1], [1, 21, 20]),
         code: '21',
         shape: {type: POLYGON, diameter: 2.5, vertices: 4, rotation: 12.5},
         hole: {type: CIRCLE, diameter: 1},
@@ -325,6 +341,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_DEFINITION,
+        position: pos([1, 2, 1], [1, 25, 24]),
         code: '22',
         shape: {type: POLYGON, diameter: 2.5, vertices: 4, rotation: 12.5},
         hole: {type: RECTANGLE, xSize: 1, ySize: 1.5},
@@ -343,6 +360,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_DEFINITION,
+        position: pos([1, 2, 1], [1, 14, 13]),
         code: '23',
         shape: {type: MACRO_SHAPE, name: 'MyMacro', params: []},
         hole: null,
@@ -367,6 +385,7 @@ const SPECS: Array<{
     expectedNodes: [
       {
         type: Tree.TOOL_DEFINITION,
+        position: pos([1, 2, 1], [1, 26, 25]),
         code: '24',
         shape: {type: MACRO_SHAPE, name: 'MyMacro', params: [0.1, 0.2, 0.3]},
         hole: null,
@@ -375,7 +394,7 @@ const SPECS: Array<{
   },
 ]
 
-describe('gerber tool grammar matches', () => {
+describe('gerber tool syntax matches', () => {
   SPECS.forEach(({source, expectedTokens, expectedNodes}) => {
     it(`should match on ${source.trim()}`, () => {
       const lexer = Lexer.createLexer()
@@ -383,7 +402,7 @@ describe('gerber tool grammar matches', () => {
 
       const actualTokens = toArray((lexer as unknown) as Array<Lexer.Token>)
       const {tokens, nodes, filetype} = actualTokens.reduce<MatchState>(
-        (state, token) => matchGrammar(state, token, grammar),
+        (state, token) => matchSyntax(state, token),
         null
       )
 

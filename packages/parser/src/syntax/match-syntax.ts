@@ -1,6 +1,6 @@
 import {Token} from '../lexer'
 import {TokenRule, SINGLE_TOKEN, MIN_TO_MAX} from './rules'
-import {GrammarRule, MatchState} from './types'
+import {SyntaxRule, MatchState} from './types'
 
 const FULL_MATCH = 'FULL_MATCH'
 const PARTIAL_MATCH = 'PARTIAL_MATCH'
@@ -8,10 +8,16 @@ const NO_MATCH = 'NO_MATCH'
 
 type ListMatch = typeof FULL_MATCH | typeof PARTIAL_MATCH | typeof NO_MATCH
 
-export function matchGrammar<M>(
+export function createMatchSyntax<M>(
+  ...grammar: SyntaxRule<M>[]
+): (state: MatchState<M> | null, token: Token) => MatchState<M> {
+  return (state, token) => matchSyntax(state, token, grammar)
+}
+
+export function matchSyntax<M>(
   state: MatchState<M> | null,
   token: Token,
-  grammar: GrammarRule<M>[]
+  grammar: SyntaxRule<M>[]
 ): MatchState<M> {
   if (state === null) state = {candidates: grammar, tokens: []}
   const {candidates: prevCandidates} = state

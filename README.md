@@ -15,10 +15,12 @@ v5 checklist
 
 - [x] Written in TypeScript
 - New parser that generates [unist][] abstract syntax trees
-  - [x] Parses Gerber files
+  - [ ] Parses Gerber files
+    - TODO: step repeats
+    - TODO: layer polarity
   - [x] Parses drill files
-  - [ ] Streaming compatible
-  - [ ] Fully covered by tests
+  - [x] Streaming compatible
+  - [x] Fully covered by tests
   - [ ] Well documented
 - New plotter with an improved image description format that plots all layers of a board at the same time
   - [ ] Can plot any Gerber file
@@ -32,7 +34,7 @@ v5 checklist
   - [ ] Renders board views
   - [ ] Covered by tests
   - [ ] Documented
-- [ ] tracespace CLI to powered by new libraries
+- [ ] tracespace CLI powered by new libraries
 - [ ] tracespace view powered by new libraries
 
 very nice to have
