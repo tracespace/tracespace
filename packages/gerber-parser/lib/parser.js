@@ -73,10 +73,13 @@ Parser.prototype._transform = function(chunk, encoding, done) {
   chunk = this._stash + chunk
   this._stash = ''
 
-  this._process(chunk, filetype)
-
-  this._index = 0
-  done()
+  try {
+    this._process(chunk, filetype)
+    this._index = 0
+    done()
+  } catch (error) {
+    done(error)
+  }
 }
 
 Parser.prototype._flush = function(done) {
