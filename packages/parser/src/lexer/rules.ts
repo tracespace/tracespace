@@ -1,11 +1,17 @@
-import moo, {Rule} from 'moo'
+import * as Moo from 'moo'
 import * as Tokens from './tokens'
 
 export type Rules = {
-  [t in Tokens.TokenType]: RegExp | string | Array<string> | Rule | Array<Rule>
+  [t in Tokens.TokenType]:
+    | RegExp
+    | string
+    | Array<string>
+    | Moo.Rule
+    | Array<Moo.Rule>
 }
 
 const RE_STRIP_LEADING_ZEROS = /^0*/
+
 const getCodeValue = (text: string): string =>
   text.slice(1).replace(RE_STRIP_LEADING_ZEROS, '') || '0'
 
@@ -48,7 +54,7 @@ export const rules: Rules = {
     value: text => text.slice(3).replace(RE_STRIP_LEADING_ZEROS, ''),
   },
   [Tokens.GERBER_MACRO_VARIABLE]: /\$\d+/,
-  [Tokens.SEMICOLON]: /;/,
+  [Tokens.SEMICOLON]: ';',
   [Tokens.DRILL_UNITS]: /^(?:METRIC|INCH)/,
   [Tokens.DRILL_ZERO_INCLUSION]: {
     match: /,(?:TZ|LZ)/,
@@ -65,5 +71,5 @@ export const rules: Rules = {
     lineBreaks: true,
   },
   [Tokens.CATCHALL]: /[\S]/,
-  [Tokens.ERROR]: moo.error,
+  [Tokens.ERROR]: Moo.error,
 }

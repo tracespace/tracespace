@@ -4,9 +4,9 @@
 [![next][@tracespace/parser-next-badge]][npm-next]
 [![david][@tracespace/parser-david-badge]][david]
 
-> Gerber and drill file parser
+**Gerber and drill file parser**
 
-A parser for printed circuit board manufacturing files. Generates an abstract syntax tree for easy consumption.
+A parser for printed circuit board manufacturing files. Compiles [Gerber][gerber] and NC drill files into abstract syntax trees based on the [unist][] format.
 
 Part of the [tracespace][] collection of PCB visualization tools.
 

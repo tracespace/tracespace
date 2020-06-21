@@ -154,7 +154,7 @@ const toolDefinition: SyntaxRule = {
   ],
   createNodes: tokens => {
     let shape: Types.ToolShape
-    let hole: Types.HoleShape = null
+    let hole: Types.HoleShape | null = null
 
     const toolProps = tokens[1].value.match(/(\d+)(.+)/)
     const [, code = '', name = ''] = toolProps ?? []
