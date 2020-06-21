@@ -8,6 +8,9 @@ node_js:
   - 10
   - 8
 
+install:
+  - yarn --frozen-lockfile --ignore-engines
+
 script:
   - yarn test
   - yarn run coverage:upload

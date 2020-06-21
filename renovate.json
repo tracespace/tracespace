@@ -3,14 +3,14 @@
   "rangeStrategy": "bump",
   "packageRules": [
     {
-      "groupName": "dependencies",
-      "depTypeList": ["dependencies"],
-      "separateMajorMinor": true
-    },
-    {
       "groupName": "devDependencies",
       "depTypeList": ["devDependencies"],
       "separateMajorMinor": false
+    },
+    {
+      "groupName": "dependencies",
+      "depTypeList": ["dependencies"],
+      "separateMajorMinor": true
     },
     {
       "groupName": "peerDependencies and engines",
@@ -22,6 +22,5 @@
       "packagePatterns": ["^@types/"],
       "separateMajorMinor": false
     }
-  ],
-  "ignoreDeps": ["cz-conventional-changelog", "file-loader", "globby", "semver"]
+  ]
 }
