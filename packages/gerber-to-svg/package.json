@@ -45,7 +45,7 @@
     "gerber-plotter": "^4.2.1",
     "inherits": "^2.0.4",
     "lodash.isfinite": "^3.3.2",
-    "readable-stream": "^3.4.0",
+    "readable-stream": "^3.6.0",
     "xml-element-string": "^1.0.0"
   }
 }
