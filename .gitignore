@@ -2,11 +2,16 @@ node_modules
 coverage
 .nyc_output
 
+# build intermediates
+*.tsbuildinfo
+
 # artifacts
 bundle.*
 **/dist
 */**/LICENSE
 **/*.tgz
+**/lib/**/*.d.ts
 
-# system files
+# system and editor files
 .DS_Store
+.vscode

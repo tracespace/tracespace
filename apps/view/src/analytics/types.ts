@@ -36,7 +36,7 @@ export type AppOpenedAnalyticsPayload = {
 export type AnalyticsEvent =
   | ['appOpened', AppOpenedAnalyticsPayload]
   | ['createBoardRequest', CreateBoardAnalyticsPayload]
-  | ['getBoardRequest', {}]
+  | ['getBoardRequest', Record<string, never>]
   | ['boardRendered', BoardRenderAnalyticsPayload]
   | ['boardUpdated', BoardRenderAnalyticsPayload]
   | ['boardDeleted', BoardRenderAnalyticsPayload]

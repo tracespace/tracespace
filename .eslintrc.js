@@ -50,7 +50,10 @@ module.exports = {
         'no-redeclare': 'off',
         'no-useless-constructor': 'off',
         'import/export': 'off',
-        '@typescript-eslint/ban-ts-ignore': 'warn',
+        '@typescript-eslint/ban-ts-comment': [
+          'error',
+          {'ts-expect-error': false},
+        ],
         '@typescript-eslint/camelcase': 'off',
         '@typescript-eslint/explicit-member-accessibility': 'off',
         '@typescript-eslint/explicit-function-return-type': [

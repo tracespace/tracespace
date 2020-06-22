@@ -23,7 +23,7 @@ declare namespace gerberToSvg {
 
   function render<NodeType = string>(
     converter: ConverterResult<NodeType>,
-    attributes: object | string,
+    attributes: Record<string, unknown> | string,
     createElement?: CreateElement<NodeType>,
     objectMode?: ObjectMode<NodeType>
   ): NodeType
@@ -37,7 +37,11 @@ declare namespace gerberToSvg {
     : true
 
   interface CreateElement<NodeType = string> {
-    (tag: string, attributes: object, children: Array<NodeType>): NodeType
+    (
+      tag: string,
+      attributes: Record<string, unknown>,
+      children: Array<NodeType>
+    ): NodeType
   }
 
   interface Converter<NodeType = string>
@@ -49,7 +53,7 @@ declare namespace gerberToSvg {
 
   interface ConverterResult<NodeType = string> {
     id: string
-    attributes: object
+    attributes: Record<string, unknown>
     defs: Array<NodeType>
     layer: Array<NodeType>
     viewBox: Array<number>
@@ -60,7 +64,7 @@ declare namespace gerberToSvg {
 
   interface Options<NodeType = string> extends ParserOptions, PlotterOptions {
     id?: string
-    attributes?: object
+    attributes?: Record<string, unknown>
     createElement?: CreateElement<NodeType>
     objectMode?: ObjectMode<NodeType>
   }
