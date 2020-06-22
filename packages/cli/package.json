@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "common-prefix": "^1.1.0",
-    "cosmiconfig": "^5.2.1",
+    "cosmiconfig": "^6.0.0",
     "debug": "^4.1.1",
     "dot-prop": "^5.1.0",
     "gerber-to-svg": "^4.2.1",

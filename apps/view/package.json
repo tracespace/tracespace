@@ -49,7 +49,7 @@
     "dexie": "3.0.0-alpha.8",
     "file-saver": "^2.0.2",
     "filereader-stream": "^2.0.0",
-    "formik": "^1.5.8",
+    "formik": "^2.1.4",
     "gerber-parser": "^4.2.1",
     "gerber-plotter": "^4.2.1",
     "gerber-to-svg": "^4.2.1",
