@@ -3,8 +3,9 @@
   "references": [],
   "compilerOptions": {
     "composite": true,
-    "noEmit": true,
-    "rootDir": "src"
+    "emitDeclarationOnly": true,
+    "rootDir": "src",
+    "outDir": "lib"
   },
   "include": ["typings", "src"]
 }

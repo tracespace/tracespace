@@ -22,7 +22,9 @@ declare namespace whatsThatGerber {
   const SIDE_INNER = 'inner'
   const SIDE_ALL = 'all'
 
-  function validate(target: object): GerberProps & {valid: boolean}
+  function validate(
+    target: Record<string, unknown>
+  ): GerberProps & {valid: boolean}
 
   function getAllLayers(): Array<GerberProps>
 

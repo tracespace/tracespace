@@ -13,7 +13,7 @@ type Spec = {
 
 const MockFile = (name: string, type: string = ''): File => {
   const file = {name, type, size: 0, lastModified: 0, slice: () => file}
-  return file
+  return (file as unknown) as File
 }
 
 describe('create analytics event', () => {
