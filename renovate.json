@@ -22,5 +22,6 @@
       "packagePatterns": ["^@types/"],
       "separateMajorMinor": false
     }
-  ]
+  ],
+  "ignoreDeps": ["mocha", "prettier"]
 }
