@@ -22,7 +22,7 @@ const SPECS: Array<{
   },
 ]
 
-describe('syntax match blacklist', () => {
+describe('syntax match non-match list', () => {
   SPECS.forEach(({source, expectedTokens}) => {
     it(`should match on ${source.trim()}`, () => {
       const lexer = Lexer.createLexer()

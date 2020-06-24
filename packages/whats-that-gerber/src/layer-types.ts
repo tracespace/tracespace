@@ -25,7 +25,7 @@ import {
 import {LayerType} from './types'
 
 export const layerTypes: LayerType[] = [
-  // high-priority blacklist
+  // high-priority non-matches
   {
     type: null,
     side: null,
