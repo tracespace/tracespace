@@ -26,7 +26,7 @@ type SimpleParserShape =
 
 export function plotShape(
   toolShape: SimpleParserShape,
-  holeShape: Parser.HoleShape,
+  holeShape: Parser.HoleShape | null,
   position: Position
 ): SimpleShape {
   const [x, y] = position
@@ -79,7 +79,10 @@ export function plotShape(
   }
 }
 
-function plotHole(holeShape: Parser.HoleShape, position: Position): HoleShape {
+function plotHole(
+  holeShape: Parser.HoleShape | null,
+  position: Position
+): HoleShape {
   if (holeShape === null) return null
   const hole = plotShape(holeShape, null, position)
   return hole.type === CIRCLE || hole.type === RECTANGLE ? hole : null

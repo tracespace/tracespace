@@ -3,7 +3,7 @@ import builtins from 'builtin-modules'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import replace from '@rollup/plugin-replace'
-import babel from 'rollup-plugin-babel'
+import babel from '@rollup/plugin-babel'
 import {terser} from 'rollup-plugin-terser'
 import {camelCase, upperFirst} from 'lodash'
 
@@ -29,6 +29,7 @@ const makeCommonJsPlugin = () => commonjs()
 const makeBabelPlugin = () =>
   babel({
     root: resolveFromRoot(),
+    babelHelpers: 'bundled',
     configFile: resolveFromRoot('config/babel.js'),
     exclude: '**/node_modules/**',
     extensions: ['.ts'],

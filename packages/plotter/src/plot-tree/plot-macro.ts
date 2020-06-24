@@ -19,7 +19,7 @@ export function plotMacro(
   )
   const shapes: Nodes.Shape[] = []
 
-  macro.blocks.forEach(block => {
+  macro.children.forEach(block => {
     if (block.type === Parser.MACRO_VARIABLE) {
       paramMap[block.name] = solveExpression(block.value, paramMap)
     } else if (block.type === Parser.MACRO_PRIMITIVE) {

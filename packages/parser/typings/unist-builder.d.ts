@@ -8,11 +8,11 @@ declare module 'unist-builder' {
 
   function unistBuilder(
     type: string,
-    params: {},
+    params: Record<string, unknown>,
     children: Array<Child>
   ): Parent
   function unistBuilder(type: string, children: Array<Child>): Parent
-  function unistBuilder(type: string, params: {}): Node
+  function unistBuilder(type: string, params: Record<string, unknown>): Node
   function unistBuilder(type: string): Node
 
   export = unistBuilder

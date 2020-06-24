@@ -2,12 +2,11 @@
 import React from 'react'
 import './styles'
 
-// @ts-ignore: https://github.com/microsoft/TypeScript/issues/33752
 Promise.all([
   import('react-dom'),
   import('./App'),
   import('./state/StoreProvider'),
-]).then((imports: any) => {
+]).then(imports => {
   const [
     {default: ReactDom},
     {default: App},

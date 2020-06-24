@@ -82,7 +82,7 @@ async function zipReader(file: Blob): PromiseArray<FileStream> {
       Object.keys(zip.files)
         .filter(name => !zip.files[name].dir)
         .map(name =>
-          pump<FileStream>(zip.file(name).nodeStream(), new FileStream(name))
+          pump<FileStream>(zip.files[name].nodeStream(), new FileStream(name))
         )
     )
 }

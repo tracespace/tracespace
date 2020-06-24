@@ -3,23 +3,21 @@
 // Definitions by: Mike Cousins <https://mike.cousins.io>
 
 declare module 'unist-util-visit-parents' {
-  import {Node, Parent} from 'unist'
-
-  function unistUtilVisitParents<Root extends Node, Child extends Node>(
+  function unistUtilVisitParents<Parent, Child = Parent>(
     node: Parent,
     filter: string,
-    handler: (child: Child, ancestors: Root[]) => unknown
+    handler: (child: Child, ancestors: Parent[]) => unknown
   ): void
 
-  function unistUtilVisitParents<Root extends Node, Child extends Node>(
+  function unistUtilVisitParents<Parent, Child = Parent>(
     node: Parent,
-    filter: (node: Root) => boolean,
-    handler: (child: Child, ancestors: Root[]) => unknown
+    filter: (node: Parent) => boolean,
+    handler: (child: Child, ancestors: Parent[]) => unknown
   ): void
 
-  function unistUtilVisitParents<Root extends Node, Child extends Node>(
-    node: Root,
-    handler: (child: Child, ancestors: Root[]) => unknown
+  function unistUtilVisitParents<Parent, Child = Parent>(
+    node: Parent,
+    handler: (child: Child, ancestors: Parent[]) => unknown
   ): void
 
   export = unistUtilVisitParents

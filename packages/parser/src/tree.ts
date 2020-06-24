@@ -1,4 +1,4 @@
-import { Position } from 'unist'
+import {Position} from 'unist'
 
 import * as Types from './types'
 

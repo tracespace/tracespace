@@ -1,7 +1,5 @@
 // gerber and drill file lexer + tokenizer
-'use strict'
-
-import * as Moo from 'moo'
+import Moo from 'moo'
 import {Token} from './tokens'
 import {rules} from './rules'
 

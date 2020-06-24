@@ -12,5 +12,5 @@ esm
 
 # prettier ignore
 CHANGELOG.md
-**/package.json
+package.json
 .vscode

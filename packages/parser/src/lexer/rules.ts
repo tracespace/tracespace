@@ -1,4 +1,4 @@
-import * as Moo from 'moo'
+import Moo from 'moo'
 import * as Tokens from './tokens'
 
 export type Rules = {

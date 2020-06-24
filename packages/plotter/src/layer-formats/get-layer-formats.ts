@@ -75,7 +75,7 @@ export function inferCoordinateFormat(layer: InputLayer): Parser.Format | null {
   let result: Parser.Format | null = null
 
   if (layer.tree.filetype === Parser.DRILL) {
-    unistVisit<Parser.Node, Parser.Comment>(
+    unistVisit<Parser.Root | Parser.Node, Parser.Comment>(
       layer.tree,
       filterDrillFormatHint,
       commentNode => {

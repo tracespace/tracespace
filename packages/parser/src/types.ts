@@ -117,7 +117,7 @@ export type MacroValue = number | string | MacroExpression
 
 // graphic drawing types
 
-export type Coordinates = { [axis: string]: string }
+export type Coordinates = {[axis: string]: string}
 
 export type GraphicType =
   | typeof Constants.SHAPE

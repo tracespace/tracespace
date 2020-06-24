@@ -1,6 +1,6 @@
 {
   "name": "@tracespace/config",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "private": true,
   "description": "Development config for tracespace/tracespace",
   "author": {

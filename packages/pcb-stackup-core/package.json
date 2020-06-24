@@ -1,6 +1,6 @@
 {
   "name": "pcb-stackup-core",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "Layer stacking core logic for pcb-stackup",
   "main": "index.js",
   "types": "index.d.ts",
@@ -37,7 +37,7 @@
     "@tracespace/xml-id": "^4.0.0",
     "@types/node": "^13.1.6",
     "color-string": "^1.5.3",
-    "gerber-to-svg": "^4.2.0",
+    "gerber-to-svg": "^4.2.1",
     "viewbox": "^1.0.0",
     "whats-that-gerber": "^4.2.0",
     "xml-element-string": "^1.0.0",

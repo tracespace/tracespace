@@ -106,7 +106,7 @@ var customCreateElement = function(tagName, attributes, children) {
 
 These options are available in case you have an older or poorly formatted file that does not contain the necessary format information and does not conform to the assumptions this library makes in the absence of that information. Some knowledge of the Gerber and Excellon formats are helpful when trying to understand these options.
 
-For more information, please reference the API documentation of [gerber-parser](https://github.com/mcous/gerber-parser/blob/master/API.md) and [gerber-plotter](https://github.com/mcous/gerber-plotter/blob/master/API.md), as these options are passed directly to these modules.
+For more information, please reference the API documentation of [gerber-parser](../gerber-parser) and [gerber-plotter](../gerber-plotter), as these options are passed directly to these modules.
 
 | key           | description                                                                            |
 | ------------- | -------------------------------------------------------------------------------------- |

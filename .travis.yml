@@ -7,6 +7,9 @@ node_js:
   - 12
   - 10
 
+install:
+  - yarn --frozen-lockfile --ignore-engines
+
 script:
   - yarn run test
   - yarn run coverage:upload
@@ -39,7 +42,7 @@ jobs:
       script: yarn run build:all
 
     - # build and publish
-      if: tag =~ ^v OR (branch = master AND type != pull_request)
+      if: tag =~ ^v OR (branch = main AND type != pull_request)
       stage: deploy
       name: Deploy to npm and s3
       script: yarn run build:all
@@ -49,7 +52,7 @@ jobs:
         - export NPM_TAG=$(node scripts/get-npm-tag.js $TRAVIS_TAG)
         # set s3 deploy parameters
         - |
-          if [ $TRAVIS_BRANCH = master ]; then
+          if [ $TRAVIS_BRANCH = main ]; then
             export MIXPANEL_ID=$MIXPANEL_ID_STAGING
             export AWS_S3_BUCKET=$AWS_S3_BUCKET_STAGING
           else
@@ -58,7 +61,7 @@ jobs:
           fi
 
       deploy:
-        - # s3 publish on master (staging) and tagged commits (production)
+        - # s3 publish on main (staging) and tagged commits (production)
           <<: *_deploy_base
           script: yarn run publish:s3
 

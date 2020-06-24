@@ -46,7 +46,11 @@ module.exports = {
       rules: {
         // TODO(mc, 2019-10-07): remove this rule override with switch to worker-plugin
         'no-useless-constructor': 'off',
-        '@typescript-eslint/ban-ts-ignore': 'warn',
+        'import/export': 'off',
+        '@typescript-eslint/ban-ts-comment': [
+          'error',
+          {'ts-expect-error': false},
+        ],
         '@typescript-eslint/camelcase': 'off',
         '@typescript-eslint/explicit-member-accessibility': 'off',
         '@typescript-eslint/explicit-function-return-type': [
