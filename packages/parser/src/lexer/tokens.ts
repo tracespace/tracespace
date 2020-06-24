@@ -99,6 +99,13 @@ export const GERBER_TOOL_DEF = 'GERBER_TOOL_DEF'
 export const GERBER_LOAD_POLARITY = 'GERBER_LOAD_POLARITY'
 
 /**
+ * Gerber step repear token type
+ *
+ * @category Lexer
+ */
+export const GERBER_STEP_REPEAT = 'GERBER_STEP_REPEAT'
+
+/**
  * Gerber macro variable token type
  *
  * @category Lexer
@@ -195,6 +202,7 @@ export type TokenType =
   | typeof GERBER_TOOL_MACRO
   | typeof GERBER_TOOL_DEF
   | typeof GERBER_LOAD_POLARITY
+  | typeof GERBER_STEP_REPEAT
   | typeof GERBER_MACRO_VARIABLE
   | typeof SEMICOLON
   | typeof DRILL_UNITS

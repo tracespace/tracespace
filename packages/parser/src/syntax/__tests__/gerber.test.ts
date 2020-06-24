@@ -430,6 +430,48 @@ const SPECS: Array<{
       },
     ],
   },
+  {
+    // empty step repeat
+    source: '%SR*%',
+    expectedTokens: [
+      t(Lexer.PERCENT, '%'),
+      t(Lexer.GERBER_STEP_REPEAT, 'SR'),
+      t(Lexer.ASTERISK, '*'),
+      t(Lexer.PERCENT, '%'),
+    ],
+    expectedNodes: [
+      {
+        type: Tree.STEP_REPEAT,
+        position: pos([1, 2, 1], [1, 4, 3]),
+        stepRepeat: {},
+      },
+    ],
+  },
+  {
+    // full step repeat
+    source: '%SRX2Y3I4J5*%',
+    expectedTokens: [
+      t(Lexer.PERCENT, '%'),
+      t(Lexer.GERBER_STEP_REPEAT, 'SR'),
+      t(Lexer.COORD_CHAR, 'X'),
+      t(Lexer.NUMBER, '2'),
+      t(Lexer.COORD_CHAR, 'Y'),
+      t(Lexer.NUMBER, '3'),
+      t(Lexer.COORD_CHAR, 'I'),
+      t(Lexer.NUMBER, '4'),
+      t(Lexer.COORD_CHAR, 'J'),
+      t(Lexer.NUMBER, '5'),
+      t(Lexer.ASTERISK, '*'),
+      t(Lexer.PERCENT, '%'),
+    ],
+    expectedNodes: [
+      {
+        type: Tree.STEP_REPEAT,
+        position: pos([1, 2, 1], [1, 12, 11]),
+        stepRepeat: {x: 2, y: 3, i: 4, j: 5},
+      },
+    ],
+  },
 ]
 
 describe('gerber syntax matches', () => {

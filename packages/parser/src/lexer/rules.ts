@@ -62,6 +62,7 @@ export const rules: Rules = {
     match: /LP[DC]/,
     value: (text: string): string => text.slice(2),
   },
+  [Tokens.GERBER_STEP_REPEAT]: 'SR',
   [Tokens.GERBER_MACRO_VARIABLE]: /\$\d+/,
   [Tokens.SEMICOLON]: ';',
   [Tokens.DRILL_UNITS]: /^(?:METRIC|INCH)/,

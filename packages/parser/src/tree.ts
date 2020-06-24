@@ -66,6 +66,13 @@ export const TOOL_CHANGE = 'toolChange'
 export const LOAD_POLARITY = 'loadPolarity'
 
 /**
+ * {@linkcode StepRepeat} node type
+ *
+ * @category Node
+ */
+export const STEP_REPEAT = 'stepRepeat'
+
+/**
  * {@linkcode Graphic} node type
  *
  * @category Node
@@ -148,6 +155,7 @@ export type ChildNode =
   | RegionMode
   | QuadrantMode
   | LoadPolarity
+  | StepRepeat
   | Graphic
 
 /**
@@ -388,8 +396,23 @@ export interface ToolChange extends BaseNode {
 export interface LoadPolarity extends BaseNode {
   /** Node type */
   type: typeof LOAD_POLARITY
-  /** Tool identifier */
+  /** Polarity */
   polarity: Types.Polarity
+}
+
+/**
+ * A `StepRepeat` node starts or ends a step repeat block.
+ *
+ * See the {@link https://www.ucamco.com/gerber | Gerber file specification}
+ * for an in-depth description of step repeat blocks.
+ *
+ * @category Node
+ */
+export interface StepRepeat extends BaseNode {
+  /** Node type */
+  type: typeof STEP_REPEAT
+  /** Step repeat parameters */
+  stepRepeat: Types.StepRepeatParameters
 }
 
 /**

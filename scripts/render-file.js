@@ -1,3 +1,4 @@
+// temporary testing script
 'use strict'
 
 const assert = require('assert')

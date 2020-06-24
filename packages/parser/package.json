@@ -1,6 +1,9 @@
 {
   "name": "@tracespace/parser",
   "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "4.2.0",
   "description": "Gerber and drill file parser",
   "source": "src/index.ts",

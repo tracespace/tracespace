@@ -145,6 +145,13 @@ export interface Coordinates {
 }
 
 /**
+ * Paramters of a step repeat
+ */
+export interface StepRepeatParameters {
+  [axis: string]: number
+}
+
+/**
  * Valid graphical operation types
  */
 export type GraphicType =

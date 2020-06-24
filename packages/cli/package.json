@@ -1,5 +1,6 @@
 {
   "name": "@tracespace/cli",
+  "private": true,
   "publishConfig": {
     "access": "public"
   },

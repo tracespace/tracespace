@@ -321,6 +321,31 @@ const loadPolarity: SyntaxRule = {
   ],
 }
 
+const stepRepeat: SyntaxRule = {
+  rules: [
+    token(Lexer.PERCENT),
+    token(Lexer.GERBER_STEP_REPEAT),
+    zeroOrMore([token(Lexer.COORD_CHAR), token(Lexer.NUMBER)]),
+    token(Lexer.ASTERISK),
+    token(Lexer.PERCENT),
+  ],
+  createNodes: tokens => {
+    const coordinates = tokensToCoordinates(tokens)
+    const params = Object.keys(coordinates).reduce((res, axis) => {
+      res[axis] = Number(coordinates[axis])
+      return res
+    }, {} as Types.StepRepeatParameters)
+
+    return [
+      {
+        type: Tree.STEP_REPEAT,
+        position: tokensToPosition(tokens.slice(1, -1)),
+        stepRepeat: params,
+      },
+    ]
+  },
+}
+
 export const gerberSyntax: Array<SyntaxRule> = [
   operation,
   operationWithoutCoords,
@@ -332,6 +357,7 @@ export const gerberSyntax: Array<SyntaxRule> = [
   regionMode,
   quadrantMode,
   loadPolarity,
+  stepRepeat,
   format,
   units,
   done,

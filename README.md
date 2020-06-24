@@ -15,8 +15,7 @@ v5 checklist
 
 - [x] Written in TypeScript
 - New parser that generates [unist][] abstract syntax trees
-  - [ ] Parses Gerber files
-    - TODO: step repeats
+  - [x] Parses Gerber files to the same level as gerber-parser
   - [x] Parses drill files
   - [x] Streaming compatible
   - [x] Fully covered by tests
