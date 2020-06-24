@@ -101,6 +101,13 @@ export const REGION_MODE = 'regionMode'
 export const QUADRANT_MODE = 'quadrantMode'
 
 /**
+ * {@linkcode Unimplemented} node type
+ *
+ * @category Node
+ */
+export const UNIMPLEMENTED = 'unimplemented'
+
+/**
  * {@linkcode MacroComment} node type
  *
  * @category Macro
@@ -157,6 +164,7 @@ export type ChildNode =
   | LoadPolarity
   | StepRepeat
   | Graphic
+  | Unimplemented
 
 /**
  * Child of a {@linkcode ToolMacro} node
@@ -494,4 +502,23 @@ export interface RegionMode extends BaseNode {
 export interface QuadrantMode extends BaseNode {
   type: typeof QUADRANT_MODE
   quadrant: Types.QuadrantModeType
+}
+
+/**
+ * An `Unimplemented` node is a chunk that the parser recognizes as part of a
+ * Gerber file, but that it doesn't know how to process. These Nodes may be
+ * implemented in a future minor release of the parser and should be used with
+ * caution.
+ *
+ * Most unimplemented nodes will either be deprecated commands or valid
+ * commands in the {@link https://www.ucamco.com/gerber | Gerber specification}
+ * that we don't yet support.
+ *
+ * @category Node
+ */
+export interface Unimplemented extends BaseNode {
+  /** Node type */
+  type: typeof UNIMPLEMENTED
+  /** String value of chunk */
+  value: string
 }

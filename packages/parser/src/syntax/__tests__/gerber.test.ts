@@ -472,6 +472,26 @@ const SPECS: Array<{
       },
     ],
   },
+  {
+    // deprecated / unknown extended commands
+    source: '%OFA0B0*%',
+    expectedTokens: [
+      t(Lexer.PERCENT, '%'),
+      t(Lexer.WORD, 'OFA'),
+      t(Lexer.NUMBER, '0'),
+      t(Lexer.COORD_CHAR, 'B'),
+      t(Lexer.NUMBER, '0'),
+      t(Lexer.ASTERISK, '*'),
+      t(Lexer.PERCENT, '%'),
+    ],
+    expectedNodes: [
+      {
+        type: Tree.UNIMPLEMENTED,
+        position: pos([1, 2, 1], [1, 8, 7]),
+        value: '%OFA0B0*%',
+      },
+    ],
+  },
 ]
 
 describe('gerber syntax matches', () => {

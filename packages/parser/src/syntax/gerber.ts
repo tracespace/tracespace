@@ -346,6 +346,22 @@ const stepRepeat: SyntaxRule = {
   },
 }
 
+const unimplementedExtendedCommand: SyntaxRule = {
+  rules: [
+    token(Lexer.PERCENT),
+    zeroOrMore([notToken(Lexer.ASTERISK)]),
+    token(Lexer.ASTERISK),
+    token(Lexer.PERCENT),
+  ],
+  createNodes: tokens => [
+    {
+      type: Tree.UNIMPLEMENTED,
+      position: tokensToPosition(tokens.slice(1, -1)),
+      value: tokensToString(tokens),
+    },
+  ],
+}
+
 export const gerberSyntax: Array<SyntaxRule> = [
   operation,
   operationWithoutCoords,
@@ -361,4 +377,5 @@ export const gerberSyntax: Array<SyntaxRule> = [
   format,
   units,
   done,
+  unimplementedExtendedCommand,
 ].map(r => ({...r, filetype: Constants.GERBER}))

@@ -20,8 +20,6 @@ Part of the [tracespace][] collection of PCB visualization tools.
 
 ## usage
 
-See [the api section](#api) below for more details.
-
 ```js
 import {createParser} from '@tracespace/parser'
 // commonjs is cool, too
@@ -40,7 +38,7 @@ If you're not using a bundler and you want to try out the parser in a browser, y
 <script src="https://unpkg.com/@tracespace/parser"></script>
 <script>
   // global variable TracespaceParser now available
-  var parser = TracespaceParser.createParser()
+  const parser = TracespaceParser.createParser()
 </script>
 ```
 
@@ -49,36 +47,31 @@ If you're not using a bundler and you want to try out the parser in a browser, y
 The parser is stateful, and can be fed multiple times. This means it can be used in a streaming environment. For example, you could read from a `ReadableStream` and return a Promise with the AST when the stream is done:
 
 ```js
-function parseGerberStream(stream) {
+function parseGerberStream(inputStream) {
   const parser = createParser()
+  const handleData = data => parser.feed(data)
+
+  inputStream.on('data', handleData)
 
   return new Promise((resolve, reject) => {
-    const handleReadable = () => {
-      let data
-      while ((data = stream.read())) {
-        parser.feed(data)
-      }
-    }
+    inputStream.once('error', handleError)
+    inputStream.once('end', handleEnd)
 
-    const handleEnd = () => {
+    function handleEnd() {
       cleanup()
       resolve(parser.results())
     }
 
-    const handleError = error => {
+    function handleError(error) {
       cleanup()
       reject(error)
     }
 
-    const cleanup = () => {
-      stream.removeListener('readable', handleReadable)
-      stream.removeListener('end', handleEnd)
-      stream.removeListener('error', handleError)
+    function cleanup() {
+      inputStream.off('data', handleData)
+      inputStream.off('end', handleEnd)
+      inputStream.off('error', handleError)
     }
-
-    stream.on('error', handleError)
-    stream.on('end', handleEnd)
-    stream.on('readable', handleReadable)
   })
 }
 ```
