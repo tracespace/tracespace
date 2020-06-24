@@ -12,8 +12,13 @@ export type Rules = {
 
 const RE_STRIP_LEADING_ZEROS = /^0*/
 
-const getCodeValue = (text: string): string =>
-  text.slice(1).replace(RE_STRIP_LEADING_ZEROS, '') || '0'
+const stripLeadingZeros = (text: string): string => {
+  return text.replace(RE_STRIP_LEADING_ZEROS, '')
+}
+
+const getCodeValue = (text: string): string => {
+  return stripLeadingZeros(text.slice(1)) || '0'
+}
 
 export const rules: Rules = {
   [Tokens.T_CODE]: {
@@ -37,28 +42,32 @@ export const rules: Rules = {
   [Tokens.EQUALS]: '=',
   [Tokens.GERBER_FORMAT]: {
     match: /FS[LTDAI]+/,
-    value: text => text.slice(2),
+    value: (text: string): string => text.slice(2),
   },
   [Tokens.GERBER_UNITS]: {
     match: /MO(?:IN|MM)/,
-    value: text => text.slice(2),
+    value: (text: string): string => text.slice(2),
   },
   [Tokens.GERBER_TOOL_MACRO]: {
     // "-" in a tool name is illegal, but some gerber writers misbehave
     // https://github.com/mcous/gerber-parser/pull/13
     match: /AM[a-zA-Z_.$][\w.-]*/,
-    value: text => text.slice(2),
+    value: (text: string): string => text.slice(2),
   },
   [Tokens.GERBER_TOOL_DEF]: {
     match: /ADD\d+[a-zA-Z_.$][\w.-]*/,
-    value: text => text.slice(3).replace(RE_STRIP_LEADING_ZEROS, ''),
+    value: (text: string): string => stripLeadingZeros(text.slice(3)),
+  },
+  [Tokens.GERBER_LOAD_POLARITY]: {
+    match: /LP[DC]/,
+    value: (text: string): string => text.slice(2),
   },
   [Tokens.GERBER_MACRO_VARIABLE]: /\$\d+/,
   [Tokens.SEMICOLON]: ';',
   [Tokens.DRILL_UNITS]: /^(?:METRIC|INCH)/,
   [Tokens.DRILL_ZERO_INCLUSION]: {
     match: /,(?:TZ|LZ)/,
-    value: text => text.slice(1),
+    value: (text: string): string => text.slice(1),
   },
   [Tokens.COORD_CHAR]: /[XYIJACFSBHZN]/,
   [Tokens.NUMBER]: /(?:[+-])?[\d.]+/,

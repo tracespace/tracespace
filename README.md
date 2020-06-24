@@ -17,7 +17,6 @@ v5 checklist
 - New parser that generates [unist][] abstract syntax trees
   - [ ] Parses Gerber files
     - TODO: step repeats
-    - TODO: layer polarity
   - [x] Parses drill files
   - [x] Streaming compatible
   - [x] Fully covered by tests

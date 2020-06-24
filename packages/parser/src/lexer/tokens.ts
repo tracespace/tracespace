@@ -92,6 +92,13 @@ export const GERBER_TOOL_MACRO = 'GERBER_TOOL_MACRO'
 export const GERBER_TOOL_DEF = 'GERBER_TOOL_DEF'
 
 /**
+ * Gerber load polarity token type
+ *
+ * @category Lexer
+ */
+export const GERBER_LOAD_POLARITY = 'GERBER_LOAD_POLARITY'
+
+/**
  * Gerber macro variable token type
  *
  * @category Lexer
@@ -187,6 +194,7 @@ export type TokenType =
   | typeof GERBER_UNITS
   | typeof GERBER_TOOL_MACRO
   | typeof GERBER_TOOL_DEF
+  | typeof GERBER_LOAD_POLARITY
   | typeof GERBER_MACRO_VARIABLE
   | typeof SEMICOLON
   | typeof DRILL_UNITS

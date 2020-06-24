@@ -305,6 +305,22 @@ const quadrantMode: SyntaxRule = {
   ],
 }
 
+const loadPolarity: SyntaxRule = {
+  rules: [
+    token(Lexer.PERCENT),
+    token(Lexer.GERBER_LOAD_POLARITY),
+    token(Lexer.ASTERISK),
+    token(Lexer.PERCENT),
+  ],
+  createNodes: tokens => [
+    {
+      type: Tree.LOAD_POLARITY,
+      position: tokensToPosition(tokens.slice(1, -1)),
+      polarity: tokens[1].value === 'D' ? Constants.DARK : Constants.CLEAR,
+    },
+  ],
+}
+
 export const gerberSyntax: Array<SyntaxRule> = [
   operation,
   operationWithoutCoords,
@@ -315,6 +331,7 @@ export const gerberSyntax: Array<SyntaxRule> = [
   comment,
   regionMode,
   quadrantMode,
+  loadPolarity,
   format,
   units,
   done,

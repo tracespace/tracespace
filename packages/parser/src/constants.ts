@@ -44,3 +44,7 @@ export const CCW_ARC = 'ccwArc'
 // quadrant mode
 export const SINGLE = 'single'
 export const MULTI = 'multi'
+
+// load polarity
+export const DARK = 'dark'
+export const CLEAR = 'clear'

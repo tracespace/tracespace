@@ -27,6 +27,8 @@ import {
   INCREMENTAL,
   LEADING,
   TRAILING,
+  CLEAR,
+  DARK,
 } from '../../constants'
 
 const SPECS: Array<{
@@ -391,6 +393,40 @@ const SPECS: Array<{
         zeroSuppression: null,
         mode: ABSOLUTE,
         format: [2, 2],
+      },
+    ],
+  },
+  {
+    // load polarity dark
+    source: '%LPD*%',
+    expectedTokens: [
+      t(Lexer.PERCENT, '%'),
+      t(Lexer.GERBER_LOAD_POLARITY, 'D'),
+      t(Lexer.ASTERISK, '*'),
+      t(Lexer.PERCENT, '%'),
+    ],
+    expectedNodes: [
+      {
+        type: Tree.LOAD_POLARITY,
+        position: pos([1, 2, 1], [1, 5, 4]),
+        polarity: DARK,
+      },
+    ],
+  },
+  {
+    // load polarity clear
+    source: '%LPC*%',
+    expectedTokens: [
+      t(Lexer.PERCENT, '%'),
+      t(Lexer.GERBER_LOAD_POLARITY, 'C'),
+      t(Lexer.ASTERISK, '*'),
+      t(Lexer.PERCENT, '%'),
+    ],
+    expectedNodes: [
+      {
+        type: Tree.LOAD_POLARITY,
+        position: pos([1, 2, 1], [1, 5, 4]),
+        polarity: CLEAR,
       },
     ],
   },

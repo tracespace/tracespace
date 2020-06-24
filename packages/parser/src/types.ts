@@ -2,24 +2,47 @@
 
 import * as Constants from './constants'
 
+/**
+ * Gerber file or NC drill file
+ */
 export type Filetype = typeof Constants.GERBER | typeof Constants.DRILL
 
-// formatting options
-
+/**
+ * Millimieters or inches
+ */
 export type UnitsType = typeof Constants.MM | typeof Constants.IN
 
+/**
+ * Coordinate string decimal format, where Format[0] represents the maximum
+ * number of integer digits in the string and Format[1] represents the number
+ * of decimal digits. The decimal point itself is usually implicit.
+ */
 export type Format = [number, number]
 
+/**
+ * Leading or trailing zero-suppression for coordinate strings
+ */
 export type ZeroSuppression =
   | typeof Constants.LEADING
   | typeof Constants.TRAILING
 
+/**
+ * Absolute or incremental coordinates
+ */
 export type Mode = typeof Constants.ABSOLUTE | typeof Constants.INCREMENTAL
 
-// shape types
-
+/**
+ * Union type of valid tool shapes
+ *
+ * @category Shape
+ */
 export type ToolShape = Circle | Rectangle | Obround | Polygon | MacroShape
 
+/**
+ * Union type of valid tool hole shapes
+ *
+ * @category Shape
+ */
 export type HoleShape = Circle | Rectangle
 
 /**
@@ -80,8 +103,6 @@ export interface MacroShape {
   params: number[]
 }
 
-// macro shape and expression types
-
 /**
  * Union type of macro primitive shape identifiers
  *
@@ -115,10 +136,17 @@ export interface MacroExpression {
  */
 export type MacroValue = number | string | MacroExpression
 
-// graphic drawing types
+/**
+ * A map of axes to coordinate strings used to define the location of a
+ * graphical operation
+ */
+export interface Coordinates {
+  [axis: string]: string
+}
 
-export type Coordinates = {[axis: string]: string}
-
+/**
+ * Valid graphical operation types
+ */
 export type GraphicType =
   | typeof Constants.SHAPE
   | typeof Constants.MOVE
@@ -126,6 +154,9 @@ export type GraphicType =
   | typeof Constants.SLOT
   | null
 
+/**
+ * Valid interpolations modes
+ */
 export type InterpolateModeType =
   | typeof Constants.LINE
   | typeof Constants.CW_ARC
@@ -134,7 +165,15 @@ export type InterpolateModeType =
   | typeof Constants.DRILL
   | null
 
+/**
+ * Valid quadrant modes
+ */
 export type QuadrantModeType =
   | typeof Constants.SINGLE
   | typeof Constants.MULTI
   | null
+
+/**
+ * Valid image polarities
+ */
+export type Polarity = typeof Constants.DARK | typeof Constants.CLEAR

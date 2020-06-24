@@ -59,6 +59,13 @@ export const TOOL_MACRO = 'toolMacro'
 export const TOOL_CHANGE = 'toolChange'
 
 /**
+ * {@linkcode LoadPolarity} node type
+ *
+ * @category Node
+ */
+export const LOAD_POLARITY = 'loadPolarity'
+
+/**
  * {@linkcode Graphic} node type
  *
  * @category Node
@@ -140,6 +147,7 @@ export type ChildNode =
   | InterpolateMode
   | RegionMode
   | QuadrantMode
+  | LoadPolarity
   | Graphic
 
 /**
@@ -367,6 +375,21 @@ export interface ToolChange extends BaseNode {
   type: typeof TOOL_CHANGE
   /** Tool identifier */
   code: string
+}
+
+/**
+ * A `LoadPolarity` node sets the current polarity to {@linkcode DARK | dark}
+ * or {@linkcode CLEAR | clear}. Subsequent {@linkcode Graphic} operations
+ * add to the overall image if the polarity is "dark", or remove from the image
+ * if the polarity is "clear".
+ *
+ * @category Node
+ */
+export interface LoadPolarity extends BaseNode {
+  /** Node type */
+  type: typeof LOAD_POLARITY
+  /** Tool identifier */
+  polarity: Types.Polarity
 }
 
 /**
