@@ -3,11 +3,11 @@ on: [push, pull_request]
 
 jobs:
   test:
-    name: unit tests on node ${{ matrix.node }}
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: ['10', '12', '14']
+    name: unit tests on node ${{ matrix.node }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
