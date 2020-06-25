@@ -10,9 +10,9 @@ cjs
 esm
 umd
 dist
-packages/*/LICENSE
-*.d.ts
-*.tgz
+**/*.tgz
+**/lib/**/*.d.ts
 
-# system files
+# system and editor files
 .DS_Store
+.vscode

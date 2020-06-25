@@ -2,58 +2,77 @@ import path from 'path'
 import builtins from 'builtin-modules'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
-import babel from 'rollup-plugin-babel'
+import replace from '@rollup/plugin-replace'
+import babel from '@rollup/plugin-babel'
 import {terser} from 'rollup-plugin-terser'
 import {camelCase, upperFirst} from 'lodash'
 
 const ENTRIES = [
-  {path: 'packages/cli', esm: false, cjs: true, umd: false},
-  {path: 'packages/whats-that-gerber', esm: true, cjs: true, umd: true},
-  {path: 'packages/xml-id', esm: true, cjs: true, umd: true},
+  {dir: 'packages/cli', esm: false, cjs: true, umd: false},
+  {dir: 'packages/whats-that-gerber', esm: true, cjs: true, umd: true},
+  {dir: 'packages/xml-id', esm: true, cjs: true, umd: true},
 ]
 
-const resolveAbs = (...paths) => path.join(__dirname, '..', ...paths)
+const resolveFromRoot = (...paths) => path.join(__dirname, '..', ...paths)
 
-const makeConfig = (entry, pkg) => ({
-  input: resolveAbs(entry.path, pkg.source),
+const makeResolvePlugin = (preferBuiltins = true) =>
+  resolve({
+    extensions: ['.mjs', '.js', '.json', '.node', '.ts'],
+    preferBuiltins,
+  })
+
+const makeCommonJsPlugin = () => commonjs()
+
+const makeBabelPlugin = () =>
+  babel({
+    root: resolveFromRoot(),
+    babelHelpers: 'bundled',
+    configFile: resolveFromRoot('config/babel.js'),
+    exclude: '**/node_modules/**',
+    extensions: ['.ts'],
+  })
+
+const makeReplacePlugin = pkg =>
+  replace({
+    __PKG_NAME__: JSON.stringify(pkg.name),
+    __PKG_DESCRIPTION__: JSON.stringify(pkg.description),
+    __PKG_VERSION__: JSON.stringify(pkg.version),
+  })
+
+const makeConfig = ({dir, esm, cjs}, pkg) => ({
+  input: resolveFromRoot(dir, pkg.source),
   output: [
-    entry.esm && {
-      file: resolveAbs(entry.path, pkg.module),
+    esm && {
+      file: resolveFromRoot(dir, pkg.module),
       format: 'esm',
       sourcemap: true,
     },
-    entry.cjs && {
-      file: resolveAbs(entry.path, pkg.main),
+    cjs && {
+      file: resolveFromRoot(dir, pkg.main),
       format: 'cjs',
       sourcemap: true,
     },
   ].filter(_ => _),
   plugins: [
-    resolve({
-      extensions: ['.mjs', '.js', '.json', '.node', '.ts'],
-    }),
-    commonjs(),
-    babel({
-      root: path.join(__dirname, '..'),
-      configFile: path.join(__dirname, './babel.js'),
-      exclude: '**/node_modules/**',
-      extensions: ['.ts'],
-    }),
+    makeReplacePlugin(pkg),
+    makeResolvePlugin(),
+    makeCommonJsPlugin(),
+    makeBabelPlugin(),
   ],
   external: [...Object.keys(pkg.dependencies || {}), ...builtins],
 })
 
-const makeBundleConfig = (entry, pkg) => ({
-  input: resolveAbs(entry.path, pkg.source),
+const makeBundleConfig = ({dir}, pkg) => ({
+  input: resolveFromRoot(dir, pkg.source),
   output: [
     {
-      file: resolveAbs(entry.path, 'umd', `${path.basename(pkg.name)}.js`),
+      file: resolveFromRoot(dir, 'umd', `${path.basename(pkg.name)}.js`),
       format: 'umd',
       name: upperFirst(camelCase(pkg.name)),
       sourcemap: true,
     },
     {
-      file: resolveAbs(entry.path, 'umd', `${path.basename(pkg.name)}.min.js`),
+      file: resolveFromRoot(dir, 'umd', `${path.basename(pkg.name)}.min.js`),
       format: 'umd',
       name: upperFirst(camelCase(pkg.name)),
       plugins: [terser()],
@@ -61,24 +80,17 @@ const makeBundleConfig = (entry, pkg) => ({
     },
   ],
   plugins: [
-    resolve({
-      extensions: ['.mjs', '.js', '.json', '.node', '.ts'],
-      preferBuiltins: false,
-    }),
-    commonjs(),
-    babel({
-      root: path.join(__dirname, '..'),
-      configFile: path.join(__dirname, './babel.js'),
-      exclude: '**/node_modules/**',
-      extensions: ['.ts'],
-    }),
+    makeReplacePlugin(pkg),
+    makeResolvePlugin(false),
+    makeCommonJsPlugin(),
+    makeBabelPlugin(),
   ],
 })
 
 export default function config(cliArgs) {
   return ENTRIES.filter(entry => !cliArgs.configBundle || entry.umd).map(
     entry => {
-      const pkg = require(resolveAbs(entry.path, 'package.json'))
+      const pkg = require(resolveFromRoot(entry.dir, 'package.json'))
       const configBuilder = cliArgs.configBundle ? makeBundleConfig : makeConfig
 
       return configBuilder(entry, pkg)

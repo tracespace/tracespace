@@ -23,7 +23,7 @@ declare namespace pcbStackupCore {
   interface Options<NodeType = string> {
     id: string
     color?: ColorOptions
-    attributes?: object
+    attributes?: Record<string, unknown>
     useOutline?: boolean
     createElement?: CreateElement<NodeType>
   }
@@ -31,7 +31,7 @@ declare namespace pcbStackupCore {
   interface Stackup<NodeType = string> {
     id: string
     color: Color
-    attributes: object
+    attributes: Record<string, unknown>
     useOutline: boolean
     createElement: CreateElement<NodeType>
     top: StackupSide<NodeType>

@@ -225,7 +225,7 @@ git cz
 
 All development scripts below **should be run from the root of the repository**. Lerna handles delegating scripts downwards to the individual projects as necessary.
 
-[monorepo]: https://github.com/babel/babel/blob/master/doc/design/monorepo.md
+[monorepo]: https://github.com/babel/babel/blob/main/doc/design/monorepo.md
 [yarn]: https://yarnpkg.com
 [lerna]: https://lernajs.io/
 [conventional-changelog]: https://github.com/conventional-changelog/conventional-changelog
@@ -317,11 +317,11 @@ Packages are published to npm by the CI server. To publish a release, you must h
 - Generate / update the changelogs
 - Commit, tag, and push to git
 
-First, checkout and pull down the latest commits on `master`:
+First, checkout and pull down the latest commits on `main`:
 
 ```shell
-git checkout master
-get pull origin master
+git checkout main
+get pull origin main
 ```
 
 Then, bump the version:
@@ -332,7 +332,7 @@ yarn bump
 
 # you may specify a bump level or exact version
 # prerelease bumps will be prefixed with "next", e.g. 4.0.0 -> 4.0.1-next.0
-# https://github.com/lerna/lerna/tree/master/commands/version#readme
+# https://github.com/lerna/lerna/tree/main/commands/version#readme
 yarn bump ${major|minor|patch|premajor|preminor|prepatch|prerelease}
 yarn bump v42.0.0
 
@@ -343,7 +343,7 @@ yarn bump --no-git-tag-version
 After you bump, push the commit and tag:
 
 ```shell
-git push origin master --follow-tags
+git push origin main --follow-tags
 ```
 
 The release will be published to the `latest` npm tag for bare versions (e.g. `4.0.0`) and to `next` for pre-release versions (e.g. `4.0.0-next.0`).

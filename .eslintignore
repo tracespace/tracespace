@@ -1,8 +1,16 @@
-**/package.json
-package-lock.json
 node_modules
 __snapshots__
 coverage
 .nyc_output
-**/dist
+
+# compiled files
+dist
+umd
+cjs
+esm
+**/lib/**/*.d.ts
+
+# prettier ignore
 CHANGELOG.md
+package.json
+.vscode
