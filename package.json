@@ -28,7 +28,6 @@
     "example": "lerna run example",
     "prebump": "yarn test",
     "bump": "lerna version",
-    "precoverage:upload": "yarn coverage",
     "publish:npm": "lerna publish from-git --yes --npm-tag $NPM_TAG",
     "publish:s3": "node ./scripts/publish-to-s3 apps/www/dist: apps/view/dist:view"
   },
