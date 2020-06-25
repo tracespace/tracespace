@@ -1,15 +1,15 @@
 name: tracespace ci
 on: [push]
 
+defaults:
+  runs-on: ubuntu-latest
+
 jobs:
   test:
-    name: Unit tests
-    runs-on: ubuntu-latest
-
+    name: unit tests
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x]
-
+        node-version: ['10', '12', '14']
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -17,4 +17,25 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile
       - run: yarn test
-      - run: yarn coverage:upload
+      - uses: codecov/codecov-action@v1
+
+  lint:
+    name: lint and format checks
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
+      - run: yarn format --check
+
+  build:
+    name: build assets and type definitions
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - run: yarn install --frozen-lockfile
+      - run: yarn build:all

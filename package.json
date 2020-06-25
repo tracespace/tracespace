@@ -30,7 +30,6 @@
     "prebump": "yarn test",
     "bump": "lerna version",
     "precoverage:upload": "yarn coverage",
-    "coverage:upload": "codecov",
     "publish:npm": "lerna publish from-git --yes --npm-tag $NPM_TAG",
     "publish:s3": "node ./scripts/publish-to-s3 apps/www/dist: apps/view/dist:view"
   },
@@ -72,7 +71,6 @@
     "builtin-modules": "^3.1.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "codecov": "^3.7.0",
     "concat-stream": "^2.0.0",
     "cross-env": "^7.0.2",
     "css-loader": "^3.6.0",
