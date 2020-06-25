@@ -1,12 +1,10 @@
 name: tracespace ci
-on: [push]
-
-defaults:
-  runs-on: ubuntu-latest
+on: [push, pull_request]
 
 jobs:
   test:
     name: unit tests
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: ['10', '12', '14']
@@ -21,6 +19,7 @@ jobs:
 
   lint:
     name: lint and format checks
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -32,6 +31,7 @@ jobs:
 
   build:
     name: build assets and type definitions
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
