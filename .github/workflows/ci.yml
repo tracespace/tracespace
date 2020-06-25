@@ -1,9 +1,9 @@
-name: tracespace ci
+name: continuous integration
 on: [push, pull_request]
 
 jobs:
   test:
-    name: unit tests
+    name: unit tests on node ${{ matrix.node }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
