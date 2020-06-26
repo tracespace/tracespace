@@ -2,9 +2,17 @@
 import {useEffect, useRef} from 'react'
 
 export function useTimeout(handler: () => unknown, delay: number | null): void {
+  const handlerRef = useRef<() => unknown>()
+
   useEffect(() => {
+    handlerRef.current = handler
+  }, [handler])
+
+  useEffect(() => {
+    const trigger = (): unknown => handlerRef.current && handlerRef.current()
+
     if (delay !== null) {
-      const timeout = window.setTimeout(handler, delay)
+      const timeout = window.setTimeout(trigger, delay)
       return () => window.clearTimeout(timeout)
     }
   }, [delay])

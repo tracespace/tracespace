@@ -5,9 +5,7 @@ import vb from 'viewbox'
 import * as xid from '@tracespace/xml-id'
 import {Options as GerberToSvgOptions} from 'gerber-to-svg'
 
-// @ts-expect-error: cannot figure out how to type this without breaking the import
 import clone from 'gerber-to-svg/clone'
-// @ts-expect-error: cannot figure out how to type this without breaking the import
 import render from 'gerber-to-svg/render'
 
 import {Stackup, InputLayer, Options as StackupOptions} from 'pcb-stackup'
