@@ -233,23 +233,13 @@ All development scripts below **should be run from the root of the repository**.
 
 ### tests
 
-Automated tests consist of unit tests along with integration [snapshot tests][snapshot-testing] of SVG and data outputs.
-
 ```shell
-# run unit and integration tests tests with coverage
+# run unit tests tests with coverage
 yarn test
-
-# set SNAPSHOT_UPDATE=1 to update integration test snapshots
-SNAPSHOT_UPDATE=1 yarn test
 
 # run unit tests in watch mode (no coverage)
 yarn test:watch
-
-# set INTEGRATION=1 to also include integration tests
-INTEGRATION=1 yarn test:watch
 ```
-
-[snapshot-testing]: https://facebook.github.io/jest/docs/en/snapshot-testing.html
 
 ### development servers
 
@@ -270,28 +260,23 @@ There are two production asset types that you can build:
 - Full web-app bundles
   - `@tracespace/view`
 - Standalone library bundles
-  - `gerber-parser`
-  - `gerber-plotter`
-  - `gerber-to-svg`
-  - `pcb-stackup-core`
-  - `pcb-stackup`
+  - `@tracespace/xml-id`
   - `whats-that-gerber`
 
 To build them:
 
 ```shell
-# build production bundles
+# build production ESM bundles, UMD bundles, app bundles, and type definitions
 yarn build
 
 # build:all
-# builds all production bundles, example files, and documentation
+# runs yarn build and also builds example files and documentation
 yarn build:all
 
 # build all bundles and serve them for testing/validation
 yarn serve
 
 # as with the dev server, these commands may be scoped by name
-yarn build --scope gerber-parser
 yarn serve --scope @tracespace/view
 ```
 
@@ -332,7 +317,7 @@ yarn bump
 
 # you may specify a bump level or exact version
 # prerelease bumps will be prefixed with "next", e.g. 4.0.0 -> 4.0.1-next.0
-# https://github.com/lerna/lerna/tree/main/commands/version#readme
+# https://github.com/lerna/lerna/tree/master/commands/version#readme
 yarn bump ${major|minor|patch|premajor|preminor|prepatch|prerelease}
 yarn bump v42.0.0
 

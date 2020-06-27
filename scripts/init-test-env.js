@@ -7,6 +7,7 @@ const EnzymeAdapter = require('enzyme-adapter-react-16')
 require('@babel/register')({
   configFile: path.join(__dirname, '../config/babel.js'),
   plugins: [
+    'babel-plugin-istanbul',
     '@babel/plugin-transform-modules-commonjs',
     [
       'babel-plugin-module-resolver',
