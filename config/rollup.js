@@ -9,6 +9,7 @@ import {camelCase, upperFirst} from 'lodash'
 
 const ENTRIES = [
   {dir: 'packages/cli', esm: false, cjs: true, umd: false},
+  {dir: 'packages/parser', esm: true, cjs: true, umd: true},
   {dir: 'packages/whats-that-gerber', esm: true, cjs: true, umd: true},
   {dir: 'packages/xml-id', esm: true, cjs: true, umd: true},
 ]
