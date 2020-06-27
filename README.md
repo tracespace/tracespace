@@ -1,17 +1,12 @@
 # tracespace
 
-[![ci][ci-badge]][ci]
-[![coverage][coverage-badge]][coverage]
-[![dev dependencies][dev-dependencies-badge]][dev-dependencies]
-[![chat][chat-badge]][chat]
-
 > PCB visualization tools for Node.js and the browser
 
 tracespace is an open-source collection of tools to make looking at circuit boards on the internet easier.
 
-**This is the branch for tracespace v5, which is still very much in development.**
+## v5 checklist
 
-v5 checklist
+**This is the branch for tracespace v5, which is still very much in development.**
 
 - [x] Written in TypeScript
 - `@tracespace/parser` package to generate [unist][] abstract syntax trees
@@ -36,16 +31,22 @@ v5 checklist
 - [ ] tracespace view powered by new libraries
 - [ ] documentation website
 
+### issues
+
+The v5 release will attempt to fix / address the following open issues:
+
+- [ ] Handle disagreements between filename type vs parsed type (#49)
+- [ ] Reduce number of `<use>` tags in SVG output (#80)
+- [ ] Arc plotting should be more lenient (#82)
+- [ ] Operation with non-existent tool should no-op with a warning (#83)
+- [x] Fails to detect units if format spec combined with units spec (#234)
+- [ ] clipPath for outline breaks in Firefox if outline has clear layers (#302)
+- [x] gerberParser.parseSync clobbers filetype option (#306)
+- [x] Gerber file starting with newline incorrectly identified as drill file (#307)
+- [ ] Generate consistent document size for all layers. (#324)
+
 [unist]: https://unifiedjs.com/
 [hast]: https://github.com/syntax-tree/hast
-[ci]: https://travis-ci.org/tracespace/tracespace
-[coverage]: https://codecov.io/gh/tracespace/tracespace
-[dev-dependencies]: https://david-dm.org/tracespace/tracespace?type=dev
-[chat]: https://gitter.im/tracespace/Lobby
-[ci-badge]: https://flat.badgen.net/travis/tracespace/tracespace
-[coverage-badge]: https://flat.badgen.net/codecov/c/github/tracespace/tracespace
-[dev-dependencies-badge]: https://flat.badgen.net/david/dev/tracespace/tracespace
-[chat-badge]: https://flat.badgen.net/badge/chat/on%20gitter/cyan
 
 ## examples
 
