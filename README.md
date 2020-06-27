@@ -31,22 +31,32 @@ tracespace is an open-source collection of tools to make looking at circuit boar
 - [ ] tracespace view powered by new libraries
 - [ ] documentation website
 
+[unist]: https://unifiedjs.com/
+[hast]: https://github.com/syntax-tree/hast
+
 ### issues
 
 The v5 release will attempt to fix / address the following open issues:
 
-- [ ] Handle disagreements between filename type vs parsed type (#49)
-- [ ] Reduce number of `<use>` tags in SVG output (#80)
-- [ ] Arc plotting should be more lenient (#82)
-- [ ] Operation with non-existent tool should no-op with a warning (#83)
-- [x] Fails to detect units if format spec combined with units spec (#234)
-- [ ] clipPath for outline breaks in Firefox if outline has clear layers (#302)
-- [x] gerberParser.parseSync clobbers filetype option (#306)
-- [x] Gerber file starting with newline incorrectly identified as drill file (#307)
-- [ ] Generate consistent document size for all layers. (#324)
+- [ ] Handle disagreements between filename type vs parsed type ([#49][])
+- [ ] Reduce number of `<use>` tags in SVG output ([#80][])
+- [ ] Arc plotting should be more lenient ([#82][])
+- [ ] Operation with non-existent tool should no-op with a warning ([#83][])
+- [x] Fails to detect units if format spec combined with units spec ([#234][])
+- [ ] clipPath for outline breaks in Firefox if outline has clear layers ([#302][])
+- [x] gerberParser.parseSync clobbers filetype option ([#306][])
+- [x] Gerber file starting with newline incorrectly identified as drill file ([#307][])
+- [ ] Generate consistent document size for all layers. ([#324][])
 
-[unist]: https://unifiedjs.com/
-[hast]: https://github.com/syntax-tree/hast
+[#49]: https://github.com/tracespace/tracespace/issues/49
+[#80]: https://github.com/tracespace/tracespace/issues/80
+[#82]: https://github.com/tracespace/tracespace/issues/82
+[#83]: https://github.com/tracespace/tracespace/issues/83
+[#234]: https://github.com/tracespace/tracespace/issues/234
+[#302]: https://github.com/tracespace/tracespace/issues/302
+[#306]: https://github.com/tracespace/tracespace/issues/306
+[#307]: https://github.com/tracespace/tracespace/issues/307
+[#324]: https://github.com/tracespace/tracespace/issues/324
 
 ## examples
 
