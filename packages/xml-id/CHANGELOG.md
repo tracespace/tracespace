@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0-next.0](https://github.com/tracespace/tracespace/compare/v4.2.0...v5.0.0-next.0) (2020-06-28)
+
+
+### Code Refactoring
+
+* **xml-id:** port xml-id to TypeScript ([ff4bbb1](https://github.com/tracespace/tracespace/commit/ff4bbb1))
+
+
+### Features
+
+* **parser:** add @tracespace/parser package ([#338](https://github.com/tracespace/tracespace/issues/338)) ([6f974dd](https://github.com/tracespace/tracespace/commit/6f974dd))
+
+
+### BREAKING CHANGES
+
+* **xml-id:** Export scheme of xml-id slightly changed
+
+
+
+
+
 # [4.0.0](https://github.com/tracespace/tracespace/compare/v4.0.0-next.19...v4.0.0) (2019-03-09)
 
 **Note:** Version bump only for package @tracespace/xml-id
