@@ -4,7 +4,7 @@
     "access": "public"
   },
   "version": "4.0.0",
-  "description": "XML ID utilities for tracespace projects",
+  "description": "XML ID generation and sanitation utilities",
   "source": "src/index.ts",
   "main": "cjs/index.js",
   "module": "esm/index.mjs",

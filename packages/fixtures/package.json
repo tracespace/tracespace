@@ -1,5 +1,6 @@
 {
   "name": "@tracespace/fixtures",
+  "private": true,
   "publishConfig": {
     "access": "public"
   },

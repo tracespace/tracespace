@@ -1,0 +1,42 @@
+{
+  "name": "@tracespace/parser",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.0.0-unpublished",
+  "description": "Gerber and NC drill file parser",
+  "source": "src/index.ts",
+  "main": "cjs/index.js",
+  "module": "esm/index.mjs",
+  "types": "lib/index.d.ts",
+  "unpkg": "umd/parser.min.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tracespace/tracespace.git",
+    "directory": "packages/parser"
+  },
+  "scripts": {
+    "clean": "rimraf cjs esm lib umd"
+  },
+  "keywords": [
+    "gerber",
+    "excellon",
+    "pcb",
+    "circuit",
+    "hardware",
+    "electronics"
+  ],
+  "contributors": [
+    "Mike Cousins <mike@cousins.io> (https://mike.cousins.io)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tracespace/tracespace/issues"
+  },
+  "homepage": "https://github.com/tracespace/tracespace#readme",
+  "dependencies": {
+    "@types/moo": "^0.5.0",
+    "@types/unist": "^2.0.3",
+    "moo": "^0.5.1"
+  }
+}

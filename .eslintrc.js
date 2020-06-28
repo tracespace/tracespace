@@ -79,6 +79,7 @@ module.exports = {
     {
       files: [
         'packages/cli/**/*',
+        'packages/parser/**/*',
         'packages/whats-that-gerber/**/*',
         'packages/xml-id/**/*',
       ],
