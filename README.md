@@ -161,16 +161,16 @@ Arduino Uno design files used under the terms of the [Creative Commons Attributi
 <!-- npm links -->
 
 [cli npm]: https://www.npmjs.com/package/@tracespace/cli
-[parser npm]: #
-[xml-id npm]: https://www.npmjs.com/package/@tracespace/cli
-[wtg npm]: https://www.npmjs.com/package/whats-that-gerber
+[parser npm]: https://www.npmjs.com/package/@tracespace/parser/v/next
+[xml-id npm]: https://www.npmjs.com/package/@tracespace/xml-id/v/next
+[wtg npm]: https://www.npmjs.com/package/whats-that-gerber/v/next
 
 <!-- npm version badges -->
 
 [cli npm badge]: https://flat.badgen.net/npm/v/@tracespace/cli
-[parser npm badge]: https://flat.badgen.net/badge/npm/wip/orange
-[xml-id npm badge]: https://flat.badgen.net/npm/v/@tracespace/xml-id
-[wtg npm badge]: https://flat.badgen.net/npm/v/whats-that-gerber
+[parser npm badge]: https://flat.badgen.net/npm/v/@tracespace/parser/next
+[xml-id npm badge]: https://flat.badgen.net/npm/v/@tracespace/xml-id/next
+[wtg npm badge]: https://flat.badgen.net/npm/v/whats-that-gerber/next
 
 <!-- dependency links -->
 
@@ -188,13 +188,13 @@ Arduino Uno design files used under the terms of the [Creative Commons Attributi
 
 <!-- bundle size links -->
 
-[parser size]: #
+[parser size]: https://bundlephobia.com/result?p=@tracespace/parser
 [xml-id size]: https://bundlephobia.com/result?p=@tracespace/xml-id
 [wtg size]: https://bundlephobia.com/result?p=whats-that-gerber
 
 <!-- bundle size badge -->
 
-[parser size badge]: https://flat.badgen.net/badge/minzipped%20size/wip/orange
+[parser size badge]: https://flat.badgen.net/bundlephobia/minzip/@tracespace/parser
 [xml-id size badge]: https://flat.badgen.net/bundlephobia/minzip/@tracespace/xml-id
 [wtg size badge]: https://flat.badgen.net/bundlephobia/minzip/whats-that-gerber
 

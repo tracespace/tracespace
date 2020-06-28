@@ -4,7 +4,11 @@ A parser for printed circuit board manufacturing files. Compiles [Gerber][gerber
 
 Part of the [tracespace][] collection of PCB visualization tools.
 
-**This package is still in development and is not yet published**
+**This package is still in development and available as a prerelease**
+
+```shell
+npm install @tracespace/parser@next
+```
 
 [gerber]: https://en.wikipedia.org/wiki/Gerber_format
 [nc-drill]: https://en.wikipedia.org/wiki/PCB_NC_formats
