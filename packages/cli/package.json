@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "4.2.0",
+  "version": "5.0.0-next.0",
   "description": "Render a PCB as SVGs from the command line",
   "bin": {
     "tracespace": "bin/cli.js"
@@ -50,12 +50,12 @@
     "cosmiconfig": "^5.2.1",
     "debug": "^4.1.1",
     "dot-prop": "^5.1.0",
-    "gerber-to-svg": "^4.2.0",
+    "gerber-to-svg": "^5.0.0-next.0",
     "globby": "^11.0.1",
     "make-dir": "^3.0.0",
-    "pcb-stackup": "^4.2.0",
+    "pcb-stackup": "^5.0.0-next.0",
     "untildify": "^4.0.0",
-    "whats-that-gerber": "^4.2.0",
+    "whats-that-gerber": "^5.0.0-next.0",
     "yargs": "^15.1.0"
   }
 }
