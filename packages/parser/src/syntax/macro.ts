@@ -1,21 +1,13 @@
 // gerber aperture macro syntax
 import * as Lexer from '../lexer'
-import {
-  MACRO_COMMENT,
-  MACRO_VARIABLE,
-  MACRO_PRIMITIVE,
-  MacroBlock,
-  MacroComment,
-  MacroPrimitive,
-  MacroVariable,
-} from '../tree'
+import * as Tree from '../tree'
 import {MacroValue} from '../types'
 import {SyntaxRule, MatchState} from './types'
 import {token, notToken, zeroOrMore, oneOrMore} from './rules'
 import {tokensToPosition} from './map-tokens'
 import {matchSyntax} from './match-syntax'
 
-const macroComment: SyntaxRule<MacroBlock> = {
+const macroComment: SyntaxRule<Tree.MacroBlock> = {
   rules: [
     token(Lexer.NUMBER, '0'),
     zeroOrMore([notToken(Lexer.ASTERISK)]),
@@ -24,7 +16,7 @@ const macroComment: SyntaxRule<MacroBlock> = {
   createNodes: createMacroComment,
 }
 
-const macroVariable: SyntaxRule<MacroBlock> = {
+const macroVariable: SyntaxRule<Tree.MacroBlock> = {
   rules: [
     token(Lexer.GERBER_MACRO_VARIABLE),
     token(Lexer.EQUALS),
@@ -39,7 +31,7 @@ const macroVariable: SyntaxRule<MacroBlock> = {
   createNodes: createMacroVariable,
 }
 
-const macroPrimitive: SyntaxRule<MacroBlock> = {
+const macroPrimitive: SyntaxRule<Tree.MacroBlock> = {
   rules: [
     token(Lexer.NUMBER),
     token(Lexer.COMMA),
@@ -55,17 +47,19 @@ const macroPrimitive: SyntaxRule<MacroBlock> = {
   createNodes: createMacroPrimitive,
 }
 
-function createMacroComment(tokens: Lexer.Token[]): MacroComment[] {
+function createMacroComment(tokens: Lexer.Token[]): Tree.MacroComment[] {
   const comment = tokens
     .slice(1, -1)
     .map(t => t.text)
     .join('')
     .trim()
 
-  return [{type: MACRO_COMMENT, position: tokensToPosition(tokens), comment}]
+  return [
+    {type: Tree.MACRO_COMMENT, position: tokensToPosition(tokens), comment},
+  ]
 }
 
-function createMacroPrimitive(tokens: Lexer.Token[]): MacroPrimitive[] {
+function createMacroPrimitive(tokens: Lexer.Token[]): Tree.MacroPrimitive[] {
   const code = tokens[0].value
   const modifiers = tokens
     .slice(2, -1)
@@ -86,7 +80,7 @@ function createMacroPrimitive(tokens: Lexer.Token[]): MacroPrimitive[] {
 
   return [
     {
-      type: MACRO_PRIMITIVE,
+      type: Tree.MACRO_PRIMITIVE,
       position: tokensToPosition(tokens),
       code,
       modifiers,
@@ -94,12 +88,17 @@ function createMacroPrimitive(tokens: Lexer.Token[]): MacroPrimitive[] {
   ]
 }
 
-function createMacroVariable(tokens: Lexer.Token[]): MacroVariable[] {
+function createMacroVariable(tokens: Lexer.Token[]): Tree.MacroVariable[] {
   const name = tokens[0].value
   const value = parseMacroExpression(tokens.slice(2, -1))
 
   return [
-    {type: MACRO_VARIABLE, position: tokensToPosition(tokens), name, value},
+    {
+      type: Tree.MACRO_VARIABLE,
+      position: tokensToPosition(tokens),
+      name,
+      value,
+    },
   ]
 }
 
@@ -175,9 +174,9 @@ function parseMacroExpression(tokens: Lexer.Token[]): MacroValue {
 
 const MACRO_GRAMMAR = [macroPrimitive, macroVariable, macroComment]
 
-export function parseMacroBlocks(tokens: Lexer.Token[]): MacroBlock[] {
-  let matchState: MatchState<MacroBlock> | null = null
-  const blocks: MacroBlock[] = []
+export function parseMacroBlocks(tokens: Lexer.Token[]): Tree.MacroBlock[] {
+  let matchState: MatchState<Tree.MacroBlock> | null = null
+  const blocks: Tree.MacroBlock[] = []
 
   tokens.forEach(token => {
     matchState = matchSyntax(matchState, token, MACRO_GRAMMAR)

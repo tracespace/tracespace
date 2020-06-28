@@ -47,7 +47,7 @@ export function cli(
     )
     .options(options)
     .config(config)
-    .version()
+    .version(__PKG_VERSION__)
     .help()
     .alias({help: 'h', version: 'v'})
     .fail((error: string) => {

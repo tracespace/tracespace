@@ -20,19 +20,15 @@ export function LazyThumbnail(props: LazyThumbnailProps): JSX.Element {
 
     if (imageRef.current) {
       if (!imageRef.current.complete) {
+        const img = imageRef.current
         setLoaded(false)
-        imageRef.current.addEventListener('load', handleLoad)
-      } else {
-        handleLoad()
+        img.addEventListener('load', handleLoad)
+        return () => img.removeEventListener('load', handleLoad)
       }
-    }
 
-    return () => {
-      if (imageRef.current) {
-        imageRef.current.removeEventListener('load', handleLoad)
-      }
+      handleLoad()
     }
-  })
+  }, [])
 
   const {url, spinnerColor} = props
   const className = cx(STYLE, props.className)

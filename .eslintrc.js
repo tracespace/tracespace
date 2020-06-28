@@ -57,7 +57,7 @@ module.exports = {
           'warn',
           {allowExpressions: true},
         ],
-        '@typescript-eslint/no-empty-function': 'warn',
+        '@typescript-eslint/no-empty-function': 'off',
         '@typescript-eslint/no-inferrable-types': 'warn',
         '@typescript-eslint/no-unused-vars': [
           'error',

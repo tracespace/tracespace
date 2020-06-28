@@ -1,28 +1,29 @@
 {
   "name": "@tracespace/parser",
-  "private": true,
   "publishConfig": {
     "access": "public"
   },
-  "version": "4.2.0",
-  "description": "Gerber and drill file parser",
+  "version": "5.0.0-next.0",
+  "description": "Gerber and NC drill file parser",
   "source": "src/index.ts",
   "main": "cjs/index.js",
   "module": "esm/index.mjs",
   "types": "lib/index.d.ts",
   "unpkg": "umd/parser.min.js",
+  "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tracespace/tracespace.git",
     "directory": "packages/parser"
   },
   "scripts": {
-    "clean": "rimraf lib cjs esm umd"
+    "clean": "rimraf cjs esm lib umd"
   },
   "keywords": [
+    "gerber",
+    "excellon",
     "pcb",
     "circuit",
-    "board",
     "hardware",
     "electronics"
   ],

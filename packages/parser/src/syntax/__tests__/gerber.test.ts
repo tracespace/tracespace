@@ -397,6 +397,38 @@ const SPECS: Array<{
     ],
   },
   {
+    // gerber format combined with units
+    // invalid syntax, but happens in real life
+    // https://github.com/tracespace/tracespace/issues/234
+    source: '%FSLAX43Y43*MOMM*%',
+    expectedTokens: [
+      t(Lexer.PERCENT, '%'),
+      t(Lexer.GERBER_FORMAT, 'LA'),
+      t(Lexer.COORD_CHAR, 'X'),
+      t(Lexer.NUMBER, '43'),
+      t(Lexer.COORD_CHAR, 'Y'),
+      t(Lexer.NUMBER, '43'),
+      t(Lexer.ASTERISK, '*'),
+      t(Lexer.GERBER_UNITS, 'MM'),
+      t(Lexer.ASTERISK, '*'),
+      t(Lexer.PERCENT, '%'),
+    ],
+    expectedNodes: [
+      {
+        type: Tree.COORDINATE_FORMAT,
+        position: pos([1, 2, 1], [1, 12, 11]),
+        zeroSuppression: LEADING,
+        mode: ABSOLUTE,
+        format: [4, 3],
+      },
+      {
+        type: Tree.UNITS,
+        position: pos([1, 13, 12], [1, 17, 16]),
+        units: MM,
+      },
+    ],
+  },
+  {
     // load polarity dark
     source: '%LPD*%',
     expectedTokens: [

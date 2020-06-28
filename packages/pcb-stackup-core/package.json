@@ -1,15 +1,13 @@
 {
   "name": "pcb-stackup-core",
   "private": true,
-  "version": "4.2.1",
+  "version": "5.0.0-next.0",
   "description": "Layer stacking core logic for pcb-stackup",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
     "example": "node example",
-    "start": "node integration/server",
-    "build": "cross-env NODE_ENV=production webpack",
-    "serve": "node ../../scripts/serve"
+    "start": "node integration/server"
   },
   "repository": {
     "type": "git",
@@ -35,12 +33,12 @@
   },
   "homepage": "https://github.com/tracespace/tracespace",
   "dependencies": {
-    "@tracespace/xml-id": "^4.0.0",
-    "@types/node": "^13.1.6",
+    "@tracespace/xml-id": "^5.0.0-next.0",
+    "@types/node": "^14.0.14",
     "color-string": "^1.5.3",
-    "gerber-to-svg": "^4.2.1",
+    "gerber-to-svg": "^5.0.0-next.0",
     "viewbox": "^1.0.0",
-    "whats-that-gerber": "^4.2.0",
+    "whats-that-gerber": "^5.0.0-next.0",
     "xml-element-string": "^1.0.0",
     "xtend": "^4.0.2"
   }

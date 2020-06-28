@@ -4,9 +4,7 @@
     {"path": "./apps/view"},
     {"path": "./packages/cli"},
     {"path": "./packages/parser"},
-    {"path": "./packages/plotter"},
-    {"path": "./packages/renderer"},
-    {"path": "./packages/whats-that-gerber"},
-    {"path": "./packages/xml-id"}
+    {"path": "./packages/xml-id"},
+    {"path": "./packages/whats-that-gerber"}
   ]
 }

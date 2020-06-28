@@ -4,13 +4,14 @@ import * as Tree from '../tree'
 import * as Constants from '../constants'
 import * as Types from '../types'
 import {token, notToken, one, zeroOrOne, zeroOrMore, minToMax} from './rules'
+import {SyntaxRule} from './types'
+
 import {
   tokensToCoordinates,
   tokensToMode,
   tokensToString,
   tokensToPosition,
 } from './map-tokens'
-import {SyntaxRule} from './types'
 
 const units: SyntaxRule = {
   rules: [

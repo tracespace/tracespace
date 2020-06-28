@@ -13,10 +13,13 @@ export default function StoreProvider(props: StoreProps): JSX.Element {
   const [state, setState] = useState(INITIAL_STATE)
   const stateRef = useRef<State>(state)
   const dispatchRef = useRef<Dispatch>(a => a)
-  const store = {
-    getState: (): State => stateRef.current,
-    dispatch: (action: Action) => dispatchRef.current(action),
-  }
+  const store = React.useMemo(
+    () => ({
+      getState: (): State => stateRef.current,
+      dispatch: (action: Action) => dispatchRef.current(action),
+    }),
+    []
+  )
 
   useEffect((): void => {
     dispatchRef.current = createMiddleware().reduceRight<Dispatch>(
@@ -27,7 +30,7 @@ export default function StoreProvider(props: StoreProps): JSX.Element {
         return action
       }
     )
-  }, [])
+  }, [store])
 
   return (
     <StoreContext.Provider value={store}>

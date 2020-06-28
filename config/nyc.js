@@ -4,10 +4,12 @@ module.exports = {
   all: true,
   include: ['apps/**', 'packages/**'],
   exclude: [
-    '**/node_modules/**',
     '**/example/**',
     '**/scripts/**',
     '**/dist/**',
+    '**/cjs/**',
+    '**/esm/**',
+    '**/umd/**',
     '**/integration/**',
     '**/test.js',
     '**/test/**',
@@ -18,4 +20,7 @@ module.exports = {
     'packages/fixtures/**',
   ],
   extension: ['.js', '.ts', '.tsx'],
+  // copied from @istanbuljs/nyc-config-babel
+  sourceMap: false,
+  instrument: false,
 }

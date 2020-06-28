@@ -1,15 +1,13 @@
 {
   "name": "gerber-to-svg",
   "private": true,
-  "version": "4.2.1",
+  "version": "5.0.0-next.0",
   "description": "Render individual Gerber / NC drill files as SVGs",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
     "example": "node example",
-    "start": "node integration/server",
-    "build": "cross-env NODE_ENV=production webpack",
-    "serve": "node ../../scripts/serve"
+    "start": "node integration/server"
   },
   "repository": {
     "type": "git",
@@ -39,11 +37,11 @@
   },
   "homepage": "https://github.com/tracespace/tracespace#readme",
   "dependencies": {
-    "@tracespace/xml-id": "^4.0.0",
-    "@types/node": "^13.1.6",
+    "@tracespace/xml-id": "^5.0.0-next.0",
+    "@types/node": "^14.0.14",
     "escape-html": "^1.0.3",
-    "gerber-parser": "^4.2.1",
-    "gerber-plotter": "^4.2.1",
+    "gerber-parser": "^5.0.0-next.0",
+    "gerber-plotter": "^5.0.0-next.0",
     "inherits": "^2.0.4",
     "lodash.isfinite": "^3.3.2",
     "readable-stream": "^3.4.0",

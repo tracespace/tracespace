@@ -65,6 +65,9 @@ const format: SyntaxRule = {
     token(Lexer.NUMBER),
     zeroOrMore([notToken(Lexer.ASTERISK)]),
     token(Lexer.ASTERISK),
+    // including units here is invalid syntax, but Cadence Allegro does it
+    // https://github.com/tracespace/tracespace/issues/234
+    minToMax(0, 2, [token(Lexer.GERBER_UNITS), token(Lexer.ASTERISK)]),
     token(Lexer.PERCENT),
   ],
   createNodes: tokens => {
@@ -72,6 +75,8 @@ const format: SyntaxRule = {
     let zeroSuppression = null
     let mode = null
     const coords = tokensToCoordinates(tokens)
+    const formatEndIdx = tokens.findIndex(t => t.type === Lexer.ASTERISK)
+    const unitsToken = tokens.find(t => t.type === Lexer.GERBER_UNITS)
 
     tokens
       .filter(t => t.type === Lexer.GERBER_FORMAT)
@@ -88,15 +93,25 @@ const format: SyntaxRule = {
       if (integers && decimals) format = [integers, decimals]
     }
 
-    return [
+    const nodes: Array<Tree.ChildNode> = [
       {
         type: Tree.COORDINATE_FORMAT,
-        position: tokensToPosition(tokens.slice(1, -1)),
+        position: tokensToPosition(tokens.slice(1, formatEndIdx + 1)),
         zeroSuppression,
         format,
         mode,
       },
     ]
+
+    if (unitsToken) {
+      nodes.push({
+        type: Tree.UNITS,
+        position: tokensToPosition(tokens.slice(1, -1), {head: unitsToken}),
+        units: unitsToken.value === 'MM' ? Constants.MM : Constants.IN,
+      })
+    }
+
+    return nodes
   },
 }
 

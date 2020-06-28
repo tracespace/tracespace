@@ -7,14 +7,13 @@ const EnzymeAdapter = require('enzyme-adapter-react-16')
 require('@babel/register')({
   configFile: path.join(__dirname, '../config/babel.js'),
   plugins: [
+    'babel-plugin-istanbul',
     '@babel/plugin-transform-modules-commonjs',
     [
       'babel-plugin-module-resolver',
       {
         alias: {
           '^@tracespace/parser$': '@tracespace/parser/src/index.ts',
-          '^@tracespace/plotter$': '@tracespace/plotter/src/index.ts',
-          '^@tracespace/renderer$': '@tracespace/renderer/src/index.ts',
           '^@tracespace/xml-id$': '@tracespace/xml-id/src/index.ts',
           '^whats-that-gerber$': 'whats-that-gerber/src/index.ts',
         },

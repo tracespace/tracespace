@@ -10,8 +10,6 @@ import {camelCase, upperFirst} from 'lodash'
 const ENTRIES = [
   {dir: 'packages/cli', esm: false, cjs: true, umd: false},
   {dir: 'packages/parser', esm: true, cjs: true, umd: true},
-  {dir: 'packages/plotter', esm: true, cjs: true, umd: true},
-  {dir: 'packages/renderer', esm: true, cjs: true, umd: true},
   {dir: 'packages/whats-that-gerber', esm: true, cjs: true, umd: true},
   {dir: 'packages/xml-id', esm: true, cjs: true, umd: true},
 ]
@@ -37,9 +35,9 @@ const makeBabelPlugin = () =>
 
 const makeReplacePlugin = pkg =>
   replace({
-    PKG_NAME: JSON.stringify(pkg.name),
-    PKG_DESCRIPTION: JSON.stringify(pkg.description),
-    PKG_VERSION: JSON.stringify(pkg.version),
+    __PKG_NAME__: JSON.stringify(pkg.name),
+    __PKG_DESCRIPTION__: JSON.stringify(pkg.description),
+    __PKG_VERSION__: JSON.stringify(pkg.version),
   })
 
 const makeConfig = ({dir, esm, cjs}, pkg) => ({

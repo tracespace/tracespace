@@ -1,15 +1,13 @@
 {
   "name": "pcb-stackup",
   "private": true,
-  "version": "4.2.1",
+  "version": "5.0.0-next.0",
   "description": "Render PCBs as beautiful, precise SVGs from Gerber / NC drill files",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
     "example": "node example",
-    "start": "node integration/server",
-    "build": "cross-env NODE_ENV=production webpack",
-    "serve": "node ../../scripts/serve"
+    "start": "node integration/server"
   },
   "repository": {
     "type": "git",
@@ -37,13 +35,13 @@
   },
   "homepage": "https://github.com/tracespace/tracespace",
   "dependencies": {
-    "@tracespace/xml-id": "^4.0.0",
-    "@types/node": "^13.1.6",
-    "gerber-to-svg": "^4.2.1",
-    "pcb-stackup-core": "^4.2.1",
+    "@tracespace/xml-id": "^5.0.0-next.0",
+    "@types/node": "^14.0.14",
+    "gerber-to-svg": "^5.0.0-next.0",
+    "pcb-stackup-core": "^5.0.0-next.0",
     "run-parallel": "^1.1.9",
     "run-waterfall": "^1.1.6",
-    "whats-that-gerber": "^4.2.0",
+    "whats-that-gerber": "^5.0.0-next.0",
     "xtend": "^4.0.2"
   }
 }

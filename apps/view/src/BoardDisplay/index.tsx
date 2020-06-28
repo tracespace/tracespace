@@ -40,7 +40,7 @@ export default function BoardDisplay(): JSX.Element {
   })
 
   useEffect(() => {
-    if (getId(board) !== getId(prevBoard)) controllerProps.reset()
+    if (getId(board) !== getId(prevBoard)) setDisplayState(INITIAL_STATE)
   }, [board, prevBoard])
 
   return (
