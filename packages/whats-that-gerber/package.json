@@ -16,7 +16,7 @@
     "umd"
   ],
   "scripts": {
-    "clean": "rimraf lib cjs esm umd"
+    "clean": "rimraf cjs esm lib umd"
   },
   "repository": {
     "type": "git",

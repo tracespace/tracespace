@@ -1,8 +1,27 @@
 # tracespace
 
+[![ci badge][]][ci]
+[![code coverage badge][]][code coverage]
+[![license badge][]][license]
+[![chat badge][]][chat]
+
 > PCB visualization tools for Node.js and the browser
 
 tracespace is an open-source collection of tools to make looking at circuit boards on the internet easier.
+
+<!-- badge links -->
+
+[ci]: https://github.com/tracespace/tracespace/actions
+[code coverage]: https://codecov.io/gh/tracespace/tracespace/branch/v5
+[license]: https://github.com/tracespace/tracespace/blob/main/LICENSE
+[chat]: https://gitter.im/tracespace/Lobby
+
+<!-- badges -->
+
+[ci badge]: https://flat.badgen.net/github/checks/tracespace/tracespace/v5?label=ci
+[code coverage badge]: https://flat.badgen.net/codecov/c/github/tracespace/tracespace/v5
+[license badge]: https://flat.badgen.net/github/license/tracespace/tracespace
+[chat badge]: https://flat.badgen.net/badge/icon/chat?icon=gitter&label&color=purple
 
 ## v5 checklist
 
@@ -60,7 +79,7 @@ The v5 release will attempt to fix / address the following open issues:
 
 ## examples
 
-Renders of the [Arduino Uno][arduino] produced by [pcb-stackup][] and [gerber-to-svg][]:
+Renders of the [Arduino Uno][arduino] produced by tracespace:
 
 ![arduino uno top][top]
 ![arduino uno bottom][bottom]
@@ -121,120 +140,63 @@ Arduino Uno design files used under the terms of the [Creative Commons Attributi
 [kitspace]: https://kitspace.org
 [openhardware]: https://www.openhardware.io
 
-## apps
+## apps and libraries
 
-This repository has one web-app that is published to <https://tracespace.io>
+| package                | description                                               |                                                                                                                 |
+| ---------------------- | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| [@tracespace/view][]   | Probably the best Gerber viewer on the internet           | <https://tracespace.io/view>                                                                                    |
+| [@tracespace/cli][]    | Render PCBs as SVGs from the comfort of your own terminal | [![cli npm badge][]][cli npm] [![cli deps badge][]][cli deps]                                                   |
+| [@tracespace/parser][] | Gerber and drill file parser                              | [![parser npm badge][]][parser npm] [![parser deps badge][]][parser deps] [![parser size badge][]][parser size] |
+| [@tracespace/xml-id][] | XML ID generation and sanitation utilities                | [![xml-id npm badge][]][xml-id npm] [![xml-id deps badge][]][xml-id deps] [![xml-id size badge][]][xml-id size] |
+| [whats-that-gerber][]  | Identify Gerber and drill files by filename               | [![wtg npm badge][]][wtg npm] [![wtg deps badge][]][wtg deps] [![wtg size badge][]][wtg size]                   |
 
-### [@tracespace/view][view]
+<!-- monorepo links -->
 
-> Probably the best printed circuit board viewer on the internet
-
-A Gerber viewer powered by the tracespace libraries. Available at <https://tracespace.io/view>.
-
-[view]: ./apps/view
-
-## packages
-
-This repository also contains several packages that are published to npm. See them all below!
-
-### [pcb-stackup][]
-
-![latest][pcb-stackup-latest-badge]
-![next][pcb-stackup-next-badge]
-
-> Render PCBs as beautiful, precise SVGs from Gerber / NC drill files
-
-[pcb-stackup]: ./packages/pcb-stackup
-[pcb-stackup-latest-badge]: https://flat.badgen.net/npm/v/pcb-stackup
-[pcb-stackup-next-badge]: https://flat.badgen.net/npm/v/pcb-stackup/next
-
-### [@tracespace/cli][]
-
-![latest][@tracespace/cli-latest-badge]
-![next][@tracespace/cli-next-badge]
-
-> Render PCBs as SVGs from the comfort of your own terminal
-
+[@tracespace/view]: ./apps/view
 [@tracespace/cli]: ./packages/cli
-[@tracespace/cli-latest-badge]: https://flat.badgen.net/npm/v/@tracespace/cli
-[@tracespace/cli-next-badge]: https://flat.badgen.net/npm/v/@tracespace/cli/next
-
-### [pcb-stackup-core][]
-
-![latest][pcb-stackup-core-latest-badge]
-![next][pcb-stackup-core-next-badge]
-
-> Layer stacking core logic for pcb-stackup
-
-[pcb-stackup-core]: ./packages/pcb-stackup-core
-[pcb-stackup-core-latest-badge]: https://flat.badgen.net/npm/v/pcb-stackup-core
-[pcb-stackup-core-next-badge]: https://flat.badgen.net/npm/v/pcb-stackup-core/next
-
-### [gerber-to-svg][]
-
-![latest][gerber-to-svg-latest-badge]
-![next][gerber-to-svg-next-badge]
-
-> Render individual Gerber / NC drill files as SVGs
-
-[gerber-to-svg]: ./packages/gerber-to-svg
-[gerber-to-svg-latest-badge]: https://flat.badgen.net/npm/v/gerber-to-svg
-[gerber-to-svg-next-badge]: https://flat.badgen.net/npm/v/gerber-to-svg/next
-
-### [gerber-plotter][]
-
-![latest][gerber-plotter-latest-badge]
-![next][gerber-plotter-next-badge]
-
-> Streaming layer image plotter (consumer of `gerber-parser`)
-
-[gerber-plotter]: ./packages/gerber-plotter
-[gerber-plotter-latest-badge]: https://flat.badgen.net/npm/v/gerber-plotter
-[gerber-plotter-next-badge]: https://flat.badgen.net/npm/v/gerber-plotter/next
-
-### [gerber-parser][]
-
-![latest][gerber-parser-latest-badge]
-![next][gerber-parser-next-badge]
-
-> Streaming Gerber/drill file parser
-
-[gerber-parser]: ./packages/gerber-parser
-[gerber-parser-latest-badge]: https://flat.badgen.net/npm/v/gerber-parser
-[gerber-parser-next-badge]: https://flat.badgen.net/npm/v/gerber-parser/next
-
-### [whats-that-gerber][]
-
-![latest][whats-that-gerber-latest-badge]
-![next][whats-that-gerber-next-badge]
-
-> Identify Gerber and drill files by filename
-
-[whats-that-gerber]: ./packages/whats-that-gerber
-[whats-that-gerber-latest-badge]: https://flat.badgen.net/npm/v/whats-that-gerber
-[whats-that-gerber-next-badge]: https://flat.badgen.net/npm/v/whats-that-gerber/next
-
-### [@tracespace/xml-id][]
-
-![latest][@tracespace/xml-id-latest-badge]
-![next][@tracespace/xml-id-next-badge]
-
-> XML ID generation and sanitation utilities for tracespace projects
-
+[@tracespace/parser]: ./packages/parser
 [@tracespace/xml-id]: ./packages/xml-id
-[@tracespace/xml-id-latest-badge]: https://flat.badgen.net/npm/v/@tracespace/xml-id
-[@tracespace/xml-id-next-badge]: https://flat.badgen.net/npm/v/@tracespace/xml-id/next
+[whats-that-gerber]: ./packages/whats-that-gerber
 
-### [@tracespace/fixtures][]
+<!-- npm links -->
 
-![latest][@tracespace/fixtures-latest-badge]
-![next][@tracespace/fixtures-next-badge]
+[cli npm]: https://www.npmjs.com/package/@tracespace/cli
+[parser npm]: #
+[xml-id npm]: https://www.npmjs.com/package/@tracespace/cli
+[wtg npm]: https://www.npmjs.com/package/whats-that-gerber
 
-> Test fixtures for tracespace projects
+<!-- npm version badges -->
 
-[@tracespace/fixtures]: ./packages/fixtures
-[@tracespace/fixtures-latest-badge]: https://flat.badgen.net/npm/v/@tracespace/fixtures
-[@tracespace/fixtures-next-badge]: https://flat.badgen.net/npm/v/@tracespace/fixtures/next
+[cli npm badge]: https://flat.badgen.net/npm/v/@tracespace/cli
+[parser npm badge]: https://flat.badgen.net/badge/npm/wip/orange
+[xml-id npm badge]: https://flat.badgen.net/npm/v/@tracespace/xml-id
+[wtg npm badge]: https://flat.badgen.net/npm/v/whats-that-gerber
+
+<!-- dependency links -->
+
+[cli deps]: https://david-dm.org/tracespace/tracespace?path=packages/cli
+[parser deps]: #
+[xml-id deps]: https://david-dm.org/tracespace/tracespace?path=packages/xml-id
+[wtg deps]: https://david-dm.org/tracespace/tracespace?path=packages/whats-that-gerber
+
+<!-- dependency badge -->
+
+[cli deps badge]: https://flat.badgen.net/david/dep/tracespace/tracespace/packages/cli
+[parser deps badge]: https://flat.badgen.net/badge/dependencies/wip/orange
+[xml-id deps badge]: https://flat.badgen.net/david/dep/tracespace/tracespace/packages/xml-id
+[wtg deps badge]: https://flat.badgen.net/david/dep/tracespace/tracespace/packages/whats-that-gerber
+
+<!-- bundle size links -->
+
+[parser size]: #
+[xml-id size]: https://bundlephobia.com/result?p=@tracespace/xml-id
+[wtg size]: https://bundlephobia.com/result?p=whats-that-gerber
+
+<!-- bundle size badge -->
+
+[parser size badge]: https://flat.badgen.net/badge/minzipped%20size/wip/orange
+[xml-id size badge]: https://flat.badgen.net/bundlephobia/minzip/@tracespace/xml-id
+[wtg size badge]: https://flat.badgen.net/bundlephobia/minzip/whats-that-gerber
 
 ## contributing
 
@@ -244,7 +206,7 @@ We could use your help maintaining and growing the tracespace ecosystem! Issues 
 
 The tracespace tools live here in this [monorepo][]. We use [yarn][] and [lerna][] to manage this setup.
 
-Node v8 (lts/carbon) or later is recommended.
+Node v10 or later is required for development, but v12 is recommended.
 
 ```shell
 # clone repository and install dependencies
@@ -300,6 +262,7 @@ There are two production asset types that you can build:
 - Full web-app bundles
   - `@tracespace/view`
 - Standalone library bundles
+  - `@tracespace/cli`
   - `@tracespace/xml-id`
   - `whats-that-gerber`
 

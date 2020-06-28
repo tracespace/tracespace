@@ -65,7 +65,7 @@ const format: SyntaxRule = {
     token(Lexer.NUMBER),
     zeroOrMore([notToken(Lexer.ASTERISK)]),
     token(Lexer.ASTERISK),
-    // including units here is invalid syntax, but Cadence Allergro does it
+    // including units here is invalid syntax, but Cadence Allegro does it
     // https://github.com/tracespace/tracespace/issues/234
     minToMax(0, 2, [token(Lexer.GERBER_UNITS), token(Lexer.ASTERISK)]),
     token(Lexer.PERCENT),
