@@ -42,7 +42,7 @@ jobs:
       script: yarn run build:all
 
     - # build and publish
-      if: tag =~ ^v OR (branch = main AND type != pull_request)
+      if: tag =~ /^v\d\.\d\.\d$/ OR (branch = main AND type != pull_request)
       stage: deploy
       name: Deploy to npm and s3
       script: yarn run build:all
