@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "test": "nyc --nycrc-path config/nyc.js mocha --config config/mocha.js",
-    "test:watch": "mocha --config config/mocha.js --watch --reporter dot",
+    "test:watch": "mocha --require scripts/register-babel.js --config config/mocha.js --watch --reporter dot",
     "coverage": "nyc report --nycrc-path config/nyc.js --reporter=lcov",
     "start": "lerna run start --parallel",
     "prebuild": "yarn clean",

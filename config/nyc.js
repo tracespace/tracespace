@@ -1,5 +1,7 @@
 'use strict'
 
+const path = require('path')
+
 module.exports = {
   all: true,
   include: ['apps/**', 'packages/**'],
@@ -23,4 +25,5 @@ module.exports = {
   // copied from @istanbuljs/nyc-config-babel
   sourceMap: false,
   instrument: false,
+  require: [path.join(__dirname, '../scripts/register-babel')],
 }
