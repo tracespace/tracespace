@@ -239,14 +239,18 @@ var runMacro = function(mods, blocks) {
     if (block.type !== 'variable' && block.type !== 'comment') {
       block = Object.keys(block).reduce(function(result, key) {
         var value = block[key]
-
-        if (isFunction(value)) {
-          result[key] = value(mods)
-        } else {
-          result[key] = value
-        }
-
+        result[key] = resolveValue(value)
         return result
+
+        function resolveValue(v) {
+          if (Array.isArray(v)) {
+            return v.map(resolveValue)
+          } else if (isFunction(v)) {
+            return v(mods)
+          } else {
+            return v
+          }
+        }
       }, {})
     }
 

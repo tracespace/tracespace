@@ -1166,6 +1166,64 @@ describe('gerber plotter', function() {
         expect(p._tool.pad).to.eql([{type: 'circle', cx: 3, cy: 2, r: 2}])
       })
 
+      it('should handle modifiers and functional array args', function() {
+        var blocks = [
+          {
+            type: 'outline',
+            exp: 1,
+            points: [
+              function(mods) {
+                return mods.$1
+              },
+              function(mods) {
+                return mods.$2
+              },
+              function(mods) {
+                return mods.$3
+              },
+              function(mods) {
+                return mods.$4
+              },
+              function(mods) {
+                return mods.$5
+              },
+              function(mods) {
+                return mods.$6
+              },
+              function(mods) {
+                return mods.$7
+              },
+              function(mods) {
+                return mods.$8
+              },
+            ],
+            rot: function(mods) {
+              return mods.$9
+            },
+          },
+        ]
+        var mods = [0, 0, 1, 0, 1, 1, 0]
+        var macro = {type: 'macro', name: 'OUT', blocks: blocks}
+        var tool = {
+          type: 'tool',
+          code: '10',
+          tool: {shape: 'OUT', params: mods, hole: []},
+        }
+
+        p.write(macro)
+        p.write(tool)
+        expect(p._tool.pad).to.eql([
+          {
+            type: 'poly',
+            points: [
+              [0, 0],
+              [1, 0],
+              [1, 1],
+            ],
+          },
+        ])
+      })
+
       it('should handle multiple primitives and exposure', function() {
         var blocks = [
           {type: 'circle', exp: 1, dia: 4, cx: -2, cy: 0, rot: 0},

@@ -417,6 +417,16 @@ describe('gerber parser with gerber files', function() {
       expectResults(expected, done)
       p.write('%ADD0010C,1*%\n')
     })
+
+    it('should handle tool defs with negative modifiers', function(done) {
+      var expectedTools = [{shape: 'CIRC', params: [1, -0.5, 3], hole: []}]
+      var expected = [
+        {type: 'tool', line: 0, code: '10', tool: expectedTools[0]},
+      ]
+
+      expectResults(expected, done)
+      p.write('%ADD10CIRC,1X-0.5X3*%\n')
+    })
   })
 
   describe('aperture macros', function() {
@@ -765,7 +775,7 @@ describe('gerber parser with gerber files', function() {
       })
     })
 
-    it('should parse params in primitives as expressions', function(done) {
+    it('should parse params in circle primitives as expressions', function(done) {
       p.once('data', function(d) {
         expect(d.blocks[0].dia({$1: 4})).to.equal(5)
         done()
@@ -773,6 +783,34 @@ describe('gerber parser with gerber files', function() {
 
       p.write('%AMCIRC1*\n')
       p.write('1,1,$1+1,1,2*%\n')
+    })
+
+    it('should parse params in outline primitives as expressions', function(done) {
+      p.once('data', function(d) {
+        var block = d.blocks[0]
+        var points = block.points
+        var rotation = block.rot
+        var mods = {
+          $1: 0,
+          $2: 1,
+          $3: 2,
+          $4: 3,
+          $5: 4,
+          $6: 5,
+          $7: 6,
+          $8: 7,
+          $9: 8,
+        }
+
+        points.forEach(function(p, i) {
+          expect(p(mods)).to.equal(i)
+        })
+        expect(rotation(mods)).to.equal(8)
+        done()
+      })
+
+      p.write('%AMOUT1*\n')
+      p.write('4,1,3,$1,$2,$3,$4,$5,$6,$7,$8,$9**%\n')
     })
   })
 
