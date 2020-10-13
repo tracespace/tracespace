@@ -23,5 +23,5 @@
       "separateMajorMinor": false
     }
   ],
-  "ignoreDeps": ["mocha", "prettier"]
+  "ignoreDeps": ["mocha", "prettier", "jszip", "@types/jszip"]
 }
