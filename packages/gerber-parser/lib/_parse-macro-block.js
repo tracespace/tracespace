@@ -102,8 +102,8 @@ var parseMacroBlock = function(parser, block) {
     return {
       type: 'outline',
       exp: exp,
-      points: mods.slice(3, -1).map(Number),
-      rot: Number(mods[mods.length - 1]),
+      points: mods.slice(3, -1),
+      rot: mods[mods.length - 1],
     }
   }
 

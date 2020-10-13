@@ -28,7 +28,7 @@ var RE_UNITS = /^%MO(IN|MM)/
 var RE_FORMAT = /^%FS([LT]?)([AI]?)(.*)X([0-7])([0-7])Y\4\5/
 var RE_POLARITY = /^%LP([CD])/
 var RE_STEP_REP = /^%SR(?:X(\d+)Y(\d+)I([\d.]+)J([\d.]+))?/
-var RE_TOOL_DEF = /^%ADD0*(\d{2,})([A-Za-z_$][\w\-.]*)(?:,((?:X?[\d.]+)*))?/
+var RE_TOOL_DEF = /^%ADD0*(\d{2,})([A-Za-z_$][\w\-.]*)(?:,((?:X?[\d.-]+)*))?/
 var RE_MACRO = /^%AM([A-Za-z_$][\w\-.]*)\*?(.*)/
 
 var parseToolDef = function(parser, block) {
