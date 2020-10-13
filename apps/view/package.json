@@ -1,7 +1,7 @@
 {
   "name": "@tracespace/view",
   "productName": "tracespace view",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "private": true,
   "description": "Probably the best Gerber viewer on the internet",
   "author": {
