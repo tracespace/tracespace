@@ -162,6 +162,28 @@ describe('gerber parser with gerber files', function() {
       p.write('%MOMM*%\n')
     })
 
+    // Special Case: Cadence Allegro
+    // The gerber spec says
+    //   "There can be only one extended code command between each pair of ‘%’ delimiters"
+    // Cadence Allegro violates this rule by including the units after the format command
+    //
+    // Sample:
+    //   G04 File Origin:  Cadence Allegro 17.2-S032*
+    //   ...
+    //   %FSLAX25Y25*MOMM*%
+    //   ...
+    //
+    it('should set units if found in same line as format', function(done) {
+      var expected = [
+        {type: 'set', prop: 'units', value: 'in', line: 0},
+        {type: 'set', prop: 'units', value: 'mm', line: 1},
+      ]
+
+      expectResults(expected, done)
+      p.write('%FSLAX25Y25*MOIN*%\n')
+      p.write('%FSLAX25Y25*MOMM*%\n')
+    })
+
     it('should set backup units with G70/1', function(done) {
       var expected = [
         {type: 'set', prop: 'backupUnits', value: 'in', line: 0},

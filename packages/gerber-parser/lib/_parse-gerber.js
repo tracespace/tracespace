@@ -31,6 +31,24 @@ var RE_STEP_REP = /^%SR(?:X(\d+)Y(\d+)I([\d.]+)J([\d.]+))?/
 var RE_TOOL_DEF = /^%ADD0*(\d{2,})([A-Za-z_$][\w\-.]*)(?:,((?:X?[\d.-]+)*))?/
 var RE_MACRO = /^%AM([A-Za-z_$][\w\-.]*)\*?(.*)/
 
+// Special Case: Cadence Allegro
+// The gerber spec says
+//   "There can be only one extended code command between each pair of ‘%’ delimiters"
+// Cadence Allegro violates this rule by including the units after the format command
+//
+// Sample:
+//   G04 File Origin:  Cadence Allegro 17.2-S032*
+//   ...
+//   %FSLAX25Y25*MOMM*%
+//   ...
+//
+var RE_CADENCE_ALLEGRO_UNITS_IN_FORMAT = /\*MO(IN|MM)$/
+
+var parseUnits = function(parser, unitsMatch) {
+  var units = unitsMatch === 'IN' ? 'in' : 'mm'
+  return parser._push(commands.set('units', units))
+}
+
 var parseToolDef = function(parser, block) {
   var format = {places: parser.format.places}
   var toolMatch = block.match(RE_TOOL_DEF)
@@ -122,8 +140,7 @@ var parse = function(parser, block) {
 
   if (RE_UNITS.test(block)) {
     var unitsMatch = block.match(RE_UNITS)[1]
-    var units = unitsMatch === 'IN' ? 'in' : 'mm'
-    return parser._push(commands.set('units', units))
+    return parseUnits(parser, unitsMatch);
   }
 
   if (RE_BKP_UNITS.test(block)) {
@@ -159,6 +176,11 @@ var parse = function(parser, block) {
       parser._warn(
         'unknown characters "' + unknown + '" in "' + block + '" were ignored'
       )
+    }
+
+    if (RE_CADENCE_ALLEGRO_UNITS_IN_FORMAT.test(block)) {
+      var unitsMatch = block.match(RE_CADENCE_ALLEGRO_UNITS_IN_FORMAT)[1]
+      return parseUnits(parser, unitsMatch);
     }
 
     var epsilon = 1.5 * Math.pow(10, -format.places[1])
