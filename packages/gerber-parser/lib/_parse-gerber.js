@@ -140,7 +140,7 @@ var parse = function(parser, block) {
 
   if (RE_UNITS.test(block)) {
     var unitsMatch = block.match(RE_UNITS)[1]
-    return parseUnits(parser, unitsMatch);
+    return parseUnits(parser, unitsMatch)
   }
 
   if (RE_BKP_UNITS.test(block)) {
@@ -179,8 +179,8 @@ var parse = function(parser, block) {
     }
 
     if (RE_CADENCE_ALLEGRO_UNITS_IN_FORMAT.test(block)) {
-      var unitsMatch = block.match(RE_CADENCE_ALLEGRO_UNITS_IN_FORMAT)[1]
-      return parseUnits(parser, unitsMatch);
+      var caUnitsMatch = block.match(RE_CADENCE_ALLEGRO_UNITS_IN_FORMAT)[1]
+      return parseUnits(parser, caUnitsMatch)
     }
 
     var epsilon = 1.5 * Math.pow(10, -format.places[1])
