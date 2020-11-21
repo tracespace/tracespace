@@ -38,8 +38,9 @@ declare namespace gerberPlotter {
   type Box = [number, number, number, number]
   type ToolId = string
 
-  //----------------------------------------------------------------------
+  // ----------------------------------------------------------------------
   // Shape aka Tool
+
   interface Circle {
     type: 'circle'
     r: number
@@ -77,7 +78,7 @@ declare namespace gerberPlotter {
 
   type Shape = Circle | Rect | Poly | Ring
 
-  //----------------------------------------------------------------------
+  // ----------------------------------------------------------------------
   // Segments
 
   interface Line {
@@ -98,7 +99,7 @@ declare namespace gerberPlotter {
 
   type Segment = Line | Arc
 
-  //----------------------------------------------------------------------
+  // ----------------------------------------------------------------------
   // Chunks
 
   interface ChunkShape {
