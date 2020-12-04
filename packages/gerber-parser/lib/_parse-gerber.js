@@ -178,14 +178,15 @@ var parse = function(parser, block) {
       )
     }
 
-    if (RE_CADENCE_ALLEGRO_UNITS_IN_FORMAT.test(block)) {
-      var caUnitsMatch = block.match(RE_CADENCE_ALLEGRO_UNITS_IN_FORMAT)[1]
-      return parseUnits(parser, caUnitsMatch)
-    }
-
     var epsilon = 1.5 * Math.pow(10, -format.places[1])
     parser._push(commands.set('nota', nota))
     parser._push(commands.set('epsilon', epsilon))
+
+    if (RE_CADENCE_ALLEGRO_UNITS_IN_FORMAT.test(block)) {
+      var caUnitsMatch = block.match(RE_CADENCE_ALLEGRO_UNITS_IN_FORMAT)[1]
+      parseUnits(parser, caUnitsMatch)
+    }
+
     return
   }
 

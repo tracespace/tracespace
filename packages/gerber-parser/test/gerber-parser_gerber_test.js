@@ -173,15 +173,37 @@ describe('gerber parser with gerber files', function() {
     //   %FSLAX25Y25*MOMM*%
     //   ...
     //
-    it('should set units if found in same line as format', function(done) {
-      var expected = [
-        {type: 'set', prop: 'units', value: 'in', line: 0},
-        {type: 'set', prop: 'units', value: 'mm', line: 1},
-      ]
+    describe('should set units if found in same line as format', function() {
+      it('should output notation and epsilion then units', function(done) {
+        var expected = [
+          {type: 'set', line: 0, prop: 'nota', value: 'A'},
+          {type: 'set', line: 0, prop: 'epsilon', value: 1.5 * Math.pow(10, -5)},
+          {type: 'set', line: 0, prop: 'units', value: 'in' },
 
-      expectResults(expected, done)
-      p.write('%FSLAX25Y25*MOIN*%\n')
-      p.write('%FSLAX25Y25*MOMM*%\n')
+          {type: 'set', line: 1, prop: 'nota', value: 'A'},
+          {type: 'set', line: 1, prop: 'epsilon', value: 1.5 * Math.pow(10, -5)},
+          {type: 'set', line: 1, prop: 'units', value: 'mm', },
+        ]
+
+        expectResults(expected, done)
+
+        p.write('%FSLAX25Y25*MOIN*%\n') // inches
+        p.write('%FSTAX25Y25*MOMM*%\n') // millimeters
+      })
+
+      it('should still parse format', function() {
+        // Inches
+        p.write('%FSLAX25Y25*MOIN*%\n')
+        expect(p.format.zero).to.equal('L')
+        expect(p.format.places).to.eql([2, 5])
+
+        // Millimeters
+        p.format.zero = null
+        p.format.places = null
+        p.write('%FSTAX37Y37*MOMM*%\n')
+        expect(p.format.zero).to.equal('T')
+        expect(p.format.places).to.eql([3, 7])
+      })
     })
 
     it('should set backup units with G70/1', function(done) {
