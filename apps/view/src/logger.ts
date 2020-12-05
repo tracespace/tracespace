@@ -25,12 +25,16 @@ export const createLogMiddleware = (): Middleware => {
   }
 }
 
+function emptyLogHandler(_message: string, ..._meta: unknown[]): void {
+  // do nothing.
+}
+
 function createLogHandler(level: LogLevel): LogHandler {
   if (!minLevel) minLevel = readLogLevel()
 
   return LEVELS.indexOf(level) >= LEVELS.indexOf(minLevel)
     ? (msg, ...meta) => console[level](`${level}: ${msg}`, ...meta)
-    : () => {}
+    : emptyLogHandler
 }
 
 function readLogLevel(): LogLevel {

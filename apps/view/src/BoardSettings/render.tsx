@@ -171,12 +171,16 @@ type OverrideCheckboxProps = FieldProps & {
   defaultValue: unknown
 }
 
+function emptyBlurHandler(): void {
+  // do nothing
+}
+
 function OverrideCheckbox(props: OverrideCheckboxProps): JSX.Element {
   const {form, defaultValue, label} = props
   const field = {
     ...props.field,
     checked: !!props.field.value,
-    onBlur: () => {},
+    onBlur: emptyBlurHandler,
     onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
       const value = event.target.checked ? defaultValue : ''
       form.setFieldValue(props.field.name, value)
