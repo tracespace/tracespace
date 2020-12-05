@@ -175,14 +175,15 @@ describe('gerber parser with gerber files', function() {
     //
     describe('should set units if found in same line as format', function() {
       it('should output notation and epsilion then units', function(done) {
+        var epsilon = 1.5 * Math.pow(10, -5)
         var expected = [
           {type: 'set', line: 0, prop: 'nota', value: 'A'},
-          {type: 'set', line: 0, prop: 'epsilon', value: 1.5 * Math.pow(10, -5)},
-          {type: 'set', line: 0, prop: 'units', value: 'in' },
+          {type: 'set', line: 0, prop: 'epsilon', value: epsilon},
+          {type: 'set', line: 0, prop: 'units', value: 'in'},
 
           {type: 'set', line: 1, prop: 'nota', value: 'A'},
-          {type: 'set', line: 1, prop: 'epsilon', value: 1.5 * Math.pow(10, -5)},
-          {type: 'set', line: 1, prop: 'units', value: 'mm', },
+          {type: 'set', line: 1, prop: 'epsilon', value: epsilon},
+          {type: 'set', line: 1, prop: 'units', value: 'mm'},
         ]
 
         expectResults(expected, done)
