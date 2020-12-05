@@ -45,7 +45,7 @@ export const appPreferences = (prefs: AppPreferences): Action => ({
 
 export const createBoard = (
   files: Array<File>,
-  dragAndDrop: boolean = false
+  dragAndDrop = false
 ): Action => ({
   type: CREATE_BOARD,
   payload: files,

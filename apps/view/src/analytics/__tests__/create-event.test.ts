@@ -11,7 +11,7 @@ type Spec = {
   expected: AnalyticsEvent | null
 }
 
-const MockFile = (name: string, type: string = ''): File => {
+const MockFile = (name: string, type = ''): File => {
   const file = {name, type, size: 0, lastModified: 0, slice: () => file}
   return (file as unknown) as File
 }

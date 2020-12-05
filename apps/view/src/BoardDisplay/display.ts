@@ -28,8 +28,8 @@ export const SCALE_STEPS = new Array(SCALE_STEP_COUNT + 1)
 export function zoom(
   prevState: DisplayState,
   delta: number,
-  centerX: number = 0.5,
-  centerY: number = 0.5
+  centerX = 0.5,
+  centerY = 0.5
 ): DisplayState {
   const {x: prevX, y: prevY, step: prevStep} = prevState
   const {scale: prevScale} = getScale(prevStep)
