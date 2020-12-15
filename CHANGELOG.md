@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.4](https://github.com/tracespace/tracespace/compare/v4.2.3...v4.2.4) (2020-12-15)
+
+
+### Bug Fixes
+
+* **parser:** accept units on same line as format ([#350](https://github.com/tracespace/tracespace/issues/350)) ([eb2feae](https://github.com/tracespace/tracespace/commit/eb2feae))
+* **types:** define more types for gerber-plotter ([#349](https://github.com/tracespace/tracespace/issues/349)) ([d1a1417](https://github.com/tracespace/tracespace/commit/d1a1417))
+
+
+
+
+
 ## [4.2.3](https://github.com/tracespace/tracespace/compare/v4.2.2...v4.2.3) (2020-10-13)
 
 
