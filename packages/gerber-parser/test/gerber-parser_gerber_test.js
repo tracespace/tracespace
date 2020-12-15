@@ -162,6 +162,51 @@ describe('gerber parser with gerber files', function() {
       p.write('%MOMM*%\n')
     })
 
+    // Special Case: Cadence Allegro
+    // The gerber spec says
+    //   "There can be only one extended code command between each pair of ‘%’ delimiters"
+    // Cadence Allegro violates this rule by including the units after the format command
+    //
+    // Sample:
+    //   G04 File Origin:  Cadence Allegro 17.2-S032*
+    //   ...
+    //   %FSLAX25Y25*MOMM*%
+    //   ...
+    //
+    describe('should set units if found in same line as format', function() {
+      it('should output notation and epsilion then units', function(done) {
+        var epsilon = 1.5 * Math.pow(10, -5)
+        var expected = [
+          {type: 'set', line: 0, prop: 'nota', value: 'A'},
+          {type: 'set', line: 0, prop: 'epsilon', value: epsilon},
+          {type: 'set', line: 0, prop: 'units', value: 'in'},
+
+          {type: 'set', line: 1, prop: 'nota', value: 'A'},
+          {type: 'set', line: 1, prop: 'epsilon', value: epsilon},
+          {type: 'set', line: 1, prop: 'units', value: 'mm'},
+        ]
+
+        expectResults(expected, done)
+
+        p.write('%FSLAX25Y25*MOIN*%\n') // inches
+        p.write('%FSTAX25Y25*MOMM*%\n') // millimeters
+      })
+
+      it('should still parse format', function() {
+        // Inches
+        p.write('%FSLAX25Y25*MOIN*%\n')
+        expect(p.format.zero).to.equal('L')
+        expect(p.format.places).to.eql([2, 5])
+
+        // Millimeters
+        p.format.zero = null
+        p.format.places = null
+        p.write('%FSTAX37Y37*MOMM*%\n')
+        expect(p.format.zero).to.equal('T')
+        expect(p.format.places).to.eql([3, 7])
+      })
+    })
+
     it('should set backup units with G70/1', function(done) {
       var expected = [
         {type: 'set', prop: 'backupUnits', value: 'in', line: 0},
