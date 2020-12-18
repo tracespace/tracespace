@@ -364,10 +364,15 @@ var interpolate = function(
   pathGraph,
   plotter
 ) {
-  if (!region && tool.trace.length === 0) {
+  var strokableTool = region || (tool && tool.trace.length > 0)
+  var arcableTool = region || (tool && tool.trace.length === 1)
+  var toolCode = tool ? tool.code : '[NO TOOL SET]'
+
+  if (!strokableTool) {
     plotter._warn(
-      'tool ' + tool.code + ' is not strokable; ignoring interpolate'
+      'tool ' + toolCode + ' is not strokable; ignoring interpolate'
     )
+
     return boundingBox.new()
   }
 
@@ -382,8 +387,12 @@ var interpolate = function(
   }
 
   // else, make sure we're allowed to be drawing an arc, then draw an arc
-  if (tool.trace.length !== 1 && !region) {
-    plotter._warn('cannot draw an arc with a non-circular tool')
+  if (!arcableTool) {
+    plotter._warn(
+      'cannot draw arc with non-circular tool ' +
+        toolCode +
+        '; ignoring interpolate'
+    )
     return boundingBox.new()
   }
 
