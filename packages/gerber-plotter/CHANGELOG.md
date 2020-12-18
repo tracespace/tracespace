@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.5](https://github.com/tracespace/tracespace/compare/v4.2.4...v4.2.5) (2020-12-18)
+
+
+### Bug Fixes
+
+* **gerber-plotter:** allow unset tool when drawing region arcs ([#356](https://github.com/tracespace/tracespace/issues/356)) ([f18d796](https://github.com/tracespace/tracespace/commit/f18d796)), closes [#355](https://github.com/tracespace/tracespace/issues/355)
+
+
+
+
+
 ## [4.2.4](https://github.com/tracespace/tracespace/compare/v4.2.3...v4.2.4) (2020-12-15)
 
 
