@@ -1623,6 +1623,16 @@ describe('gerber plotter', function() {
           expect(p._path.length).to.equal(1)
         })
 
+        it('should allow missing tools if in region mode', function() {
+          p = plotter()
+
+          p.write({type: 'set', prop: 'arc', value: 's'})
+          p.write({type: 'set', prop: 'mode', value: 'cw'})
+          p.write({type: 'set', prop: 'region', value: true})
+          p.write({type: 'op', op: 'int', coord: {x: 2, y: 0, i: 1, j: 1.5}})
+          expect(p._path.length).to.equal(1)
+        })
+
         describe('bounding box', function() {
           it('should usually use the arc end points', function() {
             p.write({type: 'op', op: 'move', coord: {x: 0.5, y: 0.866}})
