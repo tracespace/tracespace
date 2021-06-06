@@ -33,17 +33,17 @@
   },
   "dependencies": {
     "common-prefix": "^1.1.0",
-    "cosmiconfig": "^5.2.1",
+    "cosmiconfig": "^7.0.0",
     "debug": "^4.1.1",
-    "dot-prop": "^5.1.0",
+    "dot-prop": "^6.0.1",
     "gerber-to-svg": "^4.2.5",
-    "globby": "^10.0.2",
+    "globby": "^11.0.3",
     "is-glob": "^4.0.1",
     "make-dir": "^3.0.0",
     "pcb-stackup": "^4.2.5",
-    "slash": "^3.0.0",
+    "slash": "^4.0.0",
     "untildify": "^4.0.0",
     "whats-that-gerber": "^4.2.2",
-    "yargs": "^15.1.0"
+    "yargs": "^17.0.1"
   }
 }
