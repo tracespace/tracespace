@@ -39,6 +39,6 @@
     "lodash.fill": "^3.4.0",
     "lodash.isfinite": "^3.3.2",
     "lodash.isfunction": "^3.0.9",
-    "readable-stream": "^3.4.0"
+    "readable-stream": "^3.6.0"
   }
 }

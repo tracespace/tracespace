@@ -36,7 +36,7 @@
   "dependencies": {
     "@tracespace/xml-id": "^4.0.0",
     "@types/node": "^13.1.6",
-    "color-string": "^1.5.3",
+    "color-string": "^1.5.5",
     "gerber-to-svg": "^4.2.5",
     "viewbox": "^1.0.0",
     "whats-that-gerber": "^4.2.2",

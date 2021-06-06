@@ -18,11 +18,11 @@
   "license": "MIT",
   "dependencies": {
     "debug": "^4.1.1",
-    "glob": "^7.1.4",
+    "glob": "^7.1.7",
     "lodash": "^4.17.15",
-    "run-parallel": "^1.1.9",
-    "run-series": "^1.1.8",
-    "run-waterfall": "^1.1.6"
+    "run-parallel": "^1.2.0",
+    "run-series": "^1.1.9",
+    "run-waterfall": "^1.1.7"
   },
   "peerDependencies": {
     "express": "^4.0.0"
