@@ -35,7 +35,7 @@
   "homepage": "https://github.com/tracespace/tracespace",
   "dependencies": {
     "@tracespace/xml-id": "^4.0.0",
-    "@types/node": "^13.1.6",
+    "@types/node": "^14.17.3",
     "color-string": "^1.5.3",
     "gerber-to-svg": "^4.2.5",
     "viewbox": "^1.0.0",
