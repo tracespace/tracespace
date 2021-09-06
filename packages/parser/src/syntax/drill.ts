@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // drill file grammar
 import * as Lexer from '../lexer'
 import * as Tree from '../tree'
@@ -61,11 +62,9 @@ const units: SyntaxRule = {
         zeroSuppression,
       })
     }
-
     return nodes
   },
 }
-
 const tool: SyntaxRule = {
   rules: [
     token(Lexer.T_CODE),
@@ -191,6 +190,23 @@ const slot: SyntaxRule = {
   },
 }
 
+const headerStart: SyntaxRule = {
+  rules: [token(Lexer.M_CODE, '48'), token(Lexer.NEWLINE)],
+  createNodes: tokens => [
+    {type: Tree.HEADER_START, position: tokensToPosition(tokens)},
+  ],
+}
+
+const headerEnd: SyntaxRule = {
+  rules: [
+    one([token(Lexer.PERCENT), token(Lexer.M_CODE, '95')]),
+    token(Lexer.NEWLINE),
+  ],
+  createNodes: tokens => [
+    {type: Tree.HEADER_END, position: tokensToPosition(tokens)},
+  ],
+}
+
 const done: SyntaxRule = {
   rules: [
     one([token(Lexer.M_CODE, '30'), token(Lexer.M_CODE, '0')]),
@@ -221,6 +237,8 @@ export const drillSyntax: Array<SyntaxRule> = [
   mode,
   operation,
   slot,
+  headerStart,
+  headerEnd,
   comment,
   units,
   done,

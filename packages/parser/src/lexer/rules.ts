@@ -64,7 +64,10 @@ export const rules: Rules = {
   },
   [Tokens.GERBER_STEP_REPEAT]: 'SR',
   [Tokens.GERBER_MACRO_VARIABLE]: /\$\d+/,
-  [Tokens.SEMICOLON]: ';',
+  [Tokens.DRILL_FORMAT]: {
+    match: /^;FILE_FORMAT=[0-9]:[0-9]/,
+    value: (text: string): string => text.slice(12),
+  },
   [Tokens.DRILL_UNITS]: /^(?:METRIC|INCH)/,
   [Tokens.DRILL_ZERO_INCLUSION]: {
     match: /,(?:TZ|LZ)/,
@@ -74,6 +77,7 @@ export const rules: Rules = {
   [Tokens.NUMBER]: /(?:[+-])?[\d.]+/,
   [Tokens.OPERATOR]: ['x', '/', '+', '-', '(', ')'],
   [Tokens.COMMA]: ',',
+  [Tokens.SEMICOLON]: ';',
   [Tokens.WORD]: /[a-zA-Z]+/,
   [Tokens.WHITESPACE]: /[ \t]+/,
   [Tokens.NEWLINE]: {

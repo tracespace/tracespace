@@ -24,6 +24,18 @@ export const COMMENT = 'comment'
 export const DONE = 'done'
 
 /**
+ * {@linkcode headerStart} node type 
+ * @category Node
+ */
+ export const HEADER_START = 'headerStart'
+
+/**
+ * {@linkcode headerEnd} node type 
+ * @category Node
+ */
+export const HEADER_END = 'headerEnd'
+
+/**
  * {@linkcode Units} node type
  *
  * @category Node
@@ -153,6 +165,8 @@ export type Node = Root | ChildNode
 export type ChildNode =
   | Comment
   | Done
+  | HeaderStart
+  | HeaderEnd
   | Units
   | CoordinateFormat
   | ToolDefinition
@@ -220,6 +234,29 @@ export interface Comment extends BaseNode {
 export interface Done extends BaseNode {
   /** Node type */
   type: typeof DONE
+}
+
+/**
+ * Node representing an end of header comment that can appear in NC Drill files. This represents M95
+ * 
+ * @category Node
+ */
+
+ export interface HeaderStart extends BaseNode {
+  /** Node type */
+  type: typeof HEADER_START
+}
+
+/**
+ * Node representing an end of header comment that can appear in NC Drill files. This represents either 
+ * an PERCENT symbol '%' or 'M95'.
+ * 
+ * @category Node
+ */
+
+export interface HeaderEnd extends BaseNode {
+  /** Node type */
+  type: typeof HEADER_END
 }
 
 /**
