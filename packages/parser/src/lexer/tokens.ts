@@ -120,6 +120,11 @@ export const GERBER_MACRO_VARIABLE = 'GERBER_MACRO_VARIABLE'
 export const SEMICOLON = 'SEMICOLON'
 
 /**
+ * NC Drill file format token type 
+ */
+export const DRILL_FORMAT = 'DRILL_FORMAT'
+
+/**
  * Drill file units token type
  *
  * @category Lexer
@@ -204,9 +209,10 @@ export type TokenType =
   | typeof GERBER_LOAD_POLARITY
   | typeof GERBER_STEP_REPEAT
   | typeof GERBER_MACRO_VARIABLE
-  | typeof SEMICOLON
   | typeof DRILL_UNITS
+  | typeof DRILL_FORMAT
   | typeof DRILL_ZERO_INCLUSION
+  | typeof SEMICOLON
   | typeof COORD_CHAR
   | typeof NUMBER
   | typeof WORD

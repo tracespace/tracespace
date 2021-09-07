@@ -46,6 +46,7 @@ const units: SyntaxRule = {
       .filter(t => t.type === Lexer.NUMBER)
       .reduce<Types.Format | null>((_, t) => {
         const [integer = '', decimal = ''] = t.value.split('.')
+        console.log('format found', [integer.length, decimal.length])
         return [integer.length, decimal.length]
       }, null)
 
@@ -62,9 +63,33 @@ const units: SyntaxRule = {
         zeroSuppression,
       })
     }
+
     return nodes
   },
 }
+
+const drillFormat: SyntaxRule = {
+  rules: [token(Lexer.DRILL_FORMAT)],
+
+  createNodes: tokens => {
+    const format: Types.Format = [
+      parseInt(tokens[0].value[0]),
+      parseInt(tokens[0].value[2]),
+    ]
+    const node: Tree.ChildNode[] = [
+      {
+        type: Tree.COORDINATE_FORMAT,
+        position: tokensToPosition(tokens),
+        mode: null,
+        format,
+        zeroSuppression: null,
+      },
+    ]
+
+    return node
+  },
+}
+
 const tool: SyntaxRule = {
   rules: [
     token(Lexer.T_CODE),
@@ -241,5 +266,6 @@ export const drillSyntax: Array<SyntaxRule> = [
   headerEnd,
   comment,
   units,
+  drillFormat,
   done,
 ].map(r => ({...r, filetype: Constants.DRILL}))

@@ -66,7 +66,7 @@ export const rules: Rules = {
   [Tokens.GERBER_MACRO_VARIABLE]: /\$\d+/,
   [Tokens.DRILL_FORMAT]: {
     match: /^;FILE_FORMAT=[0-9]:[0-9]/,
-    value: (text: string): string => text.slice(12),
+    value: (text: string): string => text.slice(13),
   },
   [Tokens.DRILL_UNITS]: /^(?:METRIC|INCH)/,
   [Tokens.DRILL_ZERO_INCLUSION]: {
