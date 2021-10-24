@@ -82,6 +82,7 @@ module.exports = {
         'packages/parser/**/*',
         'packages/whats-that-gerber/**/*',
         'packages/xml-id/**/*',
+        'packages/stats/**/*',
       ],
       globals: {
         __PKG_NAME__: 'readonly',

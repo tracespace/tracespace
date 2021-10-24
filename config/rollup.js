@@ -12,6 +12,7 @@ const ENTRIES = [
   {dir: 'packages/parser', esm: true, cjs: true, umd: true},
   {dir: 'packages/whats-that-gerber', esm: true, cjs: true, umd: true},
   {dir: 'packages/xml-id', esm: true, cjs: true, umd: true},
+  {dir: 'packages/stats', esm: true, cjs: true, umd: true},
 ]
 
 const resolveFromRoot = (...paths) => path.join(__dirname, '..', ...paths)
