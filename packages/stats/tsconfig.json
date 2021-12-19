@@ -1,6 +1,8 @@
 {
   "extends": "@tracespace/config/typescript.json",
-  "references": [],
+  "references": [
+    { "path": "../parser" },
+  ],
   "compilerOptions": {
     "composite": true,
     "emitDeclarationOnly": true,
