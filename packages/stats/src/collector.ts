@@ -43,7 +43,7 @@ export function createStatsCollector(): StatsCollector {
     }
 
     let currentTool = ''
-    for (let node of root.children) {
+    for (const node of root.children) {
       if (node.type === Parser.TOOL_DEFINITION) {
         stats.tools.set(node.code, node.shape)
 
@@ -59,7 +59,7 @@ export function createStatsCollector(): StatsCollector {
       } else if (node.type === Parser.TOOL_CHANGE) {
         currentTool = node.code
       } else if (node.type === Parser.INTERPOLATE_MODE) {
-        if (currentTool == '') {
+        if (currentTool === '') {
           throw new Error('no tool selected')
         }
         const oldCount = stats.drillsPerTool.get(currentTool) ?? 0
