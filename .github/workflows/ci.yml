@@ -1,0 +1,42 @@
+name: continuous integration
+on: [push, pull_request]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        node-version: ['10', '12', '14']
+    name: unit tests on node ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install --frozen-lockfile
+      - run: yarn test
+      - run: yarn coverage
+      - uses: codecov/codecov-action@v2
+
+  lint:
+    name: lint and format checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
+      - run: yarn format --check
+
+  build:
+    name: build assets and type definitions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+      - run: yarn install --frozen-lockfile
+      - run: yarn build:all

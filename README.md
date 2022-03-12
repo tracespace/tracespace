@@ -1,21 +1,15 @@
 # tracespace
 
-[![ci][ci-badge]][ci]
 [![coverage][coverage-badge]][coverage]
-[![dev dependencies][dev-dependencies-badge]][dev-dependencies]
 [![chat][chat-badge]][chat]
 
 > PCB visualization tools for Node.js and the browser
 
 tracespace is an open-source collection of tools to make looking at circuit boards on the internet easier.
 
-[ci]: https://travis-ci.org/tracespace/tracespace
 [coverage]: https://codecov.io/gh/tracespace/tracespace
-[dev-dependencies]: https://david-dm.org/tracespace/tracespace?type=dev
 [chat]: https://gitter.im/tracespace/Lobby
-[ci-badge]: https://flat.badgen.net/travis/tracespace/tracespace
 [coverage-badge]: https://flat.badgen.net/codecov/c/github/tracespace/tracespace
-[dev-dependencies-badge]: https://flat.badgen.net/david/dev/tracespace/tracespace
 [chat-badge]: https://flat.badgen.net/badge/chat/on%20gitter/cyan
 
 ## examples

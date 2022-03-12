@@ -3,13 +3,16 @@
 const assert = require('assert')
 const semver = require('semver')
 
+const VERSION_REF_RE = /^refs\/tags\/(.+)$/
+
 const argv = process.argv.slice(2)
-const version = argv[0]
+const ref = argv[0]
+const version = typeof ref === 'string' ? ref.match(VERSION_REF_RE) : null
 
-assert(version, 'Expected first argument to be the version')
-assert(semver.valid(version), `Expected ${version} to be semver valid`)
+assert(version, `Expected to be called with git tag ref, but got ${ref}`)
+assert(semver.valid(version[1]), `Expected semver, but got ${version[1]}`)
 
-const prerelease = semver.prerelease(version)
+const prerelease = semver.prerelease(version[1])
 
 if (prerelease) {
   console.log(prerelease[0])
@@ -17,4 +20,4 @@ if (prerelease) {
   console.log('latest')
 }
 
-process.exit(0)
+process.exitCode = 0
