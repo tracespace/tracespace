@@ -15,6 +15,9 @@ var RE_BKP_UNITS = /^G7([01])/
 var RE_BKP_NOTA = /^G9([01])/
 var RE_COMMENT = /^G0*4/
 
+// object attributes (TO)
+var RE_TO = /^%TO[^%*]*/
+
 // tool changes
 var RE_TOOL = /^(?:G54)?D0*([1-9]\d+)/
 
@@ -118,7 +121,8 @@ var parseMacroDef = function(parser, block) {
 }
 
 var parse = function(parser, block) {
-  if (RE_COMMENT.test(block)) {
+  // if comment or object attribute return
+  if (RE_COMMENT.test(block) || RE_TO.test(block)) {
     return
   }
 
