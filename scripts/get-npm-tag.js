@@ -1,9 +1,9 @@
 'use strict'
 
-const VERSION_REF_RE = /^refs\/tags\/(.+)$/
-
 const assert = require('assert')
 const semver = require('semver')
+
+const VERSION_REF_RE = /^refs\/tags\/(.+)$/
 
 const argv = process.argv.slice(2)
 const ref = argv[0]
