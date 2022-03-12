@@ -1,7 +1,7 @@
 name: publish
 on:
   push:
-    branches: v4_github-actions
+    branches: main
     tags: v*
 
 jobs:
