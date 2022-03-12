@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.6](https://github.com/tracespace/tracespace/compare/v4.2.5...v4.2.6) (2022-03-12)
+
+
+### Bug Fixes
+
+* **gerber-parser:** ignore object attribute %TO blocks ([#376](https://github.com/tracespace/tracespace/issues/376)) ([844d44b](https://github.com/tracespace/tracespace/commit/844d44b)), closes [#375](https://github.com/tracespace/tracespace/issues/375)
+
+
+
+
+
 ## [4.2.4](https://github.com/tracespace/tracespace/compare/v4.2.3...v4.2.4) (2020-12-15)
 
 
