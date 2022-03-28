@@ -27,7 +27,7 @@
     "example": "lerna run example",
     "prebump": "yarn test",
     "bump": "lerna version",
-    "publish:npm": "lerna publish from-git --yes",
+    "publish:npm": "lerna publish from-package --yes",
     "publish:s3": "node ./scripts/publish-to-s3 apps/www/dist: apps/view/dist:view"
   },
   "config": {

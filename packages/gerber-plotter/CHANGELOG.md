@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.8](https://github.com/tracespace/tracespace/compare/v4.2.7...v4.2.8) (2022-03-28)
+
+
+### Bug Fixes
+
+* **plotter:** do not ignore duplicate tool definitions ([#379](https://github.com/tracespace/tracespace/issues/379)) ([87a0849](https://github.com/tracespace/tracespace/commit/87a0849))
+
+
+
+
+
 ## [4.2.7](https://github.com/tracespace/tracespace/compare/v4.2.6...v4.2.7) (2022-03-12)
 
 **Note:** Version bump only for package gerber-plotter

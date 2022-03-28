@@ -40,7 +40,7 @@ jobs:
         run: echo "::set-output name=tag::$(node scripts/get-npm-tag.js ${{ github.ref }})"
 
       - name: publish to npm with lerna
-        run: npm run publish:npm -- --npm-tag ${{ steps.npm_tag.outputs.tag }}
+        run: npm run publish:npm -- --dist-tag ${{ steps.npm_tag.outputs.tag }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
