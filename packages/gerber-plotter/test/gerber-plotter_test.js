@@ -278,19 +278,23 @@ describe('gerber plotter', function() {
       expect(p._tool.trace).to.eql([2, 3])
     })
 
-    it('should warn and ignore if the tool has already been set', function(done) {
-      var circle = {shape: 'circle', params: [4], hole: []}
-      var rect = {shape: 'rect', params: [2, 3], hole: []}
+    it('should warn if the tool has already been set', function() {
+      var circle1 = {shape: 'circle', params: [1], hole: []}
+      var circle2 = {shape: 'circle', params: [2], hole: []}
+      var circle3 = {shape: 'circle', params: [3], hole: []}
+      var capturedWarning = null
 
       p.once('warning', function(w) {
-        expect(w.message).to.match(/already defined/)
-        expect(w.line).to.equal(9)
-        expect(p._tool.trace).to.eql([4])
-        done()
+        capturedWarning = w
       })
 
-      p.write({type: 'tool', code: '10', tool: circle, line: 8})
-      p.write({type: 'tool', code: '10', tool: rect, line: 9})
+      p.write({type: 'tool', code: '11', tool: circle1, line: 8})
+      p.write({type: 'tool', code: '12', tool: circle2, line: 9})
+      p.write({type: 'tool', code: '11', tool: circle3, line: 10})
+
+      expect(capturedWarning.message).to.match(/already defined/)
+      expect(capturedWarning.line).to.equal(10)
+      expect(p._tool).to.eql(p._tools['11'])
     })
 
     it('should not set trace for untraceable tools', function() {

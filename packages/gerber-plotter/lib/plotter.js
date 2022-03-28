@@ -227,11 +227,7 @@ Plotter.prototype._transform = function(chunk, encoding, done) {
     var toolDef = chunk.tool
 
     if (this._tools[code]) {
-      this._warn(
-        'tool ' + code + ' is already defined; ignoring new definition'
-      )
-
-      return done()
+      this._warn('tool ' + code + ' is already defined; overwriting definition')
     }
 
     var shapeAndBox = padShape(toolDef, this._macros)
