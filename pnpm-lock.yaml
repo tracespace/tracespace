@@ -35,6 +35,7 @@ importers:
 
   packages/cli:
     specifiers:
+      '@types/common-prefix': ^1.1.0
       '@types/debug': ^4.1.5
       '@types/yargs': ^15.0.1
       builtin-modules: ^3.2.0
@@ -63,6 +64,7 @@ importers:
       untildify: 4.0.0
       yargs: 15.4.1
     devDependencies:
+      '@types/common-prefix': 1.1.0
       builtin-modules: 3.2.0
       whats-that-gerber: link:../whats-that-gerber
 
@@ -77,6 +79,7 @@ importers:
     dependencies:
       '@types/moo': 0.5.5
       '@types/unist': 2.0.6
+    devDependencies:
       moo: 0.5.1
 
   packages/whats-that-gerber:
@@ -195,6 +198,10 @@ packages:
 
   /@types/chai/4.3.1:
     resolution: {integrity: sha512-/zPMqDkzSZ8t3VtxOa4KPq7uzzW978M9Tvh+j7GHKuo6k6GTLxPJ4J5gE5cjfJ26pnXst0N5Hax8Sr0T2Mi9zQ==}
+    dev: true
+
+  /@types/common-prefix/1.1.0:
+    resolution: {integrity: sha512-u2aWLiunOWtu8YtEEiTD2Vi9X+jRDY9ci92VW4rjRsh2xzAtvwLMxgNH47morQDyzUbm5nUuS76/54DO2ZRhOA==}
     dev: true
 
   /@types/debug/4.1.7:
@@ -2396,7 +2403,7 @@ packages:
 
   /moo/0.5.1:
     resolution: {integrity: sha512-I1mnb5xn4fO80BH9BLcF0yLypy2UKl+Cb01Fu0hJRkJjlCRtxZMWkTdAtDd5ZqCOxtCkhmRwyI57vWT+1iZ67w==}
-    dev: false
+    dev: true
 
   /ms/2.0.0:
     resolution: {integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=}

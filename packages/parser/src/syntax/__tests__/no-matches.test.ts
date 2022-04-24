@@ -1,6 +1,5 @@
 // tests that certain patterns do not trigger matches
-import {expect} from 'chai'
-import {toArray} from 'lodash'
+import {describe, it, expect} from 'vitest'
 
 import * as Lexer from '../../lexer'
 import {token as t, simplifyToken} from '../../__tests__/helpers'
@@ -28,10 +27,10 @@ describe('syntax match non-match list', () => {
       const lexer = Lexer.createLexer()
       lexer.reset(source)
 
-      const actualTokens = toArray((lexer as unknown) as Array<Lexer.Token>)
+      const actualTokens = [...lexer]
       const matchState = actualTokens.reduce<MatchState>(
         (state, token) => matchSyntax(state, token),
-        null
+        null as unknown as MatchState
       )
 
       expect(matchState.nodes).to.eql(undefined)
