@@ -1,4 +1,4 @@
-// gerber and drill file lexer + tokenizer
+// Gerber and drill file lexer + tokenizer
 import Moo from 'moo'
 import {Token} from './tokens'
 import {rules} from './rules'

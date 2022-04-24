@@ -2,12 +2,7 @@ import Moo from 'moo'
 import * as Tokens from './tokens'
 
 export type Rules = {
-  [t in Tokens.TokenType]:
-    | RegExp
-    | string
-    | Array<string>
-    | Moo.Rule
-    | Array<Moo.Rule>
+  [t in Tokens.TokenType]: RegExp | string | string[] | Moo.Rule | Moo.Rule[]
 }
 
 const RE_STRIP_LEADING_ZEROS = /^0*/
@@ -71,7 +66,7 @@ export const rules: Rules = {
     value: (text: string): string => text.slice(1),
   },
   [Tokens.COORD_CHAR]: /[XYIJACFSBHZN]/,
-  [Tokens.NUMBER]: /(?:[+-])?[\d.]+/,
+  [Tokens.NUMBER]: /[+-]?[\d.]+/,
   [Tokens.OPERATOR]: ['x', '/', '+', '-', '(', ')'],
   [Tokens.COMMA]: ',',
   [Tokens.WORD]: /[a-zA-Z]+/,
@@ -80,6 +75,6 @@ export const rules: Rules = {
     match: /\r?\n/,
     lineBreaks: true,
   },
-  [Tokens.CATCHALL]: /[\S]/,
+  [Tokens.CATCHALL]: /\S/,
   [Tokens.ERROR]: Moo.error,
 }

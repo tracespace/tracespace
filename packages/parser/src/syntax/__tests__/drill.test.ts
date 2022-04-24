@@ -1,4 +1,4 @@
-// drill grammar tests
+// Drill grammar tests
 import {describe, it, expect} from 'vitest'
 
 import * as Lexer from '../../lexer'
@@ -6,7 +6,7 @@ import * as Tree from '../../tree'
 import {
   token as t,
   position as pos,
-  simplifyToken,
+  simplifyTokens,
 } from '../../__tests__/helpers'
 import {matchSyntax, MatchState} from '..'
 
@@ -30,7 +30,7 @@ const SPECS: Array<{
   expectedNodes: Tree.ChildNode[]
 }> = [
   {
-    // drill file end with M00
+    // Drill file end with M00
     source: 'M00\n',
     expectedTokens: [t(Lexer.M_CODE, '0'), t(Lexer.NEWLINE, '\n')],
     expectedNodes: [
@@ -41,7 +41,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // drill file end with M30
+    // Drill file end with M30
     source: 'M30\n',
     expectedTokens: [t(Lexer.M_CODE, '30'), t(Lexer.NEWLINE, '\n')],
     expectedNodes: [
@@ -52,7 +52,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // drill comment
+    // Drill comment
     source: '; hello world\n',
     expectedTokens: [
       t(Lexer.SEMICOLON, ';'),
@@ -71,7 +71,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // drill inch units (new style)
+    // Drill inch units (new style)
     source: 'INCH\n',
     expectedTokens: [t(Lexer.DRILL_UNITS, 'INCH'), t(Lexer.NEWLINE, '\n')],
     expectedNodes: [
@@ -83,7 +83,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // drill millimeter units (new style)
+    // Drill millimeter units (new style)
     source: 'METRIC\n',
     expectedTokens: [t(Lexer.DRILL_UNITS, 'METRIC'), t(Lexer.NEWLINE, '\n')],
     expectedNodes: [
@@ -95,7 +95,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // drill inch units (old style)
+    // Drill inch units (old style)
     source: 'M72\n',
     expectedTokens: [t(Lexer.M_CODE, '72'), t(Lexer.NEWLINE, '\n')],
     expectedNodes: [
@@ -107,7 +107,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // drill millimeter units (new style)
+    // Drill millimeter units (new style)
     source: 'M71\n',
     expectedTokens: [t(Lexer.M_CODE, '71'), t(Lexer.NEWLINE, '\n')],
     expectedNodes: [
@@ -119,7 +119,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // drill new-style inches with leading zero suppression (keep trailing)
+    // Drill new-style inches with leading zero suppression (keep trailing)
     source: 'INCH,TZ\n',
     expectedTokens: [
       t(Lexer.DRILL_UNITS, 'INCH'),
@@ -142,7 +142,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // drill old-style millimeters with trailing zero suppression (keep leading)
+    // Drill old-style millimeters with trailing zero suppression (keep leading)
     source: 'M71,LZ\n',
     expectedTokens: [
       t(Lexer.M_CODE, '71'),
@@ -165,7 +165,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // drill old-style inches with trailing zero suppression and format
+    // Drill old-style inches with trailing zero suppression and format
     source: 'M72,LZ,00.000\n',
     expectedTokens: [
       t(Lexer.M_CODE, '72'),
@@ -190,7 +190,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // drill new-style millimeters with leading zero suppression and format
+    // Drill new-style millimeters with leading zero suppression and format
     source: 'METRIC,TZ,000.0000\n',
     expectedTokens: [
       t(Lexer.DRILL_UNITS, 'METRIC'),
@@ -215,7 +215,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // simple tool definition
+    // Simple tool definition
     source: 'T01C0.01\n',
     expectedTokens: [
       t(Lexer.T_CODE, '1'),
@@ -234,7 +234,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // tool definition with cruft
+    // Tool definition with cruft
     source: 'T02F42C0.05Z\n',
     expectedTokens: [
       t(Lexer.T_CODE, '2'),
@@ -256,7 +256,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // tool change
+    // Tool change
     source: 'T03\n',
     expectedTokens: [t(Lexer.T_CODE, '3'), t(Lexer.NEWLINE, '\n')],
     expectedNodes: [
@@ -268,7 +268,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // tool change with cruft
+    // Tool change with cruft
     source: 'T04F200\n',
     expectedTokens: [
       t(Lexer.T_CODE, '4'),
@@ -285,7 +285,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // simple drill operation
+    // Simple drill operation
     source: 'X01Y02\n',
     expectedTokens: [
       t(Lexer.COORD_CHAR, 'X'),
@@ -304,7 +304,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // drill operation with leading tool code
+    // Drill operation with leading tool code
     source: 'T05X01Y02\n',
     expectedTokens: [
       t(Lexer.T_CODE, '5'),
@@ -329,7 +329,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // drill operation with trailing tool code
+    // Drill operation with trailing tool code
     source: 'X01Y02T06\n',
     expectedTokens: [
       t(Lexer.COORD_CHAR, 'X'),
@@ -354,7 +354,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // route mode move
+    // Route mode move
     source: 'G00X05Y06\n',
     expectedTokens: [
       t(Lexer.G_CODE, '0'),
@@ -379,7 +379,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // route mode linear interpolation
+    // Route mode linear interpolation
     source: 'G01X05Y06\n',
     expectedTokens: [
       t(Lexer.G_CODE, '1'),
@@ -404,7 +404,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // route mode clockwise arc interpolation
+    // Route mode clockwise arc interpolation
     source: 'G02X05Y06I01J02\n',
     expectedTokens: [
       t(Lexer.G_CODE, '2'),
@@ -433,7 +433,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // route mode counter-clockwise arc interpolation
+    // Route mode counter-clockwise arc interpolation
     source: 'G03X05Y06A01\n',
     expectedTokens: [
       t(Lexer.G_CODE, '3'),
@@ -460,7 +460,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // drill mode operation
+    // Drill mode operation
     source: 'G05X05Y06\n',
     expectedTokens: [
       t(Lexer.G_CODE, '5'),
@@ -485,7 +485,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // route mode without coordinates
+    // Route mode without coordinates
     source: 'G00\n',
     expectedTokens: [t(Lexer.G_CODE, '0'), t(Lexer.NEWLINE, '\n')],
     expectedNodes: [
@@ -497,7 +497,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // linear mode without coordinates
+    // Linear mode without coordinates
     source: 'G01\n',
     expectedTokens: [t(Lexer.G_CODE, '1'), t(Lexer.NEWLINE, '\n')],
     expectedNodes: [
@@ -509,7 +509,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // cw mode without coordinates
+    // Cw mode without coordinates
     source: 'G02\n',
     expectedTokens: [t(Lexer.G_CODE, '2'), t(Lexer.NEWLINE, '\n')],
     expectedNodes: [
@@ -521,7 +521,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // ccw mode without coordinates
+    // Ccw mode without coordinates
     source: 'G03\n',
     expectedTokens: [t(Lexer.G_CODE, '3'), t(Lexer.NEWLINE, '\n')],
     expectedNodes: [
@@ -533,7 +533,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // drill mode without coordinates
+    // Drill mode without coordinates
     source: 'G05\n',
     expectedTokens: [t(Lexer.G_CODE, '5'), t(Lexer.NEWLINE, '\n')],
     expectedNodes: [
@@ -545,7 +545,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // drill slot
+    // Drill slot
     source: 'X07Y08G85X09Y10\n',
     expectedTokens: [
       t(Lexer.COORD_CHAR, 'X'),
@@ -569,7 +569,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // drill slot with modal coordinates
+    // Drill slot with modal coordinates
     source: 'X07G85Y10\n',
     expectedTokens: [
       t(Lexer.COORD_CHAR, 'X'),
@@ -591,21 +591,22 @@ const SPECS: Array<{
 ]
 
 describe('drill syntax matches', () => {
-  SPECS.forEach(({source, expectedTokens, expectedNodes}) => {
+  for (const {source, expectedTokens, expectedNodes} of SPECS) {
     it(`should match on ${source.trim()}`, () => {
       const lexer = Lexer.createLexer()
+      let result: MatchState | null = null
+
       lexer.reset(source)
 
-      const actualTokens = [...lexer]
-      const {tokens, nodes, filetype} = actualTokens.reduce<MatchState>(
-        (state, token) => matchSyntax(state, token),
-        null as unknown as MatchState
-      )
-      const simpleTokens = tokens.map(simplifyToken)
+      for (const token of lexer) {
+        result = matchSyntax(result, token)
+      }
+
+      const {tokens, nodes, filetype} = result!
 
       expect(filetype).to.equal(DRILL)
       expect(nodes).to.eql(expectedNodes)
-      expect(simpleTokens).to.eql(expectedTokens.map(simplifyToken))
+      expect(simplifyTokens(tokens)).to.eql(simplifyTokens(expectedTokens))
     })
-  })
+  }
 })

@@ -1,4 +1,4 @@
-// drill file grammar
+// Drill file grammar
 import * as Lexer from '../lexer'
 import * as Tree from '../tree'
 import * as Constants from '../constants'
@@ -27,7 +27,7 @@ const units: SyntaxRule = {
     ]),
     token(Lexer.NEWLINE),
   ],
-  createNodes: tokens => {
+  createNodes(tokens) {
     const units =
       tokens[0].value === 'INCH' || tokens[0].value === '72'
         ? Constants.IN
@@ -35,30 +35,30 @@ const units: SyntaxRule = {
 
     const zeroSuppression = tokens
       .filter(t => t.type === Lexer.DRILL_ZERO_INCLUSION)
-      .reduce<Types.ZeroSuppression | null>((z, t) => {
+      .map(t => {
         if (t.value === 'LZ') return Constants.TRAILING
         if (t.value === 'TZ') return Constants.LEADING
-        return z
-      }, null)
+        return null
+      })
 
     const format = tokens
       .filter(t => t.type === Lexer.NUMBER)
-      .reduce<Types.Format | null>((_, t) => {
+      .map<Types.Format>(t => {
         const [integer = '', decimal = ''] = t.value.split('.')
         return [integer.length, decimal.length]
-      }, null)
+      })
 
     const nodes: Tree.ChildNode[] = [
       {type: Tree.UNITS, position: tokensToPosition(tokens.slice(0, 2)), units},
     ]
 
-    if (zeroSuppression || format) {
+    if (zeroSuppression.length > 0 || format.length > 0) {
       nodes.push({
         type: Tree.COORDINATE_FORMAT,
         position: tokensToPosition(tokens.slice(1)),
         mode: null,
-        format,
-        zeroSuppression,
+        format: format[0] ?? null,
+        zeroSuppression: zeroSuppression[0] ?? null,
       })
     }
 
@@ -80,12 +80,12 @@ const tool: SyntaxRule = {
     ]),
     token(Lexer.NEWLINE),
   ],
-  createNodes: tokens => {
+  createNodes(tokens) {
     const code = tokens[0].value
     const position = tokensToPosition(tokens)
     const {c = null} = tokensToCoordinates(tokens.slice(1, -1))
     const shape: Types.ToolShape | null =
-      c !== null ? {type: Constants.CIRCLE, diameter: Number(c)} : null
+      c === null ? null : {type: Constants.CIRCLE, diameter: Number(c)}
 
     return shape
       ? [{type: Tree.TOOL_DEFINITION, hole: null, position, shape, code}]
@@ -127,7 +127,7 @@ const operation: SyntaxRule = {
     zeroOrOne([token(Lexer.T_CODE)]),
     token(Lexer.NEWLINE),
   ],
-  createNodes: tokens => {
+  createNodes(tokens) {
     const graphicTokens = tokens.filter(
       t => t.type === Lexer.COORD_CHAR || t.type === Lexer.NUMBER
     )
@@ -156,9 +156,11 @@ const operation: SyntaxRule = {
     if (mode) {
       nodes.unshift({type: Tree.INTERPOLATE_MODE, position: modePosition, mode})
     }
+
     if (code) {
       nodes.unshift({type: Tree.TOOL_CHANGE, position: toolPosition, code})
     }
+
     return nodes
   },
 }
@@ -170,22 +172,25 @@ const slot: SyntaxRule = {
     minToMax(2, 4, [token(Lexer.COORD_CHAR), token(Lexer.NUMBER)]),
     token(Lexer.NEWLINE),
   ],
-  createNodes: tokens => {
+  createNodes(tokens) {
     const gCode = tokens.find(t => t.type === Lexer.G_CODE)
     const splitIdx = gCode ? tokens.indexOf(gCode) : -1
     const start = tokensToCoordinates(tokens.slice(0, splitIdx))
     const end = tokensToCoordinates(tokens.slice(splitIdx))
-    const coordinates: Types.Coordinates = {}
 
-    Object.keys(start).forEach(k => (coordinates[`${k}1`] = start[k]))
-    Object.keys(end).forEach(k => (coordinates[`${k}2`] = end[k]))
+    const startCoordinates = Object.fromEntries(
+      Object.entries(start).map(([axis, value]) => [`${axis}1`, value])
+    )
+    const endCoordinates = Object.fromEntries(
+      Object.entries(end).map(([axis, value]) => [`${axis}2`, value])
+    )
 
     return [
       {
         type: Tree.GRAPHIC,
         position: tokensToPosition(tokens),
         graphic: Constants.SLOT,
-        coordinates,
+        coordinates: {...startCoordinates, ...endCoordinates},
       },
     ]
   },
@@ -216,7 +221,7 @@ const comment: SyntaxRule = {
   ],
 }
 
-export const drillSyntax: Array<SyntaxRule> = [
+export const drillSyntax: SyntaxRule[] = [
   tool,
   mode,
   operation,

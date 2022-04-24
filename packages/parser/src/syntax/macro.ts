@@ -1,4 +1,4 @@
-// gerber aperture macro syntax
+// Gerber aperture macro syntax
 import * as Lexer from '../lexer'
 import * as Tree from '../tree'
 import {MacroValue} from '../types'
@@ -61,22 +61,21 @@ function createMacroComment(tokens: Lexer.Token[]): Tree.MacroComment[] {
 
 function createMacroPrimitive(tokens: Lexer.Token[]): Tree.MacroPrimitive[] {
   const code = tokens[0].value
-  const modifiers = tokens
-    .slice(2, -1)
-    .reduce<Lexer.Token[][]>(
-      (groups, token) => {
-        const current = groups[groups.length - 1]
-        if (token.type !== Lexer.COMMA) {
-          current.push(token)
-        } else {
-          groups.push([])
-        }
+  const commaDelimitedTokens: Lexer.Token[][] = [[]]
+  let currentGroup = commaDelimitedTokens[0]
 
-        return groups
-      },
-      [[]]
-    )
-    .map(parseMacroExpression)
+  for (const token of tokens.slice(2, -1)) {
+    if (token.type === Lexer.COMMA) {
+      currentGroup = []
+      commaDelimitedTokens.push(currentGroup)
+    } else {
+      currentGroup.push(token)
+    }
+  }
+
+  const modifiers = commaDelimitedTokens.map(tokens =>
+    parseMacroExpression(tokens)
+  )
 
   return [
     {
@@ -115,20 +114,20 @@ function parseMacroExpression(tokens: Lexer.Token[]): MacroValue {
     return toParse[0] ?? null
   }
 
-  // parse numbers, variables, and parenthesis
+  // Parse numbers, variables, and parenthesis
   function parsePrimary(): MacroValue {
-    const token = toParse.shift() as Lexer.Token
+    const token = toParse.shift()!
 
     if (token.type === Lexer.NUMBER) return Number(token.value)
     if (token.type === Lexer.GERBER_MACRO_VARIABLE) return token.value
 
-    // else, we've got a parentheses group, so parse it and consume the ")"
+    // Else, we've got a parentheses group, so parse it and consume the ")"
     const expression = parseAddition()
     toParse.shift()
     return expression
   }
 
-  // parse multiplication and division operations
+  // Parse multiplication and division operations
   function parseMultiplication(): MacroValue {
     let expression = parsePrimary()
     let nextToken = peekNextToken()
@@ -163,6 +162,7 @@ function parseMacroExpression(tokens: Lexer.Token[]): MacroValue {
         toParse.shift()
         operator = nextToken.value as '+' | '-'
       }
+
       const right = parseMultiplication()
       expression = {left: expression, right, operator}
       nextToken = peekNextToken()
@@ -178,11 +178,11 @@ export function parseMacroBlocks(tokens: Lexer.Token[]): Tree.MacroBlock[] {
   let matchState: MatchState<Tree.MacroBlock> | null = null
   const blocks: Tree.MacroBlock[] = []
 
-  tokens.forEach(token => {
+  for (const token of tokens) {
     matchState = matchSyntax(matchState, token, MACRO_GRAMMAR)
     if (matchState.nodes) blocks.push(...matchState.nodes)
     if (matchState.candidates.length === 0) matchState = null
-  })
+  }
 
   return blocks
 }

@@ -1,4 +1,4 @@
-// layer types
+// Layer types
 export const TYPE_COPPER = 'copper'
 export const TYPE_SOLDERMASK = 'soldermask'
 export const TYPE_SILKSCREEN = 'silkscreen'
@@ -7,13 +7,13 @@ export const TYPE_DRILL = 'drill'
 export const TYPE_OUTLINE = 'outline'
 export const TYPE_DRAWING = 'drawing'
 
-// board sides
+// Board sides
 export const SIDE_TOP = 'top'
 export const SIDE_BOTTOM = 'bottom'
 export const SIDE_INNER = 'inner'
 export const SIDE_ALL = 'all'
 
-// cad packages
+// Cad packages
 // internal use only, for now
 export const CAD_KICAD = 'kicad'
 export const CAD_ALTIUM = 'altium'

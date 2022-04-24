@@ -14,7 +14,7 @@ export interface MinToMaxRule {
   rule: typeof MIN_TO_MAX
   min: number
   max: number
-  match: Array<SingleTokenRule>
+  match: SingleTokenRule[]
 }
 
 export type TokenRule = SingleTokenRule | MinToMaxRule
@@ -33,26 +33,26 @@ export function notToken(
   return {rule: SINGLE_TOKEN, type, value, negate: true}
 }
 
-export function one(match: Array<SingleTokenRule>): MinToMaxRule {
+export function one(match: SingleTokenRule[]): MinToMaxRule {
   return {rule: MIN_TO_MAX, min: 1, max: 1, match}
 }
 
-export function zeroOrOne(match: Array<SingleTokenRule>): MinToMaxRule {
+export function zeroOrOne(match: SingleTokenRule[]): MinToMaxRule {
   return {rule: MIN_TO_MAX, min: 0, max: 1, match}
 }
 
-export function zeroOrMore(match: Array<SingleTokenRule>): MinToMaxRule {
-  return {rule: MIN_TO_MAX, min: 0, max: Infinity, match}
+export function zeroOrMore(match: SingleTokenRule[]): MinToMaxRule {
+  return {rule: MIN_TO_MAX, min: 0, max: Number.POSITIVE_INFINITY, match}
 }
 
-export function oneOrMore(match: Array<SingleTokenRule>): MinToMaxRule {
-  return {rule: MIN_TO_MAX, min: 1, max: Infinity, match}
+export function oneOrMore(match: SingleTokenRule[]): MinToMaxRule {
+  return {rule: MIN_TO_MAX, min: 1, max: Number.POSITIVE_INFINITY, match}
 }
 
 export function minToMax(
   min: number,
   max: number,
-  match: Array<SingleTokenRule>
+  match: SingleTokenRule[]
 ): MinToMaxRule {
   return {rule: MIN_TO_MAX, min, max, match}
 }

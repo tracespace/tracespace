@@ -1,4 +1,4 @@
-// gerber syntax tests
+// Gerber syntax tests
 import {describe, it, expect} from 'vitest'
 
 import * as Lexer from '../../lexer'
@@ -6,7 +6,7 @@ import * as Tree from '../../tree'
 import {
   token as t,
   position as pos,
-  simplifyToken,
+  simplifyTokens,
 } from '../../__tests__/helpers'
 import {matchSyntax, MatchState} from '..'
 
@@ -36,7 +36,7 @@ const SPECS: Array<{
   expectedNodes: Tree.ChildNode[]
 }> = [
   {
-    // gerber file end with M02
+    // Gerber file end with M02
     source: 'M02*',
     expectedTokens: [t(Lexer.M_CODE, '2'), t(Lexer.ASTERISK, '*')],
     expectedNodes: [
@@ -47,7 +47,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // gerber file end with M00
+    // Gerber file end with M00
     source: 'M00*',
     expectedTokens: [t(Lexer.M_CODE, '0'), t(Lexer.ASTERISK, '*')],
     expectedNodes: [
@@ -58,7 +58,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // gerber comment
+    // Gerber comment
     source: 'G04 foo 123*',
     expectedTokens: [
       t(Lexer.G_CODE, '4'),
@@ -77,7 +77,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // tool change
+    // Tool change
     source: 'D123*',
     expectedTokens: [t(Lexer.D_CODE, '123'), t(Lexer.ASTERISK, '*')],
     expectedNodes: [
@@ -89,7 +89,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // tool change with deprecated G54
+    // Tool change with deprecated G54
     source: 'G54D456*',
     expectedTokens: [
       t(Lexer.G_CODE, '54'),
@@ -105,7 +105,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // operation with modal graphic type (deprecated)
+    // Operation with modal graphic type (deprecated)
     source: 'X001Y002*',
     expectedTokens: [
       t(Lexer.COORD_CHAR, 'X'),
@@ -124,7 +124,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // move operation with coordinates and graphic type
+    // Move operation with coordinates and graphic type
     source: 'X001Y002D02*',
     expectedTokens: [
       t(Lexer.COORD_CHAR, 'X'),
@@ -144,7 +144,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // segment with coordinates, graphic type, and leading mode (deprecated)
+    // Segment with coordinates, graphic type, and leading mode (deprecated)
     source: 'G03X001Y002D01*',
     expectedTokens: [
       t(Lexer.G_CODE, '3'),
@@ -170,7 +170,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // shape operation with modal coordinates
+    // Shape operation with modal coordinates
     source: 'D03*',
     expectedTokens: [t(Lexer.D_CODE, '3'), t(Lexer.ASTERISK, '*')],
     expectedNodes: [
@@ -183,7 +183,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // shape operation with modal coordinates and leading mode (deprecated)
+    // Shape operation with modal coordinates and leading mode (deprecated)
     source: 'G01D03*',
     expectedTokens: [
       t(Lexer.G_CODE, '1'),
@@ -205,7 +205,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // linear interpolation mode
+    // Linear interpolation mode
     source: 'G01*',
     expectedTokens: [t(Lexer.G_CODE, '1'), t(Lexer.ASTERISK, '*')],
     expectedNodes: [
@@ -217,7 +217,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // clockwise arc interpolation mode
+    // Clockwise arc interpolation mode
     source: 'G02*',
     expectedTokens: [t(Lexer.G_CODE, '2'), t(Lexer.ASTERISK, '*')],
     expectedNodes: [
@@ -229,7 +229,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // counterclockwise arc interpolation mode
+    // Counterclockwise arc interpolation mode
     source: 'G03*',
     expectedTokens: [t(Lexer.G_CODE, '3'), t(Lexer.ASTERISK, '*')],
     expectedNodes: [
@@ -241,7 +241,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // region mode on
+    // Region mode on
     source: 'G36*',
     expectedTokens: [t(Lexer.G_CODE, '36'), t(Lexer.ASTERISK, '*')],
     expectedNodes: [
@@ -253,7 +253,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // region mode off
+    // Region mode off
     source: 'G37*',
     expectedTokens: [t(Lexer.G_CODE, '37'), t(Lexer.ASTERISK, '*')],
     expectedNodes: [
@@ -265,7 +265,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // single quadrant mode
+    // Single quadrant mode
     source: 'G74*',
     expectedTokens: [t(Lexer.G_CODE, '74'), t(Lexer.ASTERISK, '*')],
     expectedNodes: [
@@ -277,7 +277,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // multi quadrant mode
+    // Multi quadrant mode
     source: 'G75*',
     expectedTokens: [t(Lexer.G_CODE, '75'), t(Lexer.ASTERISK, '*')],
     expectedNodes: [
@@ -289,7 +289,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // inch mode
+    // Inch mode
     source: '%MOIN*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -306,7 +306,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // millimeter mode
+    // Millimeter mode
     source: '%MOMM*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -323,7 +323,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // gerber format leading, absolute
+    // Gerber format leading, absolute
     source: '%FSLAX34Y34*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -346,7 +346,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // gerber format trailing, incremental
+    // Gerber format trailing, incremental
     source: '%FSTIX45Y45*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -369,7 +369,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // gerber format with stuff missing and extra cruft
+    // Gerber format with stuff missing and extra cruft
     source: '%FSDAN2X22Y22Z22*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -396,7 +396,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // gerber format combined with units
+    // Gerber format combined with units
     // invalid syntax, but happens in real life
     // https://github.com/tracespace/tracespace/issues/234
     source: '%FSLAX43Y43*MOMM*%',
@@ -428,7 +428,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // load polarity dark
+    // Load polarity dark
     source: '%LPD*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -445,7 +445,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // load polarity clear
+    // Load polarity clear
     source: '%LPC*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -462,7 +462,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // empty step repeat
+    // Empty step repeat
     source: '%SR*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -479,7 +479,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // full step repeat
+    // Full step repeat
     source: '%SRX2Y3I4J5*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -504,7 +504,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // deprecated / unknown extended commands
+    // Deprecated / unknown extended commands
     source: '%OFA0B0*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -526,21 +526,22 @@ const SPECS: Array<{
 ]
 
 describe('gerber syntax matches', () => {
-  SPECS.forEach(({source, expectedTokens, expectedNodes}) => {
+  for (const {source, expectedTokens, expectedNodes} of SPECS) {
     it(`should match on ${source.trim()}`, () => {
       const lexer = Lexer.createLexer()
+      let result: MatchState | null = null
+
       lexer.reset(source)
 
-      const actualTokens = [...lexer]
-      const {tokens, nodes, filetype} = actualTokens.reduce<MatchState>(
-        (state, token) => matchSyntax(state, token),
-        null as unknown as MatchState
-      )
-      const simpleTokens = tokens.map(simplifyToken)
+      for (const token of lexer) {
+        result = matchSyntax(result, token)
+      }
+
+      const {tokens, nodes, filetype} = result!
 
       expect(filetype).to.equal(GERBER)
       expect(nodes).to.eql(expectedNodes)
-      expect(simpleTokens).to.eql(expectedTokens.map(simplifyToken))
+      expect(simplifyTokens(tokens)).to.eql(simplifyTokens(expectedTokens))
     })
-  })
+  }
 })

@@ -135,7 +135,7 @@ interface BaseNode {
 }
 
 interface BaseParent extends BaseNode {
-  children: Array<BaseNode>
+  children: BaseNode[]
 }
 
 /**
@@ -433,7 +433,7 @@ export interface StepRepeat extends BaseNode {
  *   drawing anything to the image**
  * - {@linkcode SEGMENT | segment} - the tool is "stroked" from the plotter's
  *   current location to `coordinates`
- *     - The path the tool takes is determined by the current {@linkcode IterpolateMode}
+ *     - The path the tool takes is determined by the current {@linkcode InterpolateMode}
  *     - The segment may be a standalone path, or it may be a part of a region
  *       fill set by a {@linkcode RegionMode}
  *     - Only {@linkcode Circle} or {@linkcode Rectangle} tools may create
@@ -482,7 +482,7 @@ export interface InterpolateMode extends BaseNode {
  *
  * - `segment` graphics define the edges of the region
  * - `move` graphics end the current region and start a new one
- * - Other grahpics are disallowed
+ * - Other graphics are disallowed
  *
  * @category Node
  */

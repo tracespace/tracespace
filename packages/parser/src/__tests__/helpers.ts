@@ -13,11 +13,11 @@ export function token(type: Token['type'], value: Token['value']): Token {
   }
 }
 
-export function simplifyToken(token: Token): {
+export function simplifyTokens(tokens: Token[]): Array<{
   type: Token['type']
   value: Token['value']
-} {
-  return {type: token.type, value: token.value}
+}> {
+  return tokens.map(({type, value}) => ({type, value}))
 }
 
 export function position(
