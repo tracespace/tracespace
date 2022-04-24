@@ -1,5 +1,4 @@
 import {defineConfig} from 'vite'
-import builtinModules from 'builtin-modules'
 
 import {version, description, dependencies} from './package.json'
 
@@ -14,11 +13,11 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'src/index.ts',
-      formats: ['cjs'],
-      fileName: _ => 'tracespace-cli.cjs',
+      formats: ['es'],
+      fileName: 'tracespace-cli',
     },
     rollupOptions: {
-      external: [...Object.keys(dependencies), ...builtinModules],
+      external: name => name.startsWith('node:') || name in dependencies,
     },
   },
 })

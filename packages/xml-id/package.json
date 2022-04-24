@@ -12,7 +12,8 @@
   "exports": {
     ".": {
       "import": "./dist/tracespace-xml-id.es.js",
-      "require": "./dist/tracespace-xml-id.umd.js"
+      "require": "./dist/tracespace-xml-id.umd.js",
+      "types": "./lib/index.d.ts"
     }
   },
   "sideEffects": false,

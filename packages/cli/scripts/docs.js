@@ -1,14 +1,9 @@
-'use strict'
+import assert from 'node:assert'
+import {readFile, writeFile} from 'node:fs/promises'
+import path from 'node:path'
+import process from 'node:process'
 
-const assert = require('assert')
-const fs = require('fs')
-const path = require('path')
-const {promisify} = require('util')
-
-const {options} = require('@tracespace/cli')
-
-const readFile = promisify(fs.readFile)
-const writeFile = promisify(fs.writeFile)
+import {options} from '@tracespace/cli'
 
 const argv = process.argv.slice(2)
 

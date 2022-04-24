@@ -2,11 +2,13 @@
   "name": "tracespace",
   "private": true,
   "scripts": {
+    "all": "concurrently -g pnpm:format:check pnpm:lint pnpm:build pnpm:test:coverage",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "lint": "xo",
     "format": "prettier --write \"**/*.@(js|ts|tsx|json|md|yml|yaml)\"",
-    "build": "concurrently pnpm:build:*",
+    "format:check": "prettier --check \"**/*.@(js|ts|tsx|json|md|yml|yaml)\"",
+    "build": "concurrently -g pnpm:build:*",
     "build:bundles": "pnpm -r build",
     "build:types": "tsc --build"
   },
@@ -51,54 +53,21 @@
       "project": "./tsconfig.lint.json"
     },
     "rules": {
-      "@typescript-eslint/array-type": "off",
-      "@typescript-eslint/consistent-indexed-object-style": "off",
       "@typescript-eslint/naming-convention": "off",
-      "@typescript-eslint/no-confusing-void-expression": "off",
-      "@typescript-eslint/no-unsafe-call": "off",
-      "@typescript-eslint/no-unsafe-return": "off",
-      "@typescript-eslint/no-unused-vars": "off",
-      "@typescript-eslint/non-nullable-type-assertion-style": "off",
-      "@typescript-eslint/padding-line-between-statements": "off",
-      "@typescript-eslint/prefer-includes": "off",
-      "@typescript-eslint/prefer-nullish-coalescing": "off",
-      "@typescript-eslint/prefer-reduce-type-parameter": "off",
-      "@typescript-eslint/prefer-regexp-exec": "off",
-      "@typescript-eslint/promise-function-async": "off",
-      "@typescript-eslint/restrict-plus-operands": "off",
-      "@typescript-eslint/restrict-template-expressions": "off",
       "import/extensions": "off",
-      "import/no-extraneous-dependencies": "off",
-      "import/order": "off",
-      "node/prefer-global/process": "off",
-      "unicorn/better-regex": "off",
-      "unicorn/explicit-length-check": "off",
-      "unicorn/no-array-for-each": "off",
-      "unicorn/no-array-reduce": "off",
-      "unicorn/no-array-callback-reference": "off",
-      "unicorn/prefer-export-from": "off",
-      "unicorn/prefer-includes": "off",
-      "unicorn/prefer-module": "off",
-      "unicorn/prefer-node-protocol": "off",
-      "unicorn/prefer-number-properties": "off",
-      "unicorn/prefer-object-from-entries": "off",
-      "unicorn/prefer-spread": "off",
-      "unicorn/prefer-switch": "off",
-      "unicorn/prevent-abbreviations": "off",
-      "capitalized-comments": "off",
-      "eqeqeq": ["error", "always", {"null": "ignore"}],
-      "no-eq-null": "off",
-      "no-negated-condition": "off",
-      "no-return-assign": "off",
-      "object-shorthand": "off",
-      "prefer-destructuring": "off",
-      "prefer-object-spread": "off"
+      "unicorn/no-array-callback-reference": "off"
     },
     "overrides": [
       {
-        "files": "**/*.(ts|tsx)",
+        "files": ["**/*.(ts|tsx)"],
         "rules": {
-          "@typescript-eslint/ban-types": ["error", {"extendDefaults": true,"types": {}}]
+          "@typescript-eslint/ban-types": ["error", {"extendDefaults": true, "types": {}}]
+        }
+      },
+      {
+        "files": ["**/__tests__/**", "**/vite.config.ts"],
+        "rules": {
+          "import/no-extraneous-dependencies": "off"
         }
       }
     ]

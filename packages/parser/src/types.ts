@@ -1,4 +1,4 @@
-// common types
+// Common types
 
 import * as Constants from './constants'
 
@@ -8,7 +8,7 @@ import * as Constants from './constants'
 export type Filetype = typeof Constants.GERBER | typeof Constants.DRILL
 
 /**
- * Millimieters or inches
+ * Millimeters or inches
  */
 export type UnitsType = typeof Constants.MM | typeof Constants.IN
 
@@ -79,7 +79,7 @@ export interface Obround {
 }
 
 /**
- * A regular polygon with a circumscribed circle diamter, number of vertices,
+ * A regular polygon with a circumscribed circle diameter, number of vertices,
  * and optional counter-clockwise rotation in degrees. If `rotation` is
  * unspecified or `0`, a point will lie on the positive x axis.
  *
@@ -118,7 +118,7 @@ export type MacroPrimitiveCode =
   | typeof Constants.MACRO_THERMAL
 
 /**
- * An arithmatic expression in a macro
+ * An arithmetic expression in a macro
  *
  * @category Macro
  */
@@ -140,16 +140,12 @@ export type MacroValue = number | string | MacroExpression
  * A map of axes to coordinate strings used to define the location of a
  * graphical operation
  */
-export interface Coordinates {
-  [axis: string]: string
-}
+export type Coordinates = Record<string, string>
 
 /**
- * Paramters of a step repeat
+ * Parameters of a step repeat
  */
-export interface StepRepeatParameters {
-  [axis: string]: number
-}
+export type StepRepeatParameters = Record<string, number>
 
 /**
  * Valid graphical operation types

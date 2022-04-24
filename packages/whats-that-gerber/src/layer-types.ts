@@ -25,24 +25,24 @@ import {
 import {LayerType} from './types'
 
 export const layerTypes: LayerType[] = [
-  // high-priority non-matches
+  // High-priority non-matches
   {
     type: null,
     side: null,
     matchers: [
-      // eagle gerber generation metadata
+      // Eagle gerber generation metadata
       {
         ext: 'gpi',
         cad: [CAD_EAGLE, CAD_EAGLE_LEGACY, CAD_EAGLE_OSHPARK, CAD_EAGLE_PCBNG],
       },
-      // eagle drill generation metadata
+      // Eagle drill generation metadata
       {
         ext: 'dri',
         cad: [CAD_EAGLE, CAD_EAGLE_LEGACY, CAD_EAGLE_OSHPARK, CAD_EAGLE_PCBNG],
       },
-      // general data/BOM files
+      // General data/BOM files
       {ext: 'csv', cad: null},
-      // pick-n-place BOMs
+      // Pick-n-place BOMs
       {match: /pnp_bom/, cad: CAD_EAGLE_PCBNG},
     ],
   },

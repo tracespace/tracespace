@@ -12,7 +12,8 @@
   "exports": {
     ".": {
       "import": "./dist/tracespace-parser.es.js",
-      "require": "./dist/tracespace-parser.umd.js"
+      "require": "./dist/tracespace-parser.umd.js",
+      "types": "./lib/index.d.ts"
     }
   },
   "sideEffects": false,
