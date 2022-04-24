@@ -1,8 +1,6 @@
 {
   "files": [],
   "references": [
-    {"path": "./apps/view"},
-    {"path": "./packages/cli"},
     {"path": "./packages/parser"},
     {"path": "./packages/xml-id"},
     {"path": "./packages/whats-that-gerber"}

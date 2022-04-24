@@ -1,6 +1,5 @@
 {
   "name": "@tracespace/cli",
-  "private": true,
   "publishConfig": {
     "access": "public"
   },
@@ -9,23 +8,17 @@
   "bin": {
     "tracespace": "bin/cli.js"
   },
+  "main": "./dist/tracespace-cli.cjs",
   "source": "src/index.ts",
-  "main": "cjs/index.js",
   "types": "lib/index.d.ts",
   "sideEffects": false,
-  "files": [
-    "src",
-    "lib",
-    "cjs",
-    "bin"
-  ],
   "scripts": {
-    "clean": "rimraf lib cjs",
-    "docs": "node scripts/docs.js README.md docs"
+    "build": "vite build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tracespace/tracespace.git"
+    "url": "git+https://github.com/tracespace/tracespace.git",
+    "directory": "packages/cli"
   },
   "keywords": [
     "pcb",
@@ -41,7 +34,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=8"
+    "node": ">=14"
   },
   "dependencies": {
     "@types/debug": "^4.1.5",
@@ -50,12 +43,15 @@
     "cosmiconfig": "^5.2.1",
     "debug": "^4.1.1",
     "dot-prop": "^5.1.0",
-    "gerber-to-svg": "^5.0.0-next.0",
+    "gerber-to-svg": "^4.2.8",
     "globby": "^11.0.1",
     "make-dir": "^3.0.0",
-    "pcb-stackup": "^5.0.0-next.0",
+    "pcb-stackup": "4.2.8",
     "untildify": "^4.0.0",
-    "whats-that-gerber": "^5.0.0-next.0",
     "yargs": "^15.1.0"
+  },
+  "devDependencies": {
+    "builtin-modules": "^3.2.0",
+    "whats-that-gerber": "workspace:*"
   }
 }
