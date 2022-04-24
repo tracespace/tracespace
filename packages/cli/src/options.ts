@@ -89,10 +89,8 @@ const layer: ArgOptions = {
   alias: 'l',
   describe: 'Override the layers options of a given file',
   example: {
-    cmd:
-      '$0 -l.arduino-uno.drd.type=drill -l.arduino-uno.drd.options.filetype=drill',
-    desc:
-      'Set layer type of `arduino-uno.drd` to `drill` and parse as a drill file',
+    cmd: '$0 -l.arduino-uno.drd.type=drill -l.arduino-uno.drd.options.filetype=drill',
+    desc: 'Set layer type of `arduino-uno.drd` to `drill` and parse as a drill file',
     aside:
       "If you're using this option a lot, you may want to consider using a config file",
   },

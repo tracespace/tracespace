@@ -22,7 +22,7 @@ const writeFile = util.promisify(fs.writeFile)
 
 export {options}
 
-export function cli(
+export async function cli(
   processArgv: string[],
   config: Partial<Config>
 ): Promise<unknown> {
@@ -143,7 +143,7 @@ export function cli(
               `${filename}.svg`,
               gerberToSvg.render(
                 layer.converter,
-                layer.options.attributes || {}
+                (layer.options as GerberToSvgOptions).attributes || {}
               )
             )
           }),

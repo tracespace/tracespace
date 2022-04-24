@@ -1,4 +1,5 @@
-import assert from 'assert'
+import assert from 'node:assert'
+import {describe, it} from 'vitest'
 
 import cadFilenames from '@tracespace/fixtures/gerber-filenames.json'
 import {identifyLayers, getAllLayers, validate} from '..'

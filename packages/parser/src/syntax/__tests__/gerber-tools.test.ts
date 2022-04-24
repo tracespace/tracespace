@@ -1,6 +1,5 @@
 // gerber grammar tests
-import {expect} from 'chai'
-import {toArray} from 'lodash'
+import {describe, it, expect} from 'vitest'
 
 import * as Lexer from '../../lexer'
 import * as Tree from '../../tree'
@@ -400,10 +399,10 @@ describe('gerber tool syntax matches', () => {
       const lexer = Lexer.createLexer()
       lexer.reset(source)
 
-      const actualTokens = toArray((lexer as unknown) as Array<Lexer.Token>)
+      const actualTokens = [...lexer]
       const {tokens, nodes, filetype} = actualTokens.reduce<MatchState>(
         (state, token) => matchSyntax(state, token),
-        null
+        null as unknown as MatchState
       )
 
       expect(filetype).to.equal(GERBER)

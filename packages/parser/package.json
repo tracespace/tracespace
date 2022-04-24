@@ -42,7 +42,9 @@
   "homepage": "https://github.com/tracespace/tracespace#readme",
   "dependencies": {
     "@types/moo": "^0.5.5",
-    "@types/unist": "^2.0.6",
+    "@types/unist": "^2.0.6"
+  },
+  "devDependencies": {
     "moo": "^0.5.1"
   }
 }

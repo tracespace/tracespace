@@ -1,4 +1,4 @@
-import {expect} from 'chai'
+import {describe, it, expect} from 'vitest'
 import {sanitize} from '..'
 
 describe('xml-id', () => {

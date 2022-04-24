@@ -13,9 +13,10 @@ export function token(type: Token['type'], value: Token['value']): Token {
   }
 }
 
-export function simplifyToken(
-  token: Token
-): {type: Token['type']; value: Token['value']} {
+export function simplifyToken(token: Token): {
+  type: Token['type']
+  value: Token['value']
+} {
   return {type: token.type, value: token.value}
 }
 
