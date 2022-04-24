@@ -69,9 +69,7 @@ export function cli(
   const drillOpts = (argv.drill as Config['drill']) || {}
   const layerOpts = (argv.layer as Config['layer']) || {}
 
-  return glob(files)
-    .then(renderFiles)
-    .then(writeRenders)
+  return glob(files).then(renderFiles).then(writeRenders)
 
   function renderFiles(filenames: string[]): Promise<Stackup> {
     const typesByName = Wtg.identifyLayers(filenames)
