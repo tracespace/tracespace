@@ -22,7 +22,8 @@
     "umd"
   ],
   "scripts": {
-    "build": "vite build"
+    "build": "vite build",
+    "clean": "rimraf dist"
   },
   "repository": {
     "type": "git",
