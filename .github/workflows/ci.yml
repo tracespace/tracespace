@@ -5,38 +5,35 @@ jobs:
   test:
     strategy:
       matrix:
-        node-version: ['10', '12', '14']
+        node-version: ['14', '16', '18']
     name: unit tests on node ${{ matrix.node-version }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@35ab4267a1a21c8e8cb1c087cf1642e891ff57bd
+        with:
+          version: '7.0.0'
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install --frozen-lockfile
-      - run: yarn test
-      - run: yarn coverage
-      - uses: codecov/codecov-action@v1
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:once
+      - uses: codecov/codecov-action@81cd2dc8148241f03f5839d295e000b8f761e378
+        with:
+          files: coverage/coverage-final.json
 
-  lint:
-    name: lint and format checks
+  check:
+    name: format, lint, and build checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@35ab4267a1a21c8e8cb1c087cf1642e891ff57bd
         with:
-          node-version: '12'
-      - run: yarn install --frozen-lockfile
-      - run: yarn lint
-      - run: yarn format --check
-
-  build:
-    name: build assets and type definitions
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+          version: '7.0.0'
+      - uses: actions/setup-node@v3
         with:
-          node-version: '12'
-      - run: yarn install --frozen-lockfile
-      - run: yarn build:all
+          node-version: '16'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check

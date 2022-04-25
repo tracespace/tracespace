@@ -23,7 +23,8 @@
     "directory": "packages/parser"
   },
   "scripts": {
-    "build": "vite build"
+    "build": "vite build",
+    "clean": "rimraf dist"
   },
   "keywords": [
     "gerber",
