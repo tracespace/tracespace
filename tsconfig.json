@@ -4,6 +4,7 @@
     {"path": "./packages/cli"},
     {"path": "./packages/parser"},
     {"path": "./packages/xml-id"},
-    {"path": "./packages/whats-that-gerber"}
+    {"path": "./packages/whats-that-gerber"},
+    {"path": "./www"}
   ]
 }

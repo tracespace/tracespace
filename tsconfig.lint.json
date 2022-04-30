@@ -1,7 +1,9 @@
 {
-  "extends": "./config/tsconfig-base.json",
+  "extends": "./config/tsconfig.base.json",
   "compilerOptions": {
+    "allowJs": true,
     "noEmit": true
   },
-  "include": ["*", "packages/**/*"]
+  "files": [],
+  "include": ["*", "www/**/*", "packages/**/*"]
 }

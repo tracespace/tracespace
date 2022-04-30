@@ -3,3 +3,6 @@ dist
 lib
 coverage
 *.tsbuildinfo
+*.tgz
+.vscode
+.DS_Store

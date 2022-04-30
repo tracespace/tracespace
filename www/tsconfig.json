@@ -1,6 +1,6 @@
 {
-  "extends": "../../config/tsconfig.base.json",
-  "references": [],
+  "extends": "../config/tsconfig.base.json",
+  "references": [{"path": "../packages/parser"}],
   "compilerOptions": {
     "composite": true,
     "emitDeclarationOnly": true,

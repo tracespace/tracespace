@@ -21,26 +21,31 @@
     "pnpm": ">=7"
   },
   "dependencies": {
+    "@tracespace/cli": "workspace:*",
     "@tracespace/fixtures": "workspace:*",
     "@tracespace/parser": "workspace:*",
-    "whats-that-gerber": "workspace:*",
     "@tracespace/xml-id": "workspace:*",
-    "@tracespace/cli": "workspace:*"
+    "@tracespace/www": "workspace:*",
+    "whats-that-gerber": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^17.0.25",
+    "@types/node": "^17.0.30",
     "c8": "^7.11.2",
     "concurrently": "^7.1.0",
     "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
-    "typescript": "^4.6.3",
-    "vite": "^2.9.5",
-    "vitest": "^0.9.4",
+    "typescript": "^4.6.4",
+    "vite": "^2.9.6",
+    "vitest": "^0.10.0",
     "xo": "^0.48.0"
   },
   "pnpm": {
     "peerDependencyRules": {
-      "ignoreMissing": ["webpack"]
+      "ignoreMissing": [
+        "vite",
+        "webpack",
+        "rollup"
+      ]
     }
   },
   "prettier": {
@@ -57,6 +62,11 @@
     "parserOptions": {
       "project": "./tsconfig.lint.json"
     },
+    "settings": {
+      "react": {
+        "pragma": "h"
+      }
+    },
     "rules": {
       "@typescript-eslint/naming-convention": "off",
       "import/extensions": "off",
@@ -70,7 +80,13 @@
         }
       },
       {
-        "files": ["**/__tests__/**", "**/vite.config.ts"],
+        "files": ["**/*.d.ts"],
+        "rules": {
+          "@typescript-eslint/triple-slash-reference": "off"
+        }
+      },
+      {
+        "files": ["**/__tests__/**", "**/*.config.ts"],
         "rules": {
           "import/no-extraneous-dependencies": "off"
         }

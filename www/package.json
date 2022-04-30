@@ -1,0 +1,46 @@
+{
+  "name": "@tracespace/www",
+  "version": "5.0.0-next.0",
+  "description": "tracespace website",
+  "type": "module",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tracespace/tracespace.git",
+    "directory": "www"
+  },
+  "scripts": {
+    "dev": "node server.js",
+    "build": "vite build && vite build --ssr && vite-plugin-ssr prerender",
+    "preview": "node server.js preview",
+    "clean": "rimraf dist"
+  },
+  "contributors": [
+    "Mike Cousins <mike@cousins.io> (https://mike.cousins.io)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tracespace/tracespace/issues"
+  },
+  "homepage": "https://tracespace.io",
+  "dependencies": {
+    "@fontsource/open-sans": "^4.5.8",
+    "@tracespace/parser": "workspace:*",
+    "json-stringify-pretty-compact": "^3.0.0",
+    "preact": "^10.7.1",
+    "windicss": "^3.5.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/plugin-transform-react-jsx": "^7.17.3",
+    "@babel/plugin-transform-react-jsx-development": "^7.16.7",
+    "@mdx-js/rollup": "^2.1.1",
+    "@preact/preset-vite": "^2.2.0",
+    "babel-plugin-transform-hook-names": "^1.0.2",
+    "express": "^4.18.0",
+    "preact-render-to-string": "^5.1.21",
+    "vite-plugin-ssr": "^0.3.64",
+    "vite-plugin-windicss": "^1.8.4",
+    "yargs-parser": "^21.0.1"
+  }
+}
