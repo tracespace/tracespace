@@ -1,0 +1,11 @@
+{
+  "extends": "../../config/tsconfig.base.json",
+  "references": [{"path": "../parser"}],
+  "compilerOptions": {
+    "composite": true,
+    "emitDeclarationOnly": true,
+    "rootDir": "src",
+    "outDir": "lib"
+  },
+  "include": ["src", "typings"]
+}

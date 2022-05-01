@@ -1,36 +1,33 @@
 {
-  "name": "@tracespace/parser",
-  "publishConfig": {
-    "access": "public"
-  },
-  "version": "5.0.0-next.0",
-  "description": "Gerber and NC drill file parser",
-  "main": "./dist/tracespace-parser.umd.js",
-  "module": "./dist/tracespace-parser.es.js",
+  "name": "@tracespace/plotter",
+  "private": true,
+  "version": "0.0.0-unreleased",
+  "description": "Build image trees from @tracespace/parser ASTs",
+  "main": "./dist/tracespace-plotter.umd.js",
+  "module": "./dist/tracespace-plotter.es.js",
   "types": "./lib/index.d.ts",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
       "source": "./src/index.ts",
-      "import": "./dist/tracespace-parser.es.js",
-      "require": "./dist/tracespace-parser.umd.js"
+      "import": "./dist/tracespace-plotter.es.js",
+      "require": "./dist/tracespace-plotter.umd.js"
     }
   },
   "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tracespace/tracespace.git",
-    "directory": "packages/parser"
+    "directory": "packages/plotter"
   },
   "scripts": {
     "build": "vite build",
     "clean": "rimraf dist"
   },
   "keywords": [
-    "gerber",
-    "excellon",
     "pcb",
     "circuit",
+    "board",
     "hardware",
     "electronics"
   ],
@@ -43,10 +40,13 @@
   },
   "homepage": "https://github.com/tracespace/tracespace#readme",
   "dependencies": {
-    "@types/moo": "^0.5.5",
-    "@types/unist": "^2.0.6"
+    "@tracespace/parser": "workspace:*",
+    "@types/unist": "^2.0.6",
+    "whats-that-gerber": "workspace:*"
   },
   "devDependencies": {
-    "moo": "^0.5.1"
+    "unist-util-filter": "^1.0.2",
+    "unist-util-find": "^1.0.1",
+    "unist-util-visit-parents": "^3.0.0"
   }
 }

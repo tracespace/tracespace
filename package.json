@@ -24,6 +24,7 @@
     "@tracespace/cli": "workspace:*",
     "@tracespace/fixtures": "workspace:*",
     "@tracespace/parser": "workspace:*",
+    "@tracespace/plotter": "workspace:*",
     "@tracespace/xml-id": "workspace:*",
     "@tracespace/www": "workspace:*",
     "whats-that-gerber": "workspace:*"
@@ -70,7 +71,8 @@
     "rules": {
       "@typescript-eslint/naming-convention": "off",
       "import/extensions": "off",
-      "unicorn/no-array-callback-reference": "off"
+      "unicorn/no-array-callback-reference": "off",
+      "default-case": "off"
     },
     "overrides": [
       {

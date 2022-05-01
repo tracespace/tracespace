@@ -4,7 +4,7 @@ A parser for printed circuit board manufacturing files. Compiles [Gerber][gerber
 
 Part of the [tracespace][] collection of PCB visualization tools.
 
-**This package is still in development and available as a prerelease**
+**This package is still in development and available as a prerelease.**
 
 ```shell
 npm install @tracespace/parser@next
@@ -19,8 +19,6 @@ npm install @tracespace/parser@next
 
 ```js
 import {createParser} from '@tracespace/parser'
-// commonjs is cool, too
-// const {createParser} = require('@tracespace/parser')
 
 const parser = createParser()
 parser.feed(/* ...some gerber string... */)
