@@ -5,7 +5,7 @@ export default defineConfig({
     lib: {
       entry: 'src/index.ts',
       name: 'TracespaceParser',
-      fileName: (format: string) => `tracespace-parser.${format}.js`,
+      fileName: 'tracespace-parser',
     },
   },
 })
