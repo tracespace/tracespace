@@ -1,18 +1,19 @@
 // Coordinate string utilities
 import {TRAILING} from '@tracespace/parser'
-import {LayerFormat} from '../types'
+import {PlotOptions} from '../options'
 
 export function parseCoordinate(
   coord: string | null,
-  format: LayerFormat
+  options: PlotOptions
 ): number {
   if (coord === null) return Number.NaN
 
   // Short-circuit if coordinate has a decimal point
   if (coord.includes('.')) return Number(coord)
 
-  const {coordFormat, zeroSuppression} = format
-  const numberDigits = coordFormat[0] + coordFormat[1]
+  const {coordinateFormat, zeroSuppression} = options
+  const [integerPlaces, decimalPlaces] = coordinateFormat!
+  const numberDigits = integerPlaces + decimalPlaces
   let sign = '+'
 
   // Handle optional sign
@@ -26,8 +27,8 @@ export function parseCoordinate(
       ? coord.padEnd(numberDigits, '0')
       : coord.padStart(numberDigits, '0')
 
-  const leading = coord.slice(0, coordFormat[0])
-  const trailing = coord.slice(coordFormat[0])
+  const leading = coord.slice(0, integerPlaces)
+  const trailing = coord.slice(integerPlaces)
 
   return Number(`${sign}${leading}.${trailing}`)
 }

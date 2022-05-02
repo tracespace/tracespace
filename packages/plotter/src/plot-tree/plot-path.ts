@@ -24,7 +24,7 @@ import {
 } from '../tree'
 
 import {Box, Position, Offsets} from '../types'
-import {rotateQuadrant, limitAngle, TWO_PI} from '../utils'
+import {rotateQuadrant, limitAngle, TWO_PI} from './math'
 import * as BBox from './bounding-box'
 import {line} from './geometry'
 import {makeArcSegment} from './arc-segment'
@@ -52,16 +52,27 @@ export function pathFinished(
   )
 }
 
-export function addSegmentToPath(
-  path: ImagePath | ImageRegion | null,
-  start: Position,
-  end: Position,
-  offsets: Offsets,
-  tool: ToolDefinition | null,
-  interpolateMode: InterpolateModeType,
-  regionMode: boolean,
+export interface AddSegmentToPathOptions {
+  path: ImagePath | ImageRegion | null
+  start: Position
+  end: Position
+  offsets: Offsets
+  tool: ToolDefinition | null
+  interpolateMode: InterpolateModeType
+  regionMode: boolean
   quadrantMode: QuadrantModeType
-): ImagePath | ImageRegion {
+}
+
+export function addSegmentToPath({
+  path,
+  start,
+  end,
+  offsets,
+  tool,
+  interpolateMode,
+  regionMode,
+  quadrantMode,
+}: AddSegmentToPathOptions): ImagePath | ImageRegion {
   if (!regionMode && tool && tool.shape.type === PARSER_RECTANGLE) {
     return plotRectPath(start, end, tool.shape)
   }
@@ -72,12 +83,18 @@ export function addSegmentToPath(
   let segment: PathSegment | null = null
 
   if (interpolateMode === PARSER_LINE) {
-    segment = line(start, end)
+    segment = line({start, end})
   } else if (
     interpolateMode === PARSER_CW_ARC ||
     interpolateMode === PARSER_CCW_ARC
   ) {
-    segment = makeArcSegment(start, end, offsets, interpolateMode, quadrantMode)
+    segment = makeArcSegment({
+      start,
+      end,
+      offsets,
+      interpolateMode,
+      quadrantMode,
+    })
   }
 
   let nextPath: ImagePath | ImageRegion | null = path

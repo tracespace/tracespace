@@ -1,7 +1,7 @@
 // Tests for @tracespace/parser
 
 import {describe, it, beforeEach, expect} from 'vitest'
-import {createParser, Parser, Root, ROOT, COMMENT, DONE, GERBER} from '..'
+import {ROOT, COMMENT, DONE, GERBER, Parser, createParser} from '..'
 
 describe('@tracespace/parser', () => {
   let parser: Parser
@@ -10,15 +10,8 @@ describe('@tracespace/parser', () => {
     parser = createParser()
   })
 
-  it('should return an AST', () => {
-    const expected: Root = {
-      type: ROOT,
-      filetype: null,
-      done: false,
-      children: [],
-    }
-
-    expect(parser.results()).to.eql(expected)
+  it('should raise if no AST yet', () => {
+    expect(parser.results).to.throw('File type not recognized')
   })
 
   it('should feed its input into the tree', () => {
@@ -27,7 +20,6 @@ describe('@tracespace/parser', () => {
     expect(parser.results()).to.eql({
       type: ROOT,
       filetype: GERBER,
-      done: false,
       children: [
         {
           type: COMMENT,
@@ -48,7 +40,6 @@ describe('@tracespace/parser', () => {
     expect(parser.results()).to.eql({
       type: ROOT,
       filetype: GERBER,
-      done: true,
       children: [
         {
           type: COMMENT,
@@ -79,7 +70,6 @@ describe('@tracespace/parser', () => {
     expect(parser.results()).to.eql({
       type: ROOT,
       filetype: GERBER,
-      done: true,
       children: [
         {
           type: COMMENT,

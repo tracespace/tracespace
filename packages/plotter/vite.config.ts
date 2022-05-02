@@ -1,6 +1,9 @@
 import {defineConfig} from 'vite'
 
+import {baseConfig} from '../../config/vite.config.base'
+
 export default defineConfig({
+  ...baseConfig,
   build: {
     lib: {
       entry: 'src/index.ts',
@@ -8,11 +11,10 @@ export default defineConfig({
       fileName: 'tracespace-plotter',
     },
     rollupOptions: {
-      external: ['@tracespace/parser', 'whats-that-gerber'],
+      external: ['@tracespace/parser'],
       output: {
         globals: {
           '@tracespace/parser': 'TracespaceParser',
-          'whats-that-gerber': 'WhatsThatGerber',
         },
       },
     },

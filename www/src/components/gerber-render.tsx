@@ -1,8 +1,10 @@
 import {ComponentChildren} from 'preact'
-import {useEffect, useRef, useState} from 'preact/hooks'
+import {useState, useMemo} from 'preact/hooks'
 import stringifyJson from 'json-stringify-pretty-compact'
 
-import {Root as GerberTree, ChildNode, createParser} from '@tracespace/parser'
+import {GerberTree, GerberNode, createParser} from '@tracespace/parser'
+
+import {ImageTree, ImageNode, plot} from '@tracespace/plotter'
 
 export interface GerberFixture {
   contents: string
@@ -10,19 +12,15 @@ export interface GerberFixture {
 }
 
 const useGerberTree = (contents: string): GerberTree => {
-  const result = useRef<GerberTree | null>(null)
-
-  useEffect(() => {
-    result.current = null
-  }, [contents])
-
-  if (result.current === null) {
+  return useMemo(() => {
     const parser = createParser()
     parser.feed(contents)
-    result.current = parser.results()
-  }
+    return parser.results()
+  }, [contents])
+}
 
-  return result.current
+const useImageTree = (gerberTree: GerberTree): ImageTree => {
+  return useMemo(() => plot(gerberTree), [gerberTree])
 }
 
 export interface GerberRenderProps {
@@ -33,11 +31,12 @@ export interface GerberRenderProps {
 export function GerberRender(props: GerberRenderProps): JSX.Element | null {
   const {contents, children} = props
   const gerberTree = useGerberTree(contents)
+  const imageTree = useImageTree(gerberTree)
 
   const [highlightedLine, setHighlightedLine] = useState<number | null>(null)
 
   return (
-    <div class="flex content-start mb-4">
+    <div class="flex content-start mb-4 text-sm">
       <code class="mx-2 w-xs">
         {contents
           .trim()
@@ -54,12 +53,17 @@ export function GerberRender(props: GerberRenderProps): JSX.Element | null {
       </code>
       <code class="mx-2 w-xl">
         {gerberTree.children.map((node, index) => (
-          <GerberNode
+          <GerberNodeItem
             key={index}
             node={node}
             highlightedLineNumber={highlightedLine}
             onHover={setHighlightedLine}
           />
+        ))}
+      </code>
+      <code class="mx-2 w-xl whitespace-pre">
+        {imageTree.children[0].children.map((node, index) => (
+          <ImageNodeItem key={index} node={node} />
         ))}
       </code>
       {children}
@@ -93,18 +97,18 @@ function GerberLine(props: GerberLineProps): JSX.Element {
 }
 
 interface GerberNodeProps {
-  node: ChildNode
+  node: GerberNode
   highlightedLineNumber: number | null
   onHover: (lineNumber: number | null) => unknown
 }
 
-function GerberNode(props: GerberNodeProps): JSX.Element {
+function GerberNodeItem(props: GerberNodeProps): JSX.Element {
   const {node, highlightedLineNumber, onHover} = props
   const lineNumber = node.position?.start.line ?? null
   const handleMouseEnter = () => onHover(lineNumber)
   const handleMouseLeave = () => onHover(null)
 
-  const payload = Object.entries(props.node).filter(
+  const payload = Object.entries(node).filter(
     ([key]) => key !== 'type' && key !== 'position'
   )
 
@@ -114,7 +118,29 @@ function GerberNode(props: GerberNodeProps): JSX.Element {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <p>type: {props.node.type}</p>
+      <p>type: {node.type}</p>
+      <ul>
+        {payload.map(([key, value]) => (
+          <li>
+            {key}: {stringifyJson(value)}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+interface ImageNodeProps {
+  node: ImageNode
+}
+
+function ImageNodeItem(props: ImageNodeProps): JSX.Element {
+  const {node} = props
+  const payload = Object.entries(node).filter(([key]) => key !== 'type')
+
+  return (
+    <div class="p-1">
+      <p>type: {node.type}</p>
       <ul>
         {payload.map(([key, value]) => (
           <li>

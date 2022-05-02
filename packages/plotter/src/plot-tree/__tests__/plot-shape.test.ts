@@ -2,13 +2,13 @@ import {describe, it, expect} from 'vitest'
 import * as Parser from '@tracespace/parser'
 
 import {Position, Box} from '../../types'
-import * as Nodes from '../../tree'
+import * as Tree from '../../tree'
 import {plotShape, getShapeBox} from '../plot-shape'
 
 interface PlotShapeSpec {
   tool: Parser.ToolDefinition
   position: Position
-  expectedShape: Nodes.Shape
+  expectedShape: Tree.Shape
   expectedBox: Box
 }
 
@@ -27,14 +27,14 @@ describe('shape plotting', () => {
     'circle tool': {
       tool: t({type: Parser.CIRCLE, diameter: 2}),
       position: [3, 4],
-      expectedShape: {type: Nodes.CIRCLE, cx: 3, cy: 4, r: 1},
+      expectedShape: {type: Tree.CIRCLE, cx: 3, cy: 4, r: 1},
       expectedBox: [2, 3, 4, 5],
     },
     'rectangle tool': {
       tool: t({type: Parser.RECTANGLE, xSize: 6, ySize: 7}),
       position: [2, -1],
       expectedShape: {
-        type: Nodes.RECTANGLE,
+        type: Tree.RECTANGLE,
         x: -1,
         y: -4.5,
         xSize: 6,
@@ -47,7 +47,7 @@ describe('shape plotting', () => {
       tool: t({type: Parser.OBROUND, xSize: 6, ySize: 8}),
       position: [1, 2],
       expectedShape: {
-        type: Nodes.RECTANGLE,
+        type: Tree.RECTANGLE,
         x: -2,
         y: -2,
         xSize: 6,
@@ -60,7 +60,7 @@ describe('shape plotting', () => {
       tool: t({type: Parser.OBROUND, xSize: 8, ySize: 6}),
       position: [1, 2],
       expectedShape: {
-        type: Nodes.RECTANGLE,
+        type: Tree.RECTANGLE,
         x: -3,
         y: -1,
         xSize: 8,
@@ -78,7 +78,7 @@ describe('shape plotting', () => {
       }),
       position: [2, 2],
       expectedShape: {
-        type: Nodes.POLYGON,
+        type: Tree.POLYGON,
         points: [
           [10, 2],
           [2, 10],

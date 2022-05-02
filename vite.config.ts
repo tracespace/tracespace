@@ -1,6 +1,8 @@
 import {defineConfig} from 'vitest/config'
+import {baseConfig} from './config/vite.config.base'
 
 export default defineConfig({
+  ...baseConfig,
   test: {
     coverage: {
       all: true,

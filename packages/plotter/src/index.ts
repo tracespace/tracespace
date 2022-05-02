@@ -1,64 +1,17 @@
 // @tracespace/plotter
 // build abstract board images from @tracespace/parser ASTs
-import {Root as GerberTree} from '@tracespace/parser'
+import {GerberTree} from '@tracespace/parser'
 
-import {getLayerTypes, getLayerFormats} from './layer-formats'
+import {getPlotOptions} from './options'
 import {createPlot} from './plot-tree'
 import {ImageTree} from './tree'
 
-import {
-  InputLayer,
-  InputOptions,
-  Options,
-  LayerType,
-  LayerFormat,
-} from './types'
-
+export * from './tree'
 export * from './types'
-export * from './plot-tree'
-export * from './utils'
 
-export interface Layer extends LayerType, LayerFormat {
-  filename: string | null
-  tree: GerberTree
-  image: ImageTree
-}
+export function plot(tree: GerberTree): ImageTree {
+  const plotOptions = getPlotOptions(tree)
+  const imageTree = createPlot(tree, plotOptions)
 
-export interface Board {
-  layers: Layer[]
-  options: Options
-}
-
-export function createBoard(
-  layers: InputLayer[],
-  options?: InputOptions
-): Board {
-  const layerTypes = getLayerTypes(layers)
-  const layerFormats = getLayerFormats(layers)
-  // TODO(mc, 2019-06-14): infer units from layerFormats if missing
-  const boardOptions = {units: options?.units ?? 'mm'}
-
-  const boardLayers = layers
-    .map((ly: InputLayer, i: number): Layer | null => {
-      const type = layerTypes[i]
-      const format = layerFormats[i]
-
-      if (format) {
-        const {filename, tree} = ly
-        const image = createPlot(type, format, tree)
-
-        return {
-          ...type,
-          ...format,
-          tree,
-          image,
-          filename: filename ?? null,
-        }
-      }
-
-      return null
-    })
-    .filter((ly: Layer | null): ly is Layer => ly !== null)
-
-  return {layers: boardLayers, options: boardOptions}
+  return imageTree
 }

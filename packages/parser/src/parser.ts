@@ -1,6 +1,7 @@
 import {createLexer, Lexer, Token} from './lexer'
 import {matchSyntax, MatchState} from './syntax'
-import {Root, ROOT, DONE} from './tree'
+import {Filetype} from './types'
+import {Root, ChildNode, ROOT} from './tree'
 
 /**
  * Gerber and NC drill file parser.
@@ -37,8 +38,8 @@ export interface Parser {
  */
 export function createParser(): Parser {
   const lexer = createLexer()
-  const root: Root = {type: ROOT, filetype: null, done: false, children: []}
-
+  const children: ChildNode[] = []
+  let filetype: Filetype | null = null
   let stash = ''
   let lexerOffset = 0
   let lexerState = lexer.save()
@@ -60,13 +61,15 @@ export function createParser(): Parser {
       matchState = matchSyntax(matchState, token)
 
       if (matchState.nodes) {
-        const {nodes, filetype = null} = matchState
+        const {nodes, filetype: matchedFiletype = null} = matchState
         stash = ''
         lexerOffset += lexer.index ?? 0
         lexerState = lexer.save()
-        root.children.push(...nodes)
-        root.filetype = root.filetype ?? filetype
-        root.done = root.done || nodes.some(n => n.type === DONE)
+        children.push(...nodes)
+
+        if (filetype === null && matchedFiletype !== null) {
+          filetype = matchedFiletype
+        }
       }
 
       if (matchState.candidates.length === 0) {
@@ -76,6 +79,10 @@ export function createParser(): Parser {
   }
 
   function results(): Root {
-    return root
+    if (filetype === null) {
+      throw new Error('File type not recognized')
+    }
+
+    return {type: ROOT, filetype, children}
   }
 }
