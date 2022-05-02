@@ -1,5 +1,5 @@
-// Plotting utilities
-import {Position} from './types'
+// Mathematical procedures
+import {Position} from '../types'
 
 const PRECISION = 10_000_000_000
 
@@ -47,23 +47,4 @@ export function roundToPrecision(n: number): number {
 export const positionsEqual = (a: number[], b: number[]): boolean => {
   const [ax, ay, bx, by] = [a[0], a[1], b[0], b[1]].map(roundToPrecision)
   return ax === bx && ay === by
-}
-
-export function getArrayMode<T>(values: Array<T | null>): T | null {
-  const realValues = values.filter((v: T | null): v is T => v !== null)
-  const counts: Map<T, number | undefined> = new Map()
-  let highestCount = 0
-  let mode = null
-
-  for (const value of realValues) {
-    const count = (counts.get(value) ?? 0) + 1
-    counts.set(value, count)
-
-    if (count > highestCount) {
-      highestCount = count
-      mode = value
-    }
-  }
-
-  return mode
 }

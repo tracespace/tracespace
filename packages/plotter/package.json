@@ -41,12 +41,6 @@
   "homepage": "https://github.com/tracespace/tracespace#readme",
   "dependencies": {
     "@tracespace/parser": "workspace:*",
-    "@types/unist": "^2.0.6",
-    "whats-that-gerber": "workspace:*"
-  },
-  "devDependencies": {
-    "unist-util-filter": "^1.0.2",
-    "unist-util-find": "^1.0.1",
-    "unist-util-visit-parents": "^3.0.0"
+    "@types/unist": "^2.0.6"
   }
 }

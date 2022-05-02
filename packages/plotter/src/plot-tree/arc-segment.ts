@@ -6,20 +6,28 @@ import {
   MULTI,
 } from '@tracespace/parser'
 
-import {roundToPrecision} from '../utils'
 import {Position, ArcPosition, Offsets} from '../types'
 import {Direction, PathSegment, CW, CCW} from '../tree'
 import {line, arc} from './geometry'
+import {roundToPrecision} from './math'
 
 const TWO_PI = Math.PI * 2
 
-export function makeArcSegment(
-  start: Position,
-  end: Position,
-  offsets: Offsets,
-  interpolateMode: InterpolateModeType,
+export interface ArcSegmentOptions {
+  start: Position
+  end: Position
+  offsets: Offsets
+  interpolateMode: InterpolateModeType
   quadrantMode: QuadrantModeType
-): PathSegment {
+}
+
+export function makeArcSegment({
+  start,
+  end,
+  offsets,
+  interpolateMode,
+  quadrantMode,
+}: ArcSegmentOptions): PathSegment {
   // Arc radius (distance from start and end points to candidates)
   const [sx, sy] = start
   const direction = interpolateMode === CW_ARC ? CW : CCW
@@ -38,10 +46,17 @@ export function makeArcSegment(
         direction
       )
 
-      return arc(arcStart, arcEnd, center, radius, TWO_PI, direction)
+      return arc({
+        start: arcStart,
+        end: arcEnd,
+        center,
+        radius,
+        direction,
+        sweep: TWO_PI,
+      })
     }
 
-    return line(start, end)
+    return line({start, end})
   }
 
   // Get candidates for arc center based on arc radius
@@ -101,7 +116,7 @@ export function makeArcSegment(
   }
 
   const [arcStart, arcEnd, center, sweep] = selectedArc
-  return arc(arcStart, arcEnd, center, radius, sweep, direction)
+  return arc({start: arcStart, end: arcEnd, center, radius, sweep, direction})
 }
 
 // Find arc center candidates by calculating the arc radius and finding

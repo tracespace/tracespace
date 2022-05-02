@@ -1,10 +1,10 @@
 // Functions for stroking rectangular tools
 import {Rectangle} from '@tracespace/parser'
 
-import {positionsEqual, HALF_PI, PI} from '../utils'
 import {Position} from '../types'
 import {ImageRegion, IMAGE_REGION} from '../tree'
 import {line} from './geometry'
+import {positionsEqual, HALF_PI, PI} from './math'
 
 // Rectangular tools make interesting stroke geometry; see the Gerber spec
 // for graphics and examples
@@ -82,7 +82,7 @@ export function plotRectPath(
 
   const segments = points.map((start, i) => {
     const end = points[i < points.length - 1 ? i + 1 : 0]
-    return line(start, end)
+    return line({start, end})
   })
 
   return {type: IMAGE_REGION, meta: {regionMode: false}, segments}

@@ -17,7 +17,7 @@ export type UnitsType = typeof Constants.MM | typeof Constants.IN
  * number of integer digits in the string and Format[1] represents the number
  * of decimal digits. The decimal point itself is usually implicit.
  */
-export type Format = [number, number]
+export type Format = [integerPlaces: number, decimalPlaces: number]
 
 /**
  * Leading or trailing zero-suppression for coordinate strings

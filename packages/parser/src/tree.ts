@@ -189,9 +189,8 @@ export interface Root extends BaseParent {
   /** Node type */
   type: typeof ROOT
   /** The parsed file's type (Gerber or NC drill), if known */
-  filetype: Types.Filetype | null
-  /** Whether the parser has encountered a "done" command in the file */
-  done: boolean
+  filetype: Types.Filetype
+
   /** Parse results */
   children: ChildNode[]
 }
@@ -522,3 +521,7 @@ export interface Unimplemented extends BaseNode {
   /** String value of chunk */
   value: string
 }
+
+export type GerberTree = Root
+
+export type GerberNode = ChildNode

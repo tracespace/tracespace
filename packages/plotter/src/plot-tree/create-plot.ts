@@ -1,7 +1,7 @@
-import visit from 'unist-util-visit-parents'
 import * as Parser from '@tracespace/parser'
 
-import {LayerType, LayerFormat, GerberTree, Position} from '../types'
+import {PlotOptions} from '../options'
+import {Position} from '../types'
 
 import {
   ImageTree,
@@ -22,9 +22,8 @@ import {plotMacro} from './plot-macro'
 const last = <E>(coll: E[]): E | null => coll[coll.length - 1] || null
 
 export function createPlot(
-  type: LayerType,
-  format: LayerFormat,
-  tree: GerberTree
+  tree: Parser.GerberTree,
+  options: PlotOptions
 ): ImageTree {
   const tools = tree.children.filter(
     (n): n is Parser.ToolDefinition => n.type === Parser.TOOL_DEFINITION
@@ -44,7 +43,7 @@ export function createPlot(
 
   let regionMode = false
   let interpolateMode: Parser.InterpolateModeType =
-    format.filetype === Parser.GERBER ? Parser.LINE : null
+    tree.filetype === Parser.GERBER ? Parser.LINE : null
 
   // Arcs in drill files are always 180 degrees max
   let quadrantMode: Parser.QuadrantModeType = null
@@ -57,7 +56,10 @@ export function createPlot(
 
   let currentPath: ImagePath | ImageRegion | null = null
 
-  visit(tree, visitNode)
+  for (const node of tree.children) {
+    visitNode(node)
+  }
+
   addCurrentPathToLayer()
 
   return {
@@ -107,8 +109,8 @@ export function createPlot(
 
   function visitGraphicNode(node: Parser.Graphic): void {
     const {graphic, coordinates} = node
-    const x = parseCoordinate(coordinates.x, format)
-    const y = parseCoordinate(coordinates.y, format)
+    const x = parseCoordinate(coordinates.x, options)
+    const y = parseCoordinate(coordinates.y, options)
     let nextPosition: Position = [
       Number.isFinite(x) ? x : position[0],
       Number.isFinite(y) ? y : position[1],
@@ -117,7 +119,7 @@ export function createPlot(
 
     // All drill files will have graphic set to null; check interpolate (route)
     // mode for routing or drilling
-    if (graphic === null && format.filetype === Parser.DRILL) {
+    if (graphic === null && tree.filetype === Parser.DRILL) {
       if (interpolateMode === null) {
         nextGraphic = Parser.SHAPE
       } else if (interpolateMode === Parser.MOVE) {
@@ -128,69 +130,88 @@ export function createPlot(
     }
 
     if (tool && nextGraphic === Parser.SHAPE) {
-      const shape =
-        tool.shape.type === Parser.MACRO_SHAPE
-          ? plotMacro(
-              macroMap[tool.shape.name],
-              tool.shape.params,
-              nextPosition
-            )
-          : plotShape(tool.shape, tool.hole, nextPosition)
-
-      const shapeSize = getShapeBox(shape)
-
-      currentLayer.children.push({type: IMAGE_SHAPE, shape})
-      currentLayer.size = BBox.add(currentLayer.size, shapeSize)
+      addShapeGraphic(tool, nextPosition)
     } else if (nextGraphic === Parser.SEGMENT) {
-      if (currentPath !== null && pathFinished(currentPath, tool, regionMode)) {
-        addCurrentPathToLayer()
-      }
-
-      const offsets = {
-        i: parseCoordinate(coordinates.i, format) || null,
-        j: parseCoordinate(coordinates.j, format) || null,
-        a: parseCoordinate(coordinates.a, format) || null,
-      }
-
-      currentPath = addSegmentToPath(
-        currentPath,
-        position,
-        nextPosition,
-        offsets,
-        tool,
-        interpolateMode,
-        regionMode,
-        quadrantMode
-      )
+      addSegmentGraphic(coordinates, nextPosition)
     } else if (nextGraphic === Parser.SLOT) {
-      const x1 = parseCoordinate(coordinates.x1, format)
-      const y1 = parseCoordinate(coordinates.y1, format)
-      const x2 = parseCoordinate(coordinates.x2, format)
-      const y2 = parseCoordinate(coordinates.y2, format)
-      const startPosition: Position = [
-        Number.isFinite(x1) ? x1 : position[0],
-        Number.isFinite(y1) ? y1 : position[1],
-      ]
-      nextPosition = [
-        Number.isFinite(x2) ? x2 : startPosition[0],
-        Number.isFinite(y2) ? y2 : startPosition[1],
-      ]
-
-      addCurrentPathToLayer()
-      currentPath = addSegmentToPath(
-        null,
-        startPosition,
-        nextPosition,
-        {i: null, j: null, a: null},
-        tool,
-        Parser.LINE,
-        false,
-        null
-      )
-      addCurrentPathToLayer()
+      nextPosition = addSlotGraphic(coordinates, nextPosition)
     }
 
     lastGraphicSet = nextGraphic
     position = nextPosition
+  }
+
+  function addShapeGraphic(
+    tool: Parser.ToolDefinition,
+    nextPosition: Position
+  ): void {
+    const shape =
+      tool.shape.type === Parser.MACRO_SHAPE
+        ? plotMacro(macroMap[tool.shape.name], tool.shape.params, nextPosition)
+        : plotShape(tool.shape, tool.hole, nextPosition)
+
+    const shapeSize = getShapeBox(shape)
+
+    currentLayer.children.push({type: IMAGE_SHAPE, shape})
+    currentLayer.size = BBox.add(currentLayer.size, shapeSize)
+  }
+
+  function addSegmentGraphic(
+    coordinates: Parser.Coordinates,
+    nextPosition: Position
+  ): void {
+    if (currentPath !== null && pathFinished(currentPath, tool, regionMode)) {
+      addCurrentPathToLayer()
+    }
+
+    const offsets = {
+      i: parseCoordinate(coordinates.i, options) || null,
+      j: parseCoordinate(coordinates.j, options) || null,
+      a: parseCoordinate(coordinates.a, options) || null,
+    }
+
+    currentPath = addSegmentToPath({
+      path: currentPath,
+      start: position,
+      end: nextPosition,
+      offsets,
+      tool,
+      interpolateMode,
+      regionMode,
+      quadrantMode,
+    })
+  }
+
+  function addSlotGraphic(
+    coordinates: Parser.Coordinates,
+    nextPosition: Position
+  ): Position {
+    const x1 = parseCoordinate(coordinates.x1, options)
+    const y1 = parseCoordinate(coordinates.y1, options)
+    const x2 = parseCoordinate(coordinates.x2, options)
+    const y2 = parseCoordinate(coordinates.y2, options)
+    const startPosition: Position = [
+      Number.isFinite(x1) ? x1 : position[0],
+      Number.isFinite(y1) ? y1 : position[1],
+    ]
+    nextPosition = [
+      Number.isFinite(x2) ? x2 : startPosition[0],
+      Number.isFinite(y2) ? y2 : startPosition[1],
+    ]
+
+    addCurrentPathToLayer()
+    currentPath = addSegmentToPath({
+      path: null,
+      start: startPosition,
+      end: nextPosition,
+      offsets: {i: null, j: null, a: null},
+      tool,
+      interpolateMode: Parser.LINE,
+      regionMode: false,
+      quadrantMode: null,
+    })
+    addCurrentPathToLayer()
+
+    return nextPosition
   }
 }

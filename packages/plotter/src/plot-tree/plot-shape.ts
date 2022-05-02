@@ -13,8 +13,8 @@ import {
 } from '../tree'
 
 import {Position, Box} from '../types'
-import {roundToPrecision, degreesToRadians, PI} from '../utils'
 
+import {roundToPrecision, degreesToRadians, PI} from './math'
 import {getPathBox} from './plot-path'
 import * as BBox from './bounding-box'
 import * as Geo from './geometry'
@@ -36,11 +36,13 @@ export function plotShape(
 
   switch (toolShape.type) {
     case Parser.CIRCLE: {
-      const circle = Geo.circle(x, y, toolShape.diameter / 2)
+      const circle = Geo.circle({cx: x, cy: y, r: toolShape.diameter / 2})
 
       return holeSegments === null
         ? circle
-        : Geo.outline([...Geo.shapeToSegments(circle), ...holeSegments])
+        : Geo.outline({
+            segments: [...Geo.shapeToSegments(circle), ...holeSegments],
+          })
     }
 
     case Parser.RECTANGLE:
@@ -50,11 +52,19 @@ export function plotShape(
       const yHalf = ySize / 2
       const r =
         toolShape.type === Parser.OBROUND ? Math.min(xHalf, yHalf) : null
-      const rectangle = Geo.rectangle(x - xHalf, y - yHalf, xSize, ySize, r)
+      const rectangle = Geo.rectangle({
+        x: x - xHalf,
+        y: y - yHalf,
+        xSize,
+        ySize,
+        r,
+      })
 
       return holeSegments === null
         ? rectangle
-        : Geo.outline([...Geo.shapeToSegments(rectangle), ...holeSegments])
+        : Geo.outline({
+            segments: [...Geo.shapeToSegments(rectangle), ...holeSegments],
+          })
     }
 
     case Parser.POLYGON: {
@@ -71,11 +81,13 @@ export function plotShape(
         points.push([pointX, pointY] as Position)
       }
 
-      const polygon = Geo.polygon(points)
+      const polygon = Geo.polygon({points})
 
       return holeSegments === null
         ? polygon
-        : Geo.outline([...Geo.shapeToSegments(polygon), ...holeSegments])
+        : Geo.outline({
+            segments: [...Geo.shapeToSegments(polygon), ...holeSegments],
+          })
     }
   }
 }

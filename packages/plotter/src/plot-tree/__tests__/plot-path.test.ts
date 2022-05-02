@@ -2,17 +2,17 @@ import {describe, it, expect} from 'vitest'
 import * as Parser from '@tracespace/parser'
 
 import {Position} from '../../types'
-import * as Nodes from '../../tree'
+import * as Tree from '../../tree'
 import {addSegmentToPath} from '../plot-path'
 
 interface PlotSegmentSpec {
   tool: Parser.ToolDefinition
-  path: Nodes.ImagePath | null
+  path: Tree.ImagePath | null
   interpolateMode: Parser.InterpolateModeType
   regionMode: false
   start: Position
   end: Position
-  expectedPath: Nodes.ImagePath | Nodes.ImageRegion
+  expectedPath: Tree.ImagePath | Tree.ImageRegion
 }
 
 const t = (
@@ -30,14 +30,14 @@ describe('shape plotting', () => {
     'circle tool line segment': {
       tool: t({type: Parser.CIRCLE, diameter: 2}),
       path: null,
-      interpolateMode: Nodes.LINE,
+      interpolateMode: Tree.LINE,
       regionMode: false,
       start: [3, 4],
       end: [5, 6],
       expectedPath: {
-        type: Nodes.IMAGE_PATH,
+        type: Tree.IMAGE_PATH,
         width: 2,
-        segments: [{type: Nodes.LINE, start: [3, 4], end: [5, 6]}],
+        segments: [{type: Tree.LINE, start: [3, 4], end: [5, 6]}],
       },
     },
   }
@@ -47,16 +47,16 @@ describe('shape plotting', () => {
       spec
 
     it(name, () => {
-      const nextPath = addSegmentToPath(
+      const nextPath = addSegmentToPath({
         path,
         start,
         end,
-        {i: null, j: null, a: null},
+        offsets: {i: null, j: null, a: null},
         tool,
         interpolateMode,
         regionMode,
-        null
-      )
+        quadrantMode: null,
+      })
 
       expect(nextPath).to.eql(expectedPath)
     })

@@ -1,5 +1,5 @@
 import {Box, Position} from '../types'
-import {roundToPrecision} from '../utils'
+import {roundToPrecision} from './math'
 
 export function empty(): Box {
   return [
