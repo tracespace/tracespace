@@ -1,129 +1,96 @@
 {
   "name": "tracespace",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "config",
-    "packages/*"
-  ],
   "scripts": {
-    "test": "nyc --nycrc-path config/nyc.js mocha --config config/mocha.js",
-    "test:watch": "mocha --require scripts/register-babel.js --config config/mocha.js --watch --reporter dot",
-    "coverage": "nyc report --nycrc-path config/nyc.js --reporter=lcov",
-    "start": "lerna run start --parallel",
-    "prebuild": "yarn clean",
-    "build": "yarn build:packages && yarn build:bundles && lerna run build --parallel && yarn types",
-    "build:packages": "rollup -c config/rollup.js",
-    "build:bundles": "yarn build:packages --configBundle",
-    "build:all": "yarn build && yarn example && yarn docs",
-    "watch": "concurrently \"lerna run watch --parallel\" \"yarn build:packages --watch\" \"yarn types --watch\"",
-    "serve": "lerna run serve --parallel",
-    "clean": "yarn clean:types && lerna run clean --parallel",
-    "lint": "eslint '.*.js' '**/*.@(js|ts|tsx)'",
-    "format": "prettier --ignore-path .eslintignore --write '.*.@(js|yml)' '**/*.@(js|ts|tsx|json|md|yml)'",
-    "types": "tsc --build",
-    "clean:types": "tsc --build --clean",
-    "docs": "lerna run docs",
-    "example": "lerna run example",
-    "prebump": "yarn test",
-    "bump": "lerna version",
-    "publish:npm": "lerna publish from-git --yes --npm-tag next",
-    "publish:s3": "node ./scripts/publish-to-s3 apps/www/dist: apps/view/dist:view"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
+    "all": "pnpm clean && pnpm build:types && concurrently -g pnpm:format:check pnpm:lint pnpm:build:packages pnpm:test:once",
+    "check": "pnpm clean && pnpm build:types && concurrently -g pnpm:format:check pnpm:lint pnpm:build:packages",
+    "test": "vitest",
+    "test:once": "vitest run --coverage",
+    "lint": "xo",
+    "format": "prettier --write \"**/*.@(js|ts|tsx|json|md|yml|yaml)\"",
+    "format:check": "prettier --check \"**/*.@(js|ts|tsx|json|md|yml|yaml)\"",
+    "build": "concurrently -g pnpm:build:*",
+    "build:packages": "pnpm -r build",
+    "build:types": "tsc --build",
+    "clean": "concurrently -g pnpm:clean:*",
+    "clean:packages": "pnpm -r clean",
+    "clean:types": "tsc --build --clean"
   },
   "engines": {
-    "node": ">=10",
-    "yarn": ">=1"
+    "node": ">=16",
+    "pnpm": ">=7"
+  },
+  "dependencies": {
+    "@tracespace/cli": "workspace:*",
+    "@tracespace/fixtures": "workspace:*",
+    "@tracespace/parser": "workspace:*",
+    "@tracespace/xml-id": "workspace:*",
+    "@tracespace/www": "workspace:*",
+    "whats-that-gerber": "workspace:*"
   },
   "devDependencies": {
-    "@babel/cli": "^7.10.3",
-    "@babel/core": "^7.10.3",
-    "@babel/plugin-proposal-class-properties": "^7.10.1",
-    "@babel/plugin-proposal-object-rest-spread": "^7.10.3",
-    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/plugin-transform-modules-commonjs": "^7.10.1",
-    "@babel/preset-env": "^7.10.3",
-    "@babel/preset-react": "^7.10.1",
-    "@babel/preset-typescript": "^7.10.1",
-    "@babel/register": "^7.10.3",
-    "@rollup/plugin-babel": "^5.0.4",
-    "@rollup/plugin-commonjs": "^13.0.0",
-    "@rollup/plugin-node-resolve": "^8.1.0",
-    "@rollup/plugin-replace": "^2.3.3",
-    "@types/chai": "^4.2.11",
-    "@types/chai-as-promised": "^7.1.2",
-    "@types/enzyme": "^3.10.5",
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^14.0.14",
-    "@types/react": "^16.9.41",
-    "@typescript-eslint/eslint-plugin": "^3.4.0",
-    "@typescript-eslint/parser": "^3.4.0",
-    "aws-sdk": "^2.705.0",
-    "babel-loader": "^8.1.0",
-    "babel-plugin-istanbul": "^6.0.0",
-    "babel-plugin-module-resolver": "^4.0.0",
-    "builtin-modules": "^3.1.0",
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
-    "concat-stream": "^2.0.0",
-    "cross-env": "^7.0.2",
-    "css-loader": "^3.6.0",
-    "cz-conventional-changelog": "^3.2.0",
-    "debug": "^4.1.1",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.2",
-    "enzyme-to-json": "^3.5.0",
-    "eslint": "^7.3.1",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.21.2",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.20.0",
-    "eslint-plugin-react-hooks": "^4.0.4",
-    "eslint-plugin-standard": "^4.0.1",
-    "express": "^4.17.1",
-    "file-loader": "^6.0.0",
-    "filemanager-webpack-plugin": "^2.0.5",
-    "globby": "^11.0.1",
-    "html-webpack-plugin": "^4.3.0",
-    "lerna": "^3.22.1",
-    "lodash": "^4.17.15",
-    "mime": "^2.4.6",
-    "mini-css-extract-plugin": "^0.9.0",
-    "mocha": "^7.2.0",
-    "nyc": "^15.1.0",
-    "optimize-css-assets-webpack-plugin": "^5.0.3",
-    "portfinder": "^1.0.26",
-    "prettier": "^1.19.1",
-    "proxyquire": "^2.1.3",
-    "pump": "^3.0.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "@types/node": "^17.0.30",
+    "c8": "^7.11.2",
+    "concurrently": "^7.1.0",
+    "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
-    "rollup": "^2.18.0",
-    "rollup-plugin-terser": "^6.1.0",
-    "run-parallel": "^1.1.9",
-    "run-waterfall": "^1.1.6",
-    "semver": "^7.3.2",
-    "sinon": "^9.0.2",
-    "sinon-chai": "^3.5.0",
-    "source-map-loader": "^1.0.0",
-    "style-loader": "^1.2.1",
-    "terser-webpack-plugin": "^3.0.6",
-    "testdouble": "^3.16.0",
-    "to-readable-stream": "^2.1.0",
-    "typescript": "^3.9.5",
-    "webpack": "^4.43.0",
-    "webpack-bundle-analyzer": "^3.8.0",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^4.2.2",
-    "worker-loader": "^2.0.0"
+    "typescript": "^4.6.4",
+    "vite": "^2.9.6",
+    "vitest": "^0.10.0",
+    "xo": "^0.48.0"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "vite",
+        "webpack",
+        "rollup"
+      ]
+    }
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "bracketSpacing": false,
+    "arrowParens": "avoid"
+  },
+  "xo": {
+    "prettier": true,
+    "parserOptions": {
+      "project": "./tsconfig.lint.json"
+    },
+    "settings": {
+      "react": {
+        "pragma": "h"
+      }
+    },
+    "rules": {
+      "@typescript-eslint/naming-convention": "off",
+      "import/extensions": "off",
+      "unicorn/no-array-callback-reference": "off"
+    },
+    "overrides": [
+      {
+        "files": ["**/*.(ts|tsx)"],
+        "rules": {
+          "@typescript-eslint/ban-types": ["error", {"extendDefaults": true, "types": {}}]
+        }
+      },
+      {
+        "files": ["**/*.d.ts"],
+        "rules": {
+          "@typescript-eslint/triple-slash-reference": "off"
+        }
+      },
+      {
+        "files": ["**/__tests__/**", "**/*.config.ts"],
+        "rules": {
+          "import/no-extraneous-dependencies": "off"
+        }
+      }
+    ]
   }
 }

@@ -9,7 +9,7 @@ const NO_MATCH = 'NO_MATCH'
 type ListMatch = typeof FULL_MATCH | typeof PARTIAL_MATCH | typeof NO_MATCH
 
 export function createMatchSyntax<M>(
-  ...grammar: SyntaxRule<M>[]
+  ...grammar: Array<SyntaxRule<M>>
 ): (state: MatchState<M> | null, token: Token) => MatchState<M> {
   return (state, token) => matchSyntax(state, token, grammar)
 }
@@ -17,16 +17,16 @@ export function createMatchSyntax<M>(
 export function matchSyntax<M>(
   state: MatchState<M> | null,
   token: Token,
-  grammar: SyntaxRule<M>[]
+  grammar: Array<SyntaxRule<M>>
 ): MatchState<M> {
   if (state === null) state = {candidates: grammar, tokens: []}
-  const {candidates: prevCandidates} = state
+  const {candidates: previousCandidates} = state
   const candidates = []
   const tokens = [...state.tokens, token]
 
   let i
-  for (i = 0; i < prevCandidates.length; i++) {
-    const rule = prevCandidates[i]
+  for (i = 0; i < previousCandidates.length; i++) {
+    const rule = previousCandidates[i]
     const result = tokenListMatches(rule.rules, tokens)
 
     if (result === FULL_MATCH) {
@@ -42,10 +42,7 @@ export function matchSyntax<M>(
   return {candidates, tokens}
 }
 
-function tokenListMatches(
-  rules: Array<TokenRule>,
-  tokens: Array<Token>
-): ListMatch {
+function tokenListMatches(rules: TokenRule[], tokens: Token[]): ListMatch {
   let i = 0
   let j = 0
   let multiMatchCount = 0
@@ -83,7 +80,8 @@ function tokenMatches(rule: TokenRule, token: Token): boolean {
   if (rule.rule === SINGLE_TOKEN) {
     const typeResult = rule.type === token.type
     const valueResult =
-      rule.value == null ||
+      rule.value === null ||
+      typeof rule.value === 'undefined' ||
       (typeof rule.value === 'string' && rule.value === token.value) ||
       (rule.value instanceof RegExp && rule.value.test(token.value))
 

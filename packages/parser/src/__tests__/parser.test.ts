@@ -1,6 +1,6 @@
-// tests for @tracespace/parser
+// Tests for @tracespace/parser
 
-import {expect} from 'chai'
+import {describe, it, beforeEach, expect} from 'vitest'
 import {createParser, Parser, Root, ROOT, COMMENT, DONE, GERBER} from '..'
 
 describe('@tracespace/parser', () => {

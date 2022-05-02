@@ -1,18 +1,8 @@
 node_modules
-coverage
-.nyc_output
-
-# build intermediates
-*.tsbuildinfo
-
-# artifacts
-cjs
-esm
-umd
 dist
-**/*.tgz
-**/lib/**/*.d.ts
-
-# system and editor files
-.DS_Store
+lib
+coverage
+*.tsbuildinfo
+*.tgz
 .vscode
+.DS_Store

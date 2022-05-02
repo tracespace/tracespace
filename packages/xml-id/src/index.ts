@@ -1,4 +1,4 @@
-// tracespace xml id utilities
+// Tracespace xml id utilities
 
 // subset of characters that are XML ID, CSS identifier, and URL friendly
 const START_CHAR = '_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'

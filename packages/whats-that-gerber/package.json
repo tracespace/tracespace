@@ -2,11 +2,17 @@
   "name": "whats-that-gerber",
   "version": "5.0.0-next.0",
   "description": "Identify Gerber and drill files by filename",
-  "source": "src/index.ts",
-  "main": "cjs/index.js",
-  "module": "esm/index.mjs",
-  "types": "lib/index.d.ts",
-  "unpkg": "umd/whats-that-gerber.min.js",
+  "main": "./dist/whats-that-gerber.umd.js",
+  "module": "./dist/whats-that-gerber.es.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "source": "./src/index.ts",
+      "import": "./dist/whats-that-gerber.es.js",
+      "require": "./dist/whats-that-gerber.umd.js"
+    }
+  },
   "sideEffects": false,
   "files": [
     "src",
@@ -16,7 +22,8 @@
     "umd"
   ],
   "scripts": {
-    "clean": "rimraf cjs esm lib umd"
+    "build": "vite build",
+    "clean": "rimraf dist"
   },
   "repository": {
     "type": "git",

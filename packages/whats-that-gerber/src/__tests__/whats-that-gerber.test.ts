@@ -1,13 +1,7 @@
-import assert from 'assert'
+import {describe, it, expect} from 'vitest'
 
 import cadFilenames from '@tracespace/fixtures/gerber-filenames.json'
 import {identifyLayers, getAllLayers, validate} from '..'
-
-interface FilenameSpec {
-  name: string
-  side: string | null
-  type: string | null
-}
 
 const EXPECTED_LAYERS = [
   {type: 'copper', side: 'top'},
@@ -28,25 +22,25 @@ describe('whats-that-gerber', () => {
   it('should default to null', () => {
     const result = identifyLayers('foobar')
 
-    assert.deepStrictEqual(result, {foobar: {side: null, type: null}})
+    expect(result).to.eql({foobar: {side: null, type: null}})
   })
 
   it('should have a list of all layer types', () => {
-    assert.deepStrictEqual(getAllLayers(), EXPECTED_LAYERS)
+    expect(getAllLayers()).to.eql(EXPECTED_LAYERS)
   })
 
   it('should know which types are valid', () => {
     const allLayers = getAllLayers()
 
-    allLayers.forEach(layer => {
+    for (const layer of allLayers) {
       const result = validate(layer)
 
-      assert.deepStrictEqual(result, {
+      expect(result).to.eql({
         valid: true,
         side: layer.side,
         type: layer.type,
       })
-    })
+    }
   })
 
   it('should know which types are invalid', () => {
@@ -54,35 +48,34 @@ describe('whats-that-gerber', () => {
     const invalidType = validate({side: 'top', type: 'topper'})
     const invalidAll = validate({side: 'fizz', type: 'buzz'})
 
-    assert.deepStrictEqual(invalidSide, {
+    expect(invalidSide).to.eql({
       valid: false,
       side: null,
       type: 'copper',
     })
-    assert.deepStrictEqual(invalidType, {valid: false, side: 'top', type: null})
-    assert.deepStrictEqual(invalidAll, {valid: false, side: null, type: null})
+    expect(invalidType).to.eql({valid: false, side: 'top', type: null})
+    expect(invalidAll).to.eql({valid: false, side: null, type: null})
   })
 
-  cadFilenames.forEach(cadSet => {
-    const {cad} = cadSet
-    const files: FilenameSpec[] = cadSet.files
+  for (const cadSet of cadFilenames) {
+    const {cad, files} = cadSet
 
     it(`should identify ${cad} files`, () => {
       const result = identifyLayers(files.map(file => file.name))
 
-      files.forEach(file => {
-        const {name, side, type} = file
+      for (const file of files) {
+        const {name, side: expectedSide, type: expectedType} = file
         const {side: sideResult, type: typeResult} = result[name]
 
-        assert(
-          sideResult === side,
-          `${name} should be side "${side}", got "${sideResult}"`
+        expect(sideResult).to.equal(
+          expectedSide,
+          `${name} should be ${expectedSide!}, got ${sideResult!}`
         )
-        assert(
-          typeResult === type,
-          `${name} should be type "${type} ", got "${typeResult}"`
+        expect(typeResult).to.equal(
+          expectedType,
+          `${name} should be ${expectedType!}, got ${typeResult!}`
         )
-      })
+      }
     })
-  })
+  }
 })

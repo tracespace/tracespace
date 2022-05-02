@@ -1,13 +1,12 @@
-// gerber grammar tests
-import {expect} from 'chai'
-import {toArray} from 'lodash'
+// Gerber grammar tests
+import {describe, it, expect} from 'vitest'
 
 import * as Lexer from '../../lexer'
 import * as Tree from '../../tree'
 import {
   token as t,
   position as pos,
-  simplifyToken,
+  simplifyTokens,
 } from '../../__tests__/helpers'
 import {matchSyntax, MatchState} from '..'
 
@@ -28,7 +27,7 @@ const SPECS: Array<{
   expectedNodes: Tree.ChildNode[]
 }> = [
   {
-    // macro with comment primitive
+    // Macro with comment primitive
     source: '%AMCOMMENT*0 hello world*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -58,7 +57,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // macro with circle primitive
+    // Macro with circle primitive
     source: '%AMCIRCLE*1,1,0.5,0,0*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -93,7 +92,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // macro with vector primitive
+    // Macro with vector primitive
     source: '%AMVECTOR*20,1,0.25,0,0,.5,.5,0*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -134,7 +133,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // macro with center-line primitive
+    // Macro with center-line primitive
     source: '%AMCENTERLINE*21,1,0.5,0.25,0,0,0*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -173,7 +172,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // macro with outline primitive
+    // Macro with outline primitive
     source: '%AMOUTLINE*4,1,3,0,0,0,0.5,0.5,0.5,0,0,0*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -222,7 +221,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // macro with polygon primitive
+    // Macro with polygon primitive
     source: '%AMPOLYGON*5,1,5,0,0,0.5,0*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -261,7 +260,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // macro with moire primitive
+    // Macro with moire primitive
     source: '%AMMOIRE*6,0,0,0.5,0.04,0.03,2,0.01,0.55,0*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -306,7 +305,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // macro with thermal primitive
+    // Macro with thermal primitive
     source: '%AMTHERMAL*7,0,0,0.5,0.4,0.1,0*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -345,7 +344,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // complex macro with parameters and values
+    // Complex macro with parameters and values
     source: `%AMCOMPLEX*
 $2=$1+14*
 $3=-42-$1*
@@ -458,22 +457,22 @@ $5=(1+(2-$4))x4*
 ]
 
 describe('gerber macro syntax matches', () => {
-  SPECS.forEach(({source, expectedTokens, expectedNodes}) => {
+  for (const {source, expectedTokens, expectedNodes} of SPECS) {
     it(`should match on ${source.trim()}`, () => {
       const lexer = Lexer.createLexer()
+      let result: MatchState | null = null
+
       lexer.reset(source)
 
-      const actualTokens = toArray((lexer as unknown) as Array<Lexer.Token>)
-      const {tokens, nodes, filetype} = actualTokens.reduce<MatchState>(
-        (state, token) => matchSyntax(state, token),
-        null
-      )
+      for (const token of lexer) {
+        result = matchSyntax(result, token)
+      }
+
+      const {tokens, nodes, filetype} = result!
 
       expect(filetype).to.equal(GERBER)
       expect(nodes).to.eql(expectedNodes)
-      expect(tokens.map(simplifyToken)).to.eql(
-        expectedTokens.map(simplifyToken)
-      )
+      expect(simplifyTokens(tokens)).to.eql(simplifyTokens(expectedTokens))
     })
-  })
+  }
 })

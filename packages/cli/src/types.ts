@@ -12,9 +12,7 @@ export interface Config {
   gerber?: GerberOptions
   drill?: GerberOptions
   board?: PcbStackupOptions
-  layer?: {
-    [filename: string]: GerberOptions
-  }
+  layer?: Record<string, GerberOptions>
   _configFile?: string
 }
 

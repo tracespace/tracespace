@@ -1,7 +1,6 @@
 import {getCommonCad} from './get-common-cad'
 import {getMatches} from './get-matches'
 import {layerTypes} from './layer-types'
-import {flatMap} from './flat-map'
 
 import {
   LayerIdentityMap,
@@ -20,19 +19,19 @@ export * from './types'
 export function identifyLayers(filenames: string | string[]): LayerIdentityMap {
   if (typeof filenames === 'string') filenames = [filenames]
 
-  const matches = flatMap(filenames, getMatches)
+  const matches = filenames.flatMap(f => getMatches(f))
   const commonCad = getCommonCad(matches)
 
-  return filenames.reduce<LayerIdentityMap>((result, filename) => {
-    const match = _selectMatch(matches, filename, commonCad)
-
-    result[filename] =
-      match !== null
+  return Object.fromEntries(
+    filenames.map(filename => {
+      const match = _selectMatch(matches, filename, commonCad)
+      const layerId = match
         ? {type: match.type, side: match.side}
         : {type: null, side: null}
 
-    return result
-  }, {})
+      return [filename, layerId]
+    })
+  )
 }
 
 export function getAllLayers(): ValidLayer[] {
@@ -66,5 +65,5 @@ function _selectMatch(
   const filenameMatches = matches.filter(match => match.filename === filename)
   const result = filenameMatches.find(match => match.cad === cad)
 
-  return result || filenameMatches[0] || null
+  return result ?? filenameMatches[0] ?? null
 }

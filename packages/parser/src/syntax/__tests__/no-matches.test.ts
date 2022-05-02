@@ -1,9 +1,8 @@
-// tests that certain patterns do not trigger matches
-import {expect} from 'chai'
-import {toArray} from 'lodash'
+// Tests that certain patterns do not trigger matches
+import {describe, it, expect} from 'vitest'
 
 import * as Lexer from '../../lexer'
-import {token as t, simplifyToken} from '../../__tests__/helpers'
+import {token as t, simplifyTokens} from '../../__tests__/helpers'
 import {matchSyntax, MatchState} from '..'
 
 const SPECS: Array<{
@@ -11,34 +10,33 @@ const SPECS: Array<{
   expectedTokens: Lexer.Token[]
 }> = [
   {
-    // newline by itself should not match anything
+    // Newline by itself should not match anything
     source: '\n',
     expectedTokens: [t(Lexer.NEWLINE, '\n')],
   },
   {
-    // empty gerber block shouldn't match anything
+    // Empty gerber block shouldn't match anything
     source: '*',
     expectedTokens: [t(Lexer.ASTERISK, '*')],
   },
 ]
 
 describe('syntax match non-match list', () => {
-  SPECS.forEach(({source, expectedTokens}) => {
+  for (const {source, expectedTokens} of SPECS) {
     it(`should match on ${source.trim()}`, () => {
       const lexer = Lexer.createLexer()
+      let result: MatchState | null = null
       lexer.reset(source)
 
-      const actualTokens = toArray((lexer as unknown) as Array<Lexer.Token>)
-      const matchState = actualTokens.reduce<MatchState>(
-        (state, token) => matchSyntax(state, token),
-        null
-      )
+      for (const token of lexer) {
+        result = matchSyntax(result, token)
+      }
 
-      expect(matchState.nodes).to.eql(undefined)
-      expect(matchState.filetype).to.eql(undefined)
-      expect(matchState.tokens.map(simplifyToken)).to.eql(
-        expectedTokens.map(simplifyToken)
-      )
+      const {nodes, filetype, tokens} = result!
+
+      expect(nodes).to.eql(undefined)
+      expect(filetype).to.eql(undefined)
+      expect(simplifyTokens(tokens)).to.eql(simplifyTokens(expectedTokens))
     })
-  })
+  }
 })

@@ -1,8 +1,6 @@
 import * as Constants from './constants'
 
-export interface LayerIdentityMap {
-  [filename: string]: LayerIdentity
-}
+export type LayerIdentityMap = Record<string, LayerIdentity>
 
 export interface LayerIdentity {
   type: GerberType

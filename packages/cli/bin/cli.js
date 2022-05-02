@@ -1,10 +1,12 @@
 #!/usr/bin/env node
-'use strict'
+import process from 'node:process'
 
-const cosmiconfig = require('cosmiconfig')
-const yargs = require('yargs')
-const debug = require('debug')('@tracespace/cli')
-const {cli} = require('@tracespace/cli')
+import cosmiconfig from 'cosmiconfig'
+import yargs from 'yargs'
+import createLogger from 'debug'
+import {cli} from '@tracespace/cli'
+
+const debug = createLogger('@tracespace/cli')
 
 debug('Searching for default config')
 
@@ -12,7 +14,7 @@ cosmiconfig('tracespace')
   .search()
   .then(rc => {
     debug('default config', rc)
-    return rc ? Object.assign({_configFile: rc.filepath}, rc.config) : {}
+    return rc ? {_configFile: rc.filepath, ...rc.config} : {}
   })
   .then(config => {
     const argv = process.argv.slice(2)

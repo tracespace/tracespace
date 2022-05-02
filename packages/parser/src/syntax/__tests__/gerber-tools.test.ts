@@ -1,13 +1,12 @@
-// gerber grammar tests
-import {expect} from 'chai'
-import {toArray} from 'lodash'
+// Gerber grammar tests
+import {describe, it, expect} from 'vitest'
 
 import * as Lexer from '../../lexer'
 import * as Tree from '../../tree'
 import {
   token as t,
   position as pos,
-  simplifyToken,
+  simplifyTokens,
 } from '../../__tests__/helpers'
 import {matchSyntax, MatchState} from '..'
 
@@ -26,7 +25,7 @@ const SPECS: Array<{
   expectedNodes: Tree.ChildNode[]
 }> = [
   {
-    // simple circle tool
+    // Simple circle tool
     source: '%ADD10C,.025*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -47,7 +46,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // circle tool with circular hole
+    // Circle tool with circular hole
     source: '%ADD11C,0.5X0.25*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -70,7 +69,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // circle tool with rectangular hole
+    // Circle tool with rectangular hole
     source: '%ADD12C,10X5X5*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -95,7 +94,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // rectangle tool definition with no hole
+    // Rectangle tool definition with no hole
     source: '%ADD13R,0.5X0.6*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -118,7 +117,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // rectangle tool definition with circle hole
+    // Rectangle tool definition with circle hole
     source: '%ADD14R,0.5X0.6X0.2*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -143,7 +142,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // rectangle tool definition with rectangle hole
+    // Rectangle tool definition with rectangle hole
     source: '%ADD15R,0.5X0.6X0.2X0.1*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -170,7 +169,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // obround tool definition with no hole
+    // Obround tool definition with no hole
     source: '%ADD16O,0.5X0.6*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -193,7 +192,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // obround tool definition with circle hole
+    // Obround tool definition with circle hole
     source: '%ADD17O,0.5X0.6X0.2*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -218,7 +217,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // obround tool definition with rectangle hole
+    // Obround tool definition with rectangle hole
     source: '%ADD18O,0.5X0.6X0.2X0.1*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -245,7 +244,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // polygon tool definition with no rotation and no hole
+    // Polygon tool definition with no rotation and no hole
     source: '%ADD19P,1.5X3*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -268,7 +267,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // polygon tool defintion with rotation and no hole
+    // Polygon tool definition with rotation and no hole
     source: '%ADD20P,2.5X4X12.5*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -293,7 +292,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // polygon tool definition with rotation and circle hole
+    // Polygon tool definition with rotation and circle hole
     source: '%ADD21P,2.5X4X12.5X1*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -320,7 +319,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // polygon tool definition with rotation and circle hole
+    // Polygon tool definition with rotation and circle hole
     source: '%ADD22P,2.5X4X12.5X1X1.5*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -349,7 +348,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // macro tool definition with no parameters
+    // Macro tool definition with no parameters
     source: '%ADD23MyMacro*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -368,7 +367,7 @@ const SPECS: Array<{
     ],
   },
   {
-    // macro tool definition with parameters
+    // Macro tool definition with parameters
     source: '%ADD24MyMacro,0.1X0.2X0.3*%',
     expectedTokens: [
       t(Lexer.PERCENT, '%'),
@@ -395,22 +394,22 @@ const SPECS: Array<{
 ]
 
 describe('gerber tool syntax matches', () => {
-  SPECS.forEach(({source, expectedTokens, expectedNodes}) => {
+  for (const {source, expectedTokens, expectedNodes} of SPECS) {
     it(`should match on ${source.trim()}`, () => {
       const lexer = Lexer.createLexer()
+      let result: MatchState | null = null
+
       lexer.reset(source)
 
-      const actualTokens = toArray((lexer as unknown) as Array<Lexer.Token>)
-      const {tokens, nodes, filetype} = actualTokens.reduce<MatchState>(
-        (state, token) => matchSyntax(state, token),
-        null
-      )
+      for (const token of lexer) {
+        result = matchSyntax(result, token)
+      }
+
+      const {tokens, nodes, filetype} = result!
 
       expect(filetype).to.equal(GERBER)
       expect(nodes).to.eql(expectedNodes)
-      expect(tokens.map(simplifyToken)).to.eql(
-        expectedTokens.map(simplifyToken)
-      )
+      expect(simplifyTokens(tokens)).to.eql(simplifyTokens(expectedTokens))
     })
-  })
+  }
 })

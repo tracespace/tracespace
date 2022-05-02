@@ -1,4 +1,6 @@
-import path from 'path'
+import path from 'node:path'
+import process from 'node:process'
+
 import untildify from 'untildify'
 
 export function resolve(filename: string): string {
