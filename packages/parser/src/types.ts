@@ -140,7 +140,7 @@ export type MacroValue = number | string | MacroExpression
  * A map of axes to coordinate strings used to define the location of a
  * graphical operation
  */
-export type Coordinates = Record<string, string>
+export type Coordinates = Partial<Record<string, string>>
 
 /**
  * Parameters of a step repeat

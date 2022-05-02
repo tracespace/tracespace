@@ -39,9 +39,9 @@ export function getPlotOptions(tree: Parser.GerberTree): PlotOptions {
         for (const coordinate of Object.values(coordinates)) {
           if (zeroSuppression !== null) break
 
-          if (coordinate.endsWith('0') || coordinate.includes('.')) {
+          if (coordinate!.endsWith('0') || coordinate!.includes('.')) {
             zeroSuppression = Parser.LEADING
-          } else if (coordinate.startsWith('0')) {
+          } else if (coordinate!.startsWith('0')) {
             zeroSuppression = Parser.TRAILING
           }
         }
