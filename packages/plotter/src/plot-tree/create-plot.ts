@@ -109,8 +109,8 @@ export function createPlot(
 
   function visitGraphicNode(node: Parser.Graphic): void {
     const {graphic, coordinates} = node
-    const x = parseCoordinate(coordinates.x, options)
-    const y = parseCoordinate(coordinates.y, options)
+    const x = parseCoordinate(coordinates.x ?? null, options)
+    const y = parseCoordinate(coordinates.y ?? null, options)
     let nextPosition: Position = [
       Number.isFinite(x) ? x : position[0],
       Number.isFinite(y) ? y : position[1],
@@ -165,9 +165,9 @@ export function createPlot(
     }
 
     const offsets = {
-      i: parseCoordinate(coordinates.i, options) || null,
-      j: parseCoordinate(coordinates.j, options) || null,
-      a: parseCoordinate(coordinates.a, options) || null,
+      i: parseCoordinate(coordinates.i ?? null, options) || null,
+      j: parseCoordinate(coordinates.j ?? null, options) || null,
+      a: parseCoordinate(coordinates.a ?? null, options) || null,
     }
 
     currentPath = addSegmentToPath({
@@ -186,10 +186,10 @@ export function createPlot(
     coordinates: Parser.Coordinates,
     nextPosition: Position
   ): Position {
-    const x1 = parseCoordinate(coordinates.x1, options)
-    const y1 = parseCoordinate(coordinates.y1, options)
-    const x2 = parseCoordinate(coordinates.x2, options)
-    const y2 = parseCoordinate(coordinates.y2, options)
+    const x1 = parseCoordinate(coordinates.x1 ?? null, options)
+    const y1 = parseCoordinate(coordinates.y1 ?? null, options)
+    const x2 = parseCoordinate(coordinates.x2 ?? null, options)
+    const y2 = parseCoordinate(coordinates.y2 ?? null, options)
     const startPosition: Position = [
       Number.isFinite(x1) ? x1 : position[0],
       Number.isFinite(y1) ? y1 : position[1],

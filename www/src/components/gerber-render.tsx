@@ -1,5 +1,4 @@
-import {ComponentChildren} from 'preact'
-import {useState, useMemo} from 'preact/hooks'
+import {useMemo} from 'preact/hooks'
 import stringifyJson from 'json-stringify-pretty-compact'
 
 import {GerberTree, GerberNode, createParser} from '@tracespace/parser'
@@ -25,126 +24,201 @@ const useImageTree = (gerberTree: GerberTree): ImageTree => {
 
 export interface GerberRenderProps {
   contents: string
-  children?: ComponentChildren
+  highlightedLines: number[]
+  setHighlightedLines: (lines: number[]) => unknown
+  class?: string
 }
 
-export function GerberRender(props: GerberRenderProps): JSX.Element | null {
-  const {contents, children} = props
+export function GerberContents(props: GerberRenderProps): JSX.Element {
+  const {
+    contents,
+    highlightedLines,
+    setHighlightedLines,
+    class: className,
+  } = props
+
+  return (
+    <code class={className}>
+      {contents
+        .trim()
+        .split('\n')
+        .map((text, index) => (
+          <GerberLine
+            key={index}
+            text={text}
+            line={index + 1}
+            highlightedLines={highlightedLines}
+            setHighlightedLines={setHighlightedLines}
+          />
+        ))}
+    </code>
+  )
+}
+
+export function GerberParse(props: GerberRenderProps): JSX.Element {
+  const {
+    contents,
+    highlightedLines,
+    setHighlightedLines,
+    class: className,
+  } = props
+  const gerberTree = useGerberTree(contents)
+
+  return (
+    <code class={className}>
+      {gerberTree.children.map((node, index) => (
+        <GerberNodeItem
+          key={index}
+          node={node}
+          highlightedLines={highlightedLines}
+          setHighlightedLines={setHighlightedLines}
+        />
+      ))}
+    </code>
+  )
+}
+
+export function GerberPlot(
+  props: Pick<GerberRenderProps, 'contents' | 'class'>
+): JSX.Element {
+  const {contents, class: className} = props
   const gerberTree = useGerberTree(contents)
   const imageTree = useImageTree(gerberTree)
 
-  const [highlightedLine, setHighlightedLine] = useState<number | null>(null)
-
   return (
-    <div class="flex content-start mb-4 text-sm">
-      <code class="mx-2 w-xs">
-        {contents
-          .trim()
-          .split('\n')
-          .map((line, index) => (
-            <GerberLine
-              key={index}
-              line={line}
-              lineNumber={index + 1}
-              highlightedLineNumber={highlightedLine}
-              onHover={setHighlightedLine}
-            />
-          ))}
-      </code>
-      <code class="mx-2 w-xl">
-        {gerberTree.children.map((node, index) => (
-          <GerberNodeItem
-            key={index}
-            node={node}
-            highlightedLineNumber={highlightedLine}
-            onHover={setHighlightedLine}
-          />
-        ))}
-      </code>
-      <code class="mx-2 w-xl whitespace-pre">
-        {imageTree.children[0].children.map((node, index) => (
-          <ImageNodeItem key={index} node={node} />
-        ))}
-      </code>
-      {children}
-    </div>
+    <code class={className}>
+      {imageTree.children[0].children.map((node, index) => (
+        <TreeNode key={index} node={node} class="p-1" />
+      ))}
+    </code>
   )
 }
 
 interface GerberLineProps {
-  line: string
+  text: string
 
-  lineNumber: number
-  highlightedLineNumber: number | null
-  onHover: (lineNumber: number | null) => unknown
+  line: number
+  highlightedLines: number[]
+  setHighlightedLines: (lines: number[]) => unknown
 }
 
 function GerberLine(props: GerberLineProps): JSX.Element {
-  const {line, lineNumber, highlightedLineNumber, onHover} = props
-  const handleMouseEnter = () => onHover(lineNumber)
-  const handleMouseLeave = () => onHover(null)
+  const {text, line, highlightedLines, setHighlightedLines} = props
+  const onMouseEnter = () => setHighlightedLines([line])
+  const onMouseLeave = () => setHighlightedLines([])
+  const highlight =
+    line >= Math.min(...highlightedLines) &&
+    line <= Math.max(...highlightedLines)
 
   return (
     <p
-      class={`p-1 ${highlightedLineNumber === lineNumber ? 'bg-red-100' : ''}`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      class={`p-1 ${highlight ? 'bg-red-100' : ''}`}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
-      <span class="pr-2">{lineNumber}</span>
-      {line}
+      <span class="pr-2">{line}</span>
+      {text}
     </p>
   )
 }
 
 interface GerberNodeProps {
   node: GerberNode
-  highlightedLineNumber: number | null
-  onHover: (lineNumber: number | null) => unknown
+  highlightedLines: number[]
+  setHighlightedLines: (lines: number[]) => unknown
 }
 
 function GerberNodeItem(props: GerberNodeProps): JSX.Element {
-  const {node, highlightedLineNumber, onHover} = props
-  const lineNumber = node.position?.start.line ?? null
-  const handleMouseEnter = () => onHover(lineNumber)
-  const handleMouseLeave = () => onHover(null)
-
-  const payload = Object.entries(node).filter(
-    ([key]) => key !== 'type' && key !== 'position'
+  const {node, highlightedLines, setHighlightedLines} = props
+  const startLine = node.position?.start.line ?? null
+  const endLine = node.position?.end.line ?? null
+  const lines = [startLine!, endLine!].filter(_ => _)
+  const onMouseEnter = () => setHighlightedLines(lines)
+  const onMouseLeave = () => setHighlightedLines([])
+  const highlight = highlightedLines.some(
+    highlightedLine =>
+      startLine !== null &&
+      endLine !== null &&
+      startLine <= highlightedLine &&
+      endLine >= highlightedLine
   )
+
+  return (
+    <TreeNode
+      class="p-1"
+      node={node}
+      highlight={highlight}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    />
+  )
+}
+
+type AnyNode = ImageNode | GerberNode
+type AnyNodeValue = ImageNode[keyof ImageNode] | GerberNode[keyof GerberNode]
+
+interface TreeNodeProps {
+  node: AnyNode
+  class?: string
+  highlight?: boolean
+  onMouseEnter?: (event: MouseEvent) => unknown
+  onMouseLeave?: (event: MouseEvent) => unknown
+}
+
+const isTreeNode = (value: unknown): value is AnyNode => {
+  return typeof value === 'object' && value !== null && 'type' in value
+}
+
+const isListOfTreeNodes = (value: unknown): value is AnyNode[] => {
+  return Array.isArray(value) && value.length > 0 && value.every(isTreeNode)
+}
+
+const isTreeNodeOrList = (value: unknown) => {
+  return isTreeNode(value) || isListOfTreeNodes(value)
+}
+
+function TreeNode(props: TreeNodeProps): JSX.Element {
+  const {node, highlight, onMouseEnter, onMouseLeave, class: className} = props
+  const {type} = node
+  const payload: Array<[key: string, value: AnyNodeValue]> = Object.entries(
+    node
+  )
+    .filter(([key]) => key !== 'type' && key !== 'position')
+    .sort((a, b) => {
+      if (isTreeNodeOrList(a[1]) && !isTreeNodeOrList(b[1])) return 1
+      if (!isTreeNodeOrList(a[1]) && isTreeNodeOrList(b[1])) return -1
+      return 0
+    })
 
   return (
     <div
-      class={`p-1 ${highlightedLineNumber === lineNumber ? 'bg-red-100' : ''}`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      class={`${className ?? ''} ${highlight ? 'bg-red-100' : ''}`}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
-      <p>type: {node.type}</p>
+      <p class="font-semibold">type: {type}</p>
       <ul>
         {payload.map(([key, value]) => (
           <li>
-            {key}: {stringifyJson(value)}
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
-
-interface ImageNodeProps {
-  node: ImageNode
-}
-
-function ImageNodeItem(props: ImageNodeProps): JSX.Element {
-  const {node} = props
-  const payload = Object.entries(node).filter(([key]) => key !== 'type')
-
-  return (
-    <div class="p-1">
-      <p>type: {node.type}</p>
-      <ul>
-        {payload.map(([key, value]) => (
-          <li>
-            {key}: {stringifyJson(value)}
+            {isTreeNode(value) ? (
+              <div>
+                <p>{key}:</p>
+                <TreeNode node={value} class="mt-1 pl-4" />
+              </div>
+            ) : isListOfTreeNodes(value) ? (
+              <div class="mb-1">
+                <p>{key}:</p>
+                <ul class="pl-4">
+                  {value.map(childNode => (
+                    <li>
+                      <TreeNode node={childNode} class="mt-1" />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              `${key}: ${stringifyJson(value)}`
+            )}
           </li>
         ))}
       </ul>
