@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0-unreleased",
   "description": "Build image trees from @tracespace/parser ASTs",
-  "main": "./dist/tracespace-plotter.umd.js",
+  "main": "./dist/tracespace-plotter.umd.cjs",
   "module": "./dist/tracespace-plotter.es.js",
   "types": "./lib/index.d.ts",
   "exports": {
@@ -11,9 +11,10 @@
       "types": "./lib/index.d.ts",
       "source": "./src/index.ts",
       "import": "./dist/tracespace-plotter.es.js",
-      "require": "./dist/tracespace-plotter.umd.js"
+      "require": "./dist/tracespace-plotter.umd.cjs"
     }
   },
+  "type": "module",
   "sideEffects": false,
   "repository": {
     "type": "git",

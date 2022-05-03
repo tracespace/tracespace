@@ -29,13 +29,11 @@ export function matchSyntax<M>(
     const rule = previousCandidates[i]
     const result = tokenListMatches(rule.rules, tokens)
 
-    if (result === FULL_MATCH) {
-      const nodes = rule.createNodes(tokens)
-      return {candidates: [], tokens, nodes, filetype: rule.filetype}
-    }
-
     if (result === PARTIAL_MATCH) {
       candidates.push(rule)
+    } else if (result === FULL_MATCH) {
+      const nodes = rule.createNodes(tokens)
+      return {candidates: [], tokens, nodes, filetype: rule.filetype}
     }
   }
 

@@ -4,6 +4,7 @@ import * as Types from '../types'
 import {TokenRule} from './rules'
 
 export interface SyntaxRule<Node = ChildNode> {
+  name: string
   rules: TokenRule[]
   createNodes: (tokens: Token[]) => Node[]
   filetype?: Types.Filetype

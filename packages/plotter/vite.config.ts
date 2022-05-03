@@ -1,6 +1,6 @@
 import {defineConfig} from 'vite'
 
-import {baseConfig} from '../../config/vite.config.base'
+import {baseConfig, libraryFilename} from '../../config/vite.config.base'
 
 export default defineConfig({
   ...baseConfig,
@@ -8,7 +8,7 @@ export default defineConfig({
     lib: {
       entry: 'src/index.ts',
       name: 'TracespacePlotter',
-      fileName: 'tracespace-plotter',
+      fileName: libraryFilename('tracespace-plotter'),
     },
     rollupOptions: {
       external: ['@tracespace/parser'],

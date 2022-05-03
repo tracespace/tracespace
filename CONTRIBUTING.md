@@ -71,6 +71,14 @@ pnpm build
 pnpm clean
 ```
 
+### Run the dev server
+
+You can spin up the development server of the tracespace website using the `dev` script.
+
+```shell
+pnpm dev
+```
+
 ## Publishing
 
 We're still figuring out the deployment process for v5. Stay tuned!

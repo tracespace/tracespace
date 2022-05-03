@@ -1,6 +1,6 @@
 // Geometry object creators
 import * as Tree from '../tree'
-import {HALF_PI, PI, THREE_HALF_PI, TWO_PI} from './math'
+import {HALF_PI, PI, THREE_HALF_PI, TWO_PI, roundToPrecision} from './math'
 
 export const circle = (
   payload: Omit<Tree.CircleShape, 'type'>
@@ -46,8 +46,8 @@ export const shapeToSegments = (
     const {cx, cy, r} = shape
     return [
       arc({
-        start: [cx + r, cy, 0],
-        end: [cx + r, cy, 0],
+        start: [roundToPrecision(cx + r), cy, 0],
+        end: [roundToPrecision(cx + r), cy, 0],
         center: [cx, cy],
         radius: r,
         sweep: TWO_PI,

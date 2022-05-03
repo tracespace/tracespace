@@ -8,6 +8,7 @@ import {tokensToPosition} from './map-tokens'
 import {matchSyntax} from './match-syntax'
 
 const macroComment: SyntaxRule<Tree.MacroBlock> = {
+  name: 'macroComment',
   rules: [
     token(Lexer.NUMBER, '0'),
     zeroOrMore([notToken(Lexer.ASTERISK)]),
@@ -17,6 +18,7 @@ const macroComment: SyntaxRule<Tree.MacroBlock> = {
 }
 
 const macroVariable: SyntaxRule<Tree.MacroBlock> = {
+  name: 'macroVariable',
   rules: [
     token(Lexer.GERBER_MACRO_VARIABLE),
     token(Lexer.EQUALS),
@@ -32,6 +34,7 @@ const macroVariable: SyntaxRule<Tree.MacroBlock> = {
 }
 
 const macroPrimitive: SyntaxRule<Tree.MacroBlock> = {
+  name: 'macroPrimitive',
   rules: [
     token(Lexer.NUMBER),
     token(Lexer.COMMA),

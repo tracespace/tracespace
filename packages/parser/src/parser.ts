@@ -1,7 +1,8 @@
 import {createLexer, Lexer, Token} from './lexer'
-import {matchSyntax, MatchState} from './syntax'
+import {matchSyntax, gerberGrammar, drillGrammar, MatchState} from './syntax'
 import {Filetype} from './types'
 import {Root, ChildNode, ROOT} from './tree'
+import {GERBER} from './constants'
 
 /**
  * Gerber and NC drill file parser.
@@ -39,6 +40,7 @@ export interface Parser {
 export function createParser(): Parser {
   const lexer = createLexer()
   const children: ChildNode[] = []
+  let grammar = [...gerberGrammar, ...drillGrammar]
   let filetype: Filetype | null = null
   let stash = ''
   let lexerOffset = 0
@@ -58,7 +60,7 @@ export function createParser(): Parser {
     while ((nextToken = lexer.next())) {
       const token = {...nextToken, offset: nextToken.offset + currentOffset}
       stash += nextToken.text
-      matchState = matchSyntax(matchState, token)
+      matchState = matchSyntax(matchState, token, grammar)
 
       if (matchState.nodes) {
         const {nodes, filetype: matchedFiletype = null} = matchState
@@ -69,6 +71,7 @@ export function createParser(): Parser {
 
         if (filetype === null && matchedFiletype !== null) {
           filetype = matchedFiletype
+          grammar = matchedFiletype === GERBER ? gerberGrammar : drillGrammar
         }
       }
 

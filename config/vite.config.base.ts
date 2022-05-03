@@ -15,3 +15,8 @@ export const getDefineConstants = (pkg: {
   __PKG_VERSION__: JSON.stringify(pkg.version),
   __PKG_DESCRIPTION__: JSON.stringify(pkg.description),
 })
+
+export const libraryFilename = (basename: string) => (format: string) => {
+  const extension = format === 'es' ? 'js' : 'cjs'
+  return `${basename}.${format}.${extension}`
+}

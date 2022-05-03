@@ -8,7 +8,7 @@ import {
   position as pos,
   simplifyTokens,
 } from '../../__tests__/helpers'
-import {matchSyntax, MatchState} from '..'
+import {matchSyntax, grammar, MatchState} from '..'
 
 import {
   GERBER,
@@ -465,7 +465,7 @@ describe('gerber macro syntax matches', () => {
       lexer.reset(source)
 
       for (const token of lexer) {
-        result = matchSyntax(result, token)
+        result = matchSyntax(result, token, grammar)
       }
 
       const {tokens, nodes, filetype} = result!
