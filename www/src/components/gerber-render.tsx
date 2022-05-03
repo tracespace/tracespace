@@ -217,7 +217,7 @@ function TreeNode(props: TreeNodeProps): JSX.Element {
                 </ul>
               </div>
             ) : (
-              `${key}: ${stringifyJson(value)}`
+              `${key}: ${stringifyJson(value, {maxLength: 60 - key.length})}`
             )}
           </li>
         ))}

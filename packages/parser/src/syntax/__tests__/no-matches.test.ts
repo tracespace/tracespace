@@ -3,7 +3,7 @@ import {describe, it, expect} from 'vitest'
 
 import * as Lexer from '../../lexer'
 import {token as t, simplifyTokens} from '../../__tests__/helpers'
-import {matchSyntax, MatchState} from '..'
+import {matchSyntax, grammar, MatchState} from '..'
 
 const SPECS: Array<{
   source: string
@@ -29,7 +29,7 @@ describe('syntax match non-match list', () => {
       lexer.reset(source)
 
       for (const token of lexer) {
-        result = matchSyntax(result, token)
+        result = matchSyntax(result, token, grammar)
       }
 
       const {nodes, filetype, tokens} = result!

@@ -14,7 +14,8 @@
     "build:types": "tsc --build",
     "clean": "concurrently -g pnpm:clean:*",
     "clean:packages": "pnpm -r clean",
-    "clean:types": "tsc --build --clean"
+    "clean:types": "tsc --build --clean",
+    "dev": "pnpm -C www dev"
   },
   "engines": {
     "node": ">=16",

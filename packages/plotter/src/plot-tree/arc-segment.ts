@@ -141,7 +141,9 @@ export function findCenterCandidates(
   // exactly one intersection at the midpoint; if the distance to the midpoint
   // is greater than the radius, assume we've got a rounding error and just use
   // the midpoint
-  if (radius <= distance / 2) return [[x1 + dx / 2, y1 + dy / 2]]
+  if (radius <= distance / 2) {
+    return [[roundToPrecision(x1 + dx / 2), roundToPrecision(y1 + dy / 2)]]
+  }
 
   // No good name for these variables, but it's how the math works out
   const factor = Math.sqrt((4 * radius ** 2) / distance ** 2 - 1)
@@ -149,8 +151,8 @@ export function findCenterCandidates(
   const [xAddend, yAddend] = [(dy * factor) / 2, (dx * factor) / 2]
 
   return [
-    [xBase + xAddend, yBase - yAddend],
-    [xBase - xAddend, yBase + yAddend],
+    [roundToPrecision(xBase + xAddend), roundToPrecision(yBase - yAddend)],
+    [roundToPrecision(xBase - xAddend), roundToPrecision(yBase + yAddend)],
   ]
 }
 

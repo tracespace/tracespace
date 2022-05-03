@@ -30,6 +30,7 @@ const holeShape = (parameters: number[]): Types.HoleShape | null => {
 }
 
 const done: SyntaxRule = {
+  name: 'done',
   rules: [
     one([token(Lexer.M_CODE, '0'), token(Lexer.M_CODE, '2')]),
     token(Lexer.ASTERISK),
@@ -40,6 +41,7 @@ const done: SyntaxRule = {
 }
 
 const comment: SyntaxRule = {
+  name: 'comment',
   rules: [
     token(Lexer.G_CODE, '4'),
     zeroOrMore([notToken(Lexer.ASTERISK)]),
@@ -55,6 +57,7 @@ const comment: SyntaxRule = {
 }
 
 const format: SyntaxRule = {
+  name: 'format',
   rules: [
     token(Lexer.PERCENT),
     token(Lexer.GERBER_FORMAT),
@@ -114,6 +117,7 @@ const format: SyntaxRule = {
 }
 
 const units: SyntaxRule = {
+  name: 'units',
   rules: [
     token(Lexer.PERCENT),
     token(Lexer.GERBER_UNITS),
@@ -130,6 +134,7 @@ const units: SyntaxRule = {
 }
 
 const toolMacro: SyntaxRule = {
+  name: 'toolMacro',
   rules: [
     token(Lexer.PERCENT),
     token(Lexer.GERBER_TOOL_MACRO),
@@ -154,6 +159,7 @@ const toolMacro: SyntaxRule = {
 }
 
 const toolDefinition: SyntaxRule = {
+  name: 'toolDefinition',
   rules: [
     token(Lexer.PERCENT),
     token(Lexer.GERBER_TOOL_DEF),
@@ -219,6 +225,7 @@ const toolDefinition: SyntaxRule = {
 }
 
 const toolChange: SyntaxRule = {
+  name: 'toolChange',
   rules: [
     zeroOrOne([token(Lexer.G_CODE, '54')]),
     token(Lexer.D_CODE),
@@ -252,6 +259,7 @@ const createOperationNodes = (tokens: Lexer.Token[]): Tree.ChildNode[] => {
 }
 
 const operation: SyntaxRule = {
+  name: 'operation',
   rules: [
     zeroOrOne([
       token(Lexer.G_CODE, '1'),
@@ -270,6 +278,7 @@ const operation: SyntaxRule = {
 }
 
 const operationWithoutCoords: SyntaxRule = {
+  name: 'operationWithoutCoords',
   rules: [
     zeroOrOne([
       token(Lexer.G_CODE, '1'),
@@ -287,6 +296,7 @@ const operationWithoutCoords: SyntaxRule = {
 }
 
 const interpolationMode: SyntaxRule = {
+  name: 'interpolationMode',
   rules: [
     one([
       token(Lexer.G_CODE, '1'),
@@ -305,6 +315,7 @@ const interpolationMode: SyntaxRule = {
 }
 
 const regionMode: SyntaxRule = {
+  name: 'regionMode',
   rules: [
     one([token(Lexer.G_CODE, '36'), token(Lexer.G_CODE, '37')]),
     token(Lexer.ASTERISK),
@@ -319,6 +330,7 @@ const regionMode: SyntaxRule = {
 }
 
 const quadrantMode: SyntaxRule = {
+  name: 'quadrantMode',
   rules: [
     one([token(Lexer.G_CODE, '74'), token(Lexer.G_CODE, '75')]),
     token(Lexer.ASTERISK),
@@ -333,6 +345,7 @@ const quadrantMode: SyntaxRule = {
 }
 
 const loadPolarity: SyntaxRule = {
+  name: 'loadPolarity',
   rules: [
     token(Lexer.PERCENT),
     token(Lexer.GERBER_LOAD_POLARITY),
@@ -349,6 +362,7 @@ const loadPolarity: SyntaxRule = {
 }
 
 const stepRepeat: SyntaxRule = {
+  name: 'stepRepeat',
   rules: [
     token(Lexer.PERCENT),
     token(Lexer.GERBER_STEP_REPEAT),
@@ -376,6 +390,7 @@ const stepRepeat: SyntaxRule = {
 }
 
 const unimplementedExtendedCommand: SyntaxRule = {
+  name: 'unimplementedExtendedCommand',
   rules: [
     token(Lexer.PERCENT),
     zeroOrMore([notToken(Lexer.ASTERISK)]),
@@ -391,7 +406,7 @@ const unimplementedExtendedCommand: SyntaxRule = {
   ],
 }
 
-export const gerberSyntax: SyntaxRule[] = [
+export const gerberGrammar: SyntaxRule[] = [
   operation,
   operationWithoutCoords,
   interpolationMode,

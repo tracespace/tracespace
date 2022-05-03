@@ -1,7 +1,9 @@
-import {drillSyntax} from './drill'
-import {gerberSyntax} from './gerber'
-import {createMatchSyntax} from './match-syntax'
+import {drillGrammar} from './drill'
+import {gerberGrammar} from './gerber'
+
+export const grammar = [...gerberGrammar, ...drillGrammar]
+export {drillGrammar} from './drill'
+export {gerberGrammar} from './gerber'
+export {matchSyntax} from './match-syntax'
 
 export * from './types'
-
-export const matchSyntax = createMatchSyntax(...gerberSyntax, ...drillSyntax)

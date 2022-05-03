@@ -14,6 +14,7 @@ import {
 } from './map-tokens'
 
 const units: SyntaxRule = {
+  name: 'units',
   rules: [
     one([
       token(Lexer.DRILL_UNITS),
@@ -67,6 +68,7 @@ const units: SyntaxRule = {
 }
 
 const tool: SyntaxRule = {
+  name: 'tool',
   rules: [
     token(Lexer.T_CODE),
     minToMax(0, 12, [
@@ -94,6 +96,7 @@ const tool: SyntaxRule = {
 }
 
 const mode: SyntaxRule = {
+  name: 'mode',
   rules: [
     one([
       token(Lexer.G_CODE, '0'),
@@ -114,6 +117,7 @@ const mode: SyntaxRule = {
 }
 
 const operation: SyntaxRule = {
+  name: 'operation',
   rules: [
     minToMax(0, 2, [
       token(Lexer.T_CODE),
@@ -166,6 +170,7 @@ const operation: SyntaxRule = {
 }
 
 const slot: SyntaxRule = {
+  name: 'slot',
   rules: [
     minToMax(2, 4, [token(Lexer.COORD_CHAR), token(Lexer.NUMBER)]),
     token(Lexer.G_CODE, '85'),
@@ -197,6 +202,7 @@ const slot: SyntaxRule = {
 }
 
 const done: SyntaxRule = {
+  name: 'done',
   rules: [
     one([token(Lexer.M_CODE, '30'), token(Lexer.M_CODE, '0')]),
     token(Lexer.NEWLINE),
@@ -207,6 +213,7 @@ const done: SyntaxRule = {
 }
 
 const comment: SyntaxRule = {
+  name: 'comment',
   rules: [
     token(Lexer.SEMICOLON),
     zeroOrMore([notToken(Lexer.NEWLINE)]),
@@ -221,7 +228,7 @@ const comment: SyntaxRule = {
   ],
 }
 
-export const drillSyntax: SyntaxRule[] = [
+export const drillGrammar: SyntaxRule[] = [
   tool,
   mode,
   operation,

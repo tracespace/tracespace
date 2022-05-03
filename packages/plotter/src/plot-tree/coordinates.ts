@@ -12,7 +12,7 @@ export function parseCoordinate(
   if (coord.includes('.')) return Number(coord)
 
   const {coordinateFormat, zeroSuppression} = options
-  const [integerPlaces, decimalPlaces] = coordinateFormat!
+  const [integerPlaces, decimalPlaces] = coordinateFormat ?? [2, 4]
   const numberDigits = integerPlaces + decimalPlaces
   let sign = '+'
 
