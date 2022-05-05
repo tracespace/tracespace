@@ -90,20 +90,20 @@ function Fixture(props: FixtureProps): JSX.Element {
           {sectionName}/{name}
         </h2>
         <div class="sticky top-0 flex grow-0 shrink-0 font-semibold">
-          <p class="w-1/5 p-1">Source</p>
-          <p class="w-1/4 p-1">Parse</p>
+          <p class="w-xs p-1">Source</p>
+          <p class="w-md p-1">Parse</p>
           <p class="p-1">Plot</p>
         </div>
       </div>
       <div class="flex grow-0 shrink-0 text-xs whitespace-pre-wrap leading-normal">
         <GerberContents
-          class="w-1/5"
+          class="w-xs"
           contents={contents}
           highlightedLines={highlightedLines}
           setHighlightedLines={setHighlightedLines}
         />
         <GerberParse
-          class="w-1/4"
+          class="w-md"
           contents={contents}
           highlightedLines={highlightedLines}
           setHighlightedLines={setHighlightedLines}

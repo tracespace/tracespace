@@ -32,7 +32,7 @@ If you're not using a bundler and you want to try out the parser in a browser, y
 ```html
 <script src="https://unpkg.com/@tracespace/parser"></script>
 <script>
-  // global variable TracespaceParser now available
-  const parser = TracespaceParser.createParser()
+  // namespace TracespaceParser now available
+  const {createParser} = TracespaceParser
 </script>
 ```

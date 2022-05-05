@@ -3,8 +3,15 @@ import * as Lexer from '../lexer'
 import * as Tree from '../tree'
 import * as Constants from '../constants'
 import * as Types from '../types'
-import {token, notToken, one, zeroOrOne, zeroOrMore, minToMax} from './rules'
-import {SyntaxRule} from './types'
+import {
+  SyntaxRule,
+  token,
+  notToken,
+  one,
+  zeroOrOne,
+  zeroOrMore,
+  minToMax,
+} from './rules'
 
 import {
   tokensToCoordinates,

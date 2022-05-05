@@ -1,9 +1,56 @@
+import {Filetype} from '../types'
+import {GerberNode} from '../tree'
+import {Token, LexerIterable, LexerState} from '../lexer'
+import {GERBER, DRILL} from '../constants'
+import {SyntaxRule, findSyntaxMatch} from './rules'
 import {drillGrammar} from './drill'
 import {gerberGrammar} from './gerber'
 
-export const grammar = [...gerberGrammar, ...drillGrammar]
-export {drillGrammar} from './drill'
-export {gerberGrammar} from './gerber'
-export {matchSyntax} from './match-syntax'
+const grammar: SyntaxRule[] = [...gerberGrammar, ...drillGrammar]
 
-export * from './types'
+export interface MatchResult {
+  filetype: Filetype | null
+  nodes: GerberNode[]
+  unmatched: string
+  lexerState: LexerState | null
+}
+
+export function matchSyntax(
+  tokens: LexerIterable,
+  filetype: Filetype | null = null
+): MatchResult {
+  const nodes: GerberNode[] = []
+  let matchedCandidates = getGrammar()
+  let matchedTokens: Token[] = []
+  let nextLexerState: LexerState | null = null
+  let unmatched = ''
+
+  for (const [token, lexerState] of tokens) {
+    const result = findSyntaxMatch([...matchedTokens, token], matchedCandidates)
+
+    if (result.nodes) {
+      nodes.push(...result.nodes)
+      nextLexerState = lexerState
+      unmatched = ''
+    } else {
+      unmatched += token.text
+    }
+
+    filetype = filetype ?? result.filetype ?? null
+    matchedTokens = result.tokens ?? []
+    matchedCandidates = result.candidates ?? getGrammar()
+  }
+
+  return {
+    filetype,
+    unmatched,
+    nodes,
+    lexerState: nextLexerState,
+  }
+
+  function getGrammar() {
+    if (filetype === GERBER) return gerberGrammar
+    if (filetype === DRILL) return drillGrammar
+    return grammar
+  }
+}

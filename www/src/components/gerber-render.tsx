@@ -1,8 +1,7 @@
 import {useMemo} from 'preact/hooks'
-import stringifyJson from 'json-stringify-pretty-compact'
+import stringifyObject from 'stringify-object'
 
 import {GerberTree, GerberNode, createParser} from '@tracespace/parser'
-
 import {ImageTree, ImageNode, plot} from '@tracespace/plotter'
 
 export interface GerberFixture {
@@ -11,11 +10,7 @@ export interface GerberFixture {
 }
 
 const useGerberTree = (contents: string): GerberTree => {
-  return useMemo(() => {
-    const parser = createParser()
-    parser.feed(contents)
-    return parser.results()
-  }, [contents])
+  return useMemo(() => createParser().feed(contents).result(), [contents])
 }
 
 const useImageTree = (gerberTree: GerberTree): ImageTree => {
@@ -217,7 +212,10 @@ function TreeNode(props: TreeNodeProps): JSX.Element {
                 </ul>
               </div>
             ) : (
-              `${key}: ${stringifyJson(value, {maxLength: 60 - key.length})}`
+              `${key}: ${stringifyObject(value, {
+                indent: '  ',
+                inlineCharacterLimit: 50 - key.length,
+              })}`
             )}
           </li>
         ))}
