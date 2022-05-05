@@ -1,6 +1,8 @@
 {
   "name": "@tracespace/plotter",
-  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "0.0.0-unreleased",
   "description": "Build image trees from @tracespace/parser ASTs",
   "main": "./dist/tracespace-plotter.umd.cjs",

@@ -27,8 +27,8 @@
     "@fontsource/open-sans": "^4.5.8",
     "@tracespace/parser": "workspace:*",
     "@tracespace/plotter": "workspace:*",
-    "json-stringify-pretty-compact": "^3.0.0",
     "preact": "^10.7.1",
+    "stringify-object": "3.3.0",
     "windicss": "^3.5.1"
   },
   "devDependencies": {
@@ -37,6 +37,7 @@
     "@babel/plugin-transform-react-jsx-development": "^7.16.7",
     "@mdx-js/rollup": "^2.1.1",
     "@preact/preset-vite": "^2.2.0",
+    "@types/stringify-object": "3.3.0",
     "babel-plugin-transform-hook-names": "^1.0.2",
     "express": "^4.18.0",
     "preact-render-to-string": "^5.1.21",

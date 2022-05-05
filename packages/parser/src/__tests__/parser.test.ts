@@ -1,92 +1,109 @@
-// Tests for @tracespace/parser
+import {describe, it, beforeEach, afterEach, expect, vi} from 'vitest'
+import * as td from 'testdouble'
 
-import {describe, it, beforeEach, expect} from 'vitest'
-import {ROOT, COMMENT, DONE, GERBER, Parser, createParser} from '..'
+import {Token, Lexer, LexerState, createLexer} from '../lexer'
+import {matchSyntax} from '../syntax'
+import {GerberNode} from '../tree'
+import {createParser} from '..'
 
-describe('@tracespace/parser', () => {
-  let parser: Parser
+vi.mock('../lexer', () => td.object<unknown>())
+vi.mock('../syntax', () => td.object<unknown>())
 
-  beforeEach(() => {
-    parser = createParser()
+describe('parser', () => {
+  let lexer: Lexer
+
+  beforeEach(async () => {
+    lexer = td.object<Lexer>()
+    td.when(createLexer()).thenReturn(lexer)
   })
 
-  it('should raise if no AST yet', () => {
-    expect(parser.results).to.throw('File type not recognized')
+  afterEach(() => {
+    td.reset()
   })
 
-  it('should feed its input into the tree', () => {
-    parser.feed('G04 hello world*')
+  it('should tokenize the input and match the tokens', () => {
+    const token1 = {type: 'WHITESPACE'} as Token
+    const token2 = {type: 'NEWLINE'} as Token
+    const lexerState1 = {offset: 1} as LexerState
+    const lexerState2 = {offset: 2} as LexerState
 
-    expect(parser.results()).to.eql({
-      type: ROOT,
-      filetype: GERBER,
-      children: [
-        {
-          type: COMMENT,
-          position: {
-            start: {line: 1, column: 1, offset: 0},
-            end: {line: 1, column: 16, offset: 15},
-          },
-          comment: 'hello world',
-        },
-      ],
+    td.when(lexer.feed('abc123', null)).thenReturn([
+      [token1, lexerState1] as [Token, LexerState],
+      [token2, lexerState2] as [Token, LexerState],
+    ])
+
+    td.when(
+      matchSyntax(
+        [
+          [token1, lexerState1],
+          [token2, lexerState2],
+        ],
+        null
+      )
+    ).thenReturn({
+      filetype: 'gerber',
+      nodes: [{type: 'comment'} as GerberNode],
+      unmatched: '',
+    })
+
+    const subject = createParser()
+    const result = subject.feed('abc123').result()
+
+    expect(result).to.eql({
+      type: 'root',
+      filetype: 'gerber',
+      children: [{type: 'comment'}],
     })
   })
 
-  it('should handle multiple feedings', () => {
-    parser.feed('G04 hello world*\n')
-    parser.feed('M00*')
+  it('should preserve state across feedings', () => {
+    const token1 = {type: 'WHITESPACE'} as Token
+    const token2 = {type: 'NEWLINE'} as Token
+    const token3 = {type: 'CATCHALL'} as Token
+    const lexerState1 = {offset: 1} as LexerState
+    const lexerState2 = {offset: 2} as LexerState
+    const lexerState3 = {offset: 3} as LexerState
 
-    expect(parser.results()).to.eql({
-      type: ROOT,
-      filetype: GERBER,
-      children: [
-        {
-          type: COMMENT,
-          position: {
-            start: {line: 1, column: 1, offset: 0},
-            end: {line: 1, column: 16, offset: 15},
-          },
-          comment: 'hello world',
-        },
-        {
-          type: DONE,
-          position: {
-            start: {line: 2, column: 1, offset: 17},
-            end: {line: 2, column: 4, offset: 20},
-          },
-        },
-      ],
+    td.when(lexer.feed('abc123', null)).thenReturn([
+      [token1, lexerState1] as [Token, LexerState],
+    ])
+
+    td.when(lexer.feed('123def456', lexerState1)).thenReturn([
+      [token2, lexerState2] as [Token, LexerState],
+    ])
+
+    td.when(lexer.feed('456ghi789', lexerState1)).thenReturn([
+      [token3, lexerState3] as [Token, LexerState],
+    ])
+
+    td.when(matchSyntax([[token1, lexerState1]], null)).thenReturn({
+      filetype: 'gerber',
+      nodes: [{type: 'comment'} as GerberNode],
+      unmatched: '123',
+      lexerState: lexerState1,
     })
-  })
 
-  it('should handle multiple feedings with unexpected splits for streaming support', () => {
-    parser.feed('G0')
-    parser.feed('4 hello ')
-    parser.feed('world*\nM')
-    parser.feed('00')
-    parser.feed('*\n')
+    td.when(matchSyntax([[token2, lexerState2]], 'gerber')).thenReturn({
+      filetype: null,
+      nodes: [{type: 'unimplemented'} as GerberNode],
+      unmatched: '456',
+      lexerState: null,
+    })
 
-    expect(parser.results()).to.eql({
-      type: ROOT,
-      filetype: GERBER,
-      children: [
-        {
-          type: COMMENT,
-          position: {
-            start: {line: 1, column: 1, offset: 0},
-            end: {line: 1, column: 16, offset: 15},
-          },
-          comment: 'hello world',
-        },
-        {
-          type: DONE,
-          position: {
-            start: {line: 2, column: 1, offset: 17},
-            end: {line: 2, column: 4, offset: 20},
-          },
-        },
-      ],
+    td.when(matchSyntax([[token3, lexerState3]], 'gerber')).thenReturn({
+      filetype: null,
+      nodes: [{type: 'done'}],
+      unmatched: '',
+      lexerState: null,
+    })
+
+    const subject = createParser()
+    const result = subject.feed('abc123').feed('def456').feed('ghi789').result()
+
+    expect(result).to.eql({
+      type: 'root',
+      filetype: 'gerber',
+      children: [{type: 'comment'}, {type: 'unimplemented'}, {type: 'done'}],
     })
   })
 })

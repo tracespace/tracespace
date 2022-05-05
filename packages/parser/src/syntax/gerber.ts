@@ -3,9 +3,16 @@ import * as Lexer from '../lexer'
 import * as Constants from '../constants'
 import * as Types from '../types'
 import * as Tree from '../tree'
-import {token, notToken, one, zeroOrMore, zeroOrOne, minToMax} from './rules'
 import {parseMacroBlocks} from './macro'
-import {SyntaxRule} from './types'
+import {
+  SyntaxRule,
+  token,
+  notToken,
+  one,
+  zeroOrMore,
+  zeroOrOne,
+  minToMax,
+} from './rules'
 
 import {
   tokensToCoordinates,

@@ -1,6 +1,6 @@
 # @tracespace/plotter
 
-A image plotter for [@tracespace/parser][] ASTs.
+An image plotter for [@tracespace/parser][] ASTs.
 
 Part of the [tracespace][] collection of PCB visualization tools.
 
@@ -17,15 +17,11 @@ npm install @tracespace/plotter@next
 
 ```js
 import {createParser} from '@tracespace/parser'
-import {createPlotter} from '@tracespace/plotter'
+import {plot} from '@tracespace/plotter'
 
-const parser = createParser()
-const plotter = createPlotter()
+const syntaxTree = createParser().feed(/* ...some gerber string... */).results()
 
-parser.feed(/* ...some gerber string... */)
-
-const syntaxTree = parser.results()
-const imageTree = plotter.plot(syntaxTree)
+const imageTree = plot(syntaxTree)
 ```
 
 ### script tag
@@ -36,8 +32,8 @@ If you're not using a bundler and you want to try out the parser in a browser, y
 <script src="https://unpkg.com/@tracespace/parser"></script>
 <script src="https://unpkg.com/@tracespace/plotter"></script>
 <script>
-  // global variables TracespaceParser and TracespacePlotter now available
-  const parser = TracespaceParser.createParser()
-  const plotter = TracespacePlotter.createPlotter()
+  // namespaces TracespaceParser and TracespacePlotter now available
+  const {createParser} = TracespaceParser
+  const {plot} = TracespacePlotter
 </script>
 ```
