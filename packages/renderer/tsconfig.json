@@ -1,0 +1,16 @@
+{
+  "extends": "../../config/tsconfig.base.json",
+  "references": [
+    {"path": "../parser"},
+    {"path": "../plotter"},
+    {"path": "../whats-that-gerber"},
+    {"path": "../xml-id"}
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "emitDeclarationOnly": true,
+    "rootDir": "src",
+    "outDir": "lib"
+  },
+  "include": ["src", "typings"]
+}

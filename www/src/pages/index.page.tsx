@@ -4,6 +4,7 @@ import {
   GerberContents,
   GerberParse,
   GerberPlot,
+  GerberSvg,
 } from '../components/gerber-render'
 
 const gerberFixtures = import.meta.glob(
@@ -90,25 +91,27 @@ function Fixture(props: FixtureProps): JSX.Element {
           {sectionName}/{name}
         </h2>
         <div class="sticky top-0 flex grow-0 shrink-0 font-semibold">
-          <p class="w-xs p-1">Source</p>
-          <p class="w-md p-1">Parse</p>
-          <p class="p-1">Plot</p>
+          <p class="w-xs p-1 mr-3">Source</p>
+          <p class="w-md p-1 mr-3">Parse</p>
+          <p class="w-md p-1 mr-3">Plot</p>
+          <p class="p-1">Render</p>
         </div>
       </div>
-      <div class="flex grow-0 shrink-0 text-xs whitespace-pre-wrap leading-normal">
+      <div class="flex shrink-0 text-xs whitespace-pre-wrap leading-normal max-h-xl overflow-hidden">
         <GerberContents
-          class="w-xs"
+          class="w-xs mr-3 overflow-y-auto"
           contents={contents}
           highlightedLines={highlightedLines}
           setHighlightedLines={setHighlightedLines}
         />
         <GerberParse
-          class="w-md"
+          class="w-md mr-3 overflow-y-auto"
           contents={contents}
           highlightedLines={highlightedLines}
           setHighlightedLines={setHighlightedLines}
         />
-        <GerberPlot contents={contents} />
+        <GerberPlot class="w-md mr-3 overflow-y-auto" contents={contents} />
+        <GerberSvg contents={contents} />
       </div>
     </div>
   )

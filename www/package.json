@@ -27,6 +27,8 @@
     "@fontsource/open-sans": "^4.5.8",
     "@tracespace/parser": "workspace:*",
     "@tracespace/plotter": "workspace:*",
+    "@tracespace/renderer": "workspace:*",
+    "hast-util-to-html": "^8.0.3",
     "preact": "^10.7.1",
     "stringify-object": "3.3.0",
     "windicss": "^3.5.1"

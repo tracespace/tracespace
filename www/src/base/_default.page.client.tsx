@@ -1,5 +1,6 @@
 import '@fontsource/open-sans/variable.css'
 import 'virtual:windi.css'
+import 'virtual:windi-devtools'
 
 import {hydrate, render} from 'preact'
 import {useClientRouter} from 'vite-plugin-ssr/client/router'

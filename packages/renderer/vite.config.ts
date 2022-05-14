@@ -8,14 +8,17 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'src/index.ts',
-      name: 'TracespacePlotter',
-      fileName: libraryFilename('tracespace-plotter'),
+      name: 'TracespaceRenderer',
+      fileName: libraryFilename('tracespace-renderer'),
     },
     rollupOptions: {
       external: Object.keys(pkg.dependencies),
       output: {
         globals: {
           '@tracespace/parser': 'TracespaceParser',
+          '@tracespace/plotter': 'TracespacePlotter',
+          '@tracespace/xml-id': 'TracespaceXmlId',
+          'whats-that-gerber': 'WhatsThatGerber',
         },
       },
     },

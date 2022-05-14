@@ -6,6 +6,7 @@ import {getPlotOptions} from './options'
 import {createPlot} from './plot-tree'
 import {ImageTree} from './tree'
 
+export {BoundingBox, getShapeBox, positionsEqual} from './plot-tree'
 export * from './tree'
 export * from './types'
 

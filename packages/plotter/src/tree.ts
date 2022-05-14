@@ -1,5 +1,8 @@
 import {Node, Parent} from 'unist'
+import {MM, IN, UnitsType} from '@tracespace/parser'
 import {Position, ArcPosition, Box} from './types'
+
+export {MM, IN} from '@tracespace/parser'
 
 export const IMAGE = 'image'
 export const IMAGE_LAYER = 'imageLayer'
@@ -79,6 +82,7 @@ export type Shape = SimpleShape | LayeredShape
 
 export interface ImageTree extends Parent {
   type: typeof IMAGE
+  units: UnitsType
   children: [ImageLayer]
 }
 

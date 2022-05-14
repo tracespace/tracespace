@@ -1,8 +1,13 @@
-import {useMemo} from 'preact/hooks'
+import {Ref} from 'preact'
+import {useMemo, useRef, useEffect} from 'preact/hooks'
+import {toHtml} from 'hast-util-to-html'
 import stringifyObject from 'stringify-object'
 
 import {GerberTree, GerberNode, createParser} from '@tracespace/parser'
 import {ImageTree, ImageNode, plot} from '@tracespace/plotter'
+import {render} from '@tracespace/renderer'
+
+import type {SvgElement} from '@tracespace/renderer'
 
 export interface GerberFixture {
   contents: string
@@ -15,6 +20,26 @@ const useGerberTree = (contents: string): GerberTree => {
 
 const useImageTree = (gerberTree: GerberTree): ImageTree => {
   return useMemo(() => plot(gerberTree), [gerberTree])
+}
+
+const useRenderTree = (imageTree: ImageTree): SvgElement => {
+  return useMemo(() => render(imageTree), [imageTree])
+}
+
+const useRenderHtml = (renderTree: SvgElement): string => {
+  return useMemo(() => toHtml(renderTree), [renderTree])
+}
+
+const useHighlight = <E extends HTMLElement>(highlight?: boolean): Ref<E> => {
+  const element = useRef<E>(null)
+
+  useEffect(() => {
+    if (highlight) {
+      element.current?.scrollIntoView({block: 'nearest', behavior: 'smooth'})
+    }
+  }, [highlight])
+
+  return element
 }
 
 export interface GerberRenderProps {
@@ -89,6 +114,23 @@ export function GerberPlot(
   )
 }
 
+export function GerberSvg(
+  props: Pick<GerberRenderProps, 'contents' | 'class'>
+): JSX.Element {
+  const {contents, class: className} = props
+  const gerberTree = useGerberTree(contents)
+  const imageTree = useImageTree(gerberTree)
+  const renderTree = useRenderTree(imageTree)
+  const renderHtml = useRenderHtml(renderTree)
+
+  return (
+    <code
+      class={className}
+      dangerouslySetInnerHTML={{__html: renderHtml}}
+    ></code>
+  )
+}
+
 interface GerberLineProps {
   text: string
 
@@ -105,11 +147,14 @@ function GerberLine(props: GerberLineProps): JSX.Element {
     line >= Math.min(...highlightedLines) &&
     line <= Math.max(...highlightedLines)
 
+  const element = useHighlight<HTMLParagraphElement>(highlight)
+
   return (
     <p
       class={`p-1 ${highlight ? 'bg-red-100' : ''}`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      ref={element}
     >
       <span class="pr-2">{line}</span>
       {text}
@@ -185,11 +230,14 @@ function TreeNode(props: TreeNodeProps): JSX.Element {
       return 0
     })
 
+  const element = useHighlight<HTMLDivElement>(highlight)
+
   return (
     <div
       class={`${className ?? ''} ${highlight ? 'bg-red-100' : ''}`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      ref={element}
     >
       <p class="font-semibold">type: {type}</p>
       <ul>

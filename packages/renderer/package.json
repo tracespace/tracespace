@@ -1,0 +1,58 @@
+{
+  "name": "@tracespace/renderer",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.0.0-unreleased",
+  "description": "Render @tracespace/plotter image trees as SVGs",
+  "main": "./dist/tracespace-renderer.umd.cjs",
+  "module": "./dist/tracespace-renderer.es.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "source": "./src/index.ts",
+      "import": "./dist/tracespace-renderer.es.js",
+      "require": "./dist/tracespace-renderer.umd.cjs"
+    }
+  },
+  "type": "module",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tracespace/tracespace.git",
+    "directory": "packages/renderer"
+  },
+  "scripts": {
+    "build": "vite build",
+    "clean": "rimraf dist"
+  },
+  "keywords": [
+    "pcb",
+    "circuit",
+    "board",
+    "hardware",
+    "electronics"
+  ],
+  "contributors": [
+    "Mike Cousins <mike@cousins.io> (https://mike.cousins.io)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tracespace/tracespace/issues"
+  },
+  "homepage": "https://github.com/tracespace/tracespace#readme",
+  "dependencies": {
+    "@tracespace/plotter": "workspace:*",
+    "@tracespace/parser": "workspace:*",
+    "@tracespace/xml-id": "workspace:*",
+    "@types/hast": "^2.3.4",
+    "whats-that-gerber": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/unist": "^2.0.6",
+    "hastscript": "^7.0.2",
+    "unist-util-map": "^3.1.1",
+    "unist-util-visit-parents": "^5.1.0"
+  }
+}
