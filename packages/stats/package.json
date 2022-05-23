@@ -4,20 +4,13 @@
     "access": "public"
   },
   "version": "5.0.0-next.0",
-  "description": "Collect board stats",
-  "source": "src/index.ts",
-  "main": "cjs/index.js",
-  "module": "esm/index.mjs",
-  "types": "lib/index.d.ts",
-  "unpkg": "umd/stats.min.js",
+  "description": "Collect drill stats",
+  "source": "./src/index.ts",
   "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tracespace/tracespace.git",
     "directory": "packages/stats"
-  },
-  "scripts": {
-    "clean": "rimraf cjs esm lib umd"
   },
   "keywords": [
     "gerber",
