@@ -8,7 +8,7 @@ import {
   position as pos,
   simplifyTokens,
 } from '../../__tests__/helpers'
-import {matchSyntax, MatchState} from '..'
+import {matchSyntax} from '..'
 
 import {
   GERBER,
@@ -529,18 +529,12 @@ describe('gerber syntax matches', () => {
   for (const {source, expectedTokens, expectedNodes} of SPECS) {
     it(`should match on ${source.trim()}`, () => {
       const lexer = Lexer.createLexer()
-      let result: MatchState | null = null
+      const lexerResult = [...lexer.feed(source)]
+      const tokens = lexerResult.map(([t]) => t)
+      const result = matchSyntax(lexerResult)
 
-      lexer.reset(source)
-
-      for (const token of lexer) {
-        result = matchSyntax(result, token)
-      }
-
-      const {tokens, nodes, filetype} = result!
-
-      expect(filetype).to.equal(GERBER)
-      expect(nodes).to.eql(expectedNodes)
+      expect(result.filetype).to.equal(GERBER)
+      expect(result.nodes).to.eql(expectedNodes)
       expect(simplifyTokens(tokens)).to.eql(simplifyTokens(expectedTokens))
     })
   }

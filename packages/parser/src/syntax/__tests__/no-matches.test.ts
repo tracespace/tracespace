@@ -3,7 +3,7 @@ import {describe, it, expect} from 'vitest'
 
 import * as Lexer from '../../lexer'
 import {token as t, simplifyTokens} from '../../__tests__/helpers'
-import {matchSyntax, MatchState} from '..'
+import {matchSyntax} from '..'
 
 const SPECS: Array<{
   source: string
@@ -23,19 +23,14 @@ const SPECS: Array<{
 
 describe('syntax match non-match list', () => {
   for (const {source, expectedTokens} of SPECS) {
-    it(`should match on ${source.trim()}`, () => {
+    it(`should not match on ${source.trim()}`, () => {
       const lexer = Lexer.createLexer()
-      let result: MatchState | null = null
-      lexer.reset(source)
+      const lexerResult = [...lexer.feed(source)]
+      const tokens = lexerResult.map(([t]) => t)
+      const result = matchSyntax(lexerResult)
 
-      for (const token of lexer) {
-        result = matchSyntax(result, token)
-      }
-
-      const {nodes, filetype, tokens} = result!
-
-      expect(nodes).to.eql(undefined)
-      expect(filetype).to.eql(undefined)
+      expect(result.filetype).to.eql(null)
+      expect(result.nodes).to.eql([])
       expect(simplifyTokens(tokens)).to.eql(simplifyTokens(expectedTokens))
     })
   }

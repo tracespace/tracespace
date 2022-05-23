@@ -3,6 +3,7 @@
   "references": [
     {"path": "./packages/cli"},
     {"path": "./packages/parser"},
+    {"path": "./packages/plotter"},
     {"path": "./packages/xml-id"},
     {"path": "./packages/whats-that-gerber"},
     {"path": "./packages/stats"},

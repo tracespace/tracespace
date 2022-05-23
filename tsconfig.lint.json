@@ -5,5 +5,5 @@
     "noEmit": true
   },
   "files": [],
-  "include": ["*", "www/**/*", "packages/**/*"]
+  "include": ["*", "config/*", "www/**/*", "packages/**/*"]
 }

@@ -2,12 +2,19 @@
 import * as Lexer from '../lexer'
 import * as Tree from '../tree'
 import {MacroValue} from '../types'
-import {SyntaxRule, MatchState} from './types'
-import {token, notToken, zeroOrMore, oneOrMore} from './rules'
+
 import {tokensToPosition} from './map-tokens'
-import {matchSyntax} from './match-syntax'
+import {
+  SyntaxRule,
+  token,
+  notToken,
+  zeroOrMore,
+  oneOrMore,
+  findSyntaxMatch,
+} from './rules'
 
 const macroComment: SyntaxRule<Tree.MacroBlock> = {
+  name: 'macroComment',
   rules: [
     token(Lexer.NUMBER, '0'),
     zeroOrMore([notToken(Lexer.ASTERISK)]),
@@ -17,6 +24,7 @@ const macroComment: SyntaxRule<Tree.MacroBlock> = {
 }
 
 const macroVariable: SyntaxRule<Tree.MacroBlock> = {
+  name: 'macroVariable',
   rules: [
     token(Lexer.GERBER_MACRO_VARIABLE),
     token(Lexer.EQUALS),
@@ -32,6 +40,7 @@ const macroVariable: SyntaxRule<Tree.MacroBlock> = {
 }
 
 const macroPrimitive: SyntaxRule<Tree.MacroBlock> = {
+  name: 'macroPrimitive',
   rules: [
     token(Lexer.NUMBER),
     token(Lexer.COMMA),
@@ -175,13 +184,16 @@ function parseMacroExpression(tokens: Lexer.Token[]): MacroValue {
 const MACRO_GRAMMAR = [macroPrimitive, macroVariable, macroComment]
 
 export function parseMacroBlocks(tokens: Lexer.Token[]): Tree.MacroBlock[] {
-  let matchState: MatchState<Tree.MacroBlock> | null = null
+  let matchedCandidates = MACRO_GRAMMAR
+  let matchedTokens: Lexer.Token[] = []
   const blocks: Tree.MacroBlock[] = []
 
   for (const token of tokens) {
-    matchState = matchSyntax(matchState, token, MACRO_GRAMMAR)
-    if (matchState.nodes) blocks.push(...matchState.nodes)
-    if (matchState.candidates.length === 0) matchState = null
+    const result = findSyntaxMatch([...matchedTokens, token], matchedCandidates)
+
+    if (result.nodes) blocks.push(...result.nodes)
+    matchedTokens = result.tokens ?? []
+    matchedCandidates = result.candidates ?? MACRO_GRAMMAR
   }
 
   return blocks

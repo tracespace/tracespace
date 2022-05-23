@@ -5,7 +5,7 @@
   },
   "version": "5.0.0-next.0",
   "description": "XML ID generation and sanitation utilities",
-  "main": "./dist/tracespace-xml-id.umd.js",
+  "main": "./dist/tracespace-xml-id.umd.cjs",
   "module": "./dist/tracespace-xml-id.es.js",
   "types": "./lib/index.d.ts",
   "exports": {
@@ -13,17 +13,11 @@
       "types": "./lib/index.d.ts",
       "source": "./src/index.ts",
       "import": "./dist/tracespace-xml-id.es.js",
-      "require": "./dist/tracespace-xml-id.umd.js"
+      "require": "./dist/tracespace-xml-id.umd.cjs"
     }
   },
+  "type": "module",
   "sideEffects": false,
-  "files": [
-    "src",
-    "lib",
-    "esm",
-    "cjs",
-    "umd"
-  ],
   "scripts": {
     "build": "vite build",
     "clean": "rimraf dist"

@@ -14,7 +14,8 @@
     "build:types": "tsc --build",
     "clean": "concurrently -g pnpm:clean:*",
     "clean:packages": "pnpm -r clean",
-    "clean:types": "tsc --build --clean"
+    "clean:types": "tsc --build --clean",
+    "dev": "pnpm -C www dev"
   },
   "engines": {
     "node": ">=16",
@@ -24,8 +25,9 @@
     "@tracespace/cli": "workspace:*",
     "@tracespace/fixtures": "workspace:*",
     "@tracespace/parser": "workspace:*",
-    "@tracespace/xml-id": "workspace:*",
+    "@tracespace/plotter": "workspace:*",
     "@tracespace/www": "workspace:*",
+    "@tracespace/xml-id": "workspace:*",
     "whats-that-gerber": "workspace:*"
   },
   "devDependencies": {
@@ -34,6 +36,7 @@
     "concurrently": "^7.1.0",
     "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
+    "testdouble": "^3.16.5",
     "typescript": "^4.6.4",
     "vite": "^2.9.6",
     "vitest": "^0.10.0",
@@ -70,25 +73,42 @@
     "rules": {
       "@typescript-eslint/naming-convention": "off",
       "import/extensions": "off",
-      "unicorn/no-array-callback-reference": "off"
+      "unicorn/no-array-callback-reference": "off",
+      "default-case": "off"
     },
     "overrides": [
       {
-        "files": ["**/*.(ts|tsx)"],
+        "files": [
+          "**/*.(ts|tsx)"
+        ],
         "rules": {
-          "@typescript-eslint/ban-types": ["error", {"extendDefaults": true, "types": {}}]
+          "@typescript-eslint/ban-types": [
+            "error",
+            {
+              "extendDefaults": true,
+              "types": {}
+            }
+          ]
         }
       },
       {
-        "files": ["**/*.d.ts"],
+        "files": [
+          "**/*.d.ts"
+        ],
         "rules": {
-          "@typescript-eslint/triple-slash-reference": "off"
+          "@typescript-eslint/triple-slash-reference": "off",
+          "import/no-unassigned-import": "off"
         }
       },
       {
-        "files": ["**/__tests__/**", "**/*.config.ts"],
+        "files": [
+          "**/__tests__/**",
+          "**/*.config.ts"
+        ],
         "rules": {
-          "import/no-extraneous-dependencies": "off"
+          "@typescript-eslint/consistent-type-assertions": "off",
+          "import/no-extraneous-dependencies": "off",
+          "unicorn/no-array-for-each": "off"
         }
       }
     ]

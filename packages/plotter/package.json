@@ -1,0 +1,49 @@
+{
+  "name": "@tracespace/plotter",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.0.0-unreleased",
+  "description": "Build image trees from @tracespace/parser ASTs",
+  "main": "./dist/tracespace-plotter.umd.cjs",
+  "module": "./dist/tracespace-plotter.es.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "source": "./src/index.ts",
+      "import": "./dist/tracespace-plotter.es.js",
+      "require": "./dist/tracespace-plotter.umd.cjs"
+    }
+  },
+  "type": "module",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tracespace/tracespace.git",
+    "directory": "packages/plotter"
+  },
+  "scripts": {
+    "build": "vite build",
+    "clean": "rimraf dist"
+  },
+  "keywords": [
+    "pcb",
+    "circuit",
+    "board",
+    "hardware",
+    "electronics"
+  ],
+  "contributors": [
+    "Mike Cousins <mike@cousins.io> (https://mike.cousins.io)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tracespace/tracespace/issues"
+  },
+  "homepage": "https://github.com/tracespace/tracespace#readme",
+  "dependencies": {
+    "@tracespace/parser": "workspace:*",
+    "@types/unist": "^2.0.6"
+  }
+}
