@@ -3,19 +3,41 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "5.0.0-next.0",
-  "description": "Collect drill stats",
-  "source": "./src/index.ts",
+  "version": "0.0.0-unreleased",
+  "description": "Collect drill statistics for PCB fabrication files.",
+  "main": "./dist/tracespace-plotter.umd.cjs",
+  "module": "./dist/tracespace-plotter.es.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "source": "./src/index.ts",
+      "import": "./dist/tracespace-stats.es.js",
+      "require": "./dist/tracespace-stats.umd.cjs"
+    }
+  },
+  "type": "module",
   "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tracespace/tracespace.git",
     "directory": "packages/stats"
   },
+  "scripts": {
+    "build": "vite build",
+    "clean": "rimraf dist"
+  },
   "keywords": [
     "gerber",
-    "drill",
-    "stats"
+    "excellon",
+    "pcb",
+    "circuit",
+    "hardware",
+    "electronics"
+  ],
+  "contributors": [
+    "KN4CK3R <admin@oldschoolhack.me> (https://www.oldschoolhack.me)",
+    "Mike Cousins <mike@cousins.io> (https://mike.cousins.io)"
   ],
   "license": "MIT",
   "bugs": {
@@ -23,6 +45,6 @@
   },
   "homepage": "https://github.com/tracespace/tracespace#readme",
   "dependencies": {
-    "@tracespace/parser": "^5.0.0-next.0"
+    "@tracespace/parser": "workspace:*"
   }
 }

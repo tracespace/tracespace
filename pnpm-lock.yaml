@@ -96,6 +96,12 @@ importers:
       '@tracespace/parser': link:../parser
       '@types/unist': 2.0.6
 
+  packages/stats:
+    specifiers:
+      '@tracespace/parser': workspace:*
+    dependencies:
+      '@tracespace/parser': link:../parser
+
   packages/whats-that-gerber:
     specifiers: {}
 

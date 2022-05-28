@@ -3,8 +3,8 @@
 import {ToolShape} from '@tracespace/parser'
 
 export interface DrillUsage {
-  toolShape: ToolShape,
-  count: number,
+  toolShape: ToolShape
+  count: number
 }
 
 export interface DrillStats {
