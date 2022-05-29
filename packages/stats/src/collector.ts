@@ -20,24 +20,24 @@ import {DrillUsage, DrillStats} from './types'
  * @category Stats
  */
 export function collectDrillStats(trees: Parser.Root[]): DrillStats {
-  let toolsMap = new Map<string, Parser.ToolShape>()
-  let drillsPerTool = new Map<string, number>()
-  let routesPerTool = new Map<string, number>()
-  let minDrillSize: number = null
-  let maxDrillSize: number = null
+  const toolsMap: Record<string, Parser.ToolShape> = {}
+  const drillsPerTool: Record<string, number> = {}
+  const routesPerTool: Record<string, number> = {}
+  let minDrillSize: number | null = null
+  let maxDrillSize: number | null = null
 
   for (const tree of trees) {
     if (tree.filetype !== Parser.DRILL) {
       continue
     }
 
-    let currentTool = ''
+    let currentTool: string | null = null
     let currentMode: Parser.InterpolateModeType = null
     for (const node of tree.children) {
       if (node.type === Parser.TOOL_DEFINITION) {
         currentTool = node.code
 
-        toolsMap.set(currentTool, node.shape)
+        toolsMap[currentTool] = node.shape
 
         if (node.shape.type === Parser.CIRCLE) {
           const diameter = node.shape.diameter
@@ -56,20 +56,20 @@ export function collectDrillStats(trees: Parser.Root[]): DrillStats {
         if (node.graphic !== null) {
           continue
         }
-        if (currentTool === '' || currentMode === null) {
+        if (currentTool === null || currentMode === null) {
           continue
         }
 
         switch (currentMode) {
           case Parser.DRILL:
-            const drillCount = drillsPerTool.get(currentTool) ?? 0
-            drillsPerTool.set(currentTool, drillCount + 1)
+            const drillCount = drillsPerTool[currentTool] ?? 0
+            drillsPerTool[currentTool] = drillCount + 1
             break
           case Parser.LINE:
           case Parser.CW_ARC:
           case Parser.CCW_ARC:
-            const routeCount = routesPerTool.get(currentTool) ?? 0
-            routesPerTool.set(currentTool, routeCount + 1)
+            const routeCount = routesPerTool[currentTool] ?? 0
+            routesPerTool[currentTool] = routeCount + 1
             break
         }
       }
@@ -78,23 +78,25 @@ export function collectDrillStats(trees: Parser.Root[]): DrillStats {
 
   let totalDrills = 0
   const drillHits: DrillUsage[] = []
-  drillsPerTool.forEach((count: number, key: string) => {
+  for (const key in drillsPerTool) {
+    const count = drillsPerTool[key]
     totalDrills += count
     drillHits.push({
-      toolShape: toolsMap.get(key),
+      toolShape: toolsMap[key],
       count: count,
     })
-  })
+  }
 
   let totalRoutes = 0
   const drillRoutes: DrillUsage[] = []
-  routesPerTool.forEach((count: number, key: string) => {
+  for (const key in routesPerTool) {
+    const count = routesPerTool[key]
     totalRoutes += count
     drillRoutes.push({
-      toolShape: toolsMap.get(key),
+      toolShape: toolsMap[key],
       count: count,
     })
-  })
+  }
 
   const stats: DrillStats = {
     drillHits: drillHits,
