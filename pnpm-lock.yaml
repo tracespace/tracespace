@@ -10,6 +10,7 @@ importers:
       '@tracespace/plotter': workspace:*
       '@tracespace/www': workspace:*
       '@tracespace/xml-id': workspace:*
+      '@tracespace/stats': workspace:*
       '@types/node': ^17.0.30
       c8: ^7.11.2
       concurrently: ^7.1.0
@@ -28,6 +29,7 @@ importers:
       '@tracespace/plotter': link:packages/plotter
       '@tracespace/www': link:www
       '@tracespace/xml-id': link:packages/xml-id
+      '@tracespace/stats': link:packages/stats
       whats-that-gerber: link:packages/whats-that-gerber
     devDependencies:
       '@types/node': 17.0.31
