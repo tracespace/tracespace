@@ -28,7 +28,7 @@
     "@tracespace/plotter": "workspace:*",
     "@tracespace/www": "workspace:*",
     "@tracespace/xml-id": "workspace:*",
-	"@tracespace/stats": "workspace:*",
+    "@tracespace/stats": "workspace:*",
     "whats-that-gerber": "workspace:*"
   },
   "devDependencies": {
