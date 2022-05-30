@@ -4,7 +4,7 @@
     "access": "public"
   },
   "version": "5.0.0-next.0",
-  "description": "Render a PCB as SVGs from the command line",
+  "description": "Render printed circuit board Gerber/NC-drill files as SVGs from the command line.",
   "bin": {
     "tracespace": "bin/cli.js"
   },
@@ -39,21 +39,13 @@
     "node": ">=14"
   },
   "dependencies": {
-    "@types/debug": "^4.1.5",
-    "@types/yargs": "^15.0.1",
-    "common-prefix": "^1.1.0",
-    "cosmiconfig": "^5.2.1",
-    "debug": "^4.1.1",
-    "dot-prop": "^5.1.0",
-    "gerber-to-svg": "^4.2.8",
-    "globby": "^11.0.1",
-    "make-dir": "^3.0.0",
-    "pcb-stackup": "4.2.8",
-    "untildify": "^4.0.0",
-    "yargs": "^15.1.0"
+    "@tracespace/parser": "workspace:*",
+    "@tracespace/plotter": "workspace:*",
+    "@tracespace/renderer": "workspace:*",
+    "commander": "^9.2.0"
   },
   "devDependencies": {
-    "@types/common-prefix": "^1.1.0",
-    "whats-that-gerber": "workspace:*"
+    "hast-util-to-html": "^8.0.3",
+    "tempy": "^3.0.0"
   }
 }

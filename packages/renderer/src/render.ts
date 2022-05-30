@@ -56,7 +56,7 @@ export function shapeToElement(shape: Shape): SvgElement {
       const defs: SvgElement[] = []
       let children: SvgElement[] = []
 
-      shape.shapes.forEach((layerShape, i) => {
+      for (const [i, layerShape] of shape.shapes.entries()) {
         if (layerShape.type === CLEAR_OUTLINE) {
           const clipId = `${clipIdBase}__${i}`
           const boundingPath = `M${bx1} ${by1} H${bx2} V${by2} H${bx1} V${by1}`
@@ -75,15 +75,17 @@ export function shapeToElement(shape: Shape): SvgElement {
         } else {
           children.push(shapeToElement(layerShape))
         }
-      })
+      }
 
       if (defs.length > 0) children.unshift(s('defs', defs))
       if (children.length === 1) return children[0]
       return s('g', children)
     }
-  }
 
-  return s('g')
+    default: {
+      return s('g')
+    }
+  }
 }
 
 export function renderPath(node: ImagePath | ImageRegion): SvgElement {
@@ -97,11 +99,11 @@ export function renderPath(node: ImagePath | ImageRegion): SvgElement {
 function segmentsToPathData(segments: PathSegment[]): string {
   const pathCommands: string[] = []
 
-  segments.forEach((next, i) => {
-    const prev = segments[i - 1]
+  for (const [i, next] of segments.entries()) {
+    const previous = segments[i - 1]
     const {start, end} = next
 
-    if (!prev || !positionsEqual(prev.end, start)) {
+    if (!previous || !positionsEqual(previous.end, start)) {
       pathCommands.push(`M${start[0]} ${start[1]}`)
     }
 
@@ -110,11 +112,11 @@ function segmentsToPathData(segments: PathSegment[]): string {
     } else if (next.type === ARC) {
       const {center, radius, sweep, direction} = next
 
-      // sweep flag flipped from SVG value because Y-axis is positive-down
+      // Sweep flag flipped from SVG value because Y-axis is positive-down
       const sweepFlag = direction === CW ? '0' : '1'
       let largeFlag = sweep <= Math.PI ? '0' : '1'
 
-      // a full circle needs two SVG arcs to draw
+      // A full circle needs two SVG arcs to draw
       if (sweep === 2 * Math.PI) {
         const [mx, my] = [2 * center[0] - end[0], 2 * center[1] - end[1]]
         largeFlag = '0'
@@ -125,7 +127,7 @@ function segmentsToPathData(segments: PathSegment[]): string {
         `A${radius} ${radius} 0 ${largeFlag} ${sweepFlag} ${end[0]} ${end[1]}`
       )
     }
-  })
+  }
 
   return pathCommands.join('')
 }

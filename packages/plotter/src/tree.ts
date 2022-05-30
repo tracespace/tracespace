@@ -1,5 +1,5 @@
 import {Node, Parent} from 'unist'
-import {MM, IN, UnitsType} from '@tracespace/parser'
+import {UnitsType} from '@tracespace/parser'
 import {Position, ArcPosition, Box} from './types'
 
 export {MM, IN} from '@tracespace/parser'

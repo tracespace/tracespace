@@ -1,0 +1,10 @@
+{
+  "extends": "../../../config/tsconfig.base.json",
+  "references": [{"path": ".."}],
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": true,
+    "allowJs": true,
+    "rootDir": "."
+  }
+}

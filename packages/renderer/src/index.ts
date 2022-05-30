@@ -36,9 +36,11 @@ export function render(image: ImageTree): SvgElement {
 
   if (svgTree.properties) {
     const {width, height} = svgTree.properties
+
     if (typeof width === 'number') {
       svgTree.properties.width = `${width}${image.units}`
     }
+
     if (typeof height === 'number') {
       svgTree.properties.height = `${height}${image.units}`
     }

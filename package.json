@@ -97,6 +97,8 @@
         ],
         "rules": {
           "@typescript-eslint/triple-slash-reference": "off",
+          "@typescript-eslint/no-unnecessary-type-arguments": "off",
+          "@typescript-eslint/prefer-function-type": "off",
           "import/no-unassigned-import": "off"
         }
       },
@@ -108,7 +110,9 @@
         "rules": {
           "@typescript-eslint/consistent-type-assertions": "off",
           "import/no-extraneous-dependencies": "off",
-          "unicorn/no-array-for-each": "off"
+          "max-nested-callbacks": "off",
+          "unicorn/no-array-for-each": "off",
+          "unicorn/prefer-module": "off"
         }
       }
     ]

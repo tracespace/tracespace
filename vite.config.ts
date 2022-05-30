@@ -3,6 +3,12 @@ import {baseConfig} from './config/vite.config.base'
 
 export default defineConfig({
   ...baseConfig,
+  define: {
+    __PKG_NAME__: JSON.stringify('@tracespace/test'),
+    __PKG_VERSION__: JSON.stringify('0.0.0-test'),
+    __PKG_DESCRIPTION__: JSON.stringify('Test description'),
+  },
+  assetsInclude: ['**/*.gbr', '**/*.drl'],
   test: {
     coverage: {
       all: true,
