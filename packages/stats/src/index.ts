@@ -26,7 +26,7 @@ export interface DrillStats {
  *
  * parser.feed(...)
  *
- * const tree = parser.results()
+ * const tree = parser.result()
  * const stats = collectDrillStats([tree])
  * ```
  *
@@ -37,6 +37,8 @@ export function collectDrillStats(trees: Parser.Root[]): DrillStats {
     usedTools: {},
     drillsPerTool: {},
     routesPerTool: {},
+    totalDrills: 0,
+    totalRoutes: 0,
     minDrillSize: null,
     maxDrillSize: null,
   }
@@ -49,31 +51,20 @@ export function collectDrillStats(trees: Parser.Root[]): DrillStats {
     _updateDrillStats(state, tree)
   }
 
-  let totalDrills = 0
-  const drillHits: DrillUsage[] = []
-  for (const [key, count] of Object.entries(state.drillsPerTool)) {
-    totalDrills += count
-    drillHits.push({
-      diameter: state.usedTools[key],
-      count,
-    })
-  }
-
-  let totalRoutes = 0
-  const drillRoutes: DrillUsage[] = []
-  for (const [key, count] of Object.entries(state.routesPerTool)) {
-    totalRoutes += count
-    drillRoutes.push({
-      diameter: state.usedTools[key],
-      count,
-    })
-  }
+  const hits = Object.entries(state.drillsPerTool).map(([key, count]) => ({
+    diameter: state.usedTools[key],
+    count,
+  }))
+  const routes = Object.entries(state.routesPerTool).map(([key, count]) => ({
+    diameter: state.usedTools[key],
+    count,
+  }))
 
   const stats: DrillStats = {
-    drillHits,
-    drillRoutes,
-    totalDrills,
-    totalRoutes,
+    drillHits: hits,
+    drillRoutes: routes,
+    totalDrills: state.totalDrills,
+    totalRoutes: state.totalRoutes,
     minDrillSize: state.minDrillSize ?? 0,
     maxDrillSize: state.maxDrillSize ?? 0,
   }
@@ -85,6 +76,8 @@ interface DrillStatsState {
   usedTools: Record<string, number>
   drillsPerTool: Record<string, number>
   routesPerTool: Record<string, number>
+  totalDrills: number
+  totalRoutes: number
   minDrillSize: number | null
   maxDrillSize: number | null
 }
@@ -94,42 +87,34 @@ function _updateDrillStats(state: DrillStatsState, tree: Parser.Root) {
   let currentMode: Parser.InterpolateModeType = Parser.DRILL
   for (const node of tree.children) {
     switch (node.type) {
-      case Parser.TOOL_DEFINITION: {
+      case Parser.TOOL_DEFINITION:
         currentTool = node.code
 
         if (node.shape.type !== Parser.CIRCLE) {
           continue
         }
 
-        const {diameter} = node.shape
-
-        state.usedTools[currentTool] = diameter
-
-        if (state.minDrillSize === null || diameter < state.minDrillSize) {
-          state.minDrillSize = diameter
-        }
-
-        if (state.maxDrillSize === null || diameter > state.maxDrillSize) {
-          state.maxDrillSize = diameter
-        }
-
+        state.usedTools[currentTool] = node.shape.diameter
         break
-      }
-
       case Parser.TOOL_CHANGE:
         currentTool = node.code
         break
       case Parser.INTERPOLATE_MODE:
         currentMode = node.mode
         break
-      case Parser.GRAPHIC:
+      case Parser.GRAPHIC: {
         if (currentTool === null) {
           continue
         }
 
+        const diameter = state.usedTools[currentTool]
+        state.minDrillSize = _cmp(state.minDrillSize, diameter, Math.min)
+        state.maxDrillSize = _cmp(state.maxDrillSize, diameter, Math.max)
+
         if (node.graphic === null) {
           switch (currentMode) {
             case Parser.DRILL: {
+              state.totalDrills++
               const drillCount = state.drillsPerTool[currentTool] ?? 0
               state.drillsPerTool[currentTool] = drillCount + 1
               break
@@ -138,6 +123,7 @@ function _updateDrillStats(state: DrillStatsState, tree: Parser.Root) {
             case Parser.LINE:
             case Parser.CW_ARC:
             case Parser.CCW_ARC: {
+              state.totalRoutes++
               const routeCount = state.routesPerTool[currentTool] ?? 0
               state.routesPerTool[currentTool] = routeCount + 1
               break
@@ -147,13 +133,28 @@ function _updateDrillStats(state: DrillStatsState, tree: Parser.Root) {
               break
           }
         } else if (node.graphic === Parser.SLOT) {
+          state.totalRoutes++
           const routeCount = state.routesPerTool[currentTool] ?? 0
           state.routesPerTool[currentTool] = routeCount + 1
         }
 
         break
+      }
+
       default:
         break
     }
+  }
+
+  function _cmp(
+    n1: number | null,
+    n2: number,
+    cmp: (...values: number[]) => number
+  ): number {
+    if (n1 === null) {
+      return n2
+    }
+
+    return cmp(n1, n2)
   }
 }
