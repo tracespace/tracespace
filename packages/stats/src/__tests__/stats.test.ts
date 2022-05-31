@@ -83,7 +83,7 @@ describe('@tracespace/stats', () => {
           shape: {
             type: Parser.RECTANGLE,
             xSize: 1,
-            ySize: 1
+            ySize: 1,
           },
         },
       ] as Parser.ChildNode[],
@@ -108,52 +108,9 @@ describe('@tracespace/stats', () => {
   })
 
   it('should collect drill stats', () => {
-    const tree: Parser.GerberTree = {
-      type: Parser.ROOT,
-      filetype: Parser.DRILL,
-      children: [
-        {
-          type: Parser.TOOL_DEFINITION,
-          code: '1',
-          shape: {
-            type: Parser.CIRCLE,
-            diameter: 1,
-          },
-        },
-        {
-          type: Parser.GRAPHIC,
-          graphic: null,
-        },
-        {
-          type: Parser.INTERPOLATE_MODE,
-          mode: Parser.DRILL,
-        },
-        {
-          type: Parser.GRAPHIC,
-          graphic: null,
-        },
-        {
-          type: Parser.INTERPOLATE_MODE,
-          mode: Parser.LINE,
-        },
-        {
-          type: Parser.GRAPHIC,
-          graphic: null,
-        },
-        {
-          type: Parser.GRAPHIC,
-          graphic: Parser.SLOT,
-        },
-      ] as Parser.ChildNode[],
-    }
-
     const expected: DrillStats = {
-      drillHits: [
-        {count: 2, diameter: 1},
-      ],
-      drillRoutes: [
-        {count: 2, diameter: 1},
-      ],
+      drillHits: [{count: 2, diameter: 1}],
+      drillRoutes: [{count: 2, diameter: 1}],
       totalDrills: 2,
       totalRoutes: 2,
       minDrillSize: 1,
@@ -188,9 +145,7 @@ describe('@tracespace/stats', () => {
         {count: 2, diameter: 1},
         {count: 1, diameter: 2},
       ],
-      drillRoutes: [
-        {count: 2, diameter: 1},
-      ],
+      drillRoutes: [{count: 2, diameter: 1}],
       totalDrills: 3,
       totalRoutes: 2,
       minDrillSize: 1,
