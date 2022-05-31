@@ -88,11 +88,11 @@ function _updateDrillStats(state: DrillStatsState, tree: Parser.Root) {
   for (const node of tree.children) {
     switch (node.type) {
       case Parser.TOOL_DEFINITION:
-        currentTool = node.code
-
         if (node.shape.type !== Parser.CIRCLE) {
           continue
         }
+
+        currentTool = node.code
 
         state.usedTools[currentTool] = node.shape.diameter
         break

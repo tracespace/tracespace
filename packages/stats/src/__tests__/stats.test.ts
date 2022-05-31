@@ -1,41 +1,202 @@
 import {describe, it, expect} from 'vitest'
-import {createParser} from '@tracespace/parser'
+import * as Parser from '@tracespace/parser'
 import {collectDrillStats, DrillStats} from '..'
 
 describe('@tracespace/stats', () => {
+  const emptyStats: DrillStats = {
+    drillHits: [],
+    drillRoutes: [],
+    totalDrills: 0,
+    totalRoutes: 0,
+    minDrillSize: 0,
+    maxDrillSize: 0,
+  }
+
+  const tree1: Parser.GerberTree = {
+    type: Parser.ROOT,
+    filetype: Parser.DRILL,
+    children: [
+      {
+        type: Parser.TOOL_DEFINITION,
+        code: '1',
+        shape: {
+          type: Parser.CIRCLE,
+          diameter: 1,
+        },
+      },
+      {
+        type: Parser.GRAPHIC,
+        graphic: null,
+      },
+      {
+        type: Parser.INTERPOLATE_MODE,
+        mode: Parser.DRILL,
+      },
+      {
+        type: Parser.GRAPHIC,
+        graphic: null,
+      },
+      {
+        type: Parser.INTERPOLATE_MODE,
+        mode: Parser.LINE,
+      },
+      {
+        type: Parser.GRAPHIC,
+        graphic: null,
+      },
+      {
+        type: Parser.GRAPHIC,
+        graphic: Parser.SLOT,
+      },
+    ] as Parser.ChildNode[],
+  }
+
   it('should return an empty result', () => {
-    const expected: DrillStats = {
-      drillHits: [],
-      drillRoutes: [],
-      totalDrills: 0,
-      totalRoutes: 0,
-      minDrillSize: 0,
-      maxDrillSize: 0,
+    expect(collectDrillStats([])).to.eql(emptyStats)
+  })
+
+  it('should skip tree', () => {
+    const tree: Parser.GerberTree = {
+      type: Parser.ROOT,
+      filetype: Parser.GERBER,
+      children: [],
+    }
+    expect(collectDrillStats([tree])).to.eql(emptyStats)
+  })
+
+  it('should ignore only tool definitions', () => {
+    const tree: Parser.GerberTree = {
+      type: Parser.ROOT,
+      filetype: Parser.DRILL,
+      children: [
+        {
+          type: Parser.TOOL_DEFINITION,
+          code: '1',
+          shape: {
+            type: Parser.CIRCLE,
+            diameter: 1,
+          },
+        },
+        {
+          type: Parser.TOOL_DEFINITION,
+          code: '2',
+          shape: {
+            type: Parser.RECTANGLE,
+            xSize: 1,
+            ySize: 1
+          },
+        },
+      ] as Parser.ChildNode[],
     }
 
-    expect(collectDrillStats([])).to.eql(expected)
+    expect(collectDrillStats([tree])).to.eql(emptyStats)
+  })
+
+  it('should ignore unset tools', () => {
+    const tree: Parser.GerberTree = {
+      type: Parser.ROOT,
+      filetype: Parser.DRILL,
+      children: [
+        {
+          type: Parser.GRAPHIC,
+          graphic: null,
+        },
+      ] as Parser.ChildNode[],
+    }
+
+    expect(collectDrillStats([tree])).to.eql(emptyStats)
   })
 
   it('should collect drill stats', () => {
-    const parser = createParser()
-    parser.feed(
-      'M48\nM72\nINCH,TZ\nT01C0.0240\nT02C0.0335\n%\nG90\nT01\nX16910Y10810\nX15010Y12410\nX15100Y14300\nT02\nX26450Y10700\nT1\nG00X0Y0\nG01X2500Y2500\nG01X5000Y0\nM30\n'
-    )
-
-    const tree = parser.result()
+    const tree: Parser.GerberTree = {
+      type: Parser.ROOT,
+      filetype: Parser.DRILL,
+      children: [
+        {
+          type: Parser.TOOL_DEFINITION,
+          code: '1',
+          shape: {
+            type: Parser.CIRCLE,
+            diameter: 1,
+          },
+        },
+        {
+          type: Parser.GRAPHIC,
+          graphic: null,
+        },
+        {
+          type: Parser.INTERPOLATE_MODE,
+          mode: Parser.DRILL,
+        },
+        {
+          type: Parser.GRAPHIC,
+          graphic: null,
+        },
+        {
+          type: Parser.INTERPOLATE_MODE,
+          mode: Parser.LINE,
+        },
+        {
+          type: Parser.GRAPHIC,
+          graphic: null,
+        },
+        {
+          type: Parser.GRAPHIC,
+          graphic: Parser.SLOT,
+        },
+      ] as Parser.ChildNode[],
+    }
 
     const expected: DrillStats = {
       drillHits: [
-        {count: 3, diameter: 0.024},
-        {count: 1, diameter: 0.0335},
+        {count: 2, diameter: 1},
       ],
-      drillRoutes: [{count: 2, diameter: 0.024}],
-      totalDrills: 4,
+      drillRoutes: [
+        {count: 2, diameter: 1},
+      ],
+      totalDrills: 2,
       totalRoutes: 2,
-      minDrillSize: 0.024,
-      maxDrillSize: 0.0335,
+      minDrillSize: 1,
+      maxDrillSize: 1,
     }
 
-    expect(collectDrillStats([tree])).to.eql(expected)
+    expect(collectDrillStats([tree1])).to.eql(expected)
+  })
+
+  it('should collect drill stats and combine them', () => {
+    const tree2: Parser.GerberTree = {
+      type: Parser.ROOT,
+      filetype: Parser.DRILL,
+      children: [
+        {
+          type: Parser.TOOL_DEFINITION,
+          code: '2',
+          shape: {
+            type: Parser.CIRCLE,
+            diameter: 2,
+          },
+        },
+        {
+          type: Parser.GRAPHIC,
+          graphic: null,
+        },
+      ] as Parser.ChildNode[],
+    }
+
+    const expected: DrillStats = {
+      drillHits: [
+        {count: 2, diameter: 1},
+        {count: 1, diameter: 2},
+      ],
+      drillRoutes: [
+        {count: 2, diameter: 1},
+      ],
+      totalDrills: 3,
+      totalRoutes: 2,
+      minDrillSize: 1,
+      maxDrillSize: 2,
+    }
+
+    expect(collectDrillStats([tree1, tree2])).to.eql(expected)
   })
 })
