@@ -1,4 +1,5 @@
 import {Position} from 'unist'
+// import { G_CODE, M_CODE } from '.'
 
 import * as Types from './types'
 
@@ -24,13 +25,13 @@ export const COMMENT = 'comment'
 export const DONE = 'done'
 
 /**
- * {@linkcode headerStart} node type 
+ * {@linkcode headerStart} node type
  * @category Node
  */
- export const HEADER_START = 'headerStart'
+export const HEADER_START = 'headerStart'
 
 /**
- * {@linkcode headerEnd} node type 
+ * {@linkcode headerEnd} node type
  * @category Node
  */
 export const HEADER_END = 'headerEnd'
@@ -140,6 +141,10 @@ export const MACRO_VARIABLE = 'macroVariable'
  */
 export const MACRO_PRIMITIVE = 'macroPrimitive'
 
+export const DRILL_M_CODE = 'drillMCode'
+
+export const DRILL_G_CODE = 'drillGCode'
+
 interface BaseNode {
   type: string
   /** Location in the source file the node was parsed from */
@@ -178,6 +183,8 @@ export type ChildNode =
   | LoadPolarity
   | StepRepeat
   | Graphic
+  | DrillGCode
+  | DrillMCode
   | Unimplemented
 
 /**
@@ -238,25 +245,37 @@ export interface Done extends BaseNode {
 
 /**
  * Node representing an end of header comment that can appear in NC Drill files. This represents M95
- * 
+ *
  * @category Node
  */
 
- export interface HeaderStart extends BaseNode {
+export interface HeaderStart extends BaseNode {
   /** Node type */
   type: typeof HEADER_START
 }
 
 /**
- * Node representing an end of header comment that can appear in NC Drill files. This represents either 
+ * Node representing an end of header comment that can appear in NC Drill files. This represents either
  * an PERCENT symbol '%' or 'M95'.
- * 
+ *
  * @category Node
  */
 
 export interface HeaderEnd extends BaseNode {
   /** Node type */
   type: typeof HEADER_END
+}
+
+export interface DrillMCode extends BaseNode {
+  type: typeof DRILL_M_CODE
+
+  code: Types.DrillMCodeType
+}
+
+export interface DrillGCode extends BaseNode {
+  type: typeof DRILL_G_CODE
+
+  code: Types.DrillGCodeType
 }
 
 /**
@@ -492,6 +511,21 @@ export interface Graphic extends BaseNode {
   graphic: Types.GraphicType
   /** Coordinates where the graphic will be applied */
   coordinates: Types.Coordinates
+}
+
+/**
+ *
+ */
+export interface DrillGCode extends BaseNode {
+  type: typeof DRILL_G_CODE
+
+  code: Types.DrillGCodeType
+}
+
+export interface DrillMCode extends BaseNode {
+  type: typeof DRILL_M_CODE
+
+  code: Types.DrillMCodeType
 }
 
 /**

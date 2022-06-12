@@ -120,7 +120,7 @@ export const GERBER_MACRO_VARIABLE = 'GERBER_MACRO_VARIABLE'
 export const SEMICOLON = 'SEMICOLON'
 
 /**
- * NC Drill file format token type 
+ * NC Drill file format token type
  */
 export const DRILL_FORMAT = 'DRILL_FORMAT'
 

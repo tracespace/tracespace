@@ -1,7 +1,30 @@
 import {Position} from 'unist'
-import {Token, NUMBER, COORD_CHAR, G_CODE, D_CODE} from '../lexer'
-import {Coordinates, InterpolateModeType, GraphicType} from '../types'
-import {SEGMENT, MOVE, SHAPE, LINE, CW_ARC, CCW_ARC, DRILL} from '../constants'
+import {Token, NUMBER, COORD_CHAR, G_CODE, D_CODE, M_CODE} from '../lexer'
+import {
+  Coordinates,
+  InterpolateModeType,
+  GraphicType,
+  DrillMCodeType,
+} from '../types'
+import {
+  SEGMENT,
+  MOVE,
+  SHAPE,
+  LINE,
+  CW_ARC,
+  CCW_ARC,
+  DRILL,
+  DRILL_INCH_MEASURE_MODE,
+} from '../constants'
+import {
+  DRILL_ABSOLUTE_MODE,
+  DRILL_METRIC_MEASURE_MODE,
+  DRILL_RETRACT_WITH_CLAMPING,
+  DRILL_RETRACT_NO_CLAMPING,
+  DRILL_Z_AXIS_ROUTE_DEPTH,
+  DRILL_Z_AXIS_ROUTE_POSITION,
+  DRILL_TOOL_TIP_CHECK,
+} from '..'
 
 export function tokensToCoordinates(tokens: Array<Token>): Coordinates {
   return tokens.reduce<Coordinates>((coords, token, i) => {
@@ -24,7 +47,23 @@ export function tokensToMode(tokens: Token[]): InterpolateModeType {
       if (t.value === '2') return CW_ARC
       if (t.value === '3') return CCW_ARC
       if (t.value === '5') return DRILL
+      if (t.value === '90') return DRILL_ABSOLUTE_MODE
       return m
+    }, null)
+}
+
+export function tokensToDrillMCode(tokens: Token[]): DrillMCodeType {
+  return tokens
+    .filter(t => t.type === M_CODE)
+    .reduce<DrillMCodeType>((d, c) => {
+      if (c.value === '14') return DRILL_Z_AXIS_ROUTE_DEPTH
+      if (c.value === '15') return DRILL_Z_AXIS_ROUTE_POSITION
+      if (c.value === '16') return DRILL_RETRACT_WITH_CLAMPING
+      if (c.value === '17') return DRILL_RETRACT_NO_CLAMPING
+      if (c.value === '18') return DRILL_TOOL_TIP_CHECK
+      if (c.value === '71') return DRILL_METRIC_MEASURE_MODE
+      if (c.value === '72') return DRILL_INCH_MEASURE_MODE
+      return d
     }, null)
 }
 

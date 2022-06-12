@@ -170,6 +170,8 @@ export type InterpolateModeType =
   | typeof Constants.CCW_ARC
   | typeof Constants.MOVE
   | typeof Constants.DRILL
+  | typeof Constants.DRILL_MODE
+  | typeof Constants.DRILL_ABSOLUTE_MODE
   | null
 
 /**
@@ -184,3 +186,30 @@ export type QuadrantModeType =
  * Valid image polarities
  */
 export type Polarity = typeof Constants.DARK | typeof Constants.CLEAR
+
+/**
+ * Valid drill G codes
+ */
+export type DrillGCodeType =
+  | typeof Constants.DRILL_MODE
+  | typeof Constants.DRILL_ABSOLUTE_MODE
+  | null
+
+/**
+ * Valid drill M codes
+ */
+export type DrillMCodeType =
+  | typeof Constants.DRILL_Z_AXIS_ROUTE_DEPTH
+  | typeof Constants.DRILL_Z_AXIS_ROUTE_POSITION
+  | typeof Constants.DRILL_RETRACT_WITH_CLAMPING
+  | typeof Constants.DRILL_RETRACT_NO_CLAMPING
+  | typeof Constants.DRILL_TOOL_TIP_CHECK
+  | typeof Constants.DRILL_REF_SCALE_ON
+  | typeof Constants.DRILL_REF_SCALE_OFF
+  | typeof Constants.DRILL_PECK_ON
+  | typeof Constants.DRILL_PECK_OFF
+  | typeof Constants.DRILL_METRIC_MEASURE_MODE
+  | typeof Constants.DRILL_INCH_MEASURE_MODE
+  | typeof Constants.DRILL_MIRROR_IMAGE_X
+  | typeof Constants.DRILL_MIRROR_IMAGE_Y
+  | null

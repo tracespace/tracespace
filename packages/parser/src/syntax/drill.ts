@@ -12,7 +12,32 @@ import {
   tokensToMode,
   tokensToString,
   tokensToPosition,
+  tokensToDrillMCode,
 } from './map-tokens'
+
+const drillCommands: SyntaxRule = {
+  rules: [
+    one([
+      token(Lexer.M_CODE, '14'),
+      token(Lexer.M_CODE, '15'),
+      token(Lexer.M_CODE, '16'),
+      token(Lexer.M_CODE, '17'),
+      token(Lexer.M_CODE, '18'),
+    ]),
+    token(Lexer.NEWLINE),
+  ],
+  createNodes: tokens => {
+    const nodes: Tree.ChildNode[] = [
+      {
+        type: Tree.DRILL_M_CODE,
+        position: tokensToPosition(tokens.slice(0, 2)),
+        code: tokensToDrillMCode(tokens) as Types.DrillMCodeType,
+      },
+    ]
+
+    return nodes
+  },
+}
 
 const units: SyntaxRule = {
   rules: [
@@ -125,6 +150,7 @@ const mode: SyntaxRule = {
       token(Lexer.G_CODE, '2'),
       token(Lexer.G_CODE, '3'),
       token(Lexer.G_CODE, '5'),
+      token(Lexer.G_CODE, '90'),
     ]),
     token(Lexer.NEWLINE),
   ],
@@ -233,10 +259,7 @@ const headerEnd: SyntaxRule = {
 }
 
 const done: SyntaxRule = {
-  rules: [
-    one([token(Lexer.M_CODE, '30'), token(Lexer.M_CODE, '0')]),
-    token(Lexer.NEWLINE),
-  ],
+  rules: [one([token(Lexer.M_CODE, '30'), token(Lexer.M_CODE, '0')])],
   createNodes: tokens => [
     {type: Tree.DONE, position: tokensToPosition(tokens)},
   ],
@@ -260,6 +283,7 @@ const comment: SyntaxRule = {
 export const drillSyntax: Array<SyntaxRule> = [
   tool,
   mode,
+  drillCommands,
   operation,
   slot,
   headerStart,
