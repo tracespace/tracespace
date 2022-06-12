@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // drill file grammar
 import * as Lexer from '../lexer'
 import * as Tree from '../tree'
@@ -71,7 +70,6 @@ const units: SyntaxRule = {
       .filter(t => t.type === Lexer.NUMBER)
       .reduce<Types.Format | null>((_, t) => {
         const [integer = '', decimal = ''] = t.value.split('.')
-        console.log('format found', [integer.length, decimal.length])
         return [integer.length, decimal.length]
       }, null)
 
