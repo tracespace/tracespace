@@ -80,9 +80,11 @@ export type SimpleShape =
 
 export type Shape = SimpleShape | LayeredShape
 
+export type ImageGraphic = ImageLayer | ImageShape | ImagePath | ImageRegion
+
 export interface ImageTree extends Parent {
   type: typeof IMAGE
-  units: UnitsType
+  units: UnitsType | null
   children: [ImageLayer]
 }
 
@@ -91,7 +93,7 @@ export interface ImageLayer extends Parent {
   size: Box
   polarity?: Polarity
   repeat?: [number, number, number, number]
-  children: Array<ImageLayer | ImageShape | ImagePath | ImageRegion>
+  children: ImageGraphic[]
 }
 
 export interface ImageShape extends Node {

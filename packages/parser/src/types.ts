@@ -39,6 +39,13 @@ export type Mode = typeof Constants.ABSOLUTE | typeof Constants.INCREMENTAL
 export type ToolShape = Circle | Rectangle | Obround | Polygon | MacroShape
 
 /**
+ * Union type of non-macro tool shapes
+ *
+ * @category Shape
+ */
+export type SimpleShape = Circle | Rectangle | Obround | Polygon
+
+/**
  * Union type of valid tool hole shapes
  *
  * @category Shape

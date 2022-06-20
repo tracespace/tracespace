@@ -27,7 +27,7 @@ import {
 const SPECS: Array<{
   source: string
   expectedTokens: Lexer.Token[]
-  expectedNodes: Tree.ChildNode[]
+  expectedNodes: Tree.Child[]
 }> = [
   {
     // Drill file end with M00

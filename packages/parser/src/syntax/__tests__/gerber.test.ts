@@ -33,7 +33,7 @@ import {
 const SPECS: Array<{
   source: string
   expectedTokens: Lexer.Token[]
-  expectedNodes: Tree.ChildNode[]
+  expectedNodes: Tree.Child[]
 }> = [
   {
     // Gerber file end with M02

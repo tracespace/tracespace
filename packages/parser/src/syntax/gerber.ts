@@ -101,7 +101,7 @@ const format: SyntaxRule = {
       if (integers && decimals) format = [integers, decimals]
     }
 
-    const nodes: Tree.ChildNode[] = [
+    const nodes: Tree.Child[] = [
       {
         type: Tree.COORDINATE_FORMAT,
         position: tokensToPosition(tokens.slice(1, formatEndIdx + 1)),
@@ -247,14 +247,14 @@ const toolChange: SyntaxRule = {
   ],
 }
 
-const createOperationNodes = (tokens: Lexer.Token[]): Tree.ChildNode[] => {
+const createOperationNodes = (tokens: Lexer.Token[]): Tree.Child[] => {
   const graphic = tokensToGraphic(tokens)
   const coordinates = tokensToCoordinates(tokens)
   const mode = tokensToMode(tokens)
   const position = tokensToPosition(tokens, {
     head: mode ? tokens[1] : tokens[0],
   })
-  const nodes: Tree.ChildNode[] = [
+  const nodes: Tree.Child[] = [
     {type: Tree.GRAPHIC, position, graphic, coordinates},
   ]
   if (mode) {

@@ -77,7 +77,7 @@ export function createPlot(
     }
   }
 
-  function visitNode(node: Parser.ChildNode): void {
+  function visitNode(node: Parser.Child): void {
     switch (node.type) {
       case Parser.TOOL_CHANGE: {
         tool = getTool(node.code)
@@ -121,7 +121,7 @@ export function createPlot(
     // All drill files will have graphic set to null; check interpolate (route)
     // mode for routing or drilling
     if (graphic === null && tree.filetype === Parser.DRILL) {
-      if (interpolateMode === null) {
+      if (interpolateMode === null || interpolateMode === Parser.DRILL) {
         nextGraphic = Parser.SHAPE
       } else if (interpolateMode === Parser.MOVE) {
         nextGraphic = Parser.MOVE
