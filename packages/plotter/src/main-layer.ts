@@ -1,11 +1,11 @@
 // Graphic store
 // Keeps track of plotted graphics
-import {ImageLayer, PathSegment, Shape} from '../tree'
+import {ImageLayer, PathSegment, Shape} from './tree'
 
-export interface GraphicStore {
+export interface MainLayer {
   add(graphic: Shape | PathSegment): ImageLayer
 }
 
-export function createGraphicStore(): GraphicStore {
+export function createMainLayer(): MainLayer {
   throw new Error('not implemented')
 }

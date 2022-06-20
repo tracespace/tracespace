@@ -3,7 +3,7 @@ import {describe, it, expect} from 'vitest'
 
 import * as Parser from '@tracespace/parser'
 
-import {createToolStore} from '..'
+import {createToolStore} from '../tool-store'
 
 describe('tool state store', () => {
   it('should handle tool definitions', () => {

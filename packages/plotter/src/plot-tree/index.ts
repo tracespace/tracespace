@@ -1,5 +1,5 @@
 export * from './create-plot'
 export * as BoundingBox from './bounding-box'
-export {plotGraphic} from './plot-graphic'
+export * from './plot-graphic'
 export {positionsEqual} from './math'
 export {getShapeBox} from './plot-shape'

@@ -12,7 +12,7 @@ import {
   HoleShape,
 } from '../tree'
 
-import {Position, Box} from '../types'
+import {Position, Box} from '../tree'
 
 import {roundToPrecision, degreesToRadians, PI} from './math'
 import {getPathBox} from './plot-path'

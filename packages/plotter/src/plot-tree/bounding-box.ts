@@ -1,4 +1,4 @@
-import {Box, Position} from '../types'
+import {Box, Position} from '../tree'
 import {roundToPrecision} from './math'
 
 export function empty(): Box {

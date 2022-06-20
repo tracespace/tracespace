@@ -1,16 +1,16 @@
 import * as Parser from '@tracespace/parser'
 
 import {PlotOptions} from '../options'
-import {Position} from '../types'
 
 import {
+  IMAGE,
+  IMAGE_LAYER,
+  IMAGE_SHAPE,
   ImageTree,
   ImageLayer,
   ImagePath,
   ImageRegion,
-  IMAGE,
-  IMAGE_LAYER,
-  IMAGE_SHAPE,
+  Position,
 } from '../tree'
 
 import * as BBox from './bounding-box'

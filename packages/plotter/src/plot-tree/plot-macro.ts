@@ -1,7 +1,7 @@
 // Plot a tool macro as shapes
 import * as Parser from '@tracespace/parser'
 import * as Tree from '../tree'
-import {Position} from '../types'
+import {Position} from '../tree'
 import * as Geo from './geometry'
 import {rotateAndShift, roundToPrecision, positionsEqual, PI} from './math'
 import {getCenterAngles} from './arc-segment'

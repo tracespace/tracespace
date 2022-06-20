@@ -1,7 +1,7 @@
 import {describe, it, expect} from 'vitest'
 import * as Parser from '@tracespace/parser'
 
-import {Position} from '../../types'
+import {Position} from '../../tree'
 import * as Tree from '../../tree'
 import {addSegmentToPath} from '../plot-path'
 

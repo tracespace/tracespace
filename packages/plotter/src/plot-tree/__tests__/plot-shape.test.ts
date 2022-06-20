@@ -1,7 +1,7 @@
 import {describe, it, expect} from 'vitest'
 import * as Parser from '@tracespace/parser'
 
-import {Position, Box} from '../../types'
+import {Position, Box} from '../../tree'
 import * as Tree from '../../tree'
 import {plotShape, getShapeBox} from '../plot-shape'
 

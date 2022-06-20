@@ -1,6 +1,5 @@
 import {Node, Parent} from 'unist'
 import {UnitsType} from '@tracespace/parser'
-import {Position, ArcPosition, Box} from './types'
 
 export {MM, IN} from '@tracespace/parser'
 
@@ -23,6 +22,14 @@ export const POLYGON = 'polygon'
 export const OUTLINE = 'outline'
 export const CLEAR_OUTLINE = 'clearOutline'
 export const LAYERED_SHAPE = 'layeredShape'
+
+export type Position = [x: number, y: number]
+
+export type ArcPosition = [x: number, y: number, theta: number]
+
+export type Box = [x1: number, y1: number, x2: number, y2: number]
+
+export type Offsets = {i: number | null; j: number | null; a: number | null}
 
 export type Direction = typeof CW | typeof CCW
 

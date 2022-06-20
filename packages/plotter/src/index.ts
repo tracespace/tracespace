@@ -3,20 +3,21 @@
 import {GerberTree} from '@tracespace/parser'
 
 import {getPlotOptions} from './options'
-import {createToolStore, createGraphicStore} from './state'
+import {createToolStore} from './tool-store'
+import {createMainLayer} from './main-layer'
+import {createGraphicPlotter} from './plot-tree'
 import {IMAGE, IMAGE_LAYER, ImageTree, ImageLayer} from './tree'
-import {plotGraphic} from './plot-tree'
 
 export {BoundingBox, getShapeBox, positionsEqual} from './plot-tree'
 export * from './tree'
-export * from './types'
 
 export function plot(tree: GerberTree): ImageTree {
   const plotOptions = getPlotOptions(tree)
   const toolStore = createToolStore()
-  const graphicStore = createGraphicStore()
+  const mainLayer = createMainLayer()
+  const graphicPlotter = createGraphicPlotter()
 
-  let mainLayer: ImageLayer = {
+  let result: ImageLayer = {
     type: IMAGE_LAYER,
     size: [0, 0, 0, 0],
     children: [],
@@ -24,9 +25,9 @@ export function plot(tree: GerberTree): ImageTree {
 
   for (const node of tree.children) {
     const tool = toolStore.use(node)
-    const graphic = plotGraphic(node, tool, plotOptions)
-    mainLayer = graphicStore.add(graphic)
+    const graphic = graphicPlotter.plot(node, tool, plotOptions)
+    result = mainLayer.add(graphic)
   }
 
-  return {type: IMAGE, units: plotOptions.units, children: [mainLayer]}
+  return {type: IMAGE, units: plotOptions.units, children: [result]}
 }
