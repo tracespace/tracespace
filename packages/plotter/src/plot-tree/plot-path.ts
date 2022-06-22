@@ -12,18 +12,20 @@ import {
 } from '@tracespace/parser'
 
 import {
+  IMAGE_PATH,
+  IMAGE_REGION,
+  ARC,
+  CCW,
+  Box,
+  Position,
+  Offsets,
   ImagePath,
   ImageRegion,
   OutlineShape,
   ClearOutlineShape,
   PathSegment,
-  IMAGE_PATH,
-  IMAGE_REGION,
-  ARC,
-  CCW,
 } from '../tree'
 
-import {Box, Position, Offsets} from '../tree'
 import {rotateQuadrant, limitAngle, TWO_PI} from './math'
 import * as BBox from './bounding-box'
 import {line} from './geometry'

@@ -7,12 +7,12 @@ import {
   OUTLINE,
   CLEAR_OUTLINE,
   LAYERED_SHAPE,
+  Box,
+  Position,
   Shape,
   SimpleShape,
   HoleShape,
 } from '../tree'
-
-import {Position, Box} from '../tree'
 
 import {roundToPrecision, degreesToRadians, PI} from './math'
 import {getPathBox} from './plot-path'

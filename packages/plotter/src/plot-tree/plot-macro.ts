@@ -1,7 +1,6 @@
 // Plot a tool macro as shapes
 import * as Parser from '@tracespace/parser'
 import * as Tree from '../tree'
-import {Position} from '../tree'
 import * as Geo from './geometry'
 import {rotateAndShift, roundToPrecision, positionsEqual, PI} from './math'
 import {getCenterAngles} from './arc-segment'
@@ -11,7 +10,7 @@ type ParametersMap = Record<string, number>
 export function plotMacro(
   macro: Parser.ToolMacro,
   parameters: number[],
-  origin: Position
+  origin: Tree.Position
 ): Tree.LayeredShape {
   const shapes: Tree.Shape[] = []
   const parameterMap = Object.fromEntries(
@@ -56,7 +55,7 @@ function solveExpression(
 
 function plotPrimitive(
   code: Parser.MacroPrimitiveCode | string,
-  origin: Position,
+  origin: Tree.Position,
   modifiers: number[]
 ): Tree.Shape | null {
   switch (code) {
@@ -92,7 +91,7 @@ function plotPrimitive(
   return null
 }
 
-function plotCircle(origin: Position, modifiers: number[]): Tree.Shape {
+function plotCircle(origin: Tree.Position, modifiers: number[]): Tree.Shape {
   const [exposure, diameter, cx0, cy0, degrees] = modifiers
   const r = diameter / 2
   const [cx, cy] = rotateAndShift([cx0, cy0], origin, degrees)
@@ -103,7 +102,10 @@ function plotCircle(origin: Position, modifiers: number[]): Tree.Shape {
     : Geo.clearOutline({segments: Geo.shapeToSegments(circle)})
 }
 
-function plotVectorLine(origin: Position, modifiers: number[]): Tree.Shape {
+function plotVectorLine(
+  origin: Tree.Position,
+  modifiers: number[]
+): Tree.Shape {
   const [exposure, width, sx, sy, ex, ey, degrees] = modifiers
   const [dy, dx] = [ey - sy, ex - sx]
   const halfWid = width / 2
@@ -116,7 +118,7 @@ function plotVectorLine(origin: Position, modifiers: number[]): Tree.Shape {
         [ex + xOff, ey - yOff],
         [ex - xOff, ey + yOff],
         [sx - xOff, sy + yOff],
-      ] as Position[]
+      ] as Tree.Position[]
     ).map(p => rotateAndShift(p, origin, degrees)),
   })
 
@@ -125,7 +127,10 @@ function plotVectorLine(origin: Position, modifiers: number[]): Tree.Shape {
     : Geo.clearOutline({segments: Geo.shapeToSegments(polygon)})
 }
 
-function plotCenterLine(origin: Position, modifiers: number[]): Tree.Shape {
+function plotCenterLine(
+  origin: Tree.Position,
+  modifiers: number[]
+): Tree.Shape {
   const [exposure, width, height, cx, cy, degrees] = modifiers
   const [halfWidth, halfHeight] = [width / 2, height / 2]
   const polygon = Geo.polygon({
@@ -135,7 +140,7 @@ function plotCenterLine(origin: Position, modifiers: number[]): Tree.Shape {
         [cx + halfWidth, cy - halfHeight],
         [cx + halfWidth, cy + halfHeight],
         [cx - halfWidth, cy + halfHeight],
-      ] as Position[]
+      ] as Tree.Position[]
     ).map(p => rotateAndShift(p, origin, degrees)),
   })
 
@@ -144,7 +149,7 @@ function plotCenterLine(origin: Position, modifiers: number[]): Tree.Shape {
     : Geo.clearOutline({segments: Geo.shapeToSegments(polygon)})
 }
 
-function plotOutline(origin: Position, modifiers: number[]): Tree.Shape {
+function plotOutline(origin: Tree.Position, modifiers: number[]): Tree.Shape {
   const [exposure, , ...coords] = modifiers.slice(0, -1)
   const degrees = modifiers[modifiers.length - 1]
   const polygon = Geo.polygon({
@@ -160,11 +165,11 @@ function plotOutline(origin: Position, modifiers: number[]): Tree.Shape {
     : Geo.clearOutline({segments: Geo.shapeToSegments(polygon)})
 }
 
-function plotPolygon(origin: Position, modifiers: number[]): Tree.Shape {
+function plotPolygon(origin: Tree.Position, modifiers: number[]): Tree.Shape {
   const [exposure, vertices, cx, cy, diameter, degrees] = modifiers
   const r = diameter / 2
   const step = (2 * PI) / vertices
-  const points: Position[] = []
+  const points: Tree.Position[] = []
   let i
 
   for (i = 0; i < vertices; i++) {
@@ -181,8 +186,8 @@ function plotPolygon(origin: Position, modifiers: number[]): Tree.Shape {
     : Geo.clearOutline({segments: Geo.shapeToSegments(polygon)})
 }
 
-function plotMoire(origin: Position, modifiers: number[]): Tree.Shape {
-  const rotate = (p: Position): Position =>
+function plotMoire(origin: Tree.Position, modifiers: number[]): Tree.Shape {
+  const rotate = (p: Tree.Position): Tree.Position =>
     rotateAndShift(p, origin, modifiers[8])
 
   const [cx0, cy0, d, ringThx, ringGap, ringN, lineThx, lineLength] = modifiers
@@ -218,7 +223,7 @@ function plotMoire(origin: Position, modifiers: number[]): Tree.Shape {
           [cx0 + halfLineThx, cy0 - halfLineLength],
           [cx0 + halfLineThx, cy0 + halfLineLength],
           [cx0 - halfLineThx, cy0 + halfLineLength],
-        ] as Position[]
+        ] as Tree.Position[]
       ).map(rotate),
     }),
     // Horizontal stroke
@@ -229,7 +234,7 @@ function plotMoire(origin: Position, modifiers: number[]): Tree.Shape {
           [cx0 + halfLineLength, cy0 - halfLineThx],
           [cx0 + halfLineLength, cy0 + halfLineThx],
           [cx0 - halfLineLength, cy0 + halfLineThx],
-        ] as Position[]
+        ] as Tree.Position[]
       ).map(rotate),
     }),
   ]
@@ -237,7 +242,7 @@ function plotMoire(origin: Position, modifiers: number[]): Tree.Shape {
   return Geo.layeredShape({shapes: moireShapes})
 }
 
-function plotThermal(origin: Position, modifiers: number[]): Tree.Shape {
+function plotThermal(origin: Tree.Position, modifiers: number[]): Tree.Shape {
   const [cx0, cy0, od, id, gap, degrees] = modifiers
   const center = rotateAndShift([cx0, cy0], origin, degrees)
   const [or, ir] = [od / 2, id / 2]
@@ -256,7 +261,7 @@ function plotThermal(origin: Position, modifiers: number[]): Tree.Shape {
         [oInt, halfGap],
         [halfGap, oInt],
         [halfGap, iInt],
-      ] as Position[]
+      ] as Tree.Position[]
     )
       .map(p => rotateAndShift(p, [cx0, cy0], rot))
       .map(p => rotateAndShift(p, origin, degrees))

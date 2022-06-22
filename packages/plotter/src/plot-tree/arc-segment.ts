@@ -6,8 +6,16 @@ import {
   MULTI,
 } from '@tracespace/parser'
 
-import {Position, ArcPosition, Offsets} from '../tree'
-import {Direction, PathSegment, CW, CCW} from '../tree'
+import {
+  CW,
+  CCW,
+  Direction,
+  Position,
+  ArcPosition,
+  Offsets,
+  PathSegment,
+} from '../tree'
+
 import {line, arc} from './geometry'
 import {roundToPrecision} from './math'
 

@@ -1,8 +1,7 @@
 // Functions for stroking rectangular tools
 import {Rectangle} from '@tracespace/parser'
 
-import {Position} from '../tree'
-import {ImageRegion, IMAGE_REGION} from '../tree'
+import {IMAGE_REGION, ImageRegion, Position} from '../tree'
 import {line} from './geometry'
 import {positionsEqual, HALF_PI, PI} from './math'
 
