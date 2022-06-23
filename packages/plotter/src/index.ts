@@ -4,6 +4,7 @@ import {GerberTree} from '@tracespace/parser'
 
 import {getPlotOptions} from './options'
 import {createToolStore} from './tool-store'
+import {createLocationStore} from './location-store'
 import {createMainLayer} from './main-layer'
 import {createGraphicPlotter} from './plot-tree'
 import {IMAGE, IMAGE_LAYER, ImageTree, ImageLayer} from './tree'
@@ -14,6 +15,7 @@ export * from './tree'
 export function plot(tree: GerberTree): ImageTree {
   const plotOptions = getPlotOptions(tree)
   const toolStore = createToolStore()
+  const locationStore = createLocationStore()
   const mainLayer = createMainLayer()
   const graphicPlotter = createGraphicPlotter()
 
@@ -25,7 +27,8 @@ export function plot(tree: GerberTree): ImageTree {
 
   for (const node of tree.children) {
     const tool = toolStore.use(node)
-    const graphic = graphicPlotter.plot(node, tool, plotOptions)
+    const location = locationStore.use(node, plotOptions)
+    const graphic = graphicPlotter.plot(node, tool, location, plotOptions)
     result = mainLayer.add(graphic)
   }
 

@@ -1,9 +1,9 @@
 import * as Parser from '@tracespace/parser'
 
 export interface PlotOptions {
-  units: Parser.UnitsType | null
-  coordinateFormat: Parser.Format | null
-  zeroSuppression: Parser.ZeroSuppression | null
+  units: Parser.UnitsType
+  coordinateFormat: Parser.Format
+  zeroSuppression: Parser.ZeroSuppression
 }
 
 const FORMAT_COMMENT_RE = /FORMAT={?(\d):(\d)/
@@ -72,5 +72,9 @@ export function getPlotOptions(tree: Parser.GerberTree): PlotOptions {
     index += 1
   }
 
-  return {units, coordinateFormat, zeroSuppression}
+  return {
+    units: units ?? Parser.IN,
+    coordinateFormat: coordinateFormat ?? [2, 4],
+    zeroSuppression: zeroSuppression ?? Parser.LEADING,
+  }
 }
