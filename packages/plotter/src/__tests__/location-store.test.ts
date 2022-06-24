@@ -23,7 +23,8 @@ describe('location store', () => {
 
     expect(result).to.eql([
       {x: 0, y: 0},
-      {x: 0, y: 0, i: 0, j: 0, a: 0, x0: 0, y0: 0},
+      {x: 0, y: 0},
+      {i: 0, j: 0, a: 0},
     ])
   })
 
@@ -37,7 +38,8 @@ describe('location store', () => {
 
     expect(result).to.eql([
       {x: 0, y: 0},
-      {x: 1.234, y: 5.678, i: 0, j: 0, a: 0, x0: 1.234, y0: 5.678},
+      {x: 1.234, y: 5.678},
+      {i: 0, j: 0, a: 0},
     ])
   })
 
@@ -61,23 +63,28 @@ describe('location store', () => {
 
     expect(subject.use(node1, options)).to.eql([
       {x: 0, y: 0},
-      {x: 1.234, y: 5.678, i: 0, j: 0, a: 0, x0: 1.234, y0: 5.678},
+      {x: 1.234, y: 5.678},
+      {i: 0, j: 0, a: 0},
     ])
     expect(subject.use(noopNode, options)).to.eql([
       {x: 1.234, y: 5.678},
-      {x: 1.234, y: 5.678, i: 0, j: 0, a: 0, x0: 1.234, y0: 5.678},
+      {x: 1.234, y: 5.678},
+      {i: 0, j: 0, a: 0},
     ])
     expect(subject.use(node2, options)).to.eql([
       {x: 1.234, y: 5.678},
-      {x: 0, y: 5.678, i: 0, j: 0, a: 0, x0: 0, y0: 5.678},
+      {x: 0, y: 5.678},
+      {i: 0, j: 0, a: 0},
     ])
     expect(subject.use(noopNode, options)).to.eql([
       {x: 0, y: 5.678},
-      {x: 0, y: 5.678, i: 0, j: 0, a: 0, x0: 0, y0: 5.678},
+      {x: 0, y: 5.678},
+      {i: 0, j: 0, a: 0},
     ])
     expect(subject.use(node3, options)).to.eql([
       {x: 0, y: 5.678},
-      {x: 0, y: 0, i: 0, j: 0, a: 0, x0: 0, y0: 0},
+      {x: 0, y: 0},
+      {i: 0, j: 0, a: 0},
     ])
   })
 
@@ -140,5 +147,71 @@ describe('location store', () => {
     const [, result] = subject.use(node, options)
     expect(result.x).to.equal(1.234)
     expect(result.y).to.equal(-5.678)
+  })
+
+  it('should parse `i`, `j` arc coordinates', () => {
+    options = {coordinateFormat: [1, 2]} as PlotOptions
+
+    const node: Parser.Graphic = {
+      type: Parser.GRAPHIC,
+      graphic: Parser.SEGMENT,
+      coordinates: {x: '123', y: '456', i: '789', j: '987'},
+    }
+
+    const [, pointResult, offsetsResult] = subject.use(node, options)
+    expect(pointResult).to.eql({x: 1.23, y: 4.56})
+    expect(offsetsResult).to.eql({i: 7.89, j: 9.87, a: 0})
+  })
+
+  it('should parse `a` arc coordinates', () => {
+    options = {coordinateFormat: [1, 2]} as PlotOptions
+
+    const node: Parser.Graphic = {
+      type: Parser.GRAPHIC,
+      graphic: Parser.SEGMENT,
+      coordinates: {x: '123', y: '456', a: '789'},
+    }
+
+    const [, pointResult, offsetsResult] = subject.use(node, options)
+    expect(pointResult).to.eql({x: 1.23, y: 4.56})
+    expect(offsetsResult).to.eql({i: 0, j: 0, a: 7.89})
+  })
+
+  it('should parse `x0`, `y0` slot coordinates', () => {
+    options = {coordinateFormat: [1, 2]} as PlotOptions
+
+    const node: Parser.Graphic = {
+      type: Parser.GRAPHIC,
+      graphic: Parser.SLOT,
+      coordinates: {x0: '123', y0: '456', x: '789', y: '987'},
+    }
+
+    const [previous, next] = subject.use(node, options)
+    expect(previous).to.eql({x: 1.23, y: 4.56})
+    expect(next).to.eql({x: 7.89, y: 9.87})
+  })
+
+  it('should feed `x`, `y` with `x0`, `y0` coordinates', () => {
+    options = {coordinateFormat: [1, 2]} as PlotOptions
+
+    const node1: Parser.Graphic = {
+      type: Parser.GRAPHIC,
+      graphic: Parser.SLOT,
+      coordinates: {x0: '123', y: '987'},
+    }
+
+    const node2: Parser.Graphic = {
+      type: Parser.GRAPHIC,
+      graphic: Parser.SLOT,
+      coordinates: {y0: '456', x: '789'},
+    }
+
+    const [previous1, next1] = subject.use(node1, options)
+    expect(previous1).to.eql({x: 1.23, y: 0})
+    expect(next1).to.eql({x: 1.23, y: 9.87})
+
+    const [previous2, next2] = subject.use(node2, options)
+    expect(previous2).to.eql({x: 1.23, y: 4.56})
+    expect(next2).to.eql({x: 7.89, y: 4.56})
   })
 })

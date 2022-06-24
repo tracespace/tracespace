@@ -64,7 +64,7 @@ export function createPlot(
 
   return {
     type: IMAGE,
-    units: options.units!,
+    units: options.units,
     children: [currentLayer],
   }
 

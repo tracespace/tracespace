@@ -59,11 +59,13 @@ describe('creating a plot tree', () => {
 
     const location1: Location = [
       {x: 1, y: 2},
-      {x: 3, y: 4, i: 5, j: 6, a: 7, x0: 8, y0: 9},
+      {x: 3, y: 4},
+      {i: 5, j: 6, a: 7},
     ]
     const location2: Location = [
       {x: 5, y: 6},
-      {x: 7, y: 8, i: 9, j: 0, a: 1, x0: 2, y0: 3},
+      {x: 7, y: 8},
+      {i: 9, j: 0, a: 1},
     ]
     td.when(locationStore.use(node1, plotOptions)).thenReturn(location1)
     td.when(locationStore.use(node2, plotOptions)).thenReturn(location2)

@@ -3,24 +3,21 @@ import {GRAPHIC, TRAILING, Child} from '@tracespace/parser'
 
 import {PlotOptions} from './options'
 
-export interface PreviousLocation {
+export interface Point {
   x: number
   y: number
 }
 
-export interface NextLocation {
-  x: number
-  y: number
+export interface ArcOffsets {
   i: number
   j: number
   a: number
-  x0: number
-  y0: number
 }
 
 export type Location = [
-  PreviousLocation: PreviousLocation,
-  nextLocation: NextLocation
+  PreviousPoint: Point,
+  nextPoint: Point,
+  arcOffsets: ArcOffsets
 ]
 
 export interface LocationStore {
@@ -32,31 +29,44 @@ export function createLocationStore(): LocationStore {
 }
 
 interface LocationStoreState {
-  _previousLocation: PreviousLocation
-  _nextLocation: NextLocation
+  _DEFAULT_ARC_OFFSETS: ArcOffsets
+  _previousPoint: Point
 }
 
 const LocationStorePrototype: LocationStore & LocationStoreState = {
-  _previousLocation: {x: 0, y: 0},
-  _nextLocation: {x: 0, y: 0, i: 0, j: 0, a: 0, x0: 0, y0: 0},
+  _DEFAULT_ARC_OFFSETS: {i: 0, j: 0, a: 0},
+  _previousPoint: {x: 0, y: 0},
 
   use(node: Child, options: PlotOptions): Location {
-    const previous = this._previousLocation
+    let offsets = this._DEFAULT_ARC_OFFSETS
+    let previous = this._previousPoint
+    let next = previous
 
     if (node.type === GRAPHIC) {
       const {coordinates} = node
-      const x = parseCoordinate(coordinates.x, previous.x, options)
-      const y = parseCoordinate(coordinates.y, previous.y, options)
-      this._nextLocation = {x, y, i: 0, j: 0, a: 0, x0: x, y0: y}
+      const x0 = parseCoordinate(coordinates.x0, previous.x, options)
+      const y0 = parseCoordinate(coordinates.y0, previous.y, options)
+      const x = parseCoordinate(coordinates.x, x0, options)
+      const y = parseCoordinate(coordinates.y, y0, options)
+      const i = parseCoordinate(coordinates.i, 0, options)
+      const j = parseCoordinate(coordinates.j, 0, options)
+      const a = parseCoordinate(coordinates.a, 0, options)
+
+      if (previous.x !== x0 || previous.y !== y0) {
+        previous = {x: x0, y: y0}
+      }
+
+      if (next.x !== x || next.y !== y) {
+        next = {x, y}
+      }
+
+      if (i !== 0 || j !== 0 || a !== 0) {
+        offsets = {i, j, a}
+      }
     }
 
-    const next = this._nextLocation
-
-    if (previous.x !== next.x || previous.y !== next.y) {
-      this._previousLocation = {x: next.x, y: next.y}
-    }
-
-    return [previous, next]
+    this._previousPoint = next
+    return [previous, next, offsets]
   },
 }
 
@@ -75,13 +85,13 @@ function parseCoordinate(
 
   const {coordinateFormat, zeroSuppression} = options
   const [integerPlaces, decimalPlaces] = coordinateFormat
-  const digits = integerPlaces + decimalPlaces
-  const sign =
-    coordinate.startsWith('+') || coordinate.startsWith('-')
-      ? coordinate[0]
-      : ''
 
-  const signlessCoordinate = coordinate.replace(/^[+-]/, '')
+  const [sign, signlessCoordinate] =
+    coordinate.startsWith('+') || coordinate.startsWith('-')
+      ? [coordinate[0], coordinate.slice(1)]
+      : ['+', coordinate]
+
+  const digits = integerPlaces + decimalPlaces
   const paddedCoordinate =
     zeroSuppression === TRAILING
       ? signlessCoordinate.padEnd(digits, '0')
@@ -91,29 +101,4 @@ function parseCoordinate(
   const trailing = paddedCoordinate.slice(integerPlaces)
 
   return Number(`${sign}${leading}.${trailing}`)
-  // if (coord == null) return defaultValue
-
-  // Short-circuit if coordinate has a decimal point
-  // if (coord.includes('.')) {return Number(coord)
-
-  // const {coordinateFormat, zeroSuppression} = options
-  // const [integerPlaces, decimalPlaces] = coordinateFormat ?? [2, 4]
-  // const numberDigits = integerPlaces + decimalPlaces
-  // let sign = '+'
-
-  // // Handle optional sign
-  // if (coord.startsWith('-') || coord.startsWith('+')) {
-  //   sign = coord[0]
-  //   coord = coord.slice(1)
-  // }
-
-  // coord =
-  //   zeroSuppression === TRAILING
-  //     ? coord.padEnd(numberDigits, '0')
-  //     : coord.padStart(numberDigits, '0')
-
-  // const leading = coord.slice(0, integerPlaces)
-  // const trailing = coord.slice(integerPlaces)
-
-  // return Number(`${sign}${leading}.${trailing}`)
 }
