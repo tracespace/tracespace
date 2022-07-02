@@ -14,11 +14,11 @@ export interface ArcOffsets {
   a: number
 }
 
-export type Location = [
-  PreviousPoint: Point,
-  nextPoint: Point,
+export interface Location {
+  startPoint: Point
+  endPoint: Point
   arcOffsets: ArcOffsets
-]
+}
 
 export interface LocationStore {
   use(node: Child, options: PlotOptions): Location
@@ -38,35 +38,35 @@ const LocationStorePrototype: LocationStore & LocationStoreState = {
   _previousPoint: {x: 0, y: 0},
 
   use(node: Child, options: PlotOptions): Location {
-    let offsets = this._DEFAULT_ARC_OFFSETS
-    let previous = this._previousPoint
-    let next = previous
+    let arcOffsets = this._DEFAULT_ARC_OFFSETS
+    let startPoint = this._previousPoint
+    let endPoint = startPoint
 
     if (node.type === GRAPHIC) {
       const {coordinates} = node
-      const x0 = parseCoordinate(coordinates.x0, previous.x, options)
-      const y0 = parseCoordinate(coordinates.y0, previous.y, options)
+      const x0 = parseCoordinate(coordinates.x0, startPoint.x, options)
+      const y0 = parseCoordinate(coordinates.y0, startPoint.y, options)
       const x = parseCoordinate(coordinates.x, x0, options)
       const y = parseCoordinate(coordinates.y, y0, options)
       const i = parseCoordinate(coordinates.i, 0, options)
       const j = parseCoordinate(coordinates.j, 0, options)
       const a = parseCoordinate(coordinates.a, 0, options)
 
-      if (previous.x !== x0 || previous.y !== y0) {
-        previous = {x: x0, y: y0}
+      if (startPoint.x !== x0 || startPoint.y !== y0) {
+        startPoint = {x: x0, y: y0}
       }
 
-      if (next.x !== x || next.y !== y) {
-        next = {x, y}
+      if (endPoint.x !== x || endPoint.y !== y) {
+        endPoint = {x, y}
       }
 
       if (i !== 0 || j !== 0 || a !== 0) {
-        offsets = {i, j, a}
+        arcOffsets = {i, j, a}
       }
     }
 
-    this._previousPoint = next
-    return [previous, next, offsets]
+    this._previousPoint = endPoint
+    return {startPoint, endPoint, arcOffsets}
   },
 }
 

@@ -10,6 +10,7 @@ export default defineConfig({
   },
   assetsInclude: ['**/*.gbr', '**/*.drl'],
   test: {
+    outputDiffLines: 100,
     coverage: {
       all: true,
       extension: ['ts', 'tsx'],

@@ -28,9 +28,9 @@ export function plot(tree: GerberTree): ImageTree {
   for (const node of tree.children) {
     const tool = toolStore.use(node)
     const location = locationStore.use(node, plotOptions)
-    const graphic = graphicPlotter.plot(node, tool, location, plotOptions)
+    const graphic = graphicPlotter.plot(node, tool, location)
     result = mainLayer.add(graphic)
   }
 
-  return {type: IMAGE, units: plotOptions.units, children: [result]}
+  return {type: IMAGE, children: [result]}
 }

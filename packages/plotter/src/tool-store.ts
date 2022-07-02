@@ -14,7 +14,7 @@ import {
 
 export interface SimpleTool {
   shape: SimpleShape
-  hole: HoleShape | null
+  hole?: HoleShape
 }
 
 export interface MacroTool {
@@ -25,7 +25,7 @@ export interface MacroTool {
 export type Tool = SimpleTool | MacroTool
 
 export interface ToolStore {
-  use(node: Child): Tool | null
+  use(node: Child): Tool | undefined
 }
 
 export function createToolStore(): ToolStore {
@@ -33,17 +33,17 @@ export function createToolStore(): ToolStore {
 }
 
 interface ToolStoreState {
-  _currentCode: string | null
+  _currentCode: string | undefined
   _toolsByCode: Partial<Record<string, Tool>>
   _macrosByName: Partial<Record<string, MacroBlock[]>>
 }
 
 const ToolStorePrototype: ToolStore & ToolStoreState = {
-  _currentCode: null,
+  _currentCode: undefined,
   _toolsByCode: {},
   _macrosByName: {},
 
-  use(node: Child): Tool | null {
+  use(node: Child): Tool | undefined {
     if (node.type === TOOL_MACRO) {
       this._macrosByName[node.name] = node.children
     }
@@ -53,7 +53,7 @@ const ToolStorePrototype: ToolStore & ToolStoreState = {
       const tool =
         shape.type === MACRO_SHAPE
           ? {shape, macro: this._macrosByName[shape.name] ?? []}
-          : {shape, hole}
+          : {shape, ...(hole && {hole})}
 
       this._toolsByCode[node.code] = tool
     }
@@ -62,8 +62,8 @@ const ToolStorePrototype: ToolStore & ToolStoreState = {
       this._currentCode = node.code
     }
 
-    return this._currentCode === null
-      ? null
-      : this._toolsByCode[this._currentCode] ?? null
+    return typeof this._currentCode === 'string'
+      ? this._toolsByCode[this._currentCode]
+      : undefined
   },
 }

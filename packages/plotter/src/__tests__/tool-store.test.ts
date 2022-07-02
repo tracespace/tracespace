@@ -17,7 +17,7 @@ describe('tool state store', () => {
     const subject = createToolStore()
     const result = subject.use(toolDefinition)
 
-    expect(result).to.eql({shape: {type: 'circle', diameter: 42}, hole: null})
+    expect(result).to.eql({shape: {type: 'circle', diameter: 42}})
   })
 
   it('should handle a tool change after a tool definition', () => {
@@ -40,17 +40,10 @@ describe('tool state store', () => {
 
     const subject = createToolStore()
 
-    expect(subject.use(tool1)).to.eql({
-      shape: {type: 'circle', diameter: 1},
-      hole: null,
-    })
-    expect(subject.use(tool2)).to.eql({
-      shape: {type: 'circle', diameter: 2},
-      hole: null,
-    })
+    expect(subject.use(tool1)).to.eql({shape: {type: 'circle', diameter: 1}})
+    expect(subject.use(tool2)).to.eql({shape: {type: 'circle', diameter: 2}})
     expect(subject.use(toolChange)).to.eql({
       shape: {type: 'circle', diameter: 1},
-      hole: null,
     })
   })
 
@@ -68,15 +61,9 @@ describe('tool state store', () => {
 
     const subject = createToolStore()
 
-    expect(subject.use(comment)).to.equal(null)
-    expect(subject.use(tool)).to.eql({
-      shape: {type: 'circle', diameter: 42},
-      hole: null,
-    })
-    expect(subject.use(comment)).to.eql({
-      shape: {type: 'circle', diameter: 42},
-      hole: null,
-    })
+    expect(subject.use(comment)).to.equal(undefined)
+    expect(subject.use(tool)).to.eql({shape: {type: 'circle', diameter: 42}})
+    expect(subject.use(comment)).to.eql({shape: {type: 'circle', diameter: 42}})
   })
 
   it('should track tool macros', () => {
@@ -94,7 +81,7 @@ describe('tool state store', () => {
 
     const subject = createToolStore()
 
-    expect(subject.use(macro)).to.equal(null)
+    expect(subject.use(macro)).to.equal(undefined)
     expect(subject.use(tool)).to.eql({
       shape: {type: Parser.MACRO_SHAPE, name: 'cool-macro', params: [1, 2, 3]},
       macro: [{type: Parser.MACRO_COMMENT, comment: 'hello world'}],

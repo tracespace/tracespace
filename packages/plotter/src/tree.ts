@@ -1,7 +1,4 @@
 import {Node, Parent} from 'unist'
-import {UnitsType} from '@tracespace/parser'
-
-export {MM, IN} from '@tracespace/parser'
 
 export const IMAGE = 'image'
 export const IMAGE_LAYER = 'imageLayer'
@@ -29,8 +26,6 @@ export type ArcPosition = [x: number, y: number, theta: number]
 
 export type Box = [x1: number, y1: number, x2: number, y2: number]
 
-export type Offsets = {i: number | null; j: number | null; a: number | null}
-
 export type Direction = typeof CW | typeof CCW
 
 export type ImageNode =
@@ -53,7 +48,7 @@ export interface RectangleShape {
   y: number
   xSize: number
   ySize: number
-  r: number | null
+  r?: number
 }
 
 export interface PolygonShape {
@@ -76,7 +71,7 @@ export interface LayeredShape {
   shapes: Array<Shape | ClearOutlineShape>
 }
 
-export type HoleShape = CircleShape | RectangleShape | null
+export type HoleShape = CircleShape | RectangleShape
 
 export type SimpleShape =
   | CircleShape
@@ -91,7 +86,6 @@ export type ImageGraphic = ImageLayer | ImageShape | ImagePath | ImageRegion
 
 export interface ImageTree extends Parent {
   type: typeof IMAGE
-  units: UnitsType | null
   children: [ImageLayer]
 }
 

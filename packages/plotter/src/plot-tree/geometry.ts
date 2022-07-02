@@ -58,7 +58,7 @@ export const shapeToSegments = (
   if (shape.type === Tree.RECTANGLE) {
     const {x, y, xSize, ySize, r} = shape
 
-    return r === null
+    return r === undefined
       ? [
           line({start: [x, y], end: [x + xSize, y]}),
           line({start: [x + xSize, y], end: [x + xSize, y + ySize]}),

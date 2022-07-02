@@ -21,11 +21,11 @@ describe('location store', () => {
       options
     )
 
-    expect(result).to.eql([
-      {x: 0, y: 0},
-      {x: 0, y: 0},
-      {i: 0, j: 0, a: 0},
-    ])
+    expect(result).to.eql({
+      startPoint: {x: 0, y: 0},
+      endPoint: {x: 0, y: 0},
+      arcOffsets: {i: 0, j: 0, a: 0},
+    })
   })
 
   it('should parse graphic nodes with decimal coordinates', () => {
@@ -36,11 +36,11 @@ describe('location store', () => {
     }
     const result = subject.use(node, options)
 
-    expect(result).to.eql([
-      {x: 0, y: 0},
-      {x: 1.234, y: 5.678},
-      {i: 0, j: 0, a: 0},
-    ])
+    expect(result).to.eql({
+      startPoint: {x: 0, y: 0},
+      endPoint: {x: 1.234, y: 5.678},
+      arcOffsets: {i: 0, j: 0, a: 0},
+    })
   })
 
   it('should maintain coordinate state', () => {
@@ -61,31 +61,31 @@ describe('location store', () => {
     }
     const noopNode: Parser.Comment = {type: Parser.COMMENT, comment: 'hello'}
 
-    expect(subject.use(node1, options)).to.eql([
-      {x: 0, y: 0},
-      {x: 1.234, y: 5.678},
-      {i: 0, j: 0, a: 0},
-    ])
-    expect(subject.use(noopNode, options)).to.eql([
-      {x: 1.234, y: 5.678},
-      {x: 1.234, y: 5.678},
-      {i: 0, j: 0, a: 0},
-    ])
-    expect(subject.use(node2, options)).to.eql([
-      {x: 1.234, y: 5.678},
-      {x: 0, y: 5.678},
-      {i: 0, j: 0, a: 0},
-    ])
-    expect(subject.use(noopNode, options)).to.eql([
-      {x: 0, y: 5.678},
-      {x: 0, y: 5.678},
-      {i: 0, j: 0, a: 0},
-    ])
-    expect(subject.use(node3, options)).to.eql([
-      {x: 0, y: 5.678},
-      {x: 0, y: 0},
-      {i: 0, j: 0, a: 0},
-    ])
+    expect(subject.use(node1, options)).to.eql({
+      startPoint: {x: 0, y: 0},
+      endPoint: {x: 1.234, y: 5.678},
+      arcOffsets: {i: 0, j: 0, a: 0},
+    })
+    expect(subject.use(noopNode, options)).to.eql({
+      startPoint: {x: 1.234, y: 5.678},
+      endPoint: {x: 1.234, y: 5.678},
+      arcOffsets: {i: 0, j: 0, a: 0},
+    })
+    expect(subject.use(node2, options)).to.eql({
+      startPoint: {x: 1.234, y: 5.678},
+      endPoint: {x: 0, y: 5.678},
+      arcOffsets: {i: 0, j: 0, a: 0},
+    })
+    expect(subject.use(noopNode, options)).to.eql({
+      startPoint: {x: 0, y: 5.678},
+      endPoint: {x: 0, y: 5.678},
+      arcOffsets: {i: 0, j: 0, a: 0},
+    })
+    expect(subject.use(node3, options)).to.eql({
+      startPoint: {x: 0, y: 5.678},
+      endPoint: {x: 0, y: 0},
+      arcOffsets: {i: 0, j: 0, a: 0},
+    })
   })
 
   it('should parse a coordinate string according to the format', () => {
@@ -96,8 +96,8 @@ describe('location store', () => {
       coordinates: {x: '12345678'},
     }
 
-    const [, result] = subject.use(node, options)
-    expect(result.x).to.equal(123.456_78)
+    const result = subject.use(node, options)
+    expect(result.endPoint.x).to.equal(123.456_78)
   })
 
   it('should parse a coordinate string with leading zero suppression', () => {
@@ -112,8 +112,8 @@ describe('location store', () => {
       coordinates: {x: '123456'},
     }
 
-    const [, result] = subject.use(node, options)
-    expect(result.x).to.equal(1.234_56)
+    const result = subject.use(node, options)
+    expect(result.endPoint.x).to.equal(1.234_56)
   })
 
   it('should parse a coordinate string with trailing zero suppression', () => {
@@ -128,8 +128,8 @@ describe('location store', () => {
       coordinates: {x: '123456'},
     }
 
-    const [, result] = subject.use(node, options)
-    expect(result.x).to.equal(123.456)
+    const result = subject.use(node, options)
+    expect(result.endPoint.x).to.equal(123.456)
   })
 
   it('should parse a coordinate string with an explicit sign', () => {
@@ -144,9 +144,9 @@ describe('location store', () => {
       coordinates: {x: '+1234', y: '-5678'},
     }
 
-    const [, result] = subject.use(node, options)
-    expect(result.x).to.equal(1.234)
-    expect(result.y).to.equal(-5.678)
+    const result = subject.use(node, options)
+    expect(result.endPoint.x).to.equal(1.234)
+    expect(result.endPoint.y).to.equal(-5.678)
   })
 
   it('should parse `i`, `j` arc coordinates', () => {
@@ -158,9 +158,9 @@ describe('location store', () => {
       coordinates: {x: '123', y: '456', i: '789', j: '987'},
     }
 
-    const [, pointResult, offsetsResult] = subject.use(node, options)
-    expect(pointResult).to.eql({x: 1.23, y: 4.56})
-    expect(offsetsResult).to.eql({i: 7.89, j: 9.87, a: 0})
+    const result = subject.use(node, options)
+    expect(result.endPoint).to.eql({x: 1.23, y: 4.56})
+    expect(result.arcOffsets).to.eql({i: 7.89, j: 9.87, a: 0})
   })
 
   it('should parse `a` arc coordinates', () => {
@@ -172,9 +172,9 @@ describe('location store', () => {
       coordinates: {x: '123', y: '456', a: '789'},
     }
 
-    const [, pointResult, offsetsResult] = subject.use(node, options)
-    expect(pointResult).to.eql({x: 1.23, y: 4.56})
-    expect(offsetsResult).to.eql({i: 0, j: 0, a: 7.89})
+    const result = subject.use(node, options)
+    expect(result.endPoint).to.eql({x: 1.23, y: 4.56})
+    expect(result.arcOffsets).to.eql({i: 0, j: 0, a: 7.89})
   })
 
   it('should parse `x0`, `y0` slot coordinates', () => {
@@ -186,9 +186,9 @@ describe('location store', () => {
       coordinates: {x0: '123', y0: '456', x: '789', y: '987'},
     }
 
-    const [previous, next] = subject.use(node, options)
-    expect(previous).to.eql({x: 1.23, y: 4.56})
-    expect(next).to.eql({x: 7.89, y: 9.87})
+    const result = subject.use(node, options)
+    expect(result.startPoint).to.eql({x: 1.23, y: 4.56})
+    expect(result.endPoint).to.eql({x: 7.89, y: 9.87})
   })
 
   it('should feed `x`, `y` with `x0`, `y0` coordinates', () => {
@@ -206,12 +206,12 @@ describe('location store', () => {
       coordinates: {y0: '456', x: '789'},
     }
 
-    const [previous1, next1] = subject.use(node1, options)
-    expect(previous1).to.eql({x: 1.23, y: 0})
-    expect(next1).to.eql({x: 1.23, y: 9.87})
+    let result = subject.use(node1, options)
+    expect(result.startPoint).to.eql({x: 1.23, y: 0})
+    expect(result.endPoint).to.eql({x: 1.23, y: 9.87})
 
-    const [previous2, next2] = subject.use(node2, options)
-    expect(previous2).to.eql({x: 1.23, y: 4.56})
-    expect(next2).to.eql({x: 7.89, y: 4.56})
+    result = subject.use(node2, options)
+    expect(result.startPoint).to.eql({x: 1.23, y: 4.56})
+    expect(result.endPoint).to.eql({x: 7.89, y: 4.56})
   })
 })

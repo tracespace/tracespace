@@ -52,32 +52,34 @@ describe('creating a plot tree', () => {
     const plotOptions = {units: Parser.MM} as PlotOptions
     td.when(getPlotOptions(tree)).thenReturn(plotOptions)
 
-    const tool1: Tool = {shape: {type: Parser.CIRCLE, diameter: 1}, hole: null}
-    const tool2: Tool = {shape: {type: Parser.CIRCLE, diameter: 2}, hole: null}
+    const tool1: Tool = {shape: {type: Parser.CIRCLE, diameter: 1}}
+    const tool2: Tool = {shape: {type: Parser.CIRCLE, diameter: 2}}
     td.when(toolStore.use(node1)).thenReturn(tool1)
     td.when(toolStore.use(node2)).thenReturn(tool2)
 
-    const location1: Location = [
-      {x: 1, y: 2},
-      {x: 3, y: 4},
-      {i: 5, j: 6, a: 7},
-    ]
-    const location2: Location = [
-      {x: 5, y: 6},
-      {x: 7, y: 8},
-      {i: 9, j: 0, a: 1},
-    ]
+    const location1: Location = {
+      startPoint: {x: 1, y: 2},
+      endPoint: {x: 3, y: 4},
+      arcOffsets: {i: 5, j: 6, a: 7},
+    }
+    const location2: Location = {
+      startPoint: {x: 5, y: 6},
+      endPoint: {x: 7, y: 8},
+      arcOffsets: {i: 9, j: 0, a: 1},
+    }
     td.when(locationStore.use(node1, plotOptions)).thenReturn(location1)
     td.when(locationStore.use(node2, plotOptions)).thenReturn(location2)
 
-    const shape1: Tree.Shape = {type: Tree.CIRCLE, cx: 1, cy: 2, r: 3}
-    const shape2: Tree.Shape = {type: Tree.CIRCLE, cx: 4, cy: 5, r: 6}
-    td.when(
-      graphicPlotter.plot(node1, tool1, location1, plotOptions)
-    ).thenReturn(shape1)
-    td.when(
-      graphicPlotter.plot(node2, tool2, location2, plotOptions)
-    ).thenReturn(shape2)
+    const shape1: Tree.ImageShape = {
+      type: Tree.IMAGE_SHAPE,
+      shape: {type: Tree.CIRCLE, cx: 1, cy: 2, r: 3},
+    }
+    const shape2: Tree.ImageShape = {
+      type: Tree.IMAGE_SHAPE,
+      shape: {type: Tree.CIRCLE, cx: 4, cy: 5, r: 6},
+    }
+    td.when(graphicPlotter.plot(node1, tool1, location1)).thenReturn(shape1)
+    td.when(graphicPlotter.plot(node2, tool2, location2)).thenReturn(shape2)
 
     const layer1 = {
       type: Tree.IMAGE_LAYER,
@@ -94,7 +96,6 @@ describe('creating a plot tree', () => {
 
     expect(result).to.eql({
       type: Tree.IMAGE,
-      units: Tree.MM,
       children: [layer2],
     })
   })
