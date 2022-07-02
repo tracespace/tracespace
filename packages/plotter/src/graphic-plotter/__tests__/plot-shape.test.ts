@@ -6,8 +6,8 @@ import * as Parser from '@tracespace/parser'
 import * as Tree from '../../tree'
 import {Tool} from '../../tool-store'
 import {Location} from '../../location-store'
-import {HALF_PI, PI, THREE_HALF_PI, TWO_PI} from '../math'
-import {GraphicPlotter, createGraphicPlotter} from '../plot-graphic'
+import {HALF_PI, PI, THREE_HALF_PI, TWO_PI} from '../../coordinate-math'
+import {GraphicPlotter, createGraphicPlotter} from '..'
 
 describe('plot shape graphics', () => {
   let subject: GraphicPlotter
@@ -302,9 +302,10 @@ describe('plot shape graphics', () => {
       }
       const location = {endPoint: {x: 3, y: 4}} as Location
 
-      const result = subject.plot(node, tool, location)
+      const result = subject.plot(node, tool, location) as Tree.ImageShape
+      const resultShape = result.shape as Tree.OutlineShape
 
-      expect((result.shape as Tree.OutlineShape).segments.slice(-4)).to.eql([
+      expect(resultShape.segments.slice(-4)).to.eql([
         {type: Tree.LINE, start: [2.5, 3.5], end: [3.5, 3.5]},
         {type: Tree.LINE, start: [3.5, 3.5], end: [3.5, 4.5]},
         {type: Tree.LINE, start: [3.5, 4.5], end: [2.5, 4.5]},
@@ -319,9 +320,10 @@ describe('plot shape graphics', () => {
       }
       const location = {endPoint: {x: 2, y: -1}} as Location
 
-      const result = subject.plot(node, tool, location)
+      const result = subject.plot(node, tool, location) as Tree.ImageShape
+      const resultShape = result.shape as Tree.OutlineShape
 
-      expect((result.shape as Tree.OutlineShape).segments.slice(-4)).to.eql([
+      expect(resultShape.segments.slice(-4)).to.eql([
         {type: Tree.LINE, start: [1.5, -1.5], end: [2.5, -1.5]},
         {type: Tree.LINE, start: [2.5, -1.5], end: [2.5, -0.5]},
         {type: Tree.LINE, start: [2.5, -0.5], end: [1.5, -0.5]},
@@ -336,9 +338,10 @@ describe('plot shape graphics', () => {
       }
       const location = {endPoint: {x: 1, y: 2}} as Location
 
-      const result = subject.plot(node, tool, location)
+      const result = subject.plot(node, tool, location) as Tree.ImageShape
+      const resultShape = result.shape as Tree.OutlineShape
 
-      expect((result.shape as Tree.OutlineShape).segments.slice(-4)).to.eql([
+      expect(resultShape.segments.slice(-4)).to.eql([
         {type: Tree.LINE, start: [0.5, 1.5], end: [1.5, 1.5]},
         {type: Tree.LINE, start: [1.5, 1.5], end: [1.5, 2.5]},
         {type: Tree.LINE, start: [1.5, 2.5], end: [0.5, 2.5]},
@@ -353,9 +356,10 @@ describe('plot shape graphics', () => {
       }
       const location = {endPoint: {x: 1, y: 2}} as Location
 
-      const result = subject.plot(node, tool, location)
+      const result = subject.plot(node, tool, location) as Tree.ImageShape
+      const resultShape = result.shape as Tree.OutlineShape
 
-      expect((result.shape as Tree.OutlineShape).segments.slice(-4)).to.eql([
+      expect(resultShape.segments.slice(-4)).to.eql([
         {type: Tree.LINE, start: [0.5, 1.5], end: [1.5, 1.5]},
         {type: Tree.LINE, start: [1.5, 1.5], end: [1.5, 2.5]},
         {type: Tree.LINE, start: [1.5, 2.5], end: [0.5, 2.5]},
@@ -375,9 +379,10 @@ describe('plot shape graphics', () => {
       }
       const location = {endPoint: {x: 2, y: 2}} as Location
 
-      const result = subject.plot(node, tool, location)
+      const result = subject.plot(node, tool, location) as Tree.ImageShape
+      const resultShape = result.shape as Tree.OutlineShape
 
-      expect((result.shape as Tree.OutlineShape).segments.slice(-4)).to.eql([
+      expect(resultShape.segments.slice(-4)).to.eql([
         {type: Tree.LINE, start: [1.5, 1.5], end: [2.5, 1.5]},
         {type: Tree.LINE, start: [2.5, 1.5], end: [2.5, 2.5]},
         {type: Tree.LINE, start: [2.5, 2.5], end: [1.5, 2.5]},

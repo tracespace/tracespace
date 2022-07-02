@@ -82,10 +82,11 @@ export type SimpleShape =
 
 export type Shape = SimpleShape | LayeredShape
 
-export type ImageGraphic = ImageLayer | ImageShape | ImagePath | ImageRegion
+export type ImageGraphic = ImageShape | ImagePath | ImageRegion
 
 export interface ImageTree extends Parent {
   type: typeof IMAGE
+  units: unknown
   children: [ImageLayer]
 }
 

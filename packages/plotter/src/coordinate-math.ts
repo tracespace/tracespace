@@ -1,5 +1,5 @@
 // Mathematical procedures
-import {Position} from '../tree'
+import {Position} from './tree'
 
 const PRECISION = 10_000_000_000
 

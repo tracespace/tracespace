@@ -2,8 +2,8 @@
 import {Rectangle} from '@tracespace/parser'
 
 import {IMAGE_REGION, ImageRegion, Position} from '../tree'
+import {positionsEqual, HALF_PI, PI} from '../coordinate-math'
 import {line} from './geometry'
-import {positionsEqual, HALF_PI, PI} from './math'
 
 // Rectangular tools make interesting stroke geometry; see the Gerber spec
 // for graphics and examples

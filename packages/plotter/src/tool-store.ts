@@ -33,13 +33,13 @@ export function createToolStore(): ToolStore {
 }
 
 interface ToolStoreState {
-  _currentCode: string | undefined
+  _currentToolCode: string | undefined
   _toolsByCode: Partial<Record<string, Tool>>
   _macrosByName: Partial<Record<string, MacroBlock[]>>
 }
 
 const ToolStorePrototype: ToolStore & ToolStoreState = {
-  _currentCode: undefined,
+  _currentToolCode: undefined,
   _toolsByCode: {},
   _macrosByName: {},
 
@@ -59,11 +59,11 @@ const ToolStorePrototype: ToolStore & ToolStoreState = {
     }
 
     if (node.type === TOOL_DEFINITION || node.type === TOOL_CHANGE) {
-      this._currentCode = node.code
+      this._currentToolCode = node.code
     }
 
-    return typeof this._currentCode === 'string'
-      ? this._toolsByCode[this._currentCode]
+    return typeof this._currentToolCode === 'string'
+      ? this._toolsByCode[this._currentToolCode]
       : undefined
   },
 }

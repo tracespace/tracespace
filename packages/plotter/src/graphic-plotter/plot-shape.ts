@@ -11,10 +11,8 @@ import {
   TWO_PI,
   roundToPrecision,
   degreesToRadians,
-} from './math'
+} from '../coordinate-math'
 
-import {getPathBox} from './plot-path'
-import * as BBox from './bounding-box'
 import * as Geo from './geometry'
 
 export function plotShape(tool: SimpleTool, point: Point): Tree.SimpleShape {
@@ -77,45 +75,6 @@ function createShape(
       return Geo.polygon({points})
     }
   }
-}
-
-export function getShapeBox(shape: Tree.Shape): Tree.Box {
-  switch (shape.type) {
-    case Tree.CIRCLE: {
-      return BBox.fromCircle(shape.cx, shape.cy, shape.r)
-    }
-
-    case Tree.RECTANGLE: {
-      return BBox.fromRectangle(shape.x, shape.y, shape.xSize, shape.ySize)
-    }
-
-    case Tree.POLYGON: {
-      let box = BBox.empty()
-      for (const point of shape.points) {
-        box = BBox.addPosition(box, point)
-      }
-
-      return box
-    }
-
-    case Tree.OUTLINE:
-    case Tree.CLEAR_OUTLINE: {
-      return getPathBox(shape)
-    }
-
-    case Tree.LAYERED_SHAPE: {
-      let box = BBox.empty()
-      for (const s of shape.shapes) {
-        box = BBox.add(box, getShapeBox(s))
-      }
-
-      return box
-    }
-
-    default:
-  }
-
-  return BBox.empty()
 }
 
 function shapeToSegments(shape: Tree.SimpleShape): Tree.PathSegment[] {

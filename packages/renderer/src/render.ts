@@ -2,8 +2,8 @@ import {s} from 'hastscript'
 
 import {random as createId} from '@tracespace/xml-id'
 import {
+  BoundingBox,
   positionsEqual,
-  getShapeBox,
   ImageShape,
   ImagePath,
   ImageRegion,
@@ -51,7 +51,7 @@ export function shapeToElement(shape: Shape): SvgElement {
     }
 
     case LAYERED_SHAPE: {
-      const [bx1, by1, bx2, by2] = getShapeBox(shape)
+      const [bx1, by1, bx2, by2] = BoundingBox.fromShape(shape)
       const clipIdBase = createId()
       const defs: SvgElement[] = []
       let children: SvgElement[] = []

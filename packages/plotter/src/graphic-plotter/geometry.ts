@@ -1,6 +1,12 @@
 // Geometry object creators
 import * as Tree from '../tree'
-import {HALF_PI, PI, THREE_HALF_PI, TWO_PI, roundToPrecision} from './math'
+import {
+  HALF_PI,
+  PI,
+  THREE_HALF_PI,
+  TWO_PI,
+  roundToPrecision,
+} from '../coordinate-math'
 
 export const circle = (
   payload: Omit<Tree.CircleShape, 'type'>

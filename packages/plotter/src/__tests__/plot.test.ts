@@ -1,4 +1,4 @@
-import {vi, describe, it, beforeEach, afterEach, expect} from 'vitest'
+import {vi, describe, beforeEach, afterEach, it, expect} from 'vitest'
 import * as td from 'testdouble'
 
 import * as Parser from '@tracespace/parser'
@@ -7,15 +7,16 @@ import {PlotOptions, getPlotOptions} from '../options'
 import {ToolStore, Tool, createToolStore} from '../tool-store'
 import {LocationStore, Location, createLocationStore} from '../location-store'
 import {MainLayer, createMainLayer} from '../main-layer'
-import {GraphicPlotter, createGraphicPlotter} from '../plot-tree'
+import {GraphicPlotter, createGraphicPlotter} from '../graphic-plotter'
 
 import {plot as subject} from '..'
 
-vi.mock('../options', () => td.object<unknown>())
+vi.mock('../options', async () => td.object<unknown>())
 vi.mock('../tool-store', () => td.object<unknown>())
 vi.mock('../location-store', () => td.object<unknown>())
 vi.mock('../main-layer', () => td.object<unknown>())
-vi.mock('../plot-tree', () => td.object<unknown>())
+vi.mock('../graphic-plotter', () => td.object<unknown>())
+vi.mock('../bounding-box', () => td.object<unknown>())
 
 describe('creating a plot tree', () => {
   let toolStore: td.TestDouble<ToolStore>
@@ -89,8 +90,8 @@ describe('creating a plot tree', () => {
       type: Tree.IMAGE_LAYER,
       size: [5, 6, 7, 8],
     } as Tree.ImageLayer
-    td.when(mainLayer.add(shape1)).thenReturn(layer1)
-    td.when(mainLayer.add(shape2)).thenReturn(layer2)
+    td.when(mainLayer.add(node1, shape1)).thenReturn(layer1)
+    td.when(mainLayer.add(node2, shape2)).thenReturn(layer2)
 
     const result = subject(tree)
 

@@ -1,8 +1,14 @@
 // Plot a tool macro as shapes
 import * as Parser from '@tracespace/parser'
+
+import {
+  rotateAndShift,
+  roundToPrecision,
+  positionsEqual,
+  PI,
+} from '../coordinate-math'
 import * as Tree from '../tree'
 import * as Geo from './geometry'
-import {rotateAndShift, roundToPrecision, positionsEqual, PI} from './math'
 import {getCenterAngles} from './arc-segment'
 
 type ParametersMap = Record<string, number>

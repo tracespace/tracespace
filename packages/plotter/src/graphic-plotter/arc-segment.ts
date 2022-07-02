@@ -6,25 +6,17 @@ import {
   MULTI,
 } from '@tracespace/parser'
 
-import {
-  CW,
-  CCW,
-  Direction,
-  Position,
-  ArcPosition,
-  Offsets,
-  PathSegment,
-} from '../tree'
-
+import {CW, CCW, Direction, Position, ArcPosition, PathSegment} from '../tree'
+import {ArcOffsets} from '../location-store'
+import {roundToPrecision} from '../coordinate-math'
 import {line, arc} from './geometry'
-import {roundToPrecision} from './math'
 
 const TWO_PI = Math.PI * 2
 
 export interface ArcSegmentOptions {
   start: Position
   end: Position
-  offsets: Offsets
+  offsets: ArcOffsets
   interpolateMode: InterpolateModeType
   quadrantMode: QuadrantModeType
 }

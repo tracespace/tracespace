@@ -22,7 +22,6 @@ describe('mapping a shape to an element', () => {
       y: 2,
       xSize: 3,
       ySize: 4,
-      r: null,
     }
     const result = mapShapeToElement(shape)
 
