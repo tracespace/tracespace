@@ -1,21 +1,19 @@
 import * as Tree from './tree'
+// TODO: test
+import {TWO_PI, limitAngle, rotateQuadrant} from './coordinate-math'
+import type {SizeEnvelope as Box} from './tree'
 
-import {
-  TWO_PI,
-  limitAngle,
-  rotateQuadrant,
-  roundToPrecision,
-} from './coordinate-math'
+export type {SizeEnvelope as Box} from './tree'
 
-const _isEmpty = ([x1, y1, x2, y2]: Tree.Box): boolean => {
+const _isEmpty = ([x1, y1, x2, y2]: Box): boolean => {
   return x1 === 0 && y1 === 0 && x2 === 0 && y2 === 0
 }
 
-export function empty(): Tree.Box {
+export function empty(): Box {
   return [0, 0, 0, 0]
 }
 
-export function add(a: Tree.Box, b: Tree.Box): Tree.Box {
+export function add(a: Box, b: Box): Box {
   if (_isEmpty(a)) return b
   if (_isEmpty(b)) return a
 
@@ -27,39 +25,12 @@ export function add(a: Tree.Box, b: Tree.Box): Tree.Box {
   ]
 }
 
-export function fromRectangle(
-  x: number,
-  y: number,
-  xSize: number,
-  ySize: number
-): Tree.Box {
-  return [x, y, x + xSize, y + ySize]
+export function toViewBox(box: Box): Box {
+  const [x1, y1, x2, y2] = box
+  return [x1, y1, x2 - x1, y2 - y1]
 }
 
-export function fromCircle(cx: number, cy: number, r: number): Tree.Box {
-  return [cx - r, cy - r, cx + r, cy + r]
-}
-
-export function addPosition(box: Tree.Box, position: Tree.Position): Tree.Box {
-  const [x, y] = position
-  return add(box, [x, y, x, y])
-}
-
-export function toViewBox(box: Tree.Box): Tree.Box {
-  if (
-    box.some(
-      v => v === Number.POSITIVE_INFINITY || v === Number.NEGATIVE_INFINITY
-    )
-  )
-    return [0, 0, 0, 0]
-
-  return [box[0], box[1], box[2] - box[0], box[3] - box[1]].map(
-    roundToPrecision
-  ) as Tree.Box
-}
-
-export function fromGraphic(graphic: Tree.ImageGraphic): Tree.Box {
-  console.log('HEY BOX FROM GRAPHIC', graphic)
+export function fromGraphic(graphic: Tree.ImageGraphic): Box {
   return graphic.type === Tree.IMAGE_SHAPE
     ? fromShape(graphic.shape)
     : fromPath(
@@ -68,15 +39,48 @@ export function fromGraphic(graphic: Tree.ImageGraphic): Tree.Box {
       )
 }
 
-function fromPath(segments: Tree.PathSegment[], width = 0): Tree.Box {
-  let box = empty()
+export function fromShape(shape: Tree.Shape): Box {
+  switch (shape.type) {
+    case Tree.CIRCLE: {
+      const {cx, cy, r} = shape
+      return [cx - r, cy - r, cx + r, cy + r]
+    }
+
+    case Tree.RECTANGLE: {
+      const {x, y, xSize, ySize} = shape
+      return [x, y, x + xSize, y + ySize]
+    }
+
+    case Tree.POLYGON: {
+      return shape.points
+        .map<Box>(([x, y]) => [x, y, x, y])
+        .reduce(add, empty())
+    }
+
+    case Tree.OUTLINE: {
+      return fromPath(shape.segments)
+    }
+
+    case Tree.LAYERED_SHAPE: {
+      return shape.shapes
+        .filter(({erase}) => !erase)
+        .map(fromShape)
+        .reduce(add, empty())
+    }
+  }
+}
+
+function fromPath(segments: Tree.PathSegment[], width = 0): Box {
+  let result = empty()
 
   for (const segment of segments) {
     const rTool = width / 2
     const keyPoints = [segment.start, segment.end]
 
     if (segment.type === Tree.ARC) {
-      const {start, end, center, sweep, radius} = segment
+      const {start, end, center, radius} = segment
+      const sweep = Math.abs(end[2] - start[2])
+
       // Normalize direction to counter-clockwise
       let [thetaStart, thetaEnd] =
         segment.direction === Tree.CCW ? [start[2], end[2]] : [end[2], start[2]]
@@ -92,58 +96,20 @@ function fromPath(segments: Tree.PathSegment[], width = 0): Tree.Box {
       ]
 
       for (const p of axisPoints) {
-        if (thetaStart > thetaEnd || sweep === TWO_PI) keyPoints.push(p)
+        if (thetaStart > thetaEnd || sweep === TWO_PI) {
+          keyPoints.push(p)
+        }
+
         // Rotate to check for next axis key point
         thetaStart = rotateQuadrant(thetaStart)
         thetaEnd = rotateQuadrant(thetaEnd)
       }
     }
 
-    const pointsWithRadius = keyPoints.map(p => fromCircle(p[0], p[1], rTool))
-
-    for (const b of pointsWithRadius) {
-      box = add(box, b)
-    }
+    result = keyPoints
+      .map<Box>(([x, y]) => [x - rTool, y - rTool, x + rTool, y + rTool])
+      .reduce(add, result)
   }
 
-  return box
-}
-
-export function fromShape(shape: Tree.Shape): Tree.Box {
-  switch (shape.type) {
-    case Tree.CIRCLE: {
-      return fromCircle(shape.cx, shape.cy, shape.r)
-    }
-
-    case Tree.RECTANGLE: {
-      return fromRectangle(shape.x, shape.y, shape.xSize, shape.ySize)
-    }
-
-    case Tree.POLYGON: {
-      let box = empty()
-      for (const point of shape.points) {
-        box = addPosition(box, point)
-      }
-
-      return box
-    }
-
-    case Tree.OUTLINE:
-    case Tree.CLEAR_OUTLINE: {
-      return fromPath(shape.segments)
-    }
-
-    case Tree.LAYERED_SHAPE: {
-      let box = empty()
-      for (const s of shape.shapes) {
-        box = add(box, fromShape(s))
-      }
-
-      return box
-    }
-
-    default:
-  }
-
-  return empty()
+  return result
 }

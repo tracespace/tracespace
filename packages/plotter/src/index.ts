@@ -9,9 +9,9 @@ import {createMainLayer} from './main-layer'
 import {createGraphicPlotter} from './graphic-plotter'
 import {IMAGE, ImageTree} from './tree'
 
+export * from './tree'
 export * as BoundingBox from './bounding-box'
 export {positionsEqual} from './coordinate-math'
-export * from './tree'
 
 export function plot(tree: GerberTree): ImageTree {
   const plotOptions = getPlotOptions(tree)

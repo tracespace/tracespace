@@ -1,18 +1,30 @@
-import * as Parser from '@tracespace/parser'
+import {
+  UNITS,
+  COORDINATE_FORMAT,
+  GRAPHIC,
+  COMMENT,
+  LEADING,
+  TRAILING,
+  IN,
+  GerberTree,
+  UnitsType,
+  Format,
+  ZeroSuppression,
+} from '@tracespace/parser'
 
 export interface PlotOptions {
-  units: Parser.UnitsType
-  coordinateFormat: Parser.Format
-  zeroSuppression: Parser.ZeroSuppression
+  units: UnitsType
+  coordinateFormat: Format
+  zeroSuppression: ZeroSuppression
 }
 
 const FORMAT_COMMENT_RE = /FORMAT={?(\d):(\d)/
 
-export function getPlotOptions(tree: Parser.GerberTree): PlotOptions {
+export function getPlotOptions(tree: GerberTree): PlotOptions {
   const {children: treeNodes} = tree
-  let units: Parser.UnitsType | null = null
-  let coordinateFormat: Parser.Format | null = null
-  let zeroSuppression: Parser.ZeroSuppression | null = null
+  let units: UnitsType | null = null
+  let coordinateFormat: Format | null = null
+  let zeroSuppression: ZeroSuppression | null = null
   let index = 0
 
   while (
@@ -22,41 +34,41 @@ export function getPlotOptions(tree: Parser.GerberTree): PlotOptions {
     const node = treeNodes[index]
 
     switch (node.type) {
-      case Parser.UNITS: {
+      case UNITS: {
         units = node.units
         break
       }
 
-      case Parser.COORDINATE_FORMAT: {
+      case COORDINATE_FORMAT: {
         coordinateFormat = node.format
         zeroSuppression = node.zeroSuppression
         break
       }
 
-      case Parser.GRAPHIC: {
+      case GRAPHIC: {
         const {coordinates} = node
 
         for (const coordinate of Object.values(coordinates)) {
           if (zeroSuppression !== null) break
 
           if (coordinate!.endsWith('0') || coordinate!.includes('.')) {
-            zeroSuppression = Parser.LEADING
+            zeroSuppression = LEADING
           } else if (coordinate!.startsWith('0')) {
-            zeroSuppression = Parser.TRAILING
+            zeroSuppression = TRAILING
           }
         }
 
         break
       }
 
-      case Parser.COMMENT: {
+      case COMMENT: {
         const {comment} = node
         const formatMatch = FORMAT_COMMENT_RE.exec(comment)
 
         if (/suppress trailing/i.test(comment)) {
-          zeroSuppression = Parser.TRAILING
+          zeroSuppression = TRAILING
         } else if (/(suppress leading|keep zeros)/i.test(comment)) {
-          zeroSuppression = Parser.LEADING
+          zeroSuppression = LEADING
         }
 
         if (formatMatch) {
@@ -66,15 +78,17 @@ export function getPlotOptions(tree: Parser.GerberTree): PlotOptions {
         break
       }
 
-      default:
+      default: {
+        break
+      }
     }
 
     index += 1
   }
 
   return {
-    units: units ?? Parser.IN,
+    units: units ?? IN,
     coordinateFormat: coordinateFormat ?? [2, 4],
-    zeroSuppression: zeroSuppression ?? Parser.LEADING,
+    zeroSuppression: zeroSuppression ?? LEADING,
   }
 }

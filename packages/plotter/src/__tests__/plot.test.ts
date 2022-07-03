@@ -97,6 +97,7 @@ describe('creating a plot tree', () => {
 
     expect(result).to.eql({
       type: Tree.IMAGE,
+      units: Parser.MM,
       children: [layer2],
     })
   })

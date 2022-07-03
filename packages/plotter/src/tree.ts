@@ -1,5 +1,7 @@
 import {Node, Parent} from 'unist'
 
+import {UnitsType} from '@tracespace/parser'
+
 export const IMAGE = 'image'
 export const IMAGE_LAYER = 'imageLayer'
 export const IMAGE_SHAPE = 'imageShape'
@@ -17,14 +19,13 @@ export const CIRCLE = 'circle'
 export const RECTANGLE = 'rectangle'
 export const POLYGON = 'polygon'
 export const OUTLINE = 'outline'
-export const CLEAR_OUTLINE = 'clearOutline'
 export const LAYERED_SHAPE = 'layeredShape'
 
 export type Position = [x: number, y: number]
 
 export type ArcPosition = [x: number, y: number, theta: number]
 
-export type Box = [x1: number, y1: number, x2: number, y2: number]
+export type SizeEnvelope = [x1: number, y1: number, x2: number, y2: number]
 
 export type Direction = typeof CW | typeof CCW
 
@@ -61,14 +62,9 @@ export interface OutlineShape {
   segments: PathSegment[]
 }
 
-export interface ClearOutlineShape {
-  type: typeof CLEAR_OUTLINE
-  segments: PathSegment[]
-}
-
 export interface LayeredShape {
   type: typeof LAYERED_SHAPE
-  shapes: Array<Shape | ClearOutlineShape>
+  shapes: Array<Shape & {erase?: boolean}>
 }
 
 export type HoleShape = CircleShape | RectangleShape
@@ -78,7 +74,6 @@ export type SimpleShape =
   | RectangleShape
   | PolygonShape
   | OutlineShape
-  | ClearOutlineShape
 
 export type Shape = SimpleShape | LayeredShape
 
@@ -86,13 +81,13 @@ export type ImageGraphic = ImageShape | ImagePath | ImageRegion
 
 export interface ImageTree extends Parent {
   type: typeof IMAGE
-  units: unknown
+  units: UnitsType
   children: [ImageLayer]
 }
 
 export interface ImageLayer extends Parent {
   type: typeof IMAGE_LAYER
-  size: Box
+  size: SizeEnvelope
   polarity?: Polarity
   repeat?: [number, number, number, number]
   children: ImageGraphic[]

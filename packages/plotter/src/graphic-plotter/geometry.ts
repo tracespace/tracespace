@@ -25,8 +25,8 @@ export const outline = (
 ): Tree.OutlineShape => ({type: Tree.OUTLINE, ...payload})
 
 export const clearOutline = (
-  payload: Omit<Tree.ClearOutlineShape, 'type'>
-): Tree.ClearOutlineShape => ({type: Tree.CLEAR_OUTLINE, ...payload})
+  payload: Omit<Tree.OutlineShape, 'type'>
+): Tree.OutlineShape => ({type: Tree.OUTLINE, ...payload})
 
 export const layeredShape = (
   payload: Omit<Tree.LayeredShape, 'type'>

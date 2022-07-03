@@ -9,16 +9,15 @@ import {
   ImageRegion,
   PathSegment,
   Shape,
+  OutlineShape,
   IMAGE_PATH,
   CIRCLE,
   RECTANGLE,
   POLYGON,
   OUTLINE,
-  CLEAR_OUTLINE,
   LAYERED_SHAPE,
   LINE,
   ARC,
-  CW,
 } from '@tracespace/plotter'
 
 import type {SvgElement} from './types'
@@ -57,10 +56,12 @@ export function shapeToElement(shape: Shape): SvgElement {
       let children: SvgElement[] = []
 
       for (const [i, layerShape] of shape.shapes.entries()) {
-        if (layerShape.type === CLEAR_OUTLINE) {
+        if (layerShape.erase) {
           const clipId = `${clipIdBase}__${i}`
           const boundingPath = `M${bx1} ${by1} H${bx2} V${by2} H${bx1} V${by1}`
-          const clearPath = segmentsToPathData(layerShape.segments)
+          const clearPath = segmentsToPathData(
+            (layerShape as OutlineShape).segments
+          )
 
           defs.push(
             s('clipPath', {id: clipId}, [
@@ -110,10 +111,11 @@ function segmentsToPathData(segments: PathSegment[]): string {
     if (next.type === LINE) {
       pathCommands.push(`L${end[0]} ${end[1]}`)
     } else if (next.type === ARC) {
-      const {center, radius, sweep, direction} = next
+      const sweep = next.end[2] - next.start[2]
+      const {center, radius} = next
 
       // Sweep flag flipped from SVG value because Y-axis is positive-down
-      const sweepFlag = direction === CW ? '0' : '1'
+      const sweepFlag = sweep < 0 ? '0' : '1'
       let largeFlag = sweep <= Math.PI ? '0' : '1'
 
       // A full circle needs two SVG arcs to draw

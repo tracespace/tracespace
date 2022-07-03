@@ -1,7 +1,7 @@
-import * as Parser from '@tracespace/parser'
+import {CIRCLE, RECTANGLE, OBROUND, POLYGON} from '@tracespace/parser'
 
 import * as Tree from '../tree'
-import {Point} from '../location-store'
+import {Location, Point} from '../location-store'
 import {SimpleTool} from '../tool-store'
 
 import {
@@ -15,9 +15,14 @@ import {
 
 import * as Geo from './geometry'
 
-export function plotShape(tool: SimpleTool, point: Point): Tree.SimpleShape {
-  const shape = createShape(tool.shape, point)
-  const holeShape = tool.hole ? createShape(tool.hole, point) : undefined
+export function plotShape(
+  tool: SimpleTool,
+  location: Location
+): Tree.SimpleShape {
+  const shape = createShape(tool.shape, location.endPoint)
+  const holeShape = tool.hole
+    ? createShape(tool.hole, location.endPoint)
+    : undefined
 
   return holeShape === undefined
     ? shape
@@ -34,13 +39,13 @@ function createShape(
   const {x, y} = point
 
   switch (shape.type) {
-    case Parser.CIRCLE: {
+    case CIRCLE: {
       const {diameter} = shape
       return Geo.circle({cx: x, cy: y, r: diameter / 2})
     }
 
-    case Parser.RECTANGLE:
-    case Parser.OBROUND: {
+    case RECTANGLE:
+    case OBROUND: {
       const {xSize, ySize} = shape
       const xHalf = xSize / 2
       const yHalf = ySize / 2
@@ -51,14 +56,14 @@ function createShape(
         ySize,
       }
 
-      if (shape.type === Parser.OBROUND) {
+      if (shape.type === OBROUND) {
         rectangleConfig.r = Math.min(xHalf, yHalf)
       }
 
       return Geo.rectangle(rectangleConfig)
     }
 
-    case Parser.POLYGON: {
+    case POLYGON: {
       const {diameter, rotation, vertices} = shape
       const r = diameter / 2
       const offset = degreesToRadians(rotation ?? 0)

@@ -57,9 +57,9 @@ describe('adding to the main image layer', () => {
       shape: {type: Tree.CIRCLE, cx: 6, cy: 7, r: 8},
     }
 
-    const size1: Tree.Box = [9, 10, 11, 12]
-    const size2: Tree.Box = [13, 14, 15, 16]
-    const expectedSize: Tree.Box = [17, 18, 19, 20]
+    const size1: Tree.SizeEnvelope = [9, 10, 11, 12]
+    const size2: Tree.SizeEnvelope = [13, 14, 15, 16]
+    const expectedSize: Tree.SizeEnvelope = [17, 18, 19, 20]
 
     td.when(BoundingBox.fromGraphic(graphic1)).thenReturn(size1)
     td.when(BoundingBox.fromGraphic(graphic2)).thenReturn(size2)

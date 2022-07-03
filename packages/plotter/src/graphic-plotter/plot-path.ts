@@ -1,4 +1,40 @@
-export {}
+import * as Tree from '../tree'
+import {Location} from '../location-store'
+import {TWO_PI} from '../coordinate-math'
+
+import {line, arc} from './geometry'
+
+export function plotSegment(
+  location: Location,
+  arcDirection?: Tree.ArcDirection
+): Tree.PathSegment {
+  return arcDirection === undefined
+    ? createLineSegment(location)
+    : createArcSegment(location, arcDirection)
+}
+
+function createLineSegment(location: Location): Tree.PathLineSegment {
+  return line({
+    start: [location.startPoint.x, location.startPoint.y],
+    end: [location.endPoint.x, location.endPoint.y],
+  })
+}
+
+function createArcSegment(
+  location: Location,
+  arcDirection: Tree.ArcDirection
+): Tree.PathArcSegment {
+  const {startPoint, endPoint, arcOffsets} = location
+
+  return arc({
+    start: [startPoint.x, startPoint.y, 0],
+    end: [endPoint.x, endPoint.y, TWO_PI],
+    center: [startPoint.x + arcOffsets.i, startPoint.y + arcOffsets.j],
+    radius: (arcOffsets.i ** 2 + arcOffsets.j ** 2) ** 0.5,
+    sweep: TWO_PI,
+    direction: arcDirection,
+  })
+}
 // // Adds a path segment to the current ImagePath or returns a new ImagePath
 // // if the tool has changed
 // import {
