@@ -6,5 +6,4 @@ coverage
 *.tgz
 .vscode
 .DS_Store
-config/*.d.ts
 packages/cli/bin/*.d.ts

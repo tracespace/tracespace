@@ -30,9 +30,8 @@ describe('bounding box calculations', () => {
   })
 
   it('should convert into a view box - [xMin, yMin, xSize, ySize]', () => {
-    const result = subject.toViewBox([1, 2, 10, 20])
-
-    expect(result).to.eql([1, 2, 9, 18])
+    expect(subject.toViewBox(subject.empty())).to.eql([0, 0, 0, 0])
+    expect(subject.toViewBox([1, 2, 10, 20])).to.eql([1, 2, 9, 18])
   })
 
   it('should create from a circle graphic', () => {
