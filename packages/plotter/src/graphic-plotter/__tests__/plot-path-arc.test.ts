@@ -3,7 +3,7 @@ import {describe, it, expect} from 'vitest'
 import * as Parser from '@tracespace/parser'
 
 import * as Tree from '../../tree'
-import {Tool} from '../../tool-store'
+import {SIMPLE_TOOL, Tool} from '../../tool-store'
 import {Location} from '../../location-store'
 import {HALF_PI, PI, TWO_PI} from '../../coordinate-math'
 
@@ -18,7 +18,10 @@ const subject = (...calls: Array<Partial<SubjectCall>>): SubjectReturn => {
 }
 
 describe('plot stroke arc paths', () => {
-  const tool: Tool = {shape: {type: Parser.CIRCLE, diameter: 2}}
+  const tool: Tool = {
+    type: SIMPLE_TOOL,
+    shape: {type: Parser.CIRCLE, diameter: 2},
+  }
 
   it('should plot a zero-length CCW arc as a full circle', () => {
     const location: Location = {
@@ -170,16 +173,16 @@ describe('plot stroke arc paths', () => {
         [{type: Parser.DONE}]
       )
 
-      expect(results).to.eql([
+      expect(results).toEqual([
         {
           type: Tree.IMAGE_PATH,
           width: 2,
           segments: [
             {
               type: Tree.ARC,
-              start: [1, 0, 0],
+              start: [1, 0, expect.approx(0)],
               end: [halfSqrtTwo, halfSqrtTwo, PI / 4],
-              center: [0, 0],
+              center: [expect.approx(0), expect.approx(0)],
               radius: 1,
             },
           ],
@@ -205,16 +208,16 @@ describe('plot stroke arc paths', () => {
         [{type: Parser.DONE}]
       )
 
-      expect(results).to.eql([
+      expect(results).toEqual([
         {
           type: Tree.IMAGE_PATH,
           width: 2,
           segments: [
             {
               type: Tree.ARC,
-              start: [0, 1, HALF_PI],
+              start: [0, 1, expect.approx(HALF_PI)],
               end: [halfSqrtTwo, halfSqrtTwo, PI / 4],
-              center: [0, 0],
+              center: [expect.approx(0), expect.approx(0)],
               radius: 1,
             },
           ],

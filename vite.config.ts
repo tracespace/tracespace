@@ -10,6 +10,7 @@ export default defineConfig({
   },
   assetsInclude: ['**/*.gbr', '**/*.drl'],
   test: {
+    setupFiles: './config/vitest.setup.ts',
     outputDiffLines: 100,
     coverage: {
       all: true,

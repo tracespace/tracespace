@@ -1,36 +1,52 @@
 // Plot a tool macro as shapes
-import * as Parser from '@tracespace/parser'
-
 import {
-  rotateAndShift,
-  roundToPrecision,
-  positionsEqual,
-  PI,
-} from '../coordinate-math'
+  MACRO_VARIABLE,
+  MACRO_PRIMITIVE,
+  MACRO_CIRCLE,
+  MACRO_VECTOR_LINE_DEPRECATED,
+  MACRO_VECTOR_LINE,
+  MACRO_CENTER_LINE,
+  MACRO_LOWER_LEFT_LINE_DEPRECATED,
+  MACRO_OUTLINE,
+  MACRO_POLYGON,
+  MACRO_MOIRE_DEPRECATED,
+  MACRO_THERMAL,
+  MacroPrimitiveCode,
+  MacroValue,
+} from '@tracespace/parser'
+
+import {PI, rotateAndShift, positionsEqual} from '../coordinate-math'
 
 import * as Tree from '../tree'
-import {shapeToSegments} from './plot-shape'
+import {MacroTool} from '../tool-store'
+import {Location} from '../location-store'
+
+import {shapeToSegments} from './shapes'
 import {getArcPositions} from './plot-path'
 
-type ParametersMap = Record<string, number>
+type VariableValues = Record<string, number>
 
 export function plotMacro(
-  macro: Parser.ToolMacro,
-  parameters: number[],
-  origin: Tree.Position
+  tool: MacroTool,
+  location: Location
 ): Tree.LayeredShape {
   const shapes: Tree.ErasableShape[] = []
-  const parameterMap = Object.fromEntries(
-    parameters.map((value, i) => [`$${i + 1}`, value])
+  const variableValues: VariableValues = Object.fromEntries(
+    tool.variableValues.map((value, i) => [`$${i + 1}`, value])
   )
 
-  for (const block of macro.children) {
-    if (block.type === Parser.MACRO_VARIABLE) {
-      parameterMap[block.name] = solveExpression(block.value, parameterMap)
-    } else if (block.type === Parser.MACRO_PRIMITIVE) {
-      const mods = block.modifiers.map(m => solveExpression(m, parameterMap))
+  for (const block of tool.macro) {
+    if (block.type === MACRO_VARIABLE) {
+      variableValues[block.name] = solveExpression(block.value, variableValues)
+    }
 
-      shapes.push(...plotPrimitive(block.code, origin, mods))
+    if (block.type === MACRO_PRIMITIVE) {
+      const origin: Tree.Position = [location.endPoint.x, location.endPoint.y]
+      const parameters = block.parameters.map(p => {
+        return solveExpression(p, variableValues)
+      })
+
+      shapes.push(...plotPrimitive(block.code, origin, parameters))
     }
   }
 
@@ -38,14 +54,14 @@ export function plotMacro(
 }
 
 function solveExpression(
-  expression: Parser.MacroValue,
-  parameters: ParametersMap
+  expression: MacroValue,
+  variables: VariableValues
 ): number {
   if (typeof expression === 'number') return expression
-  if (typeof expression === 'string') return parameters[expression]
+  if (typeof expression === 'string') return variables[expression]
 
-  const left = solveExpression(expression.left, parameters)
-  const right = solveExpression(expression.right, parameters)
+  const left = solveExpression(expression.left, variables)
+  const right = solveExpression(expression.right, variables)
 
   switch (expression.operator) {
     case '+':
@@ -60,37 +76,42 @@ function solveExpression(
 }
 
 function plotPrimitive(
-  code: Parser.MacroPrimitiveCode | string,
+  code: MacroPrimitiveCode,
   origin: Tree.Position,
-  modifiers: number[]
+  parameters: number[]
 ): Tree.ErasableShape[] {
   switch (code) {
-    case Parser.MACRO_CIRCLE: {
-      return [plotCircle(origin, modifiers)]
+    case MACRO_CIRCLE: {
+      return [plotCircle(origin, parameters)]
     }
 
-    case Parser.MACRO_VECTOR_LINE: {
-      return [plotVectorLine(origin, modifiers)]
+    case MACRO_VECTOR_LINE:
+    case MACRO_VECTOR_LINE_DEPRECATED: {
+      return [plotVectorLine(origin, parameters)]
     }
 
-    case Parser.MACRO_CENTER_LINE: {
-      return [plotCenterLine(origin, modifiers)]
+    case MACRO_CENTER_LINE: {
+      return [plotCenterLine(origin, parameters)]
     }
 
-    case Parser.MACRO_OUTLINE: {
-      return [plotOutline(origin, modifiers)]
+    case MACRO_LOWER_LEFT_LINE_DEPRECATED: {
+      return [plotLowerLeftLine(origin, parameters)]
     }
 
-    case Parser.MACRO_POLYGON: {
-      return [plotPolygon(origin, modifiers)]
+    case MACRO_OUTLINE: {
+      return [plotOutline(origin, parameters)]
     }
 
-    case Parser.MACRO_MOIRE: {
-      return plotMoire(origin, modifiers)
+    case MACRO_POLYGON: {
+      return [plotPolygon(origin, parameters)]
     }
 
-    case Parser.MACRO_THERMAL: {
-      return [plotThermal(origin, modifiers)]
+    case MACRO_MOIRE_DEPRECATED: {
+      return plotMoire(origin, parameters)
+    }
+
+    case MACRO_THERMAL: {
+      return [plotThermal(origin, parameters)]
     }
   }
 
@@ -99,9 +120,9 @@ function plotPrimitive(
 
 function plotCircle(
   origin: Tree.Position,
-  modifiers: number[]
+  parameters: number[]
 ): Tree.ErasableShape {
-  const [exposure, diameter, cx0, cy0, degrees] = modifiers
+  const [exposure, diameter, cx0, cy0, degrees] = parameters
   const r = diameter / 2
   const [cx, cy] = rotateAndShift([cx0, cy0], origin, degrees)
 
@@ -110,9 +131,9 @@ function plotCircle(
 
 function plotVectorLine(
   origin: Tree.Position,
-  modifiers: number[]
+  parameters: number[]
 ): Tree.ErasableShape {
-  const [exposure, width, sx, sy, ex, ey, degrees] = modifiers
+  const [exposure, width, sx, sy, ex, ey, degrees] = parameters
   const [dy, dx] = [ey - sy, ex - sx]
   const halfWid = width / 2
   const dist = Math.sqrt(dy ** 2 + dx ** 2)
@@ -134,9 +155,9 @@ function plotVectorLine(
 
 function plotCenterLine(
   origin: Tree.Position,
-  modifiers: number[]
+  parameters: number[]
 ): Tree.ErasableShape {
-  const [exposure, width, height, cx, cy, degrees] = modifiers
+  const [exposure, width, height, cx, cy, degrees] = parameters
   const [halfWidth, halfHeight] = [width / 2, height / 2]
 
   return {
@@ -153,12 +174,32 @@ function plotCenterLine(
   }
 }
 
+function plotLowerLeftLine(
+  origin: Tree.Position,
+  parameters: number[]
+): Tree.ErasableShape {
+  const [exposure, width, height, x, y, degrees] = parameters
+
+  return {
+    type: Tree.POLYGON,
+    erase: exposure === 0,
+    points: (
+      [
+        [x, y],
+        [x + width, y],
+        [x + width, y + height],
+        [x, y + height],
+      ] as Tree.Position[]
+    ).map(p => rotateAndShift(p, origin, degrees)),
+  }
+}
+
 function plotOutline(
   origin: Tree.Position,
-  modifiers: number[]
+  parameters: number[]
 ): Tree.ErasableShape {
-  const [exposure, , ...coords] = modifiers.slice(0, -1)
-  const degrees = modifiers[modifiers.length - 1]
+  const [exposure, , ...coords] = parameters.slice(0, -1)
+  const degrees = parameters[parameters.length - 1]
 
   return {
     type: Tree.POLYGON,
@@ -173,9 +214,9 @@ function plotOutline(
 
 function plotPolygon(
   origin: Tree.Position,
-  modifiers: number[]
+  parameters: number[]
 ): Tree.ErasableShape {
-  const [exposure, vertices, cx, cy, diameter, degrees] = modifiers
+  const [exposure, vertices, cx, cy, diameter, degrees] = parameters
   const r = diameter / 2
   const step = (2 * PI) / vertices
   const points: Tree.Position[] = []
@@ -193,12 +234,12 @@ function plotPolygon(
 
 function plotMoire(
   origin: Tree.Position,
-  modifiers: number[]
+  parameters: number[]
 ): Tree.ErasableShape[] {
   const rotate = (p: Tree.Position): Tree.Position =>
-    rotateAndShift(p, origin, modifiers[8])
+    rotateAndShift(p, origin, parameters[8])
 
-  const [cx0, cy0, d, ringThx, ringGap, ringN, lineThx, lineLength] = modifiers
+  const [cx0, cy0, d, ringThx, ringGap, ringN, lineThx, lineLength] = parameters
   const [cx, cy] = rotate([cx0, cy0])
   const halfLineThx = lineThx / 2
   const halfLineLength = lineLength / 2
@@ -208,8 +249,8 @@ function plotMoire(
   let dRemain = d
 
   while (dRemain >= 0 && count < ringN) {
-    const r = roundToPrecision(dRemain / 2)
-    const rHole = roundToPrecision(r - ringThx)
+    const r = dRemain / 2
+    const rHole = r - ringThx
 
     radii.push(r)
     if (rHole > 0) radii.push(rHole)
@@ -253,9 +294,9 @@ function plotMoire(
 
 function plotThermal(
   origin: Tree.Position,
-  modifiers: number[]
+  parameters: number[]
 ): Tree.ErasableShape {
-  const [cx0, cy0, od, id, gap, degrees] = modifiers
+  const [cx0, cy0, od, id, gap, degrees] = parameters
   const center = rotateAndShift([cx0, cy0], origin, degrees)
   const [or, ir] = [od / 2, id / 2]
   const halfGap = gap / 2
@@ -280,7 +321,7 @@ function plotThermal(
 
     const [os, oe, oc] = getArcPositions(
       {x: points[1][0], y: points[1][1]},
-      {x: points[2][0], y: points[2][0]},
+      {x: points[2][0], y: points[2][1]},
       {x: center[0], y: center[1]},
       Tree.CCW
     )

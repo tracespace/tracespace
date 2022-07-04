@@ -3,7 +3,7 @@ import {describe, it, expect} from 'vitest'
 import * as Parser from '@tracespace/parser'
 
 import * as Tree from '../../tree'
-import {Tool} from '../../tool-store'
+import {SIMPLE_TOOL, Tool} from '../../tool-store'
 import {Location} from '../../location-store'
 import {GraphicPlotter, createGraphicPlotter} from '..'
 
@@ -65,7 +65,10 @@ describe('plot stroke paths', () => {
   })
 
   it('should plot a region in between plotting paths', () => {
-    const tool: Tool = {shape: {type: Parser.CIRCLE, diameter: 2}}
+    const tool: Tool = {
+      type: SIMPLE_TOOL,
+      shape: {type: Parser.CIRCLE, diameter: 2},
+    }
 
     const location0 = {
       startPoint: {x: -10, y: -10},

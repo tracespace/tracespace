@@ -10,7 +10,7 @@ import type {Box} from '../bounding-box'
 describe('bounding box calculations', () => {
   it('should return an empty bounding box', () => {
     const result = subject.empty()
-    expect(result).to.eql([0, 0, 0, 0])
+    expect(result).to.eql([])
   })
 
   it('should add boxes', () => {
@@ -59,14 +59,15 @@ describe('bounding box calculations', () => {
       shape: {
         type: Tree.POLYGON,
         points: [
-          [9, 8],
-          [7, 6],
-          [5, 4],
+          [0, 0],
+          [0, 0.5],
+          [0.5, 0.5],
+          [0, 0],
         ],
       },
     })
 
-    expect(result).to.eql([5, 4, 9, 8])
+    expect(result).to.eql([0, 0, 0.5, 0.5])
   })
 
   it('should create an empty box for an empty polygon', () => {
@@ -78,7 +79,7 @@ describe('bounding box calculations', () => {
       },
     })
 
-    expect(result).to.eql([0, 0, 0, 0])
+    expect(result).to.eql([])
   })
 
   it('should create from an outline graphic', () => {
@@ -105,7 +106,7 @@ describe('bounding box calculations', () => {
       },
     })
 
-    expect(result).to.eql([0, 0, 0, 0])
+    expect(result).to.eql([])
   })
 
   it('should create from a layered shape graphic', () => {
@@ -129,7 +130,7 @@ describe('bounding box calculations', () => {
       shape: {
         type: Tree.LAYERED_SHAPE,
         shapes: [
-          {type: Tree.RECTANGLE, x: 1, y: 2, xSize: 3, ySize: 4},
+          {type: Tree.RECTANGLE, x: 1, y: 2, xSize: 3, ySize: 4, erase: false},
           {type: Tree.CIRCLE, cx: 1, cy: 2, r: 3, erase: true},
         ],
       },
@@ -147,7 +148,7 @@ describe('bounding box calculations', () => {
       },
     })
 
-    expect(result).to.eql([0, 0, 0, 0])
+    expect(result).to.eql([])
   })
 
   it('should return an empty box for empty path shape', () => {
@@ -157,7 +158,7 @@ describe('bounding box calculations', () => {
       segments: [],
     })
 
-    expect(result).to.eql([0, 0, 0, 0])
+    expect(result).to.eql([])
   })
 
   describe('arcs', () => {

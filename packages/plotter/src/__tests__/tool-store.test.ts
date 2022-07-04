@@ -3,7 +3,7 @@ import {describe, it, expect} from 'vitest'
 
 import * as Parser from '@tracespace/parser'
 
-import {createToolStore} from '../tool-store'
+import {SIMPLE_TOOL, MACRO_TOOL, createToolStore} from '../tool-store'
 
 describe('tool state store', () => {
   it('should handle tool definitions', () => {
@@ -17,7 +17,10 @@ describe('tool state store', () => {
     const subject = createToolStore()
     const result = subject.use(toolDefinition)
 
-    expect(result).to.eql({shape: {type: 'circle', diameter: 42}})
+    expect(result).to.eql({
+      type: SIMPLE_TOOL,
+      shape: {type: 'circle', diameter: 42},
+    })
   })
 
   it('should handle a tool change after a tool definition', () => {
@@ -40,9 +43,16 @@ describe('tool state store', () => {
 
     const subject = createToolStore()
 
-    expect(subject.use(tool1)).to.eql({shape: {type: 'circle', diameter: 1}})
-    expect(subject.use(tool2)).to.eql({shape: {type: 'circle', diameter: 2}})
+    expect(subject.use(tool1)).to.eql({
+      type: SIMPLE_TOOL,
+      shape: {type: 'circle', diameter: 1},
+    })
+    expect(subject.use(tool2)).to.eql({
+      type: SIMPLE_TOOL,
+      shape: {type: 'circle', diameter: 2},
+    })
     expect(subject.use(toolChange)).to.eql({
+      type: SIMPLE_TOOL,
       shape: {type: 'circle', diameter: 1},
     })
   })
@@ -62,8 +72,14 @@ describe('tool state store', () => {
     const subject = createToolStore()
 
     expect(subject.use(comment)).to.equal(undefined)
-    expect(subject.use(tool)).to.eql({shape: {type: 'circle', diameter: 42}})
-    expect(subject.use(comment)).to.eql({shape: {type: 'circle', diameter: 42}})
+    expect(subject.use(tool)).to.eql({
+      type: SIMPLE_TOOL,
+      shape: {type: 'circle', diameter: 42},
+    })
+    expect(subject.use(comment)).to.eql({
+      type: SIMPLE_TOOL,
+      shape: {type: 'circle', diameter: 42},
+    })
   })
 
   it('should track tool macros', () => {
@@ -75,7 +91,11 @@ describe('tool state store', () => {
     const tool: Parser.ToolDefinition = {
       type: Parser.TOOL_DEFINITION,
       code: '42',
-      shape: {type: Parser.MACRO_SHAPE, name: 'cool-macro', params: [1, 2, 3]},
+      shape: {
+        type: Parser.MACRO_SHAPE,
+        name: 'cool-macro',
+        variableValues: [1, 2, 3],
+      },
       hole: null,
     }
 
@@ -83,8 +103,9 @@ describe('tool state store', () => {
 
     expect(subject.use(macro)).to.equal(undefined)
     expect(subject.use(tool)).to.eql({
-      shape: {type: Parser.MACRO_SHAPE, name: 'cool-macro', params: [1, 2, 3]},
+      type: MACRO_TOOL,
       macro: [{type: Parser.MACRO_COMMENT, comment: 'hello world'}],
+      variableValues: [1, 2, 3],
     })
   })
 })

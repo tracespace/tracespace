@@ -23,11 +23,13 @@ export const MACRO_SHAPE = 'macroShape'
 
 // Macro primitive codes
 export const MACRO_CIRCLE = '1'
+export const MACRO_VECTOR_LINE_DEPRECATED = '2'
 export const MACRO_VECTOR_LINE = '20'
 export const MACRO_CENTER_LINE = '21'
+export const MACRO_LOWER_LEFT_LINE_DEPRECATED = '22'
 export const MACRO_OUTLINE = '4'
 export const MACRO_POLYGON = '5'
-export const MACRO_MOIRE = '6'
+export const MACRO_MOIRE_DEPRECATED = '6'
 export const MACRO_THERMAL = '7'
 
 // Drawing constants

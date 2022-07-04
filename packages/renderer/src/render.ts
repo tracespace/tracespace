@@ -50,28 +50,18 @@ export function shapeToElement(shape: Shape): SvgElement {
     }
 
     case LAYERED_SHAPE: {
-      const [bx1, by1, bx2, by2] = BoundingBox.fromShape(shape)
+      const boundingBox = BoundingBox.fromShape(shape)
       const clipIdBase = createId()
       const defs: SvgElement[] = []
       let children: SvgElement[] = []
 
       for (const [i, layerShape] of shape.shapes.entries()) {
-        if (layerShape.erase) {
+        if (layerShape.erase && !BoundingBox.isEmpty(boundingBox)) {
+          const [bx1, by1, bx2, by2] = boundingBox
           const clipId = `${clipIdBase}__${i}`
           const boundingPath = `M${bx1} ${by1} H${bx2} V${by2} H${bx1} V${by1}`
-          const clearPath = segmentsToPathData(
-            (layerShape as OutlineShape).segments
-          )
 
-          defs.push(
-            s('clipPath', {id: clipId}, [
-              s('path', {
-                d: `${boundingPath} ${clearPath}`,
-                clipRule: 'evenodd',
-              }),
-            ])
-          )
-
+          defs.push(s('clipPath', {id: clipId}, [shapeToElement(layerShape)]))
           children = [s('g', {clipPath: `url(#${clipId})`}, children)]
         } else {
           children.push(shapeToElement(layerShape))

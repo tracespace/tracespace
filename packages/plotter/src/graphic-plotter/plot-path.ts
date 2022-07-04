@@ -1,7 +1,9 @@
 import * as Tree from '../tree'
-import {Tool} from '../tool-store'
+import {SIMPLE_TOOL, Tool} from '../tool-store'
 import {Location, Point} from '../location-store'
-import {TWO_PI, roundToPrecision} from '../coordinate-math'
+import {TWO_PI} from '../coordinate-math'
+
+import {plotRectPath} from './plot-rect-path'
 
 export const CW = 'cw'
 export const CCW = 'ccw'
@@ -28,8 +30,12 @@ export function plotPath(
       return {type: Tree.IMAGE_REGION, segments}
     }
 
-    if (tool?.shape.type === Tree.CIRCLE) {
+    if (tool?.type === SIMPLE_TOOL && tool.shape.type === Tree.CIRCLE) {
       return {type: Tree.IMAGE_PATH, width: tool.shape.diameter, segments}
+    }
+
+    if (tool?.type === SIMPLE_TOOL && tool.shape.type === Tree.RECTANGLE) {
+      return plotRectPath(segments, tool.shape)
     }
   }
 }
@@ -134,9 +140,7 @@ function findCenterCandidates(location: Location, radius: number): Point[] {
   // is greater than the radius, assume we've got a rounding error and just use
   // the midpoint
   if (radius <= distance / 2) {
-    return [
-      {x: roundToPrecision(x1 + dx / 2), y: roundToPrecision(y1 + dy / 2)},
-    ]
+    return [{x: x1 + dx / 2, y: y1 + dy / 2}]
   }
 
   // No good name for these variables, but it's how the math works out
@@ -145,13 +149,7 @@ function findCenterCandidates(location: Location, radius: number): Point[] {
   const [xAddend, yAddend] = [(dy * factor) / 2, (dx * factor) / 2]
 
   return [
-    {
-      x: roundToPrecision(xBase + xAddend),
-      y: roundToPrecision(yBase - yAddend),
-    },
-    {
-      x: roundToPrecision(xBase - xAddend),
-      y: roundToPrecision(yBase + yAddend),
-    },
+    {x: xBase + xAddend, y: yBase - yAddend},
+    {x: xBase - xAddend, y: yBase + yAddend},
   ]
 }

@@ -4,7 +4,7 @@ import {describe, it, beforeEach, expect} from 'vitest'
 import * as Parser from '@tracespace/parser'
 
 import * as Tree from '../../tree'
-import {Tool} from '../../tool-store'
+import {SIMPLE_TOOL, Tool} from '../../tool-store'
 import {Location} from '../../location-store'
 import {HALF_PI, PI, THREE_HALF_PI, TWO_PI} from '../../coordinate-math'
 import {GraphicPlotter, createGraphicPlotter} from '..'
@@ -19,7 +19,10 @@ describe('plot shape graphics', () => {
   })
 
   it('should plot a circle', () => {
-    const tool: Tool = {shape: {type: Parser.CIRCLE, diameter: 2}}
+    const tool: Tool = {
+      type: SIMPLE_TOOL,
+      shape: {type: Parser.CIRCLE, diameter: 2},
+    }
     const location = {endPoint: {x: 3, y: 4}} as Location
 
     const results = subject.plot(node, tool, location)
@@ -34,6 +37,7 @@ describe('plot shape graphics', () => {
 
   it('should plot a rectangle', () => {
     const tool: Tool = {
+      type: SIMPLE_TOOL,
       shape: {type: Parser.RECTANGLE, xSize: 6, ySize: 7},
     }
     const location = {endPoint: {x: 2, y: -1}} as Location
@@ -49,7 +53,10 @@ describe('plot shape graphics', () => {
   })
 
   it('should plot an obround tool in portrait', () => {
-    const tool: Tool = {shape: {type: Parser.OBROUND, xSize: 6, ySize: 8}}
+    const tool: Tool = {
+      type: SIMPLE_TOOL,
+      shape: {type: Parser.OBROUND, xSize: 6, ySize: 8},
+    }
     const location = {endPoint: {x: 1, y: 2}} as Location
 
     const results = subject.plot(node, tool, location)
@@ -63,7 +70,10 @@ describe('plot shape graphics', () => {
   })
 
   it('should plot an obround tool in landscape', () => {
-    const tool: Tool = {shape: {type: Parser.OBROUND, xSize: 8, ySize: 6}}
+    const tool: Tool = {
+      type: SIMPLE_TOOL,
+      shape: {type: Parser.OBROUND, xSize: 8, ySize: 6},
+    }
     const location = {endPoint: {x: 1, y: 2}} as Location
 
     const results = subject.plot(node, tool, location)
@@ -78,22 +88,23 @@ describe('plot shape graphics', () => {
 
   it('should plot a polygon', () => {
     const tool: Tool = {
+      type: SIMPLE_TOOL,
       shape: {type: Parser.POLYGON, diameter: 16, vertices: 4, rotation: null},
     }
     const location = {endPoint: {x: 2, y: 2}} as Location
 
     const results = subject.plot(node, tool, location)
 
-    expect(results).to.eql([
+    expect(results).toEqual([
       {
         type: Tree.IMAGE_SHAPE,
         shape: {
           type: Tree.POLYGON,
           points: [
-            [10, 2],
-            [2, 10],
-            [-6, 2],
-            [2, -6],
+            [expect.approx(10), expect.approx(2)],
+            [expect.approx(2), expect.approx(10)],
+            [expect.approx(-6), expect.approx(2)],
+            [expect.approx(2), expect.approx(-6)],
           ],
         },
       },
@@ -103,6 +114,7 @@ describe('plot shape graphics', () => {
   describe('with circle holes', () => {
     it('should plot a circle', () => {
       const tool: Tool = {
+        type: SIMPLE_TOOL,
         shape: {type: Parser.CIRCLE, diameter: 2},
         hole: {type: Parser.CIRCLE, diameter: 1},
       }
@@ -138,6 +150,7 @@ describe('plot shape graphics', () => {
 
     it('should plot a rectangle', () => {
       const tool: Tool = {
+        type: SIMPLE_TOOL,
         shape: {type: Parser.RECTANGLE, xSize: 6, ySize: 7},
         hole: {type: Parser.CIRCLE, diameter: 1},
       }
@@ -170,6 +183,7 @@ describe('plot shape graphics', () => {
 
     it('should plot an obround tool in portrait', () => {
       const tool: Tool = {
+        type: SIMPLE_TOOL,
         shape: {type: Parser.OBROUND, xSize: 6, ySize: 8},
         hole: {type: Parser.CIRCLE, diameter: 1},
       }
@@ -214,6 +228,7 @@ describe('plot shape graphics', () => {
 
     it('should plot an obround tool in landscape', () => {
       const tool: Tool = {
+        type: SIMPLE_TOOL,
         shape: {type: Parser.OBROUND, xSize: 8, ySize: 6},
         hole: {type: Parser.CIRCLE, diameter: 1},
       }
@@ -258,6 +273,7 @@ describe('plot shape graphics', () => {
 
     it('should plot a polygon', () => {
       const tool: Tool = {
+        type: SIMPLE_TOOL,
         shape: {
           type: Parser.POLYGON,
           diameter: 16,
@@ -270,16 +286,32 @@ describe('plot shape graphics', () => {
 
       const results = subject.plot(node, tool, location)
 
-      expect(results).to.eql([
+      expect(results).toEqual([
         {
           type: Tree.IMAGE_SHAPE,
           shape: {
             type: Tree.OUTLINE,
             segments: [
-              {type: Tree.LINE, start: [10, 2], end: [2, 10]},
-              {type: Tree.LINE, start: [2, 10], end: [-6, 2]},
-              {type: Tree.LINE, start: [-6, 2], end: [2, -6]},
-              {type: Tree.LINE, start: [2, -6], end: [10, 2]},
+              {
+                type: Tree.LINE,
+                start: [expect.approx(10), expect.approx(2)],
+                end: [expect.approx(2), expect.approx(10)],
+              },
+              {
+                type: Tree.LINE,
+                start: [expect.approx(2), expect.approx(10)],
+                end: [expect.approx(-6), expect.approx(2)],
+              },
+              {
+                type: Tree.LINE,
+                start: [expect.approx(-6), expect.approx(2)],
+                end: [expect.approx(2), expect.approx(-6)],
+              },
+              {
+                type: Tree.LINE,
+                start: [expect.approx(2), expect.approx(-6)],
+                end: [expect.approx(10), expect.approx(2)],
+              },
               {
                 type: Tree.ARC,
                 start: [2.5, 2, 0],
@@ -297,6 +329,7 @@ describe('plot shape graphics', () => {
   describe('with rectangle holes', () => {
     it('should plot a circle', () => {
       const tool: Tool = {
+        type: SIMPLE_TOOL,
         shape: {type: Parser.CIRCLE, diameter: 2},
         hole: {type: Parser.RECTANGLE, xSize: 1, ySize: 1},
       }
@@ -315,6 +348,7 @@ describe('plot shape graphics', () => {
 
     it('should plot a rectangle', () => {
       const tool: Tool = {
+        type: SIMPLE_TOOL,
         shape: {type: Parser.RECTANGLE, xSize: 6, ySize: 7},
         hole: {type: Parser.RECTANGLE, xSize: 1, ySize: 1},
       }
@@ -333,6 +367,7 @@ describe('plot shape graphics', () => {
 
     it('should plot an obround tool in portrait', () => {
       const tool: Tool = {
+        type: SIMPLE_TOOL,
         shape: {type: Parser.OBROUND, xSize: 6, ySize: 8},
         hole: {type: Parser.RECTANGLE, xSize: 1, ySize: 1},
       }
@@ -351,6 +386,7 @@ describe('plot shape graphics', () => {
 
     it('should plot an obround tool in landscape', () => {
       const tool: Tool = {
+        type: SIMPLE_TOOL,
         shape: {type: Parser.OBROUND, xSize: 8, ySize: 6},
         hole: {type: Parser.RECTANGLE, xSize: 1, ySize: 1},
       }
@@ -369,6 +405,7 @@ describe('plot shape graphics', () => {
 
     it('should plot a polygon', () => {
       const tool: Tool = {
+        type: SIMPLE_TOOL,
         shape: {
           type: Parser.POLYGON,
           diameter: 16,

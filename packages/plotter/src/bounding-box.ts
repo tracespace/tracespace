@@ -4,17 +4,19 @@ import type {SizeEnvelope as Box} from './tree'
 
 export type {SizeEnvelope as Box} from './tree'
 
-const _isEmpty = ([x1, y1, x2, y2]: Box): boolean => {
-  return x1 === 0 && y1 === 0 && x2 === 0 && y2 === 0
+export type ViewBox = [xMin: number, yMin: number, xSize: number, ySize: number]
+
+export function isEmpty(box: Box): box is [] {
+  return box.length === 0
 }
 
 export function empty(): Box {
-  return [0, 0, 0, 0]
+  return []
 }
 
 export function add(a: Box, b: Box): Box {
-  if (_isEmpty(a)) return b
-  if (_isEmpty(b)) return a
+  if (isEmpty(a)) return b
+  if (isEmpty(b)) return a
 
   return [
     Math.min(a[0], b[0]),
@@ -24,9 +26,10 @@ export function add(a: Box, b: Box): Box {
   ]
 }
 
-export function toViewBox(box: Box): Box {
-  const [x1, y1, x2, y2] = box
-  return [x1, y1, x2 - x1, y2 - y1]
+export function toViewBox(box: Box): ViewBox {
+  return isEmpty(box)
+    ? [0, 0, 0, 0]
+    : [box[0], box[1], box[2] - box[0], box[3] - box[1]]
 }
 
 export function fromGraphic(graphic: Tree.ImageGraphic): Box {

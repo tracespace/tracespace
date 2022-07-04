@@ -12,14 +12,20 @@ import {
   MacroBlock,
 } from '@tracespace/parser'
 
+export const SIMPLE_TOOL = 'simpleTool'
+
+export const MACRO_TOOL = 'macroTool'
+
 export interface SimpleTool {
+  type: typeof SIMPLE_TOOL
   shape: SimpleShape
   hole?: HoleShape
 }
 
 export interface MacroTool {
-  shape: MacroShape
+  type: typeof MACRO_TOOL
   macro: MacroBlock[]
+  variableValues: number[]
 }
 
 export type Tool = SimpleTool | MacroTool
@@ -50,10 +56,14 @@ const ToolStorePrototype: ToolStore & ToolStoreState = {
 
     if (node.type === TOOL_DEFINITION) {
       const {shape, hole} = node
-      const tool =
+      const tool: Tool =
         shape.type === MACRO_SHAPE
-          ? {shape, macro: this._macrosByName[shape.name] ?? []}
-          : {shape, ...(hole && {hole})}
+          ? {
+              type: MACRO_TOOL,
+              macro: this._macrosByName[shape.name] ?? [],
+              variableValues: shape.variableValues,
+            }
+          : {type: SIMPLE_TOOL, shape, ...(hole && {hole})}
 
       this._toolsByCode[node.code] = tool
     }

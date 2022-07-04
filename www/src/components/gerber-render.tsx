@@ -172,7 +172,7 @@ function GerberNodeItem(props: GerberNodeProps): JSX.Element {
   const {node, highlightedLines, setHighlightedLines} = props
   const startLine = node.position?.start.line ?? null
   const endLine = node.position?.end.line ?? null
-  const lines = [startLine!, endLine!].filter(_ => _)
+  const lines = [startLine!, endLine!].filter(Boolean)
   const onMouseEnter = () => setHighlightedLines(lines)
   const onMouseLeave = () => setHighlightedLines([])
   const highlight = highlightedLines.some(

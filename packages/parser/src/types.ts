@@ -107,7 +107,7 @@ export interface Polygon {
 export interface MacroShape {
   type: typeof Constants.MACRO_SHAPE
   name: string
-  params: number[]
+  variableValues: number[]
 }
 
 /**
@@ -117,11 +117,13 @@ export interface MacroShape {
  */
 export type MacroPrimitiveCode =
   | typeof Constants.MACRO_CIRCLE
+  | typeof Constants.MACRO_VECTOR_LINE_DEPRECATED
   | typeof Constants.MACRO_VECTOR_LINE
   | typeof Constants.MACRO_CENTER_LINE
+  | typeof Constants.MACRO_LOWER_LEFT_LINE_DEPRECATED
   | typeof Constants.MACRO_OUTLINE
   | typeof Constants.MACRO_POLYGON
-  | typeof Constants.MACRO_MOIRE
+  | typeof Constants.MACRO_MOIRE_DEPRECATED
   | typeof Constants.MACRO_THERMAL
 
 /**

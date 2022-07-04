@@ -1,7 +1,7 @@
 // Gerber aperture macro syntax
 import * as Lexer from '../lexer'
 import * as Tree from '../tree'
-import {MacroValue} from '../types'
+import {MacroValue, MacroPrimitiveCode} from '../types'
 
 import {tokensToPosition} from './map-tokens'
 import {
@@ -69,7 +69,7 @@ function createMacroComment(tokens: Lexer.Token[]): Tree.MacroComment[] {
 }
 
 function createMacroPrimitive(tokens: Lexer.Token[]): Tree.MacroPrimitive[] {
-  const code = tokens[0].value
+  const code = tokens[0].value as MacroPrimitiveCode
   const commaDelimitedTokens: Lexer.Token[][] = [[]]
   let currentGroup = commaDelimitedTokens[0]
 
@@ -82,7 +82,7 @@ function createMacroPrimitive(tokens: Lexer.Token[]): Tree.MacroPrimitive[] {
     }
   }
 
-  const modifiers = commaDelimitedTokens.map(tokens =>
+  const parameters = commaDelimitedTokens.map(tokens =>
     parseMacroExpression(tokens)
   )
 
@@ -91,7 +91,7 @@ function createMacroPrimitive(tokens: Lexer.Token[]): Tree.MacroPrimitive[] {
       type: Tree.MACRO_PRIMITIVE,
       position: tokensToPosition(tokens),
       code,
-      modifiers,
+      parameters,
     },
   ]
 }

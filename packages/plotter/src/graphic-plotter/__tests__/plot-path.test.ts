@@ -3,7 +3,7 @@ import {describe, it, expect} from 'vitest'
 import * as Parser from '@tracespace/parser'
 
 import * as Tree from '../../tree'
-import {Tool} from '../../tool-store'
+import {SIMPLE_TOOL, Tool} from '../../tool-store'
 import {Location} from '../../location-store'
 import {GraphicPlotter, createGraphicPlotter} from '..'
 
@@ -16,7 +16,10 @@ const subject = (...calls: Array<Partial<SubjectArgs>>): SubjectReturn => {
 }
 
 describe('plot stroke paths', () => {
-  const tool: Tool = {shape: {type: Parser.CIRCLE, diameter: 2}}
+  const tool: Tool = {
+    type: SIMPLE_TOOL,
+    shape: {type: Parser.CIRCLE, diameter: 2},
+  }
 
   it('should not plot anything if no path', () => {
     const location = {
@@ -89,13 +92,19 @@ describe('plot stroke paths', () => {
   })
 
   it('should plot several line segments with several tools', () => {
-    const tool1: Tool = {shape: {type: Parser.CIRCLE, diameter: 1}}
+    const tool1: Tool = {
+      type: SIMPLE_TOOL,
+      shape: {type: Parser.CIRCLE, diameter: 1},
+    }
     const location1 = {
       startPoint: {x: 3, y: 4},
       endPoint: {x: 5, y: 6},
     } as Location
 
-    const tool2: Tool = {shape: {type: Parser.CIRCLE, diameter: 2}}
+    const tool2: Tool = {
+      type: SIMPLE_TOOL,
+      shape: {type: Parser.CIRCLE, diameter: 2},
+    }
     const location2 = {
       startPoint: {x: 7, y: 8},
       endPoint: {x: 9, y: 10},

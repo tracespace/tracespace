@@ -4,7 +4,7 @@ import {describe, it, beforeEach, expect} from 'vitest'
 import * as Parser from '@tracespace/parser'
 
 import * as Tree from '../../tree'
-import {Tool} from '../../tool-store'
+import {SIMPLE_TOOL, Tool} from '../../tool-store'
 import {Location} from '../../location-store'
 import {PI} from '../../coordinate-math'
 import {GraphicPlotter, createGraphicPlotter} from '..'
@@ -25,7 +25,10 @@ describe('plot drill file graphics', () => {
   })
 
   it('should plot a drill hit', () => {
-    const tool: Tool = {shape: {type: Parser.CIRCLE, diameter: 2}}
+    const tool: Tool = {
+      type: SIMPLE_TOOL,
+      shape: {type: Parser.CIRCLE, diameter: 2},
+    }
     const location = {endPoint: {x: 3, y: 4}} as Location
 
     const results = subject([node, tool, location])
@@ -41,7 +44,10 @@ describe('plot drill file graphics', () => {
   it('should plot a drill slot', () => {
     node = {type: Parser.GRAPHIC, graphic: Parser.SLOT, coordinates: {}}
 
-    const tool: Tool = {shape: {type: Parser.CIRCLE, diameter: 2}}
+    const tool: Tool = {
+      type: SIMPLE_TOOL,
+      shape: {type: Parser.CIRCLE, diameter: 2},
+    }
     const location = {
       startPoint: {x: 1, y: 2},
       endPoint: {x: 3, y: 4},
@@ -59,7 +65,10 @@ describe('plot drill file graphics', () => {
   })
 
   it('should plot linear drill routes', () => {
-    const tool: Tool = {shape: {type: Parser.CIRCLE, diameter: 2}}
+    const tool: Tool = {
+      type: SIMPLE_TOOL,
+      shape: {type: Parser.CIRCLE, diameter: 2},
+    }
     const location1 = {
       startPoint: {x: 1, y: 2},
       endPoint: {x: 3, y: 4},
@@ -94,7 +103,10 @@ describe('plot drill file graphics', () => {
 
   it('should plot a CCW arc drill route', () => {
     const halfSqrtTwo = 2 ** 0.5 / 2
-    const tool: Tool = {shape: {type: Parser.CIRCLE, diameter: 2}}
+    const tool: Tool = {
+      type: SIMPLE_TOOL,
+      shape: {type: Parser.CIRCLE, diameter: 2},
+    }
     const location: Location = {
       startPoint: {x: 1, y: 0},
       endPoint: {x: halfSqrtTwo, y: halfSqrtTwo},
@@ -107,16 +119,16 @@ describe('plot drill file graphics', () => {
       [{type: Parser.DONE}]
     )
 
-    expect(results).to.eql([
+    expect(results).toEqual([
       {
         type: Tree.IMAGE_PATH,
         width: 2,
         segments: [
           {
             type: Tree.ARC,
-            start: [1, 0, 0],
+            start: [1, 0, expect.approx(0)],
             end: [halfSqrtTwo, halfSqrtTwo, PI / 4],
-            center: [0, 0],
+            center: [expect.approx(0), expect.approx(0)],
             radius: 1,
           },
         ],
@@ -126,7 +138,10 @@ describe('plot drill file graphics', () => {
 
   it('should plot a CW arc drill route', () => {
     const halfSqrtTwo = 2 ** 0.5 / 2
-    const tool: Tool = {shape: {type: Parser.CIRCLE, diameter: 2}}
+    const tool: Tool = {
+      type: SIMPLE_TOOL,
+      shape: {type: Parser.CIRCLE, diameter: 2},
+    }
     const location: Location = {
       startPoint: {x: halfSqrtTwo, y: halfSqrtTwo},
       endPoint: {x: 1, y: 0},
@@ -139,7 +154,7 @@ describe('plot drill file graphics', () => {
       [{type: Parser.DONE}]
     )
 
-    expect(results).to.eql([
+    expect(results).toEqual([
       {
         type: Tree.IMAGE_PATH,
         width: 2,
@@ -147,8 +162,8 @@ describe('plot drill file graphics', () => {
           {
             type: Tree.ARC,
             start: [halfSqrtTwo, halfSqrtTwo, PI / 4],
-            end: [1, 0, 0],
-            center: [0, 0],
+            end: [1, 0, expect.approx(0)],
+            center: [expect.approx(0), expect.approx(0)],
             radius: 1,
           },
         ],

@@ -4,7 +4,7 @@ import * as td from 'testdouble'
 import * as Parser from '@tracespace/parser'
 import * as Tree from '../tree'
 import {PlotOptions, getPlotOptions} from '../options'
-import {ToolStore, Tool, createToolStore} from '../tool-store'
+import {SIMPLE_TOOL, ToolStore, Tool, createToolStore} from '../tool-store'
 import {LocationStore, Location, createLocationStore} from '../location-store'
 import {MainLayer, createMainLayer} from '../main-layer'
 import {GraphicPlotter, createGraphicPlotter} from '../graphic-plotter'
@@ -53,8 +53,14 @@ describe('creating a plot tree', () => {
     const plotOptions = {units: Parser.MM} as PlotOptions
     td.when(getPlotOptions(tree)).thenReturn(plotOptions)
 
-    const tool1: Tool = {shape: {type: Parser.CIRCLE, diameter: 1}}
-    const tool2: Tool = {shape: {type: Parser.CIRCLE, diameter: 2}}
+    const tool1: Tool = {
+      type: SIMPLE_TOOL,
+      shape: {type: Parser.CIRCLE, diameter: 1},
+    }
+    const tool2: Tool = {
+      type: SIMPLE_TOOL,
+      shape: {type: Parser.CIRCLE, diameter: 2},
+    }
     td.when(toolStore.use(node1)).thenReturn(tool1)
     td.when(toolStore.use(node2)).thenReturn(tool2)
 

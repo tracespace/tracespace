@@ -3,8 +3,9 @@
   "references": [{"path": ".."}],
   "compilerOptions": {
     "composite": true,
-    "noEmit": true,
+    "emitDeclarationOnly": true,
     "allowJs": true,
     "rootDir": "."
-  }
+  },
+  "include": ["**/*.js"]
 }

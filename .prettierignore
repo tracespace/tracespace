@@ -6,3 +6,4 @@ CHANGELOG.md
 dist
 lib
 coverage
+packages/cli/bin/*.d.ts

@@ -22,10 +22,11 @@ import {
 } from '@tracespace/parser'
 
 import * as Tree from '../tree'
-import {Tool, SimpleTool} from '../tool-store'
+import {SIMPLE_TOOL, MACRO_TOOL, Tool} from '../tool-store'
 import {Location} from '../location-store'
 
 import {plotShape} from './plot-shape'
+import {plotMacro} from './plot-macro'
 import {CCW, CW, plotSegment, plotPath} from './plot-path'
 
 export interface GraphicPlotter {
@@ -42,7 +43,7 @@ export function createGraphicPlotter(): GraphicPlotter {
 
 interface GraphicPlotterState {
   _currentPath: CurrentPathState | undefined
-  _lastExplicitGraphicType: NonNullable<GraphicType> | undefined
+  _lastExplicitGraphicType: typeof SEGMENT | undefined
   _interpolateMode: NonNullable<InterpolateModeType> | undefined
   _quadrantMode: NonNullable<QuadrantModeType> | undefined
   _regionMode: boolean
@@ -106,12 +107,13 @@ const GraphicPlotterPrototype: GraphicPlotter & GraphicPlotterState = {
       this._currentPath = undefined
     }
 
-    if (nextGraphicType === SHAPE) {
-      const shape = plotShape(tool as SimpleTool, location)
+    if (nextGraphicType === SHAPE && tool) {
+      const shape =
+        tool.type === SIMPLE_TOOL
+          ? plotShape(tool, location)
+          : plotMacro(tool, location)
 
-      if (shape) {
-        graphics.push({type: Tree.IMAGE_SHAPE, shape})
-      }
+      graphics.push({type: Tree.IMAGE_SHAPE, shape})
     }
 
     if (nextGraphicType === SEGMENT) {
@@ -137,8 +139,8 @@ const GraphicPlotterPrototype: GraphicPlotter & GraphicPlotterState = {
       }
     }
 
-    if (node.type === GRAPHIC && node.graphic !== SLOT) {
-      this._lastExplicitGraphicType = node.graphic ?? undefined
+    if (node.type === GRAPHIC && node.graphic === SEGMENT) {
+      this._lastExplicitGraphicType = SEGMENT
     }
 
     return graphics
