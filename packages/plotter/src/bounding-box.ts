@@ -1,5 +1,4 @@
 import * as Tree from './tree'
-// TODO: test
 import {TWO_PI, limitAngle, rotateQuadrant} from './coordinate-math'
 import type {SizeEnvelope as Box} from './tree'
 
@@ -71,11 +70,11 @@ export function fromShape(shape: Tree.Shape): Box {
 }
 
 function fromPath(segments: Tree.PathSegment[], width = 0): Box {
-  let result = empty()
+  const rTool = width / 2
+  const keyPoints: Array<Tree.Position | Tree.ArcPosition> = []
 
   for (const segment of segments) {
-    const rTool = width / 2
-    const keyPoints = [segment.start, segment.end]
+    keyPoints.push(segment.start, segment.end)
 
     if (segment.type === Tree.ARC) {
       const {start, end, center, radius} = segment
@@ -83,7 +82,7 @@ function fromPath(segments: Tree.PathSegment[], width = 0): Box {
 
       // Normalize direction to counter-clockwise
       let [thetaStart, thetaEnd] =
-        segment.direction === Tree.CCW ? [start[2], end[2]] : [end[2], start[2]]
+        end[2] > start[2] ? [start[2], end[2]] : [end[2], start[2]]
 
       thetaStart = limitAngle(thetaStart)
       thetaEnd = limitAngle(thetaEnd)
@@ -105,11 +104,9 @@ function fromPath(segments: Tree.PathSegment[], width = 0): Box {
         thetaEnd = rotateQuadrant(thetaEnd)
       }
     }
-
-    result = keyPoints
-      .map<Box>(([x, y]) => [x - rTool, y - rTool, x + rTool, y + rTool])
-      .reduce(add, result)
   }
 
-  return result
+  return keyPoints
+    .map<Box>(([x, y]) => [x - rTool, y - rTool, x + rTool, y + rTool])
+    .reduce(add, empty())
 }

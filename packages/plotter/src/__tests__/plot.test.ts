@@ -79,8 +79,8 @@ describe('creating a plot tree', () => {
       type: Tree.IMAGE_SHAPE,
       shape: {type: Tree.CIRCLE, cx: 4, cy: 5, r: 6},
     }
-    td.when(graphicPlotter.plot(node1, tool1, location1)).thenReturn(shape1)
-    td.when(graphicPlotter.plot(node2, tool2, location2)).thenReturn(shape2)
+    td.when(graphicPlotter.plot(node1, tool1, location1)).thenReturn([shape1])
+    td.when(graphicPlotter.plot(node2, tool2, location2)).thenReturn([shape2])
 
     const layer1 = {
       type: Tree.IMAGE_LAYER,
@@ -90,8 +90,8 @@ describe('creating a plot tree', () => {
       type: Tree.IMAGE_LAYER,
       size: [5, 6, 7, 8],
     } as Tree.ImageLayer
-    td.when(mainLayer.add(node1, shape1)).thenReturn(layer1)
-    td.when(mainLayer.add(node2, shape2)).thenReturn(layer2)
+    td.when(mainLayer.add(node1, [shape1])).thenReturn(layer1)
+    td.when(mainLayer.add(node2, [shape2])).thenReturn(layer2)
 
     const result = subject(tree)
 

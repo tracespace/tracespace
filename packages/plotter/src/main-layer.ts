@@ -7,7 +7,7 @@ import {IMAGE_LAYER, ImageLayer, ImageGraphic} from './tree'
 
 export interface MainLayer {
   get(): ImageLayer
-  add(node: Child, graphic: ImageGraphic | undefined): ImageLayer
+  add(node: Child, graphic: ImageGraphic[]): ImageLayer
 }
 
 export function createMainLayer(): MainLayer {
@@ -31,10 +31,10 @@ const MainLayerPrototype: MainLayer & MainLayerState = {
     return this._layer
   },
 
-  add(node: Child, graphic: ImageGraphic | undefined): ImageLayer {
+  add(node: Child, graphics: ImageGraphic[]): ImageLayer {
     const layer = this.get()
 
-    if (graphic !== undefined) {
+    for (const graphic of graphics) {
       const graphicSize = BoundingBox.fromGraphic(graphic)
       layer.size = BoundingBox.add(layer.size, graphicSize)
       layer.children.push(graphic)

@@ -5,10 +5,20 @@ import {
   GRAPHIC,
   SHAPE,
   SEGMENT,
+  MOVE,
+  SLOT,
   DONE,
+  LINE,
   CCW_ARC,
+  CW_ARC,
+  DRILL,
+  SINGLE,
   INTERPOLATE_MODE,
+  QUADRANT_MODE,
+  REGION_MODE,
+  GraphicType,
   InterpolateModeType,
+  QuadrantModeType,
 } from '@tracespace/parser'
 
 import * as Tree from '../tree'
@@ -16,14 +26,14 @@ import {Tool, SimpleTool} from '../tool-store'
 import {Location} from '../location-store'
 
 import {plotShape} from './plot-shape'
-import {plotSegment} from './plot-path'
+import {CCW, CW, plotSegment, plotPath} from './plot-path'
 
 export interface GraphicPlotter {
   plot(
     node: Child,
     tool: Tool | undefined,
     location: Location
-  ): Tree.ImageGraphic | undefined
+  ): Tree.ImageGraphic[]
 }
 
 export function createGraphicPlotter(): GraphicPlotter {
@@ -31,60 +41,154 @@ export function createGraphicPlotter(): GraphicPlotter {
 }
 
 interface GraphicPlotterState {
-  _currentPathSegments: Tree.PathSegment[] | undefined
-  _currentPathTool: Tool | undefined
-  _interpolateMode: InterpolateModeType | undefined
+  _currentPath: CurrentPathState | undefined
+  _lastExplicitGraphicType: NonNullable<GraphicType> | undefined
+  _interpolateMode: NonNullable<InterpolateModeType> | undefined
+  _quadrantMode: NonNullable<QuadrantModeType> | undefined
+  _regionMode: boolean
+}
+
+interface CurrentPathState {
+  segments: Tree.PathSegment[]
+  tool: Tool | undefined
+  region: boolean
 }
 
 const GraphicPlotterPrototype: GraphicPlotter & GraphicPlotterState = {
-  _currentPathSegments: undefined,
-  _currentPathTool: undefined,
+  _currentPath: undefined,
+  _lastExplicitGraphicType: undefined,
   _interpolateMode: undefined,
+  _quadrantMode: undefined,
+  _regionMode: false,
 
   plot(
     node: Child,
     tool: Tool | undefined,
     location: Location
-  ): Tree.ImageGraphic | undefined {
+  ): Tree.ImageGraphic[] {
+    const graphics: Tree.ImageGraphic[] = []
+
     if (node.type === INTERPOLATE_MODE) {
-      this._interpolateMode = node.mode
+      this._interpolateMode = node.mode ?? undefined
     }
 
-    if (node.type === GRAPHIC && node.graphic === SHAPE) {
+    if (node.type === QUADRANT_MODE) {
+      this._quadrantMode = node.quadrant ?? undefined
+    }
+
+    if (node.type === REGION_MODE) {
+      this._regionMode = node.region
+    }
+
+    const nextGraphicType = getNextGraphicType(
+      node,
+      this._interpolateMode,
+      this._lastExplicitGraphicType
+    )
+
+    const currentPath = this._currentPath ?? {
+      segments: [],
+      region: this._regionMode,
+      tool,
+    }
+
+    if (shouldFinishPath(node, currentPath, tool, nextGraphicType)) {
+      const pathGraphic = plotPath(
+        currentPath.segments,
+        currentPath.tool,
+        currentPath.region
+      )
+
+      if (pathGraphic) {
+        graphics.push(pathGraphic)
+      }
+
+      this._currentPath = undefined
+    }
+
+    if (nextGraphicType === SHAPE) {
       const shape = plotShape(tool as SimpleTool, location)
 
       if (shape) {
-        return {type: Tree.IMAGE_SHAPE, shape}
+        graphics.push({type: Tree.IMAGE_SHAPE, shape})
       }
     }
 
-    if (node.type === GRAPHIC && node.graphic === SEGMENT) {
-      this._currentPathTool = tool
-      this._currentPathSegments = this._currentPathSegments ?? []
+    if (nextGraphicType === SEGMENT) {
+      const ambiguousArcCenter = this._quadrantMode === SINGLE
+      const arcDirection =
+        this._interpolateMode === CCW_ARC
+          ? CCW
+          : this._interpolateMode === CW_ARC
+          ? CW
+          : undefined
 
-      let arcDirection: Tree.ArcDirection | undefined
-      if (this._interpolateMode === CCW_ARC) {
-        arcDirection = Tree.CCW
-      }
+      const segment = plotSegment(location, arcDirection, ambiguousArcCenter)
 
-      const segment = plotSegment(location, arcDirection)
-      this._currentPathSegments.push(segment)
+      currentPath.segments.push(segment)
+      this._currentPath = currentPath
     }
 
-    if (tool !== this._currentPathTool || node.type === DONE) {
-      const segments = this._currentPathSegments ?? []
+    if (nextGraphicType === SLOT) {
+      const pathGraphic = plotPath([plotSegment(location)], tool)
 
-      if (
-        segments.length > 0 &&
-        this._currentPathTool?.shape.type === Tree.CIRCLE
-      ) {
-        const width = this._currentPathTool?.shape?.diameter
-
-        this._currentPathSegments = undefined
-        this._currentPathTool = undefined
-
-        return {type: Tree.IMAGE_PATH, width, segments}
+      if (pathGraphic) {
+        graphics.push(pathGraphic)
       }
     }
+
+    if (node.type === GRAPHIC && node.graphic !== SLOT) {
+      this._lastExplicitGraphicType = node.graphic ?? undefined
+    }
+
+    return graphics
   },
+}
+
+function getNextGraphicType(
+  node: Child,
+  interpolateMode: InterpolateModeType | undefined,
+  lastExplicitGraphicType: GraphicType | undefined
+): NonNullable<GraphicType> | undefined {
+  if (node.type !== GRAPHIC) {
+    return undefined
+  }
+
+  if (node.graphic) {
+    return node.graphic
+  }
+
+  if (lastExplicitGraphicType) {
+    return lastExplicitGraphicType
+  }
+
+  if (interpolateMode === undefined || interpolateMode === DRILL) {
+    return SHAPE
+  }
+
+  if (
+    interpolateMode === LINE ||
+    interpolateMode === CCW_ARC ||
+    interpolateMode === CW_ARC
+  ) {
+    return SEGMENT
+  }
+
+  return MOVE
+}
+
+function shouldFinishPath(
+  node: Child,
+  currentPath: CurrentPathState,
+  nextTool: Tool | undefined,
+  nextGraphicType: NonNullable<GraphicType> | undefined
+): boolean {
+  return (
+    nextTool !== currentPath.tool ||
+    node.type === REGION_MODE ||
+    node.type === DONE ||
+    (node.type === INTERPOLATE_MODE && node.mode === MOVE) ||
+    (nextGraphicType === MOVE && currentPath.region) ||
+    (nextGraphicType === SHAPE && currentPath !== undefined)
+  )
 }

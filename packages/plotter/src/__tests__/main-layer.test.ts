@@ -34,7 +34,7 @@ describe('adding to the main image layer', () => {
   })
 
   it('should emit the same image if given no graphic', () => {
-    const result = subject.add({type: Parser.DONE}, undefined)
+    const result = subject.add({type: Parser.DONE}, [])
 
     expect(result).to.eql({
       type: Tree.IMAGE_LAYER,
@@ -67,8 +67,8 @@ describe('adding to the main image layer', () => {
     td.when(BoundingBox.add([0, 0, 0, 0], size1)).thenReturn(size1)
     td.when(BoundingBox.add(size1, size2)).thenReturn(expectedSize)
 
-    subject.add(node1, graphic1)
-    const result = subject.add(node2, graphic2)
+    subject.add(node1, [graphic1])
+    const result = subject.add(node2, [graphic2])
 
     expect(result).to.eql({
       type: Tree.IMAGE_LAYER,

@@ -27,7 +27,7 @@ export type ArcPosition = [x: number, y: number, theta: number]
 
 export type SizeEnvelope = [x1: number, y1: number, x2: number, y2: number]
 
-export type Direction = typeof CW | typeof CCW
+export type ArcDirection = typeof CW | typeof CCW
 
 export type ImageNode =
   | ImageTree
@@ -64,7 +64,7 @@ export interface OutlineShape {
 
 export interface LayeredShape {
   type: typeof LAYERED_SHAPE
-  shapes: Array<Shape & {erase?: boolean}>
+  shapes: ErasableShape[]
 }
 
 export type HoleShape = CircleShape | RectangleShape
@@ -77,6 +77,8 @@ export type SimpleShape =
 
 export type Shape = SimpleShape | LayeredShape
 
+export type ErasableShape = SimpleShape & {erase?: boolean}
+
 export type ImageGraphic = ImageShape | ImagePath | ImageRegion
 
 export interface ImageTree extends Parent {
@@ -88,8 +90,6 @@ export interface ImageTree extends Parent {
 export interface ImageLayer extends Parent {
   type: typeof IMAGE_LAYER
   size: SizeEnvelope
-  polarity?: Polarity
-  repeat?: [number, number, number, number]
   children: ImageGraphic[]
 }
 
@@ -107,14 +107,9 @@ export interface ImagePath extends Node {
 export interface ImageRegion extends Node {
   type: typeof IMAGE_REGION
   segments: PathSegment[]
-  meta: {regionMode: boolean}
 }
 
-export type Polarity = typeof DRAW | typeof CLEAR
-
 export type PathSegment = PathLineSegment | PathArcSegment
-
-export type ArcDirection = typeof CW | typeof CCW
 
 export interface PathLineSegment {
   type: typeof LINE
@@ -128,6 +123,4 @@ export interface PathArcSegment {
   end: ArcPosition
   center: Position
   radius: number
-  sweep: number
-  direction: ArcDirection
 }

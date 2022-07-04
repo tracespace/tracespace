@@ -13,8 +13,6 @@ import {
   degreesToRadians,
 } from '../coordinate-math'
 
-import * as Geo from './geometry'
-
 export function plotShape(
   tool: SimpleTool,
   location: Location
@@ -41,7 +39,7 @@ function createShape(
   switch (shape.type) {
     case CIRCLE: {
       const {diameter} = shape
-      return Geo.circle({cx: x, cy: y, r: diameter / 2})
+      return {type: Tree.CIRCLE, cx: x, cy: y, r: diameter / 2}
     }
 
     case RECTANGLE:
@@ -49,7 +47,8 @@ function createShape(
       const {xSize, ySize} = shape
       const xHalf = xSize / 2
       const yHalf = ySize / 2
-      const rectangleConfig: Omit<Tree.RectangleShape, 'type'> = {
+      const rectangle: Tree.RectangleShape = {
+        type: Tree.RECTANGLE,
         x: x - xHalf,
         y: y - yHalf,
         xSize,
@@ -57,10 +56,10 @@ function createShape(
       }
 
       if (shape.type === OBROUND) {
-        rectangleConfig.r = Math.min(xHalf, yHalf)
+        rectangle.r = Math.min(xHalf, yHalf)
       }
 
-      return Geo.rectangle(rectangleConfig)
+      return rectangle
     }
 
     case POLYGON: {
@@ -77,22 +76,22 @@ function createShape(
         }
       )
 
-      return Geo.polygon({points})
+      return {type: Tree.POLYGON, points}
     }
   }
 }
 
-function shapeToSegments(shape: Tree.SimpleShape): Tree.PathSegment[] {
+export function shapeToSegments(shape: Tree.SimpleShape): Tree.PathSegment[] {
   if (shape.type === Tree.CIRCLE) {
     const {cx, cy, r} = shape
     return [
-      Geo.arc({
+      {
+        type: Tree.ARC,
         start: [roundToPrecision(cx + r), cy, 0],
-        end: [roundToPrecision(cx + r), cy, 0],
+        end: [roundToPrecision(cx + r), cy, TWO_PI],
         center: [cx, cy],
         radius: r,
-        sweep: TWO_PI,
-      }),
+      },
     ]
   }
 
@@ -101,58 +100,66 @@ function shapeToSegments(shape: Tree.SimpleShape): Tree.PathSegment[] {
 
     if (r === xSize / 2) {
       return [
-        Geo.line({start: [x + xSize, y + r], end: [x + xSize, y + ySize - r]}),
-        Geo.arc({
+        {
+          type: Tree.LINE,
+          start: [x + xSize, y + r],
+          end: [x + xSize, y + ySize - r],
+        },
+        {
+          type: Tree.ARC,
           start: [x + xSize, y + ySize - r, 0],
           end: [x, y + ySize - r, PI],
           center: [x + r, y + ySize - r],
           radius: r,
-          sweep: PI,
-        }),
-        Geo.line({start: [x, y + ySize - r], end: [x, y + r]}),
-        Geo.arc({
+        },
+        {type: Tree.LINE, start: [x, y + ySize - r], end: [x, y + r]},
+        {
+          type: Tree.ARC,
           start: [x, y + r, PI],
           end: [x + xSize, y + r, TWO_PI],
           center: [x + r, y + r],
           radius: r,
-          sweep: PI,
-        }),
+        },
       ]
     }
 
     if (r === ySize / 2) {
       return [
-        Geo.line({start: [x + r, y], end: [x + xSize - r, y]}),
-        Geo.arc({
+        {type: Tree.LINE, start: [x + r, y], end: [x + xSize - r, y]},
+        {
+          type: Tree.ARC,
           start: [x + xSize - r, y, -HALF_PI],
           end: [x + xSize - r, y + ySize, HALF_PI],
           center: [x + xSize - r, y + r],
           radius: r,
-          sweep: PI,
-        }),
-        Geo.line({start: [x + xSize - r, y + ySize], end: [x + r, y + ySize]}),
-        Geo.arc({
+        },
+        {
+          type: Tree.LINE,
+          start: [x + xSize - r, y + ySize],
+          end: [x + r, y + ySize],
+        },
+        {
+          type: Tree.ARC,
           start: [x + r, y + ySize, HALF_PI],
           end: [x + r, y, THREE_HALF_PI],
           center: [x + r, y + r],
           radius: r,
-          sweep: PI,
-        }),
+        },
       ]
     }
 
     return [
-      Geo.line({start: [x, y], end: [x + xSize, y]}),
-      Geo.line({start: [x + xSize, y], end: [x + xSize, y + ySize]}),
-      Geo.line({start: [x + xSize, y + ySize], end: [x, y + ySize]}),
-      Geo.line({start: [x, y + ySize], end: [x, y]}),
+      {type: Tree.LINE, start: [x, y], end: [x + xSize, y]},
+      {type: Tree.LINE, start: [x + xSize, y], end: [x + xSize, y + ySize]},
+      {type: Tree.LINE, start: [x + xSize, y + ySize], end: [x, y + ySize]},
+      {type: Tree.LINE, start: [x, y + ySize], end: [x, y]},
     ]
   }
 
   if (shape.type === Tree.POLYGON) {
     return shape.points.map((start, i) => {
       const endIndex = i < shape.points.length - 1 ? i + 1 : 0
-      return Geo.line({start, end: shape.points[endIndex]})
+      return {type: Tree.LINE, start, end: shape.points[endIndex]}
     })
   }
 

@@ -1,4 +1,4 @@
-import {describe, it, beforeEach, expect} from 'vitest'
+import {describe, it, expect} from 'vitest'
 
 import * as Parser from '@tracespace/parser'
 
@@ -7,14 +7,16 @@ import {Tool} from '../../tool-store'
 import {Location} from '../../location-store'
 import {GraphicPlotter, createGraphicPlotter} from '..'
 
-describe('plot stroke paths', () => {
-  let subject: GraphicPlotter
-  let tool: Tool
+type SubjectArgs = Parameters<GraphicPlotter['plot']>
+type SubjectReturn = ReturnType<GraphicPlotter['plot']>
 
-  beforeEach(() => {
-    tool = {shape: {type: Parser.CIRCLE, diameter: 2}}
-    subject = createGraphicPlotter()
-  })
+const subject = (...calls: Array<Partial<SubjectArgs>>): SubjectReturn => {
+  const plotter = createGraphicPlotter()
+  return calls.flatMap(call => plotter.plot(...(call as SubjectArgs)))
+}
+
+describe('plot stroke paths', () => {
+  const tool: Tool = {shape: {type: Parser.CIRCLE, diameter: 2}}
 
   it('should not plot anything if no path', () => {
     const location = {
@@ -22,8 +24,8 @@ describe('plot stroke paths', () => {
       endPoint: {x: 5, y: 6},
     } as Location
 
-    const result = subject.plot({type: Parser.DONE}, tool, location)
-    expect(result).to.equal(undefined)
+    const results = subject([{type: Parser.DONE}, tool, location])
+    expect(results).to.eql([])
   })
 
   it('should plot a line segment', () => {
@@ -32,18 +34,22 @@ describe('plot stroke paths', () => {
       endPoint: {x: 5, y: 6},
     } as Location
 
-    subject.plot(
-      {type: Parser.GRAPHIC, graphic: Parser.SEGMENT, coordinates: {}},
-      tool,
-      location
+    const results = subject(
+      [
+        {type: Parser.GRAPHIC, graphic: Parser.SEGMENT, coordinates: {}},
+        tool,
+        location,
+      ],
+      [{type: Parser.DONE}]
     )
-    const result = subject.plot({type: Parser.DONE}, tool, location)
 
-    expect(result).to.eql({
-      type: Tree.IMAGE_PATH,
-      width: 2,
-      segments: [{type: Tree.LINE, start: [3, 4], end: [5, 6]}],
-    })
+    expect(results).to.eql([
+      {
+        type: Tree.IMAGE_PATH,
+        width: 2,
+        segments: [{type: Tree.LINE, start: [3, 4], end: [5, 6]}],
+      },
+    ])
   })
 
   it('should plot several line segments', () => {
@@ -56,26 +62,30 @@ describe('plot stroke paths', () => {
       endPoint: {x: 9, y: 10},
     } as Location
 
-    subject.plot(
-      {type: Parser.GRAPHIC, graphic: Parser.SEGMENT, coordinates: {}},
-      tool,
-      location1
-    )
-    subject.plot(
-      {type: Parser.GRAPHIC, graphic: Parser.SEGMENT, coordinates: {}},
-      tool,
-      location2
-    )
-    const result = subject.plot({type: Parser.DONE}, tool, location2)
-
-    expect(result).to.eql({
-      type: Tree.IMAGE_PATH,
-      width: 2,
-      segments: [
-        {type: Tree.LINE, start: [3, 4], end: [5, 6]},
-        {type: Tree.LINE, start: [7, 8], end: [9, 10]},
+    const results = subject(
+      [
+        {type: Parser.GRAPHIC, graphic: Parser.SEGMENT, coordinates: {}},
+        tool,
+        location1,
       ],
-    })
+      [
+        {type: Parser.GRAPHIC, graphic: Parser.SEGMENT, coordinates: {}},
+        tool,
+        location2,
+      ],
+      [{type: Parser.DONE}, tool, location2]
+    )
+
+    expect(results).to.eql([
+      {
+        type: Tree.IMAGE_PATH,
+        width: 2,
+        segments: [
+          {type: Tree.LINE, start: [3, 4], end: [5, 6]},
+          {type: Tree.LINE, start: [7, 8], end: [9, 10]},
+        ],
+      },
+    ])
   })
 
   it('should plot several line segments with several tools', () => {
@@ -91,36 +101,118 @@ describe('plot stroke paths', () => {
       endPoint: {x: 9, y: 10},
     } as Location
 
-    subject.plot(
-      {type: Parser.GRAPHIC, graphic: Parser.SEGMENT, coordinates: {}},
-      tool1,
-      location1
-    )
-    const result1 = subject.plot(
-      {type: Parser.TOOL_CHANGE, code: '123'},
-      tool2,
-      location1
-    )
-    subject.plot(
-      {type: Parser.GRAPHIC, graphic: Parser.SEGMENT, coordinates: {}},
-      tool2,
-      location2
-    )
-    const result2 = subject.plot(
-      {type: Parser.TOOL_CHANGE, code: '456'},
-      tool1,
-      location2
+    const results = subject(
+      [
+        {type: Parser.GRAPHIC, graphic: Parser.SEGMENT, coordinates: {}},
+        tool1,
+        location1,
+      ],
+      [{type: Parser.TOOL_CHANGE, code: '123'}, tool2, location1],
+      [
+        {type: Parser.GRAPHIC, graphic: Parser.SEGMENT, coordinates: {}},
+        tool2,
+        location2,
+      ],
+      [{type: Parser.TOOL_CHANGE, code: '456'}, tool1, location2]
     )
 
-    expect(result1).to.eql({
-      type: Tree.IMAGE_PATH,
-      width: 1,
-      segments: [{type: Tree.LINE, start: [3, 4], end: [5, 6]}],
-    })
-    expect(result2).to.eql({
-      type: Tree.IMAGE_PATH,
-      width: 2,
-      segments: [{type: Tree.LINE, start: [7, 8], end: [9, 10]}],
-    })
+    expect(results).to.eql([
+      {
+        type: Tree.IMAGE_PATH,
+        width: 1,
+        segments: [{type: Tree.LINE, start: [3, 4], end: [5, 6]}],
+      },
+      {
+        type: Tree.IMAGE_PATH,
+        width: 2,
+        segments: [{type: Tree.LINE, start: [7, 8], end: [9, 10]}],
+      },
+    ])
+  })
+
+  it('should plot line segments and shapes', () => {
+    const location1 = {endPoint: {x: 3, y: 4}} as Location
+    const location2 = {
+      startPoint: {x: 5, y: 6},
+      endPoint: {x: 7, y: 8},
+    } as Location
+    const location3 = {endPoint: {x: 9, y: 10}} as Location
+
+    const results = subject(
+      [
+        {type: Parser.GRAPHIC, graphic: Parser.SHAPE, coordinates: {}},
+        tool,
+        location1,
+      ],
+      [
+        {type: Parser.GRAPHIC, graphic: Parser.SEGMENT, coordinates: {}},
+        tool,
+        location2,
+      ],
+      [
+        {type: Parser.GRAPHIC, graphic: Parser.SHAPE, coordinates: {}},
+        tool,
+        location3,
+      ]
+    )
+
+    expect(results).to.eql([
+      {
+        type: Tree.IMAGE_SHAPE,
+        shape: {type: Tree.CIRCLE, cx: 3, cy: 4, r: 1},
+      },
+      {
+        type: Tree.IMAGE_PATH,
+        width: 2,
+        segments: [{type: Tree.LINE, start: [5, 6], end: [7, 8]}],
+      },
+      {
+        type: Tree.IMAGE_SHAPE,
+        shape: {type: Tree.CIRCLE, cx: 9, cy: 10, r: 1},
+      },
+    ])
+  })
+
+  it('should plot re-using the graphics mode when missing', () => {
+    const location1 = {endPoint: {x: 3, y: 4}} as Location
+    const location2 = {
+      startPoint: {x: 5, y: 6},
+      endPoint: {x: 7, y: 8},
+    } as Location
+
+    const results = subject(
+      [
+        {type: Parser.GRAPHIC, graphic: Parser.SHAPE, coordinates: {}},
+        tool,
+        location1,
+      ],
+      [{type: Parser.GRAPHIC, graphic: null, coordinates: {}}, tool, location1],
+      [
+        {type: Parser.GRAPHIC, graphic: Parser.SEGMENT, coordinates: {}},
+        tool,
+        location2,
+      ],
+      [{type: Parser.GRAPHIC, graphic: null, coordinates: {}}, tool, location2],
+      [{type: Parser.DONE}]
+    )
+
+    expect(results).to.eql([
+      {
+        type: Tree.IMAGE_SHAPE,
+        shape: {type: Tree.CIRCLE, cx: 3, cy: 4, r: 1},
+      },
+      {
+        type: Tree.IMAGE_SHAPE,
+        shape: {type: Tree.CIRCLE, cx: 3, cy: 4, r: 1},
+      },
+      {
+        type: Tree.IMAGE_PATH,
+        width: 2,
+        segments: [
+          {type: Tree.LINE, start: [5, 6], end: [7, 8]},
+          {type: Tree.LINE, start: [5, 6], end: [7, 8]},
+        ],
+      },
+    ])
   })
 })

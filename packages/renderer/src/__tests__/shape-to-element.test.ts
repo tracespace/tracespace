@@ -114,8 +114,6 @@ describe('mapping a shape to an element', () => {
             end: [0.25, 0.25, 1.570_796_326_8],
             center: [0.25, 0],
             radius: 0.25,
-            sweep: 1.570_796_326_8,
-            direction: Plotter.CW,
           },
           {
             type: Plotter.ARC,
@@ -123,8 +121,6 @@ describe('mapping a shape to an element', () => {
             end: [0.5, 0.5, 0],
             center: [0.25, 0.5],
             radius: 0.25,
-            sweep: 1.570_796_326_8,
-            direction: Plotter.CCW,
           },
           {
             type: Plotter.ARC,
@@ -132,8 +128,6 @@ describe('mapping a shape to an element', () => {
             end: [0.75, 0.25, -1.570_796_326_8],
             center: [0.75, 0.5],
             radius: 0.25,
-            sweep: 4.712_388_980_4,
-            direction: Plotter.CW,
           },
           {
             type: Plotter.ARC,
@@ -141,8 +135,6 @@ describe('mapping a shape to an element', () => {
             end: [1, 0, 6.283_185_307_2],
             center: [0.75, 0],
             radius: 0.25,
-            sweep: 4.712_388_980_4,
-            direction: Plotter.CCW,
           },
         ],
       }

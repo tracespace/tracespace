@@ -3,7 +3,7 @@ import {describe, it, expect} from 'vitest'
 
 import * as Tree from '../tree'
 import * as subject from '../bounding-box'
-import {HALF_PI, PI} from '../coordinate-math'
+import {PI} from '../coordinate-math'
 
 import type {Box} from '../bounding-box'
 
@@ -96,57 +96,6 @@ describe('bounding box calculations', () => {
     expect(result).to.eql([1, 2, 9, 8])
   })
 
-  it('should create from an outline graphic with arcs', () => {
-    const halfSqrtTwo = 2 ** 0.5 / 2
-
-    const result = subject.fromGraphic({
-      type: Tree.IMAGE_SHAPE,
-      shape: {
-        type: Tree.OUTLINE,
-        segments: [
-          {
-            type: Tree.ARC,
-            start: [halfSqrtTwo, halfSqrtTwo, PI / 4],
-            end: [-halfSqrtTwo, halfSqrtTwo, (3 * PI) / 4],
-            center: [0, 0],
-            radius: 1,
-            sweep: HALF_PI,
-            direction: Tree.CCW,
-          },
-          {
-            type: Tree.ARC,
-            start: [-halfSqrtTwo, halfSqrtTwo, (3 * PI) / 4],
-            end: [-halfSqrtTwo, -halfSqrtTwo, (5 * PI) / 4],
-            center: [0, 0],
-            radius: 1,
-            sweep: HALF_PI,
-            direction: Tree.CCW,
-          },
-          {
-            type: Tree.ARC,
-            start: [-halfSqrtTwo, -halfSqrtTwo, (5 * PI) / 4],
-            end: [halfSqrtTwo, -halfSqrtTwo, (7 * PI) / 4],
-            center: [0, 0],
-            radius: 1,
-            sweep: HALF_PI,
-            direction: Tree.CCW,
-          },
-          {
-            type: Tree.ARC,
-            start: [halfSqrtTwo, halfSqrtTwo, (7 * PI) / 4],
-            end: [-halfSqrtTwo, halfSqrtTwo, (9 * PI) / 4],
-            center: [0, 0],
-            radius: 1,
-            sweep: HALF_PI,
-            direction: Tree.CCW,
-          },
-        ],
-      },
-    })
-
-    expect(result).to.eql([-1, -1, 1, 1])
-  })
-
   it('should create an empty box for an empty outline', () => {
     const result = subject.fromGraphic({
       type: Tree.IMAGE_SHAPE,
@@ -199,5 +148,172 @@ describe('bounding box calculations', () => {
     })
 
     expect(result).to.eql([0, 0, 0, 0])
+  })
+
+  it('should return an empty box for empty path shape', () => {
+    const result = subject.fromGraphic({
+      type: Tree.IMAGE_PATH,
+      width: 1,
+      segments: [],
+    })
+
+    expect(result).to.eql([0, 0, 0, 0])
+  })
+
+  describe('arcs', () => {
+    const halfSqrtTwo = 2 ** 0.5 / 2
+
+    it('should handle an arc through the positive Y-axis', () => {
+      const start: Tree.ArcPosition = [halfSqrtTwo, halfSqrtTwo, PI / 4]
+      const end: Tree.ArcPosition = [-halfSqrtTwo, halfSqrtTwo, (3 * PI) / 4]
+      const center: Tree.Position = [0, 0]
+      const radius = 1
+      const expected = [
+        -halfSqrtTwo - 0.5,
+        halfSqrtTwo - 0.5,
+        halfSqrtTwo + 0.5,
+        1.5,
+      ]
+
+      const ccwResult = subject.fromGraphic({
+        type: Tree.IMAGE_PATH,
+        width: 1,
+        segments: [{type: Tree.ARC, start, end, center, radius}],
+      })
+
+      const cwResult = subject.fromGraphic({
+        type: Tree.IMAGE_PATH,
+        width: 1,
+        segments: [{type: Tree.ARC, start: end, end: start, center, radius}],
+      })
+
+      expect(ccwResult).to.eql(expected)
+      expect(cwResult).to.eql(expected)
+    })
+
+    it('should handle a CCW arc through the negative X-axis', () => {
+      const start: Tree.ArcPosition = [-halfSqrtTwo, halfSqrtTwo, (3 * PI) / 4]
+      const end: Tree.ArcPosition = [-halfSqrtTwo, -halfSqrtTwo, (5 * PI) / 4]
+      const center: Tree.Position = [0, 0]
+      const radius = 1
+      const expected = [
+        -1.5,
+        -halfSqrtTwo - 0.5,
+        -halfSqrtTwo + 0.5,
+        halfSqrtTwo + 0.5,
+      ]
+
+      const ccwResult = subject.fromGraphic({
+        type: Tree.IMAGE_PATH,
+        width: 1,
+        segments: [{type: Tree.ARC, start, end, center, radius}],
+      })
+
+      const cwResult = subject.fromGraphic({
+        type: Tree.IMAGE_PATH,
+        width: 1,
+        segments: [{type: Tree.ARC, start: end, end: start, center, radius}],
+      })
+
+      expect(ccwResult).to.eql(expected)
+      expect(cwResult).to.eql(expected)
+    })
+
+    it('should handle an arc through the negative Y-axis', () => {
+      const start: Tree.ArcPosition = [-halfSqrtTwo, -halfSqrtTwo, (5 * PI) / 4]
+      const end: Tree.ArcPosition = [halfSqrtTwo, -halfSqrtTwo, (7 * PI) / 4]
+      const center: Tree.Position = [0, 0]
+      const radius = 1
+      const expected = [
+        -halfSqrtTwo - 0.5,
+        -1.5,
+        halfSqrtTwo + 0.5,
+        -halfSqrtTwo + 0.5,
+      ]
+
+      const ccwResult = subject.fromGraphic({
+        type: Tree.IMAGE_PATH,
+        width: 1,
+        segments: [{type: Tree.ARC, start, end, center, radius}],
+      })
+
+      const cwResult = subject.fromGraphic({
+        type: Tree.IMAGE_PATH,
+        width: 1,
+        segments: [{type: Tree.ARC, start: end, end: start, center, radius}],
+      })
+
+      expect(ccwResult).to.eql(expected)
+      expect(cwResult).to.eql(expected)
+    })
+
+    it('should handle an arc through the positive X-axis', () => {
+      const start: Tree.ArcPosition = [halfSqrtTwo, -halfSqrtTwo, -PI / 4]
+      const end: Tree.ArcPosition = [halfSqrtTwo, halfSqrtTwo, PI / 4]
+      const center: Tree.Position = [0, 0]
+      const radius = 1
+      const expected = [
+        halfSqrtTwo - 0.5,
+        -halfSqrtTwo - 0.5,
+        1.5,
+        halfSqrtTwo + 0.5,
+      ]
+
+      const ccwResult = subject.fromGraphic({
+        type: Tree.IMAGE_PATH,
+        width: 1,
+        segments: [{type: Tree.ARC, start, end, center, radius}],
+      })
+
+      const cwResult = subject.fromGraphic({
+        type: Tree.IMAGE_PATH,
+        width: 1,
+        segments: [{type: Tree.ARC, start: end, end: start, center, radius}],
+      })
+
+      expect(ccwResult).to.eql(expected)
+      expect(cwResult).to.eql(expected)
+    })
+
+    it('should create from an outline graphic with arcs', () => {
+      const result = subject.fromGraphic({
+        type: Tree.IMAGE_SHAPE,
+        shape: {
+          type: Tree.OUTLINE,
+          segments: [
+            {
+              type: Tree.ARC,
+              start: [1 + halfSqrtTwo, 2 + halfSqrtTwo, PI / 4],
+              end: [1 - halfSqrtTwo, 2 + halfSqrtTwo, (3 * PI) / 4],
+              center: [1, 2],
+              radius: 1,
+            },
+            {
+              type: Tree.ARC,
+              start: [1 - halfSqrtTwo, 2 + halfSqrtTwo, (3 * PI) / 4],
+              end: [1 - halfSqrtTwo, 2 - halfSqrtTwo, (5 * PI) / 4],
+              center: [1, 2],
+              radius: 1,
+            },
+            {
+              type: Tree.ARC,
+              start: [1 - halfSqrtTwo, 2 - halfSqrtTwo, (5 * PI) / 4],
+              end: [1 + halfSqrtTwo, 2 - halfSqrtTwo, (7 * PI) / 4],
+              center: [1, 2],
+              radius: 1,
+            },
+            {
+              type: Tree.ARC,
+              start: [1 + halfSqrtTwo, 2 + halfSqrtTwo, (7 * PI) / 4],
+              end: [1 - halfSqrtTwo, 2 + halfSqrtTwo, (9 * PI) / 4],
+              center: [1, 2],
+              radius: 1,
+            },
+          ],
+        },
+      })
+
+      expect(result).to.eql([0, 1, 2, 3])
+    })
   })
 })

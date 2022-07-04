@@ -112,14 +112,15 @@ function segmentsToPathData(segments: PathSegment[]): string {
       pathCommands.push(`L${end[0]} ${end[1]}`)
     } else if (next.type === ARC) {
       const sweep = next.end[2] - next.start[2]
+      const absSweep = Math.abs(sweep)
       const {center, radius} = next
 
       // Sweep flag flipped from SVG value because Y-axis is positive-down
       const sweepFlag = sweep < 0 ? '0' : '1'
-      let largeFlag = sweep <= Math.PI ? '0' : '1'
+      let largeFlag = absSweep <= Math.PI ? '0' : '1'
 
       // A full circle needs two SVG arcs to draw
-      if (sweep === 2 * Math.PI) {
+      if (absSweep === 2 * Math.PI) {
         const [mx, my] = [2 * center[0] - end[0], 2 * center[1] - end[1]]
         largeFlag = '0'
         pathCommands.push(`A${radius} ${radius} 0 0 ${sweepFlag} ${mx} ${my}`)

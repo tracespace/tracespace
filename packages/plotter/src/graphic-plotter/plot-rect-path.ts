@@ -1,17 +1,16 @@
 // Functions for stroking rectangular tools
 import {Rectangle} from '@tracespace/parser'
 
-import {IMAGE_REGION, ImageRegion, Position} from '../tree'
+import * as Tree from '../tree'
 import {positionsEqual, HALF_PI, PI} from '../coordinate-math'
-import {line} from './geometry'
 
 // Rectangular tools make interesting stroke geometry; see the Gerber spec
 // for graphics and examples
 export function plotRectPath(
-  start: Position,
-  end: Position,
+  start: Tree.Position,
+  end: Tree.Position,
   shape: Rectangle
-): ImageRegion {
+): Tree.ImageShape {
   // Since a rectangular stroke like this is so unique to Gerber, it's easier
   // for downstream graphics generators if we calculate the boundaries of the
   // correct shape and emit a region rather than a path with a width (which is
@@ -27,7 +26,7 @@ export function plotRectPath(
 
   // Go through the quadrants of the XY plane centered about start to decide
   // which segments define the boundaries of the stroke shape
-  let points: Position[] = []
+  let points: Tree.Position[] = []
   if (positionsEqual(start, end)) {
     points = [
       [sxMin, syMin],
@@ -79,10 +78,10 @@ export function plotRectPath(
     ]
   }
 
-  const segments = points.map((start, i) => {
+  const segments = points.map<Tree.PathSegment>((start, i) => {
     const end = points[i < points.length - 1 ? i + 1 : 0]
-    return line({start, end})
+    return {type: Tree.LINE, start, end}
   })
 
-  return {type: IMAGE_REGION, meta: {regionMode: false}, segments}
+  return {type: Tree.IMAGE_SHAPE, shape: {type: Tree.OUTLINE, segments}}
 }
