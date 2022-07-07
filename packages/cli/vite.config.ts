@@ -1,5 +1,3 @@
-import {builtinModules} from 'node:module'
-
 import {defineConfig} from 'vite'
 
 import {baseConfig, getDefineConstants} from '../../config/vite.config.base'
@@ -15,10 +13,7 @@ export default defineConfig({
       fileName: 'tracespace-cli',
     },
     rollupOptions: {
-      external: n =>
-        n.startsWith('node:') ||
-        n in packageMeta.dependencies ||
-        n in builtinModules,
+      external: n => n.startsWith('node:') || n in packageMeta.dependencies,
     },
   },
 })

@@ -2,7 +2,6 @@
   "files": [],
   "references": [
     {"path": "./packages/cli"},
-    {"path": "./packages/cli/bin"},
     {"path": "./packages/parser"},
     {"path": "./packages/plotter"},
     {"path": "./packages/renderer"},

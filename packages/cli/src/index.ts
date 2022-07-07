@@ -1,116 +1,179 @@
-import fs from 'node:fs/promises'
+import {createReadStream} from 'node:fs'
+import {writeFile} from 'node:fs/promises'
 import path from 'node:path'
-import process from 'node:process'
 
-import {Command, CommanderError, createCommand} from 'commander'
-import {toHtml} from 'hast-util-to-html'
+import common from 'common-prefix'
+import {get} from 'dot-prop'
+import glob from 'globby'
+import makeDir from 'make-dir'
+import createLogger from 'debug'
 
-import {createParser} from '@tracespace/parser'
-import {plot} from '@tracespace/plotter'
-import {render} from '@tracespace/renderer'
+import gerberToSvg, {Options as GerberToSvgOptions} from 'gerber-to-svg'
+import pcbStackup, {Stackup, InputLayer} from 'pcb-stackup'
+import * as Wtg from 'whats-that-gerber'
+import yargs from 'yargs'
 
-type Logger = Pick<Console, 'info' | 'warn' | 'error'>
+import {examples} from './examples'
+import {options, STDOUT} from './options'
+import {resolve} from './resolve'
+import {Config} from './types'
 
-export interface Options {
-  logger?: Logger
-}
+export {options} from './options'
 
-export interface Result {
-  exitCode: number
-}
+const debug = createLogger('@tracespace/cli')
 
-export async function run(args: string[], options?: Options): Promise<Result> {
-  const {logger = console} = options ?? {}
-  const program = createProgram(logger)
+export async function cli(
+  processArgv: string[],
+  config: Partial<Config>
+): Promise<unknown> {
+  const argv = yargs
+    .scriptName('tracespace')
+    .usage(
+      '$0 [options] <files...>',
+      `${__PKG_DESCRIPTION__}\nv${__PKG_VERSION__}`,
+      yargs => {
+        for (const example of examples) {
+          yargs.example(example.cmd, example.desc)
+        }
 
-  return program
-    .parseAsync(args)
-    .then(() => ({exitCode: 0}))
-    .catch((error: unknown) => {
-      if (error instanceof CommanderError) {
-        return {exitCode: error.exitCode}
-      }
+        yargs.epilog(
+          `You may also specify options in the current working directory using a config file in (.tracespacerc, .tracespacerc.json, tracespace.config.js, etc.) or a "tracespace" key in package.json`
+        )
 
-      throw error
-    })
-}
-
-interface RenderCommandOptions {
-  out?: string
-  debug?: boolean
-}
-
-function createProgram(log: Logger): Command {
-  const program = createCommand()
-
-  program
-    .configureOutput({writeOut: log.info, writeErr: log.error})
-    .exitOverride()
-
-  program
-    .name('tracespace')
-    .description(__PKG_DESCRIPTION__)
-    .version(__PKG_VERSION__)
-
-  program
-    .command('render')
-    .argument('<files...>')
-    .option('-o, --out <output_directory>', 'Location to save renders')
-    .option('-d, --debug', 'Output parse and plot trees for debugging')
-    .action(
-      async (files: string[], options: RenderCommandOptions): Promise<void> => {
-        const renderTasks = files.map(async inputFilename => {
-          return createRenderTask(inputFilename, options)
-        })
-
-        return Promise.all(renderTasks).then(allTaskFilenames => {
-          for (const filename of allTaskFilenames.flat()) {
-            log.info(`Wrote: ${filename}`)
-          }
+        return yargs.positional('files', {
+          coerce: (files: string[]) => files.map(resolve),
+          describe:
+            "Filenames, directories, or globs to a PCB's Gerber/drill files",
+          type: 'string',
         })
       }
     )
+    .options(options)
+    .config(config)
+    .version(__PKG_VERSION__)
+    .help()
+    .alias({help: 'h', version: 'v'})
+    .fail((error: string) => {
+      throw new Error(error)
+    })
+    .parserConfiguration({'boolean-negation': false})
+    .parse(processArgv)
 
-  return program
-}
+  debug('argv', argv)
 
-async function createRenderTask(
-  inputFilename: string,
-  options: RenderCommandOptions
-): Promise<string[]> {
-  const {out = process.cwd(), debug = false} = options
-  const outputFilenameBase = path.join(out, path.basename(inputFilename))
-
-  const writeFile = async (
-    filename: string,
-    contents: string
-  ): Promise<string> => {
-    return fs.writeFile(filename, contents, 'utf8').then(() => filename)
+  const info = (message: string): void => {
+    if (!argv.quiet) console.warn(message)
   }
 
-  return fs
-    .mkdir(out, {recursive: true})
-    .then(async () => fs.readFile(inputFilename, 'utf8'))
-    .then(async contents => {
-      const parseTree = createParser().feed(contents).result()
-      const plotTree = plot(parseTree)
-      const renderTree = render(plotTree)
-      const renderHtml = toHtml(renderTree)
-      const writeTasks = [writeFile(`${outputFilenameBase}.svg`, renderHtml)]
+  if (config._configFile) info(`Config loaded from ${config._configFile}`)
 
-      if (debug) {
-        writeTasks.push(
-          writeFile(
-            `${outputFilenameBase}.parse.json`,
-            JSON.stringify(parseTree, null, 2)
-          ),
-          writeFile(
-            `${outputFilenameBase}.plot.json`,
-            JSON.stringify(plotTree, null, 2)
-          )
-        )
-      }
+  const files = argv.files as Config['files']
+  const out = argv.out as Config['out']
+  const boardOptions = (argv.board as Config['board']) ?? {}
+  const gerberOptions = (argv.gerber as Config['gerber']) ?? {}
+  const drillOptions = (argv.drill as Config['drill']) ?? {}
+  const layerOptions = (argv.layer as Config['layer']) ?? {}
 
-      return Promise.all(writeTasks)
-    })
+  return glob(files).then(renderFiles).then(writeRenders)
+
+  async function renderFiles(filenames: string[]): Promise<Stackup> {
+    const typesByName = Wtg.identifyLayers(filenames)
+    const layers = filenames
+      .map(filename => makeLayerFromFilename(filename, typesByName))
+      .filter((ly): ly is InputLayer => Boolean(ly))
+
+    if (layers.length === 0) {
+      throw new Error('No valid Gerber or drill files found')
+    }
+
+    return pcbStackup(layers, boardOptions)
+  }
+
+  function makeLayerFromFilename(
+    filename: string,
+    typesByName: Wtg.LayerIdentityMap
+  ): InputLayer | null {
+    const basename = path.basename(filename)
+    const {type, side} = getType(basename, typesByName[filename])
+
+    if (type === null && !argv.force) {
+      info(`Skipping ${basename} (unable to identify type)`)
+      return null
+    }
+
+    info(`Rendering ${basename} as ${type!} (${side!})`)
+
+    const gerber = createReadStream(filename)
+    const options = getOptions(basename, type)
+
+    debug(filename, type, side, options)
+
+    return {type, side, gerber, options, filename: basename}
+  }
+
+  function getType(
+    basename: string,
+    defaults: Wtg.LayerIdentity
+  ): Wtg.LayerIdentity {
+    return {
+      side: get(layerOptions, `${basename}.side`, defaults.side),
+      type: get(layerOptions, `${basename}.type`, defaults.type),
+    }
+  }
+
+  function getOptions(
+    basename: string,
+    type: Wtg.GerberType
+  ): GerberToSvgOptions {
+    const defaultOptions = type === 'drill' ? drillOptions : gerberOptions
+
+    return get(layerOptions, `${basename}.options`, defaultOptions)
+  }
+
+  async function writeRenders(stackup: Stackup): Promise<unknown> {
+    const name = inferBoardName(stackup)
+    const ensureDir: Promise<unknown> =
+      out === STDOUT ? Promise.resolve() : makeDir(out)
+
+    return ensureDir.then(async () =>
+      Promise.all([
+        !argv.noBoard && writeOutput(`${name}.top.svg`, stackup.top.svg),
+        !argv.noBoard && writeOutput(`${name}.bottom.svg`, stackup.bottom.svg),
+        ...stackup.layers
+          .filter(_ => !argv.noLayer)
+          .map(async layer => {
+            let filename = layer.filename ?? ''
+            if (layer.side) filename += `.${layer.side}`
+            if (layer.type) filename += `.${layer.type}`
+
+            return writeOutput(
+              `${filename}.svg`,
+              gerberToSvg.render(
+                layer.converter,
+                (layer.options as GerberToSvgOptions).attributes ?? {}
+              )
+            )
+          }),
+      ])
+    )
+  }
+
+  async function writeOutput(name: string, contents: string): Promise<unknown> {
+    if (argv.out === STDOUT) {
+      console.log(contents)
+      return
+    }
+
+    const filename = path.join(out, name)
+    info(`Writing ${filename}`)
+    return writeFile(filename, contents)
+  }
+}
+
+function inferBoardName(stackup: Stackup): string {
+  const names = stackup.layers
+    .map(ly => ly.filename ?? '')
+    .map(name => path.basename(name, path.extname(name)))
+
+  return common(names) ?? 'board'
 }
