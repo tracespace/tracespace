@@ -1,7 +1,6 @@
 // Graphic plotter
 // Takes nodes and turns them into graphics to be added to the image
 import {
-  GerberNode,
   GRAPHIC,
   SHAPE,
   SEGMENT,
@@ -16,9 +15,8 @@ import {
   INTERPOLATE_MODE,
   QUADRANT_MODE,
   REGION_MODE,
+  GerberNode,
   GraphicType,
-  InterpolateModeType,
-  QuadrantModeType,
   Filetype,
 } from '@tracespace/parser'
 
@@ -28,7 +26,7 @@ import {Location} from '../location-store'
 
 import {plotShape} from './plot-shape'
 import {plotMacro} from './plot-macro'
-import {CCW, CW, plotSegment, plotPath} from './plot-path'
+import {CCW, CW, ArcDirection, plotSegment, plotPath} from './plot-path'
 
 export interface GraphicPlotter {
   plot(
@@ -48,8 +46,8 @@ export function createGraphicPlotter(filetype: Filetype): GraphicPlotter {
 
 interface GraphicPlotterImpl extends GraphicPlotter {
   _currentPath: CurrentPath | undefined
-  _interpolateMode: NonNullable<InterpolateModeType> | undefined
-  _quadrantMode: NonNullable<QuadrantModeType> | undefined
+  _arcDirection: ArcDirection | undefined
+  _ambiguousArcCenter: boolean
   _regionMode: boolean
   _defaultGraphic: NonNullable<GraphicType> | undefined
 
@@ -70,8 +68,8 @@ interface CurrentPath {
 
 const GraphicPlotterPrototype: GraphicPlotterImpl = {
   _currentPath: undefined,
-  _interpolateMode: undefined,
-  _quadrantMode: undefined,
+  _arcDirection: undefined,
+  _ambiguousArcCenter: false,
   _regionMode: false,
   _defaultGraphic: undefined,
 
@@ -98,23 +96,15 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
     }
 
     if (nextGraphicType === SEGMENT) {
-      const ambiguousArcCenter = this._quadrantMode === SINGLE
-      const arcDirection =
-        this._interpolateMode === CCW_ARC
-          ? CCW
-          : this._interpolateMode === CW_ARC
-          ? CW
-          : undefined
-
-      const segment = plotSegment(location, arcDirection, ambiguousArcCenter)
-
       this._currentPath = this._currentPath ?? {
         segments: [],
         region: this._regionMode,
         tool,
       }
 
-      this._currentPath.segments.push(segment)
+      this._currentPath.segments.push(
+        plotSegment(location, this._arcDirection, this._ambiguousArcCenter)
+      )
     }
 
     if (nextGraphicType === SLOT) {
@@ -130,11 +120,17 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
 
   _setGraphicState(node: GerberNode): NonNullable<GraphicType> | undefined {
     if (node.type === INTERPOLATE_MODE) {
-      this._interpolateMode = node.mode ?? undefined
+      if (node.mode === CCW_ARC) {
+        this._arcDirection = CCW
+      } else if (node.mode === CW_ARC) {
+        this._arcDirection = CW
+      } else {
+        this._arcDirection = undefined
+      }
     }
 
     if (node.type === QUADRANT_MODE) {
-      this._quadrantMode = node.quadrant ?? undefined
+      this._ambiguousArcCenter = node.quadrant === SINGLE
     }
 
     if (node.type === REGION_MODE) {
@@ -184,27 +180,36 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
 
 const DrillGraphicPlotterTrait: Partial<GraphicPlotterImpl> = {
   _defaultGraphic: SHAPE,
+  _ambiguousArcCenter: true,
 
   _setGraphicState(node: GerberNode): NonNullable<GraphicType> | undefined {
     if (node.type === INTERPOLATE_MODE) {
       switch (node.mode) {
-        case MOVE: {
-          this._interpolateMode = undefined
-          this._defaultGraphic = MOVE
+        case CW_ARC:
+        case CCW_ARC:
+        case LINE: {
+          this._defaultGraphic = SEGMENT
+
+          if (node.mode === CCW_ARC) {
+            this._arcDirection = CCW
+          } else if (node.mode === CW_ARC) {
+            this._arcDirection = CW
+          } else {
+            this._arcDirection = undefined
+          }
+
           break
         }
 
-        case LINE:
-        case CW_ARC:
-        case CCW_ARC: {
-          this._interpolateMode = node.mode
-          this._defaultGraphic = SEGMENT
+        case MOVE: {
+          this._defaultGraphic = MOVE
+          this._arcDirection = undefined
           break
         }
 
         default: {
-          this._interpolateMode = undefined
           this._defaultGraphic = SHAPE
+          this._arcDirection = undefined
         }
       }
     }
