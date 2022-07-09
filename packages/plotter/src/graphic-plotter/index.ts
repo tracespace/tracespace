@@ -22,7 +22,7 @@ import {
 } from '@tracespace/parser'
 
 import * as Tree from '../tree'
-import {SIMPLE_TOOL, Tool} from '../tool-store'
+import {SIMPLE_TOOL, MACRO_TOOL, Tool} from '../tool-store'
 import {Location} from '../location-store'
 
 import {plotShape} from './plot-shape'
@@ -87,13 +87,12 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
       graphics.push(pathGraphic)
     }
 
-    if (nextGraphicType === SHAPE && tool) {
-      const shape =
-        tool.type === SIMPLE_TOOL
-          ? plotShape(tool, location)
-          : plotMacro(tool, location)
+    if (nextGraphicType === SHAPE && tool?.type === SIMPLE_TOOL) {
+      graphics.push({type: Tree.IMAGE_SHAPE, shape: plotShape(tool, location)})
+    }
 
-      graphics.push({type: Tree.IMAGE_SHAPE, shape})
+    if (nextGraphicType === SHAPE && tool?.type === MACRO_TOOL) {
+      graphics.push({type: Tree.IMAGE_SHAPE, shape: plotMacro(tool, location)})
     }
 
     if (nextGraphicType === SEGMENT) {
