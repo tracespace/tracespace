@@ -22,7 +22,7 @@ import {MacroTool} from '../tool-store'
 import {Location} from '../location-store'
 
 import {shapeToSegments} from './shapes'
-import {getArcPositions} from './plot-path'
+import {CW, CCW, getArcPositions} from './plot-path'
 
 type VariableValues = Record<string, number>
 
@@ -323,7 +323,7 @@ function plotThermal(
       {x: points[1][0], y: points[1][1]},
       {x: points[2][0], y: points[2][1]},
       {x: center[0], y: center[1]},
-      Tree.CCW
+      CCW
     )
 
     segments.push(
@@ -337,7 +337,7 @@ function plotThermal(
         {x: points[3][0], y: points[3][1]},
         {x: points[0][0], y: points[0][1]},
         {x: center[0], y: center[1]},
-        Tree.CW
+        CW
       )
       segments.push({
         type: Tree.ARC,

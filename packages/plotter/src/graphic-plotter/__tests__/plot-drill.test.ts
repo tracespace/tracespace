@@ -13,7 +13,7 @@ type SubjectCall = Parameters<GraphicPlotter['plot']>
 type SubjectReturn = ReturnType<GraphicPlotter['plot']>
 
 const subject = (...calls: Array<Partial<SubjectCall>>): SubjectReturn => {
-  const plotter = createGraphicPlotter()
+  const plotter = createGraphicPlotter(Parser.DRILL)
   return calls.flatMap(call => plotter.plot(...(call as SubjectCall)))
 }
 
@@ -167,6 +167,40 @@ describe('plot drill file graphics', () => {
             radius: 1,
           },
         ],
+      },
+    ])
+  })
+
+  it('should transition from route mode back to drill mode', () => {
+    const tool: Tool = {
+      type: SIMPLE_TOOL,
+      shape: {type: Parser.CIRCLE, diameter: 2},
+    }
+    const location1 = {
+      startPoint: {x: 1, y: 2},
+      endPoint: {x: 3, y: 4},
+    } as Location
+    const location2 = {
+      startPoint: {x: 5, y: 6},
+      endPoint: {x: 7, y: 8},
+    } as Location
+
+    const results = subject(
+      [{type: Parser.INTERPOLATE_MODE, mode: Parser.LINE}],
+      [node, tool, location1],
+      [{type: Parser.INTERPOLATE_MODE, mode: Parser.DRILL}],
+      [node, tool, location2]
+    )
+
+    expect(results).to.eql([
+      {
+        type: Tree.IMAGE_PATH,
+        width: 2,
+        segments: [{type: Tree.LINE, start: [1, 2], end: [3, 4]}],
+      },
+      {
+        type: Tree.IMAGE_SHAPE,
+        shape: {type: Tree.CIRCLE, cx: 7, cy: 8, r: 1},
       },
     ])
   })

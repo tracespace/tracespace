@@ -12,8 +12,7 @@
   "scripts": {
     "dev": "node server.js",
     "build": "vite build && vite build --ssr && vite-plugin-ssr prerender",
-    "preview": "node server.js preview",
-    "clean": "rimraf dist"
+    "preview": "node server.js preview"
   },
   "contributors": [
     "Mike Cousins <mike@cousins.io> (https://mike.cousins.io)"

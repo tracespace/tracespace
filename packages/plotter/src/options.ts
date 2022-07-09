@@ -78,9 +78,7 @@ export function getPlotOptions(tree: GerberTree): PlotOptions {
         break
       }
 
-      default: {
-        break
-      }
+      default:
     }
 
     index += 1

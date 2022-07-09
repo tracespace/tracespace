@@ -17,7 +17,7 @@ describe('plot shape macros', () => {
   let subject: GraphicPlotter
 
   beforeEach(() => {
-    subject = createGraphicPlotter()
+    subject = createGraphicPlotter(Parser.GERBER)
   })
 
   it('should plot a circle primitive', () => {

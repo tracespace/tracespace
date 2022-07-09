@@ -29,6 +29,14 @@ describe('bounding box calculations', () => {
     expect(subject.add(notEmpty, empty)).to.eql(notEmpty)
   })
 
+  it('should identify empty boxes', () => {
+    const empty = subject.empty()
+    const notEmpty: Box = [1, 2, 3, 4]
+
+    expect(subject.isEmpty(empty)).to.equal(true)
+    expect(subject.isEmpty(notEmpty)).to.equal(false)
+  })
+
   it('should convert into a view box - [xMin, yMin, xSize, ySize]', () => {
     expect(subject.toViewBox(subject.empty())).to.eql([0, 0, 0, 0])
     expect(subject.toViewBox([1, 2, 10, 20])).to.eql([1, 2, 9, 18])
@@ -160,7 +168,7 @@ describe('bounding box calculations', () => {
     expect(result).to.eql([])
   })
 
-  describe('arcs', () => {
+  describe('paths and outlines', () => {
     const halfSqrtTwo = 2 ** 0.5 / 2
 
     it('should handle an arc through the positive Y-axis', () => {
@@ -314,6 +322,25 @@ describe('bounding box calculations', () => {
       })
 
       expect(result).to.eql([0, 1, 2, 3])
+    })
+
+    it('should get the size of a region', () => {
+      const result = subject.fromGraphic({
+        type: Tree.IMAGE_REGION,
+        segments: [{type: Tree.LINE, start: [3, 2], end: [1, 0]}],
+      })
+
+      expect(result).to.eql([1, 0, 3, 2])
+    })
+
+    it('should get the size of paths with stroke width', () => {
+      const result = subject.fromGraphic({
+        type: Tree.IMAGE_PATH,
+        width: 1,
+        segments: [{type: Tree.LINE, start: [3, 2], end: [1, 0]}],
+      })
+
+      expect(result).to.eql([0.5, -0.5, 3.5, 2.5])
     })
   })
 })

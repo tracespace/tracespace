@@ -10,8 +10,6 @@ export const IMAGE_REGION = 'imageRegion'
 
 export const LINE = 'line'
 export const ARC = 'arc'
-export const CW = 'cw'
-export const CCW = 'ccw'
 
 export const CIRCLE = 'circle'
 export const RECTANGLE = 'rectangle'
@@ -24,8 +22,6 @@ export type Position = [x: number, y: number]
 export type ArcPosition = [x: number, y: number, theta: number]
 
 export type SizeEnvelope = [x1: number, y1: number, x2: number, y2: number] | []
-
-export type ArcDirection = typeof CW | typeof CCW
 
 export type ImageNode =
   | ImageTree

@@ -12,7 +12,7 @@ export type ArcDirection = typeof CW | typeof CCW
 
 export function plotSegment(
   location: Location,
-  arcDirection?: Tree.ArcDirection,
+  arcDirection?: ArcDirection,
   ambiguousArcCenter?: boolean
 ): Tree.PathSegment {
   return arcDirection === undefined
@@ -50,7 +50,7 @@ function createLineSegment(location: Location): Tree.PathLineSegment {
 
 function createArcSegment(
   location: Location,
-  arcDirection: Tree.ArcDirection,
+  arcDirection: ArcDirection,
   ambiguousArcCenter = false
 ): Tree.PathSegment {
   const {startPoint, endPoint, arcOffsets} = location
@@ -97,7 +97,7 @@ export function getArcPositions(
   startPoint: Point,
   endPoint: Point,
   centerPoint: Point,
-  arcDirection: Tree.ArcDirection
+  arcDirection: ArcDirection
 ): [start: Tree.ArcPosition, end: Tree.ArcPosition, center: Tree.Position] {
   let startAngle = Math.atan2(
     startPoint.y - centerPoint.y,

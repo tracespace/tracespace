@@ -12,9 +12,7 @@
     "build": "concurrently -g pnpm:build:*",
     "build:packages": "pnpm -r build",
     "build:types": "tsc --build",
-    "clean": "concurrently -g pnpm:clean:*",
-    "clean:packages": "pnpm -r clean",
-    "clean:types": "tsc --build --clean",
+    "clean": "tsc --build --clean",
     "dev": "pnpm -C www dev"
   },
   "engines": {
@@ -35,7 +33,6 @@
     "c8": "^7.11.3",
     "concurrently": "^7.2.2",
     "prettier": "^2.7.1",
-    "rimraf": "^3.0.2",
     "testdouble": "^3.16.6",
     "typescript": "^4.7.4",
     "vite": "^2.9.13",

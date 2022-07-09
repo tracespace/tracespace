@@ -14,7 +14,7 @@ describe('plot shape graphics', () => {
   let node: Parser.Graphic
 
   beforeEach(() => {
-    subject = createGraphicPlotter()
+    subject = createGraphicPlotter(Parser.GERBER)
     node = {type: Parser.GRAPHIC, graphic: Parser.SHAPE, coordinates: {}}
   })
 

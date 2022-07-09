@@ -11,7 +11,7 @@ type SubjectCall = Parameters<GraphicPlotter['plot']>
 type SubjectReturn = ReturnType<GraphicPlotter['plot']>
 
 const subject = (...calls: Array<Partial<SubjectCall>>): SubjectReturn => {
-  const plotter = createGraphicPlotter()
+  const plotter = createGraphicPlotter(Parser.GERBER)
   return calls.flatMap(call => plotter.plot(...(call as SubjectCall)))
 }
 

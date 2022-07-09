@@ -103,7 +103,7 @@ const tool: SyntaxRule = {
 }
 
 const mode: SyntaxRule = {
-  name: 'mode',
+  name: 'operationMode',
   rules: [
     one([
       token(Lexer.G_CODE, '0'),

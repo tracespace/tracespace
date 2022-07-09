@@ -11,7 +11,7 @@ type SubjectArgs = Parameters<GraphicPlotter['plot']>
 type SubjectReturn = ReturnType<GraphicPlotter['plot']>
 
 const subject = (...calls: Array<Partial<SubjectArgs>>): SubjectReturn => {
-  const plotter = createGraphicPlotter()
+  const plotter = createGraphicPlotter(Parser.GERBER)
   return calls.flatMap(call => plotter.plot(...(call as SubjectArgs)))
 }
 
@@ -182,7 +182,7 @@ describe('plot stroke paths', () => {
     ])
   })
 
-  it('should plot re-using the graphics mode when missing', () => {
+  it('should continue to plot paths without explicit graphics mode set', () => {
     const location1 = {endPoint: {x: 3, y: 4}} as Location
     const location2 = {
       startPoint: {x: 5, y: 6},
@@ -206,10 +206,6 @@ describe('plot stroke paths', () => {
     )
 
     expect(results).to.eql([
-      {
-        type: Tree.IMAGE_SHAPE,
-        shape: {type: Tree.CIRCLE, cx: 3, cy: 4, r: 1},
-      },
       {
         type: Tree.IMAGE_SHAPE,
         shape: {type: Tree.CIRCLE, cx: 3, cy: 4, r: 1},

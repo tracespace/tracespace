@@ -33,7 +33,9 @@ describe('creating a plot tree', () => {
     td.when(createToolStore(), {times: 1}).thenReturn(toolStore)
     td.when(createLocationStore(), {times: 1}).thenReturn(locationStore)
     td.when(createMainLayer(), {times: 1}).thenReturn(mainLayer)
-    td.when(createGraphicPlotter(), {times: 1}).thenReturn(graphicPlotter)
+    td.when(createGraphicPlotter(Parser.GERBER), {times: 1}).thenReturn(
+      graphicPlotter
+    )
   })
 
   afterEach(() => {
@@ -43,11 +45,12 @@ describe('creating a plot tree', () => {
   it('should get plot options and plot', () => {
     const tree: Parser.Root = {
       type: Parser.ROOT,
+      filetype: Parser.GERBER,
       children: [
         {type: Parser.GRAPHIC, graphic: Parser.SHAPE} as Parser.Graphic,
         {type: Parser.GRAPHIC, graphic: Parser.SEGMENT} as Parser.Graphic,
       ],
-    } as Parser.Root
+    }
     const [node1, node2] = tree.children
 
     const plotOptions = {units: Parser.MM} as PlotOptions
