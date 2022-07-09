@@ -143,14 +143,14 @@ interface BaseParent extends BaseNode {
  *
  * @category Node
  */
-export type Node = Root | Child
+export type Node = Root | ChildNode
 
 /**
  * Child of the tree's {@linkcode Root} node
  *
  * @category Node
  */
-export type Child =
+export type ChildNode =
   | Comment
   | Done
   | Units
@@ -192,7 +192,7 @@ export interface Root extends BaseParent {
   filetype: Types.Filetype
 
   /** Parse results */
-  children: Child[]
+  children: ChildNode[]
 }
 
 /**
@@ -524,4 +524,4 @@ export interface Unimplemented extends BaseNode {
 
 export type GerberTree = Root
 
-export type GerberNode = Child
+export type GerberNode = ChildNode

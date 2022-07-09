@@ -5,10 +5,9 @@ import {
   TOOL_CHANGE,
   TOOL_DEFINITION,
   TOOL_MACRO,
-  Child,
+  GerberNode,
   SimpleShape,
   HoleShape,
-  MacroShape,
   MacroBlock,
 } from '@tracespace/parser'
 
@@ -31,7 +30,7 @@ export interface MacroTool {
 export type Tool = SimpleTool | MacroTool
 
 export interface ToolStore {
-  use(node: Child): Tool | undefined
+  use(node: GerberNode): Tool | undefined
 }
 
 export function createToolStore(): ToolStore {
@@ -49,7 +48,7 @@ const ToolStorePrototype: ToolStore & ToolStoreState = {
   _toolsByCode: {},
   _macrosByName: {},
 
-  use(node: Child): Tool | undefined {
+  use(node: GerberNode): Tool | undefined {
     if (node.type === TOOL_MACRO) {
       this._macrosByName[node.name] = node.children
     }

@@ -1,5 +1,5 @@
 // Track the location of the plotter and parse coordinate strings
-import {GRAPHIC, TRAILING, Child} from '@tracespace/parser'
+import {GRAPHIC, TRAILING, GerberNode} from '@tracespace/parser'
 
 import {PlotOptions} from './options'
 
@@ -21,7 +21,7 @@ export interface Location {
 }
 
 export interface LocationStore {
-  use(node: Child, options: PlotOptions): Location
+  use(node: GerberNode, options: PlotOptions): Location
 }
 
 export function createLocationStore(): LocationStore {
@@ -37,7 +37,7 @@ const LocationStorePrototype: LocationStore & LocationStoreState = {
   _DEFAULT_ARC_OFFSETS: {i: 0, j: 0, a: 0},
   _previousPoint: {x: 0, y: 0},
 
-  use(node: Child, options: PlotOptions): Location {
+  use(node: GerberNode, options: PlotOptions): Location {
     let arcOffsets = this._DEFAULT_ARC_OFFSETS
     let startPoint = this._previousPoint
     let endPoint = startPoint

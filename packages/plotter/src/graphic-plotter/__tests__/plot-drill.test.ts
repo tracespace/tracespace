@@ -18,7 +18,7 @@ const subject = (...calls: Array<Partial<SubjectCall>>): SubjectReturn => {
 }
 
 describe('plot drill file graphics', () => {
-  let node: Parser.Child
+  let node: Parser.ChildNode
 
   beforeEach(() => {
     node = {type: Parser.GRAPHIC, graphic: null, coordinates: {}}

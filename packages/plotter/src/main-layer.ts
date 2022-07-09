@@ -1,13 +1,13 @@
 // Main layer
 // Collects graphic objects onto the main layer, transforming as necessary
-import {Child} from '@tracespace/parser'
+import {GerberNode} from '@tracespace/parser'
 
 import * as BoundingBox from './bounding-box'
 import {IMAGE_LAYER, ImageLayer, ImageGraphic} from './tree'
 
 export interface MainLayer {
   get(): ImageLayer
-  add(node: Child, graphic: ImageGraphic[]): ImageLayer
+  add(node: GerberNode, graphic: ImageGraphic[]): ImageLayer
 }
 
 export function createMainLayer(): MainLayer {
@@ -31,7 +31,7 @@ const MainLayerPrototype: MainLayer & MainLayerState = {
     return this._layer
   },
 
-  add(node: Child, graphics: ImageGraphic[]): ImageLayer {
+  add(node: GerberNode, graphics: ImageGraphic[]): ImageLayer {
     const layer = this.get()
 
     for (const graphic of graphics) {

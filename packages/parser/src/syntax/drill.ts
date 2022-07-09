@@ -56,7 +56,7 @@ const units: SyntaxRule = {
         return [integer.length, decimal.length]
       })
 
-    const nodes: Tree.Child[] = [
+    const nodes: Tree.ChildNode[] = [
       {type: Tree.UNITS, position: tokensToPosition(tokens.slice(0, 2)), units},
     ]
 
@@ -155,7 +155,7 @@ const operation: SyntaxRule = {
     const modePosition = tokensToPosition(tokens, {head: modeToken, length: 2})
     const toolPosition = tokensToPosition(tokens, {head: toolToken, length: 2})
 
-    const nodes: Tree.Child[] = [
+    const nodes: Tree.ChildNode[] = [
       {
         type: Tree.GRAPHIC,
         position: graphicPosition,

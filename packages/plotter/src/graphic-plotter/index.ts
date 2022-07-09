@@ -1,7 +1,7 @@
 // Graphic plotter
 // Takes nodes and turns them into graphics to be added to the image
 import {
-  Child,
+  GerberNode,
   GRAPHIC,
   SHAPE,
   SEGMENT,
@@ -31,7 +31,7 @@ import {CCW, CW, plotSegment, plotPath} from './plot-path'
 
 export interface GraphicPlotter {
   plot(
-    node: Child,
+    node: GerberNode,
     tool: Tool | undefined,
     location: Location
   ): Tree.ImageGraphic[]
@@ -63,7 +63,7 @@ const GraphicPlotterPrototype: GraphicPlotter & GraphicPlotterState = {
   _regionMode: false,
 
   plot(
-    node: Child,
+    node: GerberNode,
     tool: Tool | undefined,
     location: Location
   ): Tree.ImageGraphic[] {
@@ -148,7 +148,7 @@ const GraphicPlotterPrototype: GraphicPlotter & GraphicPlotterState = {
 }
 
 function getNextGraphicType(
-  node: Child,
+  node: GerberNode,
   interpolateMode: InterpolateModeType | undefined,
   lastExplicitGraphicType: GraphicType | undefined
 ): NonNullable<GraphicType> | undefined {
@@ -180,7 +180,7 @@ function getNextGraphicType(
 }
 
 function shouldFinishPath(
-  node: Child,
+  node: GerberNode,
   currentPath: CurrentPathState,
   nextTool: Tool | undefined,
   nextGraphicType: NonNullable<GraphicType> | undefined

@@ -80,7 +80,7 @@ export async function cli(
     const typesByName = Wtg.identifyLayers(filenames)
     const layers = filenames
       .map(filename => makeLayerFromFilename(filename, typesByName))
-      .filter((ly): ly is InputLayer => Boolean(ly))
+      .filter((ly): ly is InputLayer => ly !== null)
 
     if (layers.length === 0) {
       throw new Error('No valid Gerber or drill files found')

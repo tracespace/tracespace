@@ -22,7 +22,7 @@ import {
 const SPECS: Array<{
   source: string
   expectedTokens: Lexer.Token[]
-  expectedNodes: Tree.Child[]
+  expectedNodes: Tree.ChildNode[]
 }> = [
   {
     // Simple circle tool
