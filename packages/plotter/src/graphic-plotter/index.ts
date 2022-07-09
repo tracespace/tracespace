@@ -18,6 +18,7 @@ import {
   GerberNode,
   GraphicType,
   Filetype,
+  InterpolateModeType,
 } from '@tracespace/parser'
 
 import * as Tree from '../tree'
@@ -120,13 +121,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
 
   _setGraphicState(node: GerberNode): NonNullable<GraphicType> | undefined {
     if (node.type === INTERPOLATE_MODE) {
-      if (node.mode === CCW_ARC) {
-        this._arcDirection = CCW
-      } else if (node.mode === CW_ARC) {
-        this._arcDirection = CW
-      } else {
-        this._arcDirection = undefined
-      }
+      this._arcDirection = arcDirectionFromMode(node.mode)
     }
 
     if (node.type === QUADRANT_MODE) {
@@ -184,33 +179,15 @@ const DrillGraphicPlotterTrait: Partial<GraphicPlotterImpl> = {
 
   _setGraphicState(node: GerberNode): NonNullable<GraphicType> | undefined {
     if (node.type === INTERPOLATE_MODE) {
-      switch (node.mode) {
-        case CW_ARC:
-        case CCW_ARC:
-        case LINE: {
-          this._defaultGraphic = SEGMENT
+      const {mode} = node
+      this._arcDirection = arcDirectionFromMode(mode)
 
-          if (node.mode === CCW_ARC) {
-            this._arcDirection = CCW
-          } else if (node.mode === CW_ARC) {
-            this._arcDirection = CW
-          } else {
-            this._arcDirection = undefined
-          }
-
-          break
-        }
-
-        case MOVE: {
-          this._defaultGraphic = MOVE
-          this._arcDirection = undefined
-          break
-        }
-
-        default: {
-          this._defaultGraphic = SHAPE
-          this._arcDirection = undefined
-        }
+      if (mode === CW_ARC || mode === CCW_ARC || mode === LINE) {
+        this._defaultGraphic = SEGMENT
+      } else if (mode === MOVE) {
+        this._defaultGraphic = MOVE
+      } else {
+        this._defaultGraphic = SHAPE
       }
     }
 
@@ -220,4 +197,12 @@ const DrillGraphicPlotterTrait: Partial<GraphicPlotterImpl> = {
 
     return node.graphic ?? this._defaultGraphic
   },
+}
+
+function arcDirectionFromMode(
+  mode: InterpolateModeType
+): ArcDirection | undefined {
+  if (mode === CCW_ARC) return CCW
+  if (mode === CW_ARC) return CW
+  return undefined
 }
