@@ -1,10 +1,10 @@
-import {defineConfig} from 'vite'
+import {UserConfig, defineConfig} from 'vite'
 
-export const baseConfig = defineConfig({
+export const baseConfig: UserConfig = defineConfig({
   resolve: {
     conditions: ['source'],
   },
-})
+}) as UserConfig
 
 export const getDefineConstants = (pkg: {
   name: string

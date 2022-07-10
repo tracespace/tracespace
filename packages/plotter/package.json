@@ -24,8 +24,7 @@
     "directory": "packages/plotter"
   },
   "scripts": {
-    "build": "vite build",
-    "clean": "rimraf dist"
+    "build": "vite build"
   },
   "keywords": [
     "pcb",

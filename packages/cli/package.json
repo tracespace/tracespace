@@ -14,8 +14,7 @@
   "types": "lib/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "build": "vite build",
-    "clean": "rimraf dist"
+    "build": "vite build"
   },
   "repository": {
     "type": "git",

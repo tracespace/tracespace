@@ -1,5 +1,6 @@
 import '@fontsource/open-sans/variable.css'
 import 'virtual:windi.css'
+import 'virtual:windi-devtools' // eslint-disable-line import/no-unassigned-import
 
 import {hydrate, render} from 'preact'
 import {useClientRouter} from 'vite-plugin-ssr/client/router'

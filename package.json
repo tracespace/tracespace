@@ -12,9 +12,7 @@
     "build": "concurrently -g pnpm:build:*",
     "build:packages": "pnpm -r build",
     "build:types": "tsc --build",
-    "clean": "concurrently -g pnpm:clean:*",
-    "clean:packages": "pnpm -r clean",
-    "clean:types": "tsc --build --clean",
+    "clean": "tsc --build --clean",
     "dev": "pnpm -C www dev"
   },
   "engines": {
@@ -31,16 +29,15 @@
     "whats-that-gerber": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^17.0.30",
-    "c8": "^7.11.2",
-    "concurrently": "^7.1.0",
-    "prettier": "^2.6.2",
-    "rimraf": "^3.0.2",
-    "testdouble": "^3.16.5",
-    "typescript": "^4.6.4",
-    "vite": "^2.9.6",
-    "vitest": "^0.10.0",
-    "xo": "^0.48.0"
+    "@types/node": "^18.0.1",
+    "c8": "^7.11.3",
+    "concurrently": "^7.2.2",
+    "prettier": "^2.7.1",
+    "testdouble": "^3.16.6",
+    "typescript": "^4.7.4",
+    "vite": "^2.9.13",
+    "vitest": "^0.17.0",
+    "xo": "^0.50.0"
   },
   "pnpm": {
     "peerDependencyRules": {
@@ -74,6 +71,8 @@
       "@typescript-eslint/naming-convention": "off",
       "import/extensions": "off",
       "unicorn/no-array-callback-reference": "off",
+      "unicorn/no-array-reduce": "off",
+      "n/file-extension-in-import": "off",
       "default-case": "off"
     },
     "overrides": [
@@ -97,6 +96,8 @@
         ],
         "rules": {
           "@typescript-eslint/triple-slash-reference": "off",
+          "@typescript-eslint/no-unnecessary-type-arguments": "off",
+          "@typescript-eslint/prefer-function-type": "off",
           "import/no-unassigned-import": "off"
         }
       },
@@ -107,8 +108,11 @@
         ],
         "rules": {
           "@typescript-eslint/consistent-type-assertions": "off",
+          "@typescript-eslint/no-namespace": "off",
           "import/no-extraneous-dependencies": "off",
-          "unicorn/no-array-for-each": "off"
+          "max-nested-callbacks": "off",
+          "unicorn/no-array-for-each": "off",
+          "unicorn/prefer-module": "off"
         }
       }
     ]

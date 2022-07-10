@@ -1,5 +1,6 @@
 import {Node, Parent} from 'unist'
-import {Position, ArcPosition, Box} from './types'
+
+import {UnitsType} from '@tracespace/parser'
 
 export const IMAGE = 'image'
 export const IMAGE_LAYER = 'imageLayer'
@@ -7,21 +8,20 @@ export const IMAGE_SHAPE = 'imageShape'
 export const IMAGE_PATH = 'imagePath'
 export const IMAGE_REGION = 'imageRegion'
 
-export const DRAW = 'draw'
-export const CLEAR = 'clear'
 export const LINE = 'line'
 export const ARC = 'arc'
-export const CW = 'cw'
-export const CCW = 'ccw'
 
 export const CIRCLE = 'circle'
 export const RECTANGLE = 'rectangle'
 export const POLYGON = 'polygon'
 export const OUTLINE = 'outline'
-export const CLEAR_OUTLINE = 'clearOutline'
 export const LAYERED_SHAPE = 'layeredShape'
 
-export type Direction = typeof CW | typeof CCW
+export type Position = [x: number, y: number]
+
+export type ArcPosition = [x: number, y: number, theta: number]
+
+export type SizeEnvelope = [x1: number, y1: number, x2: number, y2: number] | []
 
 export type ImageNode =
   | ImageTree
@@ -43,7 +43,7 @@ export interface RectangleShape {
   y: number
   xSize: number
   ySize: number
-  r: number | null
+  r?: number
 }
 
 export interface PolygonShape {
@@ -56,38 +56,35 @@ export interface OutlineShape {
   segments: PathSegment[]
 }
 
-export interface ClearOutlineShape {
-  type: typeof CLEAR_OUTLINE
-  segments: PathSegment[]
-}
-
 export interface LayeredShape {
   type: typeof LAYERED_SHAPE
-  shapes: Array<Shape | ClearOutlineShape>
+  shapes: ErasableShape[]
 }
 
-export type HoleShape = CircleShape | RectangleShape | null
+export type HoleShape = CircleShape | RectangleShape
 
 export type SimpleShape =
   | CircleShape
   | RectangleShape
   | PolygonShape
   | OutlineShape
-  | ClearOutlineShape
 
 export type Shape = SimpleShape | LayeredShape
 
+export type ErasableShape = SimpleShape & {erase?: boolean}
+
+export type ImageGraphic = ImageShape | ImagePath | ImageRegion
+
 export interface ImageTree extends Parent {
   type: typeof IMAGE
+  units: UnitsType
   children: [ImageLayer]
 }
 
 export interface ImageLayer extends Parent {
   type: typeof IMAGE_LAYER
-  size: Box
-  polarity?: Polarity
-  repeat?: [number, number, number, number]
-  children: Array<ImageLayer | ImageShape | ImagePath | ImageRegion>
+  size: SizeEnvelope
+  children: ImageGraphic[]
 }
 
 export interface ImageShape extends Node {
@@ -104,14 +101,9 @@ export interface ImagePath extends Node {
 export interface ImageRegion extends Node {
   type: typeof IMAGE_REGION
   segments: PathSegment[]
-  meta: {regionMode: boolean}
 }
 
-export type Polarity = typeof DRAW | typeof CLEAR
-
 export type PathSegment = PathLineSegment | PathArcSegment
-
-export type ArcDirection = typeof CW | typeof CCW
 
 export interface PathLineSegment {
   type: typeof LINE
@@ -125,6 +117,4 @@ export interface PathArcSegment {
   end: ArcPosition
   center: Position
   radius: number
-  sweep: number
-  direction: ArcDirection
 }

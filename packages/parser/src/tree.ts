@@ -292,16 +292,16 @@ export interface CoordinateFormat extends BaseNode {
  *
  * A tool shape may be one of:
  *
- * - {@linkcode Circle} - A circle defined by a diameter
- * - {@linkcode Rectangle} - A rectangle defined by sizes in the x and y axis
- * - {@linkcode Obround} - A "pill" rectangle, with a border-radius equal to half of its shorter side
- * - {@linkcode Polygon} - A regular polygon defined by its diameter, number of vertices, and rotation
- * - {@linkcode MacroShape} - A shape defined by a previous {@linkcode ToolMacro}
+ * - {@linkcode Types.Circle} - A circle defined by a diameter
+ * - {@linkcode Types.Rectangle} - A rectangle defined by sizes in the x and y axis
+ * - {@linkcode Types.Obround} - A "pill" rectangle, with a border-radius equal to half of its shorter side
+ * - {@linkcode Types.Polygon} - A regular polygon defined by its diameter, number of vertices, and rotation
+ * - {@linkcode Types.MacroShape} - A shape defined by a previous {@linkcode ToolMacro}
  *
  * A tool may have a hole in its center; the `hole`, if not `null`, may be a:
  *
- * - {@linkcode Circle}
- * - {@linkcode Rectangle} (deprecated by the Gerber specification)
+ * - {@linkcode Types.Circle}
+ * - {@linkcode Types.Rectangle} (deprecated by the Gerber specification)
  *
  * Only `Circle` or `Rectangle` tools without a `hole` may create strokes.
  * `MacroShape` tools may not have a `hole` defined.
@@ -374,9 +374,9 @@ export interface MacroPrimitive extends BaseNode {
   /** Node type */
   type: typeof MACRO_PRIMITIVE
   /** Primitive shape type */
-  code: Types.MacroPrimitiveCode | string
-  /** Shape modifier values or expressions */
-  modifiers: Types.MacroValue[]
+  code: Types.MacroPrimitiveCode
+  /** Shape parameter values or expressions */
+  parameters: Types.MacroValue[]
 }
 
 /**
