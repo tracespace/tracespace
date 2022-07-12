@@ -8,6 +8,7 @@ importers:
       '@tracespace/fixtures': workspace:*
       '@tracespace/parser': workspace:*
       '@tracespace/plotter': workspace:*
+      '@tracespace/stats': workspace:*
       '@tracespace/www': workspace:*
       '@tracespace/xml-id': workspace:*
       '@types/node': ^18.0.1
@@ -25,6 +26,7 @@ importers:
       '@tracespace/fixtures': link:packages/fixtures
       '@tracespace/parser': link:packages/parser
       '@tracespace/plotter': link:packages/plotter
+      '@tracespace/stats': link:packages/stats
       '@tracespace/www': link:www
       '@tracespace/xml-id': link:packages/xml-id
       whats-that-gerber: link:packages/whats-that-gerber
@@ -116,6 +118,12 @@ importers:
       hastscript: 7.0.2
       unist-util-map: 3.1.1
       unist-util-visit-parents: 5.1.0
+
+  packages/stats:
+    specifiers:
+      '@tracespace/parser': workspace:*
+    dependencies:
+      '@tracespace/parser': link:../parser
 
   packages/whats-that-gerber:
     specifiers: {}
