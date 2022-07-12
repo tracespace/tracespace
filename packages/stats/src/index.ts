@@ -88,13 +88,11 @@ function _updateDrillStats(state: DrillStatsState, tree: Parser.Root) {
   for (const node of tree.children) {
     switch (node.type) {
       case Parser.TOOL_DEFINITION:
-        if (node.shape.type !== Parser.CIRCLE) {
-          continue
-        }
-
         currentTool = node.code
 
-        state.usedTools[currentTool] = node.shape.diameter
+        if (node.shape.type === Parser.CIRCLE) {
+          state.usedTools[currentTool] = node.shape.diameter
+        }
         break
       case Parser.TOOL_CHANGE:
         currentTool = node.code
@@ -107,9 +105,17 @@ function _updateDrillStats(state: DrillStatsState, tree: Parser.Root) {
           continue
         }
 
-        const diameter = state.usedTools[currentTool]
-        state.minDrillSize = _cmp(state.minDrillSize, diameter, Math.min)
-        state.maxDrillSize = _cmp(state.maxDrillSize, diameter, Math.max)
+        if (state.usedTools[currentTool] !== undefined) {
+          const diameter = state.usedTools[currentTool]
+          state.minDrillSize = Math.min(
+            diameter,
+            state.minDrillSize ?? Number.POSITIVE_INFINITY
+          )
+          state.maxDrillSize = Math.max(
+            diameter,
+            state.maxDrillSize ?? Number.NEGATIVE_INFINITY
+          )
+        }
 
         if (node.graphic === null) {
           switch (currentMode) {
@@ -144,17 +150,5 @@ function _updateDrillStats(state: DrillStatsState, tree: Parser.Root) {
       default:
         break
     }
-  }
-
-  function _cmp(
-    n1: number | null,
-    n2: number,
-    cmp: (...values: number[]) => number
-  ): number {
-    if (n1 === null) {
-      return n2
-    }
-
-    return cmp(n1, n2)
   }
 }
