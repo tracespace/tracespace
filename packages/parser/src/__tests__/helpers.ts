@@ -21,8 +21,8 @@ export function simplifyTokens(tokens: Token[]): Array<{
 }
 
 export function position(
-  start: [number, number, number],
-  end: [number, number, number]
+  start: [line: number, column: number, offset: number],
+  end: [line: number, column: number, offset: number]
 ): Position {
   return {
     start: {line: start[0], column: start[1], offset: start[2]},

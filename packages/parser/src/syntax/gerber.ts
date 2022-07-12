@@ -215,7 +215,7 @@ const toolDefinition: SyntaxRule = {
       }
 
       default: {
-        shape = {type: Constants.MACRO_SHAPE, name, params: parameters}
+        shape = {type: Constants.MACRO_SHAPE, name, variableValues: parameters}
       }
     }
 

@@ -1,23 +1,35 @@
 // Functions for stroking rectangular tools
+// Stroking rectangular tools is deprecated by the Gerber spec
+// This functionality may be dropped and replaced with a warning
 import {Rectangle} from '@tracespace/parser'
 
-import {Position} from '../types'
-import {ImageRegion, IMAGE_REGION} from '../tree'
-import {line} from './geometry'
-import {positionsEqual, HALF_PI, PI} from './math'
+import * as Tree from '../tree'
+import {positionsEqual, HALF_PI, PI} from '../coordinate-math'
 
 // Rectangular tools make interesting stroke geometry; see the Gerber spec
 // for graphics and examples
 export function plotRectPath(
-  start: Position,
-  end: Position,
+  segments: Tree.PathSegment[],
   shape: Rectangle
-): ImageRegion {
+): Tree.ImageShape {
+  const shapes = segments
+    .filter((s): s is Tree.PathLineSegment => s.type === Tree.LINE)
+    .map(segment => plotRectPathSegment(segment, shape))
+
+  return {type: Tree.IMAGE_SHAPE, shape: {type: Tree.LAYERED_SHAPE, shapes}}
+}
+
+function plotRectPathSegment(
+  segment: Tree.PathLineSegment,
+  shape: Rectangle
+): Tree.PolygonShape {
   // Since a rectangular stroke like this is so unique to Gerber, it's easier
   // for downstream graphics generators if we calculate the boundaries of the
   // correct shape and emit a region rather than a path with a width (which is
   // what we do for circle tools)
-  const [[sx, sy], [ex, ey]] = [start, end]
+  const {start, end} = segment
+  const [sx, sy] = start
+  const [ex, ey] = end
   const [xOffset, yOffset] = [shape.xSize / 2, shape.ySize / 2]
   const theta = Math.atan2(ey - sy, ex - ey)
 
@@ -28,7 +40,7 @@ export function plotRectPath(
 
   // Go through the quadrants of the XY plane centered about start to decide
   // which segments define the boundaries of the stroke shape
-  let points: Position[] = []
+  let points: Tree.Position[] = []
   if (positionsEqual(start, end)) {
     points = [
       [sxMin, syMin],
@@ -80,10 +92,5 @@ export function plotRectPath(
     ]
   }
 
-  const segments = points.map((start, i) => {
-    const end = points[i < points.length - 1 ? i + 1 : 0]
-    return line({start, end})
-  })
-
-  return {type: IMAGE_REGION, meta: {regionMode: false}, segments}
+  return {type: Tree.POLYGON, points}
 }

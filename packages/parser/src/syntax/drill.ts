@@ -103,7 +103,7 @@ const tool: SyntaxRule = {
 }
 
 const mode: SyntaxRule = {
-  name: 'mode',
+  name: 'operationMode',
   rules: [
     one([
       token(Lexer.G_CODE, '0'),
@@ -187,22 +187,19 @@ const slot: SyntaxRule = {
   createNodes(tokens) {
     const gCode = tokens.find(t => t.type === Lexer.G_CODE)
     const splitIdx = gCode ? tokens.indexOf(gCode) : -1
-    const start = tokensToCoordinates(tokens.slice(0, splitIdx))
+    const start = Object.fromEntries(
+      Object.entries(tokensToCoordinates(tokens.slice(0, splitIdx))).map(
+        ([axis, value]) => [`${axis}0`, value]
+      )
+    )
     const end = tokensToCoordinates(tokens.slice(splitIdx))
-
-    const startCoordinates = Object.fromEntries(
-      Object.entries(start).map(([axis, value]) => [`${axis}1`, value])
-    )
-    const endCoordinates = Object.fromEntries(
-      Object.entries(end).map(([axis, value]) => [`${axis}2`, value])
-    )
 
     return [
       {
         type: Tree.GRAPHIC,
         position: tokensToPosition(tokens),
         graphic: Constants.SLOT,
-        coordinates: {...startCoordinates, ...endCoordinates},
+        coordinates: {...start, ...end},
       },
     ]
   },
