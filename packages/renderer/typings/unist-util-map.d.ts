@@ -1,5 +1,5 @@
 declare module 'unist-util-map' {
-  import {Node, Data} from 'unist'
+  import type {Node, Data} from 'unist'
 
   interface MapFunction<Tree extends Node<Data>, OutTree extends Node<Data>> {
     (node: Tree, index: number | null, parent: Tree | null): OutTree

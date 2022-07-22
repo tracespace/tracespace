@@ -1,26 +1,29 @@
 // Tests for the MainLayer interface
 import {vi, describe, beforeEach, afterEach, it, expect} from 'vitest'
+import {replaceEsm, reset} from 'testdouble-vitest'
 import * as td from 'testdouble'
 
 import * as Parser from '@tracespace/parser'
 
 import * as Tree from '../tree'
-import * as BoundingBox from '../bounding-box'
-import {MainLayer, createMainLayer} from '../main-layer'
+import type {MainLayer} from '../main-layer'
 
 vi.mock('../bounding-box', () => td.object<unknown>())
 
 describe('adding to the main image layer', () => {
+  let BoundingBox: typeof import('../bounding-box')
   let subject: MainLayer
 
-  beforeEach(() => {
-    td.when(BoundingBox.empty()).thenReturn([0, 0, 0, 0])
+  beforeEach(async () => {
+    BoundingBox = await replaceEsm('../bounding-box')
+    td.when(BoundingBox.empty()).thenReturn([])
 
+    const {createMainLayer} = await import('../main-layer')
     subject = createMainLayer()
   })
 
   afterEach(() => {
-    td.reset()
+    reset()
   })
 
   it('should create an empty image by default', () => {
@@ -28,7 +31,7 @@ describe('adding to the main image layer', () => {
 
     expect(result).to.eql({
       type: Tree.IMAGE_LAYER,
-      size: [0, 0, 0, 0],
+      size: [],
       children: [],
     })
   })
@@ -38,7 +41,7 @@ describe('adding to the main image layer', () => {
 
     expect(result).to.eql({
       type: Tree.IMAGE_LAYER,
-      size: [0, 0, 0, 0],
+      size: [],
       children: [],
     })
   })
@@ -64,7 +67,7 @@ describe('adding to the main image layer', () => {
     td.when(BoundingBox.fromGraphic(graphic1)).thenReturn(size1)
     td.when(BoundingBox.fromGraphic(graphic2)).thenReturn(size2)
 
-    td.when(BoundingBox.add([0, 0, 0, 0], size1)).thenReturn(size1)
+    td.when(BoundingBox.add([], size1)).thenReturn(size1)
     td.when(BoundingBox.add(size1, size2)).thenReturn(expectedSize)
 
     subject.add(node1, [graphic1])

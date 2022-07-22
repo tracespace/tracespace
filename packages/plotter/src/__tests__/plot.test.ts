@@ -1,34 +1,41 @@
-import {vi, describe, beforeEach, afterEach, it, expect} from 'vitest'
+import {describe, beforeEach, afterEach, it, expect} from 'vitest'
+import {replaceEsm, reset} from 'testdouble-vitest'
 import * as td from 'testdouble'
 
 import * as Parser from '@tracespace/parser'
 import * as Tree from '../tree'
-import {PlotOptions, getPlotOptions} from '../options'
-import {SIMPLE_TOOL, ToolStore, Tool, createToolStore} from '../tool-store'
-import {LocationStore, Location, createLocationStore} from '../location-store'
-import {MainLayer, createMainLayer} from '../main-layer'
-import {GraphicPlotter, createGraphicPlotter} from '../graphic-plotter'
 
-import {plot as subject} from '..'
-
-vi.mock('../options', async () => td.object<unknown>())
-vi.mock('../tool-store', () => td.object<unknown>())
-vi.mock('../location-store', () => td.object<unknown>())
-vi.mock('../main-layer', () => td.object<unknown>())
-vi.mock('../graphic-plotter', () => td.object<unknown>())
-vi.mock('../bounding-box', () => td.object<unknown>())
+import type {PlotOptions} from '../options'
+import type {ToolStore, Tool} from '../tool-store'
+import type {LocationStore, Location} from '../location-store'
+import type {MainLayer} from '../main-layer'
+import type {GraphicPlotter} from '../graphic-plotter'
 
 describe('creating a plot tree', () => {
-  let toolStore: td.TestDouble<ToolStore>
-  let locationStore: td.TestDouble<LocationStore>
-  let mainLayer: td.TestDouble<MainLayer>
-  let graphicPlotter: td.TestDouble<GraphicPlotter>
+  const toolStore = td.object<ToolStore>()
+  const locationStore = td.object<LocationStore>()
+  const mainLayer = td.object<MainLayer>()
+  const graphicPlotter = td.object<GraphicPlotter>()
 
-  beforeEach(() => {
-    toolStore = td.object<ToolStore>()
-    locationStore = td.object<LocationStore>()
-    mainLayer = td.object<MainLayer>()
-    graphicPlotter = td.object<GraphicPlotter>()
+  let optionsGetter: typeof import('../options')
+  let toolStoreCreator: typeof import('../tool-store')
+  let locationStoreCreator: typeof import('../location-store')
+  let mainLayerCreator: typeof import('../main-layer')
+  let graphicPlotterCreator: typeof import('../graphic-plotter')
+  let subject: typeof import('..')
+
+  beforeEach(async () => {
+    optionsGetter = await replaceEsm('../options')
+    toolStoreCreator = await replaceEsm('../tool-store')
+    locationStoreCreator = await replaceEsm('../location-store')
+    mainLayerCreator = await replaceEsm('../main-layer')
+    graphicPlotterCreator = await replaceEsm('../graphic-plotter')
+    subject = await import('..')
+
+    const {createToolStore} = toolStoreCreator
+    const {createLocationStore} = locationStoreCreator
+    const {createMainLayer} = mainLayerCreator
+    const {createGraphicPlotter} = graphicPlotterCreator
 
     td.when(createToolStore(), {times: 1}).thenReturn(toolStore)
     td.when(createLocationStore(), {times: 1}).thenReturn(locationStore)
@@ -39,7 +46,7 @@ describe('creating a plot tree', () => {
   })
 
   afterEach(() => {
-    td.reset()
+    reset()
   })
 
   it('should get plot options and plot', () => {
@@ -54,14 +61,14 @@ describe('creating a plot tree', () => {
     const [node1, node2] = tree.children
 
     const plotOptions = {units: Parser.MM} as PlotOptions
-    td.when(getPlotOptions(tree)).thenReturn(plotOptions)
+    td.when(optionsGetter.getPlotOptions(tree)).thenReturn(plotOptions)
 
     const tool1: Tool = {
-      type: SIMPLE_TOOL,
+      type: toolStoreCreator.SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 1},
     }
     const tool2: Tool = {
-      type: SIMPLE_TOOL,
+      type: toolStoreCreator.SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
     }
     td.when(toolStore.use(node1)).thenReturn(tool1)
@@ -102,7 +109,7 @@ describe('creating a plot tree', () => {
     td.when(mainLayer.add(node1, [shape1])).thenReturn(layer1)
     td.when(mainLayer.add(node2, [shape2])).thenReturn(layer2)
 
-    const result = subject(tree)
+    const result = subject.plot(tree)
 
     expect(result).to.eql({
       type: Tree.IMAGE,

@@ -1,6 +1,6 @@
-import {Node, Parent} from 'unist'
+import type {Node, Parent} from 'unist'
 
-import {UnitsType} from '@tracespace/parser'
+import type {UnitsType} from '@tracespace/parser'
 
 export const IMAGE = 'image'
 export const IMAGE_LAYER = 'imageLayer'

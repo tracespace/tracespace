@@ -24,8 +24,6 @@ Please note: because this package is an internal utility library, it may not fol
 
 ```shell
 npm install --save --save-exact @tracespace/xml-id
-# or
-yarn add --exact @tracespace/xml-id
 ```
 
 ## usage

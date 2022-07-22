@@ -1,10 +1,5 @@
-import {
-  CIRCLE,
-  RECTANGLE,
-  OBROUND,
-  POLYGON,
-  SimpleShape,
-} from '@tracespace/parser'
+import type {SimpleShape} from '@tracespace/parser'
+import {CIRCLE, RECTANGLE, OBROUND, POLYGON} from '@tracespace/parser'
 
 import {
   HALF_PI,
@@ -15,7 +10,7 @@ import {
 } from '../coordinate-math'
 
 import * as Tree from '../tree'
-import {Point} from '../location-store'
+import type {Point} from '../location-store'
 
 export function createShape(
   shape: SimpleShape,

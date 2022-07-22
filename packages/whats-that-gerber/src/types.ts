@@ -1,4 +1,4 @@
-import * as Constants from './constants'
+import type * as Constants from './constants'
 
 export type LayerIdentityMap = Record<string, LayerIdentity>
 

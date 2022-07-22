@@ -7,37 +7,57 @@
     "test": "vitest",
     "test:once": "vitest run --coverage",
     "lint": "xo",
-    "format": "prettier --write \"**/*.@(js|ts|tsx|json|md|yml|yaml)\"",
-    "format:check": "prettier --check \"**/*.@(js|ts|tsx|json|md|yml|yaml)\"",
+    "format": "pnpm format:base --write",
+    "format:check": "pnpm format:base --check",
+    "format:base": "prettier \"**/*.@(js|ts|tsx|json|md|yml|yaml)\"",
     "build": "concurrently -g pnpm:build:*",
-    "build:packages": "pnpm -r build",
+    "build:packages": "pnpm -r --aggregate-output build",
     "build:types": "tsc --build",
     "clean": "tsc --build --clean",
     "dev": "pnpm -C www dev"
   },
   "engines": {
-    "node": ">=16",
-    "pnpm": ">=7"
+    "node": ">=18"
   },
+  "packageManager": "pnpm@7.25.0",
   "dependencies": {
     "@tracespace/cli": "workspace:*",
     "@tracespace/fixtures": "workspace:*",
     "@tracespace/parser": "workspace:*",
     "@tracespace/plotter": "workspace:*",
+    "@tracespace/renderer": "workspace:*",
     "@tracespace/www": "workspace:*",
     "@tracespace/xml-id": "workspace:*",
     "whats-that-gerber": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^18.0.1",
-    "c8": "^7.11.3",
-    "concurrently": "^7.2.2",
-    "prettier": "^2.7.1",
-    "testdouble": "^3.16.6",
-    "typescript": "^4.7.4",
-    "vite": "^2.9.13",
-    "vitest": "^0.17.0",
-    "xo": "^0.50.0"
+    "@babel/core": "^7.20.12",
+    "@babel/plugin-transform-react-jsx": "^7.20.7",
+    "@babel/plugin-transform-react-jsx-development": "^7.18.6",
+    "@preact/preset-vite": "^2.5.0",
+    "@testing-library/dom": "^8.19.1",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/preact": "^3.2.2",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/lodash": "^4.14.191",
+    "@types/node": "^18.11.18",
+    "@types/testing-library__jest-dom": "^5.14.5",
+    "@vitest/coverage-c8": "^0.27.1",
+    "babel-plugin-transform-hook-names": "^1.0.2",
+    "concurrently": "^7.6.0",
+    "jsdom": "^21.0.0",
+    "lodash": "^4.17.21",
+    "preact": "^10.11.3",
+    "prettier": "^2.8.3",
+    "react": "npm:@preact/compat@^17.1.2",
+    "react-dom": "npm:@preact/compat@^17.1.2",
+    "tempy": "^3.0.0",
+    "testdouble": "^3.16.8",
+    "testdouble-vitest": "^0.1.2",
+    "typescript": "^4.9.4",
+    "vite": "^4.0.4",
+    "vitest": "^0.27.1",
+    "xo": "^0.53.1"
   },
   "pnpm": {
     "peerDependencyRules": {
@@ -69,11 +89,15 @@
     },
     "rules": {
       "@typescript-eslint/naming-convention": "off",
+      "@typescript-eslint/no-confusing-void-expression": "off",
       "import/extensions": "off",
       "unicorn/no-array-callback-reference": "off",
+      "unicorn/no-array-for-each": "off",
       "unicorn/no-array-reduce": "off",
+      "unicorn/prefer-top-level-await": "off",
       "n/file-extension-in-import": "off",
-      "default-case": "off"
+      "default-case": "off",
+      "no-warning-comments": "off"
     },
     "overrides": [
       {
@@ -87,6 +111,10 @@
               "extendDefaults": true,
               "types": {}
             }
+          ],
+          "@typescript-eslint/consistent-type-definitions": [
+            "error",
+            "interface"
           ]
         }
       },
@@ -108,6 +136,7 @@
         ],
         "rules": {
           "@typescript-eslint/consistent-type-assertions": "off",
+          "@typescript-eslint/consistent-type-imports": "off",
           "@typescript-eslint/no-namespace": "off",
           "import/no-extraneous-dependencies": "off",
           "max-nested-callbacks": "off",

@@ -1,5 +1,5 @@
 // Mathematical procedures
-import {Position} from './tree'
+import type {Position} from './tree'
 
 export const {PI} = Math
 export const HALF_PI = PI / 2

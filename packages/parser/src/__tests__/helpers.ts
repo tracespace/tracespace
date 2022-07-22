@@ -1,5 +1,5 @@
-import {Position} from 'unist'
-import {Token} from '../lexer'
+import type {Position} from 'unist'
+import type {Token} from '../lexer'
 
 export function token(type: Token['type'], value: Token['value']): Token {
   return {

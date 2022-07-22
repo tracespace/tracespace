@@ -1,6 +1,6 @@
-import {Options as GerberOptions} from 'gerber-to-svg'
-import {Options as PcbStackupOptions} from 'pcb-stackup'
-import {Options as YargsOptions} from 'yargs'
+import type {Options as GerberOptions} from 'gerber-to-svg'
+import type {Options as PcbStackupOptions} from 'pcb-stackup'
+import type {Options as YargsOptions} from 'yargs'
 
 export interface Config {
   files: string[]

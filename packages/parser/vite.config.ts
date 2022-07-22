@@ -1,14 +1,4 @@
-import {defineConfig} from 'vite'
+import {defineLibraryConfig} from '../../config/vite.config.base'
+import pkg from './package.json'
 
-import {baseConfig, libraryFilename} from '../../config/vite.config.base'
-
-export default defineConfig({
-  ...baseConfig,
-  build: {
-    lib: {
-      entry: 'src/index.ts',
-      name: 'TracespaceParser',
-      fileName: libraryFilename('tracespace-parser'),
-    },
-  },
-})
+export default defineLibraryConfig(pkg)

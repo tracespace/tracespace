@@ -1,4 +1,4 @@
-import {LayerTestMatch, GerberCad} from './types'
+import type {LayerTestMatch, GerberCad} from './types'
 
 export function getCommonCad(matches: LayerTestMatch[]): GerberCad {
   let mode: GerberCad = null

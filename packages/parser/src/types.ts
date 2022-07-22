@@ -1,6 +1,6 @@
 // Common types
 
-import * as Constants from './constants'
+import type * as Constants from './constants'
 
 /**
  * Gerber file or NC drill file

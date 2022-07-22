@@ -2,17 +2,19 @@
   "name": "whats-that-gerber",
   "version": "5.0.0-next.0",
   "description": "Identify Gerber and drill files by filename",
-  "main": "./dist/whats-that-gerber.umd.cjs",
-  "module": "./dist/whats-that-gerber.es.js",
   "types": "./lib/index.d.ts",
   "exports": {
-    ".": {
-      "types": "./lib/index.d.ts",
-      "source": "./src/index.ts",
-      "import": "./dist/whats-that-gerber.es.js",
-      "require": "./dist/whats-that-gerber.umd.cjs"
-    }
+    "types": "./lib/index.d.ts",
+    "source": "./src/index.ts",
+    "import": "./dist/whats-that-gerber.js",
+    "require": "./dist/whats-that-gerber.umd.cjs"
   },
+  "files": [
+    "dist",
+    "lib",
+    "src",
+    "!**/__tests__/**"
+  ],
   "type": "module",
   "sideEffects": false,
   "scripts": {
@@ -32,7 +34,7 @@
     "electronics"
   ],
   "contributors": [
-    "Mike Cousins <mike@cousins.io> (http://cousins.io)",
+    "Mike Cousins <mike@cousins.io> (https://mike.cousins.io)",
     "Kaspar Emanuel <kaspar@monostable.co.uk> (http://monostable.co.uk)",
     "David Freitag <dvdfreitag@gmail.com>"
   ],

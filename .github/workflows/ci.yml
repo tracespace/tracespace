@@ -3,23 +3,18 @@ on: [push, pull_request]
 
 jobs:
   test:
+    name: unit tests on node ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: ['14', '16', '18']
-    name: unit tests on node ${{ matrix.node-version }}
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@35ab4267a1a21c8e8cb1c087cf1642e891ff57bd
-        with:
-          version: '7.5.0'
-      - uses: actions/setup-node@v3
+      - uses: ./.github/actions/setup
         with:
           node-version: ${{ matrix.node-version }}
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
       - run: pnpm test:once
-      - uses: codecov/codecov-action@81cd2dc8148241f03f5839d295e000b8f761e378
+      - uses: codecov/codecov-action@d9f34f8cd5cb3b3eb79b3e4b5dae3a16df499a70
         with:
           files: coverage/coverage-final.json
 
@@ -28,12 +23,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@35ab4267a1a21c8e8cb1c087cf1642e891ff57bd
-        with:
-          version: '7.5.0'
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - uses: ./.github/actions/setup
       - run: pnpm check

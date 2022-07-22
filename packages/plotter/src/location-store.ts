@@ -1,7 +1,8 @@
 // Track the location of the plotter and parse coordinate strings
-import {GRAPHIC, TRAILING, GerberNode} from '@tracespace/parser'
+import type {GerberNode} from '@tracespace/parser'
+import {GRAPHIC, TRAILING} from '@tracespace/parser'
 
-import {PlotOptions} from './options'
+import type {PlotOptions} from './options'
 
 export interface Point {
   x: number

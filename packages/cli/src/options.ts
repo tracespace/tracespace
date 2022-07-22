@@ -1,5 +1,5 @@
 import {resolve} from './resolve'
-import {ArgOptions} from './types'
+import type {ArgOptions} from './types'
 
 export const STDOUT = '-'
 
