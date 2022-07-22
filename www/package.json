@@ -11,7 +11,7 @@
   },
   "scripts": {
     "dev": "node server.js",
-    "build": "vite build && vite build --ssr && vite-plugin-ssr prerender",
+    "build": "vite build",
     "preview": "node server.js preview"
   },
   "contributors": [
@@ -23,31 +23,31 @@
   },
   "homepage": "https://tracespace.io",
   "dependencies": {
-    "@fontsource/open-sans": "^4.5.8",
+    "@fontsource/open-sans": "^4.5.10",
     "@tracespace/parser": "workspace:*",
     "@tracespace/plotter": "workspace:*",
     "@tracespace/renderer": "workspace:*",
     "hast-util-to-html": "^8.0.3",
     "hastscript": "^7.0.2",
     "moo": "^0.5.1",
-    "preact": "^10.7.1",
-    "stringify-object": "3.3.0",
+    "preact": "^10.10.0",
+    "stringify-object": "4.0.1",
     "unist-util-map": "^3.1.1",
     "unist-util-visit-parents": "^5.1.0",
-    "windicss": "^3.5.1"
+    "windicss": "^3.5.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.9",
-    "@babel/plugin-transform-react-jsx": "^7.17.3",
-    "@babel/plugin-transform-react-jsx-development": "^7.16.7",
-    "@mdx-js/rollup": "^2.1.1",
-    "@preact/preset-vite": "^2.2.0",
-    "@types/stringify-object": "3.3.0",
+    "@babel/core": "^7.18.9",
+    "@babel/plugin-transform-react-jsx": "^7.18.6",
+    "@babel/plugin-transform-react-jsx-development": "^7.18.6",
+    "@mdx-js/rollup": "^2.1.2",
+    "@preact/preset-vite": "^2.3.0",
+    "@types/stringify-object": "4.0.1",
     "babel-plugin-transform-hook-names": "^1.0.2",
-    "express": "^4.18.0",
-    "preact-render-to-string": "^5.1.21",
-    "vite-plugin-ssr": "^0.3.64",
-    "vite-plugin-windicss": "^1.8.4",
+    "express": "^4.18.1",
+    "preact-render-to-string": "^5.2.1",
+    "vite-plugin-ssr": "^0.4.11",
+    "vite-plugin-windicss": "^1.8.7",
     "yargs-parser": "^21.0.1"
   }
 }

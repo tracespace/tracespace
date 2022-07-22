@@ -1,7 +1,7 @@
 import {render as renderToString} from 'preact-render-to-string'
 import {escapeInject, dangerouslySkipEscape} from 'vite-plugin-ssr'
 
-import type {PageContext} from './page-context'
+import type {PageContext} from './_page-context'
 
 export function render(pageContext: PageContext): unknown {
   const {Page} = pageContext

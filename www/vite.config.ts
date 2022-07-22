@@ -10,14 +10,5 @@ import packageMeta from './package.json'
 export default defineConfig({
   ...baseConfig,
   define: getDefineConstants(packageMeta),
-  plugins: [preact(), mdx(), ssr(), windiCSS()],
-  // TODO(mc, 2022-05-28): remove this override when vite outputs ESM for SSR
-  // https://github.com/vitejs/vite/issues/8150
-  build: {
-    rollupOptions: {
-      output: {
-        format: 'es',
-      },
-    },
-  },
+  plugins: [preact(), mdx(), windiCSS(), ssr({prerender: true})],
 })

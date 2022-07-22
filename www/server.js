@@ -4,7 +4,7 @@ import url from 'node:url'
 
 import express from 'express'
 import yargsParser from 'yargs-parser'
-import {createPageRenderer} from 'vite-plugin-ssr'
+import {renderPage} from 'vite-plugin-ssr'
 import {createServer as createViteServer} from 'vite'
 
 const root = path.dirname(url.fileURLToPath(import.meta.url))
@@ -31,7 +31,7 @@ function createServer() {
     return Promise.resolve(configurePreviewServer(app))
   }
 
-  return createViteServer({server: {middlewareMode: 'ssr'}}).then(
+  return createViteServer({server: {middlewareMode: true}}).then(
     viteDevServer => configureDevServer(app, viteDevServer)
   )
 }
@@ -42,8 +42,6 @@ function configurePreviewServer(app) {
 }
 
 function configureDevServer(app, viteDevServer) {
-  const renderPage = createPageRenderer({root, viteDevServer})
-
   app.use(viteDevServer.middlewares)
 
   app.get('*', async (request, response, next) => {
