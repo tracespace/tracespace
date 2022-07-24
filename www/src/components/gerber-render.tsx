@@ -151,7 +151,7 @@ function GerberLine(props: GerberLineProps): JSX.Element {
 
   return (
     <p
-      class={`p-1 ${highlight ? 'bg-red-100' : ''}`}
+      class={`p-1 ${highlight ? 'bg-red-100 text-black' : ''}`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       ref={element}
@@ -234,7 +234,7 @@ function TreeNode(props: TreeNodeProps): JSX.Element {
 
   return (
     <div
-      class={`${className ?? ''} ${highlight ? 'bg-red-100' : ''}`}
+      class={`${className ?? ''} ${highlight ? 'bg-red-100 text-black' : ''}`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       ref={element}
