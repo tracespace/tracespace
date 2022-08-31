@@ -6,7 +6,8 @@ import * as Parser from '@tracespace/parser'
 
 import * as Tree from '../tree'
 import * as BoundingBox from '../bounding-box'
-import {MainLayer, createMainLayer} from '../main-layer'
+import type {MainLayer} from '../main-layer'
+import {createMainLayer} from '../main-layer'
 
 vi.mock('../bounding-box', () => td.object<unknown>())
 

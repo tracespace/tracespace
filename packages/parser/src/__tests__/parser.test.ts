@@ -1,9 +1,10 @@
 import {describe, it, beforeEach, afterEach, expect, vi} from 'vitest'
 import * as td from 'testdouble'
 
-import {Token, Lexer, LexerState, createLexer} from '../lexer'
+import type {Token, Lexer, LexerState} from '../lexer'
+import {createLexer} from '../lexer'
 import {matchSyntax} from '../syntax'
-import {GerberNode} from '../tree'
+import type {GerberNode} from '../tree'
 import {createParser} from '..'
 
 vi.mock('../lexer', () => td.object<unknown>())

@@ -1,10 +1,12 @@
-import {Ref} from 'preact'
+import type {Ref} from 'preact'
 import {useMemo, useRef, useEffect} from 'preact/hooks'
 import {toHtml} from 'hast-util-to-html'
 import stringifyObject from 'stringify-object'
 
-import {GerberTree, GerberNode, createParser} from '@tracespace/parser'
-import {ImageTree, ImageNode, plot} from '@tracespace/plotter'
+import type {GerberTree, GerberNode} from '@tracespace/parser'
+import {createParser} from '@tracespace/parser'
+import type {ImageTree, ImageNode} from '@tracespace/plotter'
+import {plot} from '@tracespace/plotter'
 import {render} from '@tracespace/renderer'
 
 import type {SvgElement} from '@tracespace/renderer'

@@ -1,9 +1,10 @@
 // Main layer
 // Collects graphic objects onto the main layer, transforming as necessary
-import {GerberNode} from '@tracespace/parser'
+import type {GerberNode} from '@tracespace/parser'
 
 import * as BoundingBox from './bounding-box'
-import {IMAGE_LAYER, ImageLayer, ImageGraphic} from './tree'
+import type {ImageLayer, ImageGraphic} from './tree'
+import {IMAGE_LAYER} from './tree'
 
 export interface MainLayer {
   get(): ImageLayer

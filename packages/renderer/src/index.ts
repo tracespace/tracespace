@@ -2,10 +2,8 @@ import {s} from 'hastscript'
 import {map} from 'unist-util-map'
 import {visitParents} from 'unist-util-visit-parents'
 
+import type {ImageTree, ImageNode, ImageLayer} from '@tracespace/plotter'
 import {
-  ImageTree,
-  ImageNode,
-  ImageLayer,
   IMAGE,
   IMAGE_LAYER,
   IMAGE_SHAPE,

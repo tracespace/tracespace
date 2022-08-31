@@ -1,7 +1,8 @@
 // Tests for @tracespace/parser
 
 import {describe, it, beforeEach, expect} from 'vitest'
-import {ROOT, COMMENT, DONE, GERBER, Parser, createParser} from '..'
+import type {Parser} from '..'
+import {ROOT, COMMENT, DONE, GERBER, createParser} from '..'
 
 describe('@tracespace/parser', () => {
   let parser: Parser

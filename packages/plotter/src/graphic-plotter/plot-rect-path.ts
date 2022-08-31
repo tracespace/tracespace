@@ -1,7 +1,7 @@
 // Functions for stroking rectangular tools
 // Stroking rectangular tools is deprecated by the Gerber spec
 // This functionality may be dropped and replaced with a warning
-import {Rectangle} from '@tracespace/parser'
+import type {Rectangle} from '@tracespace/parser'
 
 import * as Tree from '../tree'
 import {positionsEqual, HALF_PI, PI} from '../coordinate-math'

@@ -1,4 +1,4 @@
-import {Token as MooToken} from 'moo'
+import type {Token as MooToken} from 'moo'
 
 /**
  * T-code token type

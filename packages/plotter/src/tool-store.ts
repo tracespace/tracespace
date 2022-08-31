@@ -1,14 +1,16 @@
 // Tool store
 // Keeps track of the defined tools, defined macros, and the current tool
+import type {
+  GerberNode,
+  SimpleShape,
+  HoleShape,
+  MacroBlock,
+} from '@tracespace/parser'
 import {
   MACRO_SHAPE,
   TOOL_CHANGE,
   TOOL_DEFINITION,
   TOOL_MACRO,
-  GerberNode,
-  SimpleShape,
-  HoleShape,
-  MacroBlock,
 } from '@tracespace/parser'
 
 export const SIMPLE_TOOL = 'simpleTool'

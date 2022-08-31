@@ -1,8 +1,8 @@
 import {MACRO_SHAPE} from '@tracespace/parser'
 
 import * as Tree from '../tree'
-import {Location} from '../location-store'
-import {SimpleTool} from '../tool-store'
+import type {Location} from '../location-store'
+import type {SimpleTool} from '../tool-store'
 
 import {createShape, shapeToSegments} from './shapes'
 

@@ -1,14 +1,16 @@
 import {s} from 'hastscript'
 
 import {random as createId} from '@tracespace/xml-id'
-import {
-  BoundingBox,
-  positionsEqual,
+import type {
   ImageShape,
   ImagePath,
   ImageRegion,
   PathSegment,
   Shape,
+} from '@tracespace/plotter'
+import {
+  BoundingBox,
+  positionsEqual,
   OutlineShape,
   IMAGE_PATH,
   CIRCLE,

@@ -1,7 +1,9 @@
-import {Lexer, LexerState, createLexer} from './lexer'
+import type {Lexer, LexerState} from './lexer'
+import {createLexer} from './lexer'
 import {matchSyntax} from './syntax'
-import {ROOT, GerberTree, GerberNode} from './tree'
-import {Filetype} from './types'
+import type {GerberTree, GerberNode} from './tree'
+import {ROOT} from './tree'
+import type {Filetype} from './types'
 
 export * from './constants'
 export * from './lexer'

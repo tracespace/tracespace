@@ -1,4 +1,5 @@
-import {UserConfig, defineConfig} from 'vite'
+import type {UserConfig} from 'vite'
+import {defineConfig} from 'vite'
 
 export const baseConfig: UserConfig = defineConfig({
   resolve: {

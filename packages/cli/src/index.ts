@@ -8,15 +8,17 @@ import glob from 'globby'
 import makeDir from 'make-dir'
 import createLogger from 'debug'
 
-import gerberToSvg, {Options as GerberToSvgOptions} from 'gerber-to-svg'
-import pcbStackup, {Stackup, InputLayer} from 'pcb-stackup'
+import type {Options as GerberToSvgOptions} from 'gerber-to-svg'
+import gerberToSvg from 'gerber-to-svg'
+import type {Stackup, InputLayer} from 'pcb-stackup'
+import pcbStackup from 'pcb-stackup'
 import * as Wtg from 'whats-that-gerber'
 import yargs from 'yargs'
 
 import {examples} from './examples'
 import {options, STDOUT} from './options'
 import {resolve} from './resolve'
-import {Config} from './types'
+import type {Config} from './types'
 
 export {options} from './options'
 

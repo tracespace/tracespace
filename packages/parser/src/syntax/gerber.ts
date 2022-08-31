@@ -1,18 +1,11 @@
 // Gerber file syntax
 import * as Lexer from '../lexer'
 import * as Constants from '../constants'
-import * as Types from '../types'
+import type * as Types from '../types'
 import * as Tree from '../tree'
 import {parseMacroBlocks} from './macro'
-import {
-  SyntaxRule,
-  token,
-  notToken,
-  one,
-  zeroOrMore,
-  zeroOrOne,
-  minToMax,
-} from './rules'
+import type {SyntaxRule} from './rules'
+import {token, notToken, one, zeroOrMore, zeroOrOne, minToMax} from './rules'
 
 import {
   tokensToCoordinates,

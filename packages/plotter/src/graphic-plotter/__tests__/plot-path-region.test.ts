@@ -3,9 +3,11 @@ import {describe, it, expect} from 'vitest'
 import * as Parser from '@tracespace/parser'
 
 import * as Tree from '../../tree'
-import {SIMPLE_TOOL, Tool} from '../../tool-store'
-import {Location} from '../../location-store'
-import {GraphicPlotter, createGraphicPlotter} from '..'
+import type {Tool} from '../../tool-store'
+import {SIMPLE_TOOL} from '../../tool-store'
+import type {Location} from '../../location-store'
+import type {GraphicPlotter} from '..'
+import {createGraphicPlotter} from '..'
 
 type SubjectCall = Parameters<GraphicPlotter['plot']>
 type SubjectReturn = ReturnType<GraphicPlotter['plot']>
