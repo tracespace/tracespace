@@ -13,20 +13,30 @@ describe('bounding box calculations', () => {
     expect(result).to.eql([])
   })
 
-  it('should add boxes', () => {
+  it('should add two boxes', () => {
     const box1: Box = [1, 2, 3, 4]
     const box2: Box = [5, 6, 7, 8]
+    const box3: Box = []
 
+    expect(subject.add(box1, box3)).to.eql(box1)
+    expect(subject.add(box2, box3)).to.eql(box2)
     expect(subject.add(box1, box2)).to.eql([1, 2, 7, 8])
     expect(subject.add(box2, box1)).to.eql([1, 2, 7, 8])
   })
 
-  it('should add empty boxes', () => {
-    const empty = subject.empty()
-    const notEmpty: Box = [1, 2, 3, 4]
+  it('should sum a list of boxes', () => {
+    const box1: Box = [1, 2, 3, 4]
+    const box2: Box = [5, 6, 7, 8]
+    const box3: Box = []
+    const box4: Box = [-1, 5, 8, 5]
 
-    expect(subject.add(empty, notEmpty)).to.eql(notEmpty)
-    expect(subject.add(notEmpty, empty)).to.eql(notEmpty)
+    expect(subject.sum([])).to.eql([])
+    expect(subject.sum([box1])).to.eql(box1)
+    expect(subject.sum([box1, box3])).to.eql(box1)
+    expect(subject.sum([box2, box3])).to.eql(box2)
+    expect(subject.sum([box1, box2])).to.eql([1, 2, 7, 8])
+    expect(subject.sum([box2, box1])).to.eql([1, 2, 7, 8])
+    expect(subject.sum([box1, box2, box3, box4])).to.eql([-1, 2, 8, 8])
   })
 
   it('should identify empty boxes', () => {
@@ -35,11 +45,6 @@ describe('bounding box calculations', () => {
 
     expect(subject.isEmpty(empty)).to.equal(true)
     expect(subject.isEmpty(notEmpty)).to.equal(false)
-  })
-
-  it('should convert into a view box - [xMin, yMin, xSize, ySize]', () => {
-    expect(subject.toViewBox(subject.empty())).to.eql([0, 0, 0, 0])
-    expect(subject.toViewBox([1, 2, 10, 20])).to.eql([1, 2, 9, 18])
   })
 
   it('should create from a circle graphic', () => {

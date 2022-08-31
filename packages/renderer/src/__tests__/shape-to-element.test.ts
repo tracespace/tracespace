@@ -10,7 +10,7 @@ describe('mapping a shape to an element', () => {
 
     expect(result).to.deep.include({
       tagName: 'circle',
-      properties: {cx: 1, cy: 2, r: 3},
+      properties: {cx: 1, cy: -2, r: 3},
       children: [],
     })
   })
@@ -27,7 +27,7 @@ describe('mapping a shape to an element', () => {
 
     expect(result).to.deep.include({
       tagName: 'rect',
-      properties: {x: 1, y: 2, width: 3, height: 4},
+      properties: {x: 1, y: -6, width: 3, height: 4},
       children: [],
     })
   })
@@ -45,7 +45,7 @@ describe('mapping a shape to an element', () => {
 
     expect(result).to.deep.include({
       tagName: 'rect',
-      properties: {x: 1, y: 2, width: 3, height: 4, rx: 0.25, ry: 0.25},
+      properties: {x: 1, y: -6, width: 3, height: 4, rx: 0.25, ry: 0.25},
       children: [],
     })
   })
@@ -64,7 +64,7 @@ describe('mapping a shape to an element', () => {
 
     expect(result).to.deep.include({
       tagName: 'polygon',
-      properties: {points: '1,1 2,1 2,2 1,2'},
+      properties: {points: '1,-1 2,-1 2,-2 1,-2'},
       children: [],
     })
   })
@@ -82,7 +82,7 @@ describe('mapping a shape to an element', () => {
 
       expect(result).to.deep.include({
         tagName: 'path',
-        properties: {d: 'M0 0L1 1L2 2'},
+        properties: {d: 'M0 0L1 -1L2 -2'},
         children: [],
       })
     })
@@ -99,7 +99,7 @@ describe('mapping a shape to an element', () => {
 
       expect(result).to.deep.include({
         tagName: 'path',
-        properties: {d: 'M1 2L3 4M5 6L7 8'},
+        properties: {d: 'M1 -2L3 -4M5 -6L7 -8'},
         children: [],
       })
     })
@@ -146,10 +146,10 @@ describe('mapping a shape to an element', () => {
         properties: {
           d: [
             'M0 0',
-            'A0.25 0.25 0 0 0 0.25 0.25',
-            'A0.25 0.25 0 0 1 0.5 0.5',
-            'A0.25 0.25 0 1 0 0.75 0.25',
-            'A0.25 0.25 0 1 1 1 0',
+            'A0.25 0.25 0 0 1 0.25 -0.25',
+            'A0.25 0.25 0 0 0 0.5 -0.5',
+            'A0.25 0.25 0 1 1 0.75 -0.25',
+            'A0.25 0.25 0 1 0 1 0',
           ].join(''),
         },
         children: [],

@@ -3,7 +3,6 @@ import type {Node, Parent} from 'unist'
 import type {UnitsType} from '@tracespace/parser'
 
 export const IMAGE = 'image'
-export const IMAGE_LAYER = 'imageLayer'
 export const IMAGE_SHAPE = 'imageShape'
 export const IMAGE_PATH = 'imagePath'
 export const IMAGE_REGION = 'imageRegion'
@@ -23,12 +22,7 @@ export type ArcPosition = [x: number, y: number, theta: number]
 
 export type SizeEnvelope = [x1: number, y1: number, x2: number, y2: number] | []
 
-export type ImageNode =
-  | ImageTree
-  | ImageLayer
-  | ImageShape
-  | ImagePath
-  | ImageRegion
+export type ImageNode = ImageTree | ImageShape | ImagePath | ImageRegion
 
 export interface CircleShape {
   type: typeof CIRCLE
@@ -78,11 +72,6 @@ export type ImageGraphic = ImageShape | ImagePath | ImageRegion
 export interface ImageTree extends Parent {
   type: typeof IMAGE
   units: UnitsType
-  children: [ImageLayer]
-}
-
-export interface ImageLayer extends Parent {
-  type: typeof IMAGE_LAYER
   size: SizeEnvelope
   children: ImageGraphic[]
 }

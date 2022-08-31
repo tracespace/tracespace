@@ -143,8 +143,6 @@ importers:
       '@types/hast': ^2.3.4
       '@types/unist': ^2.0.6
       hastscript: ^7.2.0
-      unist-util-map: ^3.1.2
-      unist-util-visit-parents: ^5.1.1
     dependencies:
       '@tracespace/parser': link:../parser
       '@tracespace/plotter': link:../plotter
@@ -153,8 +151,6 @@ importers:
     devDependencies:
       '@types/unist': 2.0.6
       hastscript: 7.2.0
-      unist-util-map: 3.1.2
-      unist-util-visit-parents: 5.1.1
 
   packages/xml-id:
     specifiers: {}
@@ -178,8 +174,6 @@ importers:
       preact-render-to-string: ^5.2.6
       react: npm:@preact/compat@^17.1.2
       react-dom: npm:@preact/compat@^17.1.2
-      unist-util-map: ^3.1.2
-      unist-util-visit-parents: ^5.1.1
       vite-plugin-ssr: ^0.4.69
       vite-plugin-windicss: ^1.8.10
       windicss: ^3.5.6
@@ -198,8 +192,6 @@ importers:
       preact: 10.11.3
       react: /@preact/compat/17.1.2_preact@10.11.3
       react-dom: /@preact/compat/17.1.2_preact@10.11.3
-      unist-util-map: 3.1.2
-      unist-util-visit-parents: 5.1.1
       windicss: 3.5.6
     devDependencies:
       '@mdx-js/rollup': 2.2.1
@@ -5743,11 +5735,6 @@ packages:
 
   /unist-util-is/5.1.1:
     resolution: {integrity: sha512-F5CZ68eYzuSvJjGhCLPL3cYx45IxkqXSetCcRgUXtbcm50X2L9oOWQlfUfDdAf+6Pd27YDblBfdtmsThXmwpbQ==}
-
-  /unist-util-map/3.1.2:
-    resolution: {integrity: sha512-WLA2R6x/UaopedG2poaWLShf5LCi+BNa6mMkACdjft23PHou4v85PvZItjbO2XgXvukMP365PlL/DrbuMgr3eg==}
-    dependencies:
-      '@types/unist': 2.0.6
 
   /unist-util-position-from-estree/1.1.1:
     resolution: {integrity: sha512-xtoY50b5+7IH8tFbkw64gisG9tMSpxDjhX9TmaJJae/XuxQ9R/Kc8Nv1eOsf43Gt4KV/LkriMy9mptDr7XLcaw==}

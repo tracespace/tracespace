@@ -1,10 +1,8 @@
 import * as Tree from './tree'
 import {TWO_PI, limitAngle, rotateQuadrant} from './coordinate-math'
-import type {SizeEnvelope as Box} from './tree'
+import type {SizeEnvelope as Box, Position, ArcPosition} from './tree'
 
 export type {SizeEnvelope as Box} from './tree'
-
-export type ViewBox = [xMin: number, yMin: number, xSize: number, ySize: number]
 
 export function isEmpty(box: Box): box is [] {
   return box.length === 0
@@ -26,10 +24,12 @@ export function add(a: Box, b: Box): Box {
   ]
 }
 
-export function toViewBox(box: Box): ViewBox {
-  return isEmpty(box)
-    ? [0, 0, 0, 0]
-    : [box[0], box[1], box[2] - box[0], box[3] - box[1]]
+export function sum(boxes: Box[]): Box {
+  return boxes.reduce(add, empty())
+}
+
+export function fromGraphics(graphics: Tree.ImageGraphic[]): Box {
+  return sum(graphics.map(fromGraphic))
 }
 
 export function fromGraphic(graphic: Tree.ImageGraphic): Box {
@@ -45,7 +45,7 @@ export function fromShape(shape: Tree.Shape): Box {
   switch (shape.type) {
     case Tree.CIRCLE: {
       const {cx, cy, r} = shape
-      return [cx - r, cy - r, cx + r, cy + r]
+      return fromPosition([cx, cy], r)
     }
 
     case Tree.RECTANGLE: {
@@ -54,9 +54,7 @@ export function fromShape(shape: Tree.Shape): Box {
     }
 
     case Tree.POLYGON: {
-      return shape.points
-        .map<Box>(([x, y]) => [x, y, x, y])
-        .reduce(add, empty())
+      return sum(shape.points.map(p => fromPosition(p)))
     }
 
     case Tree.OUTLINE: {
@@ -64,15 +62,12 @@ export function fromShape(shape: Tree.Shape): Box {
     }
 
     case Tree.LAYERED_SHAPE: {
-      return shape.shapes
-        .filter(({erase}) => !erase)
-        .map(fromShape)
-        .reduce(add, empty())
+      return sum(shape.shapes.filter(({erase}) => !erase).map(fromShape))
     }
   }
 }
 
-function fromPath(segments: Tree.PathSegment[], width = 0): Box {
+export function fromPath(segments: Tree.PathSegment[], width = 0): Box {
   const rTool = width / 2
   const keyPoints: Array<Tree.Position | Tree.ArcPosition> = []
 
@@ -109,7 +104,14 @@ function fromPath(segments: Tree.PathSegment[], width = 0): Box {
     }
   }
 
-  return keyPoints
-    .map<Box>(([x, y]) => [x - rTool, y - rTool, x + rTool, y + rTool])
-    .reduce(add, empty())
+  return sum(keyPoints.map(p => fromPosition(p, rTool)))
+}
+
+function fromPosition(position: Position | ArcPosition, radius = 0): Box {
+  return [
+    position[0] - radius,
+    position[1] - radius,
+    position[0] + radius,
+    position[1] + radius,
+  ]
 }
