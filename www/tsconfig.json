@@ -9,7 +9,8 @@
     "composite": true,
     "emitDeclarationOnly": true,
     "rootDir": "src",
-    "outDir": "lib"
+    "outDir": "lib",
+    "skipLibCheck": true
   },
-  "include": ["src"]
+  "include": ["src", "typings"]
 }

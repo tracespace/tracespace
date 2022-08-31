@@ -1,4 +1,4 @@
-import {defineConfig} from 'vite'
+import {Plugin, defineConfig} from 'vite'
 import preact from '@preact/preset-vite'
 import windiCSS from 'vite-plugin-windicss'
 import mdx from '@mdx-js/rollup'
@@ -9,6 +9,7 @@ import packageMeta from './package.json'
 
 export default defineConfig({
   ...baseConfig,
+  appType: 'custom',
   define: getDefineConstants(packageMeta),
   plugins: [preact(), mdx(), windiCSS(), ssr({prerender: true})],
 })

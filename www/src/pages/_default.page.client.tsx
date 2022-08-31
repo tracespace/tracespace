@@ -13,5 +13,5 @@ export async function render(pageContext: PageContext): Promise<void> {
   const page = <Page />
   const mount = isHydration ? preactHydrate : preactRender
 
-  mount(page, window.document.body)
+  mount(page, document.body)
 }

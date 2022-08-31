@@ -1,4 +1,6 @@
 import {defineConfig} from 'vitest/config'
+import preact from '@preact/preset-vite'
+
 import {baseConfig} from './config/vite.config.base'
 
 export default defineConfig({
@@ -8,10 +10,11 @@ export default defineConfig({
     __PKG_VERSION__: JSON.stringify('0.0.0-test'),
     __PKG_DESCRIPTION__: JSON.stringify('Test description'),
   },
+  plugins: [preact()],
   assetsInclude: ['**/*.gbr', '**/*.drl'],
   test: {
-    setupFiles: './config/vitest.setup.ts',
-    outputDiffLines: 100,
+    threads: false,
+    setupFiles: ['./config/vitest.setup.ts'],
     coverage: {
       all: true,
       extension: ['ts', 'tsx'],
