@@ -89,7 +89,7 @@ function Fixture(props: FixtureProps): JSX.Element {
 
   return (
     <div class="mb-8">
-      <div class="sticky top-0 bg-white/95 dark:bg-dark-900/95">
+      <div class="sticky top-0 bg-white/95 dark:bg-dark-800/95">
         <h2 class="text-lg p-1 font-mono">
           {sectionName}/{name}
         </h2>

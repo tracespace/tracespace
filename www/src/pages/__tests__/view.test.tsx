@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 // Tests for the index page
 import {describe, it, afterEach, expect} from 'vitest'
-import {render, screen, cleanup} from '@testing-library/preact'
+import {render, screen, within, cleanup} from '@testing-library/preact'
 import userEvent from '@testing-library/user-event'
 
 import {Page as Subject} from '../view.page'
@@ -26,15 +26,14 @@ describe('view page', () => {
 
     render(<Subject />)
 
-    const result =
-      screen.getByLabelText<HTMLInputElement>(/select your.+files/i)
+    const input = screen.getByLabelText<HTMLInputElement>(/select your.+files/i)
+    await userEvent.upload(input, files)
 
-    await userEvent.upload(result, files)
+    const results = within(screen.getByRole('list')).getAllByRole('listitem')
 
-    expect(result.files).toHaveLength(2)
-    expect(result.files![0]).toBe(files[0])
-    expect(result.files![1]).toBe(files[1])
-    expect(result).toHaveAttribute('sr', 'only')
+    expect(results).toHaveLength(2)
+    expect(results[0]).toHaveTextContent('hello.gbr')
+    expect(results[1]).toHaveTextContent('world.gbr')
   })
 
   it('should toggle dark mode', async () => {

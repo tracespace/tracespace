@@ -32,8 +32,8 @@ export function render(pageContext: PageContext): unknown {
         </script>
       </head>
       <body
-        text="dark-900 dark:white"
-        bg="white dark:dark-900"
+        text="dark-800 dark:white"
+        bg="white dark:dark-800"
         transition="colors"
       >
         ${dangerouslySkipEscape(pageHtml)}
