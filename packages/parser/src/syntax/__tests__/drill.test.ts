@@ -30,6 +30,28 @@ const SPECS: Array<{
   expectedNodes: Tree.ChildNode[]
 }> = [
   {
+    // Drill file start with a percent header
+    source: '%\n',
+    expectedTokens: [t(Lexer.PERCENT, '%'), t(Lexer.NEWLINE, '\n')],
+    expectedNodes: [
+      {
+        type: Tree.DRILL_HEADER,
+        position: pos([1, 1, 0], [1, 2, 1]),
+      },
+    ],
+  },
+  {
+    // Drill file start with an M48 header
+    source: 'M48\n',
+    expectedTokens: [t(Lexer.M_CODE, '48'), t(Lexer.NEWLINE, '\n')],
+    expectedNodes: [
+      {
+        type: Tree.DRILL_HEADER,
+        position: pos([1, 1, 0], [1, 4, 3]),
+      },
+    ],
+  },
+  {
     // Drill file end with M00
     source: 'M00\n',
     expectedTokens: [t(Lexer.M_CODE, '0'), t(Lexer.NEWLINE, '\n')],

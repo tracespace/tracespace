@@ -209,6 +209,17 @@ const done: SyntaxRule = {
   ],
 }
 
+const header: SyntaxRule = {
+  name: 'header',
+  rules: [
+    one([token(Lexer.M_CODE, '48'), token(Lexer.PERCENT)]),
+    token(Lexer.NEWLINE),
+  ],
+  createNodes: tokens => [
+    {type: Tree.DRILL_HEADER, position: tokensToPosition(tokens)},
+  ],
+}
+
 const comment: SyntaxRule = {
   name: 'comment',
   rules: [
@@ -233,4 +244,5 @@ export const drillGrammar: SyntaxRule[] = [
   comment,
   units,
   done,
+  header,
 ].map(r => ({...r, filetype: Constants.DRILL}))

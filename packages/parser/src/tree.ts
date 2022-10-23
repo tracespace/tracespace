@@ -17,6 +17,13 @@ export const ROOT = 'root'
 export const COMMENT = 'comment'
 
 /**
+ * {@linkcode DrillHeader} node type
+ *
+ * @category Node
+ */
+export const DRILL_HEADER = 'drillHeader'
+
+/**
  * {@linkcode Done} node type
  *
  * @category Node
@@ -152,6 +159,7 @@ export type Node = Root | ChildNode
  */
 export type ChildNode =
   | Comment
+  | DrillHeader
   | Done
   | Units
   | CoordinateFormat
@@ -207,6 +215,16 @@ export interface Comment extends BaseNode {
   type: typeof COMMENT
   /** Contents of the comment as a string */
   comment: string
+}
+
+/**
+ * Node representing drill file's header start or end.
+ *
+ *  @category Node
+ */
+export interface DrillHeader extends BaseNode {
+  /** Node type */
+  type: typeof DRILL_HEADER
 }
 
 /**
