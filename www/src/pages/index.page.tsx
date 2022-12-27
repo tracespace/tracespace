@@ -40,6 +40,9 @@ const SECTIONS = SECTION_NAMES.map(sectionName => {
 export function Page(): JSX.Element {
   return (
     <main class="p-4">
+      <a href="/view" class="float-right">
+        tracespace view {'>'}
+      </a>
       <h1 class="text-2xl mb-4 p-1">tracespace render test</h1>
       {SECTIONS.map(({sectionName, fixtures}) => (
         <Section
@@ -86,7 +89,7 @@ function Fixture(props: FixtureProps): JSX.Element {
 
   return (
     <div class="mb-8">
-      <div class="sticky top-0 bg-white/95">
+      <div class="sticky top-0 bg-white/95 dark:bg-dark-800/95">
         <h2 class="text-lg p-1 font-mono">
           {sectionName}/{name}
         </h2>
