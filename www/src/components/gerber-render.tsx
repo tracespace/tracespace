@@ -1,8 +1,8 @@
 import type {Ref} from 'preact'
 import {useMemo, useRef, useEffect} from 'preact/hooks'
-import {toHtml} from 'hast-util-to-html'
 import stringifyObject from 'json-stringify-pretty-compact'
 
+import {stringifySvg} from '@tracespace/core'
 import type {GerberTree, GerberNode} from '@tracespace/parser'
 import {createParser} from '@tracespace/parser'
 import type {ImageTree, ImageNode} from '@tracespace/plotter'
@@ -29,7 +29,7 @@ const useRenderTree = (imageTree: ImageTree): SvgElement => {
 }
 
 const useRenderHtml = (renderTree: SvgElement): string => {
-  return useMemo(() => toHtml(renderTree), [renderTree])
+  return useMemo(() => stringifySvg(renderTree), [renderTree])
 }
 
 const useHighlight = <E extends HTMLElement>(highlight?: boolean): Ref<E> => {

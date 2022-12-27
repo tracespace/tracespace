@@ -73,3 +73,7 @@ export function createParser(): Parser {
     return {type: ROOT, filetype, children}
   }
 }
+
+export function parse(contents: string): GerberTree {
+  return createParser().feed(contents).result()
+}

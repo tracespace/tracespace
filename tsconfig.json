@@ -2,6 +2,7 @@
   "files": [],
   "references": [
     {"path": "./packages/cli"},
+    {"path": "./packages/core"},
     {"path": "./packages/identify-layers"},
     {"path": "./packages/parser"},
     {"path": "./packages/plotter"},
