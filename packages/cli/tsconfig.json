@@ -1,6 +1,6 @@
 {
   "extends": "../../config/tsconfig.base.json",
-  "references": [{"path": "../../packages/identify-layers"}],
+  "references": [{"path": "../../packages/core"}],
   "compilerOptions": {
     "composite": true,
     "emitDeclarationOnly": true,

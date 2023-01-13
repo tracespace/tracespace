@@ -13,6 +13,7 @@ interface PackageMeta {
 
 interface LibraryPackageMeta extends PackageMeta {
   exports: PackageJsonExports
+  bin?: Record<string, string>
   dependencies?: Record<string, string>
   devDependencies?: Record<string, string>
 }
@@ -31,6 +32,7 @@ export function defineBaseConfig(
   const baseConfig = {
     define: {
       __PKG_NAME__: JSON.stringify(name),
+
       __PKG_VERSION__: JSON.stringify(version),
       __PKG_DESCRIPTION__: JSON.stringify(description),
     },
@@ -49,8 +51,11 @@ export function defineLibraryConfig(
   packageMeta: LibraryPackageMeta,
   formats?: LibraryFormats[]
 ): UserConfig {
-  const {name, exports, dependencies = {}} = packageMeta
+  const {name, exports, bin = {}, dependencies = {}} = packageMeta
   const libraryConfig = {
+    define: {
+      __PKG_BIN_NAME__: JSON.stringify(Object.keys(bin).at(0)),
+    },
     build: {
       lib: {
         entry: exports.source,
