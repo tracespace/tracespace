@@ -12,7 +12,7 @@ import type {Options as GerberToSvgOptions} from 'gerber-to-svg'
 import gerberToSvg from 'gerber-to-svg'
 import type {Stackup, InputLayer} from 'pcb-stackup'
 import pcbStackup from 'pcb-stackup'
-import * as LayerId from 'whats-that-gerber'
+import * as LayerId from '@tracespace/identify-layers'
 import yargs from 'yargs'
 
 import {examples} from './examples'

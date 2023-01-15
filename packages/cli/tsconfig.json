@@ -1,6 +1,6 @@
 {
   "extends": "../../config/tsconfig.base.json",
-  "references": [{"path": "../../packages/whats-that-gerber"}],
+  "references": [{"path": "../../packages/identify-layers"}],
   "compilerOptions": {
     "composite": true,
     "emitDeclarationOnly": true,

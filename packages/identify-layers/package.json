@@ -1,13 +1,16 @@
 {
-  "name": "whats-that-gerber",
+  "name": "@tracespace/identify-layers",
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "5.0.0-next.0",
   "description": "Identify Gerber and drill files by filename",
   "types": "./lib/index.d.ts",
   "exports": {
     "types": "./lib/index.d.ts",
     "source": "./src/index.ts",
-    "import": "./dist/whats-that-gerber.js",
-    "require": "./dist/whats-that-gerber.umd.cjs"
+    "import": "./dist/tracespace-identify-layers.js",
+    "require": "./dist/tracespace-identify-layers.umd.cjs"
   },
   "files": [
     "dist",
@@ -23,7 +26,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tracespace/tracespace.git",
-    "directory": "packages/whats-that-gerber"
+    "directory": "packages/identify-layers"
   },
   "keywords": [
     "pcb",

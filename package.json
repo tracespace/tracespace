@@ -23,12 +23,12 @@
   "dependencies": {
     "@tracespace/cli": "workspace:*",
     "@tracespace/fixtures": "workspace:*",
+    "@tracespace/identify-layers": "workspace:*",
     "@tracespace/parser": "workspace:*",
     "@tracespace/plotter": "workspace:*",
     "@tracespace/renderer": "workspace:*",
     "@tracespace/www": "workspace:*",
-    "@tracespace/xml-id": "workspace:*",
-    "whats-that-gerber": "workspace:*"
+    "@tracespace/xml-id": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
