@@ -3,8 +3,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "5.0.0-next.0",
-  "description": "Identify Gerber and drill files by filename",
+  "version": "5.0.0-alpha.0",
+  "description": "Try to guess Gerber files' layer types based on filenames.",
   "types": "./lib/index.d.ts",
   "exports": {
     "types": "./lib/index.d.ts",

@@ -3,8 +3,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "0.0.0-unreleased",
-  "description": "Render @tracespace/plotter image trees as SVGs",
+  "version": "5.0.0-alpha.0",
+  "description": "Render @tracespace/plotter image trees as SVGs.",
   "types": "./lib/index.d.ts",
   "exports": {
     "types": "./lib/index.d.ts",

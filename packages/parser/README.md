@@ -1,38 +1,31 @@
 # @tracespace/parser
 
-A parser for printed circuit board manufacturing files. Compiles [Gerber][gerber] and [NC drill][nc-drill] files into abstract syntax trees based on the [unist][] format.
+[![npm][npm badge]][npm package]
 
-Part of the [tracespace][] collection of PCB visualization tools.
+Parse [Gerber][]/[drill][] files into abstract syntax trees based on the [unist][] format. Part of the [tracespace][] collection of PCB visualization tools.
 
-**This package is still in development and available as a prerelease.**
+This module is one part of the tracespace render pipeline, and you may not need to use it directly. See [@tracespace/core][] to integrate the full render pipeline into your project.
 
 ```shell
 npm install @tracespace/parser@next
 ```
 
 [gerber]: https://en.wikipedia.org/wiki/Gerber_format
-[nc-drill]: https://en.wikipedia.org/wiki/PCB_NC_formats
+[drill]: https://en.wikipedia.org/wiki/PCB_NC_formats
 [unist]: https://unifiedjs.com/
 [tracespace]: https://github.com/tracespace/tracespace
+[@tracespace/core]: ../core
+[npm package]: https://www.npmjs.com/package/@tracespace/parser/v/next
+[npm badge]: https://img.shields.io/npm/v/@tracespace/parser/next?style=flat-square
 
 ## usage
 
 ```js
-import {createParser} from '@tracespace/parser'
+import fs from 'node:fs/promises'
+import {parse} from '@tracespace/parser'
 
-const parser = createParser()
-parser.feed(/* ...some gerber string... */)
-const tree = parser.results()
-```
+const gerberContents = await fs.readFile('gerber.gbr', 'utf-8')
+const syntaxTree = parse(gerberContents)
 
-### script tag
-
-If you're not using a bundler and you want to try out the parser in a browser, you can use a `script` tag:
-
-```html
-<script src="https://unpkg.com/@tracespace/parser"></script>
-<script>
-  // namespace TracespaceParser now available
-  const {createParser} = TracespaceParser
-</script>
+await fs.writeFile('parse.json', JSON.stringify(syntaxTree, null, 2), 'utf-8')
 ```
