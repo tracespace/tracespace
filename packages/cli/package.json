@@ -4,9 +4,9 @@
     "access": "public"
   },
   "version": "5.0.0-next.0",
-  "description": "Render a PCB as SVGs from the command line",
+  "description": "Use Gerber/drill files to render a PCB to SVG from the command line.",
   "bin": {
-    "tracespace": "bin/cli.js"
+    "tracespace": "./bin/cli.js"
   },
   "types": "lib/index.d.ts",
   "exports": {
@@ -48,21 +48,11 @@
     "node": ">=14"
   },
   "dependencies": {
-    "@types/debug": "^4.1.5",
-    "@types/yargs": "^15.0.1",
-    "common-prefix": "^1.1.0",
-    "cosmiconfig": "^5.2.1",
-    "debug": "^4.1.1",
-    "dot-prop": "^5.1.0",
-    "gerber-to-svg": "^4.2.8",
-    "globby": "^11.0.1",
-    "make-dir": "^3.0.0",
-    "pcb-stackup": "4.2.8",
-    "untildify": "^4.0.0",
-    "yargs": "^15.1.0"
+    "@tracespace/core": "workspace:*",
+    "yargs": "^17.6.2"
   },
   "devDependencies": {
-    "@tracespace/identify-layers": "workspace:*",
-    "@types/common-prefix": "^1.1.0"
+    "@types/common-prefix": "^1.1.0",
+    "@types/yargs": "^17.0.18"
   }
 }
