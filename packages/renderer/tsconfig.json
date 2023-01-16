@@ -3,7 +3,6 @@
   "references": [
     {"path": "../parser"},
     {"path": "../plotter"},
-    {"path": "../whats-that-gerber"},
     {"path": "../xml-id"}
   ],
   "compilerOptions": {

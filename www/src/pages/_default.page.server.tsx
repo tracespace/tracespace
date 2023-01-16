@@ -1,13 +1,14 @@
 import {render as renderToString} from 'preact-render-to-string'
-import {escapeInject, dangerouslySkipEscape} from 'vite-plugin-ssr'
+import {escapeInject as html, dangerouslySkipEscape} from 'vite-plugin-ssr'
 
-import type {PageContext} from './page-context'
+import type {PageContext} from './_page-context'
 
 export function render(pageContext: PageContext): unknown {
   const {Page} = pageContext
   const pageHtml = renderToString(<Page />)
 
-  const documentHtml = escapeInject`<!DOCTYPE html>
+  const documentHtml = html`
+    <!DOCTYPE html>
     <html lang="en">
       <head>
         <meta charset="utf-8" />
@@ -17,7 +18,8 @@ export function render(pageContext: PageContext): unknown {
       <body>
         ${dangerouslySkipEscape(pageHtml)}
       </body>
-    </html>`
+    </html>
+  `
 
   return {documentHtml}
 }

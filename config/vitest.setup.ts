@@ -1,4 +1,7 @@
 import {expect} from 'vitest'
+import testingLibraryMatchers from '@testing-library/jest-dom/matchers'
+
+expect.extend(testingLibraryMatchers)
 
 expect.extend({
   approx(received: unknown, expected: number) {

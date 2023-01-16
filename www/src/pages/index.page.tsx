@@ -9,7 +9,7 @@ import {
 
 const gerberFixtures = import.meta.glob(
   '../../../packages/fixtures/gerbers/**/*.(gbr|drl)',
-  {as: 'raw'}
+  {eager: true, as: 'raw'}
 )
 
 const SECTION_NAMES = [

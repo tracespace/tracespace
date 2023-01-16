@@ -1,5 +1,11 @@
 // Graphic plotter
 // Takes nodes and turns them into graphics to be added to the image
+import type {
+  GerberNode,
+  GraphicType,
+  Filetype,
+  InterpolateModeType,
+} from '@tracespace/parser'
 import {
   GRAPHIC,
   SHAPE,
@@ -15,19 +21,17 @@ import {
   INTERPOLATE_MODE,
   QUADRANT_MODE,
   REGION_MODE,
-  GerberNode,
-  GraphicType,
-  Filetype,
-  InterpolateModeType,
 } from '@tracespace/parser'
 
 import * as Tree from '../tree'
-import {SIMPLE_TOOL, MACRO_TOOL, Tool} from '../tool-store'
-import {Location} from '../location-store'
+import type {Tool} from '../tool-store'
+import {SIMPLE_TOOL, MACRO_TOOL} from '../tool-store'
+import type {Location} from '../location-store'
 
 import {plotShape} from './plot-shape'
 import {plotMacro} from './plot-macro'
-import {CCW, CW, ArcDirection, plotSegment, plotPath} from './plot-path'
+import type {ArcDirection} from './plot-path'
+import {CCW, CW, plotSegment, plotPath} from './plot-path'
 
 export interface GraphicPlotter {
   plot(

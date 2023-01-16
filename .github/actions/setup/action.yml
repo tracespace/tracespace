@@ -1,0 +1,23 @@
+name: 'Set up repository for CI'
+description: 'Clone the repository and install development dependencies'
+
+inputs:
+  node-version:
+    description: 'Node.js version to install'
+    default: '18'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 'Install pnpm'
+      uses: pnpm/action-setup@c3b53f6a16e57305370b4ae5a540c2077a1d50dd
+
+    - name: 'Install Node.js'
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: pnpm
+
+    - name: 'Install development dependencies'
+      run: pnpm install --frozen-lockfile
+      shell: bash

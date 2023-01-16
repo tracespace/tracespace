@@ -2,7 +2,7 @@ import {getCommonCad} from './get-common-cad'
 import {getMatches} from './get-matches'
 import {layerTypes} from './layer-types'
 
-import {
+import type {
   LayerIdentityMap,
   ValidLayer,
   ValidatedLayer,

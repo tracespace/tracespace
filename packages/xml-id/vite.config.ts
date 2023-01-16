@@ -1,14 +1,4 @@
-import {defineConfig} from 'vite'
+import {defineLibraryConfig} from '../../config/vite.config.base'
+import packageMeta from './package.json'
 
-import {baseConfig, libraryFilename} from '../../config/vite.config.base'
-
-export default defineConfig({
-  ...baseConfig,
-  build: {
-    lib: {
-      entry: 'src/index.ts',
-      name: 'TracespaceXmlId',
-      fileName: libraryFilename('tracespace-xml-id'),
-    },
-  },
-})
+export default defineLibraryConfig(packageMeta)

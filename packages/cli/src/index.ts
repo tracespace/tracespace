@@ -8,15 +8,17 @@ import glob from 'globby'
 import makeDir from 'make-dir'
 import createLogger from 'debug'
 
-import gerberToSvg, {Options as GerberToSvgOptions} from 'gerber-to-svg'
-import pcbStackup, {Stackup, InputLayer} from 'pcb-stackup'
-import * as Wtg from 'whats-that-gerber'
+import type {Options as GerberToSvgOptions} from 'gerber-to-svg'
+import gerberToSvg from 'gerber-to-svg'
+import type {Stackup, InputLayer} from 'pcb-stackup'
+import pcbStackup from 'pcb-stackup'
+import * as LayerId from 'whats-that-gerber'
 import yargs from 'yargs'
 
 import {examples} from './examples'
 import {options, STDOUT} from './options'
 import {resolve} from './resolve'
-import {Config} from './types'
+import type {Config} from './types'
 
 export {options} from './options'
 
@@ -77,7 +79,7 @@ export async function cli(
   return glob(files).then(renderFiles).then(writeRenders)
 
   async function renderFiles(filenames: string[]): Promise<Stackup> {
-    const typesByName = Wtg.identifyLayers(filenames)
+    const typesByName = LayerId.identifyLayers(filenames)
     const layers = filenames
       .map(filename => makeLayerFromFilename(filename, typesByName))
       .filter((ly): ly is InputLayer => ly !== null)
@@ -91,7 +93,7 @@ export async function cli(
 
   function makeLayerFromFilename(
     filename: string,
-    typesByName: Wtg.LayerIdentityMap
+    typesByName: LayerId.LayerIdentityMap
   ): InputLayer | null {
     const basename = path.basename(filename)
     const {type, side} = getType(basename, typesByName[filename])
@@ -113,8 +115,8 @@ export async function cli(
 
   function getType(
     basename: string,
-    defaults: Wtg.LayerIdentity
-  ): Wtg.LayerIdentity {
+    defaults: LayerId.LayerIdentity
+  ): LayerId.LayerIdentity {
     return {
       side: get(layerOptions, `${basename}.side`, defaults.side),
       type: get(layerOptions, `${basename}.type`, defaults.type),
@@ -123,7 +125,7 @@ export async function cli(
 
   function getOptions(
     basename: string,
-    type: Wtg.GerberType
+    type: LayerId.GerberType
   ): GerberToSvgOptions {
     const defaultOptions = type === 'drill' ? drillOptions : gerberOptions
 

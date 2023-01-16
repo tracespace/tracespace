@@ -1,22 +1,75 @@
-import {UserConfig, defineConfig} from 'vite'
+import camelCase from 'lodash/camelCase'
+import kebabCase from 'lodash/kebabCase'
+import merge from 'lodash/merge'
+import upperFirst from 'lodash/upperFirst'
 
-export const baseConfig: UserConfig = defineConfig({
-  resolve: {
-    conditions: ['source'],
-  },
-}) as UserConfig
+import type {LibraryFormats, UserConfig} from 'vite'
 
-export const getDefineConstants = (pkg: {
+interface PackageMeta {
   name: string
   version: string
   description: string
-}) => ({
-  __PKG_NAME__: JSON.stringify(pkg.name),
-  __PKG_VERSION__: JSON.stringify(pkg.version),
-  __PKG_DESCRIPTION__: JSON.stringify(pkg.description),
-})
+}
 
-export const libraryFilename = (basename: string) => (format: string) => {
-  const extension = format === 'es' ? 'js' : 'cjs'
-  return `${basename}.${format}.${extension}`
+interface LibraryPackageMeta extends PackageMeta {
+  exports: PackageJsonExports
+  dependencies?: Record<string, string>
+  devDependencies?: Record<string, string>
+}
+
+interface PackageJsonExports {
+  source: string
+}
+
+const pascalCase = (value: string) => upperFirst(camelCase(value))
+
+export function defineBaseConfig(
+  packageMeta: PackageMeta,
+  config?: UserConfig
+): UserConfig {
+  const {name, version, description} = packageMeta
+  const baseConfig = {
+    define: {
+      __PKG_NAME__: JSON.stringify(name),
+      __PKG_VERSION__: JSON.stringify(version),
+      __PKG_DESCRIPTION__: JSON.stringify(description),
+    },
+    resolve: {
+      conditions: ['source'],
+    },
+    build: {
+      sourcemap: true,
+    },
+  }
+
+  return merge(baseConfig, config)
+}
+
+export function defineLibraryConfig(
+  packageMeta: LibraryPackageMeta,
+  formats?: LibraryFormats[]
+): UserConfig {
+  const {name, exports, dependencies = {}} = packageMeta
+  const libraryConfig = {
+    build: {
+      lib: {
+        entry: exports.source,
+        name: pascalCase(name),
+        fileName: kebabCase(name),
+        formats,
+      },
+      rollupOptions: {
+        external: (n: string) => n.startsWith('node:') || n in dependencies,
+        output: {
+          globals: Object.fromEntries(
+            Object.keys(dependencies)
+              .filter(name => name.startsWith('@tracespace/'))
+              .map(name => [name, pascalCase(name)])
+          ),
+        },
+      },
+    },
+  }
+
+  return defineBaseConfig(packageMeta, libraryConfig)
 }

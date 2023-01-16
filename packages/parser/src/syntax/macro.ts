@@ -1,17 +1,11 @@
 // Gerber aperture macro syntax
 import * as Lexer from '../lexer'
 import * as Tree from '../tree'
-import {MacroValue, MacroPrimitiveCode} from '../types'
+import type {MacroValue, MacroPrimitiveCode} from '../types'
 
 import {tokensToPosition} from './map-tokens'
-import {
-  SyntaxRule,
-  token,
-  notToken,
-  zeroOrMore,
-  oneOrMore,
-  findSyntaxMatch,
-} from './rules'
+import type {SyntaxRule} from './rules'
+import {token, notToken, zeroOrMore, oneOrMore, findSyntaxMatch} from './rules'
 
 const macroComment: SyntaxRule<Tree.MacroBlock> = {
   name: 'macroComment',

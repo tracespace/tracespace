@@ -1,38 +1,26 @@
-# what's that gerber?
-
-[![latest][whats-that-gerber-latest-badge]][npm]
-[![next][whats-that-gerber-next-badge]][npm-next]
-[![david][whats-that-gerber-david-badge]][david]
-
-> Identify Gerber and drill files by filename
+# whats-that-gerber
 
 Have you got a bunch of Gerber files lying around without any idea what they're for? We've all been there. `whats-that-gerber` is here to help.
+
+This module examines a set of Gerber and NC drill file names and tries to guess the layer type of each file from the filename.
 
 Part of the [tracespace][] collection of PCB visualization tools.
 
 [tracespace]: https://github.com/tracespace/tracespace
-[npm]: https://www.npmjs.com/package/whats-that-gerber
-[npm-next]: https://www.npmjs.com/package/whats-that-gerber/v/next
-[david]: https://david-dm.org/tracespace/tracespace?path=packages/whats-that-gerber
-[whats-that-gerber-latest-badge]: https://flat.badgen.net/npm/v/whats-that-gerber
-[whats-that-gerber-next-badge]: https://flat.badgen.net/npm/v/whats-that-gerber/next
-[whats-that-gerber-david-badge]: https://flat.badgen.net/david/dep/tracespace/tracespace/packages/whats-that-gerber
 
 ## install
 
 ```shell
-npm install --save whats-that-gerber
-# or
-yarn add whats-that-gerber
+npm install whats-that-gerber
 ```
 
 Or, use a script tag:
 
 ```html
-<script src="https://unpkg.com/whats-that-gerber@^4.0.0/umd/whats-that-gerber.min.js"></script>
+<script src="https://unpkg.com/whats-that-gerber"></script>
 <script>
-  // global variable WhatsThatGerber now available
-  var identifyLayers = WhatsThatGerber.identifyLayers
+  // namespace TracespaceIdentifyLayers now available
+  const {identifyLayers} = TracespaceIdentifyLayers
 </script>
 ```
 

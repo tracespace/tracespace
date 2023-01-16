@@ -1,3 +1,9 @@
+import type {
+  GerberTree,
+  UnitsType,
+  Format,
+  ZeroSuppression,
+} from '@tracespace/parser'
 import {
   UNITS,
   COORDINATE_FORMAT,
@@ -6,10 +12,6 @@ import {
   LEADING,
   TRAILING,
   IN,
-  GerberTree,
-  UnitsType,
-  Format,
-  ZeroSuppression,
 } from '@tracespace/parser'
 
 export interface PlotOptions {

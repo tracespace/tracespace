@@ -1,5 +1,5 @@
 import {matchers} from './matchers'
-import {LayerTestMatch} from './types'
+import type {LayerTestMatch} from './types'
 
 export function getMatches(filename: string): LayerTestMatch[] {
   return matchers

@@ -8,10 +8,20 @@
   "bin": {
     "tracespace": "bin/cli.js"
   },
-  "type": "module",
-  "main": "./dist/tracespace-cli.es.js",
-  "source": "src/index.ts",
   "types": "lib/index.d.ts",
+  "exports": {
+    "types": "./lib/index.d.ts",
+    "source": "./src/index.ts",
+    "import": "./dist/tracespace-cli.js"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "lib",
+    "src",
+    "!**/__tests__/**"
+  ],
+  "type": "module",
   "sideEffects": false,
   "scripts": {
     "build": "vite build"

@@ -5,17 +5,19 @@
   },
   "version": "5.0.0-next.0",
   "description": "XML ID generation and sanitation utilities",
-  "main": "./dist/tracespace-xml-id.umd.cjs",
-  "module": "./dist/tracespace-xml-id.es.js",
   "types": "./lib/index.d.ts",
   "exports": {
-    ".": {
-      "types": "./lib/index.d.ts",
-      "source": "./src/index.ts",
-      "import": "./dist/tracespace-xml-id.es.js",
-      "require": "./dist/tracespace-xml-id.umd.cjs"
-    }
+    "types": "./lib/index.d.ts",
+    "source": "./src/index.ts",
+    "import": "./dist/tracespace-xml-id.js",
+    "require": "./dist/tracespace-xml-id.umd.cjs"
   },
+  "files": [
+    "dist",
+    "lib",
+    "src",
+    "!**/__tests__/**"
+  ],
   "type": "module",
   "sideEffects": false,
   "scripts": {

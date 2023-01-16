@@ -1,6 +1,6 @@
-import {Position} from 'unist'
+import type {Position} from 'unist'
 
-import * as Types from './types'
+import type * as Types from './types'
 
 /**
  * {@linkcode Root} node type

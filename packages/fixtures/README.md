@@ -24,8 +24,6 @@ Please note: because this package is a collection of test fixtures, it may not f
 
 ```shell
 npm install --save-dev --save-exact @tracespace/fixtures
-# or
-yarn add --dev --exact @tracespace/fixtures
 ```
 
 ## usage

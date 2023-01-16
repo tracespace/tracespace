@@ -5,17 +5,19 @@
   },
   "version": "5.0.0-next.0",
   "description": "Gerber and NC drill file parser",
-  "main": "./dist/tracespace-parser.umd.cjs",
-  "module": "./dist/tracespace-parser.es.js",
   "types": "./lib/index.d.ts",
   "exports": {
-    ".": {
-      "types": "./lib/index.d.ts",
-      "source": "./src/index.ts",
-      "import": "./dist/tracespace-parser.es.js",
-      "require": "./dist/tracespace-parser.umd.cjs"
-    }
+    "types": "./lib/index.d.ts",
+    "source": "./src/index.ts",
+    "import": "./dist/tracespace-parser.js",
+    "require": "./dist/tracespace-parser.umd.cjs"
   },
+  "files": [
+    "dist",
+    "lib",
+    "src",
+    "!**/__tests__/**"
+  ],
   "type": "module",
   "sideEffects": false,
   "repository": {
@@ -47,6 +49,6 @@
     "@types/unist": "^2.0.6"
   },
   "devDependencies": {
-    "moo": "^0.5.1"
+    "moo": "^0.5.2"
   }
 }

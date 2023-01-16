@@ -24,8 +24,6 @@ Part of the [tracespace][] collection of PCB visualization tools.
 
 ```shell
 npm install -g @tracespace/cli
-# or
-yarn global add @tracespace/cli
 ```
 
 ## usage

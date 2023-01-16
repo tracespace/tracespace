@@ -3,8 +3,9 @@ import {describe, it, beforeEach, expect} from 'vitest'
 
 import * as Parser from '@tracespace/parser'
 
-import {PlotOptions} from '../options'
-import {LocationStore, createLocationStore} from '../location-store'
+import type {PlotOptions} from '../options'
+import type {LocationStore} from '../location-store'
+import {createLocationStore} from '../location-store'
 
 describe('location store', () => {
   let subject: LocationStore

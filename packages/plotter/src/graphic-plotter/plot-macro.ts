@@ -1,4 +1,5 @@
 // Plot a tool macro as shapes
+import type {MacroPrimitiveCode, MacroValue} from '@tracespace/parser'
 import {
   MACRO_VARIABLE,
   MACRO_PRIMITIVE,
@@ -11,15 +12,13 @@ import {
   MACRO_POLYGON,
   MACRO_MOIRE_DEPRECATED,
   MACRO_THERMAL,
-  MacroPrimitiveCode,
-  MacroValue,
 } from '@tracespace/parser'
 
 import {PI, rotateAndShift, positionsEqual} from '../coordinate-math'
 
 import * as Tree from '../tree'
-import {MacroTool} from '../tool-store'
-import {Location} from '../location-store'
+import type {MacroTool} from '../tool-store'
+import type {Location} from '../location-store'
 
 import {shapeToSegments} from './shapes'
 import {CW, CCW, getArcPositions} from './plot-path'
@@ -64,14 +63,21 @@ function solveExpression(
   const right = solveExpression(expression.right, variables)
 
   switch (expression.operator) {
-    case '+':
+    case '+': {
       return left + right
-    case '-':
+    }
+
+    case '-': {
       return left - right
-    case 'x':
+    }
+
+    case 'x': {
       return left * right
-    case '/':
+    }
+
+    case '/': {
       return left / right
+    }
   }
 }
 

@@ -1,8 +1,9 @@
-import {Filetype} from '../types'
-import {GerberNode} from '../tree'
-import {Token, LexerIterable, LexerState} from '../lexer'
+import type {Filetype} from '../types'
+import type {GerberNode} from '../tree'
+import type {Token, LexerIterable, LexerState} from '../lexer'
 import {GERBER, DRILL} from '../constants'
-import {SyntaxRule, findSyntaxMatch} from './rules'
+import type {SyntaxRule} from './rules'
+import {findSyntaxMatch} from './rules'
 import {drillGrammar} from './drill'
 import {gerberGrammar} from './gerber'
 

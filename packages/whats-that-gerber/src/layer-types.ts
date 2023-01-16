@@ -22,7 +22,7 @@ import {
   CAD_DIPTRACE,
 } from './constants'
 
-import {LayerType} from './types'
+import type {LayerType} from './types'
 
 export const layerTypes: LayerType[] = [
   // High-priority non-matches

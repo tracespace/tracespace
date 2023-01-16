@@ -1,6 +1,7 @@
 import * as Tree from '../tree'
-import {SIMPLE_TOOL, Tool} from '../tool-store'
-import {Location, Point} from '../location-store'
+import type {Tool} from '../tool-store'
+import {SIMPLE_TOOL} from '../tool-store'
+import type {Location, Point} from '../location-store'
 import {TWO_PI} from '../coordinate-math'
 
 import {plotRectPath} from './plot-rect-path'

@@ -1,13 +1,14 @@
 // @tracespace/plotter
 // build abstract board images from @tracespace/parser ASTs
-import {GerberTree} from '@tracespace/parser'
+import type {GerberTree} from '@tracespace/parser'
 
 import {getPlotOptions} from './options'
 import {createToolStore} from './tool-store'
 import {createLocationStore} from './location-store'
 import {createMainLayer} from './main-layer'
 import {createGraphicPlotter} from './graphic-plotter'
-import {IMAGE, ImageTree} from './tree'
+import type {ImageTree} from './tree'
+import {IMAGE} from './tree'
 
 export * from './tree'
 export * as BoundingBox from './bounding-box'

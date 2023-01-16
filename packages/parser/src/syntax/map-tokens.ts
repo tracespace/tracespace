@@ -1,6 +1,7 @@
-import {Position} from 'unist'
-import {Token, NUMBER, COORD_CHAR, G_CODE, D_CODE} from '../lexer'
-import {Coordinates, InterpolateModeType, GraphicType} from '../types'
+import type {Position} from 'unist'
+import type {Token} from '../lexer'
+import {NUMBER, COORD_CHAR, G_CODE, D_CODE} from '../lexer'
+import type {Coordinates, InterpolateModeType, GraphicType} from '../types'
 import {SEGMENT, MOVE, SHAPE, LINE, CW_ARC, CCW_ARC, DRILL} from '../constants'
 
 export function tokensToCoordinates(tokens: Token[]): Coordinates {

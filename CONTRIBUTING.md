@@ -15,17 +15,19 @@ It's really helpful if you can share Gerber/drill files. If you are uncomfortabl
 
 ## Development setup
 
-To get started, ensure [Node.js][] v16 and [pnpm][] v7 (or later) are installed on your machine. Then, clone the repository and install tracespace's development dependencies.
+To get started, ensure [Node.js][] v18 (or later) is installed on your machine. Then, clone the repository and install tracespace's development dependencies with [corepack][] and [pnpm][].
 
 ```shell
 git clone https://github.com/tracespace/tracespace.git
 cd tracespace
+corepack enable
 pnpm install
 ```
 
 [monorepo]: https://github.com/babel/babel/blob/main/doc/design/monorepo.md
 [node.js]: https://nodejs.org
-[pnpm]: https://yarnpkg.com
+[corepack]: https://nodejs.org/dist/latest-v18.x/docs/api/corepack.html
+[pnpm]: https://pnpm.io/
 
 ## Development scripts
 

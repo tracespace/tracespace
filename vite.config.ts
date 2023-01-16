@@ -1,17 +1,22 @@
-import {defineConfig} from 'vitest/config'
-import {baseConfig} from './config/vite.config.base'
+import preact from '@preact/preset-vite'
+import type {UserConfig as VitestUserConfig} from 'vitest/config'
 
-export default defineConfig({
-  ...baseConfig,
-  define: {
-    __PKG_NAME__: JSON.stringify('@tracespace/test'),
-    __PKG_VERSION__: JSON.stringify('0.0.0-test'),
-    __PKG_DESCRIPTION__: JSON.stringify('Test description'),
-  },
+import {defineBaseConfig} from './config/vite.config.base'
+
+const packageMeta = {
+  name: '@tracespace/test',
+  version: '0.0.0-test',
+  description: 'Test description',
+}
+
+const testConfig: VitestUserConfig = {
+  plugins: [preact()],
   assetsInclude: ['**/*.gbr', '**/*.drl'],
   test: {
-    setupFiles: './config/vitest.setup.ts',
-    outputDiffLines: 100,
+    deps: {
+      inline: ['testdouble-vitest'],
+    },
+    setupFiles: ['./config/vitest.setup.ts'],
     coverage: {
       all: true,
       extension: ['ts', 'tsx'],
@@ -20,4 +25,6 @@ export default defineConfig({
       reporter: ['html', 'text', 'json'],
     },
   },
-})
+}
+
+export default defineBaseConfig(packageMeta, testConfig)

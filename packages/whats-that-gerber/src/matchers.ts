@@ -1,5 +1,5 @@
 import {layerTypes} from './layer-types'
-import {LayerTest} from './types'
+import type {LayerTest} from './types'
 
 export const matchers: LayerTest[] = layerTypes.flatMap(layer => {
   return layer.matchers.flatMap(matcher => {

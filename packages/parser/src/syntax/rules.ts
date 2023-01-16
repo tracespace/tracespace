@@ -1,6 +1,6 @@
-import {Token} from '../lexer'
-import {Filetype} from '../types'
-import {GerberNode} from '../tree'
+import type {Token} from '../lexer'
+import type {Filetype} from '../types'
+import type {GerberNode} from '../tree'
 
 export const SINGLE_TOKEN = 'TOKEN'
 export const MIN_TO_MAX = 'MIN_TO_MAX'

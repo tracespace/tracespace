@@ -1,6 +1,6 @@
 // Gerber and drill file lexer + tokenizer
 import Moo from 'moo'
-import {Token} from './tokens'
+import type {Token} from './tokens'
 import {rules} from './rules'
 
 export * from './tokens'
@@ -71,5 +71,11 @@ export function createLexer(): Lexer {
         return {value: undefined, done: true}
       },
     }
+  }
+}
+
+declare module 'moo' {
+  export interface Lexer {
+    index?: number
   }
 }
