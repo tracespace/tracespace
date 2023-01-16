@@ -1,42 +1,35 @@
 # @tracespace/renderer
 
-An SVG renderer for [@tracespace/plotter][] images.
+[![npm][npm badge]][npm package]
 
-Part of the [tracespace][] collection of PCB visualization tools.
+Render [@tracespace/plotter][] image trees as SVGs. Part of the [tracespace][] collection of PCB visualization tools.
 
-**This package is still in development and is not yet published.**
+This module is one part of the tracespace render pipeline, and you may not need to use it directly. See [@tracespace/core][] to integrate the full render pipeline into your project.
 
 ```shell
 npm install @tracespace/renderer@next
 ```
 
-[@tracespace/plotter]: https://www.npmjs.com/package/@tracespace/plotter
 [tracespace]: https://github.com/tracespace/tracespace
+[@tracespace/plotter]: ../plotter
+[@tracespace/core]: ../core
+[npm package]: https://www.npmjs.com/package/@tracespace/renderer/v/next
+[npm badge]: https://img.shields.io/npm/v/@tracespace/renderer/next?style=flat-square
 
 ## usage
 
 ```js
-import {createParser} from '@tracespace/parser'
+import fs from 'node:fs/promises'
+import {toHtml} from 'hast-util-to-html'
+
+import {parse} from '@tracespace/parser'
 import {plot} from '@tracespace/plotter'
 import {render} from '@tracespace/renderer'
 
-const syntaxTree = createParser().feed(/* ...some gerber string... */).results()
+const gerberContents = await fs.readFile('gerber.gbr', 'utf-8')
+const syntaxTree = parse(gerberContents)
 const imageTree = plot(syntaxTree)
 const image = render(imageTree)
-```
 
-### script tag
-
-If you're not using a bundler and you want to try out the parser in a browser, you can use a `script` tag:
-
-```html
-<script src="https://unpkg.com/@tracespace/parser"></script>
-<script src="https://unpkg.com/@tracespace/plotter"></script>
-<script src="https://unpkg.com/@tracespace/renderer"></script>
-<script>
-  // namespaces TracespaceParser, TracespacePlotter, and TracespaceRenderer available
-  const {createParser} = TracespaceParser
-  const {plot} = TracespacePlotter
-  const {render} = TracespaceRenderer
-</script>
+await fs.writeFile('render.svg', toHtml(image), 'utf-8)
 ```

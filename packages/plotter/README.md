@@ -1,39 +1,31 @@
 # @tracespace/plotter
 
-An image plotter for [@tracespace/parser][] ASTs.
+[![npm][npm badge]][npm package]
 
-Part of the [tracespace][] collection of PCB visualization tools.
+Plot [@tracespace/parser][] ASTs into image trees. Part of the [tracespace][] collection of PCB visualization tools.
 
-**This package is still in development and is not yet published.**
+This module is one part of the tracespace render pipeline, and you may not need to use it directly. See [@tracespace/core][] to integrate the full render pipeline into your project.
 
 ```shell
 npm install @tracespace/plotter@next
 ```
 
-[@tracespace/parser]: https://www.npmjs.com/package/@tracespace/parser
 [tracespace]: https://github.com/tracespace/tracespace
+[@tracespace/parser]: ../parser
+[@tracespace/core]: ../core
+[npm package]: https://www.npmjs.com/package/@tracespace/plotter/v/next
+[npm badge]: https://img.shields.io/npm/v/@tracespace/plotter/next?style=flat-square
 
 ## usage
 
 ```js
-import {createParser} from '@tracespace/parser'
+import fs from 'node:fs/promises'
+import {parse} from '@tracespace/parser'
 import {plot} from '@tracespace/plotter'
 
-const syntaxTree = createParser().feed(/* ...some gerber string... */).results()
-
+const gerberContents = await fs.readFile('gerber.gbr', 'utf-8')
+const syntaxTree = parse(gerberContents)
 const imageTree = plot(syntaxTree)
-```
 
-### script tag
-
-If you're not using a bundler and you want to try out the parser in a browser, you can use a `script` tag:
-
-```html
-<script src="https://unpkg.com/@tracespace/parser"></script>
-<script src="https://unpkg.com/@tracespace/plotter"></script>
-<script>
-  // namespaces TracespaceParser and TracespacePlotter now available
-  const {createParser} = TracespaceParser
-  const {plot} = TracespacePlotter
-</script>
+await fs.writeFile('plot.json', JSON.stringify(imageTree, null, 2), 'utf-8')
 ```

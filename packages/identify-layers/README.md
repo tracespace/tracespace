@@ -1,37 +1,26 @@
 # @tracespace/identify-layers
 
-Have you got a bunch of Gerber files lying around without any idea what they're for? We've all been there. `@tracespace/identify-layers` is here to help.
+[![npm][npm badge]][npm package]
 
-This module examines a set of Gerber and NC drill file names and tries to guess the layer type of each file from the filename.
+Try to guess Gerber files' layer types based on filenames. Part of the [tracespace][] collection of PCB visualization tools.
 
-Part of the [tracespace][] collection of PCB visualization tools.
-
-[tracespace]: https://github.com/tracespace/tracespace
-
-## install
+This module is one part of the tracespace render pipeline, and you may not need to use it directly. See [@tracespace/core][] to integrate the full render pipeline into your project.
 
 ```shell
 npm install @tracespace/identify-layers
 ```
 
-Or, use a script tag:
-
-```html
-<script src="https://unpkg.com/@tracespace/identify-layers"></script>
-<script>
-  // namespace TracespaceIdentifyLayers now available
-  const {identifyLayers} = TracespaceIdentifyLayers
-</script>
-```
+[tracespace]: https://github.com/tracespace/tracespace
+[@tracespace/core]: ../core
+[npm package]: https://www.npmjs.com/package/@tracespace/identify-layers/v/next
+[npm badge]: https://img.shields.io/npm/v/@tracespace/identify-layers/next?style=flat-square
 
 ## usage
 
 Pass `identifyLayers` an array of filenames from a PCB, and it will give you back an object keyed by filename with the best guess it can make for the type and side of each file. If both `side` and `type` are `null`, the filename cannot be identified as a Gerber / drill file.
 
 ```js
-const {identifyLayers} = require('@tracespace/identify-layers')
-// ES Modules work, too
-// import {identifyLayers} from '@tracespace/identify-layers'
+import {identifyLayers} from '@tracespace/identify-layers'
 
 const filenames = ['my-board-F_Cu.gbr', 'my-board-B_Cu.gbr', 'foo.bar']
 const typeByFilename = identifyLayers(filenames)
@@ -57,9 +46,7 @@ There are 12 available layer types, were a type is an object of the format:
 You can get an array of all types with:
 
 ```js
-const {getAllLayers} = require('@tracespace/identify-layers')
-// ES Modules work, too
-// import {getAllLayers} from '@tracespace/identify-layers'
+import {getAllLayers} from '@tracespace/identify-layers'
 
 const allLayers = getAllLayers()
 ```
@@ -84,7 +71,7 @@ const allLayers = getAllLayers()
 Side and type constants are exported for your usage:
 
 ```js
-const {
+import {
   // layer types
   TYPE_COPPER, // 'copper'
   TYPE_SOLDERMASK, // 'soldermask'
@@ -99,10 +86,7 @@ const {
   SIDE_BOTTOM, // 'bottom'
   SIDE_INNER, // 'inner'
   SIDE_ALL, // 'all'
-} = require('@tracespace/identify-layers')
-
-// ES Modules work, too
-// import {TYPE_COPPER} from '@tracespace/identify-layers'
+} from '@tracespace/identify-layers'
 ```
 
 #### checking if a layer type is valid
@@ -110,9 +94,7 @@ const {
 You can check if any given string is a valid layer type with:
 
 ```js
-const {validate} = require('@tracespace/identify-layers')
-// ES Modules work, too
-// import {validate} from '@tracespace/identify-layers'
+import {validate} from '@tracespace/identify-layers'
 
 const type1 = {side: 'top', type: 'copper'}
 const type2 = {side: 'foo', type: 'silkscreen'}
@@ -136,6 +118,6 @@ We should be able to identify files output by the following programs:
 
 ## contributing
 
-Please read the [Contributing Section](../README.md#contributing) of the main README for development setup instructions.
+Please read the [Contributing Guide](../CONTRIBUTING.md) for development setup instructions.
 
 If you're adding or modifying a filetype matcher, please remember to add or modify an example filename in [`@tracespace/fixtures/gerber-filenames.json`](../fixtures/gerber-filenames.json) to ensure your change is tested.

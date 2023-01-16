@@ -3,8 +3,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "5.0.0-next.0",
-  "description": "XML ID generation and sanitation utilities",
+  "version": "5.0.0-alpha.0",
+  "description": "XML element ID generation and sanitation utilities.",
   "types": "./lib/index.d.ts",
   "exports": {
     "types": "./lib/index.d.ts",
