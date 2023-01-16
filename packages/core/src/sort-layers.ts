@@ -29,7 +29,7 @@ const isType = (type: GerberType, side?: Side) => (layer: Layer) => {
 }
 
 export function getOutlineLayer(layers: Layer[]): string | undefined {
-  return layers.filter(isType(TYPE_OUTLINE)).map(toId).at(0)
+  return layers.filter(isType(TYPE_OUTLINE)).map(toId)[0]
 }
 
 export function getDrillLayers(layers: Layer[]): string[] {

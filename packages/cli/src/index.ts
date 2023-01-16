@@ -7,7 +7,16 @@ import type {ParseArgs} from './parse'
 import type {PlotArgs} from './plot'
 import type {RenderArgs} from './render'
 
-export async function run(processArgv: string[]): Promise<void> {
+export interface RunOptions {
+  exitProcess?: boolean
+}
+
+export async function run(
+  processArgv: string[],
+  options: RunOptions = {}
+): Promise<void> {
+  const {exitProcess = false} = options
+
   await yargs(processArgv)
     .command<RenderArgs>({
       command: ['$0 <files..>', 'render <files..>'],
@@ -51,5 +60,6 @@ export async function run(processArgv: string[]): Promise<void> {
     .scriptName(__PKG_BIN_NAME__)
     .version(__PKG_VERSION__)
     .help()
+    .exitProcess(exitProcess)
     .parseAsync()
 }
