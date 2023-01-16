@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "0.0.0-unreleased",
+  "version": "5.0.0-alpha.0",
   "description": "Plot @tracespace/parser ASTs into image trees.",
   "types": "./lib/index.d.ts",
   "exports": {

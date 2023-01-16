@@ -80,8 +80,7 @@ See the [main branch][] for the current v4 release.
 
 [i]: https://github.com/mcous
 [vite]: https://vitejs.dev/
-
-[Typescript]:
+[typescript]: https://www.typescriptlang.org/
 [unist]: https://unifiedjs.com/
 [hast]: https://github.com/syntax-tree/hast
 
@@ -98,7 +97,7 @@ The v5 release will attempt to fix / address the following open issues:
 - [x] gerberParser.parseSync clobbers filetype option ([#306][])
 - [x] Gerber file starting with newline incorrectly identified as drill file ([#307][])
 - [x] Generate consistent document size for all layers. ([#324][])
-- [x] G93 code in drill file rendered as drilled hole ([#353][])
+- [ ] G93 code in drill file rendered as drilled hole ([#353][])
 - [x] Allow soldermask layer to cover vias in board render ([#399][])
 
 [#49]: https://github.com/tracespace/tracespace/issues/49

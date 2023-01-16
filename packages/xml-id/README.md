@@ -17,10 +17,20 @@ npm install @tracespace/xml-id@next
 ## usage
 
 ```js
-import {sanitize, random} from '@tracespace/xml-id'
+import {ensure, random, sanitize} from '@tracespace/xml-id'
 ```
 
 The alphabet used by this module is a subset of what is valid for XML which is also CSS identifier and URL friendly.
+
+### ensure(source: unknown, length?: number): string
+
+Given an input `source`, returns a sanitized `source` if it was a string. Otherwise, generates a random ID with length `length` (defaulting to 12 if unspecified).
+
+```js
+const id1 = ensure(undefined) // 'w57gH_nT3-o8'
+const id2 = ensure(undefined, 8) // 'Gi3ma2Ef'
+const id3 = ensure('0abc def.') // '_abc_def_'
+```
 
 ### random(length?: number): string
 
@@ -37,14 +47,4 @@ Takes a string and replaces any characters that would be invalid in an XML ID wi
 
 ```js
 const id1 = sanitize('0abc def.') // '_abc_def_'
-```
-
-### ensure(source: unknown, length?: number): string
-
-Given an input `source`, returns a sanitized `source` if it was a string. Otherwise, generates a random ID with length `length` (defaulting to 12 if unspecified).
-
-```js
-const id1 = ensure(undefined) // 'w57gH_nT3-o8'
-const id2 = ensure(undefined, 8) // 'Gi3ma2Ef'
-const id3 = ensure('0abc def.') // '_abc_def_'
 ```
