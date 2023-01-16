@@ -34,7 +34,7 @@ export function defineBaseConfig(
       __PKG_NAME__: JSON.stringify(name),
       __PKG_VERSION__: JSON.stringify(version),
       __PKG_DESCRIPTION__: JSON.stringify(description),
-      __PKG_BIN_NAME__: JSON.stringify(Object.keys(bin).at(0)),
+      __PKG_BIN_NAME__: JSON.stringify(Object.keys(bin)[0]),
     },
     resolve: {
       conditions: ['source'],
