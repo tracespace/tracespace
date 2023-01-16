@@ -37,8 +37,6 @@
     "preact": "^10.11.3",
     "react": "npm:@preact/compat@^17.1.2",
     "react-dom": "npm:@preact/compat@^17.1.2",
-    "unist-util-map": "^3.1.2",
-    "unist-util-visit-parents": "^5.1.1",
     "windicss": "^3.5.6"
   },
   "devDependencies": {

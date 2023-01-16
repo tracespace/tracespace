@@ -2,6 +2,7 @@ import {s} from 'hastscript'
 
 import {random as createId} from '@tracespace/xml-id'
 import type {
+  ImageGraphic,
   ImageShape,
   ImagePath,
   ImageRegion,
@@ -11,7 +12,7 @@ import type {
 import {
   BoundingBox,
   positionsEqual,
-  OutlineShape,
+  IMAGE_SHAPE,
   IMAGE_PATH,
   CIRCLE,
   RECTANGLE,
@@ -24,6 +25,14 @@ import {
 
 import type {SvgElement} from './types'
 
+export function renderGraphic(node: ImageGraphic): SvgElement {
+  if (node.type === IMAGE_SHAPE) {
+    return renderShape(node)
+  }
+
+  return renderPath(node)
+}
+
 export function renderShape(node: ImageShape): SvgElement {
   const {shape} = node
 
@@ -34,16 +43,24 @@ export function shapeToElement(shape: Shape): SvgElement {
   switch (shape.type) {
     case CIRCLE: {
       const {cx, cy, r} = shape
-      return s('circle', {cx, cy, r})
+      return s('circle', {cx, cy: -cy, r})
     }
 
     case RECTANGLE: {
       const {x, y, xSize: width, ySize: height, r} = shape
-      return s('rect', {x, y, width, height, rx: r, ry: r})
+      return s('rect', {
+        x,
+        y: -y - height,
+        width,
+        height,
+        rx: r,
+        ry: r,
+      })
     }
 
     case POLYGON: {
-      const points = shape.points.map(p => p.join(',')).join(' ')
+      const points = shape.points.map(([x, y]) => `${x},${-y}`).join(' ')
+
       return s('polygon', {points})
     }
 
@@ -59,9 +76,7 @@ export function shapeToElement(shape: Shape): SvgElement {
 
       for (const [i, layerShape] of shape.shapes.entries()) {
         if (layerShape.erase && !BoundingBox.isEmpty(boundingBox)) {
-          const [bx1, by1, bx2, by2] = boundingBox
           const clipId = `${clipIdBase}__${i}`
-          const boundingPath = `M${bx1} ${by1} H${bx2} V${by2} H${bx1} V${by1}`
 
           defs.push(s('clipPath', {id: clipId}, [shapeToElement(layerShape)]))
           children = [s('g', {clipPath: `url(#${clipId})`}, children)]
@@ -97,29 +112,29 @@ function segmentsToPathData(segments: PathSegment[]): string {
     const {start, end} = next
 
     if (!previous || !positionsEqual(previous.end, start)) {
-      pathCommands.push(`M${start[0]} ${start[1]}`)
+      pathCommands.push(`M${start[0]} ${-start[1]}`)
     }
 
     if (next.type === LINE) {
-      pathCommands.push(`L${end[0]} ${end[1]}`)
+      pathCommands.push(`L${end[0]} ${-end[1]}`)
     } else if (next.type === ARC) {
       const sweep = next.end[2] - next.start[2]
       const absSweep = Math.abs(sweep)
       const {center, radius} = next
 
       // Sweep flag flipped from SVG value because Y-axis is positive-down
-      const sweepFlag = sweep < 0 ? '0' : '1'
+      const sweepFlag = sweep < 0 ? '1' : '0'
       let largeFlag = absSweep <= Math.PI ? '0' : '1'
 
       // A full circle needs two SVG arcs to draw
       if (absSweep === 2 * Math.PI) {
-        const [mx, my] = [2 * center[0] - end[0], 2 * center[1] - end[1]]
+        const [mx, my] = [2 * center[0] - end[0], -(2 * center[1] - end[1])]
         largeFlag = '0'
         pathCommands.push(`A${radius} ${radius} 0 0 ${sweepFlag} ${mx} ${my}`)
       }
 
       pathCommands.push(
-        `A${radius} ${radius} 0 ${largeFlag} ${sweepFlag} ${end[0]} ${end[1]}`
+        `A${radius} ${radius} 0 ${largeFlag} ${sweepFlag} ${end[0]} ${-end[1]}`
       )
     }
   }

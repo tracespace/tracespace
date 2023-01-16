@@ -11,3 +11,5 @@ export interface Colors {
   paste: string
   substrate: string
 }
+
+export type ViewBox = [x: number, y: number, width: number, height: number]

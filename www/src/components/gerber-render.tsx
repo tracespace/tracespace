@@ -109,7 +109,7 @@ export function GerberPlot(
 
   return (
     <code class={className}>
-      {imageTree.children[0].children.map((node, index) => (
+      {imageTree.children.map((node, index) => (
         <TreeNode key={index} node={node} class="p-1" />
       ))}
     </code>

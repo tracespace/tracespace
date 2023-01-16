@@ -8,38 +8,34 @@ import * as Tree from '../tree'
 import type {PlotOptions} from '../options'
 import type {ToolStore, Tool} from '../tool-store'
 import type {LocationStore, Location} from '../location-store'
-import type {MainLayer} from '../main-layer'
 import type {GraphicPlotter} from '../graphic-plotter'
 
 describe('creating a plot tree', () => {
   const toolStore = td.object<ToolStore>()
   const locationStore = td.object<LocationStore>()
-  const mainLayer = td.object<MainLayer>()
   const graphicPlotter = td.object<GraphicPlotter>()
 
   let optionsGetter: typeof import('../options')
   let toolStoreCreator: typeof import('../tool-store')
   let locationStoreCreator: typeof import('../location-store')
-  let mainLayerCreator: typeof import('../main-layer')
   let graphicPlotterCreator: typeof import('../graphic-plotter')
+  let boundingBox: typeof import('../bounding-box')
   let subject: typeof import('..')
 
   beforeEach(async () => {
     optionsGetter = await replaceEsm('../options')
     toolStoreCreator = await replaceEsm('../tool-store')
     locationStoreCreator = await replaceEsm('../location-store')
-    mainLayerCreator = await replaceEsm('../main-layer')
     graphicPlotterCreator = await replaceEsm('../graphic-plotter')
+    boundingBox = await replaceEsm('../bounding-box')
     subject = await import('..')
 
     const {createToolStore} = toolStoreCreator
     const {createLocationStore} = locationStoreCreator
-    const {createMainLayer} = mainLayerCreator
     const {createGraphicPlotter} = graphicPlotterCreator
 
     td.when(createToolStore(), {times: 1}).thenReturn(toolStore)
     td.when(createLocationStore(), {times: 1}).thenReturn(locationStore)
-    td.when(createMainLayer(), {times: 1}).thenReturn(mainLayer)
     td.when(createGraphicPlotter(Parser.GERBER), {times: 1}).thenReturn(
       graphicPlotter
     )
@@ -97,24 +93,15 @@ describe('creating a plot tree', () => {
     }
     td.when(graphicPlotter.plot(node1, tool1, location1)).thenReturn([shape1])
     td.when(graphicPlotter.plot(node2, tool2, location2)).thenReturn([shape2])
-
-    const layer1 = {
-      type: Tree.IMAGE_LAYER,
-      size: [1, 2, 3, 4],
-    } as Tree.ImageLayer
-    const layer2 = {
-      type: Tree.IMAGE_LAYER,
-      size: [5, 6, 7, 8],
-    } as Tree.ImageLayer
-    td.when(mainLayer.add(node1, [shape1])).thenReturn(layer1)
-    td.when(mainLayer.add(node2, [shape2])).thenReturn(layer2)
+    td.when(boundingBox.fromGraphics([shape1, shape2])).thenReturn([1, 2, 3, 4])
 
     const result = subject.plot(tree)
 
     expect(result).to.eql({
       type: Tree.IMAGE,
       units: Parser.MM,
-      children: [layer2],
+      size: [1, 2, 3, 4],
+      children: [shape1, shape2],
     })
   })
 })
