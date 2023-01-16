@@ -22,6 +22,7 @@
   "packageManager": "pnpm@7.25.0",
   "dependencies": {
     "@tracespace/cli": "workspace:*",
+    "@tracespace/core": "workspace:*",
     "@tracespace/fixtures": "workspace:*",
     "@tracespace/identify-layers": "workspace:*",
     "@tracespace/parser": "workspace:*",
@@ -138,6 +139,7 @@
           "@typescript-eslint/consistent-type-assertions": "off",
           "@typescript-eslint/consistent-type-imports": "off",
           "@typescript-eslint/no-namespace": "off",
+          "@typescript-eslint/no-unsafe-assignment": "off",
           "import/no-extraneous-dependencies": "off",
           "max-nested-callbacks": "off",
           "unicorn/no-array-for-each": "off",

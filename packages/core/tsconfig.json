@@ -1,0 +1,17 @@
+{
+  "extends": "../../config/tsconfig.base.json",
+  "references": [
+    {"path": "../identify-layers"},
+    {"path": "../parser"},
+    {"path": "../plotter"},
+    {"path": "../renderer"},
+    {"path": "../xml-id"}
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "emitDeclarationOnly": true,
+    "rootDir": "src",
+    "outDir": "lib"
+  },
+  "include": ["src", "typings"]
+}

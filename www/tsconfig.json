@@ -1,6 +1,7 @@
 {
   "extends": "../config/tsconfig.base.json",
   "references": [
+    {"path": "../packages/core"},
     {"path": "../packages/parser"},
     {"path": "../packages/plotter"},
     {"path": "../packages/renderer"}

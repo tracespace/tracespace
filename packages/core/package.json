@@ -1,0 +1,58 @@
+{
+  "name": "@tracespace/core",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "5.0.0-next.0",
+  "description": "Use Gerber/drill files to create an SVG render of a finished PCB in Node.js or the browser.",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    "types": "./lib/index.d.ts",
+    "source": "./src/index.ts",
+    "import": "./dist/tracespace-core.js",
+    "require": "./dist/tracespace-core.umd.cjs"
+  },
+  "files": [
+    "dist",
+    "lib",
+    "src",
+    "!**/__tests__/**"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tracespace/tracespace.git",
+    "directory": "packages/core"
+  },
+  "scripts": {
+    "build": "vite build"
+  },
+  "keywords": [
+    "gerber",
+    "excellon",
+    "pcb",
+    "circuit",
+    "hardware",
+    "electronics"
+  ],
+  "contributors": [
+    "Mike Cousins <mike@cousins.io> (https://mike.cousins.io)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tracespace/tracespace/issues"
+  },
+  "homepage": "https://github.com/tracespace/tracespace#readme",
+  "dependencies": {
+    "@tracespace/identify-layers": "workspace:*",
+    "@tracespace/parser": "workspace:*",
+    "@tracespace/plotter": "workspace:*",
+    "@tracespace/renderer": "workspace:*",
+    "@tracespace/xml-id": "workspace:*"
+  },
+  "devDependencies": {
+    "hast-util-to-html": "^8.0.4",
+    "hastscript": "^7.2.0"
+  }
+}
