@@ -8,7 +8,7 @@ import {IMAGE} from '@tracespace/plotter'
 
 import * as subject from '..'
 
-describe.skip('tracespace CLI', () => {
+describe('tracespace CLI', () => {
   let outputDirectory: string
 
   beforeEach(() => {
