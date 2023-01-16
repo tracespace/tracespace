@@ -18,7 +18,7 @@ const EXPECTED_LAYERS = [
   {type: 'drawing', side: null},
 ]
 
-describe('whats-that-gerber', () => {
+describe('@tracespace/identify-layers', () => {
   it('should default to null', () => {
     const result = identifyLayers('foobar')
 

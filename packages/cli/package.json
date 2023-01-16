@@ -62,7 +62,7 @@
     "yargs": "^15.1.0"
   },
   "devDependencies": {
-    "@types/common-prefix": "^1.1.0",
-    "whats-that-gerber": "workspace:*"
+    "@tracespace/identify-layers": "workspace:*",
+    "@types/common-prefix": "^1.1.0"
   }
 }

@@ -108,7 +108,7 @@ tracespace -L
 - Description: Attempt to render files even if they're unrecognized
 
 ```shell
-# Attempt render even if whats-that-gerber cannot identify
+# Attempt render even if @tracespace/identify-layers cannot identify
 tracespace -B --force some-file.xyz
 ```
 

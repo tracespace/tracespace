@@ -14,6 +14,7 @@ importers:
       '@testing-library/user-event': ^14.4.3
       '@tracespace/cli': workspace:*
       '@tracespace/fixtures': workspace:*
+      '@tracespace/identify-layers': workspace:*
       '@tracespace/parser': workspace:*
       '@tracespace/plotter': workspace:*
       '@tracespace/renderer': workspace:*
@@ -37,17 +38,16 @@ importers:
       typescript: ^4.9.4
       vite: ^4.0.4
       vitest: ^0.27.1
-      whats-that-gerber: workspace:*
       xo: ^0.53.1
     dependencies:
       '@tracespace/cli': link:packages/cli
       '@tracespace/fixtures': link:packages/fixtures
+      '@tracespace/identify-layers': link:packages/identify-layers
       '@tracespace/parser': link:packages/parser
       '@tracespace/plotter': link:packages/plotter
       '@tracespace/renderer': link:packages/renderer
       '@tracespace/www': link:www
       '@tracespace/xml-id': link:packages/xml-id
-      whats-that-gerber: link:packages/whats-that-gerber
     devDependencies:
       '@babel/core': 7.20.12
       '@babel/plugin-transform-react-jsx': 7.20.7_@babel+core@7.20.12
@@ -79,6 +79,7 @@ importers:
 
   packages/cli:
     specifiers:
+      '@tracespace/identify-layers': workspace:*
       '@types/common-prefix': ^1.1.0
       '@types/debug': ^4.1.5
       '@types/yargs': ^15.0.1
@@ -91,7 +92,6 @@ importers:
       make-dir: ^3.0.0
       pcb-stackup: 4.2.8
       untildify: ^4.0.0
-      whats-that-gerber: workspace:*
       yargs: ^15.1.0
     dependencies:
       '@types/debug': 4.1.7
@@ -107,10 +107,13 @@ importers:
       untildify: 4.0.0
       yargs: 15.4.1
     devDependencies:
+      '@tracespace/identify-layers': link:../identify-layers
       '@types/common-prefix': 1.1.0
-      whats-that-gerber: link:../whats-that-gerber
 
   packages/fixtures:
+    specifiers: {}
+
+  packages/identify-layers:
     specifiers: {}
 
   packages/parser:
@@ -152,9 +155,6 @@ importers:
       hastscript: 7.2.0
       unist-util-map: 3.1.2
       unist-util-visit-parents: 5.1.1
-
-  packages/whats-that-gerber:
-    specifiers: {}
 
   packages/xml-id:
     specifiers: {}

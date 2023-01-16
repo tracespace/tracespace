@@ -34,7 +34,7 @@ const fixtures = require('@tracespace/fixtures')
 
 ### gerber filenames
 
-`gerber-filenames.json` is a JSON file with a collection of example Gerber / drill filenames along with what PCB layer type they represent organized by CAD package. This fixture is primarily used to test `whats-that-gerber`.
+`gerber-filenames.json` is a JSON file with a collection of example Gerber / drill filenames along with what PCB layer type they represent organized by CAD package. This fixture is primarily used to test `@tracespace/identify-layers`.
 
 ```js
 const {gerberFilenames} = require('@tracespace/fixtures')
@@ -52,7 +52,7 @@ Array<{
   files: Array<{
     /** filename */
     name: string,
-    /** expected whats-that-gerber type */
+    /** expected @tracespace/identify-layers type */
     type: string
   }>
 }>
@@ -101,7 +101,7 @@ Array<{
     filename: string,
     /** format of the file */
     format: 'gerber' | 'drill',
-    /** whats-that-gerber type of the layer */
+    /** @tracespace/identify-layers  type of the layer */
     type: string,
     /** file contents (i.e. results of fs.readFile on filepath) */
     source: string

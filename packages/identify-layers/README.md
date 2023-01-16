@@ -1,6 +1,6 @@
-# whats-that-gerber
+# @tracespace/identify-layers
 
-Have you got a bunch of Gerber files lying around without any idea what they're for? We've all been there. `whats-that-gerber` is here to help.
+Have you got a bunch of Gerber files lying around without any idea what they're for? We've all been there. `@tracespace/identify-layers` is here to help.
 
 This module examines a set of Gerber and NC drill file names and tries to guess the layer type of each file from the filename.
 
@@ -11,13 +11,13 @@ Part of the [tracespace][] collection of PCB visualization tools.
 ## install
 
 ```shell
-npm install whats-that-gerber
+npm install @tracespace/identify-layers
 ```
 
 Or, use a script tag:
 
 ```html
-<script src="https://unpkg.com/whats-that-gerber"></script>
+<script src="https://unpkg.com/@tracespace/identify-layers"></script>
 <script>
   // namespace TracespaceIdentifyLayers now available
   const {identifyLayers} = TracespaceIdentifyLayers
@@ -29,9 +29,9 @@ Or, use a script tag:
 Pass `identifyLayers` an array of filenames from a PCB, and it will give you back an object keyed by filename with the best guess it can make for the type and side of each file. If both `side` and `type` are `null`, the filename cannot be identified as a Gerber / drill file.
 
 ```js
-const {identifyLayers} = require('whats-that-gerber')
+const {identifyLayers} = require('@tracespace/identify-layers')
 // ES Modules work, too
-// import {identifyLayers} from 'whats-that-gerber'
+// import {identifyLayers} from '@tracespace/identify-layers'
 
 const filenames = ['my-board-F_Cu.gbr', 'my-board-B_Cu.gbr', 'foo.bar']
 const typeByFilename = identifyLayers(filenames)
@@ -57,9 +57,9 @@ There are 12 available layer types, were a type is an object of the format:
 You can get an array of all types with:
 
 ```js
-const {getAllLayers} = require('whats-that-gerber')
+const {getAllLayers} = require('@tracespace/identify-layers')
 // ES Modules work, too
-// import {getAllLayers} from 'whats-that-gerber'
+// import {getAllLayers} from '@tracespace/identify-layers'
 
 const allLayers = getAllLayers()
 ```
@@ -99,10 +99,10 @@ const {
   SIDE_BOTTOM, // 'bottom'
   SIDE_INNER, // 'inner'
   SIDE_ALL, // 'all'
-} = require('whats-that-gerber')
+} = require('@tracespace/identify-layers')
 
 // ES Modules work, too
-// import {TYPE_COPPER} from 'whats-that-gerber'
+// import {TYPE_COPPER} from '@tracespace/identify-layers'
 ```
 
 #### checking if a layer type is valid
@@ -110,9 +110,9 @@ const {
 You can check if any given string is a valid layer type with:
 
 ```js
-const {validate} = require('whats-that-gerber')
+const {validate} = require('@tracespace/identify-layers')
 // ES Modules work, too
-// import {validate} from 'whats-that-gerber'
+// import {validate} from '@tracespace/identify-layers'
 
 const type1 = {side: 'top', type: 'copper'}
 const type2 = {side: 'foo', type: 'silkscreen'}
