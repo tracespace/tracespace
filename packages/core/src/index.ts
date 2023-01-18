@@ -26,8 +26,8 @@ export {stringifySvg} from './stringify-svg'
 export interface Layer {
   id: string
   filename: string
-  type: GerberType
-  side: GerberSide
+  type: GerberType | undefined
+  side: GerberSide | undefined
 }
 
 export interface ReadResult {
@@ -126,7 +126,8 @@ export function renderBoard(
   const [x, y, width, height] = viewBox
   const result: Partial<RenderBoardResult> = {}
 
-  const getRenderChildren = (id: string) => rendersById[id].children
+  const getRenderChildren = (id: string): SvgElement['children'] =>
+    rendersById[id].children
 
   for (const side of [SIDE_TOP, SIDE_BOTTOM] as const) {
     const {
@@ -141,7 +142,8 @@ export function renderBoard(
     const resistMaskId = `resist-${id}`
     const shapeClipId = `shape-${id}`
 
-    const clipPath = shapeRender ? `url(#${shapeClipId})` : undefined
+    const clipPath =
+      shapeRender === undefined ? undefined : `url(#${shapeClipId})`
     const transform =
       side === SIDE_BOTTOM
         ? `translate(${2 * x + width},0) scale(-1,1)`
@@ -164,9 +166,9 @@ export function renderBoard(
             s('rect', {x, y, width, height, fill: '#fff'}),
             s('g', {color: '#000'}, resistLayers.flatMap(getRenderChildren)),
           ]),
-          shapeRender
-            ? s('clipPath', {id: shapeClipId}, shapeRender)
-            : undefined,
+          shapeRender === undefined
+            ? undefined
+            : s('clipPath', {id: shapeClipId}, shapeRender),
         ]),
         s('g', {transform, 'clip-path': clipPath}, [
           s('g', {mask: `url(#${drillMaskId})`}, [
@@ -194,7 +196,8 @@ export function renderFragments(plotResult: PlotResult): RenderFragmentsResult {
   const drillLayers = getDrillLayers(layers)
   const boardShapeRenderFragment = {
     viewBox,
-    svgFragment: boardShapePath ? stringifySvg(boardShapePath) : undefined,
+    svgFragment:
+      boardShapePath === undefined ? undefined : stringifySvg(boardShapePath),
   }
 
   const svgFragmentsById: Record<string, string> = {}

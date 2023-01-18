@@ -70,6 +70,7 @@ describe('plot stroke paths', () => {
     const tool: Tool = {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
+      hole: undefined,
     }
 
     const location0 = {

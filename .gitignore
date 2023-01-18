@@ -2,8 +2,8 @@ node_modules
 dist
 lib
 coverage
+.eslintcache
 *.tsbuildinfo
 *.tgz
 .vscode
 .DS_Store
-packages/cli/bin/*.d.ts

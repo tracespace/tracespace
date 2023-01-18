@@ -18,7 +18,7 @@ export function rotateQuadrant(theta: number): number {
 }
 
 export function degreesToRadians(degrees: number): number {
-  return (degrees * Math.PI) / 180
+  return (degrees * PI) / 180
 }
 
 export function rotateAndShift(

@@ -50,8 +50,8 @@ export function createShape(
       const offset = degreesToRadians(rotation ?? 0)
       const step = TWO_PI / vertices
       const points = Array.from({length: vertices}).map<Tree.Position>(
-        (_, i) => {
-          const theta = step * i + offset
+        (_, index) => {
+          const theta = step * index + offset
           const pointX = x + r * Math.cos(theta)
           const pointY = y + r * Math.sin(theta)
           return [pointX, pointY]
@@ -139,8 +139,8 @@ export function shapeToSegments(shape: Tree.SimpleShape): Tree.PathSegment[] {
   }
 
   if (shape.type === Tree.POLYGON) {
-    return shape.points.map((start, i) => {
-      const endIndex = i < shape.points.length - 1 ? i + 1 : 0
+    return shape.points.map((start, index) => {
+      const endIndex = index < shape.points.length - 1 ? index + 1 : 0
       return {type: Tree.LINE, start, end: shape.points[endIndex]}
     })
   }

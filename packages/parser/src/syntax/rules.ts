@@ -104,36 +104,33 @@ const NO_MATCH = 'NO_MATCH'
 type TokenMatchType = typeof FULL_MATCH | typeof PARTIAL_MATCH | typeof NO_MATCH
 
 function tokenListMatches(tokens: Token[], rules: TokenRule[]): TokenMatchType {
-  let i = 0
-  let j = 0
+  let rulesIndex = 0
+  let tokensIndex = 0
   let multiMatchCount = 0
 
-  while (i < rules.length && j < tokens.length) {
-    const rule = rules[i]
-    const token = tokens[j]
+  while (rulesIndex < rules.length && tokensIndex < tokens.length) {
+    const rule = rules[rulesIndex]
+    const token = tokens[tokensIndex]
     const match = tokenMatches(rule, token)
 
     if (match) {
-      if (
-        rule.rule === SINGLE_TOKEN ||
-        (rule.rule === MIN_TO_MAX && multiMatchCount >= rule.max - 1)
-      ) {
-        i++
-        j++
+      if (rule.rule === SINGLE_TOKEN || multiMatchCount >= rule.max - 1) {
+        rulesIndex++
+        tokensIndex++
         multiMatchCount = 0
-      } else if (rule.rule === MIN_TO_MAX) {
-        j++
+      } else {
+        tokensIndex++
         multiMatchCount++
       }
     } else if (rule.rule === MIN_TO_MAX && multiMatchCount >= rule.min) {
       multiMatchCount = 0
-      i++
+      rulesIndex++
     } else {
       return NO_MATCH
     }
   }
 
-  if (i < rules.length) return PARTIAL_MATCH
+  if (rulesIndex < rules.length) return PARTIAL_MATCH
   return FULL_MATCH
 }
 
@@ -142,13 +139,13 @@ function tokenMatches(rule: TokenRule, token: Token): boolean {
     const typeResult = rule.type === token.type
     const valueResult =
       rule.value === null ||
-      typeof rule.value === 'undefined' ||
+      rule.value === undefined ||
       (typeof rule.value === 'string' && rule.value === token.value) ||
       (rule.value instanceof RegExp && rule.value.test(token.value))
 
     const result = typeResult && valueResult
 
-    return rule.negate ? !result : result
+    return rule.negate === true ? !result : result
   }
 
   if (Array.isArray(rule.match)) {

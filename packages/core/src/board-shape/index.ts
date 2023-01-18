@@ -42,7 +42,8 @@ export function plotBoardShape(
   maximumGap: number
 ): BoardShape {
   const outlineId = getOutlineLayer(layers)
-  const outlinePlot = outlineId ? plotTreesById[outlineId] : undefined
+  const outlinePlot =
+    outlineId === undefined ? undefined : plotTreesById[outlineId]
   const size = BoundingBox.sum(
     Object.values(plotTreesById).map(({size}) => size)
   )
@@ -88,7 +89,7 @@ export function renderBoardShape(boardShape: BoardShape): BoardShapeRender {
   const viewBox = sizeToViewBox(size)
   const segments = regions.flatMap(r => r.segments)
 
-  return failureReason
-    ? {viewBox, failureReason}
-    : {viewBox, path: renderGraphic({type: IMAGE_REGION, segments})}
+  return failureReason === undefined
+    ? {viewBox, path: renderGraphic({type: IMAGE_REGION, segments})}
+    : {viewBox, failureReason}
 }

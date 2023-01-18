@@ -23,6 +23,7 @@ describe('plot stroke arc paths', () => {
   const tool: Tool = {
     type: SIMPLE_TOOL,
     shape: {type: Parser.CIRCLE, diameter: 2},
+    hole: undefined,
   }
 
   it('should plot a zero-length CCW arc as a full circle', () => {

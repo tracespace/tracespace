@@ -22,7 +22,7 @@ interface PackageJsonExports {
   source: string
 }
 
-const pascalCase = (value: string) => upperFirst(camelCase(value))
+const pascalCase = (value: string): string => upperFirst(camelCase(value))
 
 export function defineBaseConfig(
   packageMeta: PackageMeta,

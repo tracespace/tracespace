@@ -20,7 +20,7 @@ export const MACRO_TOOL = 'macroTool'
 export interface SimpleTool {
   type: typeof SIMPLE_TOOL
   shape: SimpleShape
-  hole?: HoleShape
+  hole: HoleShape | undefined
 }
 
 export interface MacroTool {
@@ -32,7 +32,7 @@ export interface MacroTool {
 export type Tool = SimpleTool | MacroTool
 
 export interface ToolStore {
-  use(node: GerberNode): Tool | undefined
+  use: (node: GerberNode) => Tool | undefined
 }
 
 export function createToolStore(): ToolStore {
@@ -56,7 +56,7 @@ const ToolStorePrototype: ToolStore & ToolStoreState = {
     }
 
     if (node.type === TOOL_DEFINITION) {
-      const {shape, hole} = node
+      const {code, shape, hole} = node
       const tool: Tool =
         shape.type === MACRO_SHAPE
           ? {
@@ -64,9 +64,9 @@ const ToolStorePrototype: ToolStore & ToolStoreState = {
               macro: this._macrosByName[shape.name] ?? [],
               variableValues: shape.variableValues,
             }
-          : {type: SIMPLE_TOOL, shape, ...(hole && {hole})}
+          : {type: SIMPLE_TOOL, shape, hole: hole ?? undefined}
 
-      this._toolsByCode[node.code] = tool
+      this._toolsByCode[code] = tool
     }
 
     if (node.type === TOOL_DEFINITION || node.type === TOOL_CHANGE) {

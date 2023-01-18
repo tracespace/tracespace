@@ -24,14 +24,16 @@ const FORMAT_COMMENT_RE = /FORMAT={?(\d):(\d)/
 
 export function getPlotOptions(tree: GerberTree): PlotOptions {
   const {children: treeNodes} = tree
-  let units: UnitsType | null = null
-  let coordinateFormat: Format | null = null
-  let zeroSuppression: ZeroSuppression | null = null
+  let units: UnitsType | undefined
+  let coordinateFormat: Format | undefined
+  let zeroSuppression: ZeroSuppression | undefined
   let index = 0
 
   while (
     index < treeNodes.length &&
-    (units === null || coordinateFormat === null || zeroSuppression === null)
+    (units === undefined ||
+      coordinateFormat === undefined ||
+      zeroSuppression === undefined)
   ) {
     const node = treeNodes[index]
 
@@ -42,8 +44,8 @@ export function getPlotOptions(tree: GerberTree): PlotOptions {
       }
 
       case COORDINATE_FORMAT: {
-        coordinateFormat = node.format
-        zeroSuppression = node.zeroSuppression
+        coordinateFormat = node.format ?? undefined
+        zeroSuppression = node.zeroSuppression ?? undefined
         break
       }
 
@@ -51,11 +53,14 @@ export function getPlotOptions(tree: GerberTree): PlotOptions {
         const {coordinates} = node
 
         for (const coordinate of Object.values(coordinates)) {
-          if (zeroSuppression !== null) break
+          if (zeroSuppression !== undefined) break
 
-          if (coordinate!.endsWith('0') || coordinate!.includes('.')) {
+          if (
+            coordinate?.endsWith('0') === true ||
+            coordinate?.includes('.') === true
+          ) {
             zeroSuppression = LEADING
-          } else if (coordinate!.startsWith('0')) {
+          } else if (coordinate?.startsWith('0') === true) {
             zeroSuppression = TRAILING
           }
         }
@@ -73,7 +78,7 @@ export function getPlotOptions(tree: GerberTree): PlotOptions {
           zeroSuppression = LEADING
         }
 
-        if (formatMatch) {
+        if (formatMatch !== null) {
           coordinateFormat = [Number(formatMatch[1]), Number(formatMatch[2])]
         }
 

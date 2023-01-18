@@ -1,4 +1,4 @@
 import {defineLibraryConfig} from '../../config/vite.config.base'
-import pkg from './package.json'
+import packageMeta from './package.json'
 
-export default defineLibraryConfig(pkg)
+export default defineLibraryConfig(packageMeta)

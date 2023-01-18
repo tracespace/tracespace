@@ -3,13 +3,13 @@ import type * as Constants from './constants'
 export type LayerIdentityMap = Record<string, LayerIdentity>
 
 export interface LayerIdentity {
-  type: GerberType
-  side: GerberSide
+  type: GerberType | undefined
+  side: GerberSide | undefined
 }
 
 export interface ValidLayer {
-  type: NonNullable<GerberType>
-  side: GerberSide
+  type: GerberType
+  side: GerberSide | undefined
 }
 
 export type ValidatedLayer = LayerIdentity & {valid: boolean}
@@ -22,14 +22,12 @@ export type GerberType =
   | typeof Constants.TYPE_DRILL
   | typeof Constants.TYPE_OUTLINE
   | typeof Constants.TYPE_DRAWING
-  | null
 
 export type GerberSide =
   | typeof Constants.SIDE_TOP
   | typeof Constants.SIDE_BOTTOM
   | typeof Constants.SIDE_INNER
   | typeof Constants.SIDE_ALL
-  | null
 
 export type GerberCad =
   | typeof Constants.CAD_KICAD
@@ -42,29 +40,28 @@ export type GerberCad =
   | typeof Constants.CAD_GEDA_PCB
   | typeof Constants.CAD_ORCAD
   | typeof Constants.CAD_DIPTRACE
-  | null
 
 export interface ExtensionMatcher {
   ext: string
-  cad: GerberCad | GerberCad[]
+  cad: GerberCad | GerberCad[] | undefined
 }
 
 export interface FilenameMatcher {
   match: RegExp
-  cad: GerberCad | GerberCad[]
+  cad: GerberCad | GerberCad[] | undefined
 }
 
 export interface LayerType {
-  type: GerberType
-  side: GerberSide
+  type: GerberType | undefined
+  side: GerberSide | undefined
   matchers: Array<ExtensionMatcher | FilenameMatcher>
 }
 
 export interface LayerTest {
-  type: GerberType
-  side: GerberSide
+  type: GerberType | undefined
+  side: GerberSide | undefined
   match: RegExp
-  cad: GerberCad
+  cad: GerberCad | undefined
 }
 
 export interface LayerTestMatch extends LayerTest {

@@ -11,7 +11,7 @@ describe('tool state store', () => {
       type: Parser.TOOL_DEFINITION,
       code: '42',
       shape: {type: 'circle', diameter: 42},
-      hole: null,
+      hole: undefined,
     }
 
     const subject = createToolStore()
@@ -20,6 +20,7 @@ describe('tool state store', () => {
     expect(result).to.eql({
       type: SIMPLE_TOOL,
       shape: {type: 'circle', diameter: 42},
+      hole: undefined,
     })
   })
 
@@ -28,13 +29,13 @@ describe('tool state store', () => {
       type: Parser.TOOL_DEFINITION,
       code: '1',
       shape: {type: 'circle', diameter: 1},
-      hole: null,
+      hole: undefined,
     }
     const tool2: Parser.ToolDefinition = {
       type: Parser.TOOL_DEFINITION,
       code: '2',
       shape: {type: 'circle', diameter: 2},
-      hole: null,
+      hole: undefined,
     }
     const toolChange: Parser.ToolChange = {
       type: Parser.TOOL_CHANGE,
@@ -46,14 +47,17 @@ describe('tool state store', () => {
     expect(subject.use(tool1)).to.eql({
       type: SIMPLE_TOOL,
       shape: {type: 'circle', diameter: 1},
+      hole: undefined,
     })
     expect(subject.use(tool2)).to.eql({
       type: SIMPLE_TOOL,
       shape: {type: 'circle', diameter: 2},
+      hole: undefined,
     })
     expect(subject.use(toolChange)).to.eql({
       type: SIMPLE_TOOL,
       shape: {type: 'circle', diameter: 1},
+      hole: undefined,
     })
   })
 
@@ -66,7 +70,7 @@ describe('tool state store', () => {
       type: Parser.TOOL_DEFINITION,
       code: '42',
       shape: {type: 'circle', diameter: 42},
-      hole: null,
+      hole: undefined,
     }
 
     const subject = createToolStore()
@@ -75,10 +79,12 @@ describe('tool state store', () => {
     expect(subject.use(tool)).to.eql({
       type: SIMPLE_TOOL,
       shape: {type: 'circle', diameter: 42},
+      hole: undefined,
     })
     expect(subject.use(comment)).to.eql({
       type: SIMPLE_TOOL,
       shape: {type: 'circle', diameter: 42},
+      hole: undefined,
     })
   })
 
@@ -96,7 +102,7 @@ describe('tool state store', () => {
         name: 'cool-macro',
         variableValues: [1, 2, 3],
       },
-      hole: null,
+      hole: undefined,
     }
 
     const subject = createToolStore()

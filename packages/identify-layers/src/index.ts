@@ -25,9 +25,10 @@ export function identifyLayers(filenames: string | string[]): LayerIdentityMap {
   return Object.fromEntries(
     filenames.map(filename => {
       const match = _selectMatch(matches, filename, commonCad)
-      const layerId = match
-        ? {type: match.type, side: match.side}
-        : {type: null, side: null}
+      const layerId =
+        match === undefined
+          ? {type: undefined, side: undefined}
+          : {type: match.type, side: match.side}
 
       return [filename, layerId]
     })
@@ -37,12 +38,12 @@ export function identifyLayers(filenames: string | string[]): LayerIdentityMap {
 export function getAllLayers(): ValidLayer[] {
   return layerTypes
     .map(layer => ({type: layer.type, side: layer.side}))
-    .filter((layer): layer is ValidLayer => layer.type !== null)
+    .filter((layer): layer is ValidLayer => layer.type !== undefined)
 }
 
-export function validate<T extends {side: string | null; type: string | null}>(
-  target: T
-): ValidatedLayer {
+export function validate<
+  T extends {side: string | undefined; type: string | undefined}
+>(target: T): ValidatedLayer {
   const valid = layerTypes.some(layer => {
     return layer.side === target.side && layer.type === target.type
   })
@@ -52,18 +53,18 @@ export function validate<T extends {side: string | null; type: string | null}>(
 
   return {
     valid,
-    side: validSide ? (target.side as GerberSide) : null,
-    type: validType ? (target.type as GerberType) : null,
+    side: validSide ? (target.side as GerberSide) : undefined,
+    type: validType ? (target.type as GerberType) : undefined,
   }
 }
 
 function _selectMatch(
   matches: LayerTestMatch[],
   filename: string,
-  cad: GerberCad
-): LayerIdentity | null {
+  cad: GerberCad | undefined
+): LayerIdentity | undefined {
   const filenameMatches = matches.filter(match => match.filename === filename)
   const result = filenameMatches.find(match => match.cad === cad)
 
-  return result ?? filenameMatches[0] ?? null
+  return result ?? filenameMatches[0]
 }

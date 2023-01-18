@@ -113,16 +113,16 @@ function parseMacroExpression(tokens: Lexer.Token[]): MacroValue {
 
   return parseAddition()
 
-  function peekNextToken(): Lexer.Token | null {
-    return toParse[0] ?? null
+  function peekNextToken(): Lexer.Token | undefined {
+    return toParse[0]
   }
 
   // Parse numbers, variables, and parenthesis
   function parsePrimary(): MacroValue {
-    const token = toParse.shift()!
+    const token = toParse.shift()
 
-    if (token.type === Lexer.NUMBER) return Number(token.value)
-    if (token.type === Lexer.GERBER_MACRO_VARIABLE) return token.value
+    if (token?.type === Lexer.NUMBER) return Number(token.value)
+    if (token?.type === Lexer.GERBER_MACRO_VARIABLE) return token.value
 
     // Else, we've got a parentheses group, so parse it and consume the ")"
     const expression = parseAddition()
@@ -185,7 +185,7 @@ export function parseMacroBlocks(tokens: Lexer.Token[]): Tree.MacroBlock[] {
   for (const token of tokens) {
     const result = findSyntaxMatch([...matchedTokens, token], matchedCandidates)
 
-    if (result.nodes) blocks.push(...result.nodes)
+    if (result.nodes !== undefined) blocks.push(...result.nodes)
     matchedTokens = result.tokens ?? []
     matchedCandidates = result.candidates ?? MACRO_GRAMMAR
   }

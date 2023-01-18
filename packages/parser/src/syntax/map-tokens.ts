@@ -7,8 +7,12 @@ import {SEGMENT, MOVE, SHAPE, LINE, CW_ARC, CCW_ARC, DRILL} from '../constants'
 export function tokensToCoordinates(tokens: Token[]): Coordinates {
   return Object.fromEntries(
     tokens
-      .map((token, i) => [token, tokens[i - 1]])
-      .filter(([token, previousToken]) => {
+      .map<[Token, Token | undefined]>((token, index) => [
+        token,
+        index > 0 ? tokens[index - 1] : undefined,
+      ])
+      .filter((tokenPair): tokenPair is [Token, Token] => {
+        const [token, previousToken] = tokenPair
         return token.type === NUMBER && previousToken?.type === COORD_CHAR
       })
       .map(([token, previousToken]) => {
@@ -17,7 +21,7 @@ export function tokensToCoordinates(tokens: Token[]): Coordinates {
   )
 }
 
-export function tokensToMode(tokens: Token[]): InterpolateModeType {
+export function tokensToMode(tokens: Token[]): InterpolateModeType | undefined {
   const maybeMode = tokens
     .filter(t => t.type === G_CODE)
     .map(t => {
@@ -26,23 +30,23 @@ export function tokensToMode(tokens: Token[]): InterpolateModeType {
       if (t.value === '2') return CW_ARC
       if (t.value === '3') return CCW_ARC
       if (t.value === '5') return DRILL
-      return null
+      return false
     })
 
-  return maybeMode[0] ?? null
+  return typeof maybeMode[0] === 'string' ? maybeMode[0] : undefined
 }
 
-export function tokensToGraphic(tokens: Token[]): GraphicType {
+export function tokensToGraphic(tokens: Token[]): GraphicType | undefined {
   const maybeGraphic = tokens
     .filter(t => t.type === D_CODE)
     .map(t => {
       if (t.value === '1') return SEGMENT
       if (t.value === '2') return MOVE
       if (t.value === '3') return SHAPE
-      return null
+      return false
     })
 
-  return maybeGraphic[0] ?? null
+  return typeof maybeGraphic[0] === 'string' ? maybeGraphic[0] : undefined
 }
 
 export function tokensToString(tokens: Token[]): string {

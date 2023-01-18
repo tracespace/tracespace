@@ -17,7 +17,7 @@ export interface LexerIterable extends Iterable<[Token, LexerState]> {}
  * @category Lexer
  */
 export interface Lexer {
-  feed(chunk: string, state?: LexerState | null): LexerIterable
+  feed: (chunk: string, state?: LexerState) => LexerIterable
 }
 
 /**
@@ -42,8 +42,8 @@ export function createLexer(): Lexer {
 
   return {feed}
 
-  function feed(chunk: string, state: LexerState | null = null): LexerIterable {
-    mooLexer.reset(chunk, state ?? undefined)
+  function feed(chunk: string, state?: LexerState): LexerIterable {
+    mooLexer.reset(chunk, state)
     return tokenIterator(state?.offset ?? 0)
   }
 
@@ -58,7 +58,7 @@ export function createLexer(): Lexer {
       next() {
         const token = mooLexer.next() as Token | undefined
 
-        if (token) {
+        if (token !== undefined) {
           const nextToken = {...token, offset: offset + token.offset}
           const nextState = {
             ...mooLexer.save(),

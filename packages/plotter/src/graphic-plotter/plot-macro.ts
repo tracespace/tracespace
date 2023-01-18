@@ -31,7 +31,7 @@ export function plotMacro(
 ): Tree.LayeredShape {
   const shapes: Tree.ErasableShape[] = []
   const variableValues: VariableValues = Object.fromEntries(
-    tool.variableValues.map((value, i) => [`$${i + 1}`, value])
+    tool.variableValues.map((value, index) => [`$${index + 1}`, value])
   )
 
   for (const block of tool.macro) {
@@ -141,9 +141,12 @@ function plotVectorLine(
 ): Tree.ErasableShape {
   const [exposure, width, sx, sy, ex, ey, degrees] = parameters
   const [dy, dx] = [ey - sy, ex - sx]
-  const halfWid = width / 2
-  const dist = Math.sqrt(dy ** 2 + dx ** 2)
-  const [xOff, yOff] = [(halfWid * dx) / dist, (halfWid * dy) / dist]
+  const halfWidth = width / 2
+  const distance = Math.sqrt(dy ** 2 + dx ** 2)
+  const [xOff, yOff] = [
+    (halfWidth * dx) / distance,
+    (halfWidth * dy) / distance,
+  ]
 
   return {
     type: Tree.POLYGON,
@@ -211,8 +214,8 @@ function plotOutline(
     type: Tree.POLYGON,
     erase: exposure === 0,
     points: coords
-      .flatMap<[number, number]>((coordinate, i) =>
-        i % 2 === 1 ? [[coords[i - 1], coordinate]] : []
+      .flatMap<[number, number]>((coordinate, index) =>
+        index % 2 === 1 ? [[coords[index - 1], coordinate]] : []
       )
       .map(p => rotateAndShift(p, origin, degrees)),
   }
@@ -226,10 +229,10 @@ function plotPolygon(
   const r = diameter / 2
   const step = (2 * PI) / vertices
   const points: Tree.Position[] = []
-  let i
+  let index
 
-  for (i = 0; i < vertices; i++) {
-    const theta = step * i
+  for (index = 0; index < vertices; index++) {
+    const theta = step * index
     const pointX = cx + r * Math.cos(theta)
     const pointY = cy + r * Math.sin(theta)
     points.push(rotateAndShift([pointX, pointY], origin, degrees))
@@ -306,20 +309,20 @@ function plotThermal(
   const center = rotateAndShift([cx0, cy0], origin, degrees)
   const [or, ir] = [od / 2, id / 2]
   const halfGap = gap / 2
-  const oIntSquare = or ** 2 - halfGap ** 2
-  const iIntSquare = ir ** 2 - halfGap ** 2
-  const oInt = Math.sqrt(oIntSquare)
-  const iInt = iIntSquare >= 0 ? Math.sqrt(iIntSquare) : halfGap
+  const outerIntSquare = or ** 2 - halfGap ** 2
+  const innerIntSquare = ir ** 2 - halfGap ** 2
+  const outerInt = Math.sqrt(outerIntSquare)
+  const innerInt = innerIntSquare >= 0 ? Math.sqrt(innerIntSquare) : halfGap
   const positions = [0, 90, 180, 270]
   const segments: Tree.PathSegment[] = []
 
   for (const rot of positions) {
     const points = (
       [
-        [iInt, halfGap],
-        [oInt, halfGap],
-        [halfGap, oInt],
-        [halfGap, iInt],
+        [innerInt, halfGap],
+        [outerInt, halfGap],
+        [halfGap, outerInt],
+        [halfGap, innerInt],
       ] as Tree.Position[]
     )
       .map(p => rotateAndShift(p, [cx0, cy0], rot))

@@ -118,7 +118,7 @@ const SPECS: Array<{
       {
         type: Tree.GRAPHIC,
         position: pos([1, 1, 0], [1, 9, 8]),
-        graphic: null,
+        graphic: undefined,
         coordinates: {x: '001', y: '002'},
       },
     ],
@@ -389,7 +389,7 @@ const SPECS: Array<{
       {
         type: Tree.COORDINATE_FORMAT,
         position: pos([1, 2, 1], [1, 17, 16]),
-        zeroSuppression: null,
+        zeroSuppression: undefined,
         mode: ABSOLUTE,
         format: [2, 2],
       },

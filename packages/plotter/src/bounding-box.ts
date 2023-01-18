@@ -62,7 +62,9 @@ export function fromShape(shape: Tree.Shape): Box {
     }
 
     case Tree.LAYERED_SHAPE: {
-      return sum(shape.shapes.filter(({erase}) => !erase).map(fromShape))
+      return sum(
+        shape.shapes.filter(({erase}) => erase !== true).map(fromShape)
+      )
     }
   }
 }

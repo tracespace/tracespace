@@ -6,7 +6,7 @@
     "check": "pnpm clean && pnpm build:types && concurrently -g pnpm:format:check pnpm:lint pnpm:build:packages",
     "test": "vitest",
     "test:once": "vitest run --coverage",
-    "lint": "xo",
+    "lint": "eslint --ext .js,.ts,.tsx --cache .",
     "format": "pnpm format:base --write",
     "format:check": "pnpm format:base --check",
     "format:base": "prettier \"**/*.@(js|ts|tsx|json|md|yml|yaml)\"",
@@ -14,8 +14,10 @@
     "build:packages": "pnpm -r --aggregate-output build",
     "build:types": "tsc --build",
     "clean": "tsc --build --clean",
-    "dev": "pnpm -C www dev"
+    "dev": "pnpm -C www dev",
+    "preview": "pnpm -C www preview"
   },
+  "type": "module",
   "engines": {
     "node": ">=18"
   },
@@ -43,9 +45,20 @@
     "@types/lodash": "^4.14.191",
     "@types/node": "^18.11.18",
     "@types/testing-library__jest-dom": "^5.14.5",
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
+    "@typescript-eslint/parser": "^5.48.2",
     "@vitest/coverage-c8": "^0.27.1",
     "babel-plugin-transform-hook-names": "^1.0.2",
     "concurrently": "^7.6.0",
+    "eslint": "^8.32.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-config-standard-with-typescript": "^30.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.32.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-unicorn": "^45.0.2",
     "jsdom": "^21.0.0",
     "lodash": "^4.17.21",
     "preact": "^10.11.3",
@@ -57,8 +70,7 @@
     "testdouble-vitest": "^0.1.2",
     "typescript": "^4.9.4",
     "vite": "^4.0.4",
-    "vitest": "^0.27.1",
-    "xo": "^0.53.1"
+    "vitest": "^0.27.1"
   },
   "pnpm": {
     "peerDependencyRules": {
@@ -78,72 +90,79 @@
     "bracketSpacing": false,
     "arrowParens": "avoid"
   },
-  "xo": {
-    "prettier": true,
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:@typescript-eslint/recommended-requiring-type-checking",
+      "plugin:@typescript-eslint/strict",
+      "plugin:react/recommended",
+      "plugin:react/jsx-runtime",
+      "plugin:react-hooks/recommended",
+      "plugin:unicorn/recommended",
+      "standard-with-typescript",
+      "prettier"
+    ],
     "parserOptions": {
-      "project": "./tsconfig.lint.json"
+      "project": [
+        "./tsconfig.lint.json",
+        "./packages/*/tsconfig.json",
+        "./www/tsconfig.json"
+      ]
     },
     "settings": {
       "react": {
-        "pragma": "h"
+        "version": "detect"
       }
     },
+    "ignorePatterns": [
+      "dist",
+      "lib",
+      "coverage"
+    ],
     "rules": {
-      "@typescript-eslint/naming-convention": "off",
-      "@typescript-eslint/no-confusing-void-expression": "off",
-      "import/extensions": "off",
+      "react/no-unknown-property": [
+        "error",
+        {
+          "ignore": [
+            "class"
+          ]
+        }
+      ],
+      "unicorn/prevent-abbreviations": [
+        "error",
+        {
+          "replacements": {
+            "props": {
+              "properties": false
+            }
+          },
+          "ignore": [
+            "\\.e2e\\.test"
+          ]
+        }
+      ],
       "unicorn/no-array-callback-reference": "off",
-      "unicorn/no-array-for-each": "off",
-      "unicorn/no-array-reduce": "off",
-      "unicorn/prefer-top-level-await": "off",
-      "n/file-extension-in-import": "off",
-      "default-case": "off",
-      "no-warning-comments": "off"
+      "unicorn/no-array-reduce": "off"
     },
     "overrides": [
       {
-        "files": [
-          "**/*.(ts|tsx)"
-        ],
+        "files": "**/*.d.ts",
         "rules": {
-          "@typescript-eslint/ban-types": [
-            "error",
-            {
-              "extendDefaults": true,
-              "types": {}
-            }
-          ],
-          "@typescript-eslint/consistent-type-definitions": [
-            "error",
-            "interface"
-          ]
+          "@typescript-eslint/method-signature-style": "off",
+          "@typescript-eslint/naming-convention": "off",
+          "@typescript-eslint/no-unused-vars": "off",
+          "@typescript-eslint/triple-slash-reference": "off"
         }
       },
       {
-        "files": [
-          "**/*.d.ts"
-        ],
-        "rules": {
-          "@typescript-eslint/triple-slash-reference": "off",
-          "@typescript-eslint/no-unnecessary-type-arguments": "off",
-          "@typescript-eslint/prefer-function-type": "off",
-          "import/no-unassigned-import": "off"
-        }
-      },
-      {
-        "files": [
-          "**/__tests__/**",
-          "**/*.config.ts"
-        ],
+        "files": "**/__tests__/**",
         "rules": {
           "@typescript-eslint/consistent-type-assertions": "off",
-          "@typescript-eslint/consistent-type-imports": "off",
-          "@typescript-eslint/no-namespace": "off",
-          "@typescript-eslint/no-unsafe-assignment": "off",
-          "import/no-extraneous-dependencies": "off",
-          "max-nested-callbacks": "off",
-          "unicorn/no-array-for-each": "off",
-          "unicorn/prefer-module": "off"
+          "@typescript-eslint/no-non-null-assertion": "off",
+          "@typescript-eslint/no-unsafe-argument": "off",
+          "unicorn/no-useless-undefined": "off"
         }
       }
     ]

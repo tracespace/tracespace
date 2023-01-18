@@ -8,7 +8,7 @@ import type {PageContext} from './_page-context'
 
 export const clientRouting = true
 
-export async function render(pageContext: PageContext): Promise<void> {
+export function render(pageContext: PageContext): void {
   const {Page, isHydration} = pageContext
   const page = <Page />
   const mount = isHydration ? preactHydrate : preactRender

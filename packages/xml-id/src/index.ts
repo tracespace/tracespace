@@ -8,7 +8,9 @@ const REPLACE_RE = new RegExp(`^[^${START_CHAR}]|[^\\${CHAR}]`, 'g')
 const DEFAULT_RANDOM_LENGTH = 12
 
 export function random(length: number = DEFAULT_RANDOM_LENGTH): string {
-  length = length || DEFAULT_RANDOM_LENGTH
+  length =
+    Number.isFinite(length) && length > 0 ? length : DEFAULT_RANDOM_LENGTH
+
   return _getRandomString(1, START_CHAR) + _getRandomString(length - 1, CHAR)
 }
 

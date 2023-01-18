@@ -62,10 +62,12 @@ describe('creating a plot tree', () => {
     const tool1: Tool = {
       type: toolStoreCreator.SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 1},
+      hole: undefined,
     }
     const tool2: Tool = {
       type: toolStoreCreator.SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
+      hole: undefined,
     }
     td.when(toolStore.use(node1)).thenReturn(tool1)
     td.when(toolStore.use(node2)).thenReturn(tool2)

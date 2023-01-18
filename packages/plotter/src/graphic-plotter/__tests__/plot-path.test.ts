@@ -9,18 +9,19 @@ import type {Location} from '../../location-store'
 import type {GraphicPlotter} from '..'
 import {createGraphicPlotter} from '..'
 
-type SubjectArgs = Parameters<GraphicPlotter['plot']>
+type SubjectArguments = Parameters<GraphicPlotter['plot']>
 type SubjectReturn = ReturnType<GraphicPlotter['plot']>
 
-const subject = (...calls: Array<Partial<SubjectArgs>>): SubjectReturn => {
+const subject = (...calls: Array<Partial<SubjectArguments>>): SubjectReturn => {
   const plotter = createGraphicPlotter(Parser.GERBER)
-  return calls.flatMap(call => plotter.plot(...(call as SubjectArgs)))
+  return calls.flatMap(call => plotter.plot(...(call as SubjectArguments)))
 }
 
 describe('plot stroke paths', () => {
   const tool: Tool = {
     type: SIMPLE_TOOL,
     shape: {type: Parser.CIRCLE, diameter: 2},
+    hole: undefined,
   }
 
   it('should not plot anything if no path', () => {
@@ -97,6 +98,7 @@ describe('plot stroke paths', () => {
     const tool1: Tool = {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 1},
+      hole: undefined,
     }
     const location1 = {
       startPoint: {x: 3, y: 4},
@@ -106,6 +108,7 @@ describe('plot stroke paths', () => {
     const tool2: Tool = {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
+      hole: undefined,
     }
     const location2 = {
       startPoint: {x: 7, y: 8},
@@ -197,13 +200,21 @@ describe('plot stroke paths', () => {
         tool,
         location1,
       ],
-      [{type: Parser.GRAPHIC, graphic: null, coordinates: {}}, tool, location1],
+      [
+        {type: Parser.GRAPHIC, graphic: undefined, coordinates: {}},
+        tool,
+        location1,
+      ],
       [
         {type: Parser.GRAPHIC, graphic: Parser.SEGMENT, coordinates: {}},
         tool,
         location2,
       ],
-      [{type: Parser.GRAPHIC, graphic: null, coordinates: {}}, tool, location2],
+      [
+        {type: Parser.GRAPHIC, graphic: undefined, coordinates: {}},
+        tool,
+        location2,
+      ],
       [{type: Parser.DONE}]
     )
 

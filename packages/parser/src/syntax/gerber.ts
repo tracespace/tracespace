@@ -15,7 +15,7 @@ import {
   tokensToPosition,
 } from './map-tokens'
 
-const holeShape = (parameters: number[]): Types.HoleShape | null => {
+const holeShape = (parameters: number[]): Types.HoleShape | undefined => {
   if (parameters.length === 1) {
     const [diameter] = parameters
     return {type: Constants.CIRCLE, diameter}
@@ -26,7 +26,7 @@ const holeShape = (parameters: number[]): Types.HoleShape | null => {
     return {type: Constants.RECTANGLE, xSize, ySize}
   }
 
-  return null
+  return undefined
 }
 
 const done: SyntaxRule = {
@@ -74,11 +74,11 @@ const format: SyntaxRule = {
     token(Lexer.PERCENT),
   ],
   createNodes(tokens) {
-    let format: Types.Format | null = null
-    let zeroSuppression: Types.ZeroSuppression | null = null
-    let mode: Types.Mode | null = null
+    let format: Types.Format | undefined
+    let zeroSuppression: Types.ZeroSuppression | undefined
+    let mode: Types.Mode | undefined
     const coords = tokensToCoordinates(tokens)
-    const formatEndIdx = tokens.findIndex(t => t.type === Lexer.ASTERISK)
+    const formatEndIndex = tokens.findIndex(t => t.type === Lexer.ASTERISK)
     const unitsToken = tokens.find(t => t.type === Lexer.GERBER_UNITS)
 
     for (const t of tokens.filter(t => t.type === Lexer.GERBER_FORMAT)) {
@@ -91,20 +91,20 @@ const format: SyntaxRule = {
     if (coords.x === coords.y && coords.x?.length === 2) {
       const integers = Number(coords.x[0])
       const decimals = Number(coords.x[1])
-      if (integers && decimals) format = [integers, decimals]
+      if (integers > 0 && decimals > 0) format = [integers, decimals]
     }
 
     const nodes: Tree.ChildNode[] = [
       {
         type: Tree.COORDINATE_FORMAT,
-        position: tokensToPosition(tokens.slice(1, formatEndIdx + 1)),
+        position: tokensToPosition(tokens.slice(1, formatEndIndex + 1)),
         zeroSuppression,
         format,
         mode,
       },
     ]
 
-    if (unitsToken) {
+    if (unitsToken !== undefined) {
       nodes.push({
         type: Tree.UNITS,
         position: tokensToPosition(tokens.slice(1, -1), {head: unitsToken}),
@@ -173,7 +173,7 @@ const toolDefinition: SyntaxRule = {
   ],
   createNodes(tokens) {
     let shape: Types.ToolShape
-    let hole: Types.HoleShape | null = null
+    let hole: Types.HoleShape | undefined
 
     const toolProps = /(\d+)(.+)/.exec(tokens[1].value)
     const [, code = '', name = ''] = toolProps ?? []
@@ -200,8 +200,7 @@ const toolDefinition: SyntaxRule = {
       }
 
       case 'P': {
-        const [diameter, vertices, rotation = null, ...holeParameters] =
-          parameters
+        const [diameter, vertices, rotation, ...holeParameters] = parameters
         shape = {type: Constants.POLYGON, diameter, vertices, rotation}
         hole = holeShape(holeParameters)
         break
@@ -231,13 +230,14 @@ const toolChange: SyntaxRule = {
     token(Lexer.D_CODE),
     token(Lexer.ASTERISK),
   ],
-  createNodes: tokens => [
-    {
-      type: Tree.TOOL_CHANGE,
-      position: tokensToPosition(tokens),
-      code: tokens.find(t => t.type === Lexer.D_CODE)!.value,
-    },
-  ],
+  createNodes: tokens =>
+    tokens
+      .filter(({type}) => type === Lexer.D_CODE)
+      .map(({value: code}) => ({
+        type: Tree.TOOL_CHANGE,
+        position: tokensToPosition(tokens),
+        code,
+      })),
 }
 
 const createOperationNodes = (tokens: Lexer.Token[]): Tree.ChildNode[] => {
@@ -245,12 +245,12 @@ const createOperationNodes = (tokens: Lexer.Token[]): Tree.ChildNode[] => {
   const coordinates = tokensToCoordinates(tokens)
   const mode = tokensToMode(tokens)
   const position = tokensToPosition(tokens, {
-    head: mode ? tokens[1] : tokens[0],
+    head: mode === undefined ? tokens[0] : tokens[1],
   })
   const nodes: Tree.ChildNode[] = [
     {type: Tree.GRAPHIC, position, graphic, coordinates},
   ]
-  if (mode) {
+  if (mode !== undefined) {
     const modePosition = tokensToPosition(tokens, {head: tokens[0], length: 2})
     nodes.unshift({type: Tree.INTERPOLATE_MODE, position: modePosition, mode})
   }

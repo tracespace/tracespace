@@ -36,7 +36,7 @@ const useHighlight = <E extends HTMLElement>(highlight?: boolean): Ref<E> => {
   const element = useRef<E>(null)
 
   useEffect(() => {
-    if (highlight) {
+    if (highlight === true) {
       element.current?.scrollIntoView({block: 'nearest', behavior: 'smooth'})
     }
   }, [highlight])
@@ -143,8 +143,8 @@ interface GerberLineProps {
 
 function GerberLine(props: GerberLineProps): JSX.Element {
   const {text, line, highlightedLines, setHighlightedLines} = props
-  const onMouseEnter = () => setHighlightedLines([line])
-  const onMouseLeave = () => setHighlightedLines([])
+  const onMouseEnter = (): unknown => setHighlightedLines([line])
+  const onMouseLeave = (): unknown => setHighlightedLines([])
   const highlight =
     line >= Math.min(...highlightedLines) &&
     line <= Math.max(...highlightedLines)
@@ -172,15 +172,15 @@ interface GerberNodeProps {
 
 function GerberNodeItem(props: GerberNodeProps): JSX.Element {
   const {node, highlightedLines, setHighlightedLines} = props
-  const startLine = node.position?.start.line ?? null
-  const endLine = node.position?.end.line ?? null
-  const lines = [startLine!, endLine!].filter(Boolean)
-  const onMouseEnter = () => setHighlightedLines(lines)
-  const onMouseLeave = () => setHighlightedLines([])
+  const startLine = node.position?.start.line
+  const endLine = node.position?.end.line
+  const lines = [startLine, endLine].filter((n): n is number => n !== undefined)
+  const onMouseEnter = (): unknown => setHighlightedLines(lines)
+  const onMouseLeave = (): unknown => setHighlightedLines([])
   const highlight = highlightedLines.some(
     highlightedLine =>
-      startLine !== null &&
-      endLine !== null &&
+      startLine !== undefined &&
+      endLine !== undefined &&
       startLine <= highlightedLine &&
       endLine >= highlightedLine
   )
@@ -215,7 +215,7 @@ const isListOfTreeNodes = (value: unknown): value is AnyNode[] => {
   return Array.isArray(value) && value.length > 0 && value.every(isTreeNode)
 }
 
-const isTreeNodeOrList = (value: unknown) => {
+const isTreeNodeOrList = (value: unknown): boolean => {
   return isTreeNode(value) || isListOfTreeNodes(value)
 }
 
@@ -236,15 +236,15 @@ function TreeNode(props: TreeNodeProps): JSX.Element {
 
   return (
     <div
-      class={`${className ?? ''} ${highlight ? 'bg-red-100' : ''}`}
+      class={`${className ?? ''} ${highlight === true ? 'bg-red-100' : ''}`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       ref={element}
     >
       <p class="font-semibold">type: {type}</p>
       <ul>
-        {payload.map(([key, value]) => (
-          <li>
+        {payload.map(([key, value], index) => (
+          <li key={index}>
             {isTreeNode(value) ? (
               <div>
                 <p>{key}:</p>
@@ -254,8 +254,8 @@ function TreeNode(props: TreeNodeProps): JSX.Element {
               <div class="mb-1">
                 <p>{key}:</p>
                 <ul class="pl-4">
-                  {value.map(childNode => (
-                    <li>
+                  {value.map((childNode, index) => (
+                    <li key={index}>
                       <TreeNode node={childNode} class="mt-1" />
                     </li>
                   ))}

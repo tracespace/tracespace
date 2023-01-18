@@ -22,7 +22,7 @@ export interface Location {
 }
 
 export interface LocationStore {
-  use(node: GerberNode, options: PlotOptions): Location
+  use: (node: GerberNode, options: PlotOptions) => Location
 }
 
 export function createLocationStore(): LocationStore {
@@ -49,8 +49,8 @@ const LocationStorePrototype: LocationStore & LocationStoreState = {
       const y0 = parseCoordinate(coordinates.y0, startPoint.y, options)
       const x = parseCoordinate(coordinates.x, x0, options)
       const y = parseCoordinate(coordinates.y, y0, options)
-      const i = parseCoordinate(coordinates.i, 0, options)
-      const j = parseCoordinate(coordinates.j, 0, options)
+      const arcCenterXOffset = parseCoordinate(coordinates.i, 0, options)
+      const arcCenterYOffset = parseCoordinate(coordinates.j, 0, options)
       const a = parseCoordinate(coordinates.a, 0, options)
 
       if (startPoint.x !== x0 || startPoint.y !== y0) {
@@ -61,8 +61,8 @@ const LocationStorePrototype: LocationStore & LocationStoreState = {
         endPoint = {x, y}
       }
 
-      if (i !== 0 || j !== 0 || a !== 0) {
-        arcOffsets = {i, j, a}
+      if (arcCenterXOffset !== 0 || arcCenterYOffset !== 0 || a !== 0) {
+        arcOffsets = {i: arcCenterXOffset, j: arcCenterYOffset, a}
       }
     }
 

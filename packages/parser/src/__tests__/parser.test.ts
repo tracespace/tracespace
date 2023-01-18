@@ -36,7 +36,7 @@ describe('parser', () => {
     const lexerState1 = {offset: 1} as LexerState
     const lexerState2 = {offset: 2} as LexerState
 
-    td.when(lexer.feed('abc123', null)).thenReturn([
+    td.when(lexer.feed('abc123', undefined)).thenReturn([
       [token1, lexerState1] as [Token, LexerState],
       [token2, lexerState2] as [Token, LexerState],
     ])
@@ -47,7 +47,7 @@ describe('parser', () => {
           [token1, lexerState1],
           [token2, lexerState2],
         ],
-        null
+        undefined
       )
     ).thenReturn({
       filetype: 'gerber',
@@ -72,7 +72,7 @@ describe('parser', () => {
     const lexerState2 = {offset: 2} as LexerState
     const lexerState3 = {offset: 3} as LexerState
 
-    td.when(lexer.feed('abc123', null)).thenReturn([
+    td.when(lexer.feed('abc123', undefined)).thenReturn([
       [token1, lexerState1] as [Token, LexerState],
     ])
 
@@ -85,7 +85,7 @@ describe('parser', () => {
     ])
 
     td.when(
-      syntaxMatcher.matchSyntax([[token1, lexerState1]], null)
+      syntaxMatcher.matchSyntax([[token1, lexerState1]], undefined)
     ).thenReturn({
       filetype: 'gerber',
       nodes: [{type: 'comment'} as GerberNode],
@@ -96,19 +96,19 @@ describe('parser', () => {
     td.when(
       syntaxMatcher.matchSyntax([[token2, lexerState2]], 'gerber')
     ).thenReturn({
-      filetype: null,
+      filetype: undefined,
       nodes: [{type: 'unimplemented'} as GerberNode],
       unmatched: '456',
-      lexerState: null,
+      lexerState: undefined,
     })
 
     td.when(
       syntaxMatcher.matchSyntax([[token3, lexerState3]], 'gerber')
     ).thenReturn({
-      filetype: null,
+      filetype: undefined,
       nodes: [{type: 'done'}],
       unmatched: '',
-      lexerState: null,
+      lexerState: undefined,
     })
 
     const result = subject.feed('abc123').feed('def456').feed('ghi789').result()
