@@ -104,7 +104,7 @@ describe('ensure plot options', () => {
       ]
 
       const result = getPlotOptions(gerberTree)
-      expect(result.coordinateFormat).to.equal([2, 4])
+      expect(result.coordinateFormat).to.eql([2, 4])
     })
   })
 })
