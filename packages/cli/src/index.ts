@@ -3,9 +3,9 @@ import yargs from 'yargs'
 import {parse} from './parse'
 import {plot} from './plot'
 import {render} from './render'
-import type {ParseArgs} from './parse'
-import type {PlotArgs} from './plot'
-import type {RenderArgs} from './render'
+import type {ParseOptions} from './parse'
+import type {PlotOptions} from './plot'
+import type {RenderOptions} from './render'
 
 export interface RunOptions {
   exitProcess?: boolean
@@ -18,7 +18,7 @@ export async function run(
   const {exitProcess = false} = options
 
   await yargs(processArgv)
-    .command<RenderArgs>({
+    .command<RenderOptions>({
       command: ['$0 <files..>', 'render <files..>'],
       describe: 'Render Gerber/drill files into SVGs',
       builder: {
@@ -40,7 +40,7 @@ export async function run(
       },
       handler: render,
     })
-    .command<PlotArgs>({
+    .command<PlotOptions>({
       command: 'plot <files..>',
       describe: 'Plot Gerber/drill files into image tree documents',
       builder: {
@@ -49,7 +49,7 @@ export async function run(
       },
       handler: plot,
     })
-    .command<ParseArgs>({
+    .command<ParseOptions>({
       command: 'parse <files..>',
       describe: 'Parse Gerber/drill files into syntax tree documents',
       builder: {

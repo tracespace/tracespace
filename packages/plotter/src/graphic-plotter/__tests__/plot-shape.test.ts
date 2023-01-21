@@ -24,6 +24,7 @@ describe('plot shape graphics', () => {
     const tool: Tool = {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
+      hole: undefined,
     }
     const location = {endPoint: {x: 3, y: 4}} as Location
 
@@ -41,6 +42,7 @@ describe('plot shape graphics', () => {
     const tool: Tool = {
       type: SIMPLE_TOOL,
       shape: {type: Parser.RECTANGLE, xSize: 6, ySize: 7},
+      hole: undefined,
     }
     const location = {endPoint: {x: 2, y: -1}} as Location
 
@@ -58,6 +60,7 @@ describe('plot shape graphics', () => {
     const tool: Tool = {
       type: SIMPLE_TOOL,
       shape: {type: Parser.OBROUND, xSize: 6, ySize: 8},
+      hole: undefined,
     }
     const location = {endPoint: {x: 1, y: 2}} as Location
 
@@ -75,6 +78,7 @@ describe('plot shape graphics', () => {
     const tool: Tool = {
       type: SIMPLE_TOOL,
       shape: {type: Parser.OBROUND, xSize: 8, ySize: 6},
+      hole: undefined,
     }
     const location = {endPoint: {x: 1, y: 2}} as Location
 
@@ -91,7 +95,13 @@ describe('plot shape graphics', () => {
   it('should plot a polygon', () => {
     const tool: Tool = {
       type: SIMPLE_TOOL,
-      shape: {type: Parser.POLYGON, diameter: 16, vertices: 4, rotation: null},
+      shape: {
+        type: Parser.POLYGON,
+        diameter: 16,
+        vertices: 4,
+        rotation: undefined,
+      },
+      hole: undefined,
     }
     const location = {endPoint: {x: 2, y: 2}} as Location
 
@@ -280,7 +290,7 @@ describe('plot shape graphics', () => {
           type: Parser.POLYGON,
           diameter: 16,
           vertices: 4,
-          rotation: null,
+          rotation: undefined,
         },
         hole: {type: Parser.CIRCLE, diameter: 1},
       }
@@ -412,7 +422,7 @@ describe('plot shape graphics', () => {
           type: Parser.POLYGON,
           diameter: 16,
           vertices: 4,
-          rotation: null,
+          rotation: undefined,
         },
         hole: {type: Parser.RECTANGLE, xSize: 1, ySize: 1},
       }

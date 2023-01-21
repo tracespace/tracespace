@@ -10,34 +10,34 @@ import {gerberGrammar} from './gerber'
 const grammar: SyntaxRule[] = [...gerberGrammar, ...drillGrammar]
 
 export interface MatchResult {
-  filetype: Filetype | null
+  filetype: Filetype | undefined
   nodes: GerberNode[]
   unmatched: string
-  lexerState: LexerState | null
+  lexerState: LexerState | undefined
 }
 
 export function matchSyntax(
   tokens: LexerIterable,
-  filetype: Filetype | null = null
+  filetype?: Filetype
 ): MatchResult {
   const nodes: GerberNode[] = []
   let matchedCandidates = getGrammar()
   let matchedTokens: Token[] = []
-  let nextLexerState: LexerState | null = null
+  let nextLexerState: LexerState | undefined
   let unmatched = ''
 
   for (const [token, lexerState] of tokens) {
     const result = findSyntaxMatch([...matchedTokens, token], matchedCandidates)
 
-    if (result.nodes) {
+    if (result.nodes === undefined) {
+      unmatched += token.text
+    } else {
       nodes.push(...result.nodes)
       nextLexerState = lexerState
       unmatched = ''
-    } else {
-      unmatched += token.text
     }
 
-    filetype = filetype ?? result.filetype ?? null
+    filetype = filetype ?? result.filetype
     matchedTokens = result.tokens ?? []
     matchedCandidates = result.candidates ?? getGrammar()
   }
@@ -49,7 +49,7 @@ export function matchSyntax(
     lexerState: nextLexerState,
   }
 
-  function getGrammar() {
+  function getGrammar(): SyntaxRule[] {
     if (filetype === GERBER) return gerberGrammar
     if (filetype === DRILL) return drillGrammar
     return grammar

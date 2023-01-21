@@ -1,9 +1,6 @@
 # prettier ignore
 .vscode
-package.json
 pnpm-lock.yaml
-CHANGELOG.md
 dist
 lib
 coverage
-packages/cli/bin/*.d.ts

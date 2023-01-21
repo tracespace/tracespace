@@ -15,14 +15,14 @@ const EXPECTED_LAYERS = [
   {type: 'copper', side: 'inner'},
   {type: 'outline', side: 'all'},
   {type: 'drill', side: 'all'},
-  {type: 'drawing', side: null},
+  {type: 'drawing', side: undefined},
 ]
 
 describe('@tracespace/identify-layers', () => {
-  it('should default to null', () => {
+  it('should default to undefined', () => {
     const result = identifyLayers('foobar')
 
-    expect(result).to.eql({foobar: {side: null, type: null}})
+    expect(result).to.eql({foobar: {side: undefined, type: undefined}})
   })
 
   it('should have a list of all layer types', () => {
@@ -50,11 +50,11 @@ describe('@tracespace/identify-layers', () => {
 
     expect(invalidSide).to.eql({
       valid: false,
-      side: null,
+      side: undefined,
       type: 'copper',
     })
-    expect(invalidType).to.eql({valid: false, side: 'top', type: null})
-    expect(invalidAll).to.eql({valid: false, side: null, type: null})
+    expect(invalidType).to.eql({valid: false, side: 'top', type: undefined})
+    expect(invalidAll).to.eql({valid: false, side: undefined, type: undefined})
   })
 
   for (const cadSet of cadFilenames) {
@@ -68,11 +68,11 @@ describe('@tracespace/identify-layers', () => {
         const {side: sideResult, type: typeResult} = result[name]
 
         expect(sideResult).to.equal(
-          expectedSide,
+          expectedSide ?? undefined,
           `${name} should be ${expectedSide!}, got ${sideResult!}`
         )
         expect(typeResult).to.equal(
-          expectedType,
+          expectedType ?? undefined,
           `${name} should be ${expectedType!}, got ${typeResult!}`
         )
       }

@@ -29,7 +29,7 @@ describe('syntax match non-match list', () => {
       const tokens = lexerResult.map(([t]) => t)
       const result = matchSyntax(lexerResult)
 
-      expect(result.filetype).to.eql(null)
+      expect(result.filetype).to.equal(undefined)
       expect(result.nodes).to.eql([])
       expect(simplifyTokens(tokens)).to.eql(simplifyTokens(expectedTokens))
     })

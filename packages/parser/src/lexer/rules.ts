@@ -12,7 +12,8 @@ const stripLeadingZeros = (text: string): string => {
 }
 
 const getCodeValue = (text: string): string => {
-  return stripLeadingZeros(text.slice(1)) || '0'
+  const leadingZerosRemoved = stripLeadingZeros(text.slice(1))
+  return leadingZerosRemoved === '' ? '0' : leadingZerosRemoved
 }
 
 export const rules: Rules = {
@@ -36,7 +37,7 @@ export const rules: Rules = {
   [Tokens.PERCENT]: '%',
   [Tokens.EQUALS]: '=',
   [Tokens.GERBER_FORMAT]: {
-    match: /FS[LTDAI]+/,
+    match: /FS[ADILT]+/,
     value: (text: string): string => text.slice(2),
   },
   [Tokens.GERBER_UNITS]: {
@@ -46,15 +47,15 @@ export const rules: Rules = {
   [Tokens.GERBER_TOOL_MACRO]: {
     // "-" in a tool name is illegal, but some gerber writers misbehave
     // https://github.com/mcous/gerber-parser/pull/13
-    match: /AM[a-zA-Z_.$][\w.-]*/,
+    match: /AM[$.A-Z_a-z][\w.-]*/,
     value: (text: string): string => text.slice(2),
   },
   [Tokens.GERBER_TOOL_DEF]: {
-    match: /ADD\d+[a-zA-Z_.$][\w.-]*/,
+    match: /ADD\d+[$.A-Z_a-z][\w.-]*/,
     value: (text: string): string => stripLeadingZeros(text.slice(3)),
   },
   [Tokens.GERBER_LOAD_POLARITY]: {
-    match: /LP[DC]/,
+    match: /LP[CD]/,
     value: (text: string): string => text.slice(2),
   },
   [Tokens.GERBER_STEP_REPEAT]: 'SR',
@@ -65,12 +66,12 @@ export const rules: Rules = {
     match: /,(?:TZ|LZ)/,
     value: (text: string): string => text.slice(1),
   },
-  [Tokens.COORD_CHAR]: /[XYIJACFSBHZN]/,
+  [Tokens.COORD_CHAR]: /[A-CFH-JNSX-Z]/,
   [Tokens.NUMBER]: /[+-]?[\d.]+/,
   [Tokens.OPERATOR]: ['x', '/', '+', '-', '(', ')'],
   [Tokens.COMMA]: ',',
-  [Tokens.WORD]: /[a-zA-Z]+/,
-  [Tokens.WHITESPACE]: /[ \t]+/,
+  [Tokens.WORD]: /[A-Za-z]+/,
+  [Tokens.WHITESPACE]: /[\t ]+/,
   [Tokens.NEWLINE]: {
     match: /\r?\n/,
     lineBreaks: true,

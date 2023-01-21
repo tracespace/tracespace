@@ -19,9 +19,9 @@ export interface Parser {
   /** Parser's {@linkcode Lexer} instance */
   lexer: Lexer
   /** Feed the parser with all or part of the source file */
-  feed(chunk: string): this
+  feed: (chunk: string) => this
   /** Get the resulting AST when you are done feeding the parser */
-  result(): GerberTree
+  result: () => GerberTree
 }
 
 /**
@@ -46,8 +46,8 @@ export interface Parser {
 export function createParser(): Parser {
   const lexer = createLexer()
   const children: GerberNode[] = []
-  let filetype: Filetype | null = null
-  let lexerState: LexerState | null = null
+  let filetype: Filetype | undefined
+  let lexerState: LexerState | undefined
   let unmatched = ''
 
   const parser = {lexer, feed, result}
@@ -66,7 +66,7 @@ export function createParser(): Parser {
   }
 
   function result(): GerberTree {
-    if (filetype === null) {
+    if (filetype === undefined) {
       throw new Error('File type not recognized')
     }
 

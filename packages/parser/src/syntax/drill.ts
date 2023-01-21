@@ -36,11 +36,7 @@ const units: SyntaxRule = {
 
     const zeroSuppression = tokens
       .filter(t => t.type === Lexer.DRILL_ZERO_INCLUSION)
-      .map(t => {
-        if (t.value === 'LZ') return Constants.TRAILING
-        if (t.value === 'TZ') return Constants.LEADING
-        return null
-      })
+      .map(t => (t.value === 'LZ' ? Constants.TRAILING : Constants.LEADING))
 
     const format = tokens
       .filter(t => t.type === Lexer.NUMBER)
@@ -57,9 +53,9 @@ const units: SyntaxRule = {
       nodes.push({
         type: Tree.COORDINATE_FORMAT,
         position: tokensToPosition(tokens.slice(1)),
-        mode: null,
-        format: format[0] ?? null,
-        zeroSuppression: zeroSuppression[0] ?? null,
+        mode: undefined,
+        format: format[0],
+        zeroSuppression: zeroSuppression[0],
       })
     }
 
@@ -85,13 +81,19 @@ const tool: SyntaxRule = {
   createNodes(tokens) {
     const code = tokens[0].value
     const position = tokensToPosition(tokens)
-    const {c = null} = tokensToCoordinates(tokens.slice(1, -1))
-    const shape: Types.ToolShape | null =
-      c === null ? null : {type: Constants.CIRCLE, diameter: Number(c)}
+    const {c} = tokensToCoordinates(tokens.slice(1, -1))
 
-    return shape
-      ? [{type: Tree.TOOL_DEFINITION, hole: null, position, shape, code}]
-      : [{type: Tree.TOOL_CHANGE, position, code}]
+    return c === undefined
+      ? [{type: Tree.TOOL_CHANGE, position, code}]
+      : [
+          {
+            type: Tree.TOOL_DEFINITION,
+            shape: {type: Constants.CIRCLE, diameter: Number(c)},
+            hole: undefined,
+            position,
+            code,
+          },
+        ]
   },
 }
 
@@ -138,7 +140,7 @@ const operation: SyntaxRule = {
     const modeToken = tokens.find(t => t.type === Lexer.G_CODE)
     const toolToken = tokens.find(t => t.type === Lexer.T_CODE)
     const coordinates = tokensToCoordinates(graphicTokens)
-    const code = toolToken ? toolToken.value : null
+    const code = toolToken?.value
     const mode = tokensToMode(tokens)
 
     const graphicPosition = tokensToPosition(tokens, {
@@ -152,16 +154,16 @@ const operation: SyntaxRule = {
       {
         type: Tree.GRAPHIC,
         position: graphicPosition,
-        graphic: null,
+        graphic: undefined,
         coordinates,
       },
     ]
 
-    if (mode) {
+    if (mode !== undefined) {
       nodes.unshift({type: Tree.INTERPOLATE_MODE, position: modePosition, mode})
     }
 
-    if (code) {
+    if (code !== undefined) {
       nodes.unshift({type: Tree.TOOL_CHANGE, position: toolPosition, code})
     }
 
@@ -179,13 +181,13 @@ const slot: SyntaxRule = {
   ],
   createNodes(tokens) {
     const gCode = tokens.find(t => t.type === Lexer.G_CODE)
-    const splitIdx = gCode ? tokens.indexOf(gCode) : -1
+    const splitIndex = gCode === undefined ? -1 : tokens.indexOf(gCode)
     const start = Object.fromEntries(
-      Object.entries(tokensToCoordinates(tokens.slice(0, splitIdx))).map(
+      Object.entries(tokensToCoordinates(tokens.slice(0, splitIndex))).map(
         ([axis, value]) => [`${axis}0`, value]
       )
     )
-    const end = tokensToCoordinates(tokens.slice(splitIdx))
+    const end = tokensToCoordinates(tokens.slice(splitIndex))
 
     return [
       {

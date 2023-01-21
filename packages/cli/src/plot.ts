@@ -2,15 +2,15 @@ import * as core from '@tracespace/core'
 
 import {writeJson} from './output'
 
-export interface PlotArgs {
+export interface PlotOptions {
   files: string[]
   output?: string
   layersOnly?: boolean
   parse?: boolean
 }
 
-export async function plot(args: PlotArgs): Promise<void> {
-  const {files, output, layersOnly, parse} = args
+export async function plot(options: PlotOptions): Promise<void> {
+  const {files, output, layersOnly, parse} = options
   const readResult = await core.read(files)
   const plotResult = core.plot(readResult)
 
@@ -20,7 +20,7 @@ export async function plot(args: PlotArgs): Promise<void> {
         contents: readResult.parseTreesById[id],
         basename: `${filename}.parse`,
         directory: output,
-        disable: !parse,
+        disable: parse !== true,
       }),
       writeJson({
         contents: plotResult.plotTreesById[id],

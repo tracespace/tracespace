@@ -4,7 +4,10 @@ export interface FileRead {
 }
 
 export async function readFile(file: File | string): Promise<FileRead> {
-  return typeof file === 'string' ? readNodeFile(file) : readBrowserFile(file)
+  const readTask =
+    typeof file === 'string' ? readNodeFile(file) : readBrowserFile(file)
+
+  return await readTask
 }
 
 async function readBrowserFile(file: File): Promise<FileRead> {
@@ -14,20 +17,20 @@ async function readBrowserFile(file: File): Promise<FileRead> {
     )
   }
 
-  return new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject): void => {
     const reader = new FileReader()
 
     reader.addEventListener('load', handleLoad, {once: true})
     reader.addEventListener('error', handleError, {once: true})
     reader.readAsText(file)
 
-    function handleLoad() {
+    function handleLoad(): void {
       const contents = reader.result as string
       reader.removeEventListener('error', handleError)
       resolve({filename: file.name, contents})
     }
 
-    function handleError() {
+    function handleError(): void {
       reader.removeEventListener('load', handleLoad)
       reject(reader.error)
     }

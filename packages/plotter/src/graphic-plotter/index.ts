@@ -34,11 +34,11 @@ import type {ArcDirection} from './plot-path'
 import {CCW, CW, plotSegment, plotPath} from './plot-path'
 
 export interface GraphicPlotter {
-  plot(
+  plot: (
     node: GerberNode,
     tool: Tool | undefined,
     location: Location
-  ): Tree.ImageGraphic[]
+  ) => Tree.ImageGraphic[]
 }
 
 export function createGraphicPlotter(filetype: Filetype): GraphicPlotter {
@@ -54,15 +54,15 @@ interface GraphicPlotterImpl extends GraphicPlotter {
   _arcDirection: ArcDirection | undefined
   _ambiguousArcCenter: boolean
   _regionMode: boolean
-  _defaultGraphic: NonNullable<GraphicType> | undefined
+  _defaultGraphic: GraphicType | undefined
 
-  _setGraphicState(node: GerberNode): NonNullable<GraphicType> | undefined
+  _setGraphicState: (node: GerberNode) => GraphicType | undefined
 
-  _plotCurrentPath(
+  _plotCurrentPath: (
     node: GerberNode,
     nextTool: Tool | undefined,
-    nextGraphicType: NonNullable<GraphicType> | undefined
-  ): Tree.ImageGraphic | undefined
+    nextGraphicType: GraphicType | undefined
+  ) => Tree.ImageGraphic | undefined
 }
 
 interface CurrentPath {
@@ -87,7 +87,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
     const nextGraphicType = this._setGraphicState(node)
     const pathGraphic = this._plotCurrentPath(node, tool, nextGraphicType)
 
-    if (pathGraphic) {
+    if (pathGraphic !== undefined) {
       graphics.push(pathGraphic)
     }
 
@@ -112,17 +112,17 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
     }
 
     if (nextGraphicType === SLOT) {
-      const pathGraphic = plotPath([plotSegment(location)], tool)
+      const slotPathGraphic = plotPath([plotSegment(location)], tool)
 
-      if (pathGraphic) {
-        graphics.push(pathGraphic)
+      if (slotPathGraphic !== undefined) {
+        graphics.push(slotPathGraphic)
       }
     }
 
     return graphics
   },
 
-  _setGraphicState(node: GerberNode): NonNullable<GraphicType> | undefined {
+  _setGraphicState(node: GerberNode): GraphicType | undefined {
     if (node.type === INTERPOLATE_MODE) {
       this._arcDirection = arcDirectionFromMode(node.mode)
     }
@@ -141,7 +141,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
 
     if (node.graphic === SEGMENT) {
       this._defaultGraphic = SEGMENT
-    } else if (node.graphic !== null) {
+    } else if (node.graphic !== undefined) {
       this._defaultGraphic = undefined
     }
 
@@ -151,7 +151,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
   _plotCurrentPath(
     node: GerberNode,
     nextTool: Tool | undefined,
-    nextGraphicType: NonNullable<GraphicType> | undefined
+    nextGraphicType: GraphicType | undefined
   ): Tree.ImageGraphic | undefined {
     if (this._currentPath === undefined) {
       return undefined
@@ -162,7 +162,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
       node.type === REGION_MODE ||
       node.type === DONE ||
       (nextGraphicType === MOVE && this._currentPath.region) ||
-      (nextGraphicType === SHAPE && this._currentPath !== undefined)
+      nextGraphicType === SHAPE
     ) {
       const pathGraphic = plotPath(
         this._currentPath.segments,
@@ -180,7 +180,7 @@ const DrillGraphicPlotterTrait: Partial<GraphicPlotterImpl> = {
   _defaultGraphic: SHAPE,
   _ambiguousArcCenter: true,
 
-  _setGraphicState(node: GerberNode): NonNullable<GraphicType> | undefined {
+  _setGraphicState(node: GerberNode): GraphicType | undefined {
     if (node.type === INTERPOLATE_MODE) {
       const {mode} = node
       this._arcDirection = arcDirectionFromMode(mode)
@@ -203,7 +203,7 @@ const DrillGraphicPlotterTrait: Partial<GraphicPlotterImpl> = {
 }
 
 function arcDirectionFromMode(
-  mode: InterpolateModeType
+  mode: InterpolateModeType | undefined
 ): ArcDirection | undefined {
   if (mode === CCW_ARC) return CCW
   if (mode === CW_ARC) return CW

@@ -12,21 +12,21 @@ export interface WriteRequest<ContentsType = unknown> {
 }
 
 export async function writeJson(request: WriteRequest): Promise<void> {
-  if (request.disable) {
+  if (request.disable === true) {
     return
   }
 
   await writeText({
     ...request,
     basename: `${request.basename}.json`,
-    contents: JSON.stringify(request.contents, null, 2),
+    contents: JSON.stringify(request.contents, undefined, 2),
   })
 }
 
 export async function writeSvg(
   request: WriteRequest<SvgElement>
 ): Promise<void> {
-  if (request.disable) {
+  if (request.disable === true) {
     return
   }
 
@@ -38,7 +38,7 @@ export async function writeSvg(
 }
 
 export async function writeText(request: WriteRequest<string>): Promise<void> {
-  if (request.disable) {
+  if (request.disable === true) {
     return
   }
 

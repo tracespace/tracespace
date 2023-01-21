@@ -96,7 +96,7 @@ export interface Polygon {
   type: typeof Constants.POLYGON
   diameter: number
   vertices: number
-  rotation: number | null
+  rotation: number | undefined
 }
 
 /**
@@ -164,7 +164,6 @@ export type GraphicType =
   | typeof Constants.MOVE
   | typeof Constants.SEGMENT
   | typeof Constants.SLOT
-  | null
 
 /**
  * Valid interpolations modes
@@ -175,15 +174,11 @@ export type InterpolateModeType =
   | typeof Constants.CCW_ARC
   | typeof Constants.MOVE
   | typeof Constants.DRILL
-  | null
 
 /**
  * Valid quadrant modes
  */
-export type QuadrantModeType =
-  | typeof Constants.SINGLE
-  | typeof Constants.MULTI
-  | null
+export type QuadrantModeType = typeof Constants.SINGLE | typeof Constants.MULTI
 
 /**
  * Valid image polarities

@@ -20,7 +20,6 @@ import {
   OUTLINE,
   LAYERED_SHAPE,
   LINE,
-  ARC,
 } from '@tracespace/plotter'
 
 import type {SvgElement} from './types'
@@ -74,9 +73,9 @@ export function shapeToElement(shape: Shape): SvgElement {
       const defs: SvgElement[] = []
       let children: SvgElement[] = []
 
-      for (const [i, layerShape] of shape.shapes.entries()) {
-        if (layerShape.erase && !BoundingBox.isEmpty(boundingBox)) {
-          const clipId = `${clipIdBase}__${i}`
+      for (const [index, layerShape] of shape.shapes.entries()) {
+        if (layerShape.erase === true && !BoundingBox.isEmpty(boundingBox)) {
+          const clipId = `${clipIdBase}__${index}`
 
           defs.push(s('clipPath', {id: clipId}, [shapeToElement(layerShape)]))
           children = [s('g', {clipPath: `url(#${clipId})`}, children)]
@@ -107,18 +106,19 @@ export function renderPath(node: ImagePath | ImageRegion): SvgElement {
 function segmentsToPathData(segments: PathSegment[]): string {
   const pathCommands: string[] = []
 
-  for (const [i, next] of segments.entries()) {
-    const previous = segments[i - 1]
+  for (const [index, next] of segments.entries()) {
+    const previous = index > 0 ? segments[index - 1] : undefined
     const {start, end} = next
 
-    if (!previous || !positionsEqual(previous.end, start)) {
+    if (previous === undefined || !positionsEqual(previous.end, start)) {
       pathCommands.push(`M${start[0]} ${-start[1]}`)
     }
 
     if (next.type === LINE) {
       pathCommands.push(`L${end[0]} ${-end[1]}`)
-    } else if (next.type === ARC) {
-      const sweep = next.end[2] - next.start[2]
+    } else {
+      const {start: nextStart, end: nextEnd} = next
+      const sweep = nextEnd[2] - nextStart[2]
       const absSweep = Math.abs(sweep)
       const {center, radius} = next
 

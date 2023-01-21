@@ -23,7 +23,7 @@ export interface SideLayers {
 
 export type Side = typeof SIDE_TOP | typeof SIDE_BOTTOM
 
-const toId = ({id}: Layer) => id
+const toId = ({id}: Layer): string => id
 const isType = (type: GerberType, side?: Side) => (layer: Layer) => {
   return layer.type === type && (side === undefined || layer.side === side)
 }

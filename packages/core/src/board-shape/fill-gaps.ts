@@ -30,8 +30,9 @@ export function fillGaps(
   const closedPaths: PathSegment[][] = []
   const openPaths: PathSegment[][] = []
 
-  while (walksToCheck.length > 0) {
-    const pathWalk = walksToCheck.shift()!
+  let pathWalk: PathWalk | undefined
+
+  while ((pathWalk = walksToCheck.shift()) !== undefined) {
     let smallestGap = squareDistance(pathWalk.end, pathWalk.start)
     let nearestPathWalk = pathWalk
     let nearestEndPoint = pathWalk.start

@@ -38,11 +38,11 @@ interface PointMapProperties {
 }
 
 interface PointMapMethods {
-  walkPath(pointId: string): PathSegment[]
-  shiftNextSegment(pointId: string): PathSegment | undefined
-  shiftSegmentId(pointId: string): string | undefined
-  consumeSegment(segmentId: string): PathSegment | undefined
-  walk(): PathWalk[]
+  walkPath: (pointId: string) => PathSegment[]
+  shiftNextSegment: (pointId: string) => PathSegment | undefined
+  shiftSegmentId: (pointId: string) => string | undefined
+  consumeSegment: (segmentId: string) => PathSegment | undefined
+  walk: () => PathWalk[]
 }
 
 interface PointMap extends PointMapProperties, PointMapMethods {}

@@ -23,7 +23,7 @@ describe('ensure plot options', () => {
         type: Parser.COORDINATE_FORMAT,
         format: [1, 2],
         zeroSuppression: Parser.TRAILING,
-        mode: null,
+        mode: undefined,
       },
     ]
 
@@ -33,51 +33,78 @@ describe('ensure plot options', () => {
   })
 
   describe('infer zero-suppression', () => {
-    const COORDINATE_ZERO_SUPPRESSION_SPECS = [
-      ['12340', 'leading'],
-      ['12.34', 'leading'],
-      ['01234', 'trailing'],
-    ] as const
+    it('should use "12340" coordinate to infer leading suppression', () => {
+      const coordinates = {x: '12340'}
+      gerberTree.children = [
+        {type: Parser.GRAPHIC, graphic: Parser.MOVE, coordinates},
+      ]
 
-    COORDINATE_ZERO_SUPPRESSION_SPECS.forEach(([coordinate, suppression]) => {
-      it(`should use "${coordinate}" to infer ${suppression} suppression`, () => {
-        const coordinates = {x: coordinate}
-        gerberTree.children = [
-          {type: Parser.GRAPHIC, graphic: Parser.MOVE, coordinates},
-        ]
-
-        const result = getPlotOptions(gerberTree)
-        expect(result.zeroSuppression).to.eql(suppression)
-      })
+      const result = getPlotOptions(gerberTree)
+      expect(result.zeroSuppression).to.equal('leading')
     })
 
-    const COMMENT_ZERO_SUPPRESSION_SPECS = [
-      ['suppress trailing zeros', 'trailing'],
-      ['suppress leading zeros', 'leading'],
-      ['keep zeros', 'leading'],
-    ] as const
+    it('should use "12.34" coordinate to infer leading suppression', () => {
+      const coordinates = {x: '12.34'}
+      gerberTree.children = [
+        {type: Parser.GRAPHIC, graphic: Parser.MOVE, coordinates},
+      ]
 
-    COMMENT_ZERO_SUPPRESSION_SPECS.forEach(([comment, suppression]) => {
-      it(`should use "${comment}" to infer ${suppression} suppression`, () => {
-        gerberTree.children = [{type: Parser.COMMENT, comment}]
-
-        const result = getPlotOptions(gerberTree)
-        expect(result.zeroSuppression).to.eql(suppression)
-      })
+      const result = getPlotOptions(gerberTree)
+      expect(result.zeroSuppression).to.equal('leading')
     })
 
-    const COMMENT_FORMAT_SPECS = [
-      ['FILE_FORMAT=2:4', [2, 4]],
-      ['FORMAT={2:4/ absolute / inch / keep zeros}', [2, 4]],
-    ] as const
+    it('should use "01234" coordinate to infer leading suppression', () => {
+      const coordinates = {x: '01234'}
+      gerberTree.children = [
+        {type: Parser.GRAPHIC, graphic: Parser.MOVE, coordinates},
+      ]
 
-    COMMENT_FORMAT_SPECS.forEach(([comment, format]) => {
-      it(`should use comment "${comment}" to infer format ${format[0]}, ${format[1]}`, () => {
-        gerberTree.children = [{type: Parser.COMMENT, comment}]
+      const result = getPlotOptions(gerberTree)
+      expect(result.zeroSuppression).to.equal('trailing')
+    })
 
-        const result = getPlotOptions(gerberTree)
-        expect(result.coordinateFormat).to.eql(format)
-      })
+    it('should use "suppress trailing zeros" comment to infer trailing suppression', () => {
+      gerberTree.children = [
+        {type: Parser.COMMENT, comment: 'suppress trailing zeros'},
+      ]
+
+      const result = getPlotOptions(gerberTree)
+      expect(result.zeroSuppression).to.equal('trailing')
+    })
+
+    it('should use "suppress leading zeros" comment to infer leading suppression', () => {
+      gerberTree.children = [
+        {type: Parser.COMMENT, comment: 'suppress leading zeros'},
+      ]
+
+      const result = getPlotOptions(gerberTree)
+      expect(result.zeroSuppression).to.equal('leading')
+    })
+
+    it('should use "keep zeros" comment to infer leading suppression', () => {
+      gerberTree.children = [{type: Parser.COMMENT, comment: 'keep zeros'}]
+
+      const result = getPlotOptions(gerberTree)
+      expect(result.zeroSuppression).to.equal('leading')
+    })
+
+    it('should use comment "FILE_FORMAT=2:4" to infer format [2, 4]', () => {
+      gerberTree.children = [{type: Parser.COMMENT, comment: 'FILE_FORMAT=2:4'}]
+
+      const result = getPlotOptions(gerberTree)
+      expect(result.coordinateFormat).to.eql([2, 4])
+    })
+
+    it('should use comment "FORMAT={2:4/ absolute / inch / keep zeros}" to infer format [2, 4]', () => {
+      gerberTree.children = [
+        {
+          type: Parser.COMMENT,
+          comment: 'FORMAT={2:4/ absolute / inch / keep zeros}',
+        },
+      ]
+
+      const result = getPlotOptions(gerberTree)
+      expect(result.coordinateFormat).to.eql([2, 4])
     })
   })
 })

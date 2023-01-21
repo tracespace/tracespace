@@ -23,13 +23,14 @@ describe('plot drill file graphics', () => {
   let node: Parser.ChildNode
 
   beforeEach(() => {
-    node = {type: Parser.GRAPHIC, graphic: null, coordinates: {}}
+    node = {type: Parser.GRAPHIC, graphic: undefined, coordinates: {}}
   })
 
   it('should plot a drill hit', () => {
     const tool: Tool = {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
+      hole: undefined,
     }
     const location = {endPoint: {x: 3, y: 4}} as Location
 
@@ -49,6 +50,7 @@ describe('plot drill file graphics', () => {
     const tool: Tool = {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
+      hole: undefined,
     }
     const location = {
       startPoint: {x: 1, y: 2},
@@ -70,6 +72,7 @@ describe('plot drill file graphics', () => {
     const tool: Tool = {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
+      hole: undefined,
     }
     const location1 = {
       startPoint: {x: 1, y: 2},
@@ -108,6 +111,7 @@ describe('plot drill file graphics', () => {
     const tool: Tool = {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
+      hole: undefined,
     }
     const location: Location = {
       startPoint: {x: 1, y: 0},
@@ -143,6 +147,7 @@ describe('plot drill file graphics', () => {
     const tool: Tool = {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
+      hole: undefined,
     }
     const location: Location = {
       startPoint: {x: halfSqrtTwo, y: halfSqrtTwo},
@@ -177,6 +182,7 @@ describe('plot drill file graphics', () => {
     const tool: Tool = {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
+      hole: undefined,
     }
     const location1 = {
       startPoint: {x: 1, y: 2},

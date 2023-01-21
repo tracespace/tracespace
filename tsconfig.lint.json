@@ -5,5 +5,11 @@
     "noEmit": true
   },
   "files": [],
-  "include": ["*", "config/*", "www/**/*", "packages/**/*"]
+  "include": [
+    "./**/*.js",
+    "./config/*.ts",
+    "./*.config.ts",
+    "./www/*.config.ts",
+    "./packages/*/*.config.ts"
+  ]
 }

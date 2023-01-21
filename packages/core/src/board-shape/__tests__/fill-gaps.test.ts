@@ -1,6 +1,6 @@
 import {describe, it, expect} from 'vitest'
 
-import {LINE, IMAGE_REGION, IMAGE_PATH} from '@tracespace/plotter'
+import {LINE, IMAGE_REGION} from '@tracespace/plotter'
 import * as subject from '../fill-gaps'
 
 describe('gap filler', () => {

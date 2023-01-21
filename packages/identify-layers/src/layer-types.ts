@@ -27,8 +27,8 @@ import type {LayerType} from './types'
 export const layerTypes: LayerType[] = [
   // High-priority non-matches
   {
-    type: null,
-    side: null,
+    type: undefined,
+    side: undefined,
     matchers: [
       // Eagle gerber generation metadata
       {
@@ -41,7 +41,7 @@ export const layerTypes: LayerType[] = [
         cad: [CAD_EAGLE, CAD_EAGLE_LEGACY, CAD_EAGLE_OSHPARK, CAD_EAGLE_PCBNG],
       },
       // General data/BOM files
-      {ext: 'csv', cad: null},
+      {ext: 'csv', cad: undefined},
       // Pick-n-place BOMs
       {match: /pnp_bom/, cad: CAD_EAGLE_PCBNG},
     ],
@@ -58,7 +58,7 @@ export const layerTypes: LayerType[] = [
       {match: /f[._]cu/, cad: CAD_KICAD},
       {match: /copper_top/, cad: CAD_EAGLE},
       {match: /top_copper/, cad: CAD_EAGLE_PCBNG},
-      {match: /top copper/, cad: null},
+      {match: /top copper/, cad: undefined},
     ],
   },
   {
@@ -74,7 +74,7 @@ export const layerTypes: LayerType[] = [
       {match: /f[._]mask/, cad: CAD_KICAD},
       {match: /soldermask_top/, cad: CAD_EAGLE},
       {match: /top_mask/, cad: CAD_EAGLE_PCBNG},
-      {match: /top solder resist/, cad: null},
+      {match: /top solder resist/, cad: undefined},
     ],
   },
   {
@@ -90,7 +90,7 @@ export const layerTypes: LayerType[] = [
       {match: /f[._]silks/, cad: CAD_KICAD},
       {match: /silkscreen_top/, cad: CAD_EAGLE},
       {match: /top_silk/, cad: CAD_EAGLE_PCBNG},
-      {match: /top silk screen/, cad: null},
+      {match: /top silk screen/, cad: undefined},
     ],
   },
   {
@@ -120,7 +120,7 @@ export const layerTypes: LayerType[] = [
       {match: /b[._]cu/, cad: CAD_KICAD},
       {match: /copper_bottom/, cad: CAD_EAGLE},
       {match: /bottom_copper/, cad: CAD_EAGLE_PCBNG},
-      {match: /bottom copper/, cad: null},
+      {match: /bottom copper/, cad: undefined},
     ],
   },
   {
@@ -136,7 +136,7 @@ export const layerTypes: LayerType[] = [
       {match: /b[._]mask/, cad: CAD_KICAD},
       {match: /soldermask_bottom/, cad: CAD_EAGLE},
       {match: /bottom_mask/, cad: CAD_EAGLE_PCBNG},
-      {match: /bottom solder resist/, cad: null},
+      {match: /bottom solder resist/, cad: undefined},
     ],
   },
   {
@@ -152,7 +152,7 @@ export const layerTypes: LayerType[] = [
       {match: /b[._]silks/, cad: CAD_KICAD},
       {match: /silkscreen_bottom/, cad: CAD_EAGLE},
       {match: /bottom_silk/, cad: CAD_EAGLE_PCBNG},
-      {match: /bottom silk screen/, cad: null},
+      {match: /bottom silk screen/, cad: undefined},
     ],
   },
   {
@@ -197,7 +197,7 @@ export const layerTypes: LayerType[] = [
       {match: /boardoutline/, cad: [CAD_EAGLE_OSHPARK, CAD_DIPTRACE]},
       {match: /edge[._]cuts/, cad: CAD_KICAD},
       {match: /profile/, cad: CAD_EAGLE},
-      {match: /mechanical \d+/, cad: null},
+      {match: /mechanical \d+/, cad: undefined},
     ],
   },
   {
@@ -222,14 +222,14 @@ export const layerTypes: LayerType[] = [
   },
   {
     type: TYPE_DRAWING,
-    side: null,
+    side: undefined,
     matchers: [
       {ext: 'pos', cad: CAD_KICAD},
       {ext: 'art', cad: CAD_ALLEGRO},
-      {ext: 'gbr', cad: null},
-      {ext: 'gbx', cad: null},
-      {ext: 'ger', cad: null},
-      {ext: 'pho', cad: null},
+      {ext: 'gbr', cad: undefined},
+      {ext: 'gbx', cad: undefined},
+      {ext: 'ger', cad: undefined},
+      {ext: 'pho', cad: undefined},
     ],
   },
 ]

@@ -186,17 +186,12 @@ export type MacroBlock = MacroComment | MacroVariable | MacroPrimitive
  * the entire file seems to have been read. Filetype, if known, will be
  * either {@linkcode GERBER | gerber} or {@linkcode DRILL | drill}.
  *
- * If `filetype` is `null` or `done` is `false`, this may be a sign that
- *
- * 1. the parser has not finished parsing the file or
- * 2. the file is invalid and/or not a Gerber or drill file.
- *
  * @category Node
  */
 export interface Root extends BaseParent {
   /** Node type */
   type: typeof ROOT
-  /** The parsed file's type (Gerber or NC drill), if known */
+  /** The parsed file's type (Gerber or NC drill) */
   filetype: Types.Filetype
 
   /** Parse results */
@@ -296,11 +291,11 @@ export interface CoordinateFormat extends BaseNode {
   /** Node type */
   type: typeof COORDINATE_FORMAT
   /** Integer/decimal format setting, if known */
-  format: Types.Format | null
+  format: Types.Format | undefined
   /** Zero suppression setting, if known */
-  zeroSuppression: Types.ZeroSuppression | null
+  zeroSuppression: Types.ZeroSuppression | undefined
   /** Absolute or incremental coordinate system, if known */
-  mode: Types.Mode | null
+  mode: Types.Mode | undefined
 }
 
 /**
@@ -316,7 +311,7 @@ export interface CoordinateFormat extends BaseNode {
  * - {@linkcode Types.Polygon} - A regular polygon defined by its diameter, number of vertices, and rotation
  * - {@linkcode Types.MacroShape} - A shape defined by a previous {@linkcode ToolMacro}
  *
- * A tool may have a hole in its center; the `hole`, if not `null`, may be a:
+ * A tool may have a hole in its center; the `hole`, if not `undefined`, may be a:
  *
  * - {@linkcode Types.Circle}
  * - {@linkcode Types.Rectangle} (deprecated by the Gerber specification)
@@ -334,7 +329,7 @@ export interface ToolDefinition extends BaseNode {
   /** Tool shape */
   shape: Types.ToolShape
   /** Hole shape, if applicable */
-  hole: Types.HoleShape | null
+  hole: Types.HoleShape | undefined
 }
 
 /**
@@ -457,7 +452,7 @@ export interface StepRepeat extends BaseNode {
  *       standalone paths
  * - {@linkcode SLOT | slot} - a drill-file-specific graphic that creates a
  *   slot from `(coordinates.x1, coordinates.y1)` to `(coordinates.x2, coordinates.y2)`
- * - `null` - The graphic type was not explicitly specified in the source file
+ * - `undefined` - The graphic type was not explicitly specified in the source file
  *     - This is deprecated syntax in Gerber files, but if present the last
  *       used graphic type should be repeated
  *     - In a drill file, this means `shape` if in `drill` mode (default),
@@ -469,14 +464,14 @@ export interface Graphic extends BaseNode {
   /** Node type */
   type: typeof GRAPHIC
   /** Graphical operation */
-  graphic: Types.GraphicType
+  graphic: Types.GraphicType | undefined
   /** Coordinates where the graphic will be applied */
   coordinates: Types.Coordinates
 }
 
 /**
  * An `InterpolateMode` node is a command to define how subsequent `segment`
- * (or `null`, if you're processing a drill file) graphic nodes are rendered.
+ * (or `undefined`, if you're processing a drill file) graphic nodes are rendered.
  * The `mode` may be one of:
  *
  * - {@linkcode LINE | line} - Draw a straight line segment
@@ -489,7 +484,7 @@ export interface Graphic extends BaseNode {
  */
 export interface InterpolateMode extends BaseNode {
   type: typeof INTERPOLATE_MODE
-  mode: Types.InterpolateModeType
+  mode: Types.InterpolateModeType | undefined
 }
 
 /**
