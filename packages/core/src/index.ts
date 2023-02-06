@@ -21,7 +21,6 @@ import type {ParsedLayer} from './determine-layer-types'
 import type {BoardShape, BoardShapeRender} from './board-shape'
 import type {Side, SideLayers} from './sort-layers'
 
-export {stringifySvg} from './stringify-svg'
 
 export interface Layer {
   id: string
