@@ -1,7 +1,7 @@
 import type {AttributifyAttributes} from 'windicss/types/jsx'
 
 declare module 'windicss/types/jsx' {
-  type MissingAttributes = 'sr' | 'pointer'
+  type MissingAttributes = 'sr' | 'pointer' | 'appearance'
 
   interface AttributifyAttributes
     extends Partial<Record<MissingAttributes, string>> {}
