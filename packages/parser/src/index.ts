@@ -60,7 +60,10 @@ export function createParser(): Parser {
     filetype = filetype ?? result.filetype
     unmatched = result.unmatched
     lexerState = result.lexerState ?? lexerState
-    children.push(...result.nodes)
+
+    for (const node of result.nodes) {
+      children.push(node)
+    }
 
     return parser
   }
