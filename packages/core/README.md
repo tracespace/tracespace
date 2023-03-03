@@ -23,7 +23,7 @@ This library contains the main logic for tracespace's render pipeline, built up 
 
 ```js
 import fs from 'node:fs/promises'
-import {read, plot, renderLayers, renderBoard} from '@tracespace/core'
+import {read, plot, renderLayers, renderBoard, stringifySvg} from '@tracespace/core'
 
 const files = [
   'top-copper.gbr',
@@ -41,7 +41,7 @@ const renderLayersResult = renderLayers(plotResult)
 const renderBoardResult = renderBoard(renderLayersResult)
 
 await Promise.all([
-  fs.writeFile('top.svg', renderBoardResult.top)
-  fs.writeFile('bottom.svg', renderBoardResult.bottom)
+  fs.writeFile('top.svg', stringifySvg(renderBoardResult.top))
+  fs.writeFile('bottom.svg', stringifySvg(renderBoardResult.bottom))
 ])
 ```
