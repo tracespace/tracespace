@@ -76,9 +76,16 @@ export function shapeToElement(shape: Shape): SvgElement {
       for (const [index, layerShape] of shape.shapes.entries()) {
         if (layerShape.erase === true && !BoundingBox.isEmpty(boundingBox)) {
           const clipId = `${clipIdBase}__${index}`
-
-          defs.push(s('clipPath', {id: clipId}, [shapeToElement(layerShape)]))
-          children = [s('g', {clipPath: `url(#${clipId})`}, children)]
+          let rect = s('rect', {
+            x: boundingBox[0],
+            y: -boundingBox[3],
+            width: boundingBox[2] - boundingBox[0],
+            height: boundingBox[3] - boundingBox[1],
+            fill: 'white',
+          })
+          let hole = shapeToElement(layerShape)
+          defs.push(s('mask', {id: clipId, fill:"black"}, [rect, hole]))
+          children = [s('g', {mask: `url(#${clipId})`}, children)]
         } else {
           children.push(shapeToElement(layerShape))
         }
