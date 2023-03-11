@@ -2,12 +2,14 @@ import {s} from 'hastscript'
 
 import {random as createId} from '@tracespace/xml-id'
 import type {
-  ImageGraphic,
+  ImageGraphicBase,
   ImageShape,
   ImagePath,
   ImageRegion,
   PathSegment,
   Shape,
+  ImageTree,
+  SizeEnvelope,
 } from '@tracespace/plotter'
 import {
   BoundingBox,
@@ -21,20 +23,62 @@ import {
   LAYERED_SHAPE,
   LINE,
 } from '@tracespace/plotter'
+import {DARK, CLEAR} from '@tracespace/parser'
 
-import type {SvgElement} from './types'
+import type {SvgElement, ViewBox} from './types'
 
-export function renderGraphic(node: ImageGraphic): SvgElement {
+export function renderTreeGraphics(tree: ImageTree): SvgElement[] {
+  const {size, children} = tree
+  const viewBox = sizeToViewBox(size)
+  const clipIdBase = createId()
+
+  const defs: SvgElement[] = []
+  const newChildren: SvgElement[] = []
+  const layerChildren: SvgElement[] = []
+  const layerHoles: SvgElement[] = []
+  
+  for (const [index, child] of children.entries()) {
+    if (child.polarity === DARK) {
+      if (index > 0 && children[index-1].polarity === CLEAR) {
+      }
+      layerChildren.push(renderGraphic(child))
+    } else if (child.polarity === CLEAR) {
+      layerHoles.push(renderGraphic(child))
+      if (index >= children.length - 1 || children[index+1].polarity === DARK) {
+        const clipId = `${clipIdBase}__${index}`
+        let rect = s('rect', {
+          x: viewBox[0],
+          y: viewBox[1],
+          width: viewBox[2] - viewBox[0],
+          height: viewBox[3] - viewBox[1],
+          fill: 'white',
+        })
+        defs.push(s('mask', {id: clipId, fill: 'black'}, [rect, ...layerHoles]))
+        newChildren.push(s('g', {mask: `url(#${clipId})`}, layerChildren))
+        layerChildren.length = 0
+        layerHoles.length = 0
+      }
+    }
+  }
+  newChildren.push(...layerChildren)
+  return [s('defs', defs), ...newChildren]
+}
+
+export function sizeToViewBox(size: SizeEnvelope): ViewBox {
+  return BoundingBox.isEmpty(size)
+    ? [0, 0, 0, 0]
+    : [size[0], -size[3], size[2] - size[0], size[3] - size[1]]
+}
+
+export function renderGraphic(node: ImageGraphicBase): SvgElement {
   if (node.type === IMAGE_SHAPE) {
     return renderShape(node)
   }
-
   return renderPath(node)
 }
 
 export function renderShape(node: ImageShape): SvgElement {
   const {shape} = node
-
   return shapeToElement(shape)
 }
 
@@ -59,7 +103,6 @@ export function shapeToElement(shape: Shape): SvgElement {
 
     case POLYGON: {
       const points = shape.points.map(([x, y]) => `${x},${-y}`).join(' ')
-
       return s('polygon', {points})
     }
 
@@ -72,6 +115,7 @@ export function shapeToElement(shape: Shape): SvgElement {
       const clipIdBase = createId()
       const defs: SvgElement[] = []
       let children: SvgElement[] = []
+      let holes: SvgElement[] = []
 
       for (const [index, layerShape] of shape.shapes.entries()) {
         if (layerShape.erase === true && !BoundingBox.isEmpty(boundingBox)) {
@@ -84,7 +128,7 @@ export function shapeToElement(shape: Shape): SvgElement {
             fill: 'white',
           })
           let hole = shapeToElement(layerShape)
-          defs.push(s('mask', {id: clipId, fill:"black"}, [rect, hole]))
+          defs.push(s('mask', {id: clipId, fill: 'black'}, [rect, hole]))
           children = [s('g', {mask: `url(#${clipId})`}, children)]
         } else {
           children.push(shapeToElement(layerShape))
@@ -106,7 +150,6 @@ export function renderPath(node: ImagePath | ImageRegion): SvgElement {
   const pathData = segmentsToPathData(node.segments)
   const props =
     node.type === IMAGE_PATH ? {strokeWidth: node.width, fill: 'none'} : {}
-
   return s('path', {...props, d: pathData})
 }
 
