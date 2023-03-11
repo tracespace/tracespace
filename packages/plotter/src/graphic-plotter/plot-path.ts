@@ -25,7 +25,7 @@ export function plotPath(
   segments: Tree.PathSegment[],
   tool: Tool | undefined,
   region = false
-): Tree.ImageGraphic | undefined {
+): Tree.ImageGraphicBase | undefined {
   if (segments.length > 0) {
     if (region) {
       return {type: Tree.IMAGE_REGION, segments}

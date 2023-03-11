@@ -1,10 +1,13 @@
 // Graphic plotter
 // Takes nodes and turns them into graphics to be added to the image
-import type {
+import {
   GerberNode,
   GraphicType,
   Filetype,
   InterpolateModeType,
+  DARK,
+  LOAD_POLARITY,
+  CLEAR,
 } from '@tracespace/parser'
 import {
   GRAPHIC,
@@ -55,6 +58,7 @@ interface GraphicPlotterImpl extends GraphicPlotter {
   _ambiguousArcCenter: boolean
   _regionMode: boolean
   _defaultGraphic: GraphicType | undefined
+  _polarity: typeof DARK | typeof CLEAR
 
   _setGraphicState: (node: GerberNode) => GraphicType | undefined
 
@@ -62,7 +66,7 @@ interface GraphicPlotterImpl extends GraphicPlotter {
     node: GerberNode,
     nextTool: Tool | undefined,
     nextGraphicType: GraphicType | undefined
-  ) => Tree.ImageGraphic | undefined
+  ) => Tree.ImageGraphicBase | undefined
 }
 
 interface CurrentPath {
@@ -77,6 +81,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
   _ambiguousArcCenter: false,
   _regionMode: false,
   _defaultGraphic: undefined,
+  _polarity: DARK,
 
   plot(
     node: GerberNode,
@@ -88,15 +93,15 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
     const pathGraphic = this._plotCurrentPath(node, tool, nextGraphicType)
 
     if (pathGraphic !== undefined) {
-      graphics.push(pathGraphic)
+      graphics.push({...pathGraphic, polarity: this._polarity})
     }
 
     if (nextGraphicType === SHAPE && tool?.type === SIMPLE_TOOL) {
-      graphics.push({type: Tree.IMAGE_SHAPE, shape: plotShape(tool, location)})
+      graphics.push({type: Tree.IMAGE_SHAPE, shape: plotShape(tool, location), polarity: this._polarity})
     }
 
     if (nextGraphicType === SHAPE && tool?.type === MACRO_TOOL) {
-      graphics.push({type: Tree.IMAGE_SHAPE, shape: plotMacro(tool, location)})
+      graphics.push({type: Tree.IMAGE_SHAPE, shape: plotMacro(tool, location), polarity: this._polarity})
     }
 
     if (nextGraphicType === SEGMENT) {
@@ -115,7 +120,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
       const slotPathGraphic = plotPath([plotSegment(location)], tool)
 
       if (slotPathGraphic !== undefined) {
-        graphics.push(slotPathGraphic)
+        graphics.push({...slotPathGraphic, polarity: this._polarity})
       }
     }
 
@@ -133,6 +138,10 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
 
     if (node.type === REGION_MODE) {
       this._regionMode = node.region
+    }
+    
+    if (node.type === LOAD_POLARITY) {
+      this._polarity = node.polarity
     }
 
     if (node.type !== GRAPHIC) {
@@ -152,7 +161,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
     node: GerberNode,
     nextTool: Tool | undefined,
     nextGraphicType: GraphicType | undefined
-  ): Tree.ImageGraphic | undefined {
+  ): Tree.ImageGraphicBase | undefined {
     if (this._currentPath === undefined) {
       return undefined
     }

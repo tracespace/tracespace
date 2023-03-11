@@ -1,6 +1,6 @@
 import type {Node, Parent} from 'unist'
 
-import type {UnitsType} from '@tracespace/parser'
+import type {UnitsType, Polarity} from '@tracespace/parser'
 
 export const IMAGE = 'image'
 export const IMAGE_SHAPE = 'imageShape'
@@ -67,7 +67,9 @@ export type Shape = SimpleShape | LayeredShape
 
 export type ErasableShape = SimpleShape & {erase?: boolean}
 
-export type ImageGraphic = ImageShape | ImagePath | ImageRegion
+export type ImageGraphicBase = ImageShape | ImagePath | ImageRegion
+
+export type ImageGraphic = ImageGraphicBase & {polarity: Polarity}
 
 export interface ImageTree extends Parent {
   type: typeof IMAGE
