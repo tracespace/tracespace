@@ -33,6 +33,7 @@ describe('plot shape graphics', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_SHAPE,
+        polarity: Parser.DARK,
         shape: {type: Tree.CIRCLE, cx: 3, cy: 4, r: 1},
       },
     ])
@@ -51,6 +52,7 @@ describe('plot shape graphics', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_SHAPE,
+        polarity: Parser.DARK,
         shape: {type: Tree.RECTANGLE, x: -1, y: -4.5, xSize: 6, ySize: 7},
       },
     ])
@@ -69,6 +71,7 @@ describe('plot shape graphics', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_SHAPE,
+        polarity: Parser.DARK,
         shape: {type: Tree.RECTANGLE, x: -2, y: -2, xSize: 6, ySize: 8, r: 3},
       },
     ])
@@ -87,6 +90,7 @@ describe('plot shape graphics', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_SHAPE,
+        polarity: Parser.DARK,
         shape: {type: Tree.RECTANGLE, x: -3, y: -1, xSize: 8, ySize: 6, r: 3},
       },
     ])
@@ -110,6 +114,7 @@ describe('plot shape graphics', () => {
     expect(results).toEqual([
       {
         type: Tree.IMAGE_SHAPE,
+        polarity: Parser.DARK,
         shape: {
           type: Tree.POLYGON,
           points: [
@@ -137,6 +142,7 @@ describe('plot shape graphics', () => {
       expect(results).to.eql([
         {
           type: Tree.IMAGE_SHAPE,
+          polarity: Parser.DARK,
           shape: {
             type: Tree.OUTLINE,
             segments: [
@@ -173,6 +179,7 @@ describe('plot shape graphics', () => {
       expect(results).to.eql([
         {
           type: Tree.IMAGE_SHAPE,
+          polarity: Parser.DARK,
           shape: {
             type: Tree.OUTLINE,
             segments: [
@@ -206,6 +213,7 @@ describe('plot shape graphics', () => {
       expect(results).to.eql([
         {
           type: Tree.IMAGE_SHAPE,
+          polarity: Parser.DARK,
           shape: {
             type: Tree.OUTLINE,
             segments: [
@@ -251,6 +259,7 @@ describe('plot shape graphics', () => {
       expect(results).to.eql([
         {
           type: Tree.IMAGE_SHAPE,
+          polarity: Parser.DARK,
           shape: {
             type: Tree.OUTLINE,
             segments: [
@@ -301,6 +310,7 @@ describe('plot shape graphics', () => {
       expect(results).toEqual([
         {
           type: Tree.IMAGE_SHAPE,
+          polarity: Parser.DARK,
           shape: {
             type: Tree.OUTLINE,
             segments: [
@@ -351,10 +361,26 @@ describe('plot shape graphics', () => {
       const resultShape = results[0].shape as Tree.OutlineShape
 
       expect(resultShape.segments.slice(-4)).to.eql([
-        {type: Tree.LINE, start: [2.5, 3.5], end: [3.5, 3.5]},
-        {type: Tree.LINE, start: [3.5, 3.5], end: [3.5, 4.5]},
-        {type: Tree.LINE, start: [3.5, 4.5], end: [2.5, 4.5]},
-        {type: Tree.LINE, start: [2.5, 4.5], end: [2.5, 3.5]},
+        {
+          type: Tree.LINE,
+          start: [2.5, 3.5],
+          end: [3.5, 3.5],
+        },
+        {
+          type: Tree.LINE,
+          start: [3.5, 3.5],
+          end: [3.5, 4.5],
+        },
+        {
+          type: Tree.LINE,
+          start: [3.5, 4.5],
+          end: [2.5, 4.5],
+        },
+        {
+          type: Tree.LINE,
+          start: [2.5, 4.5],
+          end: [2.5, 3.5],
+        },
       ])
     })
 
@@ -370,10 +396,26 @@ describe('plot shape graphics', () => {
       const resultShape = results[0].shape as Tree.OutlineShape
 
       expect(resultShape.segments.slice(-4)).to.eql([
-        {type: Tree.LINE, start: [1.5, -1.5], end: [2.5, -1.5]},
-        {type: Tree.LINE, start: [2.5, -1.5], end: [2.5, -0.5]},
-        {type: Tree.LINE, start: [2.5, -0.5], end: [1.5, -0.5]},
-        {type: Tree.LINE, start: [1.5, -0.5], end: [1.5, -1.5]},
+        {
+          type: Tree.LINE,
+          start: [1.5, -1.5],
+          end: [2.5, -1.5],
+        },
+        {
+          type: Tree.LINE,
+          start: [2.5, -1.5],
+          end: [2.5, -0.5],
+        },
+        {
+          type: Tree.LINE,
+          start: [2.5, -0.5],
+          end: [1.5, -0.5],
+        },
+        {
+          type: Tree.LINE,
+          start: [1.5, -0.5],
+          end: [1.5, -1.5],
+        },
       ])
     })
 
@@ -389,10 +431,26 @@ describe('plot shape graphics', () => {
       const resultShape = results[0].shape as Tree.OutlineShape
 
       expect(resultShape.segments.slice(-4)).to.eql([
-        {type: Tree.LINE, start: [0.5, 1.5], end: [1.5, 1.5]},
-        {type: Tree.LINE, start: [1.5, 1.5], end: [1.5, 2.5]},
-        {type: Tree.LINE, start: [1.5, 2.5], end: [0.5, 2.5]},
-        {type: Tree.LINE, start: [0.5, 2.5], end: [0.5, 1.5]},
+        {
+          type: Tree.LINE,
+          start: [0.5, 1.5],
+          end: [1.5, 1.5],
+        },
+        {
+          type: Tree.LINE,
+          start: [1.5, 1.5],
+          end: [1.5, 2.5],
+        },
+        {
+          type: Tree.LINE,
+          start: [1.5, 2.5],
+          end: [0.5, 2.5],
+        },
+        {
+          type: Tree.LINE,
+          start: [0.5, 2.5],
+          end: [0.5, 1.5],
+        },
       ])
     })
 
@@ -408,10 +466,26 @@ describe('plot shape graphics', () => {
       const resultShape = results[0].shape as Tree.OutlineShape
 
       expect(resultShape.segments.slice(-4)).to.eql([
-        {type: Tree.LINE, start: [0.5, 1.5], end: [1.5, 1.5]},
-        {type: Tree.LINE, start: [1.5, 1.5], end: [1.5, 2.5]},
-        {type: Tree.LINE, start: [1.5, 2.5], end: [0.5, 2.5]},
-        {type: Tree.LINE, start: [0.5, 2.5], end: [0.5, 1.5]},
+        {
+          type: Tree.LINE,
+          start: [0.5, 1.5],
+          end: [1.5, 1.5],
+        },
+        {
+          type: Tree.LINE,
+          start: [1.5, 1.5],
+          end: [1.5, 2.5],
+        },
+        {
+          type: Tree.LINE,
+          start: [1.5, 2.5],
+          end: [0.5, 2.5],
+        },
+        {
+          type: Tree.LINE,
+          start: [0.5, 2.5],
+          end: [0.5, 1.5],
+        },
       ])
     })
 
@@ -432,10 +506,26 @@ describe('plot shape graphics', () => {
       const resultShape = results[0].shape as Tree.OutlineShape
 
       expect(resultShape.segments.slice(-4)).to.eql([
-        {type: Tree.LINE, start: [1.5, 1.5], end: [2.5, 1.5]},
-        {type: Tree.LINE, start: [2.5, 1.5], end: [2.5, 2.5]},
-        {type: Tree.LINE, start: [2.5, 2.5], end: [1.5, 2.5]},
-        {type: Tree.LINE, start: [1.5, 2.5], end: [1.5, 1.5]},
+        {
+          type: Tree.LINE,
+          start: [1.5, 1.5],
+          end: [2.5, 1.5],
+        },
+        {
+          type: Tree.LINE,
+          start: [2.5, 1.5],
+          end: [2.5, 2.5],
+        },
+        {
+          type: Tree.LINE,
+          start: [2.5, 2.5],
+          end: [1.5, 2.5],
+        },
+        {
+          type: Tree.LINE,
+          start: [1.5, 2.5],
+          end: [1.5, 1.5],
+        },
       ])
     })
   })

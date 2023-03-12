@@ -8,8 +8,6 @@ import {
   DARK,
   LOAD_POLARITY,
   CLEAR,
-} from '@tracespace/parser'
-import {
   GRAPHIC,
   SHAPE,
   SEGMENT,
@@ -97,11 +95,19 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
     }
 
     if (nextGraphicType === SHAPE && tool?.type === SIMPLE_TOOL) {
-      graphics.push({type: Tree.IMAGE_SHAPE, shape: plotShape(tool, location), polarity: this._polarity})
+      graphics.push({
+        type: Tree.IMAGE_SHAPE,
+        shape: plotShape(tool, location),
+        polarity: this._polarity,
+      })
     }
 
     if (nextGraphicType === SHAPE && tool?.type === MACRO_TOOL) {
-      graphics.push({type: Tree.IMAGE_SHAPE, shape: plotMacro(tool, location), polarity: this._polarity})
+      graphics.push({
+        type: Tree.IMAGE_SHAPE,
+        shape: plotMacro(tool, location),
+        polarity: this._polarity,
+      })
     }
 
     if (nextGraphicType === SEGMENT) {
@@ -139,7 +145,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
     if (node.type === REGION_MODE) {
       this._regionMode = node.region
     }
-    
+
     if (node.type === LOAD_POLARITY) {
       this._polarity = node.polarity
     }

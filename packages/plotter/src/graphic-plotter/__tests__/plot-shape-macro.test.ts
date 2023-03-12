@@ -41,6 +41,7 @@ describe('plot shape macros', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_SHAPE,
+        polarity: Parser.DARK,
         shape: {
           type: Tree.LAYERED_SHAPE,
           shapes: [{type: Tree.CIRCLE, cx: 4, cy: 6, r: 2, erase: false}],

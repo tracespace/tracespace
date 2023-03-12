@@ -21,6 +21,7 @@ const SECTION_NAMES = [
   'macros',
   'step-repeats',
   'drill',
+  'layers',
 ]
 
 const SECTIONS = SECTION_NAMES.map(sectionName => {

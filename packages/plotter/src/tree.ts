@@ -2,6 +2,8 @@ import type {Node, Parent} from 'unist'
 
 import type {UnitsType, Polarity} from '@tracespace/parser'
 
+export type {Polarity} from '@tracespace/parser'
+
 export const IMAGE = 'image'
 export const IMAGE_SHAPE = 'imageShape'
 export const IMAGE_PATH = 'imagePath'

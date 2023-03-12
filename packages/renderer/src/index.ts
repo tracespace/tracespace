@@ -1,6 +1,6 @@
 import {s} from 'hastscript'
 
-import type {ImageTree, SizeEnvelope} from '@tracespace/plotter'
+import type {ImageTree} from '@tracespace/plotter'
 
 import {renderGraphic, renderTreeGraphics, sizeToViewBox} from './render'
 import type {SvgElement, ViewBox} from './types'
@@ -28,9 +28,11 @@ export const BASE_IMAGE_PROPS = {
 }
 
 export function render(image: ImageTree, viewBox?: ViewBox): SvgElement {
-  const {units, size, children} = image
+  const {units, size} = image
 
-  viewBox = viewBox ? viewBox : sizeToViewBox(size)
+  if (!viewBox) {
+    viewBox = sizeToViewBox(size)
+  }
 
   return s(
     'svg',
@@ -41,7 +43,7 @@ export function render(image: ImageTree, viewBox?: ViewBox): SvgElement {
       width: `${viewBox[2]}${units}`,
       height: `${viewBox[3]}${units}`,
     },
-    ...renderTreeGraphics(image),
+    ...renderTreeGraphics(image)
   )
 }
 

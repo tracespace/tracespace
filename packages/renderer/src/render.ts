@@ -36,17 +36,18 @@ export function renderTreeGraphics(tree: ImageTree): SvgElement[] {
   const newChildren: SvgElement[] = []
   const layerChildren: SvgElement[] = []
   const layerHoles: SvgElement[] = []
-  
+
   for (const [index, child] of children.entries()) {
     if (child.polarity === DARK) {
-      if (index > 0 && children[index-1].polarity === CLEAR) {
-      }
       layerChildren.push(renderGraphic(child))
     } else if (child.polarity === CLEAR) {
       layerHoles.push(renderGraphic(child))
-      if (index >= children.length - 1 || children[index+1].polarity === DARK) {
+      if (
+        index >= children.length - 1 ||
+        children[index + 1].polarity === DARK
+      ) {
         const clipId = `${clipIdBase}__${index}`
-        let rect = s('rect', {
+        const rect = s('rect', {
           x: viewBox[0],
           y: viewBox[1],
           width: viewBox[2] - viewBox[0],
@@ -115,19 +116,18 @@ export function shapeToElement(shape: Shape): SvgElement {
       const clipIdBase = createId()
       const defs: SvgElement[] = []
       let children: SvgElement[] = []
-      let holes: SvgElement[] = []
 
       for (const [index, layerShape] of shape.shapes.entries()) {
         if (layerShape.erase === true && !BoundingBox.isEmpty(boundingBox)) {
           const clipId = `${clipIdBase}__${index}`
-          let rect = s('rect', {
+          const rect = s('rect', {
             x: boundingBox[0],
             y: -boundingBox[3],
             width: boundingBox[2] - boundingBox[0],
             height: boundingBox[3] - boundingBox[1],
             fill: 'white',
           })
-          let hole = shapeToElement(layerShape)
+          const hole = shapeToElement(layerShape)
           defs.push(s('mask', {id: clipId, fill: 'black'}, [rect, hole]))
           children = [s('g', {mask: `url(#${clipId})`}, children)]
         } else {

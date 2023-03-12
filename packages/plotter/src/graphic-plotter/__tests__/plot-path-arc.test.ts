@@ -46,6 +46,7 @@ describe('plot stroke arc paths', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
         segments: [
           {
@@ -80,6 +81,7 @@ describe('plot stroke arc paths', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
         segments: [
           {
@@ -114,6 +116,7 @@ describe('plot stroke arc paths', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
         segments: [
           {
@@ -152,6 +155,7 @@ describe('plot stroke arc paths', () => {
       expect(results).to.eql([
         {
           type: Tree.IMAGE_PATH,
+          polarity: Parser.DARK,
           width: 2,
           segments: [{type: Tree.LINE, start: [1, 0], end: [1, 0]}],
         },
@@ -179,6 +183,7 @@ describe('plot stroke arc paths', () => {
       expect(results).toEqual([
         {
           type: Tree.IMAGE_PATH,
+          polarity: Parser.DARK,
           width: 2,
           segments: [
             {
@@ -214,6 +219,7 @@ describe('plot stroke arc paths', () => {
       expect(results).toEqual([
         {
           type: Tree.IMAGE_PATH,
+          polarity: Parser.DARK,
           width: 2,
           segments: [
             {

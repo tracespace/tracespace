@@ -57,6 +57,7 @@ describe('plot stroke paths', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_REGION,
+        polarity: Parser.DARK,
         segments: [
           {type: Tree.LINE, start: [0, 0], end: [1, 0]},
           {type: Tree.LINE, start: [1, 0], end: [1, 1]},
@@ -117,11 +118,13 @@ describe('plot stroke paths', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
         segments: [{type: Tree.LINE, start: [-10, -10], end: [-5, -5]}],
       },
       {
         type: Tree.IMAGE_REGION,
+        polarity: Parser.DARK,
         segments: [
           {type: Tree.LINE, start: [0, 0], end: [1, 0]},
           {type: Tree.LINE, start: [1, 0], end: [1, 1]},
@@ -130,6 +133,7 @@ describe('plot stroke paths', () => {
       },
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
         segments: [{type: Tree.LINE, start: [5, 5], end: [10, 10]}],
       },
@@ -176,6 +180,7 @@ describe('plot stroke paths', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_REGION,
+        polarity: Parser.DARK,
         segments: [
           {type: Tree.LINE, start: [0, 0], end: [1, 0]},
           {type: Tree.LINE, start: [1, 0], end: [1, 1]},
@@ -184,6 +189,7 @@ describe('plot stroke paths', () => {
       },
       {
         type: Tree.IMAGE_REGION,
+        polarity: Parser.DARK,
         segments: [
           {type: Tree.LINE, start: [0, 0], end: [1, 0]},
           {type: Tree.LINE, start: [1, 0], end: [1, 1]},

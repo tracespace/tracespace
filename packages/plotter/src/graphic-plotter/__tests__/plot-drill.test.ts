@@ -39,6 +39,7 @@ describe('plot drill file graphics', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_SHAPE,
+        polarity: Parser.DARK,
         shape: {type: Tree.CIRCLE, cx: 3, cy: 4, r: 1},
       },
     ])
@@ -62,6 +63,7 @@ describe('plot drill file graphics', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
         segments: [{type: Tree.LINE, start: [1, 2], end: [3, 4]}],
       },
@@ -95,11 +97,13 @@ describe('plot drill file graphics', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
         segments: [{type: Tree.LINE, start: [1, 2], end: [3, 4]}],
       },
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
         segments: [{type: Tree.LINE, start: [5, 6], end: [7, 8]}],
       },
@@ -128,6 +132,7 @@ describe('plot drill file graphics', () => {
     expect(results).toEqual([
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
         segments: [
           {
@@ -164,6 +169,7 @@ describe('plot drill file graphics', () => {
     expect(results).toEqual([
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
         segments: [
           {
@@ -203,11 +209,13 @@ describe('plot drill file graphics', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
         segments: [{type: Tree.LINE, start: [1, 2], end: [3, 4]}],
       },
       {
         type: Tree.IMAGE_SHAPE,
+        polarity: Parser.DARK,
         shape: {type: Tree.CIRCLE, cx: 7, cy: 8, r: 1},
       },
     ])
