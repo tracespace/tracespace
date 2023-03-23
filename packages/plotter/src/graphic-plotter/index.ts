@@ -58,7 +58,7 @@ interface GraphicPlotterImpl extends GraphicPlotter {
   _defaultGraphic: GraphicType | undefined
   _polarity: typeof DARK | typeof CLEAR
 
-  _setGraphicState: (node: GerberNode) => GraphicType | undefined
+  _setGraphicState: (node: GerberNode) => void
 
   _plotCurrentPath: (
     node: GerberNode,
@@ -87,12 +87,23 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
     location: Location
   ): Tree.ImageGraphic[] {
     const graphics: Tree.ImageGraphic[] = []
-    const nextGraphicType = this._setGraphicState(node)
+    
+    let nextGraphicType: GraphicType | undefined = undefined
+    if (node.type !== GRAPHIC) {
+      nextGraphicType = undefined
+    } else if (node.graphic !== undefined) {
+      nextGraphicType = node.graphic
+    } else if (node.graphic === SEGMENT) {
+      nextGraphicType = SEGMENT
+    }
+
     const pathGraphic = this._plotCurrentPath(node, tool, nextGraphicType)
 
     if (pathGraphic !== undefined) {
       graphics.push({...pathGraphic, polarity: this._polarity})
     }
+    
+    this._setGraphicState(node)
 
     if (nextGraphicType === SHAPE && tool?.type === SIMPLE_TOOL) {
       graphics.push({
@@ -133,7 +144,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
     return graphics
   },
 
-  _setGraphicState(node: GerberNode): GraphicType | undefined {
+  _setGraphicState(node: GerberNode) {
     if (node.type === INTERPOLATE_MODE) {
       this._arcDirection = arcDirectionFromMode(node.mode)
     }
@@ -149,18 +160,6 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
     if (node.type === LOAD_POLARITY) {
       this._polarity = node.polarity
     }
-
-    if (node.type !== GRAPHIC) {
-      return undefined
-    }
-
-    if (node.graphic === SEGMENT) {
-      this._defaultGraphic = SEGMENT
-    } else if (node.graphic !== undefined) {
-      this._defaultGraphic = undefined
-    }
-
-    return node.graphic ?? this._defaultGraphic
   },
 
   _plotCurrentPath(
@@ -177,7 +176,8 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
       node.type === REGION_MODE ||
       node.type === DONE ||
       (nextGraphicType === MOVE && this._currentPath.region) ||
-      nextGraphicType === SHAPE
+      nextGraphicType === SHAPE ||
+      node.type === LOAD_POLARITY
     ) {
       const pathGraphic = plotPath(
         this._currentPath.segments,
