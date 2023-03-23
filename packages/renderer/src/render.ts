@@ -33,7 +33,7 @@ export function renderTreeGraphics(tree: ImageTree): SvgElement[] {
   const clipIdBase = createId()
 
   const defs: SvgElement[] = []
-  const newChildren: SvgElement[] = []
+  let layerTree: SvgElement[] = []
   const layerChildren: SvgElement[] = []
   const layerHoles: SvgElement[] = []
 
@@ -50,19 +50,19 @@ export function renderTreeGraphics(tree: ImageTree): SvgElement[] {
         const rect = s('rect', {
           x: viewBox[0],
           y: viewBox[1],
-          width: viewBox[2] - viewBox[0],
-          height: viewBox[3] - viewBox[1],
+          width: viewBox[2],
+          height: viewBox[3],
           fill: 'white',
         })
         defs.push(s('mask', {id: clipId, fill: 'black'}, [rect, ...layerHoles]))
-        newChildren.push(s('g', {mask: `url(#${clipId})`}, layerChildren))
+        layerTree = [s('g', {mask: `url(#${clipId})`}, [...layerChildren, ...layerTree])]
         layerChildren.length = 0
         layerHoles.length = 0
       }
     }
   }
-  newChildren.push(...layerChildren)
-  return [s('defs', defs), ...newChildren]
+  layerTree.push(...layerChildren)
+  return [s('defs', defs), ...layerTree]
 }
 
 export function sizeToViewBox(size: SizeEnvelope): ViewBox {
