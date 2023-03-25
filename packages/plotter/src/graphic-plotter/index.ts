@@ -87,14 +87,14 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
     location: Location
   ): Tree.ImageGraphic[] {
     const graphics: Tree.ImageGraphic[] = []
-    
+
     let nextGraphicType: GraphicType | undefined = undefined
     if (node.type !== GRAPHIC) {
       nextGraphicType = undefined
     } else if (node.graphic !== undefined) {
       nextGraphicType = node.graphic
-    } else if (node.graphic === SEGMENT) {
-      nextGraphicType = SEGMENT
+    } else if (this._defaultGraphic !== undefined) {
+      nextGraphicType = this._defaultGraphic
     }
 
     const pathGraphic = this._plotCurrentPath(node, tool, nextGraphicType)
@@ -102,7 +102,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
     if (pathGraphic !== undefined) {
       graphics.push({...pathGraphic, polarity: this._polarity})
     }
-    
+
     this._setGraphicState(node)
 
     if (nextGraphicType === SHAPE && tool?.type === SIMPLE_TOOL) {
@@ -159,6 +159,16 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
 
     if (node.type === LOAD_POLARITY) {
       this._polarity = node.polarity
+    }
+
+    if (node.type === GRAPHIC) {
+      if (node.graphic === SEGMENT) {
+        this._defaultGraphic = SEGMENT
+      } else if (node.graphic === MOVE) {
+        this._defaultGraphic = MOVE
+      } else if (node.graphic === SHAPE) {
+        this._defaultGraphic = SHAPE
+      }
     }
   },
 

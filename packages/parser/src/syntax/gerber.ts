@@ -285,7 +285,7 @@ const operationWithoutCoords: SyntaxRule = {
       token(Lexer.G_CODE, '2'),
       token(Lexer.G_CODE, '3'),
     ]),
-    one([
+    zeroOrOne([
       token(Lexer.D_CODE, '1'),
       token(Lexer.D_CODE, '2'),
       token(Lexer.D_CODE, '3'),
