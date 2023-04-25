@@ -31,7 +31,7 @@ function plotRectPathSegment(
   const [sx, sy] = start
   const [ex, ey] = end
   const [xOffset, yOffset] = [shape.xSize / 2, shape.ySize / 2]
-  const theta = Math.atan2(ey - sy, ex - ey)
+  const theta = Math.atan2(ey - sy, ex - sx)
 
   const [sxMin, sxMax] = [sx - xOffset, sx + xOffset]
   const [syMin, syMax] = [sy - yOffset, sy + yOffset]
