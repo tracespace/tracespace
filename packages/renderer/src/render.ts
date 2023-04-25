@@ -55,7 +55,9 @@ export function renderTreeGraphics(tree: ImageTree): SvgElement[] {
           fill: 'white',
         })
         defs.push(s('mask', {id: clipId, fill: 'black'}, [rect, ...layerHoles]))
-        layerTree = [s('g', {mask: `url(#${clipId})`}, [...layerChildren, ...layerTree])]
+        layerTree = [
+          s('g', {mask: `url(#${clipId})`}, [...layerChildren, ...layerTree]),
+        ]
         layerChildren.length = 0
         layerHoles.length = 0
       }
