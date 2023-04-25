@@ -54,7 +54,6 @@ export function createParser(): Parser {
   return parser
 
   function feed(chunk: string): Parser {
-    chunk = chunk.replace(/(?<!\*|%|\r|\n)(?:\r|\n|\r\n)(?!\r|\n)/gm, '')
     const tokens = lexer.feed(`${unmatched}${chunk}`, lexerState)
     const result = matchSyntax(tokens, filetype)
 

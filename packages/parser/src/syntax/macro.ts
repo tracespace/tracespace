@@ -39,6 +39,7 @@ const macroPrimitive: SyntaxRule<Tree.MacroBlock> = {
     token(Lexer.NUMBER),
     token(Lexer.COMMA),
     oneOrMore([
+      token(Lexer.NEWLINE),
       token(Lexer.COMMA),
       token(Lexer.NUMBER),
       token(Lexer.OPERATOR),
