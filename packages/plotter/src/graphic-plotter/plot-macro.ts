@@ -144,7 +144,7 @@ function plotVectorLine(
   const halfWidth = width / 2
   const distance = Math.sqrt(dy ** 2 + dx ** 2)
   const [xOff, yOff] = [
-    -(halfWidth * dy) / distance,
+    (halfWidth * dy) / distance,
     (halfWidth * dx) / distance,
   ]
 
