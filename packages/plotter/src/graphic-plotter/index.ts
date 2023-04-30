@@ -31,8 +31,8 @@ import type {Location} from '../location-store'
 
 import {plotShape} from './plot-shape'
 import {plotMacro} from './plot-macro'
-import type {ArcDirection} from './plot-path'
-import {CCW, CW, plotSegment, plotPath} from './plot-path'
+import {ArcDirection, plotLine} from './plot-path'
+import {CCW, CW, plotSegment, plotContour} from './plot-path'
 
 export interface GraphicPlotter {
   plot: (
@@ -100,7 +100,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
     const pathGraphic = this._plotCurrentPath(node, tool, nextGraphicType)
 
     if (pathGraphic !== undefined) {
-      graphics.push({...pathGraphic, polarity: this._polarity})
+      graphics.push({...pathGraphic, polarity: this._polarity, tool: undefined})
     }
 
     this._setGraphicState(node)
@@ -110,6 +110,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
         type: Tree.IMAGE_SHAPE,
         shape: plotShape(tool, location),
         polarity: this._polarity,
+        tool,
       })
     }
 
@@ -118,10 +119,11 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
         type: Tree.IMAGE_SHAPE,
         shape: plotMacro(tool, location),
         polarity: this._polarity,
+        tool,
       })
     }
 
-    if (nextGraphicType === SEGMENT) {
+    if (nextGraphicType === SEGMENT && this._regionMode === true) {
       this._currentPath = this._currentPath ?? {
         segments: [],
         region: this._regionMode,
@@ -133,11 +135,22 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
       )
     }
 
+    if (nextGraphicType === SEGMENT && this._regionMode === false) {
+      const pathGraphic = plotLine(
+        plotSegment(location, this._arcDirection, this._ambiguousArcCenter),
+        tool
+      )
+
+      if (pathGraphic !== undefined) {
+        graphics.push({...pathGraphic, polarity: this._polarity, tool})
+      }
+    }
+
     if (nextGraphicType === SLOT) {
-      const slotPathGraphic = plotPath([plotSegment(location)], tool)
+      const slotPathGraphic = plotLine(plotSegment(location), tool)
 
       if (slotPathGraphic !== undefined) {
-        graphics.push({...slotPathGraphic, polarity: this._polarity})
+        graphics.push({...slotPathGraphic, polarity: this._polarity, tool})
       }
     }
 
@@ -189,11 +202,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
       nextGraphicType === SHAPE ||
       node.type === LOAD_POLARITY
     ) {
-      const pathGraphic = plotPath(
-        this._currentPath.segments,
-        this._currentPath.tool,
-        this._currentPath.region
-      )
+      const pathGraphic = plotContour(this._currentPath.segments)
 
       this._currentPath = undefined
       return pathGraphic

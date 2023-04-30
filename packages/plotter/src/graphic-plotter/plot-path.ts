@@ -21,23 +21,24 @@ export function plotSegment(
     : createArcSegment(location, arcDirection, ambiguousArcCenter)
 }
 
-export function plotPath(
+export function plotContour(
   segments: Tree.PathSegment[],
-  tool: Tool | undefined,
-  region = false
 ): Tree.ImageGraphicBase | undefined {
   if (segments.length > 0) {
-    if (region) {
-      return {type: Tree.IMAGE_REGION, segments}
-    }
+    return {type: Tree.IMAGE_REGION, segments}
+  }
+}
 
-    if (tool?.type === SIMPLE_TOOL && tool.shape.type === Tree.CIRCLE) {
-      return {type: Tree.IMAGE_PATH, width: tool.shape.diameter, segments}
-    }
+export function plotLine(
+  segment: Tree.PathSegment,
+  tool: Tool | undefined
+): Tree.ImageGraphicBase | undefined {
+  if (tool?.type === SIMPLE_TOOL && tool.shape.type === Tree.CIRCLE) {
+    return {type: Tree.IMAGE_PATH, width: tool.shape.diameter, segments: [segment]}
+  }
 
-    if (tool?.type === SIMPLE_TOOL && tool.shape.type === Tree.RECTANGLE) {
-      return plotRectPath(segments, tool.shape)
-    }
+  if (tool?.type === SIMPLE_TOOL && tool.shape.type === Tree.RECTANGLE) {
+    return plotRectPath(segment, tool.shape)
   }
 }
 
