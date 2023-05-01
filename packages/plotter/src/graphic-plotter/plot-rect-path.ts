@@ -89,7 +89,7 @@ function plotRectPathSegment(
     ]
   }
 
-  let segments: Tree.PathLineSegment[] = points.map((point, index) => {
+  const segments: Tree.PathLineSegment[] = points.map((point, index) => {
     return {
       type: Tree.LINE,
       start: point,

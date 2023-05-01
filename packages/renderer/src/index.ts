@@ -30,7 +30,7 @@ export const BASE_IMAGE_PROPS = {
 export function render(image: ImageTree, viewBox?: ViewBox): SvgElement {
   const {units, size} = image
 
-  if (!viewBox) {
+  if (viewBox === undefined) {
     viewBox = sizeToViewBox(size)
   }
 
