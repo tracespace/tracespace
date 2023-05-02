@@ -60,7 +60,7 @@ export function plotBoardShape(
 
   const inputSegments = outlinePlot.children
     .filter(
-      (node): node is ImagePath & {polarity: Polarity} =>
+      (node): node is ImagePath & {polarity: Polarity, dcode: string} =>
         node.type === IMAGE_PATH
     )
     .flatMap(path => path.segments)

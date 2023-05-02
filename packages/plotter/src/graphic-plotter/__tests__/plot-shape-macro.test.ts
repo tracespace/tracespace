@@ -27,6 +27,8 @@ describe('plot shape macros', () => {
     const tool: Tool = {
       type: MACRO_TOOL,
       variableValues: [],
+      name: 'C',
+      dcode: '1',
       macro: [
         {
           type: Parser.MACRO_PRIMITIVE,
@@ -42,6 +44,7 @@ describe('plot shape macros', () => {
       {
         type: Tree.IMAGE_SHAPE,
         polarity: Parser.DARK,
+        dcode: '1',
         shape: {
           type: Tree.LAYERED_SHAPE,
           shapes: [{type: Tree.CIRCLE, cx: 4, cy: 6, r: 2, erase: false}],

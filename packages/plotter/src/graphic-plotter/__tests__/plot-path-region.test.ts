@@ -58,6 +58,7 @@ describe('plot stroke paths', () => {
       {
         type: Tree.IMAGE_REGION,
         polarity: Parser.DARK,
+        dcode: undefined,
         segments: [
           {type: Tree.LINE, start: [0, 0], end: [1, 0]},
           {type: Tree.LINE, start: [1, 0], end: [1, 1]},
@@ -72,6 +73,7 @@ describe('plot stroke paths', () => {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
       hole: undefined,
+      dcode: '1',
     }
 
     const location0 = {
@@ -120,11 +122,13 @@ describe('plot stroke paths', () => {
         type: Tree.IMAGE_PATH,
         polarity: Parser.DARK,
         width: 2,
+        dcode: '1',
         segments: [{type: Tree.LINE, start: [-10, -10], end: [-5, -5]}],
       },
       {
         type: Tree.IMAGE_REGION,
         polarity: Parser.DARK,
+        dcode: undefined,
         segments: [
           {type: Tree.LINE, start: [0, 0], end: [1, 0]},
           {type: Tree.LINE, start: [1, 0], end: [1, 1]},
@@ -135,6 +139,7 @@ describe('plot stroke paths', () => {
         type: Tree.IMAGE_PATH,
         polarity: Parser.DARK,
         width: 2,
+        dcode: '1',
         segments: [{type: Tree.LINE, start: [5, 5], end: [10, 10]}],
       },
     ])
@@ -181,6 +186,7 @@ describe('plot stroke paths', () => {
       {
         type: Tree.IMAGE_REGION,
         polarity: Parser.DARK,
+        dcode: undefined,
         segments: [
           {type: Tree.LINE, start: [0, 0], end: [1, 0]},
           {type: Tree.LINE, start: [1, 0], end: [1, 1]},
@@ -190,6 +196,7 @@ describe('plot stroke paths', () => {
       {
         type: Tree.IMAGE_REGION,
         polarity: Parser.DARK,
+        dcode: undefined,
         segments: [
           {type: Tree.LINE, start: [0, 0], end: [1, 0]},
           {type: Tree.LINE, start: [1, 0], end: [1, 1]},

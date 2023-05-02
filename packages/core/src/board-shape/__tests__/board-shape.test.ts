@@ -45,6 +45,7 @@ describe('board shape', () => {
         units: 'mm',
         size: [1, 2, 3, 4],
         children: [],
+        tools: {},
       },
     }
 

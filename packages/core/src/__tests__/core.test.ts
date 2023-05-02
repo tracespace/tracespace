@@ -118,6 +118,7 @@ describe('tracespace core', () => {
       units: parser.MM,
       size: [],
       children: [],
+      tools: {},
     }
 
     const plotTreeBar: ImageTree = {
@@ -125,6 +126,7 @@ describe('tracespace core', () => {
       units: parser.IN,
       size: [],
       children: [],
+      tools: {},
     }
 
     td.when(plotter.plot(parseTreeFoo)).thenReturn(plotTreeFoo)

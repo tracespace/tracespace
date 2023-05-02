@@ -24,6 +24,7 @@ describe('plot stroke arc paths', () => {
     type: SIMPLE_TOOL,
     shape: {type: Parser.CIRCLE, diameter: 2},
     hole: undefined,
+    dcode: '1',
   }
 
   it('should plot a zero-length CCW arc as a full circle', () => {
@@ -48,6 +49,7 @@ describe('plot stroke arc paths', () => {
         type: Tree.IMAGE_PATH,
         polarity: Parser.DARK,
         width: 2,
+        dcode: '1',
         segments: [
           {
             type: Tree.ARC,
@@ -83,6 +85,7 @@ describe('plot stroke arc paths', () => {
         type: Tree.IMAGE_PATH,
         polarity: Parser.DARK,
         width: 2,
+        dcode: '1',
         segments: [
           {
             type: Tree.ARC,
@@ -118,6 +121,7 @@ describe('plot stroke arc paths', () => {
         type: Tree.IMAGE_PATH,
         polarity: Parser.DARK,
         width: 2,
+        dcode: '1',
         segments: [
           {
             type: Tree.ARC,
@@ -157,6 +161,7 @@ describe('plot stroke arc paths', () => {
           type: Tree.IMAGE_PATH,
           polarity: Parser.DARK,
           width: 2,
+          dcode: '1',
           segments: [{type: Tree.LINE, start: [1, 0], end: [1, 0]}],
         },
       ])
@@ -185,6 +190,7 @@ describe('plot stroke arc paths', () => {
           type: Tree.IMAGE_PATH,
           polarity: Parser.DARK,
           width: 2,
+          dcode: '1',
           segments: [
             {
               type: Tree.ARC,
@@ -221,6 +227,7 @@ describe('plot stroke arc paths', () => {
           type: Tree.IMAGE_PATH,
           polarity: Parser.DARK,
           width: 2,
+          dcode: '1',
           segments: [
             {
               type: Tree.ARC,
