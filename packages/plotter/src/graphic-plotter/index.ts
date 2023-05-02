@@ -120,7 +120,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
         type: Tree.IMAGE_SHAPE,
         shape: plotShape(tool, location),
         polarity: this._polarity,
-        dcode: tool.code,
+        dcode: tool.dcode,
       })
     }
 
@@ -129,7 +129,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
         type: Tree.IMAGE_SHAPE,
         shape: plotMacro(tool, location),
         polarity: this._polarity,
-        dcode: tool.code,
+        dcode: tool.dcode,
       })
     }
 
@@ -155,7 +155,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
         graphics.push({
           ...pathGraphic,
           polarity: this._polarity,
-          dcode: tool?.code,
+          dcode: tool?.dcode,
         })
       }
     }
@@ -167,7 +167,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
         graphics.push({
           ...slotPathGraphic,
           polarity: this._polarity,
-          dcode: tool?.code,
+          dcode: tool?.dcode,
         })
       }
     }
