@@ -32,6 +32,7 @@ export function plot(tree: GerberTree): ImageTree {
   return {
     type: IMAGE,
     units: plotOptions.units,
+    tools: toolStore._toolsByCode,
     size: sizeFromGraphics(children),
     children,
   }

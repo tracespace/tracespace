@@ -106,7 +106,11 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
     const pathGraphic = this._plotCurrentPath(node, tool, nextGraphicType)
 
     if (pathGraphic !== undefined) {
-      graphics.push({...pathGraphic, polarity: this._polarity, tool: undefined})
+      graphics.push({
+        ...pathGraphic,
+        polarity: this._polarity,
+        dcode: undefined,
+      })
     }
 
     this._setGraphicState(node)
@@ -116,7 +120,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
         type: Tree.IMAGE_SHAPE,
         shape: plotShape(tool, location),
         polarity: this._polarity,
-        tool,
+        dcode: tool.code,
       })
     }
 
@@ -125,7 +129,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
         type: Tree.IMAGE_SHAPE,
         shape: plotMacro(tool, location),
         polarity: this._polarity,
-        tool,
+        dcode: tool.code,
       })
     }
 
@@ -148,7 +152,11 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
       )
 
       if (pathGraphic !== undefined) {
-        graphics.push({...pathGraphic, polarity: this._polarity, tool})
+        graphics.push({
+          ...pathGraphic,
+          polarity: this._polarity,
+          dcode: tool?.code,
+        })
       }
     }
 
@@ -156,7 +164,11 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
       const slotPathGraphic = plotLine(plotSegment(location), tool)
 
       if (slotPathGraphic !== undefined) {
-        graphics.push({...slotPathGraphic, polarity: this._polarity, tool})
+        graphics.push({
+          ...slotPathGraphic,
+          polarity: this._polarity,
+          dcode: tool?.code,
+        })
       }
     }
 
