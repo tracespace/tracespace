@@ -91,18 +91,14 @@ describe('plot stroke paths', () => {
         polarity: Parser.DARK,
         width: 2,
         dcode: '1',
-        segments: [
-          {type: Tree.LINE, start: [3, 4], end: [5, 6]},
-        ],
+        segments: [{type: Tree.LINE, start: [3, 4], end: [5, 6]}],
       },
       {
         type: Tree.IMAGE_PATH,
         polarity: Parser.DARK,
         width: 2,
         dcode: '1',
-        segments: [
-          {type: Tree.LINE, start: [7, 8], end: [9, 10]},
-        ],
+        segments: [{type: Tree.LINE, start: [7, 8], end: [9, 10]}],
       },
     ])
   })
@@ -261,18 +257,14 @@ describe('plot stroke paths', () => {
         polarity: Parser.DARK,
         width: 2,
         dcode: '1',
-        segments: [
-          {type: Tree.LINE, start: [5, 6], end: [7, 8]},
-        ],
+        segments: [{type: Tree.LINE, start: [5, 6], end: [7, 8]}],
       },
       {
         type: Tree.IMAGE_PATH,
         polarity: Parser.DARK,
         width: 2,
         dcode: '1',
-        segments: [
-          {type: Tree.LINE, start: [5, 6], end: [7, 8]},
-        ],
+        segments: [{type: Tree.LINE, start: [5, 6], end: [7, 8]}],
       },
     ])
   })
