@@ -1,6 +1,9 @@
 import type {Node, Parent} from 'unist'
 
-import type {UnitsType} from '@tracespace/parser'
+import type {UnitsType, Polarity} from '@hpcreery/tracespace-parser'
+import {Tool} from './tool-store'
+
+export type {Polarity} from '@hpcreery/tracespace-parser'
 
 export const IMAGE = 'image'
 export const IMAGE_SHAPE = 'imageShape'
@@ -67,13 +70,19 @@ export type Shape = SimpleShape | LayeredShape
 
 export type ErasableShape = SimpleShape & {erase?: boolean}
 
-export type ImageGraphic = ImageShape | ImagePath | ImageRegion
+export type ImageGraphicBase = ImageShape | ImagePath | ImageRegion
+
+export type ImageGraphic = ImageGraphicBase & {
+  polarity: Polarity
+  dcode: string | undefined
+}
 
 export interface ImageTree extends Parent {
   type: typeof IMAGE
   units: UnitsType
   size: SizeEnvelope
   children: ImageGraphic[]
+  tools: Partial<Record<string, Tool>>
 }
 
 export interface ImageShape extends Node {

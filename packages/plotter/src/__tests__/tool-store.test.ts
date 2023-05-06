@@ -19,6 +19,7 @@ describe('tool state store', () => {
 
     expect(result).to.eql({
       type: SIMPLE_TOOL,
+      dcode: '42',
       shape: {type: 'circle', diameter: 42},
       hole: undefined,
     })
@@ -46,16 +47,19 @@ describe('tool state store', () => {
 
     expect(subject.use(tool1)).to.eql({
       type: SIMPLE_TOOL,
+      dcode: '1',
       shape: {type: 'circle', diameter: 1},
       hole: undefined,
     })
     expect(subject.use(tool2)).to.eql({
       type: SIMPLE_TOOL,
+      dcode: '2',
       shape: {type: 'circle', diameter: 2},
       hole: undefined,
     })
     expect(subject.use(toolChange)).to.eql({
       type: SIMPLE_TOOL,
+      dcode: '1',
       shape: {type: 'circle', diameter: 1},
       hole: undefined,
     })
@@ -78,11 +82,13 @@ describe('tool state store', () => {
     expect(subject.use(comment)).to.equal(undefined)
     expect(subject.use(tool)).to.eql({
       type: SIMPLE_TOOL,
+      dcode: '42',
       shape: {type: 'circle', diameter: 42},
       hole: undefined,
     })
     expect(subject.use(comment)).to.eql({
       type: SIMPLE_TOOL,
+      dcode: '42',
       shape: {type: 'circle', diameter: 42},
       hole: undefined,
     })
@@ -110,6 +116,8 @@ describe('tool state store', () => {
     expect(subject.use(macro)).to.equal(undefined)
     expect(subject.use(tool)).to.eql({
       type: MACRO_TOOL,
+      dcode: '42',
+      name: 'cool-macro',
       macro: [{type: Parser.MACRO_COMMENT, comment: 'hello world'}],
       variableValues: [1, 2, 3],
     })

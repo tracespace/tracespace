@@ -63,11 +63,13 @@ describe('creating a plot tree', () => {
       type: toolStoreCreator.SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 1},
       hole: undefined,
+      dcode: '1',
     }
     const tool2: Tool = {
       type: toolStoreCreator.SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
       hole: undefined,
+      dcode: '2',
     }
     td.when(toolStore.use(node1)).thenReturn(tool1)
     td.when(toolStore.use(node2)).thenReturn(tool2)
@@ -85,25 +87,31 @@ describe('creating a plot tree', () => {
     td.when(locationStore.use(node1, plotOptions)).thenReturn(location1)
     td.when(locationStore.use(node2, plotOptions)).thenReturn(location2)
 
-    const shape1: Tree.ImageShape = {
+    const shape1: Tree.ImageGraphic = {
       type: Tree.IMAGE_SHAPE,
       shape: {type: Tree.CIRCLE, cx: 1, cy: 2, r: 3},
+      polarity: Parser.DARK,
+      dcode: '1',
     }
-    const shape2: Tree.ImageShape = {
+    const shape2: Tree.ImageGraphic = {
       type: Tree.IMAGE_SHAPE,
       shape: {type: Tree.CIRCLE, cx: 4, cy: 5, r: 6},
+      polarity: Parser.CLEAR,
+      dcode: '2',
     }
     td.when(graphicPlotter.plot(node1, tool1, location1)).thenReturn([shape1])
     td.when(graphicPlotter.plot(node2, tool2, location2)).thenReturn([shape2])
     td.when(boundingBox.fromGraphics([shape1, shape2])).thenReturn([1, 2, 3, 4])
 
     const result = subject.plot(tree)
+    console.log(result)
 
     expect(result).to.eql({
       type: Tree.IMAGE,
       units: Parser.MM,
       size: [1, 2, 3, 4],
       children: [shape1, shape2],
+      tools: toolStore._toolsByCode,
     })
   })
 })

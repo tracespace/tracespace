@@ -1,12 +1,13 @@
 // Graphic plotter
 // Takes nodes and turns them into graphics to be added to the image
-import type {
+import {
   GerberNode,
   GraphicType,
   Filetype,
   InterpolateModeType,
-} from '@tracespace/parser'
-import {
+  DARK,
+  LOAD_POLARITY,
+  CLEAR,
   GRAPHIC,
   SHAPE,
   SEGMENT,
@@ -30,8 +31,14 @@ import type {Location} from '../location-store'
 
 import {plotShape} from './plot-shape'
 import {plotMacro} from './plot-macro'
-import type {ArcDirection} from './plot-path'
-import {CCW, CW, plotSegment, plotPath} from './plot-path'
+import {
+  ArcDirection,
+  plotLine,
+  CCW,
+  CW,
+  plotSegment,
+  plotContour,
+} from './plot-path'
 
 export interface GraphicPlotter {
   plot: (
@@ -55,14 +62,15 @@ interface GraphicPlotterImpl extends GraphicPlotter {
   _ambiguousArcCenter: boolean
   _regionMode: boolean
   _defaultGraphic: GraphicType | undefined
+  _polarity: typeof DARK | typeof CLEAR
 
-  _setGraphicState: (node: GerberNode) => GraphicType | undefined
+  _setGraphicState: (node: GerberNode) => void
 
   _plotCurrentPath: (
     node: GerberNode,
     nextTool: Tool | undefined,
     nextGraphicType: GraphicType | undefined
-  ) => Tree.ImageGraphic | undefined
+  ) => Tree.ImageGraphicBase | undefined
 }
 
 interface CurrentPath {
@@ -77,6 +85,7 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
   _ambiguousArcCenter: false,
   _regionMode: false,
   _defaultGraphic: undefined,
+  _polarity: DARK,
 
   plot(
     node: GerberNode,
@@ -84,22 +93,47 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
     location: Location
   ): Tree.ImageGraphic[] {
     const graphics: Tree.ImageGraphic[] = []
-    const nextGraphicType = this._setGraphicState(node)
+
+    let nextGraphicType: GraphicType | undefined
+    if (node.type !== GRAPHIC) {
+      nextGraphicType = undefined
+    } else if (node.graphic !== undefined) {
+      nextGraphicType = node.graphic
+    } else if (this._defaultGraphic !== undefined) {
+      nextGraphicType = this._defaultGraphic
+    }
+
     const pathGraphic = this._plotCurrentPath(node, tool, nextGraphicType)
 
     if (pathGraphic !== undefined) {
-      graphics.push(pathGraphic)
+      graphics.push({
+        ...pathGraphic,
+        polarity: this._polarity,
+        dcode: undefined,
+      })
     }
 
+    this._setGraphicState(node)
+
     if (nextGraphicType === SHAPE && tool?.type === SIMPLE_TOOL) {
-      graphics.push({type: Tree.IMAGE_SHAPE, shape: plotShape(tool, location)})
+      graphics.push({
+        type: Tree.IMAGE_SHAPE,
+        shape: plotShape(tool, location),
+        polarity: this._polarity,
+        dcode: tool.dcode,
+      })
     }
 
     if (nextGraphicType === SHAPE && tool?.type === MACRO_TOOL) {
-      graphics.push({type: Tree.IMAGE_SHAPE, shape: plotMacro(tool, location)})
+      graphics.push({
+        type: Tree.IMAGE_SHAPE,
+        shape: plotMacro(tool, location),
+        polarity: this._polarity,
+        dcode: tool.dcode,
+      })
     }
 
-    if (nextGraphicType === SEGMENT) {
+    if (nextGraphicType === SEGMENT && this._regionMode) {
       this._currentPath = this._currentPath ?? {
         segments: [],
         region: this._regionMode,
@@ -111,18 +145,37 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
       )
     }
 
+    if (nextGraphicType === SEGMENT && !this._regionMode) {
+      const pathGraphic = plotLine(
+        plotSegment(location, this._arcDirection, this._ambiguousArcCenter),
+        tool
+      )
+
+      if (pathGraphic !== undefined) {
+        graphics.push({
+          ...pathGraphic,
+          polarity: this._polarity,
+          dcode: tool?.dcode,
+        })
+      }
+    }
+
     if (nextGraphicType === SLOT) {
-      const slotPathGraphic = plotPath([plotSegment(location)], tool)
+      const slotPathGraphic = plotLine(plotSegment(location), tool)
 
       if (slotPathGraphic !== undefined) {
-        graphics.push(slotPathGraphic)
+        graphics.push({
+          ...slotPathGraphic,
+          polarity: this._polarity,
+          dcode: tool?.dcode,
+        })
       }
     }
 
     return graphics
   },
 
-  _setGraphicState(node: GerberNode): GraphicType | undefined {
+  _setGraphicState(node: GerberNode) {
     if (node.type === INTERPOLATE_MODE) {
       this._arcDirection = arcDirectionFromMode(node.mode)
     }
@@ -135,24 +188,36 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
       this._regionMode = node.region
     }
 
-    if (node.type !== GRAPHIC) {
-      return undefined
+    if (node.type === LOAD_POLARITY) {
+      this._polarity = node.polarity
     }
 
-    if (node.graphic === SEGMENT) {
-      this._defaultGraphic = SEGMENT
-    } else if (node.graphic !== undefined) {
-      this._defaultGraphic = undefined
+    if (node.type === GRAPHIC) {
+      switch (node.graphic) {
+        case SEGMENT: {
+          this._defaultGraphic = SEGMENT
+          break
+        }
+        case MOVE: {
+          this._defaultGraphic = MOVE
+          break
+        }
+        case SHAPE: {
+          this._defaultGraphic = SHAPE
+          break
+        }
+        default: {
+          break
+        }
+      }
     }
-
-    return node.graphic ?? this._defaultGraphic
   },
 
   _plotCurrentPath(
     node: GerberNode,
     nextTool: Tool | undefined,
     nextGraphicType: GraphicType | undefined
-  ): Tree.ImageGraphic | undefined {
+  ): Tree.ImageGraphicBase | undefined {
     if (this._currentPath === undefined) {
       return undefined
     }
@@ -162,13 +227,10 @@ const GraphicPlotterPrototype: GraphicPlotterImpl = {
       node.type === REGION_MODE ||
       node.type === DONE ||
       (nextGraphicType === MOVE && this._currentPath.region) ||
-      nextGraphicType === SHAPE
+      nextGraphicType === SHAPE ||
+      node.type === LOAD_POLARITY
     ) {
-      const pathGraphic = plotPath(
-        this._currentPath.segments,
-        this._currentPath.tool,
-        this._currentPath.region
-      )
+      const pathGraphic = plotContour(this._currentPath.segments)
 
       this._currentPath = undefined
       return pathGraphic

@@ -247,9 +247,10 @@ const createOperationNodes = (tokens: Lexer.Token[]): Tree.ChildNode[] => {
   const position = tokensToPosition(tokens, {
     head: mode === undefined ? tokens[0] : tokens[1],
   })
-  const nodes: Tree.ChildNode[] = [
-    {type: Tree.GRAPHIC, position, graphic, coordinates},
-  ]
+  const nodes: Tree.ChildNode[] =
+    Object.keys(coordinates).length > 0 || graphic !== undefined
+      ? [{type: Tree.GRAPHIC, position, graphic, coordinates}]
+      : []
   if (mode !== undefined) {
     const modePosition = tokensToPosition(tokens, {head: tokens[0], length: 2})
     nodes.unshift({type: Tree.INTERPOLATE_MODE, position: modePosition, mode})
@@ -285,7 +286,7 @@ const operationWithoutCoords: SyntaxRule = {
       token(Lexer.G_CODE, '2'),
       token(Lexer.G_CODE, '3'),
     ]),
-    one([
+    zeroOrOne([
       token(Lexer.D_CODE, '1'),
       token(Lexer.D_CODE, '2'),
       token(Lexer.D_CODE, '3'),

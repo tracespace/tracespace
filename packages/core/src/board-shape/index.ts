@@ -6,6 +6,7 @@ import type {
   ImagePath,
   ImageRegion,
   SizeEnvelope,
+  Polarity,
 } from '@tracespace/plotter'
 import type {SvgElement, ViewBox} from '@tracespace/renderer'
 
@@ -58,7 +59,10 @@ export function plotBoardShape(
   }
 
   const inputSegments = outlinePlot.children
-    .filter((node): node is ImagePath => node.type === IMAGE_PATH)
+    .filter(
+      (node): node is ImagePath & {polarity: Polarity; dcode: string} =>
+        node.type === IMAGE_PATH
+    )
     .flatMap(path => path.segments)
 
   if (inputSegments.length === 0) {

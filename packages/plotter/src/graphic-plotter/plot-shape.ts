@@ -12,8 +12,19 @@ export function plotShape(tool: SimpleTool, location: Location): Tree.Shape {
     const holeShape = createShape(toolHole, location.endPoint)
 
     return {
-      type: Tree.OUTLINE,
-      segments: [...shapeToSegments(shape), ...shapeToSegments(holeShape)],
+      type: Tree.LAYERED_SHAPE,
+      shapes: [
+        {
+          type: Tree.OUTLINE,
+          erase: false,
+          segments: shapeToSegments(shape),
+        },
+        {
+          type: Tree.OUTLINE,
+          erase: true,
+          segments: shapeToSegments(holeShape),
+        },
+      ],
     }
   }
 

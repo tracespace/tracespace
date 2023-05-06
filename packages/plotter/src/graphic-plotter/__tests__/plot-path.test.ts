@@ -22,6 +22,7 @@ describe('plot stroke paths', () => {
     type: SIMPLE_TOOL,
     shape: {type: Parser.CIRCLE, diameter: 2},
     hole: undefined,
+    dcode: '1',
   }
 
   it('should not plot anything if no path', () => {
@@ -52,7 +53,9 @@ describe('plot stroke paths', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
+        dcode: '1',
         segments: [{type: Tree.LINE, start: [3, 4], end: [5, 6]}],
       },
     ])
@@ -85,11 +88,17 @@ describe('plot stroke paths', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
-        segments: [
-          {type: Tree.LINE, start: [3, 4], end: [5, 6]},
-          {type: Tree.LINE, start: [7, 8], end: [9, 10]},
-        ],
+        dcode: '1',
+        segments: [{type: Tree.LINE, start: [3, 4], end: [5, 6]}],
+      },
+      {
+        type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
+        width: 2,
+        dcode: '1',
+        segments: [{type: Tree.LINE, start: [7, 8], end: [9, 10]}],
       },
     ])
   })
@@ -99,6 +108,7 @@ describe('plot stroke paths', () => {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 1},
       hole: undefined,
+      dcode: '1',
     }
     const location1 = {
       startPoint: {x: 3, y: 4},
@@ -109,6 +119,7 @@ describe('plot stroke paths', () => {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
       hole: undefined,
+      dcode: '2',
     }
     const location2 = {
       startPoint: {x: 7, y: 8},
@@ -133,12 +144,16 @@ describe('plot stroke paths', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 1,
+        dcode: '1',
         segments: [{type: Tree.LINE, start: [3, 4], end: [5, 6]}],
       },
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
+        dcode: '2',
         segments: [{type: Tree.LINE, start: [7, 8], end: [9, 10]}],
       },
     ])
@@ -173,15 +188,21 @@ describe('plot stroke paths', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_SHAPE,
+        polarity: Parser.DARK,
+        dcode: '1',
         shape: {type: Tree.CIRCLE, cx: 3, cy: 4, r: 1},
       },
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
+        dcode: '1',
         segments: [{type: Tree.LINE, start: [5, 6], end: [7, 8]}],
       },
       {
         type: Tree.IMAGE_SHAPE,
+        polarity: Parser.DARK,
+        dcode: '1',
         shape: {type: Tree.CIRCLE, cx: 9, cy: 10, r: 1},
       },
     ])
@@ -221,15 +242,29 @@ describe('plot stroke paths', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_SHAPE,
+        polarity: Parser.DARK,
+        dcode: '1',
+        shape: {type: Tree.CIRCLE, cx: 3, cy: 4, r: 1},
+      },
+      {
+        type: Tree.IMAGE_SHAPE,
+        polarity: Parser.DARK,
+        dcode: '1',
         shape: {type: Tree.CIRCLE, cx: 3, cy: 4, r: 1},
       },
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
-        segments: [
-          {type: Tree.LINE, start: [5, 6], end: [7, 8]},
-          {type: Tree.LINE, start: [5, 6], end: [7, 8]},
-        ],
+        dcode: '1',
+        segments: [{type: Tree.LINE, start: [5, 6], end: [7, 8]}],
+      },
+      {
+        type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
+        width: 2,
+        dcode: '1',
+        segments: [{type: Tree.LINE, start: [5, 6], end: [7, 8]}],
       },
     ])
   })

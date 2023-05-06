@@ -28,11 +28,11 @@ export function sum(boxes: Box[]): Box {
   return boxes.reduce(add, empty())
 }
 
-export function fromGraphics(graphics: Tree.ImageGraphic[]): Box {
+export function fromGraphics(graphics: Tree.ImageGraphicBase[]): Box {
   return sum(graphics.map(fromGraphic))
 }
 
-export function fromGraphic(graphic: Tree.ImageGraphic): Box {
+export function fromGraphic(graphic: Tree.ImageGraphicBase): Box {
   return graphic.type === Tree.IMAGE_SHAPE
     ? fromShape(graphic.shape)
     : fromPath(

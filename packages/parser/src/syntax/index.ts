@@ -27,7 +27,8 @@ export function matchSyntax(
   let unmatched = ''
 
   for (const [token, lexerState] of tokens) {
-    const result = findSyntaxMatch([...matchedTokens, token], matchedCandidates)
+    matchedTokens.push(token)
+    const result = findSyntaxMatch(matchedTokens, matchedCandidates)
 
     if (result.nodes === undefined) {
       unmatched += token.text

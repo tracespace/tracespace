@@ -31,6 +31,7 @@ describe('plot drill file graphics', () => {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
       hole: undefined,
+      dcode: '1',
     }
     const location = {endPoint: {x: 3, y: 4}} as Location
 
@@ -39,6 +40,8 @@ describe('plot drill file graphics', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_SHAPE,
+        polarity: Parser.DARK,
+        dcode: '1',
         shape: {type: Tree.CIRCLE, cx: 3, cy: 4, r: 1},
       },
     ])
@@ -51,6 +54,7 @@ describe('plot drill file graphics', () => {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
       hole: undefined,
+      dcode: '1',
     }
     const location = {
       startPoint: {x: 1, y: 2},
@@ -62,6 +66,8 @@ describe('plot drill file graphics', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_PATH,
+        dcode: '1',
+        polarity: Parser.DARK,
         width: 2,
         segments: [{type: Tree.LINE, start: [1, 2], end: [3, 4]}],
       },
@@ -73,6 +79,7 @@ describe('plot drill file graphics', () => {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
       hole: undefined,
+      dcode: '1',
     }
     const location1 = {
       startPoint: {x: 1, y: 2},
@@ -95,13 +102,17 @@ describe('plot drill file graphics', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
         segments: [{type: Tree.LINE, start: [1, 2], end: [3, 4]}],
+        dcode: '1',
       },
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
         segments: [{type: Tree.LINE, start: [5, 6], end: [7, 8]}],
+        dcode: '1',
       },
     ])
   })
@@ -112,6 +123,7 @@ describe('plot drill file graphics', () => {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
       hole: undefined,
+      dcode: '1',
     }
     const location: Location = {
       startPoint: {x: 1, y: 0},
@@ -128,7 +140,9 @@ describe('plot drill file graphics', () => {
     expect(results).toEqual([
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
+        dcode: '1',
         segments: [
           {
             type: Tree.ARC,
@@ -148,6 +162,7 @@ describe('plot drill file graphics', () => {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
       hole: undefined,
+      dcode: '1',
     }
     const location: Location = {
       startPoint: {x: halfSqrtTwo, y: halfSqrtTwo},
@@ -164,7 +179,9 @@ describe('plot drill file graphics', () => {
     expect(results).toEqual([
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
+        dcode: '1',
         segments: [
           {
             type: Tree.ARC,
@@ -183,6 +200,7 @@ describe('plot drill file graphics', () => {
       type: SIMPLE_TOOL,
       shape: {type: Parser.CIRCLE, diameter: 2},
       hole: undefined,
+      dcode: '1',
     }
     const location1 = {
       startPoint: {x: 1, y: 2},
@@ -203,11 +221,15 @@ describe('plot drill file graphics', () => {
     expect(results).to.eql([
       {
         type: Tree.IMAGE_PATH,
+        polarity: Parser.DARK,
         width: 2,
+        dcode: '1',
         segments: [{type: Tree.LINE, start: [1, 2], end: [3, 4]}],
       },
       {
         type: Tree.IMAGE_SHAPE,
+        polarity: Parser.DARK,
+        dcode: '1',
         shape: {type: Tree.CIRCLE, cx: 7, cy: 8, r: 1},
       },
     ])

@@ -39,6 +39,7 @@ const macroPrimitive: SyntaxRule<Tree.MacroBlock> = {
     token(Lexer.NUMBER),
     token(Lexer.COMMA),
     oneOrMore([
+      token(Lexer.NEWLINE),
       token(Lexer.COMMA),
       token(Lexer.NUMBER),
       token(Lexer.OPERATOR),
@@ -107,7 +108,8 @@ function createMacroVariable(tokens: Lexer.Token[]): Tree.MacroVariable[] {
 function parseMacroExpression(tokens: Lexer.Token[]): MacroValue {
   const toParse = tokens.map<Lexer.Token>(token => {
     return token.type === Lexer.COORD_CHAR
-      ? {...token, type: Lexer.OPERATOR, value: 'x'}
+      ? // ? {...token, type: Lexer.OPERATOR, value: 'x'}
+        Object.assign(token, {type: Lexer.OPERATOR, value: 'x'})
       : token
   })
 
@@ -183,7 +185,8 @@ export function parseMacroBlocks(tokens: Lexer.Token[]): Tree.MacroBlock[] {
   const blocks: Tree.MacroBlock[] = []
 
   for (const token of tokens) {
-    const result = findSyntaxMatch([...matchedTokens, token], matchedCandidates)
+    matchedTokens.push(token)
+    const result = findSyntaxMatch(matchedTokens, matchedCandidates)
 
     if (result.nodes !== undefined) blocks.push(...result.nodes)
     matchedTokens = result.tokens ?? []

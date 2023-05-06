@@ -20,11 +20,14 @@ export const MACRO_TOOL = 'macroTool'
 export interface SimpleTool {
   type: typeof SIMPLE_TOOL
   shape: SimpleShape
+  dcode: string
   hole: HoleShape | undefined
 }
 
 export interface MacroTool {
   type: typeof MACRO_TOOL
+  name: string
+  dcode: string
   macro: MacroBlock[]
   variableValues: number[]
 }
@@ -32,6 +35,8 @@ export interface MacroTool {
 export type Tool = SimpleTool | MacroTool
 
 export interface ToolStore {
+  _toolsByCode: Partial<Record<string, Tool>>
+  _macrosByName: Partial<Record<string, MacroBlock[]>>
   use: (node: GerberNode) => Tool | undefined
 }
 
@@ -61,10 +66,12 @@ const ToolStorePrototype: ToolStore & ToolStoreState = {
         shape.type === MACRO_SHAPE
           ? {
               type: MACRO_TOOL,
+              name: shape.name,
+              dcode: code,
               macro: this._macrosByName[shape.name] ?? [],
               variableValues: shape.variableValues,
             }
-          : {type: SIMPLE_TOOL, shape, hole: hole ?? undefined}
+          : {type: SIMPLE_TOOL, dcode: code, shape, hole: hole ?? undefined}
 
       this._toolsByCode[code] = tool
     }
