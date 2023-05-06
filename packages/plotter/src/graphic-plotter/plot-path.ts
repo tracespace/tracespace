@@ -22,7 +22,7 @@ export function plotSegment(
 }
 
 export function plotContour(
-  segments: Tree.PathSegment[],
+  segments: Tree.PathSegment[]
 ): Tree.ImageGraphicBase | undefined {
   if (segments.length > 0) {
     return {type: Tree.IMAGE_REGION, segments}
@@ -34,7 +34,11 @@ export function plotLine(
   tool: Tool | undefined
 ): Tree.ImageGraphicBase | undefined {
   if (tool?.type === SIMPLE_TOOL && tool.shape.type === Tree.CIRCLE) {
-    return {type: Tree.IMAGE_PATH, width: tool.shape.diameter, segments: [segment]}
+    // return {
+    //   type: Tree.IMAGE_PATH,
+    //   width: tool.shape.diameter,
+    // }
+    return plotContour(contourizeCirclePath(segment, tool.shape.diameter))
   }
 
   if (tool?.type === SIMPLE_TOOL && tool.shape.type === Tree.RECTANGLE) {
@@ -48,6 +52,116 @@ function createLineSegment(location: Location): Tree.PathLineSegment {
     start: [location.startPoint.x, location.startPoint.y],
     end: [location.endPoint.x, location.endPoint.y],
   }
+}
+
+function contourizeCirclePath(
+  segment: Tree.PathSegment,
+  width: number
+): Tree.PathSegment[] {
+  let contour: Tree.PathSegment[] = []
+  const {start, end} = segment
+  if (segment.type === Tree.LINE) {
+    const [x1, y1] = start
+    const [x2, y2] = end
+    const theta = Math.atan2(y2 - y1, x2 - x1)
+    const dx = -(width / 2) * Math.sin(theta)
+    const dy = (width / 2) * Math.cos(theta)
+    contour.push({
+      type: Tree.LINE,
+      start: [x1 + dx, y1 + dy],
+      end: [x2 + dx, y2 + dy],
+    })
+    contour.push({
+      type: Tree.ARC,
+      start: [x2 + dx, y2 + dy, theta + Math.PI / 2],
+      end: [x2 - dx, y2 - dy, theta - Math.PI / 2],
+      center: [x2, y2],
+      radius: width / 2,
+    })
+    contour.push({
+      type: Tree.LINE,
+      start: [x2 - dx, y2 - dy],
+      end: [x1 - dx, y1 - dy],
+    })
+    contour.push({
+      type: Tree.ARC,
+      start: [x1 - dx, y1 - dy, theta + (Math.PI * 3) / 2],
+      end: [x1 + dx, y1 + dy, theta + Math.PI / 2],
+      center: [x1, y1],
+      radius: width / 2,
+    })
+  } else {
+    const {start, end, radius, center} = segment
+    const [x1, y1] = start
+    const [x2, y2] = end
+    const [cx, cy] = center
+    const theta1 = start[2]
+    const theta2 = end[2]
+    const dx = -(width / 2) * Math.sin(theta1 - Math.PI / 2)
+    const dy = (width / 2) * Math.cos(theta1 - Math.PI / 2)
+    const dx2 = -(width / 2) * Math.sin(theta2 - Math.PI / 2)
+    const dy2 = (width / 2) * Math.cos(theta2 - Math.PI / 2)
+    if (theta1 > theta2) {
+      contour.push({
+        type: Tree.ARC,
+        start: [x1 + dx, y1 + dy, theta1],
+        end: [x2 + dx2, y2 + dy2, theta2],
+        center: [cx, cy],
+        radius: radius + width / 2,
+      })
+      contour.push({
+        type: Tree.ARC,
+        start: [x2 + dx2, y2 + dy2, theta2],
+        end: [x2 - dx2, y2 - dy2, theta2 - Math.PI],
+        center: [x2, y2],
+        radius: width / 2,
+      })
+      contour.push({
+        type: Tree.ARC,
+        start: [x2 - dx2, y2 - dy2, theta2],
+        end: [x1 - dx, y1 - dy, theta1],
+        center: [cx, cy],
+        radius: radius - width / 2,
+      })
+      contour.push({
+        type: Tree.ARC,
+        start: [x1 - dx, y1 - dy, theta1 + Math.PI],
+        end: [x1 + dx, y1 + dy, theta1],
+        center: [x1, y1],
+        radius: width / 2,
+      })
+    } else {
+      contour.push({
+        type: Tree.ARC,
+        start: [x1 + dx, y1 + dy, theta1],
+        end: [x2 + dx2, y2 + dy2, theta2],
+        center: [cx, cy],
+        radius: radius + width / 2,
+      })
+      contour.push({
+        type: Tree.ARC,
+        start: [x2 + dx2, y2 + dy2, theta2],
+        end: [x2 - dx2, y2 - dy2, theta2 + Math.PI],
+        center: [x2, y2],
+        radius: width / 2,
+      })
+      contour.push({
+        type: Tree.ARC,
+        start: [x2 - dx2, y2 - dy2, theta2],
+        end: [x1 - dx, y1 - dy, theta1],
+        center: [cx, cy],
+        radius: radius - width / 2,
+      })
+      contour.push({
+        type: Tree.ARC,
+        start: [x1 - dx, y1 - dy, theta1 - Math.PI],
+        end: [x1 + dx, y1 + dy, theta1],
+        center: [x1, y1],
+        radius: width / 2,
+      })
+    }
+  }
+  return contour
 }
 
 function createArcSegment(
