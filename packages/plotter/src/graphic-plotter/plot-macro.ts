@@ -20,7 +20,6 @@ import * as Tree from '../tree'
 import type {MacroTool} from '../tool-store'
 import type {Location} from '../location-store'
 
-import {shapeToSegments} from './shapes'
 import {CW, CCW, getArcPositions} from './plot-path'
 
 type VariableValues = Record<string, number>
@@ -253,7 +252,7 @@ function plotMoire(
   const halfLineThx = lineThx / 2
   const halfLineLength = lineLength / 2
 
-  const radii = []
+  const radii: Array<{r: number; erase: boolean}> = []
   let count = 0
   let dRemain = d
 

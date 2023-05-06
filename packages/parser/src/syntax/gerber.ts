@@ -248,7 +248,7 @@ const createOperationNodes = (tokens: Lexer.Token[]): Tree.ChildNode[] => {
     head: mode === undefined ? tokens[0] : tokens[1],
   })
   const nodes: Tree.ChildNode[] =
-    Object.keys(coordinates).length != 0 || graphic
+    Object.keys(coordinates).length > 0 || graphic !== undefined
       ? [{type: Tree.GRAPHIC, position, graphic, coordinates}]
       : []
   if (mode !== undefined) {
