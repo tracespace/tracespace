@@ -12,7 +12,8 @@ export function plotRectPath(
   segment: Tree.PathSegment,
   shape: Rectangle
 ): Tree.ImageRegion {
-  const shapes = segment.type === Tree.LINE ? plotRectPathSegment(segment, shape) : []
+  const shapes =
+    segment.type === Tree.LINE ? plotRectPathSegment(segment, shape) : []
   return {type: Tree.IMAGE_REGION, segments: shapes}
 }
 
@@ -97,5 +98,4 @@ function plotRectPathSegment(
     }
   })
   return segments
-  
 }

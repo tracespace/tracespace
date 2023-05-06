@@ -58,7 +58,7 @@ function contourizeCirclePath(
   segment: Tree.PathSegment,
   width: number
 ): Tree.PathSegment[] {
-  let contour: Tree.PathSegment[] = []
+  const contour: Tree.PathSegment[] = []
   const {start, end} = segment
   if (segment.type === Tree.LINE) {
     const [x1, y1] = start

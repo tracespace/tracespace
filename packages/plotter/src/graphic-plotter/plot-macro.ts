@@ -261,22 +261,21 @@ function plotMoire(
     const r = dRemain / 2
     const rHole = r - ringThx
 
-    radii.push(r)
-    if (rHole > 0) radii.push(rHole)
+    radii.push({r, erase: false})
+    if (rHole > 0) radii.push({r: rHole, erase: true})
     count += 1
     dRemain = 2 * (rHole - ringGap)
   }
 
   return [
-    {
-      type: Tree.OUTLINE,
-      segments: radii.flatMap(r => {
-        return shapeToSegments({type: Tree.CIRCLE, cx, cy, r})
-      }),
-    },
+    ...radii.flatMap(({r, erase}) => {
+      return {type: Tree.CIRCLE, cx, cy, r, erase} as Tree.CircleShape
+    }),
+
     // Vertical stroke
     {
       type: Tree.POLYGON,
+      erase: false,
       points: (
         [
           [cx0 - halfLineThx, cy0 - halfLineLength],
@@ -289,6 +288,7 @@ function plotMoire(
     // Horizontal stroke
     {
       type: Tree.POLYGON,
+      erase: false,
       points: (
         [
           [cx0 - halfLineLength, cy0 - halfLineThx],
