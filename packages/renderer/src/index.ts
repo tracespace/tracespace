@@ -21,8 +21,8 @@ export const BASE_IMAGE_PROPS = {
   'stroke-linecap': 'round',
   'stroke-linejoin': 'round',
   'stroke-width': '0',
-  'fill-rule': 'evenodd',
-  'clip-rule': 'evenodd',
+  // 'fill-rule': 'evenodd',
+  // 'clip-rule': 'evenodd',
   fill: 'currentColor',
   stroke: 'currentColor',
 }
